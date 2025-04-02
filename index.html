@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Project RED X</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A WebAssembly-powered graphics demo with Claude AI integration">
+    <meta name="keywords" content="webassembly, graphics, demo, claude, ai">
+    <meta property="og:title" content="Project RED X">
+    <meta property="og:description" content="A WebAssembly-powered graphics demo with Claude AI integration">
+    <meta property="og:type" content="website">
+
+    <!-- Bootstrap CSS - using CDN with integrity check for security -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+
+    <style>
+        :root {
+            /* Modern minimal color palette */
+            --primary: #f00;
+            --primary-hover: #ff3333;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --text-light: #6b7280;
+            --success: #10b981;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --gray-btn: #333;
+            --green-btn: #42b883;
+
+            /* Dark mode variables */
+            --dark-primary: #f33;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+
+            /* Spacing variables */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-xxl: 3rem;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-md);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: var(--space-xl) 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-xl);
+            color: var(--text-light);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--space-md);
+            margin: var(--space-xl) 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            min-width: 180px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-btn);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #444;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--green-btn);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #3da978;
+            transform: translateY(-2px);
+        }
+
+        .note {
+            max-width: 600px;
+            margin: var(--space-lg) auto;
+            padding: var(--space-md);
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-xl) 0;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            width: 100%;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid var(--border);
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .theme-toggle:hover {
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .note {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        body.dark-mode a {
+            color: var(--dark-primary);
+        }
+
+        body.dark-mode a:hover {
+            color: var(--primary-hover);
+        }
+
+        body.dark-mode footer {
+            border-top-color: var(--dark-border);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--dark-card-bg);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .btn-container {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .theme-toggle {
+                top: var(--space-md);
+                right: var(--space-md);
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header>
+        <div class="header-content">
+            <h1>Project RED X</h1>
+            <p>A WebAssembly-powered graphics demo with Claude AI integration</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="btn-container">
+                <a href="red_x/index.html" class="btn btn-primary" aria-label="Launch static demo">Launch Static Demo</a>
+                <a href="url-launcher.html" class="btn btn-secondary" aria-label="Open URL launcher">URL Launcher</a>
+                <a href="team.html" class="btn btn-secondary" aria-label="Meet the team members">Meet the Team</a>
+                <a href="status.html" class="btn btn-success" aria-label="View system status">System Status</a>
+            </div>
+
+            <div class="note">
+                <p>Note: This static GitHub Pages deployment has limited functionality.
+                For the full experience with AI features and real-time networking,
+                please run the project locally with Node.js.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>See the <a href="https://github.com/modsias/red_x" aria-label="View GitHub repository">GitHub repository</a> for setup instructions</p>
+        <p>Developed by <a href="https://github.com/modsias" aria-label="Visit developer's GitHub profile">github/modsias</a></p>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Apply theme immediately to prevent flash of unstyled content
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                    localStorage.setItem('theme', theme);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

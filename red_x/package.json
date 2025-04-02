@@ -1,0 +1,46 @@
+{
+  "name": "project-red-x",
+  "version": "1.0.0",
+  "description": "A simple C graphics demo that displays a red X on screen",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "make web",
+    "build:native": "make",
+    "build:static": "emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=cwrap -s ENVIRONMENT=web -s MODULARIZE=1",
+    "dev": "npm run build && npm start",
+    "clean": "make clean",
+    "connect:win": "node windows-connector.js",
+    "compress-key": "node ./utils/compress-key.js"
+  },
+  "keywords": [
+    "webassembly",
+    "sdl2",
+    "graphics",
+    "C",
+    "ai",
+    "windows",
+    "security",
+    "netcode"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.521.0",
+    "@aws-sdk/client-ec2": "^3.521.0",
+    "aws-sdk": "^2.1574.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-slow-down": "^2.0.1",
+    "multer": "^1.4.5-lts.1",
+    "node-rdp": "^1.0.1",
+    "socket.io": "^4.7.2",
+    "ssh2": "^1.15.0",
+    "uuid": "^9.0.1"
+  },
+  "engines": {
+    "node": "18.17.0"
+  }
+}

@@ -1,0 +1,13 @@
+# Environment variables
+.env
+
+# Build artifacts
+red_x
+index.html
+index.js
+index.wasm
+template.html
+
+# Node.js
+node_modules/
+npm-debug.log
