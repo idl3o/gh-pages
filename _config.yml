@@ -7,16 +7,33 @@ github_username: idl3o
 
 # Build settings
 markdown: kramdown
-include: ["_includes"]
 exclude:
-  - .env
-  - .env.example
-  - README.md
-  - LICENSE
-  - scripts/
-  - node_modules/balanced-match/README.md
   - node_modules
-  - vendor
+  - "*.gemspec"
+  - "*.gem"
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - script/
+  - LICENSE.txt
+  - lib/
+  - bin/
+  - README.md
+  - Rakefile
+  - docs/tests/
+
+# Exclude files with problematic Liquid syntax
+include:
+  - _pages
+
+# Prevent Jekyll from processing specific files with Liquid syntax issues
+defaults:
+  - scope:
+      path: "node_modules/balanced-match/README.md"
+    values:
+      sitemap: false
+      render_with_liquid: false
 
 # Theme and plugins
 theme: minima

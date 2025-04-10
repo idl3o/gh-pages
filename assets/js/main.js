@@ -2,10 +2,12 @@
  * Main JavaScript file for Web3 Crypto Streaming Service
  */
 
-// Theme toggle functionality
-document.addEventListener('DOMContentLoaded', function() {
+// Handle theme toggle functionality
+function initThemeToggle() {
     const themeToggle = document.querySelector('.theme-toggle');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+    if (!themeToggle) return;
 
     // Check for saved theme preference or use system preference
     if (localStorage.getItem('theme') === 'dark' ||
@@ -14,14 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle theme toggle click
-    if (themeToggle) {
-        themeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-        });
-    }
-});
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+    });
+}
 
 // Copy to clipboard functionality
 function setupCopyLinks() {
@@ -67,8 +67,30 @@ function setupBackToTopButton() {
     }
 }
 
+// Smooth scrolling for anchor links
+function initSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return; // Skip empty anchors
+            
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
 // Initialize all components when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
+    initThemeToggle();
     setupCopyLinks();
     setupBackToTopButton();
+    initSmoothScrolling();
 });

@@ -131,12 +131,20 @@
             border-radius: 0 4px 4px 0;
         }
 
+        body.dark-mode .guide-tip {
+            background-color: rgba(16, 185, 129, 0.15);
+        }
+
         .guide-warning {
             background-color: rgba(245, 158, 11, 0.1);
             border-left: 4px solid #F59E0B;
             padding: 1rem 1.25rem;
             margin: 1.5rem 0;
             border-radius: 0 4px 4px 0;
+        }
+
+        body.dark-mode .guide-warning {
+            background-color: rgba(245, 158, 11, 0.15);
         }
 
         .guide-img {
@@ -161,6 +169,19 @@
 
         body.dark-mode .guide-table th {
             background-color: var(--dark-section-bg);
+        }
+
+        /* Improve mobile responsiveness */
+        @media (max-width: 991px) {
+            .guide-content {
+                padding-right: 0;
+            }
+            
+            .guide-nav {
+                position: relative;
+                top: 0;
+                margin-bottom: 2rem;
+            }
         }
     </style>
 </head>
