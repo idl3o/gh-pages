@@ -1,123 +1,941 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include head.html %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Web3 Crypto Streaming Service</title>
+    <meta name="description" content="A decentralized platform for content streaming built on blockchain technology">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/gh-pages/assets/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        header {
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --text-light: #6b7280;
+            --success: #10b981;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --dark-primary: #818cf8;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .hero-section {
+            padding: 5rem 0;
             background-color: var(--dark-bg);
             color: white;
-            padding: var(--space-xl) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
         }
 
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            color: var(--primary);
-            font-size: 2.5rem;
+        .hero-title {
+            font-size: 3.5rem;
             font-weight: 700;
-            margin-bottom: var(--space-lg);
-            letter-spacing: -0.025em;
-            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #6366f1, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: 1.25rem;
-            margin-bottom: var(--space-xl);
-            color: var(--text-light);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #d1d5db;
         }
 
-        .btn-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: var(--space-md);
-            margin: var(--space-xl) 0;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            min-width: 180px;
-        }
-
-        .note {
-            max-width: 600px;
-            margin: var(--space-lg) auto;
-            padding: var(--space-md);
+        .feature-card {
             background-color: var(--card-bg);
             border-radius: 8px;
             border: 1px solid var(--border);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            height: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        body.dark-mode .note {
+        body.dark-mode .feature-card {
             background-color: var(--dark-card-bg);
             border-color: var(--dark-border);
         }
 
-        @media (max-width: 768px) {
-            .btn-container {
-                flex-direction: column;
-                width: 100%;
-                max-width: 300px;
-            }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
 
-            .btn {
-                width: 100%;
-            }
+        body.dark-mode .feature-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
 
-            h1 {
-                font-size: 2rem;
-            }
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .feature-icon {
+            background-color: var(--dark-primary);
+        }
+
+        .feature-title {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-text {
+            color: var(--text-light);
+        }
+
+        body.dark-mode .feature-text {
+            color: var(--dark-text-light);
+        }
+        
+        .cta-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            margin: 3rem 0;
+        }
+        
+        .demo-section {
+            padding: 3rem 0;
+        }
+        
+        .demo-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        body.dark-mode .demo-card {
+            border-color: var(--dark-border);
+        }
+        
+        .demo-header {
+            padding: 1rem;
+            background-color: var(--light-bg);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        body.dark-mode .demo-header {
+            background-color: var(--dark-section-bg);
+            border-color: var(--dark-border);
+        }
+        
+        .demo-body {
+            padding: 1.5rem;
+            background-color: var(--card-bg);
+        }
+        
+        body.dark-mode .demo-body {
+            background-color: var(--dark-card-bg);
+        }
+
+        .chart-container {
+            height: 250px;
+        }
+
+        .wallet-card {
+            background: linear-gradient(135deg, #2c3e50, #4a5568);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .wallet-address {
+            font-family: monospace;
+            background-color: rgba(0,0,0,0.2);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .token-balance {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .video-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        body.dark-mode .video-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+        
+        .video-thumbnail {
+            background-color: #2c3e50;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .video-info {
+            padding: 1rem;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid var(--border);
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--dark-card-bg);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        #walletModal .modal-content {
+            background-color: var(--card-bg);
+            color: var(--text);
+        }
+        
+        body.dark-mode #walletModal .modal-content {
+            background-color: var(--dark-card-bg);
+            color: var(--dark-text);
+        }
+        
+        .wallet-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        body.dark-mode .wallet-option {
+            border-color: var(--dark-border);
+        }
+        
+        .wallet-option:hover {
+            background-color: var(--light-bg);
+        }
+        
+        body.dark-mode .wallet-option:hover {
+            background-color: var(--dark-section-bg);
+        }
+        
+        .wallet-option img {
+            width: 32px;
+            height: 32px;
+            margin-right: 1rem;
         }
     </style>
 </head>
 <body>
     <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
 
-    {% include navigation.html %}
-
-    <header>
-        <div class="header-content">
-            <h1>Web3 Crypto Streaming Service</h1>
-            <p>A decentralized platform for content streaming built on blockchain technology</p>
-        </div>
-    </header>
-
-    <main>
+    <!-- Site Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <div class="btn-container">
-                <a href="{{ site.baseurl }}/url-launcher.html" class="btn btn-primary" aria-label="Open resource directory">Resource Directory</a>
-                <a href="{{ site.baseurl }}/docs/root/introduction.html" class="btn btn-secondary" aria-label="Learn about the platform">Platform Overview</a>
-                <a href="{{ site.baseurl }}/dashboard.html" class="btn btn-secondary" aria-label="View platform dashboard">Analytics Dashboard</a>
-                <a href="{{ site.baseurl }}/status.html" class="btn btn-success" aria-label="View system status">System Status</a>
+            <a class="navbar-brand" href="/gh-pages/">
+                <i class="fas fa-stream me-2"></i>Web3 Streaming
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/gh-pages/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/docs/">Documentation</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="guidesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Guides
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="guidesDropdown">
+                            <li><a class="dropdown-item" href="/gh-pages/docs/guides.creators.html">Creator Guide</a></li>
+                            <li><a class="dropdown-item" href="/gh-pages/docs/guides.viewers.html">Viewer Guide</a></li>
+                            <li><a class="dropdown-item" href="/gh-pages/docs/guides.developers.html">Developer Guide</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/whitepaper/web3-streaming-service-whitepaper.html">Whitepaper</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/status.html">Status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/team.html">Team</a>
+                    </li>
+                </ul>
+                <button class="btn btn-primary btn-sm" id="connectWalletBtn">
+                    <i class="fas fa-wallet me-1"></i>Connect Wallet
+                </button>
             </div>
+        </div>
+    </nav>
 
-            <div class="note">
-                <p>Note: This is the Web3 Crypto Streaming Service documentation site. 
-                   For the full platform experience with streaming capabilities, 
-                   please visit our <a href="https://app.web3streaming.io">main application</a>.</p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-particles" id="particles-js"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Web3 Crypto Streaming Service</h1>
+            <p class="hero-subtitle">A decentralized platform for content streaming built on blockchain technology</p>
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-primary btn-lg" id="exploreBtn">
+                    <i class="fas fa-rocket me-2"></i>Explore Content
+                </button>
+                <a href="/gh-pages/docs/guides.creators.html" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-video me-2"></i>Start Creating
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container py-5">
+        <div class="text-center mb-5">
+            <h2>Platform Features</h2>
+            <p class="text-muted">Explore the innovative features powering our decentralized streaming platform</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock fa-lg"></i>
+                    </div>
+                    <h3 class="feature-title">True Content Ownership</h3>
+                    <p class="feature-text">Your content is registered on-chain with blockchain verification, ensuring permanent proof of ownership and preventing unauthorized usage.</p>
+                    <button class="btn btn-sm btn-outline-primary mt-3 ownership-demo-btn">See How it Works</button>
+                </div>
             </div>
             
-            {% include future-insights.html %}
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-coins fa-lg"></i>
+                    </div>
+                    <h3 class="feature-title">Tokenized Economy</h3>
+                    <p class="feature-text">Earn STREAM tokens through content creation, curation, and engagement with a transparent payment system and minimal platform fees.</p>
+                    <button class="btn btn-sm btn-outline-primary mt-3 tokens-demo-btn">View Token Model</button>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database fa-lg"></i>
+                    </div>
+                    <h3 class="feature-title">Decentralized Storage</h3>
+                    <p class="feature-text">Content is stored on a distributed network using IPFS technology, preventing censorship and ensuring high availability.</p>
+                    <button class="btn btn-sm btn-outline-primary mt-3 storage-demo-btn">Explore Storage</button>
+                </div>
+            </div>
         </div>
-    </main>
+    </section>
 
-    {% include footer.html %}
+    <!-- Interactive Demo Section -->
+    <section class="container demo-section">
+        <div class="text-center mb-5">
+            <h2>Interactive Platform Demo</h2>
+            <p class="text-muted">Explore how our platform works with these interactive demonstrations</p>
+        </div>
+        
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <h3 class="h5 mb-0">Wallet & Token Demo</h3>
+                    </div>
+                    <div class="demo-body">
+                        <div class="wallet-card mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h4>STREAM Wallet</h4>
+                                    <div class="wallet-address" id="demoWalletAddress">0x71C7...3E4A</div>
+                                </div>
+                                <div>
+                                    <img src="https://via.placeholder.com/40" alt="Wallet Icon" class="rounded-circle">
+                                </div>
+                            </div>
+                            
+                            <div class="token-balance">
+                                <span id="tokenBalance">1,275.42</span> <small>STREAM</small>
+                            </div>
+                            
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-light btn-sm flex-grow-1 earn-tokens-btn">
+                                    <i class="fas fa-plus me-1"></i>Earn
+                                </button>
+                                <button class="btn btn-light btn-sm flex-grow-1 stake-tokens-btn">
+                                    <i class="fas fa-layer-group me-1"></i>Stake
+                                </button>
+                                <button class="btn btn-light btn-sm flex-grow-1 send-tokens-btn">
+                                    <i class="fas fa-paper-plane me-1"></i>Send
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="tokenHistoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <h3 class="h5 mb-0">Content Discovery</h3>
+                    </div>
+                    <div class="demo-body">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search content..." id="searchInput">
+                            <button class="btn btn-primary" id="searchButton">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="row g-3" id="contentContainer">
+                            <!-- Sample content items will be dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <h3 class="h5 mb-0">Creator Dashboard Preview</h3>
+                    </div>
+                    <div class="demo-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <div class="card text-center h-100">
+                                    <div class="card-body">
+                                        <h3 class="display-4 mb-0 text-primary" id="viewsCount">12.4K</h3>
+                                        <p class="text-muted">Total Views</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card text-center h-100">
+                                    <div class="card-body">
+                                        <h3 class="display-4 mb-0 text-success" id="earningsCount">523</h3>
+                                        <p class="text-muted">STREAM Earned</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card text-center h-100">
+                                    <div class="card-body">
+                                        <h3 class="display-4 mb-0 text-info" id="subscribersCount">847</h3>
+                                        <p class="text-muted">Subscribers</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card text-center h-100">
+                                    <div class="card-body">
+                                        <h3 class="display-4 mb-0 text-warning" id="contentCount">15</h3>
+                                        <p class="text-muted">Content Items</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="container">
+        <div class="cta-section">
+            <h2 class="mb-4">Ready to Get Started?</h2>
+            <p class="mb-4">Join thousands of content creators and viewers in the decentralized streaming revolution</p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="/gh-pages/docs/guides.creators.html" class="btn btn-light btn-lg">
+                    <i class="fas fa-video me-2"></i>Creator Guide
+                </a>
+                <a href="/gh-pages/docs/guides.viewers.html" class="btn btn-light btn-lg">
+                    <i class="fas fa-tv me-2"></i>Viewer Guide
+                </a>
+                <a href="/gh-pages/docs/guides.developers.html" class="btn btn-light btn-lg">
+                    <i class="fas fa-code me-2"></i>Developer Guide
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wallet Connection Modal -->
+    <div class="modal fade" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="walletModalLabel">Connect Your Wallet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Choose a wallet to connect:</p>
+                    
+                    <div class="wallet-option" data-wallet="metamask">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
+                        <div>
+                            <strong>MetaMask</strong>
+                            <div class="text-muted">Connect using browser extension</div>
+                        </div>
+                    </div>
+                    
+                    <div class="wallet-option" data-wallet="walletconnect">
+                        <img src="https://seeklogo.com/images/W/walletconnect-logo-EE83B50C97-seeklogo.com.png" alt="WalletConnect">
+                        <div>
+                            <strong>WalletConnect</strong>
+                            <div class="text-muted">Scan with your mobile wallet</div>
+                        </div>
+                    </div>
+                    
+                    <div class="wallet-option" data-wallet="coinbase">
+                        <img src="https://seeklogo.com/images/C/coinbase-coin-logo-C86F46D7B8-seeklogo.com.png" alt="Coinbase Wallet">
+                        <div>
+                            <strong>Coinbase Wallet</strong>
+                            <div class="text-muted">Connect using Coinbase Wallet</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/gh-pages/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/gh-pages/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                renderCharts(); // Re-render charts with correct colors
+            });
+            
+            // Initialize particles.js
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffffff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ffffff",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Sample content data
+            const sampleContent = [
+                { id: 1, title: "Blockchain Fundamentals", creator: "CryptoExpert", views: "45K", time: "32:15", thumbnail: "blockchain-thumb", type: "Educational" },
+                { id: 2, title: "DeFi Revolution", creator: "Web3Academy", views: "23K", time: "18:42", thumbnail: "defi-thumb", type: "Documentary" },
+                { id: 3, title: "NFT Creation Guide", creator: "ArtBlock", views: "108K", time: "25:30", thumbnail: "nft-thumb", type: "Tutorial" },
+                { id: 4, title: "Crypto Music Mix", creator: "BlockBeats", views: "76K", time: "58:22", thumbnail: "music-thumb", type: "Music" }
+            ];
+            
+            // Populate content
+            function populateContent() {
+                const container = document.getElementById('contentContainer');
+                container.innerHTML = '';
+                
+                sampleContent.forEach(item => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-6';
+                    
+                    col.innerHTML = `
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle fa-3x"></i>
+                            </div>
+                            <div class="video-info">
+                                <h5>${item.title}</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">${item.creator}</span>
+                                    <span class="text-muted"><i class="fas fa-eye me-1"></i>${item.views}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="badge bg-secondary">${item.type}</span>
+                                    <span class="text-muted"><i class="fas fa-clock me-1"></i>${item.time}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(col);
+                });
+                
+                // Add click events to video cards
+                document.querySelectorAll('.video-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        alert('Demo: This would play the selected content in a production environment.');
+                    });
+                });
+            }
+            
+            // Search functionality
+            document.getElementById('searchButton').addEventListener('click', function() {
+                const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+                
+                if (searchTerm) {
+                    const filtered = sampleContent.filter(item => 
+                        item.title.toLowerCase().includes(searchTerm) || 
+                        item.creator.toLowerCase().includes(searchTerm) ||
+                        item.type.toLowerCase().includes(searchTerm)
+                    );
+                    
+                    if (filtered.length === 0) {
+                        document.getElementById('contentContainer').innerHTML = 
+                            '<div class="col-12 text-center py-5"><p>No results found for "' + 
+                            searchTerm + '"</p></div>';
+                    } else {
+                        // Simulate searching by briefly showing a loading state
+                        document.getElementById('contentContainer').innerHTML = 
+                            '<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status">' +
+                            '<span class="visually-hidden">Loading...</span></div><p class="mt-3">Searching...</p></div>';
+                        
+                        setTimeout(() => {
+                            populateContent();
+                        }, 800);
+                    }
+                } else {
+                    populateContent();
+                }
+            });
+            
+            // Initialize content
+            populateContent();
+            
+            // Connect wallet functionality
+            document.getElementById('connectWalletBtn').addEventListener('click', function() {
+                const walletModal = new bootstrap.Modal(document.getElementById('walletModal'));
+                walletModal.show();
+            });
+            
+            document.querySelectorAll('.wallet-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const walletType = this.getAttribute('data-wallet');
+                    
+                    // Simulate connecting wallet
+                    document.getElementById('walletModal').querySelector('.modal-body').innerHTML = 
+                        '<div class="text-center py-4"><div class="spinner-border text-primary" role="status">' +
+                        '<span class="visually-hidden">Loading...</span></div><p class="mt-3">Connecting to wallet...</p></div>';
+                    
+                    setTimeout(() => {
+                        // Update the connected state in localStorage
+                        localStorage.setItem('walletConnected', 'true');
+                        localStorage.setItem('walletType', walletType);
+                        localStorage.setItem('demoWalletAddress', '0x71C7656EC7ab88b098defB751B7401B5f6d8976F');
+                        
+                        // Update the UI
+                        updateWalletUI();
+                        
+                        // Close the modal
+                        bootstrap.Modal.getInstance(document.getElementById('walletModal')).hide();
+                    }, 1500);
+                });
+            });
+            
+            // Check if wallet is already connected
+            if (localStorage.getItem('walletConnected') === 'true') {
+                updateWalletUI();
+            }
+            
+            function updateWalletUI() {
+                const connectBtn = document.getElementById('connectWalletBtn');
+                const walletType = localStorage.getItem('walletType');
+                const walletAddress = localStorage.getItem('demoWalletAddress');
+                
+                // Shorten address for display
+                const shortAddress = walletAddress.substring(0, 6) + '...' + walletAddress.substring(walletAddress.length - 4);
+                
+                connectBtn.innerHTML = `<i class="fas fa-wallet me-1"></i>${shortAddress}`;
+                document.getElementById('demoWalletAddress').textContent = shortAddress;
+            }
+            
+            // Chart rendering
+            function renderCharts() {
+                // Set chart colors based on theme
+                const isDark = document.body.classList.contains('dark-mode');
+                const textColor = isDark ? '#f3f4f6' : '#374151';
+                const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                
+                // Token history chart
+                const ctx = document.getElementById('tokenHistoryChart').getContext('2d');
+                
+                // Destroy existing chart if it exists
+                if (window.tokenChart) {
+                    window.tokenChart.destroy();
+                }
+                
+                window.tokenChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Token Balance',
+                            data: [950, 1050, 875, 1200, 1100, 1275],
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: isDark ? '#1f2937' : 'white',
+                                titleColor: textColor,
+                                bodyColor: textColor,
+                                borderColor: gridColor,
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: {
+                                    color: gridColor
+                                },
+                                ticks: {
+                                    color: textColor
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: gridColor
+                                },
+                                ticks: {
+                                    color: textColor
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initialize charts
+            renderCharts();
+            
+            // Demo interactions for token wallet
+            document.querySelector('.earn-tokens-btn').addEventListener('click', function() {
+                // Simulate earning tokens
+                let currentBalance = parseFloat(document.getElementById('tokenBalance').textContent.replace(',', ''));
+                currentBalance += Math.random() * 10;
+                document.getElementById('tokenBalance').textContent = currentBalance.toFixed(2);
+                
+                // Show a success message
+                alert('Demo: You earned tokens by completing a platform task!');
+            });
+            
+            document.querySelector('.stake-tokens-btn').addEventListener('click', function() {
+                alert('Demo: This would open the token staking interface in a production environment.');
+            });
+            
+            document.querySelector('.send-tokens-btn').addEventListener('click', function() {
+                alert('Demo: This would open the token transfer interface in a production environment.');
+            });
+            
+            // Demo interactions for creator dashboard
+            function animateValue(id, start, end, duration) {
+                const obj = document.getElementById(id);
+                if (!obj) return;
+                
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const currentValue = Math.floor(progress * (end - start) + start);
+                    
+                    if (id === 'viewsCount' || id === 'subscribersCount') {
+                        obj.innerHTML = currentValue >= 1000 ? (currentValue / 1000).toFixed(1) + 'K' : currentValue;
+                    } else {
+                        obj.innerHTML = currentValue;
+                    }
+                    
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            // Randomize and animate dashboard stats
+            function updateDashboardStats() {
+                animateValue('viewsCount', 8000, 12400, 1500);
+                animateValue('earningsCount', 300, 523, 1500);
+                animateValue('subscribersCount', 500, 847, 1500);
+                animateValue('contentCount', 8, 15, 1500);
+            }
+            
+            // Update stats on page load with a slight delay
+            setTimeout(updateDashboardStats, 1000);
+            
+            // Feature demo buttons
+            document.querySelector('.ownership-demo-btn').addEventListener('click', function() {
+                alert('Demo: This would show how content ownership is verified on the blockchain');
+            });
+            
+            document.querySelector('.tokens-demo-btn').addEventListener('click', function() {
+                alert('Demo: This would show details about the STREAM token economy model');
+            });
+            
+            document.querySelector('.storage-demo-btn').addEventListener('click', function() {
+                alert('Demo: This would show how decentralized storage works for content');
+            });
+            
+            // Explore content button
+            document.getElementById('exploreBtn').addEventListener('click', function() {
+                // Scroll to the content section
+                document.querySelector('.demo-section').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
 </body>
 </html>

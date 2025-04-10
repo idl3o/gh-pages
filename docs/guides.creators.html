@@ -188,6 +188,53 @@
 <body>
     <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
 
+    <!-- Site Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/gh-pages/">
+                <i class="fas fa-stream me-2"></i>Web3 Streaming
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/docs/">Documentation</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="guidesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Guides
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="guidesDropdown">
+                            <li><a class="dropdown-item active" href="/gh-pages/docs/guides.creators.html">Creator Guide</a></li>
+                            <li><a class="dropdown-item" href="/gh-pages/docs/guides.viewers.html">Viewer Guide</a></li>
+                            <li><a class="dropdown-item" href="/gh-pages/docs/guides.developers.html">Developer Guide</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/whitepaper/web3-streaming-service-whitepaper.html">Whitepaper</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/status.html">Status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gh-pages/team.html">Team</a>
+                    </li>
+                </ul>
+                <a href="#local-app-setup" class="btn btn-primary btn-sm me-2">
+                    <i class="fas fa-server me-1"></i>Local Test Setup
+                </a>
+                <a href="https://app.web3streaming.io" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-external-link-alt me-1"></i>Launch App
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <header class="doc-header">
         <div class="container">
             <h1>Creator Guide</h1>
@@ -217,6 +264,7 @@
                         <li><a href="#community">Building Community</a></li>
                         <li><a href="#staking">Token Staking</a></li>
                         <li><a href="#advanced">Advanced Features</a></li>
+                        <li><a href="#local-app-setup">Setting Up Local Development Environment</a></li>
                     </ul>
                     
                     <h3 class="mt-4">Related Guides</h3>
@@ -750,6 +798,80 @@
                         <li>Download permissions management</li>
                     </ul>
                     <p>Configure these options in Creator Studio > Content Security.</p>
+                </div>
+
+                <div class="guide-section" id="local-app-setup">
+                    <h2>Setting Up Local Development Environment</h2>
+                    <p>
+                        While our main application is hosted at app.web3streaming.io, you can set up a local testing environment 
+                        to experiment with the platform features without affecting your production content.
+                    </p>
+
+                    <h3>Local Domain Setup (Option 3)</h3>
+                    <p>
+                        To test the app locally with the same domain as production:
+                    </p>
+                    <ol class="step-list">
+                        <li>
+                            <strong>Edit your hosts file</strong>
+                            <p>Open your system's hosts file:</p>
+                            <ul>
+                                <li><strong>Windows</strong>: Open Notepad as administrator and open <code>C:\Windows\System32\drivers\etc\hosts</code></li>
+                                <li><strong>macOS/Linux</strong>: Open terminal and run <code>sudo nano /etc/hosts</code></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Add local domain mapping</strong>
+                            <p>Add the following line to the file:</p>
+                            <pre><code>127.0.0.1    app.web3streaming.io</code></pre>
+                        </li>
+                        <li>
+                            <strong>Save the file</strong>
+                            <p>
+                                On Windows: Save in Notepad<br>
+                                On macOS/Linux: Press Ctrl+O, Enter, then Ctrl+X
+                            </p>
+                        </li>
+                        <li>
+                            <strong>Start a local web server</strong>
+                            <p>You have several options:</p>
+                            <ul>
+                                <li><strong>Python</strong>: Navigate to your app directory and run <code>python -m http.server 80</code> (requires admin/root)</li>
+                                <li><strong>Node.js</strong>: Use Express or http-server (<code>npx http-server -p 80</code>)</li>
+                                <li><strong>XAMPP/WAMP</strong>: Configure your DocumentRoot to point to your app directory</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Access your local app</strong>
+                            <p>Open <a href="http://app.web3streaming.io" target="_blank">http://app.web3streaming.io</a> in your browser</p>
+                        </li>
+                    </ol>
+
+                    <div class="guide-tip">
+                        <strong>Tip:</strong> For testing with HTTPS, you'll need to set up a self-signed certificate. Consider using tools like <a href="https://github.com/FiloSottile/mkcert" target="_blank" rel="noopener noreferrer">mkcert</a> to create locally-trusted development certificates.
+                    </div>
+
+                    <div class="guide-warning">
+                        <strong>Important:</strong> Remember to remove or comment out the hosts file entry when you want to access the real production site again.
+                    </div>
+
+                    <h3>Sample Local App Structure</h3>
+                    <pre><code>app/
+├── index.html         # Main application entry point
+├── assets/
+│   ├── css/           # Stylesheets
+│   ├── js/            # JavaScript files
+│   └── images/        # Images and icons
+├── components/        # Reusable UI components
+├── pages/             # Different app screens
+│   ├── dashboard.html
+│   ├── upload.html
+│   └── analytics.html
+└── README.md          # Setup instructions</code></pre>
+
+                    <p>
+                        For a quick start, you can clone our <a href="https://github.com/idl3o/gh-pages/tree/main/app-demo" target="_blank">app-demo repository</a> which contains a simplified version of the application interface.
+                    </p>
                 </div>
             </div>
         </div>
