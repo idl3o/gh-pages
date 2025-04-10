@@ -1,248 +1,48 @@
-<div class="version-status-component">
-    <div class="version-badge">
-        <span class="version-label">BETA</span>
-        <span class="version-number">v0.9.0-beta.1</span>
-    </div>
-    <div class="version-details">
-        <div class="feature-list">
-            <h4>Beta Features</h4>
-            <ul>
-                <li class="feature-enabled">
-                    <span class="feature-icon">✓</span>
-                    <span class="feature-name">Creator Analytics</span>
-                </li>
-                <li class="feature-enabled">
-                    <span class="feature-icon">✓</span>
-                    <span class="feature-name">Token Staking</span>
-                </li>
-                <li class="feature-enabled">
-                    <span class="feature-icon">✓</span>
-                    <span class="feature-name">Viewer Rewards</span>
-                </li>
-                <li class="feature-disabled">
-                    <span class="feature-icon">⟳</span>
-                    <span class="feature-name">Live Streaming</span>
-                    <span class="feature-coming-soon">Coming Soon</span>
-                </li>
-            </ul>
-        </div>
-        <div class="release-timeline">
-            <p><strong>Timeline:</strong> Alpha → <span class="current-phase">Beta</span> → Production</p>
-            <div class="progress-bar">
-                <div class="progress" style="width: 65%"></div>
+<div class="version-status">
+    <div class="version-banner">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="version-info">
+                    <span class="badge bg-primary me-2">Beta</span>
+                    <span>Version 0.9.0-beta.1</span>
+                </div>
+                <div class="version-actions">
+                    <a href="https://github.com/idl3o/gh-pages/releases" target="_blank" rel="noopener" class="btn btn-sm btn-light">
+                        <i class="fas fa-tag me-1"></i>Release Notes
+                    </a>
+                    <a href="https://github.com/idl3o/gh-pages/issues" target="_blank" rel="noopener" class="btn btn-sm btn-light ms-2">
+                        <i class="fas fa-bug me-1"></i>Report Issue
+                    </a>
+                </div>
             </div>
-            <p class="target-date">Target Release: Q4 2024</p>
-        </div>
-        <div class="feedback-button">
-            <a href="/feedback" class="btn btn-sm btn-outline-primary">Submit Feedback</a>
         </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        // Try to fetch actual version status from API
-        try {
-            const response = await fetch('/api/beta/status');
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success && data.status) {
-                    updateVersionStatus(data.status);
-                }
-            }
-        } catch (error) {
-            console.log('Using static version info (API not available)');
-        }
-    });
-
-    function updateVersionStatus(status) {
-        // Update version number
-        const versionNumber = document.querySelector('.version-number');
-        if (versionNumber && status.version) {
-            versionNumber.textContent = status.version;
-        }
-
-        // Update feature list
-        const featureList = document.querySelector('.feature-list ul');
-        if (featureList && status.activeFeatures) {
-            // Clear existing features
-            featureList.innerHTML = '';
-
-            // Add active features
-            status.activeFeatures.forEach(feature => {
-                const li = document.createElement('li');
-                li.className = 'feature-enabled';
-                li.innerHTML = `
-                    <span class="feature-icon">✓</span>
-                    <span class="feature-name">${formatFeatureName(feature)}</span>
-                `;
-                featureList.appendChild(li);
-            });
-
-            // Add upcoming features
-            if (status.upcomingFeatures) {
-                status.upcomingFeatures.forEach(feature => {
-                    const li = document.createElement('li');
-                    li.className = 'feature-disabled';
-                    li.innerHTML = `
-                        <span class="feature-icon">⟳</span>
-                        <span class="feature-name">${formatFeatureName(feature)}</span>
-                        <span class="feature-coming-soon">Coming Soon</span>
-                    `;
-                    featureList.appendChild(li);
-                });
-            }
-        }
-
-        // Update timeline
-        if (status.timeline) {
-            const targetDate = document.querySelector('.target-date');
-            if (targetDate && status.timeline.fullRelease) {
-                targetDate.textContent = `Target Release: ${status.timeline.fullRelease}`;
-            }
-        }
-    }
-
-    function formatFeatureName(feature) {
-        // Convert camelCase to Title Case with Spaces
-        return feature
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, str => str.toUpperCase());
-    }
-</script>
-
 <style>
-    .version-status-component {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    body.dark-mode .version-status-component {
-        background-color: #343a40;
-        border-color: #495057;
-    }
-
-    .version-badge {
-        display: inline-flex;
-        align-items: center;
-        background-color: #4361ee;
-        color: white;
-        padding: 0.3rem 0.7rem;
-        border-radius: 2rem;
-        font-weight: 600;
-        font-size: 0.85rem;
-        margin-bottom: 1rem;
-    }
-
-    .version-label {
-        margin-right: 0.5rem;
-    }
-
-    .version-details {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-    }
-
-    .feature-list h4 {
-        font-size: 1rem;
-        margin-top: 0;
-        margin-bottom: 0.75rem;
-    }
-
-    .feature-list ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 0.75rem;
-    }
-
-    .feature-list li {
-        display: flex;
-        align-items: center;
-        font-size: 0.95rem;
-    }
-
-    .feature-icon {
-        margin-right: 0.5rem;
-        font-weight: bold;
-    }
-
-    .feature-enabled .feature-icon {
-        color: #10b981;
-    }
-
-    .feature-disabled .feature-icon {
-        color: #9ca3af;
-    }
-
-    .feature-coming-soon {
-        font-size: 0.75rem;
-        background-color: #f3f4f6;
-        color: #6b7280;
-        padding: 0.15rem 0.4rem;
-        border-radius: 0.25rem;
-        margin-left: 0.5rem;
-    }
-
-    body.dark-mode .feature-coming-soon {
-        background-color: #374151;
-        color: #d1d5db;
-    }
-
-    .release-timeline {
+    .version-banner {
+        background-color: #1a1e2c;
+        color: #f3f4f6;
+        padding: 0.5rem 0;
         font-size: 0.9rem;
     }
 
-    .current-phase {
-        color: #4361ee;
-        font-weight: bold;
+    body:not(.dark-mode) .version-banner {
+        background-color: #f0f4f8;
+        color: #334155;
     }
 
-    .progress-bar {
-        height: 0.5rem;
-        background-color: #e5e7eb;
-        border-radius: 1rem;
-        margin: 0.5rem 0;
+    .version-actions .btn {
+        font-size: 0.8rem;
     }
 
-    .progress {
-        height: 100%;
-        background-color: #4361ee;
-        border-radius: 1rem;
+    body:not(.dark-mode) .version-actions .btn {
+        background-color: #e2e8f0;
+        color: #334155;
     }
 
-    .target-date {
-        font-size: 0.85rem;
-        margin-top: 0.25rem;
-        color: #6b7280;
-    }
-
-    body.dark-mode .progress-bar {
-        background-color: #4b5563;
-    }
-
-    body.dark-mode .target-date {
-        color: #9ca3af;
-    }
-
-    .feedback-button {
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    @media (max-width: 768px) {
-        .feature-list ul {
-            grid-template-columns: 1fr;
-        }
-
-        .feedback-button {
-            justify-content: flex-start;
-        }
+    body.dark-mode .version-actions .btn {
+        background-color: #374151;
+        color: #f3f4f6;
     }
 </style>

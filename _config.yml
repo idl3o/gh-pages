@@ -1,0 +1,24 @@
+# Site settings
+title: Web3 Crypto Streaming Service
+description: A decentralized platform for content streaming built on blockchain technology
+baseurl: "/gh-pages"
+url: "https://idl3o.github.io"
+github_username: idl3o
+
+# Build settings
+markdown: kramdown
+include: ["_includes"]
+exclude:
+  - .env
+  - .env.example
+  - README.md
+  - LICENSE
+  - scripts/
+
+# Theme and plugins
+theme: minima
+plugins:
+  - jekyll-seo-tag
+
+# Custom variables
+version: 0.9.0-beta.1

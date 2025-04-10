@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Smart Contract Catalog | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Complete catalog of platform smart contracts for Web3 Crypto Streaming Service">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        .contract-list {
+            margin-bottom: 2rem;
+        }
+        
+        .contract-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .contract-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        body.dark-mode .contract-item {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+        
+        .contract-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .contract-title {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+        }
+        
+        .contract-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .contract-badge {
+            padding: 0.35em 0.65em;
+            border-radius: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .table-responsive {
+            margin-top: 2rem;
+        }
+        
+        .version-history {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>Smart Contract Catalog</h1>
+            <p>Complete catalog of platform smart contracts</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Smart Contract Catalog</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="guide-nav">
+                    <h3>On This Page</h3>
+                    <ul>
+                        <li><a href="#core">Core Contracts</a></li>
+                        <li><a href="#access">Access Control</a></li>
+                        <li><a href="#financial">Financial</a></li>
+                        <li><a href="#governance">Governance</a></li>
+                        <li><a href="#utility">Utility</a></li>
+                    </ul>
+                    
+                    <h3 class="mt-4">Related Resources</h3>
+                    <ul>
+                        <li><a href="/docs/tech.contracts.html">Contract Architecture</a></li>
+                        <li><a href="/docs/contract-addresses.html">Contract Addresses</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <section class="mb-5">
+                    <p>
+                        This catalog provides an overview of all smart contracts used in the Web3 Crypto Streaming Service platform.
+                        Each contract serves a specific purpose in the ecosystem, from content access control to payment processing 
+                        and governance.
+                    </p>
+                    
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> All contracts are audited by third-party security firms and follow 
+                        industry best practices for security and gas optimization.
+                    </div>
+                </section>
+
+                <section id="core" class="guide-section">
+                    <h2>Core Contracts</h2>
+                    <p>
+                        These contracts form the foundation of the platform's functionality.
+                    </p>
+                    
+                    <div class="contract-list">
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">StreamAccessContract</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                    <span class="contract-badge bg-primary">ERC-1155</span>
+                                </div>
+                            </div>
+                            <p>
+                                Manages content access permissions and viewer access control. This contract verifies whether
+                                a user has the right to access specific content based on their purchases or subscriptions.
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    <strong>Version:</strong> 1.2.0
+                                </div>
+                                <div>
+                                    <a href="/docs/contracts/stream-access.html" class="btn btn-sm btn-outline-primary">View Documentation</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">ProofOfExistenceContract</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Records content ownership and creation timestamps on the blockchain, providing verifiable 
+                                proof of content existence and authorship.
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    <strong>Version:</strong> 1.0.3
+                                </div>
+                                <div>
+                                    <a href="/docs/contracts/proof-of-existence.html" class="btn btn-sm btn-outline-primary">View Documentation</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">ContentRegistry</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Central registry for all platform content metadata, including creator information,
+                                content descriptions, and IPFS content hashes.
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    <strong>Version:</strong> 1.1.2
+                                </div>
+                                <div>
+                                    <a href="/docs/contracts/content-registry.html" class="btn btn-sm btn-outline-primary">View Documentation</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="access" class="guide-section">
+                    <h2>Access Control</h2>
+                    <p>
+                        These contracts manage permissions and access rights throughout the platform.
+                    </p>
+                    
+                    <div class="contract-list">
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">CreatorRegistry</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Manages creator profiles, verification status, and platform permissions.
+                            </p>
+                        </div>
+                        
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">RoleManager</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Manages role-based access control for platform administrators and moderators.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="financial" class="guide-section">
+                    <h2>Financial</h2>
+                    <p>
+                        These contracts handle payments, tokens, and economic functionality.
+                    </p>
+                    
+                    <div class="contract-list">
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">StreamPaymentContract</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Processes payments between viewers and creators, supporting one-time payments, 
+                                subscriptions, and streaming payments.
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    <strong>Version:</strong> 1.3.1
+                                </div>
+                                <div>
+                                    <a href="/docs/contracts/stream-payment.html" class="btn btn-sm btn-outline-primary">View Documentation</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">StreamToken</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                    <span class="contract-badge bg-primary">ERC-20</span>
+                                </div>
+                            </div>
+                            <p>
+                                The native utility token for the platform, used for payments, rewards, and governance.
+                            </p>
+                        </div>
+                        
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">StakingContract</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Enables token staking for creators and viewers, providing rewards and platform benefits.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="governance" class="guide-section">
+                    <h2>Governance</h2>
+                    <p>
+                        These contracts facilitate decentralized decision-making and platform governance.
+                    </p>
+                    
+                    <div class="contract-list">
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">GovernanceContract</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Manages proposal creation, voting, and execution for platform governance.
+                            </p>
+                        </div>
+                        
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">Timelock</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Enforces time delays for governance actions to ensure security and community review.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="utility" class="guide-section">
+                    <h2>Utility</h2>
+                    <p>
+                        These contracts provide supporting functionality for the platform.
+                    </p>
+                    
+                    <div class="contract-list">
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">RewardsContract</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-success">Audited</span>
+                                </div>
+                            </div>
+                            <p>
+                                Distributes rewards to viewers and creators based on platform engagement.
+                            </p>
+                        </div>
+                        
+                        <div class="contract-item">
+                            <div class="contract-header">
+                                <h3 class="contract-title">IPFSRegistry</h3>
+                                <div class="contract-badges">
+                                    <span class="contract-badge bg-warning">Beta</span>
+                                </div>
+                            </div>
+                            <p>
+                                Maintains mappings between content IDs and IPFS content identifiers.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="guide-section">
+                    <h2>Version History</h2>
+                    
+                    <div class="table-responsive">
+                        <table class="table version-history">
+                            <thead>
+                                <tr>
+                                    <th>Contract</th>
+                                    <th>Current Version</th>
+                                    <th>Release Date</th>
+                                    <th>Changes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>StreamAccessContract</td>
+                                    <td>1.2.0</td>
+                                    <td>2024-02-15</td>
+                                    <td>Added batch access verification, gas optimizations</td>
+                                </tr>
+                                <tr>
+                                    <td>StreamPaymentContract</td>
+                                    <td>1.3.1</td>
+                                    <td>2024-03-22</td>
+                                    <td>Added support for ERC-20 payments, fixed subscription renewal bug</td>
+                                </tr>
+                                <tr>
+                                    <td>ProofOfExistenceContract</td>
+                                    <td>1.0.3</td>
+                                    <td>2024-01-10</td>
+                                    <td>Gas optimizations, added batch proof registration</td>
+                                </tr>
+                                <tr>
+                                    <td>ContentRegistry</td>
+                                    <td>1.1.2</td>
+                                    <td>2024-02-28</td>
+                                    <td>Added metadata versioning, improved query efficiency</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.theme-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>

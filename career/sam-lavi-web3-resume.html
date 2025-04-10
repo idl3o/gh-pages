@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sam Lavi - Web3 Developer Resume | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Example blockchain developer resume for Web3 positions">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        :root {
+            --resume-primary: #6366f1;
+            --resume-light-bg: #f9fafb;
+            --resume-text: #374151;
+            --resume-dark-bg: #111827;
+            --resume-dark-text: #f3f4f6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--resume-light-bg);
+            color: var(--resume-text);
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--resume-dark-bg);
+            color: var(--resume-dark-text);
+        }
+
+        .resume-header {
+            background-color: var(--resume-primary);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .resume-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .resume-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .resume-title {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        .resume-contact {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .resume-contact-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .resume-contact-item i {
+            margin-right: 0.5rem;
+        }
+
+        .section-title {
+            border-bottom: 2px solid var(--resume-primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-mode .section-title {
+            border-color: var(--resume-primary);
+        }
+
+        .experience-item, .education-item, .project-item {
+            margin-bottom: 2rem;
+        }
+
+        .experience-header, .education-header, .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-company, .education-institution, .project-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .experience-date, .education-date, .project-date {
+            color: #6b7280;
+        }
+
+        body.dark-mode .experience-date, 
+        body.dark-mode .education-date,
+        body.dark-mode .project-date {
+            color: #9ca3af;
+        }
+
+        .experience-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--resume-primary);
+        }
+
+        body.dark-mode .experience-title {
+            color: #818cf8;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--resume-primary);
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        body.dark-mode .skill-tag {
+            background-color: rgba(129, 140, 248, 0.1);
+            color: #818cf8;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-pdf {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+        }
+
+        .btn-pdf:hover {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        @media print {
+            .actions, .theme-toggle, footer {
+                display: none !important;
+            }
+
+            .resume-header {
+                padding: 1rem 0;
+            }
+
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            .skill-tag {
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="resume-header">
+        <div class="container text-center">
+            <h1 class="resume-name">Sam Lavi</h1>
+            <p class="resume-title">Senior Blockchain Developer</p>
+            
+            <div class="resume-contact justify-content-center">
+                <div class="resume-contact-item">
+                    <i class="fas fa-envelope"></i> sam.lavi@example.com
+                </div>
+                <div class="resume-contact-item">
+                    <i class="fas fa-phone"></i> (555) 123-4567
+                </div>
+                <div class="resume-contact-item">
+                    <i class="fab fa-github"></i> github.com/samlavi
+                </div>
+                <div class="resume-contact-item">
+                    <i class="fab fa-linkedin"></i> linkedin.com/in/samlavi
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="resume-container">
+        <section class="resume-section">
+            <h2 class="section-title">Summary</h2>
+            <p>
+                Senior Blockchain Developer with 5+ years of experience building decentralized applications and smart contracts. 
+                Specialized in Ethereum development, DeFi protocols, and NFT platforms. Strong background in security-focused 
+                smart contract development with a track record of successful audits. Passionate about creating transparent, 
+                user-centric Web3 experiences.
+            </p>
+        </section>
+
+        <section class="resume-section">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-company">Web3 Crypto Streaming Service</div>
+                    <div class="experience-date">Jan 2022 - Present</div>
+                </div>
+                <div class="experience-title">Lead Smart Contract Developer</div>
+                <ul>
+                    <li>Architected and implemented the platform's core smart contracts, including access control, payment processing, and content verification systems</li>
+                    <li>Reduced gas costs by 40% through optimized storage patterns and code efficiency improvements</li>
+                    <li>Led security audits and implemented all recommendations, resulting in zero security incidents</li>
+                    <li>Developed token economics and staking mechanisms that achieved 35% platform token staking ratio</li>
+                    <li>Mentored junior developers on smart contract best practices and security considerations</li>
+                </ul>
+                <div class="skill-tags">
+                    <span class="skill-tag">Solidity</span>
+                    <span class="skill-tag">ERC-20</span>
+                    <span class="skill-tag">ERC-1155</span>
+                    <span class="skill-tag">OpenZeppelin</span>
+                    <span class="skill-tag">Hardhat</span>
+                    <span class="skill-tag">ethers.js</span>
+                </div>
+            </div>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-company">DeFi Protocol X</div>
+                    <div class="experience-date">Mar 2020 - Dec 2021</div>
+                </div>
+                <div class="experience-title">Senior Blockchain Engineer</div>
+                <ul>
+                    <li>Developed and deployed yield farming and liquidity pool smart contracts handling over $50M in TVL</li>
+                    <li>Implemented protocol governance mechanisms using a custom DAO structure</li>
+                    <li>Created automated testing framework that increased test coverage from 65% to 98%</li>
+                    <li>Integrated with multiple blockchain networks including Ethereum, Polygon, and Arbitrum</li>
+                </ul>
+                <div class="skill-tags">
+                    <span class="skill-tag">Solidity</span>
+                    <span class="skill-tag">DeFi</span>
+                    <span class="skill-tag">Truffle</span>
+                    <span class="skill-tag">Multi-chain</span>
+                    <span class="skill-tag">Governance</span>
+                </div>
+            </div>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-company">Blockchain Solutions Inc.</div>
+                    <div class="experience-date">Jun 2018 - Feb 2020</div>
+                </div>
+                <div class="experience-title">Blockchain Developer</div>
+                <ul>
+                    <li>Built smart contracts for enterprise clients in supply chain and identity verification sectors</li>
+                    <li>Developed NFT marketplace features including minting, trading, and royalty distributions</li>
+                    <li>Created technical documentation and API specifications for blockchain integrations</li>
+                </ul>
+                <div class="skill-tags">
+                    <span class="skill-tag">Solidity</span>
+                    <span class="skill-tag">NFTs</span>
+                    <span class="skill-tag">Web3.js</span>
+                    <span class="skill-tag">IPFS</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2 class="section-title">Education</h2>
+            
+            <div class="education-item">
+                <div class="education-header">
+                    <div class="education-institution">University of Blockchain Technology</div>
+                    <div class="education-date">2014 - 2018</div>
+                </div>
+                <div>
+                    <strong>Bachelor of Science in Computer Science</strong>, Minor in Cryptography
+                </div>
+                <div>Graduated with Honors, 3.8 GPA</div>
+            </div>
+            
+            <div class="education-item">
+                <div class="education-header">
+                    <div class="education-institution">Certified Blockchain Developer</div>
+                    <div class="education-date">2019</div>
+                </div>
+                <div>
+                    <strong>Blockchain Council</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2 class="section-title">Skills</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Blockchain Development</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Solidity</span>
+                        <span class="skill-tag">Vyper</span>
+                        <span class="skill-tag">Smart Contracts</span>
+                        <span class="skill-tag">ERC Standards</span>
+                        <span class="skill-tag">Ethereum</span>
+                        <span class="skill-tag">Polygon</span>
+                        <span class="skill-tag">Arbitrum</span>
+                        <span class="skill-tag">OpenZeppelin</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Development Tools</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Hardhat</span>
+                        <span class="skill-tag">Truffle</span>
+                        <span class="skill-tag">Ganache</span>
+                        <span class="skill-tag">ethers.js</span>
+                        <span class="skill-tag">Web3.js</span>
+                        <span class="skill-tag">Remix IDE</span>
+                        <span class="skill-tag">Slither</span>
+                        <span class="skill-tag">MythX</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h4>Web Development</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">JavaScript/TypeScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">GraphQL</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Other Skills</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">DeFi</span>
+                        <span class="skill-tag">Tokenomics</span>
+                        <span class="skill-tag">Security Auditing</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">Docker</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2 class="section-title">Projects</h2>
+            
+            <div class="project-item">
+                <div class="project-header">
+                    <div class="project-name">StreamProof</div>
+                    <div class="project-date">2022</div>
+                </div>
+                <p>
+                    Developed a decentralized content verification system that creates immutable proofs of content creation 
+                    timestamps on the Ethereum blockchain. Used by 1,000+ creators to protect their intellectual property.
+                </p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Solidity</span>
+                    <span class="skill-tag">IPFS</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">ethers.js</span>
+                </div>
+            </div>
+            
+            <div class="project-item">
+                <div class="project-header">
+                    <div class="project-name">TokenGate</div>
+                    <div class="project-date">2021</div>
+                </div>
+                <p>
+                    Created a token-gated content access solution that enables creators to monetize exclusive content 
+                    using NFTs as access keys. Integrated with multiple NFT standards and marketplaces.
+                </p>
+                <div class="skill-tags">
+                    <span class="skill-tag">ERC-721</span>
+                    <span class="skill-tag">ERC-1155</span>
+                    <span class="skill-tag">Solidity</span>
+                    <span class="skill-tag">Node.js</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="actions">
+            <a href="sam-lavi-web3-resume.pdf" class="btn btn-pdf" download>
+                <i class="fas fa-file-pdf"></i> Download PDF
+            </a>
+            <a href="/career/web3-application-tips.html" class="btn btn-outline-primary">
+                <i class="fas fa-lightbulb"></i> Application Tips
+            </a>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+        });
+    </script>
+</body>
+</html>

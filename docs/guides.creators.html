@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Creator Guide | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Complete guide for content creators using the Web3 Crypto Streaming Service platform">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/gh-pages/assets/css/main.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --text-light: #6b7280;
+            --success: #10b981;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            
+            --dark-primary: #818cf8;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+        }
+
+        /* Header styling */
+        .doc-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        /* Guide-specific styles */
+        .guide-nav {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 2rem;
+        }
+
+        body.dark-mode .guide-nav {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .guide-nav h3 {
+            margin-bottom: 1rem;
+        }
+
+        .guide-nav ul {
+            padding-left: 1.25rem;
+        }
+
+        .guide-nav li {
+            margin-bottom: 0.75rem;
+        }
+
+        .guide-content {
+            padding-right: 2rem;
+        }
+
+        .guide-section {
+            margin-bottom: 3rem;
+        }
+
+        .guide-section h2 {
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        body.dark-mode .guide-section h2 {
+            border-color: var(--dark-border);
+        }
+
+        .guide-section h3 {
+            margin: 1.5rem 0 1rem;
+        }
+
+        .step-list {
+            counter-reset: step-counter;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 1.5rem;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 1.75rem;
+            height: 1.75rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .step-list li::before {
+            background-color: var(--dark-primary);
+        }
+
+        .guide-tip {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .guide-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #F59E0B;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .guide-img {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        body.dark-mode .guide-img {
+            border-color: var(--dark-border);
+        }
+
+        .guide-table {
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        .guide-table th {
+            background-color: var(--light-bg);
+        }
+
+        body.dark-mode .guide-table th {
+            background-color: var(--dark-section-bg);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>Creator Guide</h1>
+            <p>Complete guide for content creators using the platform</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/gh-pages/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/gh-pages/docs">Documentation</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Creator Guide</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="guide-nav">
+                    <h3>On This Page</h3>
+                    <ul>
+                        <li><a href="#getting-started">Getting Started</a></li>
+                        <li><a href="#account-setup">Account Setup</a></li>
+                        <li><a href="#content-upload">Content Upload</a></li>
+                        <li><a href="#monetization">Monetization Options</a></li>
+                        <li><a href="#analytics">Analytics & Insights</a></li>
+                        <li><a href="#community">Building Community</a></li>
+                        <li><a href="#staking">Token Staking</a></li>
+                        <li><a href="#advanced">Advanced Features</a></li>
+                    </ul>
+                    
+                    <h3 class="mt-4">Related Guides</h3>
+                    <ul>
+                        <li><a href="/gh-pages/docs/viewer-rewards.html">Viewer Rewards</a></li>
+                        <li><a href="/gh-pages/docs/tech.contracts.html">Smart Contract Architecture</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9 guide-content">
+                <div class="guide-section" id="getting-started">
+                    <h2>Getting Started</h2>
+                    <p>
+                        Welcome to the Web3 Crypto Streaming Service! This guide will walk you through everything you need to know as a content creator on our platform. Before you begin, here's what you'll need:
+                    </p>
+                    <ul>
+                        <li>Content ready to be uploaded (videos, audio, or other supported formats)</li>
+                        <li>A crypto wallet (MetaMask, Trust Wallet, or other Ethereum-compatible wallet)</li>
+                        <li>A small amount of ETH for transaction fees (or our supported L2 token)</li>
+                    </ul>
+
+                    <div class="guide-tip">
+                        <strong>Tip:</strong> If you're new to crypto wallets, we recommend starting with <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">MetaMask</a> due to its user-friendly interface and broad compatibility.
+                    </div>
+                </div>
+
+                <div class="guide-section" id="account-setup">
+                    <h2>Account Setup</h2>
+                    <p>
+                        Setting up your creator account is straightforward and designed to give you full control over your content and earnings.
+                    </p>
+
+                    <h3>Creating Your Account</h3>
+                    <ol class="step-list">
+                        <li>
+                            <strong>Connect your wallet</strong>
+                            <p>Navigate to the homepage and click "Connect Wallet" in the top-right corner. Select your wallet provider and follow the prompts to connect.</p>
+                        </li>
+                        <li>
+                            <strong>Complete your profile</strong>
+                            <p>Once connected, click on "Create Creator Profile" and fill out the required information:</p>
+                            <ul>
+                                <li>Creator name (your brand or channel name)</li>
+                                <li>Profile picture</li>
+                                <li>Cover image</li>
+                                <li>Bio/description</li>
+                                <li>Social media links (optional but recommended)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Choose your creator URL</strong>
+                            <p>Select a unique URL for your creator page (e.g., web3streaming.io/creators/yourname)</p>
+                        </li>
+                        <li>
+                            <strong>Set default monetization preferences</strong>
+                            <p>Choose your default pricing model (more details in the Monetization section)</p>
+                        </li>
+                        <li>
+                            <strong>Confirm your account</strong>
+                            <p>Review your information and click "Create Account" to complete the process</p>
+                        </li>
+                    </ol>
+
+                    <div class="guide-warning">
+                        <strong>Important:</strong> Your creator account is tied to your wallet address. Always ensure you have access to your wallet's recovery phrase and store it securely offline.
+                    </div>
+
+                    <h3>Creator Verification (Optional)</h3>
+                    <p>
+                        Verified creators receive additional benefits, including higher visibility, a verified badge, and access to exclusive features.
+                    </p>
+                    <p>
+                        To become verified:
+                    </p>
+                    <ol>
+                        <li>Navigate to Settings > Verification</li>
+                        <li>Choose your verification method:
+                            <ul>
+                                <li>Proof of identity (KYC process)</li>
+                                <li>Proof of social media following (linking accounts with significant following)</li>
+                                <li>Proof of prior content creation (linking existing platforms)</li>
+                            </ul>
+                        </li>
+                        <li>Follow the verification steps for your chosen method</li>
+                        <li>Wait for approval (typically 1-3 business days)</li>
+                    </ol>
+                </div>
+
+                <div class="guide-section" id="content-upload">
+                    <h2>Content Upload</h2>
+                    <p>
+                        Our platform supports various content formats while ensuring your ownership is secured on the blockchain.
+                    </p>
+
+                    <h3>Supported Formats</h3>
+                    <table class="table guide-table">
+                        <thead>
+                            <tr>
+                                <th>Content Type</th>
+                                <th>Supported Formats</th>
+                                <th>Max File Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Video</td>
+                                <td>MP4, MOV, AVI, WebM</td>
+                                <td>10GB (standard), 30GB (verified creators)</td>
+                            </tr>
+                            <tr>
+                                <td>Audio</td>
+                                <td>MP3, WAV, AAC, FLAC</td>
+                                <td>1GB</td>
+                            </tr>
+                            <tr>
+                                <td>Images</td>
+                                <td>JPG, PNG, GIF, WebP</td>
+                                <td>100MB per image, 2GB total album</td>
+                            </tr>
+                            <tr>
+                                <td>Text/Documents</td>
+                                <td>PDF, EPUB, Markdown</td>
+                                <td>500MB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Upload Process</h3>
+                    <ol class="step-list">
+                        <li>
+                            <strong>Prepare your content</strong>
+                            <p>Ensure your content meets our community guidelines and is in a supported format</p>
+                        </li>
+                        <li>
+                            <strong>Navigate to Creator Studio</strong>
+                            <p>From your dashboard, click "Creator Studio" > "Upload Content"</p>
+                        </li>
+                        <li>
+                            <strong>Upload your file</strong>
+                            <p>Drag and drop your file or click "Browse" to select it from your device</p>
+                        </li>
+                        <li>
+                            <strong>Add content details</strong>
+                            <p>Fill out the title, description, tags, and thumbnail. Detailed metadata improves discoverability.</p>
+                        </li>
+                        <li>
+                            <strong>Set monetization options</strong>
+                            <p>Choose how viewers can access this specific content (free, one-time payment, subscription only, etc.)</p>
+                        </li>
+                        <li>
+                            <strong>Review ownership registration</strong>
+                            <p>Review the content hash and blockchain registration details that will secure your ownership</p>
+                        </li>
+                        <li>
+                            <strong>Confirm upload</strong>
+                            <p>Click "Publish" to initiate the upload and blockchain registration process</p>
+                        </li>
+                    </ol>
+
+                    <div class="guide-tip">
+                        <strong>Tip:</strong> Uploading creates two processes: First, your content is encrypted and distributed to our decentralized storage network. Second, a content verification record is created on the blockchain. The second process requires a transaction fee (gas cost), which varies based on network conditions.
+                    </div>
+                </div>
+
+                <div class="guide-section" id="monetization">
+                    <h2>Monetization Options</h2>
+                    <p>
+                        Our platform offers multiple ways to monetize your content, giving you flexibility to choose what works best for you and your audience.
+                    </p>
+                    
+                    <h3>Monetization Models</h3>
+                    <div class="table-responsive">
+                        <table class="table guide-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Description</th>
+                                    <th>Best For</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Free (Ad-supported)</strong></td>
+                                    <td>Content is free to view, with non-intrusive ads shown to viewers. You earn a share of ad revenue.</td>
+                                    <td>Building an audience, maximizing views</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>One-time Payment</strong></td>
+                                    <td>Viewers pay once for permanent access to specific content.</td>
+                                    <td>Premium content, courses, special events</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Subscription</strong></td>
+                                    <td>Viewers pay a recurring fee for access to all your content.</td>
+                                    <td>Regular content creators with loyal audiences</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pay-per-minute</strong></td>
+                                    <td>Viewers are charged based on actual watch time.</td>
+                                    <td>Longer-form content, educational material</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tips & Donations</strong></td>
+                                    <td>Viewers can send tips or donations while watching.</td>
+                                    <td>Supplemental income for any content type</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NFT Access</strong></td>
+                                    <td>Content access tied to ownership of your NFTs.</td>
+                                    <td>Exclusive content, collectible experiences</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h3>Setting Up Monetization</h3>
+                    <ol class="step-list">
+                        <li>
+                            <strong>Configure payment wallet</strong>
+                            <p>Go to Settings > Payments to confirm the wallet where you'll receive earnings</p>
+                        </li>
+                        <li>
+                            <strong>Choose default monetization model</strong>
+                            <p>Set your preferred model that will apply to all new uploads</p>
+                        </li>
+                        <li>
+                            <strong>Set pricing</strong>
+                            <p>Define your prices for each model you enable (subscription rate, one-time payment amounts, etc.)</p>
+                        </li>
+                        <li>
+                            <strong>Configure individual content settings</strong>
+                            <p>Override default settings on individual content if desired</p>
+                        </li>
+                    </ol>
+                    
+                    <div class="guide-tip">
+                        <strong>Tip:</strong> Our platform fee is just 5-15% depending on your creator tier, compared to 30-50% on traditional platforms. The platform fee also includes gas cost optimization, so you don't have to worry about fluctuating network fees.
+                    </div>
+                </div>
+
+                <div class="guide-section" id="analytics">
+                    <h2>Analytics & Insights</h2>
+                    <p>
+                        Our analytics dashboard provides comprehensive data about your audience, content performance, and earnings.
+                    </p>
+                    
+                    <h3>Available Metrics</h3>
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Audience Metrics</h4>
+                                    <ul>
+                                        <li>Total viewers & subscribers</li>
+                                        <li>Viewer demographics</li>
+                                        <li>Geographical distribution</li>
+                                        <li>Wallet/token holdings analysis</li>
+                                        <li>New vs. returning viewers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Content Performance</h4>
+                                    <ul>
+                                        <li>Views, watch time, completion rate</li>
+                                        <li>Engagement (comments, reactions)</li>
+                                        <li>Sharing & referral activity</li>
+                                        <li>Content comparisons</li>
+                                        <li>Performance trends over time</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Revenue Analytics</h4>
+                                    <ul>
+                                        <li>Total earnings & history</li>
+                                        <li>Revenue by content & type</li>
+                                        <li>Revenue by monetization model</li>
+                                        <li>Token vs. fiat breakdown</li>
+                                        <li>Projected earnings</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Discovery Insights</h4>
+                                    <ul>
+                                        <li>Search terms leading to content</li>
+                                        <li>Recommendation sources</li>
+                                        <li>External referral sources</li>
+                                        <li>Tag & category performance</li>
+                                        <li>Viewer journey paths</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Using Analytics to Grow</h3>
+                    <p>
+                        Your analytics dashboard includes AI-powered recommendations to help improve your content strategy:
+                    </p>
+                    <ul>
+                        <li><strong>Content Recommendations</strong> - Suggested topics based on audience interest</li>
+                        <li><strong>Optimal Posting Times</strong> - When your specific audience is most active</li>
+                        <li><strong>Price Optimization</strong> - Suggestions for adjusting your monetization settings</li>
+                        <li><strong>Growth Opportunities</strong> - Identified trends in your niche</li>
+                    </ul>
+                    
+                    <div class="guide-tip">
+                        <strong>Pro Tip:</strong> Export your analytics data in CSV or JSON format for deeper analysis in external tools. Find this option in the dashboard's "Export" menu.
+                    </div>
+                </div>
+
+                <div class="guide-section" id="community">
+                    <h2>Building Community</h2>
+                    <p>
+                        Building an engaged community is key to sustainable success on our platform. We provide several tools to help you connect with your viewers.
+                    </p>
+                    
+                    <h3>Communication Tools</h3>
+                    <ul>
+                        <li>
+                            <strong>Creator Feed</strong> - Share updates, announcements, and behind-the-scenes content with your followers
+                        </li>
+                        <li>
+                            <strong>Comments & Discussions</strong> - Engage directly with viewers on your content
+                        </li>
+                        <li>
+                            <strong>Polls & Surveys</strong> - Get feedback and involve your community in decisions
+                        </li>
+                        <li>
+                            <strong>Live Streams</strong> - Connect in real-time with your audience (Beta feature)
+                        </li>
+                        <li>
+                            <strong>Community Challenges</strong> - Create engaging activities for your viewers
+                        </li>
+                    </ul>
+                    
+                    <h3>Membership Tiers</h3>
+                    <p>
+                        Create different membership tiers to offer varying levels of access and benefits to your community:
+                    </p>
+                    <ol class="step-list">
+                        <li>
+                            <strong>Navigate to Community > Membership Tiers</strong>
+                            <p>Access the membership tier creation interface</p>
+                        </li>
+                        <li>
+                            <strong>Create tier structure</strong>
+                            <p>Define your tiers (e.g., Bronze, Silver, Gold) and their monthly prices</p>
+                        </li>
+                        <li>
+                            <strong>Set tier benefits</strong>
+                            <p>For each tier, specify benefits like:
+                                <ul>
+                                    <li>Exclusive content access</li>
+                                    <li>Early access to new releases</li>
+                                    <li>Custom badges in comments</li>
+                                    <li>Discord server access</li>
+                                    <li>Monthly Q&A sessions</li>
+                                    <li>Merchandise discounts</li>
+                                </ul>
+                            </p>
+                        </li>
+                        <li>
+                            <strong>Activate tiers</strong>
+                            <p>Review and publish your membership tiers</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="guide-section" id="staking">
+                    <h2>Token Staking</h2>
+                    <p>
+                        Token staking provides additional benefits and revenue opportunities for creators. By staking STREAM tokens, you can enhance your creator profile and unlock platform features.
+                    </p>
+                    
+                    <h3>Benefits of Staking</h3>
+                    <div class="table-responsive">
+                        <table class="table guide-table">
+                            <thead>
+                                <tr>
+                                    <th>Staking Level</th>
+                                    <th>Required Tokens</th>
+                                    <th>Benefits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Bronze</td>
+                                    <td>1,000 STREAM</td>
+                                    <td>
+                                        <ul>
+                                            <li>Reduced platform fees (15% → 12%)</li>
+                                            <li>Creator badge</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Silver</td>
+                                    <td>5,000 STREAM</td>
+                                    <td>
+                                        <ul>
+                                            <li>Further reduced fees (12% → 10%)</li>
+                                            <li>Increased content visibility</li>
+                                            <li>Priority encoding for uploads</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gold</td>
+                                    <td>10,000 STREAM</td>
+                                    <td>
+                                        <ul>
+                                            <li>Minimum platform fees (8%)</li>
+                                            <li>Featured creator opportunities</li>
+                                            <li>Advanced analytics tools</li>
+                                            <li>Early access to new features</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Platinum</td>
+                                    <td>50,000 STREAM</td>
+                                    <td>
+                                        <ul>
+                                            <li>Lowest platform fees (5%)</li>
+                                            <li>Platform governance voting rights</li>
+                                            <li>Direct platform support channel</li>
+                                            <li>Custom branding options</li>
+                                            <li>API access</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h3>How to Stake Tokens</h3>
+                    <ol class="step-list">
+                        <li>
+                            <strong>Acquire STREAM tokens</strong>
+                            <p>Purchase from exchanges or earn through platform activities</p>
+                        </li>
+                        <li>
+                            <strong>Navigate to Creator Dashboard > Staking</strong>
+                            <p>Access the staking interface</p>
+                        </li>
+                        <li>
+                            <strong>Choose staking amount</strong>
+                            <p>Select how many tokens to stake for your desired tier</p>
+                        </li>
+                        <li>
+                            <strong>Confirm transaction</strong>
+                            <p>Approve the transaction in your connected wallet</p>
+                        </li>
+                        <li>
+                            <strong>Enjoy benefits</strong>
+                            <p>Benefits are applied automatically after successful staking</p>
+                        </li>
+                    </ol>
+                    
+                    <div class="guide-warning">
+                        <strong>Important:</strong> Staked tokens are locked for a minimum of 30 days. Unstaking before 6 months incurs a 5% early withdrawal fee. This fee is redistributed to long-term stakers.
+                    </div>
+                </div>
+
+                <div class="guide-section" id="advanced">
+                    <h2>Advanced Features</h2>
+                    <p>
+                        Once you're comfortable with the basic platform features, explore these advanced tools to further enhance your creator experience.
+                    </p>
+                    
+                    <h3>API Integration</h3>
+                    <p>
+                        Available to Gold and Platinum creators, our API allows you to build custom applications and workflows:
+                    </p>
+                    <ul>
+                        <li>Automated content uploading</li>
+                        <li>Custom analytics dashboards</li>
+                        <li>Integration with external tools</li>
+                        <li>Webhook notifications for platform events</li>
+                    </ul>
+                    <p>View our <a href="/gh-pages/docs/guides.developers.html">Developer Guide</a> for API documentation.</p>
+                    
+                    <h3>Batch Operations</h3>
+                    <p>
+                        Manage large content libraries more efficiently:
+                    </p>
+                    <ul>
+                        <li>Bulk upload multiple content files</li>
+                        <li>Batch edit metadata across multiple items</li>
+                        <li>Mass update pricing or access settings</li>
+                        <li>Scheduled publishing for content queues</li>
+                    </ul>
+                    <p>Access batch tools in Creator Studio > Batch Operations.</p>
+                    
+                    <h3>Custom Contracts</h3>
+                    <p>
+                        For unique monetization needs, Platinum creators can deploy customized smart contracts:
+                    </p>
+                    <ul>
+                        <li>Custom royalty structures</li>
+                        <li>Specialized access controls</li>
+                        <li>Cross-platform integration contracts</li>
+                        <li>Collaborative content agreements</li>
+                    </ul>
+                    <p>
+                        Custom contracts require review by our team. Contact creator-support@web3streaming.io to discuss your requirements.
+                    </p>
+                    
+                    <h3>Content Security</h3>
+                    <p>
+                        Enhanced protection for your intellectual property:
+                    </p>
+                    <ul>
+                        <li>Watermarking options for videos and images</li>
+                        <li>Blockchain-verified timestamping</li>
+                        <li>Content fingerprinting for anti-piracy measures</li>
+                        <li>Territorial access restrictions</li>
+                        <li>Download permissions management</li>
+                    </ul>
+                    <p>Configure these options in Creator Studio > Content Security.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/gh-pages/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/gh-pages/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/gh-pages/assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Check for saved theme preference or use system preference
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Handle theme toggle click
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Highlight active section in navigation
+            const sections = document.querySelectorAll('.guide-section');
+            const navLinks = document.querySelectorAll('.guide-nav a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.pageYOffset >= sectionTop - 150) {
+                        current = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('fw-bold', 'text-primary');
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('fw-bold', 'text-primary');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

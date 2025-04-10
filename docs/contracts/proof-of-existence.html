@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ProofOfExistenceContract | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Documentation for the ProofOfExistenceContract smart contract">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        .code-block {
+            background-color: #282c34;
+            border-radius: 8px;
+            overflow: auto;
+            margin: 1.5rem 0;
+        }
+
+        .function-section {
+            margin-bottom: 3rem;
+        }
+
+        .function-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .function-header {
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .function-body {
+            padding: 1.5rem;
+        }
+
+        .function-name {
+            color: #b392f0;
+        }
+
+        .function-param {
+            color: #e06c75;
+        }
+
+        .function-returns {
+            color: #98c379;
+        }
+        
+        .hash-example {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--light-bg);
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow: auto;
+        }
+        
+        .proof-illustration {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>ProofOfExistenceContract</h1>
+            <p>Content verification and ownership proof smart contract</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item"><a href="/docs/tech.contracts.html">Smart Contract Architecture</a></li>
+                <li class="breadcrumb-item active" aria-current="page">ProofOfExistenceContract</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="guide-nav">
+                    <h3>On This Page</h3>
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#proof-creation">Proof Creation</a></li>
+                        <li><a href="#verification">Proof Verification</a></li>
+                        <li><a href="#metadata">Metadata Storage</a></li>
+                        <li><a href="#batch-operations">Batch Operations</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#examples">Integration Examples</a></li>
+                    </ul>
+                    
+                    <h3 class="mt-4">Related Contracts</h3>
+                    <ul>
+                        <li><a href="/docs/contracts/stream-access.html">StreamAccessContract</a></li>
+                        <li><a href="/docs/contracts/content-registry.html">ContentRegistry</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <section id="overview">
+                    <h2>Overview</h2>
+                    <p>
+                        The <code>ProofOfExistenceContract</code> provides an immutable record of content ownership and creation on the blockchain. 
+                        It enables creators to register their content with verifiable timestamps, proving they were the first to publish specific content.
+                    </p>
+                    
+                    <p>
+                        This contract serves several essential functions:
+                    </p>
+                    <ul>
+                        <li><strong>Timestamp Verification:</strong> Creates an immutable timestamp when content is registered</li>
+                        <li><strong>Ownership Proof:</strong> Establishes on-chain evidence of content creation and ownership</li>
+                        <li><strong>Content Integrity:</strong> Verifies content hasn't been altered since registration</li>
+                        <li><strong>Metadata Storage:</strong> Stores and retrieves content metadata</li>
+                    </ul>
+
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> Content itself is not stored on the blockchain. Instead, a cryptographic hash of the content is 
+                        registered, which serves as a unique identifier and integrity check.
+                    </div>
+
+                    <h3>Contract Address</h3>
+                    <div class="code-block">
+<pre><code>Ethereum Mainnet: 0x3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b
+Polygon:         0xb9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0
+Arbitrum:        0x2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d</code></pre>
+                    </div>
+                </section>
+
+                <section id="proof-creation" class="function-section">
+                    <h2>Proof Creation</h2>
+                    <p>
+                        To register content on the blockchain, creators first generate a cryptographic hash of their content 
+                        and then call the <code>storeProof</code> function.
+                    </p>
+                    
+                    <div class="function-card">
+                        <div class="function-header">
+                            <h3><span class="function-name">storeProof</span>(<span class="function-param">bytes32 contentHash, string metadata</span>) <span class="function-returns">→ bytes32</span></h3>
+                        </div>
+                        <div class="function-body">
+                            <p>
+                                Registers a new content hash on the blockchain with the provided metadata.
+                                Can only be called by the content creator or an authorized platform contract.
+                            </p>
+
+                            <h4>Parameters</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>contentHash</td>
+                                        <td>bytes32</td>
+                                        <td>The keccak256 hash of the content</td>
+                                    </tr>
+                                    <tr>
+                                        <td>metadata</td>
+                                        <td>string</td>
+                                        <td>JSON string containing content metadata (title, description, etc.)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>Returns</h4>
+                            <p><code>bytes32</code>: The unique proof ID for the registered content</p>
+
+                            <h4>Example</h4>
+                            <div class="code-block">
+<pre><code class="language-javascript">// Generate content hash (client-side)
+async function generateContentHash(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+  return '0x' + Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// Register content proof on the blockchain
+async function registerContent(contentHash, title, description) {
+  const metadata = JSON.stringify({
+    title,
+    description,
+    timestamp: Date.now()
+  });
+  
+  const tx = await proofOfExistenceContract.storeProof(
+    contentHash,
+    metadata
+  );
+  
+  const receipt = await tx.wait();
+  console.log('Content registered with proof ID:', receipt.events[0].args.proofId);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>
+                        The contract stores the following information for each proof:
+                    </p>
+                    <ul>
+                        <li>Content hash</li>
+                        <li>Creator's address</li>
+                        <li>Block timestamp (provides the verifiable timestamp)</li>
+                        <li>Metadata JSON string</li>
+                    </ul>
+                </section>
+
+                <section id="verification" class="function-section">
+                    <h2>Proof Verification</h2>
+                    
+                    <p>
+                        The contract provides several functions to verify content and ownership:
+                    </p>
+                    
+                    <div class="function-card">
+                        <div class="function-header">
+                            <h3><span class="function-name">verifyProof</span>(<span class="function-param">bytes32 contentHash, address creator</span>) <span class="function-returns">→ bool</span></h3>
+                        </div>
+                        <div class="function-body">
+                            <p>
+                                Verifies whether a specific content hash has been registered by the specified creator.
+                            </p>
+
+                            <h4>Parameters</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>contentHash</td>
+                                        <td>bytes32</td>
+                                        <td>The content hash to verify</td>
+                                    </tr>
+                                    <tr>
+                                        <td>creator</td>
+                                        <td>address</td>
+                                        <td>The address claimed to be the content creator</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>Returns</h4>
+                            <p><code>bool</code>: True if the proof exists and was created by the specified address</p>
+                        </div>
+                    </div>
+                    
+                    <div class="function-card">
+                        <div class="function-header">
+                            <h3><span class="function-name">getProofTimestamp</span>(<span class="function-param">bytes32 contentHash</span>) <span class="function-returns">→ uint256</span></h3>
+                        </div>
+                        <div class="function-body">
+                            <p>
+                                Retrieves the timestamp when a content hash was registered.
+                            </p>
+
+                            <h4>Parameters</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>contentHash</td>
+                                        <td>bytes32</td>
+                                        <td>The content hash to check</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>Returns</h4>
+                            <p><code>uint256</code>: Unix timestamp when the content was registered, or 0 if not found</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="metadata" class="function-section">
+                    <h2>Metadata Storage</h2>
+                    <!-- Additional content would be here -->
+                </section>
+                
+                <section id="batch-operations" class="function-section">
+                    <h2>Batch Operations</h2>
+                    <!-- Additional content would be here -->
+                </section>
+                
+                <section id="events" class="function-section">
+                    <h2>Events</h2>
+                    <!-- Additional content would be here -->
+                </section>
+                
+                <section id="examples" class="function-section">
+                    <h2>Integration Examples</h2>
+                    <!-- Additional content would be here -->
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2023 Web3 Crypto Streaming Service. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize syntax highlighting
+            hljs.highlightAll();
+            
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+            });
+        });
+    </script>
+</body>
+</html>

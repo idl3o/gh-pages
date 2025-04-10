@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Viewer Guide | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Complete guide for content viewers using the Web3 Crypto Streaming Service platform">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        /* Page-specific styles */
+        .feature-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--card-bg);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        body.dark-mode .feature-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: inline-block;
+        }
+
+        body.dark-mode .feature-icon {
+            color: var(--dark-primary);
+        }
+
+        .guide-steps {
+            counter-reset: step-counter;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .guide-steps li {
+            counter-increment: step-counter;
+            margin-bottom: 1.5rem;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+
+        .guide-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 1.75rem;
+            height: 1.75rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .guide-steps li::before {
+            background-color: var(--dark-primary);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>Viewer Guide</h1>
+            <p>Complete guide for content viewers using the platform</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Viewer Guide</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="guide-nav">
+                    <h3>On This Page</h3>
+                    <ul>
+                        <li><a href="#getting-started">Getting Started</a></li>
+                        <li><a href="#discover">Discovering Content</a></li>
+                        <li><a href="#payments">Payment Options</a></li>
+                        <li><a href="#rewards">Viewer Rewards</a></li>
+                        <li><a href="#wallet">Wallet Setup</a></li>
+                        <li><a href="#features">Platform Features</a></li>
+                    </ul>
+                    
+                    <h3 class="mt-4">Related Guides</h3>
+                    <ul>
+                        <li><a href="/docs/viewer-rewards.html">Viewer Rewards Program</a></li>
+                        <li><a href="/docs/guides.creators.html">Creator Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <section id="getting-started" class="guide-section">
+                    <h2>Getting Started</h2>
+                    <p>
+                        Welcome to the Web3 Crypto Streaming Service! This guide will help you navigate our platform as a viewer,
+                        from setting up your account to discovering content and earning rewards.
+                    </p>
+
+                    <h3>What You'll Need</h3>
+                    <ul>
+                        <li>A crypto wallet (MetaMask, Trust Wallet, or other Ethereum-compatible wallet)</li>
+                        <li>A small amount of cryptocurrency for transactions (ETH or our supported tokens)</li>
+                        <li>A device with a modern web browser</li>
+                    </ul>
+
+                    <div class="alert alert-info">
+                        <strong>New to Web3?</strong> Don't worry! Our platform offers a simplified "Viewer Mode" that allows you to browse and watch content without a crypto wallet. Some features will be limited, but you can upgrade anytime.
+                    </div>
+
+                    <h3>Creating Your Account</h3>
+                    <ol class="guide-steps">
+                        <li>
+                            <strong>Visit the platform website</strong>
+                            <p>Navigate to <a href="https://web3streaming.io">web3streaming.io</a> in your web browser.</p>
+                        </li>
+                        <li>
+                            <strong>Click "Sign Up"</strong>
+                            <p>Find the Sign Up button in the top-right corner of the homepage.</p>
+                        </li>
+                        <li>
+                            <strong>Choose your account type</strong>
+                            <p>Select "Connect Wallet" for the full Web3 experience, or "Email Signup" for Viewer Mode.</p>
+                        </li>
+                        <li>
+                            <strong>Complete your profile</strong>
+                            <p>Add a username, profile picture, and customize your viewing preferences.</p>
+                        </li>
+                    </ol>
+                </section>
+
+                <section id="discover" class="guide-section">
+                    <h2>Discovering Content</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fas fa-compass"></i></div>
+                                <h3>Explore Page</h3>
+                                <p>Discover trending content, new creators, and personalized recommendations based on your interests.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fas fa-search"></i></div>
+                                <h3>Search Function</h3>
+                                <p>Find specific content using our advanced search that filters by creator, category, or tags.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fas fa-users"></i></div>
+                                <h3>Communities</h3>
+                                <p>Join themed communities centered around specific topics or creator groups.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-4">Content Categories</h3>
+                    <p>
+                        Our platform organizes content into various categories to help you find what interests you:
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li><strong>Educational</strong> - Tutorials, courses, and informative content</li>
+                                <li><strong>Entertainment</strong> - Shows, performances, and creative works</li>
+                                <li><strong>Gaming</strong> - Gameplay, reviews, and esports</li>
+                                <li><strong>Music</strong> - Songs, concerts, and audio content</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li><strong>Podcasts</strong> - Audio discussions and interviews</li>
+                                <li><strong>Art & Design</strong> - Visual works and creative process</li>
+                                <li><strong>Technology</strong> - Tech reviews, coding, and digital innovation</li>
+                                <li><strong>Web3 Native</strong> - Blockchain and crypto-specific content</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Additional sections would be added here -->
+                <section id="payments" class="guide-section">
+                    <h2>Payment Options</h2>
+                    <!-- Payment content -->
+                    <p>Payment options will be filled in subsequent updates.</p>
+                </section>
+
+                <section id="rewards" class="guide-section">
+                    <h2>Viewer Rewards</h2>
+                    <!-- Rewards content -->
+                    <p>Viewer rewards will be filled in subsequent updates.</p>
+                </section>
+
+                <section id="wallet" class="guide-section">
+                    <h2>Wallet Setup</h2>
+                    <!-- Wallet setup content -->
+                    <p>Wallet setup instructions will be filled in subsequent updates.</p>
+                </section>
+
+                <section id="features" class="guide-section">
+                    <h2>Platform Features</h2>
+                    <!-- Features content -->
+                    <p>Platform features will be filled in subsequent updates.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Check for saved theme preference or use system preference
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Handle theme toggle click
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+        });
+    </script>
+</body>
+</html>

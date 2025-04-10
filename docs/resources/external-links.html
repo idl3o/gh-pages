@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>External Resources | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Collection of external references including whitepapers and resources for the Web3 Crypto Streaming Service">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        .resource-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        body.dark-mode .resource-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .resource-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            background-color: var(--light-bg);
+            color: var(--text-light);
+        }
+
+        body.dark-mode .resource-category {
+            background-color: var(--dark-section-bg);
+            color: var(--dark-text-light);
+        }
+
+        .resource-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        body.dark-mode .resource-icon {
+            color: var(--dark-primary);
+        }
+
+        .resource-section {
+            margin-bottom: 3rem;
+        }
+
+        .resource-filters {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .resource-filter {
+            padding: 0.5rem 1rem;
+            background-color: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .resource-filter:hover {
+            background-color: var(--border);
+        }
+
+        .resource-filter.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        body.dark-mode .resource-filter {
+            background-color: var(--dark-section-bg);
+            border-color: var(--dark-border);
+        }
+
+        body.dark-mode .resource-filter:hover {
+            background-color: var(--dark-border);
+        }
+
+        body.dark-mode .resource-filter.active {
+            background-color: var(--dark-primary);
+            border-color: var(--dark-primary);
+        }
+
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .external-link i {
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>External Resources</h1>
+            <p>Collection of external references and resources</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item active" aria-current="page">External Resources</li>
+            </ol>
+        </nav>
+
+        <div class="alert alert-info mb-4">
+            <div class="d-flex">
+                <div class="me-3">
+                    <i class="fas fa-info-circle fa-2x"></i>
+                </div>
+                <div>
+                    <h4>External Links</h4>
+                    <p class="mb-0">These resources are provided for reference and educational purposes. They link to external websites that are not controlled by Web3 Crypto Streaming Service.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-filters">
+            <span class="resource-filter active" data-filter="all">All</span>
+            <span class="resource-filter" data-filter="blockchain">Blockchain</span>
+            <span class="resource-filter" data-filter="streaming">Streaming Tech</span>
+            <span class="resource-filter" data-filter="audio">Audio Processing</span>
+            <span class="resource-filter" data-filter="cryptoeconomics">Cryptoeconomics</span>
+            <span class="resource-filter" data-filter="whitepaper">Whitepapers</span>
+        </div>
+
+        <div class="resource-section" data-category="blockchain">
+            <h2>Blockchain Resources</h2>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fab fa-ethereum"></i>
+                        </div>
+                        <span class="resource-category">Blockchain</span>
+                        <h3>Ethereum Developer Documentation</h3>
+                        <p>
+                            Comprehensive documentation for Ethereum blockchain development, smart contracts, and dApp creation.
+                        </p>
+                        <a href="https://ethereum.org/developers/" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <span class="resource-category">Blockchain</span>
+                        <h3>Solidity Documentation</h3>
+                        <p>
+                            Official documentation for Solidity, the smart contract programming language used in our platform.
+                        </p>
+                        <a href="https://docs.soliditylang.org/" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <span class="resource-category">Blockchain</span>
+                        <h3>IPFS Documentation</h3>
+                        <p>
+                            Documentation for the InterPlanetary File System used for decentralized content storage.
+                        </p>
+                        <a href="https://docs.ipfs.tech/" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <span class="resource-category">Blockchain</span>
+                        <h3>OpenZeppelin Documentation</h3>
+                        <p>
+                            Library for secure smart contract development used in our platform contracts.
+                        </p>
+                        <a href="https://docs.openzeppelin.com/" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-section" data-category="streaming">
+            <h2>Streaming Technology Resources</h2>
+            
+            <div class="row">
+                <!-- Streaming technology resources -->
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <span class="resource-category">Streaming Tech</span>
+                        <h3>HLS Specification</h3>
+                        <p>
+                            HTTP Live Streaming protocol specification for video streaming.
+                        </p>
+                        <a href="https://developer.apple.com/streaming/" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Additional streaming resources -->
+            </div>
+        </div>
+
+        <div class="resource-section" data-category="audio">
+            <h2>Audio Processing Resources</h2>
+            
+            <div class="row">
+                <!-- Audio processing resources -->
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <span class="resource-category">Audio Processing</span>
+                        <h3>Web Audio API Documentation</h3>
+                        <p>
+                            Documentation for the Web Audio API used in our browser-based audio processing.
+                        </p>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Additional audio resources -->
+            </div>
+        </div>
+
+        <div class="resource-section" data-category="cryptoeconomics">
+            <h2>Cryptoeconomics Resources</h2>
+            
+            <div class="row">
+                <!-- Cryptoeconomics resources -->
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span class="resource-category">Cryptoeconomics</span>
+                        <h3>Cryptoeconomics Research</h3>
+                        <p>
+                            Academic research on token economics and incentive design for blockchain systems.
+                        </p>
+                        <a href="https://github.com/jpantunes/awesome-cryptoeconomics" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Additional cryptoeconomics resources -->
+            </div>
+        </div>
+
+        <div class="resource-section" data-category="whitepaper">
+            <h2>Related Whitepapers</h2>
+            
+            <div class="row">
+                <!-- Whitepaper resources -->
+                <div class="col-lg-6">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <span class="resource-category">Whitepaper</span>
+                        <h3>Filecoin: A Decentralized Storage Network</h3>
+                        <p>
+                            Whitepaper for Filecoin, one of the decentralized storage solutions used by our platform.
+                        </p>
+                        <a href="https://filecoin.io/filecoin.pdf" class="external-link" target="_blank" rel="noopener noreferrer">
+                            Visit Resource <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Additional whitepapers -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <!-- Footer content -->
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+
+            // Resource filtering
+            const filters = document.querySelectorAll('.resource-filter');
+            const sections = document.querySelectorAll('.resource-section');
+
+            filters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    const category = this.dataset.filter;
+                    
+                    // Update active filter
+                    filters.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (category === 'all') {
+                        // Show all sections
+                        sections.forEach(section => {
+                            section.style.display = 'block';
+                        });
+                    } else {
+                        // Show only matching sections
+                        sections.forEach(section => {
+                            if (section.dataset.category === category) {
+                                section.style.display = 'block';
+                            } else {
+                                section.style.display = 'none';
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

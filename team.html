@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Meet the Team | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="The talented team behind Web3 Crypto Streaming Service">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --dark-primary: #818cf8;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .team-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .team-member {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .team-member {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .member-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-title {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .member-title {
+            color: var(--dark-text-light);
+        }
+
+        .member-bio {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            color: var(--text);
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        body.dark-mode .social-link {
+            background-color: var(--dark-section-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .social-link:hover {
+            background-color: var(--dark-primary);
+            color: white;
+        }
+
+        .department-heading {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            position: relative;
+        }
+
+        .department-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        body.dark-mode .department-heading::after {
+            background-color: var(--dark-primary);
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .team-values {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 3rem;
+            margin-top: 4rem;
+            border: 1px solid var(--border);
+        }
+
+        body.dark-mode .team-values {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .value-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .value-icon {
+            color: var(--dark-primary);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid var(--border);
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--dark-card-bg);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="team-header">
+        <div class="container text-center">
+            <h1>Meet Our Team</h1>
+            <p class="lead">The passionate individuals building the future of decentralized content streaming</p>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="section-intro">
+            <p>Our team combines expertise in blockchain development, streaming technology, and product design to create a revolutionary platform that empowers creators and viewers alike. We're united by our passion for decentralization and our vision of a more equitable digital content ecosystem.</p>
+        </div>
+
+        <h2 class="department-heading">Leadership</h2>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="team-member">
+                    <img src="/assets/images/team/alex-chen.jpg" alt="Alex Chen" class="member-image">
+                    <div class="member-info">
+                        <h3 class="member-name">Alex Chen</h3>
+                        <div class="member-title">Founder & CEO</div>
+                        <p class="member-bio">Former lead blockchain architect at StreamX with 12+ years in distributed systems. Alex founded Web3 Crypto Streaming Service to create a truly decentralized alternative to traditional streaming platforms.</p>
+                        <div class="social-links">
+                            <a href="https://twitter.com/alexchenw3" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://github.com/alexchendev" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/alexchenw3" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="team-member">
+                    <img src="/assets/images/team/sarah-patel.jpg" alt="Sarah Patel" class="member-image">
+                    <div class="member-info">
+                        <h3 class="member-name">Sarah Patel</h3>
+                        <div class="member-title">CTO</div>
+                        <p class="member-bio">Blockchain researcher and engineer with experience at Ethereum Foundation and Filecoin. Sarah leads our technical strategy and oversees all engineering teams.</p>
+                        <div class="social-links">
+                            <a href="https://twitter.com/sarahpateltech" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://github.com/sarahpatel" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="team-member">
+                    <img src="/assets/images/team/david-rodriguez.jpg" alt="David Rodriguez" class="member-image">
+                    <div class="member-info">
+                        <h3 class="member-name">David Rodriguez</h3>
+                        <div class="member-title">COO</div>
+                        <p class="member-bio">Former operations director at Netflix and early crypto adopter. David manages day-to-day operations and drives strategic growth initiatives for the platform.</p>
+                        <div class="social-links">
+                            <a href="https://twitter.com/davidrweb3" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/davidrweb3" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="department-heading">Engineering</h2>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member">
+                    <img src="/assets/images/team/marcus-kim.jpg" alt="Marcus Kim" class="member-image">
+                    <div class="member-info">
+                        <h3 class="member-name">Marcus Kim</h3>
+                        <div class="member-title">Lead Smart Contract Engineer</div>
+                        <p class="member-bio">Solidity expert and security researcher focused on building our blockchain infrastructure and smart contract architecture.</p>
+                        <div class="social-links">
+                            <a href="https://github.com/marcusk" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member">
+                    <img src="/assets/images/team/lucia-morales.jpg" alt="Lucia Morales" class="member-image">
+                    <div class="member-info">
+                        <h3 class="member-name">Lucia Morales</h3>
+                        <div class="member-title">Frontend Lead</div>
+                        <p class="member-bio">React expert with experience at major tech companies, leading our frontend team to create intuitive and responsive user experiences.</p>
+                        <div class="social-links">
+                            <a href="https://github.com/luciamorales" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member">
+                    <img src="/assets/images/team/raj-patel.jpg" alt="Raj Patel" class="member-image">
+                    <div class="member-info">
+                        <h3 class="member-name">Raj Patel</h3>
+                        <div class="member-title">Backend Engineer</div>
+                        <p class="member-bio">Distributed systems expert focusing on our API architecture and backend infrastructure for reliable content delivery.</p>
+                        <div class="social-links">
+                            <a href="https://github.com/rajpatelsystems" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member">
+                    <img src="/assets/images/team/tanya-lee.jpg" alt="Tanya Lee" class="member-image">
+                    <div class="member-info">
+                        <h3 class="member-name">Tanya Lee</h3>
+                        <div class="member-title">Streaming Technology Engineer</div>
+                        <p class="member-bio">Video streaming specialist with expertise in adaptive bitrate streaming and decentralized content delivery networks.</p>
+                        <div class="social-links">
+                            <a href="https://github.com/tanyalee" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="department-heading">Product & Design</h2>
+        <div class="row g-4">
+            <!-- Product & Design team members would be listed here -->
+        </div>
+
+        <h2 class="department-heading">Business Development</h2>
+        <div class="row g-4">
+            <!-- Business Development team members would be listed here -->
+        </div>
+
+        <div class="team-values">
+            <h2 class="text-center mb-5">Our Values</h2>
+            <div class="row g-4">
+                <div class="col-md-4 text-center">
+                    <div class="value-icon">
+                        <i class="fas fa-lock-open"></i>
+                    </div>
+                    <h3>Openness</h3>
+                    <p>We believe in transparency in all we do - from our open-source approach to our community governance model. We build in the open because we believe the best ideas emerge through collaboration.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="value-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Fairness</h3>
+                    <p>Our platform is designed to ensure creators are compensated fairly, viewers have affordable access to content, and all participants have a voice in governance decisions.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="value-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Innovation</h3>
+                    <p>We're constantly pushing the boundaries of what's possible with decentralized technology, seeking better ways to connect creators and audiences without central intermediaries.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5 pt-3">
+            <h2>Join Our Team</h2>
+            <p class="mb-4">We're always looking for talented individuals who share our vision for a decentralized future.</p>
+            <a href="https://jobs.web3streaming.io" class="btn btn-primary btn-lg">View Open Positions</a>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Check for saved theme preference or use system preference
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Handle theme toggle click
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+        });
+    </script>
+</body>
+</html>

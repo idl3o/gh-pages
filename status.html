@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>System Status | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Current status of Web3 Crypto Streaming Service systems and components">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark-primary: #818cf8;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .status-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .status-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        body.dark-mode .status-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-operational {
+            background-color: var(--success);
+        }
+
+        .status-degraded {
+            background-color: var(--warning);
+        }
+
+        .status-outage {
+            background-color: var(--danger);
+        }
+
+        .status-maintenance {
+            background-color: #3b82f6;
+        }
+
+        .status-table {
+            width: 100%;
+        }
+
+        .status-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .status-table tr {
+            border-color: var(--dark-border);
+        }
+
+        .status-table td {
+            padding: 1rem 0.5rem;
+        }
+
+        .status-message {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .status-message.operational {
+            color: var(--success);
+        }
+
+        .status-message.degraded {
+            color: var(--warning);
+        }
+
+        .status-message.outage {
+            color: var(--danger);
+        }
+
+        .status-message.maintenance {
+            color: #3b82f6;
+        }
+
+        body.dark-mode .status-message.operational {
+            color: #34d399;
+        }
+
+        body.dark-mode .status-message.degraded {
+            color: #fbbf24;
+        }
+
+        body.dark-mode .status-message.outage {
+            color: #f87171;
+        }
+
+        body.dark-mode .status-message.maintenance {
+            color: #60a5fa;
+        }
+
+        .incident-history {
+            margin-top: 3rem;
+        }
+
+        .incident {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .incident {
+            border-color: var(--dark-border);
+        }
+
+        .incident:last-child {
+            border-bottom: none;
+        }
+
+        .incident-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .incident-date {
+            color: var(--dark-text-light);
+        }
+
+        .uptime-percentage {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0;
+        }
+
+        body.dark-mode .uptime-percentage {
+            color: #34d399;
+        }
+
+        .uptime-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .uptime-label {
+            color: var(--dark-text-light);
+        }
+
+        .refresh-button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .refresh-button i {
+            margin-right: 0.25rem;
+        }
+
+        body.dark-mode .refresh-button {
+            color: var(--dark-primary);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid var(--border);
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--dark-card-bg);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="status-header">
+        <div class="container text-center">
+            <h1>System Status</h1>
+            <p class="lead">Current status of Web3 Crypto Streaming Service systems</p>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="status-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="m-0">Current Status</h2>
+                        <button class="refresh-button" id="refresh-status">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                    
+                    <div class="status-message operational mb-4">
+                        <i class="fas fa-check-circle"></i> All Systems Operational
+                    </div>
+                    
+                    <p class="text-muted mb-4">Last updated: <span id="last-updated">June 15, 2024 10:30 UTC</span></p>
+                    
+                    <table class="status-table">
+                        <tbody>
+                            <tr>
+                                <td width="70%">
+                                    <strong>API Services</strong>
+                                    <div class="text-muted small">REST and GraphQL APIs</div>
+                                </td>
+                                <td width="30%" class="text-end">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Operational</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Smart Contracts</strong>
+                                    <div class="text-muted small">Ethereum, Polygon, Arbitrum</div>
+                                </td>
+                                <td class="text-end">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Operational</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Content Delivery Network</strong>
+                                    <div class="text-muted small">Video and audio streaming</div>
+                                </td>
+                                <td class="text-end">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Operational</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>IPFS Storage</strong>
+                                    <div class="text-muted small">Decentralized content storage</div>
+                                </td>
+                                <td class="text-end">
+                                    <span class="status-indicator status-degraded"></span>
+                                    <span>Degraded Performance</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Authentication Services</strong>
+                                    <div class="text-muted small">Wallet and traditional login</div>
+                                </td>
+                                <td class="text-end">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Operational</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Creator Dashboard</strong>
+                                    <div class="text-muted small">Content management and analytics</div>
+                                </td>
+                                <td class="text-end">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Operational</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="incident-history">
+                    <h3>Recent Incidents</h3>
+                    
+                    <div class="incident">
+                        <div class="incident-date">June 14, 2024</div>
+                        <h4>IPFS Gateway Performance Degradation</h4>
+                        <p>We're experiencing slower than usual performance with our IPFS gateway. This may result in increased loading times for some content. Our team is working to optimize the gateway configuration.</p>
+                        <div class="text-muted">
+                            <strong>Status:</strong> Investigating
+                        </div>
+                    </div>
+                    
+                    <div class="incident">
+                        <div class="incident-date">June 10, 2024</div>
+                        <h4>API Rate Limiting Issue</h4>
+                        <p>Some users experienced incorrect rate limiting on API endpoints between 08:15-09:30 UTC. This resulted in legitimate requests being rejected. The issue has been identified and fixed.</p>
+                        <div class="text-muted">
+                            <strong>Status:</strong> Resolved
+                        </div>
+                    </div>
+                    
+                    <div class="incident">
+                        <div class="incident-date">June 5, 2024</div>
+                        <h4>Scheduled Maintenance: Contract Upgrades</h4>
+                        <p>We performed scheduled upgrades to the StreamAccessContract on Ethereum and Polygon networks. The maintenance was completed successfully with no service interruption.</p>
+                        <div class="text-muted">
+                            <strong>Status:</strong> Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="status-card text-center py-4">
+                    <h3>30-Day Uptime</h3>
+                    <p class="uptime-percentage">99.98%</p>
+                    <p class="uptime-label">Since May 16, 2024</p>
+                </div>
+                
+                <div class="status-card">
+                    <h3>Scheduled Maintenance</h3>
+                    <div class="alert alert-info">
+                        <strong>June 18, 2024 - 02:00 UTC</strong>
+                        <p class="mb-0">Database optimization and index rebuilding (Expected duration: 2 hours)</p>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <h3>System Metrics</h3>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <td>API Response Time (avg)</td>
+                                <td class="text-end">187ms</td>
+                            </tr>
+                            <tr>
+                                <td>Content Delivery Time (avg)</td>
+                                <td class="text-end">1.2s</td>
+                            </tr>
+                            <tr>
+                                <td>Smart Contract Gas Usage (avg)</td>
+                                <td class="text-end">105,000 gwei</td>
+                            </tr>
+                            <tr>
+                                <td>Requests per Minute</td>
+                                <td class="text-end">18.3K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="status-card">
+                    <h3>Status Notifications</h3>
+                    <p>Subscribe to receive status updates via email or SMS</p>
+                    <form id="status-subscription">
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email address" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Check for saved theme preference or use system preference
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Handle theme toggle click
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+
+            // Handle refresh button
+            document.getElementById('refresh-status').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+                
+                // Simulate refresh
+                setTimeout(() => {
+                    const now = new Date();
+                    document.getElementById('last-updated').textContent = 
+                        now.toLocaleDateString('en-US', { 
+                            month: 'long', 
+                            day: 'numeric', 
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }) + ' UTC';
+                        
+                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                }, 1000);
+            });
+
+            // Handle subscription form
+            document.getElementById('status-subscription').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                
+                // Simulate subscription
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+                submitButton.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<div class="alert alert-success mb-0">Subscription successful! You will now receive status updates.</div>';
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

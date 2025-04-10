@@ -52,309 +52,199 @@ const MODULE_MAPPINGS = {
 };
 
 /**
- * Find the project root directory
- * @returns {Promise<string>} Path to project root
+ * Module Checker
+ * 
+ * This script checks for dependencies and modules required by the Web3 Crypto Streaming Service.
+ * It validates both frontend and blockchain-related dependencies.
  */
-async function findProjectRoot() {
-  try {
-    // Try to use git to find the root
-    const { stdout } = await execAsync('git rev-parse --show-toplevel');
-    return stdout.trim();
-  } catch (error) {
-    // If git not available, use current directory
-    return process.cwd();
-  }
-}
+
+const MODULE_REQUIREMENTS = {
+    core: [
+        { name: "web3", minVersion: "1.7.0", description: "JavaScript library to interact with Ethereum" },
+        { name: "ethers", minVersion: "5.6.0", description: "Complete Ethereum library and wallet implementation" },
+        { name: "ipfs-http-client", minVersion: "56.0.0", description: "IPFS API client library for JavaScript" }
+    ],
+    contracts: [
+        { name: "@openzeppelin/contracts", minVersion: "4.5.0", description: "Library for secure smart contract development" },
+        { name: "hardhat", minVersion: "2.9.0", description: "Ethereum development environment" },
+        { name: "@nomiclabs/hardhat-ethers", minVersion: "2.0.0", description: "Hardhat plugin for ethers.js" }
+    ],
+    frontend: [
+        { name: "react", minVersion: "17.0.0", description: "JavaScript library for building user interfaces" },
+        { name: "bootstrap", minVersion: "5.1.0", description: "Frontend component library" },
+        { name: "chart.js", minVersion: "3.7.0", description: "JavaScript charting library" }
+    ],
+    testing: [
+        { name: "chai", minVersion: "4.3.0", description: "Assertion library" },
+        { name: "mocha", minVersion: "9.1.0", description: "JavaScript test framework" }
+    ]
+};
 
 /**
- * Get all JavaScript files to scan
- * @param {string} rootDir Project root directory
- * @returns {Promise<Array<string>>} List of file paths
+ * Checks if a package is installed and meets the minimum version requirement
+ * @param {string} packageName - Name of the package to check
+ * @param {string} minVersion - Minimum required version
+ * @returns {Object} - Result with status and message
  */
-async function getFilesToScan(rootDir) {
-  const filesToScan = [];
-
-  for (const scanDir of SCAN_DIRS) {
-    const dir = path.join(rootDir, scanDir);
-
+function checkPackageVersion(packageName, minVersion) {
     try {
-      await scanDirectory(dir, filesToScan);
+        // In a browser environment, we'd use a different approach
+        if (typeof window !== 'undefined') {
+            console.warn(`Cannot check ${packageName} version in browser environment`);
+            return { status: 'unknown', message: 'Cannot check in browser environment' };
+        }
+        
+        // Node.js environment
+        const packageJson = require(`${packageName}/package.json`);
+        const installedVersion = packageJson.version;
+        
+        if (compareVersions(installedVersion, minVersion) >= 0) {
+            return { 
+                status: 'success', 
+                message: `${packageName}@${installedVersion} (✓ meets ${minVersion} requirement)` 
+            };
+        } else {
+            return { 
+                status: 'warning', 
+                message: `${packageName}@${installedVersion} (✗ below ${minVersion} requirement)` 
+            };
+        }
     } catch (error) {
-      console.warn(`${colors.yellow}Warning: Could not scan directory ${dir}: ${error.message}${colors.reset}`);
+        return { 
+            status: 'error', 
+            message: `${packageName} not found. Run: npm install ${packageName}@${minVersion} or higher` 
+        };
     }
-  }
-
-  return filesToScan;
 }
 
 /**
- * Recursively scan a directory for JavaScript files
- * @param {string} dir Directory to scan
- * @param {Array<string>} files Array to collect file paths
+ * Compares two version strings
+ * @param {string} v1 - First version string
+ * @param {string} v2 - Second version string
+ * @returns {number} - 1 if v1 > v2, -1 if v1 < v2, 0 if equal
  */
-async function scanDirectory(dir, files) {
-  try {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-
-      if (entry.isDirectory()) {
-        // Skip ignored directories
-        if (IGNORED_DIRS.includes(entry.name)) continue;
-
-        // Recursively scan subdirectory
-        await scanDirectory(fullPath, files);
-      } else if (FILE_EXTENSIONS.includes(path.extname(entry.name).toLowerCase())) {
-        files.push(fullPath);
-      }
+function compareVersions(v1, v2) {
+    const parts1 = v1.split('.').map(Number);
+    const parts2 = v2.split('.').map(Number);
+    
+    for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
+        const part1 = parts1[i] || 0;
+        const part2 = parts2[i] || 0;
+        
+        if (part1 > part2) return 1;
+        if (part1 < part2) return -1;
     }
-  } catch (error) {
-    // Ignore errors for non-existent paths
-    if (error.code !== 'ENOENT') {
-      throw error;
-    }
-  }
+    
+    return 0;
 }
 
 /**
- * Extract required modules from file content
- * @param {string} content File content
- * @returns {Array<string>} Required module paths
+ * Runs module checks and returns results
+ * @param {Array} categories - Categories to check (default: all)
+ * @returns {Object} - Results organized by category
  */
-function extractRequiredModules(content) {
-  const requireRegex = /require\(['"](.*?)['"]\)/g;
-  const importRegex = /import\s+(?:(?:\{[^}]*\}|\*\s+as\s+\w+|\w+)\s+from\s+)?['"](.*?)['"]/g;
-
-  const modules = new Set();
-  let match;
-
-  // Extract require statements
-  while ((match = requireRegex.exec(content)) !== null) {
-    modules.add(match[1]);
-  }
-
-  // Extract import statements
-  while ((match = importRegex.exec(content)) !== null) {
-    modules.add(match[1]);
-  }
-
-  return Array.from(modules);
-}
-
-/**
- * Resolve module path to actual file path
- * @param {string} modulePath Module path from require/import
- * @param {string} filePath Path of the file that requires the module
- * @param {string} rootDir Project root directory
- * @returns {string} Resolved file path
- */
-function resolveModulePath(modulePath, filePath, rootDir) {
-  // Handle built-in Node.js modules
-  if (isBuiltinModule(modulePath)) {
-    return { path: modulePath, type: 'builtin' };
-  }
-
-  // Handle npm packages
-  if (!modulePath.startsWith('.') && !modulePath.startsWith('/')) {
-    return { path: modulePath, type: 'npm' };
-  }
-
-  // Apply any custom module mappings
-  for (const [alias, target] of Object.entries(MODULE_MAPPINGS)) {
-    if (modulePath.startsWith(alias)) {
-      modulePath = modulePath.replace(alias, target);
-      break;
-    }
-  }
-
-  // Handle relative paths
-  const fileDir = path.dirname(filePath);
-  let resolvedPath = path.resolve(fileDir, modulePath);
-
-  // Try to resolve without extension first
-  if (!FILE_EXTENSIONS.some(ext => resolvedPath.endsWith(ext))) {
-    // Try to find with each valid extension
-    for (const ext of FILE_EXTENSIONS) {
-      const pathWithExt = `${resolvedPath}${ext}`;
-      if (fs.existsSync(pathWithExt)) {
-        resolvedPath = pathWithExt;
-        break;
-      }
-    }
-
-    // Check for index files
-    if (!fs.existsSync(resolvedPath)) {
-      for (const ext of FILE_EXTENSIONS) {
-        const indexPath = path.join(resolvedPath, `index${ext}`);
-        if (fs.existsSync(indexPath)) {
-          resolvedPath = indexPath;
-          break;
-        }
-      }
-    }
-  }
-
-  return { path: resolvedPath, type: 'local' };
-}
-
-/**
- * Check if module is a built-in Node.js module
- * @param {string} moduleName Module name
- * @returns {boolean} True if built-in module
- */
-function isBuiltinModule(moduleName) {
-  const builtins = [
-    'assert', 'buffer', 'child_process', 'cluster', 'console', 'constants',
-    'crypto', 'dgram', 'dns', 'domain', 'events', 'fs', 'http', 'https',
-    'http2', 'inspector', 'module', 'net', 'os', 'path', 'perf_hooks',
-    'process', 'punycode', 'querystring', 'readline', 'repl', 'stream',
-    'string_decoder', 'timers', 'tls', 'trace_events', 'tty', 'url', 'util',
-    'v8', 'vm', 'wasi', 'worker_threads', 'zlib'
-  ];
-
-  return builtins.includes(moduleName);
-}
-
-/**
- * Check if module exists
- * @param {Object} moduleInfo Module info with path and type
- * @returns {Promise<boolean>} True if module exists
- */
-async function checkModuleExists(moduleInfo) {
-  if (moduleInfo.type === 'builtin') {
-    return true;
-  }
-
-  if (moduleInfo.type === 'npm') {
-    try {
-      // Try to find the package in node_modules
-      // This is simplified and might not catch all cases,
-      // but is good enough for basic verification
-      const packageJsonPath = path.join(process.cwd(), 'node_modules', moduleInfo.path, 'package.json');
-      await fs.access(packageJsonPath);
-      return true;
-    } catch (error) {
-      try {
-        // Try to find it as a scoped package
-        const parts = moduleInfo.path.split('/');
-        if (parts.length > 1 && parts[0].startsWith('@')) {
-          const scopedPath = path.join(process.cwd(), 'node_modules', parts[0], parts.slice(1).join('/'), 'package.json');
-          await fs.access(scopedPath);
-          return true;
-        }
-      } catch (error) {
-        // Try loading the module to see if it exists
-        try {
-          require.resolve(moduleInfo.path);
-          return true;
-        } catch (resolveError) {
-          return false;
-        }
-      }
-      return false;
-    }
-  }
-
-  // For local files, check if they exist
-  try {
-    await fs.access(moduleInfo.path);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-/**
- * Main function - scan project and validate module dependencies
- */
-async function main() {
-  console.log(`${colors.cyan}Module Dependency Checker${colors.reset}\n`);
-
-  try {
-    const rootDir = await findProjectRoot();
-    console.log(`${colors.blue}Project root:${colors.reset} ${rootDir}\n`);
-
-    const filesToScan = await getFilesToScan(rootDir);
-    console.log(`${colors.blue}Found ${filesToScan.length} files to scan${colors.reset}\n`);
-
-    const results = {
-      scanned: 0,
-      moduleReferences: 0,
-      missingModules: 0,
-      problematicFiles: []
-    };
-
-    for (const file of filesToScan) {
-      const relativeFilePath = path.relative(rootDir, file);
-
-      try {
-        const content = await fs.readFile(file, 'utf8');
-        const requiredModules = extractRequiredModules(content);
-
-        if (requiredModules.length > 0) {
-          results.scanned++;
-          results.moduleReferences += requiredModules.length;
-
-          // Check each module
-          const missingModules = [];
-
-          for (const modulePath of requiredModules) {
-            const resolvedModule = resolveModulePath(modulePath, file, rootDir);
-            const exists = await checkModuleExists(resolvedModule);
-
-            if (!exists) {
-              results.missingModules++;
-              missingModules.push({
-                module: modulePath,
-                resolved: resolvedModule.path,
-                type: resolvedModule.type
-              });
-            }
-          }
-
-          // If file has missing modules, add to problematic files
-          if (missingModules.length > 0) {
-            results.problematicFiles.push({
-              file: relativeFilePath,
-              missingModules
+function runModuleChecks(categories = Object.keys(MODULE_REQUIREMENTS)) {
+    const results = {};
+    
+    categories.forEach(category => {
+        if (MODULE_REQUIREMENTS[category]) {
+            results[category] = {};
+            
+            MODULE_REQUIREMENTS[category].forEach(module => {
+                results[category][module.name] = {
+                    ...checkPackageVersion(module.name, module.minVersion),
+                    description: module.description,
+                    required: module.minVersion
+                };
             });
-          }
         }
-      } catch (error) {
-        console.error(`${colors.red}Error processing file ${relativeFilePath}:${colors.reset}`, error);
-      }
-    }
-
-    // Print results
-    console.log(`${colors.blue}Scan results:${colors.reset}`);
-    console.log(`  Files with dependencies: ${results.scanned}`);
-    console.log(`  Total module references: ${results.moduleReferences}`);
-    console.log(`  Missing modules: ${colors.yellow}${results.missingModules}${colors.reset}`);
-
-    // Print problematic files
-    if (results.problematicFiles.length > 0) {
-      console.log(`\n${colors.red}Problematic files:${colors.reset}`);
-
-      for (const file of results.problematicFiles) {
-        console.log(`\n  ${colors.yellow}${file.file}${colors.reset}`);
-
-        for (const module of file.missingModules) {
-          console.log(`    - ${colors.red}${module.module}${colors.reset} (${module.type})`);
-          console.log(`      Resolved to: ${module.resolved}`);
-        }
-      }
-
-      console.log(`\nRun 'npm install' for missing npm packages or create the missing local modules.`);
-    } else {
-      console.log(`\n${colors.green}All modules are valid!${colors.reset}`);
-    }
-
-  } catch (error) {
-    console.error(`${colors.red}Error scanning modules:${colors.reset}`, error);
-    process.exit(1);
-  }
+    });
+    
+    return results;
 }
 
-// Run the main function
-main().catch(console.error);
+/**
+ * Generates a report based on check results
+ * @param {Object} results - Check results from runModuleChecks()
+ * @returns {string} - Formatted report
+ */
+function generateReport(results) {
+    let report = "## Module Check Report\n\n";
+    
+    Object.keys(results).forEach(category => {
+        report += `### ${category.charAt(0).toUpperCase() + category.slice(1)} Dependencies\n\n`;
+        report += "| Package | Status | Description | Required | Message |\n";
+        report += "|---------|--------|-------------|----------|--------|\n";
+        
+        Object.keys(results[category]).forEach(moduleName => {
+            const module = results[category][moduleName];
+            const statusIcon = module.status === 'success' ? '✅' : 
+                               module.status === 'warning' ? '⚠️' : '❌';
+            
+            report += `| ${moduleName} | ${statusIcon} | ${module.description} | ${module.required} | ${module.message} |\n`;
+        });
+        
+        report += "\n";
+    });
+    
+    return report;
+}
+
+// For Node.js environment
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        runModuleChecks,
+        generateReport,
+        MODULE_REQUIREMENTS
+    };
+}
+
+// For browser environment
+if (typeof window !== 'undefined') {
+    window.ModuleChecker = {
+        requirements: MODULE_REQUIREMENTS,
+        checkModules: function() {
+            console.log("Module checking in browser environment is limited. Using browser detection instead.");
+            
+            const browserReport = {
+                browser: {
+                    name: detectBrowser(),
+                    features: checkBrowserFeatures()
+                }
+            };
+            
+            console.table(browserReport);
+            return browserReport;
+        }
+    };
+    
+    // Simple browser detection
+    function detectBrowser() {
+        const userAgent = navigator.userAgent;
+        
+        if (userAgent.indexOf("Chrome") > -1) return "Chrome";
+        if (userAgent.indexOf("Safari") > -1) return "Safari";
+        if (userAgent.indexOf("Firefox") > -1) return "Firefox";
+        if (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1) return "Internet Explorer";
+        if (userAgent.indexOf("Edge") > -1) return "Edge";
+        
+        return "Unknown";
+    }
+    
+    // Check for essential browser features
+    function checkBrowserFeatures() {
+        return {
+            localStorage: !!window.localStorage,
+            sessionStorage: !!window.sessionStorage,
+            indexedDB: !!window.indexedDB,
+            webCrypto: !!window.crypto && !!window.crypto.subtle,
+            serviceWorker: 'serviceWorker' in navigator
+        };
+    }
+}
+
+// If run directly from Node.js command line
+if (typeof require !== 'undefined' && require.main === module) {
+    const results = runModuleChecks();
+    console.log(generateReport(results));
+}

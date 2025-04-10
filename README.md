@@ -152,3 +152,36 @@ Moving forward, we plan to:
 4. Improve test coverage across all components
 
 Thanks for the insightful code review - it's been valuable for identifying areas of improvement!
+
+# Web3 Crypto Streaming Service Documentation
+
+This repository contains the documentation website for the Web3 Crypto Streaming Service.
+
+## Getting Started
+
+To set up this project locally:
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/idl3o/gh-pages.git
+   cd gh-pages
+   ```
+
+2. Install dependencies (if using Jekyll):
+   ```
+   bundle install
+   ```
+
+3. Generate placeholder images:
+   ```
+   node scripts/generate-placeholders.js
+   ```
+
+4. Run the site locally (if using Jekyll):
+   ```
+   bundle exec jekyll serve
+   ```
+
+   Or simply open the HTML files in your browser.
+
+## Directory Structure

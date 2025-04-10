@@ -1,0 +1,253 @@
+/**
+ * Main stylesheet for Web3 Crypto Streaming Service
+ */
+
+:root {
+    /* Color palette */
+    --primary: #6366f1;
+    --secondary: #4f46e5;
+    --accent: #c084fc;
+    --light-bg: #f9fafb;
+    --dark-bg: #111827;
+    --text: #374151;
+    --text-light: #6b7280;
+    --success: #10b981;
+    --card-bg: #ffffff;
+    --border: #e5e7eb;
+
+    /* Dark mode variables */
+    --dark-primary: #818cf8;
+    --dark-secondary: #6366f1;
+    --dark-text: #f3f4f6;
+    --dark-text-light: #d1d5db;
+    --dark-card-bg: #1f2937;
+    --dark-section-bg: #1a1e2c;
+    --dark-border: #374151;
+
+    /* Spacing variables */
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-xxl: 3rem;
+}
+
+/* Base styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+.container {
+    max-width: 1200px;
+    padding: 2rem 1rem;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    position: fixed;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+    z-index: 100;
+    border: 1px solid var(--border);
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.theme-toggle:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+body.dark-mode .theme-toggle {
+    background: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+/* Page headers */
+.page-header {
+    background-color: var(--primary);
+    color: white;
+    padding: var(--space-xl) 0;
+    margin-bottom: var(--space-xl);
+}
+
+.section-header {
+    margin-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--space-sm);
+}
+
+body.dark-mode .section-header {
+    border-color: var(--dark-border);
+}
+
+/* Card styling */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+}
+
+body.dark-mode .card {
+    background-color: var(--dark-card-bg);
+    border-color: var(--dark-border);
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+}
+
+body.dark-mode .card-header {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom-color: var(--dark-border);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Links */
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--secondary);
+}
+
+body.dark-mode a {
+    color: var(--dark-primary);
+}
+
+body.dark-mode a:hover {
+    color: var(--dark-secondary);
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-bg);
+    color: white;
+    padding: var(--space-xl) 0;
+    margin-top: var(--space-xxl);
+}
+
+footer a {
+    color: var(--dark-text-light);
+}
+
+footer a:hover {
+    color: white;
+}
+
+/* Navigation */
+.guide-nav {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+body.dark-mode .guide-nav {
+    background-color: var(--dark-card-bg);
+    border-color: var(--dark-border);
+}
+
+.guide-nav h3 {
+    margin-bottom: 1rem;
+}
+
+.guide-nav ul {
+    padding-left: 1.25rem;
+}
+
+.guide-nav li {
+    margin-bottom: 0.75rem;
+}
+
+/* Section styles */
+.guide-section {
+    margin-bottom: 3rem;
+}
+
+.guide-section h2 {
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+}
+
+body.dark-mode .guide-section h2 {
+    border-color: var(--dark-border);
+}
+
+/* Code blocks */
+code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--light-bg);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+body.dark-mode code {
+    background-color: var(--dark-section-bg);
+}
+
+.code-block {
+    background-color: #282c34;
+    border-radius: 8px;
+    overflow: auto;
+    margin: 1.5rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .doc-header {
+        padding: 2rem 0;
+    }
+    
+    .theme-toggle {
+        top: var(--space-md);
+        right: var(--space-md);
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    .guide-section h2 {
+        font-size: 1.5rem;
+    }
+}

@@ -1,600 +1,131 @@
-<div class="future-insights-component" id="future-insights">
-    <div class="insights-header">
-        <h3>Future Insights <span class="beta-badge">BETA</span></h3>
-        <p class="insights-description">Predictive analytics and trend forecasting powered by blockchain data</p>
-    </div>
-
-    <div class="insights-filters">
-        <select id="insight-type-filter" class="form-select">
-            <option value="">All Types</option>
-            <option value="content">Content</option>
-            <option value="token">Token</option>
-            <option value="creator">Creator</option>
-            <option value="industry">Industry</option>
-        </select>
-
-        <select id="insight-timeframe-filter" class="form-select">
-            <option value="">All Timeframes</option>
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-            <option value="quarter">This Quarter</option>
-            <option value="year">This Year</option>
-        </select>
-    </div>
-
-    <div class="insights-grid" id="insights-grid">
-        <div class="loading-placeholder">
-            <div class="insights-loading">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+<div class="future-insights">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-5">
+                <h2 class="insights-title">Future Platform Insights</h2>
+                <p class="insights-description">
+                    Our development roadmap outlines upcoming features and enhancements to the Web3 Crypto Streaming Service.
+                    These innovations are designed to improve user experience, expand functionality, and increase platform adoption.
+                </p>
+                <a href="/whitepaper/web3-streaming-service-whitepaper.html#roadmap" class="btn btn-outline-primary">
+                    <i class="fas fa-road me-2"></i>View Full Roadmap
+                </a>
+            </div>
+            <div class="col-md-7">
+                <div class="insights-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker current"></div>
+                        <div class="timeline-content">
+                            <h4>Q2 2024: Enhanced Creator Tools</h4>
+                            <p>Advanced analytics dashboard, batch uploading, and scheduling features</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Q3 2024: Cross-Chain Integration</h4>
+                            <p>Expand to additional L2 networks and implement cross-chain functionality</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Q4 2024: Decentralized Storage Enhancements</h4>
+                            <p>Implement incentivized storage network with reliability improvements</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Q1 2025: Full DAO Governance</h4>
+                            <p>Complete transition to community-governed protocol</p>
+                        </div>
+                    </div>
                 </div>
-                <p>Looking into the future...</p>
             </div>
         </div>
     </div>
-
-    <div class="personalized-insight" id="personalized-insight">
-        <div class="insight-header">
-            <h4>Your Personal Insight</h4>
-            <button class="refresh-insight-btn" id="refresh-insight-btn">
-                <i class="fas fa-sync-alt"></i>
-                <span>Refresh</span>
-            </button>
-        </div>
-        <div class="personalized-insight-content" id="personalized-insight-content">
-            <!-- Will be populated dynamically -->
-        </div>
-    </div>
-
-    <div class="insights-footer">
-        <p class="insights-disclaimer">Insights are generated based on blockchain data analysis and market trends. These predictions are not financial advice.</p>
-    </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', async function() {
-        const insightsGrid = document.getElementById('insights-grid');
-        const personalizedInsightContent = document.getElementById('personalized-insight-content');
-        const refreshInsightBtn = document.getElementById('refresh-insight-btn');
-        const typeFilter = document.getElementById('insight-type-filter');
-        const timeframeFilter = document.getElementById('insight-timeframe-filter');
-
-        // Function to load insights
-        async function loadInsights(filters = {}) {
-            try {
-                insightsGrid.innerHTML = `
-                    <div class="loading-placeholder">
-                        <div class="insights-loading">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p>Looking into the future...</p>
-                        </div>
-                    </div>
-                `;
-
-                // Try to fetch from API
-                let insights = [];
-
-                try {
-                    const queryParams = new URLSearchParams(filters).toString();
-                    const response = await fetch(`/api/insights/insights?${queryParams}`, {
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
-                        }
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.success) {
-                            insights = data.insights;
-                        } else {
-                            throw new Error(data.error || 'Failed to load insights');
-                        }
-                    } else {
-                        throw new Error('API request failed');
-                    }
-                } catch (apiError) {
-                    console.warn('API request failed, using mock data', apiError);
-
-                    // Mock insights for static GitHub Pages
-                    insights = [
-                        {
-                            id: 'mock1',
-                            type: 'industry',
-                            timeframe: 'quarter',
-                            title: 'Rise of Interactive Streaming',
-                            description: 'Interactive content will see 45% growth in the next quarter as viewers seek more engagement.',
-                            confidence: 78,
-                            relevanceScore: 92
-                        },
-                        {
-                            id: 'mock2',
-                            type: 'token',
-                            timeframe: 'month',
-                            title: 'STREAM Token Growth Projection',
-                            description: 'Our analysis predicts 30% increased adoption of STREAM token for content transactions next month.',
-                            confidence: 82,
-                            relevanceScore: 88
-                        },
-                        {
-                            id: 'mock3',
-                            type: 'content',
-                            timeframe: 'week',
-                            title: 'Educational Content Trend',
-                            description: 'Educational blockchain content will be the fastest growing category this week with 22% increase in views.',
-                            confidence: 75,
-                            relevanceScore: 85
-                        }
-                    ].filter(insight => {
-                        if (filters.type && insight.type !== filters.type) return false;
-                        if (filters.timeframe && insight.timeframe !== filters.timeframe) return false;
-                        return true;
-                    });
-                }
-
-                // Render insights
-                if (insights.length > 0) {
-                    insightsGrid.innerHTML = '';
-
-                    insights.forEach(insight => {
-                        const card = document.createElement('div');
-                        card.className = `insight-card ${insight.type}-insight`;
-
-                        card.innerHTML = `
-                            <div class="insight-card-header">
-                                <span class="insight-type">${insight.type}</span>
-                                <span class="insight-timeframe">${insight.timeframe}</span>
-                            </div>
-                            <h4 class="insight-title">${insight.title}</h4>
-                            <p class="insight-description">${insight.description}</p>
-                            <div class="insight-metrics">
-                                <div class="insight-metric">
-                                    <span class="metric-label">Confidence</span>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: ${insight.confidence}%"
-                                            aria-valuenow="${insight.confidence}" aria-valuemin="0" aria-valuemax="100">
-                                            ${insight.confidence}%
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="insight-metric">
-                                    <span class="metric-label">Relevance</span>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: ${insight.relevanceScore}%"
-                                            aria-valuenow="${insight.relevanceScore}" aria-valuemin="0" aria-valuemax="100">
-                                            ${insight.relevanceScore}%
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-
-                        insightsGrid.appendChild(card);
-                    });
-                } else {
-                    insightsGrid.innerHTML = `
-                        <div class="no-insights">
-                            <p>No insights found for the selected filters.</p>
-                        </div>
-                    `;
-                }
-
-            } catch (error) {
-                console.error('Error loading insights:', error);
-                insightsGrid.innerHTML = `
-                    <div class="insights-error">
-                        <p>Failed to load insights. Please try again later.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Function to load personalized insight
-        async function loadPersonalizedInsight() {
-            try {
-                personalizedInsightContent.innerHTML = `
-                    <div class="loading-placeholder">
-                        <div class="insights-loading">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p>Generating your personalized insight...</p>
-                        </div>
-                    </div>
-                `;
-
-                // Try to fetch from API
-                let insight = null;
-
-                try {
-                    const response = await fetch('/api/insights/personalized', {
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
-                        }
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.success) {
-                            insight = data.insight;
-                        } else {
-                            throw new Error(data.error || 'Failed to load personalized insight');
-                        }
-                    } else {
-                        throw new Error('API request failed');
-                    }
-                } catch (apiError) {
-                    console.warn('API request failed, using mock data', apiError);
-
-                    // Mock personalized insight for static GitHub Pages
-                    insight = {
-                        id: 'mock-personal',
-                        type: 'content',
-                        timeframe: 'month',
-                        title: 'Content Strategy for Your Growth',
-                        description: 'Based on your viewing patterns, we predict significant growth opportunity in interactive blockchain tutorials - this content category is projected to grow by 35% next month.',
-                        confidence: 72,
-                        relevanceScore: 94
-                    };
-                }
-
-                // Render personalized insight
-                if (insight) {
-                    personalizedInsightContent.innerHTML = `
-                        <div class="insight-card personal ${insight.type}-insight">
-                            <div class="insight-card-header">
-                                <span class="insight-type">${insight.type}</span>
-                                <span class="insight-timeframe">${insight.timeframe}</span>
-                            </div>
-                            <h4 class="insight-title">${insight.title}</h4>
-                            <p class="insight-description">${insight.description}</p>
-                            <div class="insight-metrics">
-                                <div class="insight-metric">
-                                    <span class="metric-label">Confidence</span>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: ${insight.confidence}%"
-                                            aria-valuenow="${insight.confidence}" aria-valuemin="0" aria-valuemax="100">
-                                            ${insight.confidence}%
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="insight-metric">
-                                    <span class="metric-label">Relevance</span>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: ${insight.relevanceScore}%"
-                                            aria-valuenow="${insight.relevanceScore}" aria-valuemin="0" aria-valuemax="100">
-                                            ${insight.relevanceScore}%
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    personalizedInsightContent.innerHTML = `
-                        <div class="no-insights">
-                            <p>Unable to generate personalized insight. Please try again later.</p>
-                        </div>
-                    `;
-                }
-
-            } catch (error) {
-                console.error('Error loading personalized insight:', error);
-                personalizedInsightContent.innerHTML = `
-                    <div class="insights-error">
-                        <p>Failed to load your personalized insight. Please try again later.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Initialize
-        loadInsights();
-        loadPersonalizedInsight();
-
-        // Event listeners
-        if (refreshInsightBtn) {
-            refreshInsightBtn.addEventListener('click', loadPersonalizedInsight);
-        }
-
-        if (typeFilter) {
-            typeFilter.addEventListener('change', () => {
-                const filters = {};
-                if (typeFilter.value) filters.type = typeFilter.value;
-                if (timeframeFilter.value) filters.timeframe = timeframeFilter.value;
-                loadInsights(filters);
-            });
-        }
-
-        if (timeframeFilter) {
-            timeframeFilter.addEventListener('change', () => {
-                const filters = {};
-                if (typeFilter.value) filters.type = typeFilter.value;
-                if (timeframeFilter.value) filters.timeframe = timeframeFilter.value;
-                loadInsights(filters);
-            });
-        }
-    });
-</script>
-
 <style>
-    .future-insights-component {
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        overflow: hidden;
+    .future-insights {
+        background-color: #f0f4f8;
     }
 
-    body.dark-mode .future-insights-component {
-        background-color: #1f2937;
+    body.dark-mode .future-insights {
+        background-color: #1a1e2c;
     }
 
-    .insights-header {
-        margin-bottom: 1.5rem;
-    }
-
-    .insights-header h3 {
-        margin-bottom: 0.5rem;
+    .insights-title {
         font-weight: 700;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .beta-badge {
-        font-size: 0.75rem;
-        font-weight: 700;
-        padding: 0.25rem 0.5rem;
-        border-radius: 20px;
-        background-color: #6366f1;
-        color: white;
-    }
-
-    .insights-description {
-        color: #6b7280;
-        margin-bottom: 1rem;
-    }
-
-    body.dark-mode .insights-description {
-        color: #9ca3af;
-    }
-
-    .insights-filters {
-        display: flex;
-        gap: 1rem;
         margin-bottom: 1.5rem;
-        flex-wrap: wrap;
+        color: var(--primary);
     }
 
-    .form-select {
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        border: 1px solid #e5e7eb;
-        background-color: white;
-        color: #374151;
-        font-size: 0.95rem;
-        min-width: 150px;
-        outline: none;
-        transition: all 0.2s ease;
+    body.dark-mode .insights-title {
+        color: var(--dark-primary);
     }
 
-    .form-select:focus {
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    .insights-timeline {
+        position: relative;
+        padding-left: 2rem;
     }
 
-    body.dark-mode .form-select {
-        background-color: #374151;
-        border-color: #4b5563;
-        color: #e5e7eb;
-    }
-
-    .insights-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .insight-card {
-        background-color: white;
-        border-radius: 8px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        border-left: 4px solid #6366f1;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .insight-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    }
-
-    body.dark-mode .insight-card {
-        background-color: #374151;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-
-    .insight-card.content-insight { border-left-color: #6366f1; }
-    .insight-card.token-insight { border-left-color: #10b981; }
-    .insight-card.creator-insight { border-left-color: #f59e0b; }
-    .insight-card.industry-insight { border-left-color: #ef4444; }
-
-    .insight-card.personal {
-        border-width: 0;
-        border-top: 4px solid #8b5cf6;
-        background-color: #f3f4f6;
-    }
-
-    body.dark-mode .insight-card.personal {
-        background-color: #2d3748;
-    }
-
-    .insight-card-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.75rem;
-    }
-
-    .insight-type, .insight-timeframe {
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #6b7280;
-    }
-
-    body.dark-mode .insight-type,
-    body.dark-mode .insight-timeframe {
-        color: #9ca3af;
-    }
-
-    .insight-title {
-        margin-bottom: 0.75rem;
-        font-size: 1.15rem;
-        font-weight: 600;
-    }
-
-    .insight-description {
-        margin-bottom: 1.25rem;
-        color: #6b7280;
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
-
-    body.dark-mode .insight-description {
-        color: #d1d5db;
-    }
-
-    .insight-metrics {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .insight-metric {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-
-    .metric-label {
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: #6b7280;
-    }
-
-    body.dark-mode .metric-label {
-        color: #9ca3af;
-    }
-
-    .progress {
-        height: 6px;
+    .insights-timeline::before {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
         background-color: #e5e7eb;
-        border-radius: 3px;
-        overflow: hidden;
     }
 
-    body.dark-mode .progress {
-        background-color: #4b5563;
+    body.dark-mode .insights-timeline::before {
+        background-color: #374151;
     }
 
-    .progress-bar {
-        background-color: #6366f1;
-        height: 100%;
-        font-size: 0;
-        transition: width 0.5s ease;
+    .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
     }
 
-    .progress-bar.bg-success {
-        background-color: #10b981;
+    .timeline-marker {
+        position: absolute;
+        left: -2rem;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: #e5e7eb;
+        border: 2px solid #fff;
+        top: 6px;
     }
 
-    .personalized-insight {
-        margin-bottom: 1.5rem;
+    body.dark-mode .timeline-marker {
+        background-color: #374151;
+        border-color: #111827;
     }
 
-    .insight-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
+    .timeline-marker.current {
+        background-color: var(--primary);
     }
 
-    .insight-header h4 {
-        margin: 0;
+    body.dark-mode .timeline-marker.current {
+        background-color: var(--dark-primary);
+    }
+
+    .timeline-content h4 {
         font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
     }
 
-    .refresh-insight-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: #6366f1;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
+    .timeline-content p {
+        color: var(--text-light);
+        margin-bottom: 0;
     }
 
-    .refresh-insight-btn:hover {
-        background-color: #4f46e5;
-    }
-
-    .insights-footer {
-        margin-top: 2rem;
-        text-align: center;
-    }
-
-    .insights-disclaimer {
-        font-size: 0.8rem;
-        color: #6b7280;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    body.dark-mode .insights-disclaimer {
-        color: #9ca3af;
-    }
-
-    .loading-placeholder,
-    .insights-error,
-    .no-insights {
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 2rem;
-    }
-
-    .insights-loading {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .spinner-border {
-        width: 3rem;
-        height: 3rem;
-        border-width: 0.25rem;
-    }
-
-    @media (max-width: 768px) {
-        .insights-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .insights-filters {
-            flex-direction: column;
-        }
-
-        .form-select {
-            width: 100%;
-        }
+    body.dark-mode .timeline-content p {
+        color: var(--dark-text-light);
     }
 </style>

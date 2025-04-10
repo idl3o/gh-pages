@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Documentation | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Complete documentation for the Web3 Crypto Streaming Service">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        .docs-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .docs-container {
+            padding: 2rem 1rem;
+        }
+
+        .docs-section {
+            margin-bottom: 3rem;
+        }
+
+        .docs-category {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-mode .docs-category {
+            border-color: var(--dark-border);
+        }
+
+        .doc-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            height: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+        }
+
+        body.dark-mode .doc-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .doc-card-body {
+            padding: 1.5rem;
+        }
+
+        .doc-card-title {
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .doc-card-subtitle {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .doc-card-subtitle {
+            color: var(--dark-text-light);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .search-input {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            width: 100%;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-input:focus {
+            background-color: rgba(255, 255, 255, 0.25);
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="docs-header">
+        <div class="container text-center">
+            <h1>Documentation</h1>
+            <p class="lead">Complete reference for the Web3 Crypto Streaming Service</p>
+            
+            <div class="search-container mt-4">
+                <input type="text" class="search-input" placeholder="Search documentation..." aria-label="Search documentation">
+            </div>
+        </div>
+    </header>
+
+    <div class="docs-container container">
+        <div class="docs-section">
+            <h2 class="docs-category">Getting Started</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-rocket me-2 text-primary"></i>
+                                Platform Overview
+                            </h3>
+                            <p class="doc-card-subtitle">Introduction to the Web3 Crypto Streaming Service</p>
+                            <p>Learn about our decentralized streaming platform, its benefits, and key features.</p>
+                            <a href="root/introduction.html" class="btn btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-book me-2 text-primary"></i>
+                                Whitepaper
+                            </h3>
+                            <p class="doc-card-subtitle">Technical whitepaper detailing platform architecture</p>
+                            <p>Deep dive into our platform's technical foundation, token economics, and governance model.</p>
+                            <a href="../whitepaper/web3-streaming-service-whitepaper.html" class="btn btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-coins me-2 text-primary"></i>
+                                Tokenomics
+                            </h3>
+                            <p class="doc-card-subtitle">STREAM token economics and utility</p>
+                            <p>Understand the STREAM token's role, distribution, and utility within the ecosystem.</p>
+                            <a href="tokenomics.html" class="btn btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="docs-section">
+            <h2 class="docs-category">User Guides</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-video me-2 text-success"></i>
+                                Creator Guide
+                            </h3>
+                            <p class="doc-card-subtitle">Complete guide for content creators</p>
+                            <p>Learn how to upload content, monetize your work, and engage with your audience.</p>
+                            <a href="guides.creators.html" class="btn btn-outline-success">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-tv me-2 text-success"></i>
+                                Viewer Guide
+                            </h3>
+                            <p class="doc-card-subtitle">Complete guide for content viewers</p>
+                            <p>Discover how to browse content, manage subscriptions, and earn rewards as a viewer.</p>
+                            <a href="guides.viewers.html" class="btn btn-outline-success">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-code me-2 text-success"></i>
+                                Developer Guide
+                            </h3>
+                            <p class="doc-card-subtitle">Integration guide for developers</p>
+                            <p>API reference, SDK documentation, and smart contract integration guides.</p>
+                            <a href="guides.developers.html" class="btn btn-outline-success">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-gift me-2 text-success"></i>
+                                Viewer Rewards
+                            </h3>
+                            <p class="doc-card-subtitle">How to earn cash and token rewards as a viewer</p>
+                            <p>Learn about our watch-to-earn program, referral bonuses, and engagement rewards.</p>
+                            <a href="viewer-rewards.html" class="btn btn-outline-success">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="docs-section">
+            <h2 class="docs-category">Technical Documentation</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-sitemap me-2 text-info"></i>
+                                Smart Contract Architecture
+                            </h3>
+                            <p class="doc-card-subtitle">Architectural overview of platform smart contracts</p>
+                            <p>Understand the design and interaction of our underlying smart contracts.</p>
+                            <a href="tech.contracts.html" class="btn btn-outline-info">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-list-alt me-2 text-info"></i>
+                                Contract Catalog
+                            </h3>
+                            <p class="doc-card-subtitle">Complete catalog of platform smart contracts</p>
+                            <p>Browse all contracts with descriptions and links to detailed documentation.</p>
+                            <a href="tech.contract-list.html" class="btn btn-outline-info">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-file-contract me-2 text-info"></i>
+                                Solidity Code Review
+                            </h3>
+                            <p class="doc-card-subtitle">In-depth code analysis and optimization techniques</p>
+                            <p>Deep dive into our Solidity code with best practices and security measures.</p>
+                            <a href="tech.solidity-review.html" class="btn btn-outline-info">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-map-marker-alt me-2 text-info"></i>
+                                Contract Addresses
+                            </h3>
+                            <p class="doc-card-subtitle">Network deployment addresses for all contracts</p>
+                            <p>Find deployment addresses across mainnet and testnet environments.</p>
+                            <a href="contract-addresses.html" class="btn btn-outline-info">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="docs-section">
+            <h2 class="docs-category">Resources</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-link me-2 text-warning"></i>
+                                External Resources
+                            </h3>
+                            <p class="doc-card-subtitle">Collection of external references</p>
+                            <p>Curated links to whitepapers, research, and tools relevant to our platform.</p>
+                            <a href="resources/external-links.html" class="btn btn-outline-warning">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-chart-line me-2 text-warning"></i>
+                                Economic Impact
+                            </h3>
+                            <p class="doc-card-subtitle">Analysis of economic impact of the platform</p>
+                            <p>Research into how our platform is changing the creator economy landscape.</p>
+                            <a href="analysis/economic-impact.html" class="btn btn-outline-warning">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-body">
+                            <h3 class="doc-card-title">
+                                <i class="fas fa-handshake me-2 text-warning"></i>
+                                Handshake Integration
+                            </h3>
+                            <p class="doc-card-subtitle">Secure connection handshaking with partner services</p>
+                            <p>Learn about our security protocol for integrating with partner services.</p>
+                            <a href="https://github.com/kusonooyasumi/kproxy" class="btn btn-outline-warning" target="_blank" rel="noopener">View on GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Check for saved theme preference or use system preference
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Handle theme toggle click
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+
+            // Simple search functionality
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim().toLowerCase();
+                        if (query) {
+                            // This is a simplified version - in production, implement proper search
+                            alert(`Searching for: ${query}\n\nIn a production environment, this would connect to a search API or index.`);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

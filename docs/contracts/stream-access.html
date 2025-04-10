@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>StreamAccessContract | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Documentation for the StreamAccessContract smart contract">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --dark-primary: #818cf8;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            padding: 2rem 1rem;
+        }
+
+        .doc-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            border-radius: 8px;
+            overflow: auto;
+            margin: 1.5rem 0;
+        }
+
+        .contract-heading {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .contract-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+
+        body.dark-mode .contract-icon {
+            color: var(--dark-primary);
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .badge {
+            padding: 0.35em 0.65em;
+            border-radius: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .function-section {
+            margin-bottom: 3rem;
+        }
+
+        .function-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        body.dark-mode .function-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .function-header {
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .function-header {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-color: var(--dark-border);
+        }
+
+        .function-header h3 {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .function-body {
+            padding: 1rem;
+        }
+
+        .function-name {
+            color: #b392f0;
+        }
+
+        .function-param {
+            color: #e06c75;
+        }
+
+        .function-returns {
+            color: #98c379;
+        }
+
+        .param-table {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .param-table th, .param-table td {
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        .param-table th {
+            background-color: var(--light-bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .param-table th {
+            background-color: var(--dark-section-bg);
+            border-color: var(--dark-border);
+        }
+
+        .param-name {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+        }
+
+        .returns-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        body.dark-mode .returns-section {
+            border-color: var(--dark-border);
+        }
+
+        .tech-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .contract-diagram {
+            max-width: 100%;
+            margin: 2rem auto;
+            display: block;
+        }
+
+        .event-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .event-list li {
+            padding: 0.75rem;
+            background-color: var(--light-bg);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .event-list li {
+            background-color: var(--dark-section-bg);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>StreamAccessContract</h1>
+            <p>Content access control smart contract</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item"><a href="/docs/tech.contracts.html">Smart Contract Architecture</a></li>
+                <li class="breadcrumb-item active" aria-current="page">StreamAccessContract</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="tech-sidebar">
+                    <div class="guide-nav">
+                        <h3>On This Page</h3>
+                        <ul>
+                            <li><a href="#overview">Overview</a></li>
+                            <li><a href="#functions">Functions</a>
+                                <ul>
+                                    <li><a href="#access-management">Access Management</a></li>
+                                    <li><a href="#access-verification">Access Verification</a></li>
+                                    <li><a href="#admin-functions">Admin Functions</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#events">Events</a></li>
+                            <li><a href="#modifiers">Modifiers</a></li>
+                            <li><a href="#storage">Storage Layout</a></li>
+                            <li><a href="#integration">Integration Examples</a></li>
+                        </ul>
+                        
+                        <h3 class="mt-4">Related Contracts</h3>
+                        <ul>
+                            <li><a href="/docs/contracts/stream-payment.html">StreamPaymentContract</a></li>
+                            <li><a href="/docs/contracts/proof-of-existence.html">ProofOfExistenceContract</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <section id="overview">
+                    <div class="contract-heading">
+                        <div class="contract-icon"><i class="fas fa-lock"></i></div>
+                        <div>
+                            <h2>StreamAccessContract</h2>
+                            <div class="badge-container">
+                                <span class="badge bg-secondary">Solidity 0.8.17</span>
+                                <span class="badge bg-success">Audited</span>
+                                <span class="badge bg-primary">ERC-1155 Compatible</span>
+                                <span class="badge bg-info">Upgradeable</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>
+                        The StreamAccessContract manages content access permissions on the Web3 Crypto Streaming platform. 
+                        It maintains a secure registry of which users have access to what content, for how long, and under what conditions.
+                    </p>
+                    
+                    <p>
+                        This contract serves as the gatekeeper for all platform content, providing verifiable proof of access rights 
+                        that can be used by the front-end application and decentralized storage systems to permit content delivery.
+                    </p>
+
+                    <h3>Contract Address</h3>
+                    <div class="code-block">
+<pre><code>Ethereum Mainnet: 0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
+Polygon:         0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b
+Arbitrum:        0xd1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0</code></pre>
+                    </div>
+
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>Granular access control for digital content</li>
+                        <li>Time-based access expiration</li>
+                        <li>Creator-controlled access management</li>
+                        <li>Subscription and one-time access support</li>
+                        <li>Integration with payment systems</li>
+                        <li>On-chain verification of viewing rights</li>
+                    </ul>
+
+                    <img src="/assets/images/stream-access-diagram.png" alt="StreamAccessContract Diagram" class="contract-diagram">
+                </section>
+
+                <section id="functions" class="function-section">
+                    <h2>Functions</h2>
+                    
+                    <h3 id="access-management">Access Management</h3>
+
+                    <div class="function-card">
+                        <div class="function-header">
+                            <h3><span class="function-name">grantAccess</span>(<span class="function-param">address viewer, bytes32 contentId, uint256 expiration</span>) <span class="function-returns">→ bool</span></h3>
+                        </div>
+                        <div class="function-body">
+                            <p>
+                                Grants access to specific content for a viewer until the given expiration timestamp.
+                                Can only be called by the content creator or an authorized payment contract.
+                            </p>
+
+                            <h4>Parameters</h4>
+                            <table class="param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="param-name">viewer</td>
+                                        <td>address</td>
+                                        <td>The address of the user being granted access</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="param-name">contentId</td>
+                                        <td>bytes32</td>
+                                        <td>The unique identifier of the content</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="param-name">expiration</td>
+                                        <td>uint256</td>
+                                        <td>Timestamp when the access will expire (in seconds since epoch)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="returns-section">
+                                <h4>Returns</h4>
+                                <p><code>bool</code>: True if access was successfully granted</p>
+                            </div>
+
+                            <h4>Example</h4>
+                            <div class="code-block">
+<pre><code class="language-solidity">// Grant access to content for 30 days
+function purchaseContent(bytes32 contentId) public payable {
+    // Verify payment
+    require(msg.value >= contentPrice, "Insufficient payment");
+
+    // Transfer payment to creator
+    payable(contentCreator).transfer(msg.value);
+
+    // Grant access
+    uint256 thirtyDaysFromNow = block.timestamp + 30 days;
+    streamAccessContract.grantAccess(msg.sender, contentId, thirtyDaysFromNow);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="function-card">
+                        <div class="function-header">
+                            <h3><span class="function-name">revokeAccess</span>(<span class="function-param">address viewer, bytes32 contentId</span>) <span class="function-returns">→ bool</span></h3>
+                        </div>
+                        <div class="function-body">
+                            <p>
+                                Revokes a viewer's access to specific content before the natural expiration.
+                                Can only be called by the content creator or platform administrators.
+                            </p>
+
+                            <h4>Parameters</h4>
+                            <table class="param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="param-name">viewer</td>
+                                        <td>address</td>
+                                        <td>The address of the user whose access is being revoked</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="param-name">contentId</td>
+                                        <td>bytes32</td>
+                                        <td>The unique identifier of the content</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="returns-section">
+                                <h4>Returns</h4>
+                                <p><code>bool</code>: True if access was successfully revoked</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More function documentation would continue here -->
+                    <h3 id="access-verification">Access Verification</h3>
+                    <!-- Access verification functions docs -->
+
+                    <h3 id="admin-functions">Admin Functions</h3>
+                    <!-- Admin functions docs -->
+                </section>
+
+                <section id="events">
+                    <h2>Events</h2>
+                    <p>
+                        The contract emits the following events to track access changes:
+                    </p>
+
+                    <ul class="event-list">
+                        <li>
+                            <span class="function-name">AccessGranted</span>(<span class="function-param">address indexed viewer, bytes32 indexed contentId, uint256 expiration</span>)
+                        </li>
+                        <li>
+                            <span class="function-name">AccessRevoked</span>(<span class="function-param">address indexed viewer, bytes32 indexed contentId</span>)
+                        </li>
+                        <li>
+                            <span class="function-name">AccessExtended</span>(<span class="function-param">address indexed viewer, bytes32 indexed contentId, uint256 newExpiration</span>)
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Additional sections would continue here -->
+                <section id="modifiers">
+                    <h2>Modifiers</h2>
+                    <!-- Modifiers content -->
+                </section>
+
+                <section id="storage">
+                    <h2>Storage Layout</h2>
+                    <!-- Storage layout content -->
+                </section>
+
+                <section id="integration">
+                    <h2>Integration Examples</h2>
+                    <!-- Integration examples content -->
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <!-- Footer content -->
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize syntax highlighting
+            hljs.highlightAll();
+            
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Check for saved theme preference or use system preference
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Handle theme toggle click
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+        });
+    </script>
+</body>
+</html>

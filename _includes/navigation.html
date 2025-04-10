@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{{ site.baseurl }}/">
+            <img src="{{ site.baseurl }}/assets/images/logo.svg" alt="{{ site.title }}" height="30">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ site.baseurl }}/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ site.baseurl }}/url-launcher.html">Resources</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ site.baseurl }}/dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDocs" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Documentation
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDocs">
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/root/introduction.html">Introduction</a></li>
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/guides.creators.html">Creator Guide</a></li>
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/guides.viewers.html">Viewer Guide</a></li>
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/guides.developers.html">Developer Guide</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs">All Documentation</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarTech" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Technology
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarTech">
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/tech.contracts.html">Smart Contracts</a></li>
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/tech.contract-list.html">Contract Catalog</a></li>
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/contract-addresses.html">Contract Addresses</a></li>
+                        <li><a class="dropdown-item" href="{{ site.baseurl }}/docs/tech.solidity-review.html">Solidity Review</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ site.baseurl }}/whitepaper/web3-streaming-service-whitepaper.html">Whitepaper</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ site.baseurl }}/team.html">Team</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a href="{{ site.baseurl }}/status.html" class="btn btn-sm btn-outline-success me-2">
+                    <i class="fas fa-circle-check me-1"></i>System Status
+                </a>
+                <a href="https://app.web3streaming.io" class="btn btn-sm btn-primary">
+                    <i class="fas fa-right-to-bracket me-1"></i>Launch App
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

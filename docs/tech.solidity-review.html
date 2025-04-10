@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Solidity Code Review | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="In-depth code analysis and optimization techniques for Solidity smart contracts">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        .code-block {
+            background-color: #282c34;
+            border-radius: 8px;
+            overflow: auto;
+            margin: 1.5rem 0;
+        }
+
+        .code-block-header {
+            background-color: #21252b;
+            color: #abb2bf;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #181a1f;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
+
+        .review-comparison {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .comparison-col {
+            flex: 1;
+        }
+
+        .comparison-label {
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .bad-label {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .good-label {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .review-note {
+            background-color: #f8fafc;
+            border-left: 3px solid #6366f1;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        body.dark-mode .review-note {
+            background-color: #1e293b;
+            border-color: #818cf8;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .checklist li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .pattern-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-mode .pattern-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .pattern-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .pattern-icon {
+            margin-right: 0.75rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        body.dark-mode .pattern-icon {
+            color: var(--dark-primary);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>Solidity Code Review</h1>
+            <p>In-depth code analysis and optimization techniques</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Solidity Code Review</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="guide-nav">
+                    <h3>On This Page</h3>
+                    <ul>
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#security">Security Best Practices</a></li>
+                        <li><a href="#optimization">Gas Optimization</a></li>
+                        <li><a href="#patterns">Design Patterns</a></li>
+                        <li><a href="#examples">Review Examples</a></li>
+                        <li><a href="#checklist">Review Checklist</a></li>
+                    </ul>
+                    
+                    <h3 class="mt-4">Related Resources</h3>
+                    <ul>
+                        <li><a href="/docs/tech.contracts.html">Smart Contract Architecture</a></li>
+                        <li><a href="/docs/tech.contract-list.html">Contract Catalog</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <section id="introduction" class="guide-section">
+                    <h2>Introduction</h2>
+                    <p>
+                        This guide covers the code review and optimization techniques used in the Web3 Crypto Streaming Service platform.
+                        It serves as a reference for developers working with our smart contracts and for those interested in 
+                        understanding our development standards.
+                    </p>
+                    
+                    <p>
+                        All platform smart contracts undergo rigorous code review, testing, and auditing to ensure:
+                    </p>
+                    <ul>
+                        <li>Security against common and advanced attack vectors</li>
+                        <li>Gas efficiency for cost-effective operations</li>
+                        <li>Code clarity and maintainability</li>
+                        <li>Proper implementation of specifications</li>
+                        <li>Optimization for the target blockchain networks</li>
+                    </ul>
+                </section>
+
+                <section id="security" class="guide-section">
+                    <h2>Security Best Practices</h2>
+                    
+                    <h3>Reentrancy Protection</h3>
+                    <p>
+                        All contracts implement measures to prevent reentrancy attacks using the checks-effects-interactions pattern
+                        and reentrancy guards where appropriate.
+                    </p>
+                    
+                    <div class="review-comparison">
+                        <div class="comparison-col">
+                            <div class="comparison-label bad-label">Vulnerable Code</div>
+                            <div class="code-block">
+<pre><code class="language-solidity">function withdraw(uint256 amount) public {
+    require(balances[msg.sender] >= amount, "Insufficient balance");
+    
+    // Interaction happens before state update - vulnerable to reentrancy
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+    
+    balances[msg.sender] -= amount;
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="comparison-col">
+                            <div class="comparison-label good-label">Secure Code</div>
+                            <div class="code-block">
+<pre><code class="language-solidity">function withdraw(uint256 amount) public {
+    require(balances[msg.sender] >= amount, "Insufficient balance");
+    
+    // Update state before external interaction
+    balances[msg.sender] -= amount;
+    
+    // Now safe to perform the external call
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Access Control</h3>
+                    <p>
+                        All administrative functions and sensitive operations are secured with appropriate access controls using 
+                        OpenZeppelin's AccessControl pattern.
+                    </p>
+                    
+                    <div class="code-block">
+<pre><code class="language-solidity">// Using OpenZeppelin's AccessControl
+import "@openzeppelin/contracts/access/AccessControl.sol";
+
+contract StreamAccessContract is AccessControl {
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant MODERATOR_ROLE = keccak256("MODERATOR_ROLE");
+    
+    constructor() {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+    
+    function setContentParameters(bytes32 contentId, uint256 accessDuration) public {
+        // Only allow admins or moderators to set content parameters
+        require(
+            hasRole(ADMIN_ROLE, msg.sender) || 
+            hasRole(MODERATOR_ROLE, msg.sender),
+            "Caller must have admin or moderator role"
+        );
+        
+        // Function implementation
+    }
+}</code></pre>
+                    </div>
+                    
+                    <div class="review-note">
+                        <strong>Security Note:</strong> Always use tested libraries like OpenZeppelin for critical security components rather than implementing them from scratch.
+                    </div>
+                    
+                    <h3>Input Validation</h3>
+                    <p>
+                        All user inputs and external data are thoroughly validated before processing.
+                    </p>
+                    
+                    <div class="code-block">
+<pre><code class="language-solidity">function storeProof(bytes32 contentHash, string calldata metadata) external returns (bytes32) {
+    // Validate inputs
+    require(contentHash != bytes32(0), "Content hash cannot be zero");
+    require(bytes(metadata).length > 0, "Metadata cannot be empty");
+    require(bytes(metadata).length <= MAX_METADATA_LENGTH, "Metadata too long");
+    
+    // Check if content already exists
+    require(contentProofs[contentHash].timestamp == 0, "Content already registered");
+    
+    // Function implementation continues...
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="optimization" class="guide-section">
+                    <h2>Gas Optimization</h2>
+                    
+                    <h3>Storage Access Patterns</h3>
+                    <p>
+                        Optimizing storage access is crucial for gas efficiency. Our contracts follow these principles:
+                    </p>
+                    
+                    <ul>
+                        <li>Use <code>memory</code> instead of <code>storage</code> when possible</li>
+                        <li>Batch storage writes to reduce gas costs</li>
+                        <li>Use appropriate data types to minimize storage slots</li>
+                        <li>Cache storage variables in memory when used multiple times</li>
+                    </ul>
+                    
+                    <div class="review-comparison">
+                        <div class="comparison-col">
+                            <div class="comparison-label bad-label">Inefficient Code</div>
+                            <div class="code-block">
+<pre><code class="language-solidity">function processUserRewards(address user) public {
+    // Multiple storage reads
+    for (uint i = 0; i < userActions[user].length; i++) {
+        uint reward = calculateReward(userActions[user][i]);
+        userRewards[user] += reward;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="comparison-col">
+                            <div class="comparison-label good-label">Optimized Code</div>
+                            <div class="code-block">
+<pre><code class="language-solidity">function processUserRewards(address user) public {
+    // Cache storage array in memory
+    Action[] memory actions = userActions[user];
+    uint totalReward = 0;
+    
+    // Work with memory array
+    for (uint i = 0; i < actions.length; i++) {
+        totalReward += calculateReward(actions[i]);
+    }
+    
+    // Single storage write
+    userRewards[user] += totalReward;
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Loop Optimization</h3>
+                    <p>
+                        Loops are a common source of high gas costs. We optimize loops by:
+                    </p>
+                    
+                    <ul>
+                        <li>Using fixed-size arrays where possible</li>
+                        <li>Caching array length outside the loop</li>
+                        <li>Using unchecked increments in Solidity 0.8.x</li>
+                        <li>Avoiding storage operations inside loops</li>
+                    </ul>
+                </section>
+
+                <section id="patterns" class="guide-section">
+                    <h2>Design Patterns</h2>
+                    
+                    <p>
+                        Our smart contracts implement several proven design patterns to enhance security, maintainability, and functionality.
+                    </p>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="pattern-card">
+                                <div class="pattern-title">
+                                    <div class="pattern-icon"><i class="fas fa-shield-alt"></i></div>
+                                    <h3>Proxy Pattern</h3>
+                                </div>
+                                <p>
+                                    We use the Transparent Proxy Pattern to enable contract upgrades while preserving state and addresses.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="pattern-card">
+                                <div class="pattern-title">
+                                    <div class="pattern-icon"><i class="fas fa-id-badge"></i></div>
+                                    <h3>Role-Based Access Control</h3>
+                                </div>
+                                <p>
+                                    Granular permission systems with specific roles for different administrative functions.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="pattern-card">
+                                <div class="pattern-title">
+                                    <div class="pattern-icon"><i class="fas fa-unlock-alt"></i></div>
+                                    <h3>Withdrawal Pattern</h3>
+                                </div>
+                                <p>
+                                    We favor pull payments over push payments to avoid reentrancy risks and failed transfers.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="pattern-card">
+                                <div class="pattern-title">
+                                    <div class="pattern-icon"><i class="fas fa-pause-circle"></i></div>
+                                    <h3>Circuit Breaker</h3>
+                                </div>
+                                <p>
+                                    Emergency pause functionality to halt contract operations in case of detected vulnerabilities.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="examples" class="guide-section">
+                    <h2>Review Examples</h2>
+                    <!-- Additional content would be here -->
+                </section>
+                
+                <section id="checklist" class="guide-section">
+                    <h2>Review Checklist</h2>
+                    
+                    <p>
+                        All contracts in our platform undergo a comprehensive review using this checklist:
+                    </p>
+                    
+                    <h3>Security Checks</h3>
+                    <ul class="checklist">
+                        <li>Protected against reentrancy attacks</li>
+                        <li>Proper access control implemented</li>
+                        <li>No integer overflow/underflow vulnerabilities (using SafeMath or Solidity 0.8.x)</li>
+                        <li>Protected against front-running where applicable</li>
+                        <li>Input validation for all parameters</li>
+                        <li>No hardcoded addresses (except zero address checks)</li>
+                        <li>Proper event emission for all state changes</li>
+                        <li>Fallback/receive functions hardened against attacks</li>
+                    </ul>
+                    
+                    <h3>Optimization Checks</h3>
+                    <ul class="checklist">
+                        <li>Appropriate data types used to minimize storage</li>
+                        <li>Storage variables packed efficiently</li>
+                        <li>Minimal storage operations in loops</li>
+                        <li>Memory used instead of storage where appropriate</li>
+                        <li>Function visibility properly restricted</li>
+                        <li>View/pure functions marked correctly</li>
+                        <li>Gas-intensive operations batched when possible</li>
+                    </ul>
+                    
+                    <h3>Code Quality Checks</h3>
+                    <ul class="checklist">
+                        <li>NatSpec documentation complete</li>
+                        <li>Code follows style guide</li>
+                        <li>Functions are modular and follow single responsibility principle</li>
+                        <li>Constants and immutables used where appropriate</li>
+                        <li>Error messages are descriptive</li>
+                        <li>Tests cover all functions and edge cases</li>
+                        <li>Code compiles without warnings</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <!-- Footer content -->
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize syntax highlighting
+            hljs.highlightAll();
+            
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+            });
+        });
+    </script>
+</body>
+</html>

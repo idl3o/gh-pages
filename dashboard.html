@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Web3 Crypto Streaming Service</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Analytics dashboard for the Web3 Crypto Streaming Service platform">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #6366f1;
@@ -18,6 +21,11 @@
             --card-bg: #ffffff;
             --border: #e5e7eb;
             --success: #10b981;
+            --dark-card-bg: #1f2937;
+            --dark-border: #374151;
+            --dark-primary: #818cf8;
+            --text-light: #6b7280;
+            --dark-text-light: #9ca3af;
         }
 
         body {
@@ -31,151 +39,345 @@
             color: #e5e7eb;
         }
 
+        .dashboard-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 0;
+        }
+
         .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 2rem 1rem;
         }
 
-        .dashboard-header {
-            margin-bottom: 2rem;
+        .dashboard-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            height: 100%;
         }
 
-        .dashboard-navigation {
-            margin-bottom: 2rem;
+        body.dark-mode .dashboard-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
         }
 
-        .version-badge {
+        .dashboard-card-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        body.dark-mode .dashboard-card-header {
+            border-color: var(--dark-border);
+        }
+
+        .dashboard-card-body {
+            padding: 1.5rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        body.dark-mode .stat-value {
+            color: var(--dark-primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .stat-label {
+            color: var(--dark-text-light);
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        .activity-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .activity-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+        }
+
+        body.dark-mode .activity-item {
+            border-color: var(--dark-border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.upload {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .activity-icon.payment {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .activity-icon.subscription {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        body.dark-mode .activity-icon.upload {
+            background-color: rgba(129, 140, 248, 0.1);
+            color: var(--dark-primary);
+        }
+
+        .activity-time {
             font-size: 0.8rem;
-            padding: 0.25rem 0.5rem;
-            background-color: var(--primary);
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        body.dark-mode .activity-time {
+            color: var(--dark-text-light);
+        }
+
+        .token-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .token-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #6366f1;
             color: white;
-            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .token-details h5 {
+            margin-bottom: 0.25rem;
+        }
+
+        .token-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .price-change {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
             margin-left: 0.5rem;
         }
 
-        body.dark-mode .card {
-            background-color: #1f2937;
-            border-color: #374151;
+        .price-change.positive {
+            color: #10b981;
+        }
+
+        .price-change.negative {
+            color: #ef4444;
+        }
+
+        .dashboard-links {
+            display: flex;
+            gap: 0.5rem;
         }
     </style>
 </head>
 <body>
-    <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="dashboard-header">
         <div class="container">
-            <a class="navbar-brand" href="/">Web3 Streaming</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/dashboard.html">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/content.html">My Content</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/wallet.html">Wallet</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <button id="theme-toggle" class="btn btn-outline-light me-2">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                            <i class="fas fa-user me-1"></i>
-                            <span id="username-display">User</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/profile.html">Profile</a></li>
-                            <li><a class="dropdown-item" href="/settings.html">Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" id="logout-btn">Logout</a></li>
+            <h1>Platform Dashboard</h1>
+            <p>Analytics and platform metrics</p>
+        </div>
+    </header>
+
+    <div class="dashboard-container container">
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-value">32.6K</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-value">1.8K</div>
+                    <div class="stat-label">Content Creators</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-value">12.5K</div>
+                    <div class="stat-label">Content Items</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-value">$247K</div>
+                    <div class="stat-label">Total Revenue (30d)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="dashboard-card mb-4">
+                    <div class="dashboard-card-header">
+                        <span>Platform Growth</span>
+                        <div class="dashboard-links">
+                            <button class="btn btn-sm btn-outline-secondary" id="weekly">Weekly</button>
+                            <button class="btn btn-sm btn-outline-secondary active" id="monthly">Monthly</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="yearly">Yearly</button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card-body">
+                        <div class="chart-container">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <span>Content Analytics</span>
+                        <div class="dashboard-links">
+                            <button class="btn btn-sm btn-outline-secondary" id="views">Views</button>
+                            <button class="btn btn-sm btn-outline-secondary active" id="categories">Categories</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="engagement">Engagement</button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card-body">
+                        <div class="chart-container">
+                            <canvas id="contentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="dashboard-card mb-4">
+                    <div class="dashboard-card-header">
+                        <span>STREAM Token</span>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="dashboard-card-body">
+                        <div class="token-info mb-3">
+                            <div class="token-icon">
+                                <i class="fas fa-coin"></i>
+                            </div>
+                            <div class="token-details">
+                                <h5>STREAM</h5>
+                                <div>
+                                    <span class="token-price">$1.42</span>
+                                    <span class="price-change positive">
+                                        <i class="fas fa-caret-up me-1"></i>4.2%
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="tokenChart"></canvas>
+                        </div>
+                        
+                        <div class="row text-center mt-3">
+                            <div class="col-6">
+                                <div class="mb-1">Market Cap</div>
+                                <strong>$142M</strong>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-1">24h Volume</div>
+                                <strong>$8.7M</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <span>Recent Activity</span>
+                    </div>
+                    <div class="dashboard-card-body">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-icon upload">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <div>
+                                    <div>New content uploaded: "Web3 Gaming Revolution"</div>
+                                    <div class="activity-time">30 minutes ago</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon payment">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div>
+                                    <div>Creator payment: 235 STREAM tokens</div>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon subscription">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div>
+                                    <div>New subscriber: MetaCreator joined the platform</div>
+                                    <div class="activity-time">3 hours ago</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon upload">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <div>
+                                    <div>New content uploaded: "DeFi for Beginners"</div>
+                                    <div class="activity-time">5 hours ago</div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
-
-    <main class="dashboard-container">
-        <div class="dashboard-header">
-            <h1>Dashboard <span class="version-badge">BETA</span></h1>
-            <p>Welcome to your Web3 Streaming Dashboard</p>
-        </div>
-
-        <div class="dashboard-navigation">
-            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">Analytics</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="insights-tab" data-bs-toggle="tab" data-bs-target="#insights" type="button" role="tab">Future Insights</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">Settings</button>
-                </li>
-            </ul>
-        </div>
-
-        <div class="tab-content" id="dashboardTabsContent">
-            <!-- Overview Tab -->
-            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Activity Summary</h5>
-                                <p class="card-text">Your recent platform activity</p>
-                                <!-- Activity content goes here -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Quick Stats</h5>
-                                <p class="card-text">Your key metrics at a glance</p>
-                                <!-- Stats content goes here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Analytics Tab -->
-            <div class="tab-pane fade" id="analytics" role="tabpanel" aria-labelledby="analytics-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Performance Analytics</h5>
-                        <p class="card-text">Detailed analytics for your content and engagement</p>
-                        <!-- Analytics content goes here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Future Insights Tab -->
-            <div class="tab-pane fade" id="insights" role="tabpanel" aria-labelledby="insights-tab">
-                {% include future-insights.html %}
-            </div>
-
-            <!-- Settings Tab -->
-            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Dashboard Settings</h5>
-                        <p class="card-text">Customize your dashboard experience</p>
-                        <!-- Settings content goes here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    </div>
 
     <footer class="bg-dark text-light py-4 mt-5">
         <div class="container">
@@ -214,60 +416,154 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Theme toggle
-            const themeToggle = document.getElementById('theme-toggle');
-            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-            // Check for saved theme preference or use system preference
-            if (localStorage.getItem('theme') === 'dark' ||
-                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
-                document.body.classList.add('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-
-            // Theme toggle
-            themeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('dark-mode');
-
-                if (document.body.classList.contains('dark-mode')) {
-                    localStorage.setItem('theme', 'dark');
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                } else {
-                    localStorage.setItem('theme', 'light');
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const textColor = isDarkMode ? '#f3f4f6' : '#374151';
+            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            
+            // Growth Chart
+            const growthCtx = document.getElementById('growthChart').getContext('2d');
+            const growthChart = new Chart(growthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Users',
+                        data: [12400, 15600, 18900, 23500, 28200, 32600],
+                        borderColor: '#6366F1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }, {
+                        label: 'Content',
+                        data: [5200, 6800, 7900, 9300, 11100, 12500],
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    }
                 }
             });
-
-            // Simulated login status for demo
-            const usernameDisplay = document.getElementById('username-display');
-            const logoutBtn = document.getElementById('logout-btn');
-
-            // Check if user is "logged in"
-            const userData = JSON.parse(localStorage.getItem('userData'));
-            if (userData && userData.name) {
-                usernameDisplay.textContent = userData.name;
-            } else {
-                // Simulate a logged in user for demo purposes
-                const mockUser = {
-                    id: 'user_demo',
-                    name: 'Demo User',
-                    role: 'creator'
-                };
-                localStorage.setItem('userData', JSON.stringify(mockUser));
-                usernameDisplay.textContent = mockUser.name;
-            }
-
-            // Handle logout
-            logoutBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                localStorage.removeItem('userData');
-                localStorage.removeItem('authToken');
-                window.location.href = '/';
+            
+            // Content Chart
+            const contentCtx = document.getElementById('contentChart').getContext('2d');
+            const contentChart = new Chart(contentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Gaming', 'Education', 'Entertainment', 'Music', 'Tech', 'Other'],
+                    datasets: [{
+                        data: [30, 25, 20, 12, 8, 5],
+                        backgroundColor: [
+                            '#6366F1', '#10B981', '#F59E0B', '#EF4444', '#3B82F6', '#8B5CF6'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: textColor
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Token Chart
+            const tokenCtx = document.getElementById('tokenChart').getContext('2d');
+            const tokenChart = new Chart(tokenCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 30}, (_, i) => i + 1),
+                    datasets: [{
+                        label: 'Price (USD)',
+                        data: [1.15, 1.17, 1.21, 1.18, 1.20, 1.19, 1.22, 1.25, 1.27, 1.24, 1.26, 1.28, 1.30, 1.29, 1.31, 1.33, 1.35, 1.32, 1.34, 1.36, 1.35, 1.38, 1.37, 1.39, 1.41, 1.40, 1.38, 1.39, 1.40, 1.42],
+                        borderColor: '#6366F1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Handle button clicks
+            document.querySelectorAll('.dashboard-links button').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from siblings
+                    this.parentElement.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                });
             });
         });
     </script>
-</main>
 </body>
 </html>

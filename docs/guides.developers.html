@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Guides</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="bg-dark text-light py-3">
+        <div class="container">
+            <h1>Developer Guides</h1>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="row">
+            <nav class="col-md-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="#authentication">Authentication</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#rest-api">REST API</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#graphql">GraphQL API</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#sdk">SDK Usage</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#webhooks">Webhooks</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#smart-contracts">Smart Contract Integration</a></li>
+                </ul>
+            </nav>
+            <div class="col-md-9">
+                <section id="authentication" class="guide-section">
+                    <h2>Authentication</h2>
+                    <p>
+                        Authentication is required to access protected resources on the platform. Below are examples of how to authenticate using different methods.
+                    </p>
+                    <div class="code-tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="js-tab" data-bs-toggle="tab" data-bs-target="#js-auth" type="button" role="tab" aria-selected="true">JavaScript</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="eth-tab" data-bs-toggle="tab" data-bs-target="#eth-auth" type="button" role="tab" aria-selected="false">Web3.js</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="curl-tab" data-bs-toggle="tab" data-bs-target="#curl-auth" type="button" role="tab" aria-selected="false">cURL</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="js-auth" role="tabpanel" aria-labelledby="js-tab">
+                                <div class="code-block">
+<pre><code class="language-javascript">// Request challenge
+const response = await fetch('https://api.web3streaming.io/v1/auth/wallet/challenge', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    address: userWalletAddress
+  })
+});
+
+const { challenge } = await response.json();
+
+// Sign challenge with wallet (using ethers.js)
+const signature = await signer.signMessage(challenge);
+
+// Verify signature
+const verifyResponse = await fetch('https://api.web3streaming.io/v1/auth/wallet/verify', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    address: userWalletAddress,
+    signature,
+    challenge
+  })
+});
+
+const { token } = await verifyResponse.json();
+
+// Use token for future requests
+const apiResponse = await fetch('https://api.web3streaming.io/v1/user/profile', {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});</code></pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="eth-auth" role="tabpanel" aria-labelledby="eth-tab">
+                                <div class="code-block">
+<pre><code class="language-javascript">// Using web3.js
+async function authenticateWithWallet() {
+  const accounts = await web3.eth.getAccounts();
+  const userAddress = accounts[0];
+  
+  // Get challenge
+  const challengeResponse = await fetch('https://api.web3streaming.io/v1/auth/wallet/challenge', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ address: userAddress })
+  });
+  
+  const { challenge } = await challengeResponse.json();
+  
+  // Sign challenge
+  const signature = await web3.eth.personal.sign(
+    challenge,
+    userAddress,
+    '' // Password (empty for MetaMask)
+  );
+  
+  // Verify signature
+  const verifyResponse = await fetch('https://api.web3streaming.io/v1/auth/wallet/verify', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      address: userAddress,
+      signature,
+      challenge
+    })
+  });
+  
+  const { token } = await verifyResponse.json();
+  
+  // Store token
+  localStorage.setItem('authToken', token);
+  
+  return token;
+}</code></pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="curl-auth" role="tabpanel" aria-labelledby="curl-tab">
+                                <div class="code-block">
+<pre><code class="language-bash"># Step 1: Request challenge
+curl -X POST \
+  'https://api.web3streaming.io/v1/auth/wallet/challenge' \
+  -H 'Content-Type: application/json' \
+  -d '{"address": "0x1234567890123456789012345678901234567890"}'
+
+# Response:
+# {"challenge": "Sign this message to authenticate: 12345"}
+
+# Step 2: Sign message with wallet (external)
+
+# Step 3: Verify signature
+curl -X POST \
+  'https://api.web3streaming.io/v1/auth/wallet/verify' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "address": "0x1234567890123456789012345678901234567890",
+    "signature": "0xabcdef...",
+    "challenge": "Sign this message to authenticate: 12345"
+  }'
+
+# Response:
+# {"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="rest-api" class="guide-section">
+                    <h2>REST API</h2>
+                    <p>
+                        Our REST API provides comprehensive access to platform functionality. All endpoints follow RESTful principles
+                        and return responses in JSON format.
+                    </p>
+                    
+                    <h3>Base URL</h3>
+                    <p>
+                        <code>https://api.web3streaming.io/v1</code>
+                    </p>
+                    
+                    <h3>Common Endpoints</h3>
+                    
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <div class="api-heading">
+                                <span class="api-method method-get">GET</span>
+                                <span class="api-path">/content</span>
+                            </div>
+                        </div>
+                        <div class="api-card-body">
+                            <p>Returns a paginated list of content available on the platform.</p>
+                            
+                            <h4>Query Parameters</h4>
+                            <table class="property-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="property-name">page</td>
+                                        <td class="property-type">integer</td>
+                                        <td>Page number (default: 1)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">limit</td>
+                                        <td class="property-type">integer</td>
+                                        <td>Items per page (default: 20, max: 100)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">category</td>
+                                        <td class="property-type">string</td>
+                                        <td>Filter by content category</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">creator</td>
+                                        <td class="property-type">string</td>
+                                        <td>Filter by creator address</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h4>Example</h4>
+                            <div class="code-block">
+<pre><code class="language-bash">curl -X GET \
+  'https://api.web3streaming.io/v1/content?page=1&limit=10&category=music' \
+  -H 'x-api-key: your-api-key'</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <div class="api-heading">
+                                <span class="api-method method-post">POST</span>
+                                <span class="api-path">/content</span>
+                            </div>
+                        </div>
+                        <div class="api-card-body">
+                            <p>Uploads new content to the platform.</p>
+                            
+                            <h4>Request Body</h4>
+                            <table class="property-table">
+                                <thead>
+                                    <tr>
+                                        <th>Property</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="property-name">title</td>
+                                        <td class="property-type">string</td>
+                                        <td>Content title <span class="required-badge">Required</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">description</td>
+                                        <td class="property-type">string</td>
+                                        <td>Content description <span class="required-badge">Required</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">category</td>
+                                        <td class="property-type">string</td>
+                                        <td>Content category <span class="required-badge">Required</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">contentType</td>
+                                        <td class="property-type">string</td>
+                                        <td>Type of content (video, audio, etc.) <span class="required-badge">Required</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">accessType</td>
+                                        <td class="property-type">string</td>
+                                        <td>Access control type (free, paid, subscription) <span class="required-badge">Required</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">price</td>
+                                        <td class="property-type">number</td>
+                                        <td>Price in STREAM tokens (required if accessType is paid) <span class="optional-badge">Optional</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">file</td>
+                                        <td class="property-type">binary</td>
+                                        <td>Content file (or use contentUrl) <span class="optional-badge">Optional</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="property-name">contentUrl</td>
+                                        <td class="property-type">string</td>
+                                        <td>IPFS or other URL to content (or use file) <span class="optional-badge">Optional</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-4">
+                        For the complete API reference, see our <a href="https://developers.web3streaming.io/api-reference" target="_blank" rel="noopener noreferrer">API Documentation</a>.
+                    </p>
+                </section>
+
+                <section id="graphql" class="guide-section">
+                    <h2>GraphQL API</h2>
+                    <p>
+                        Our GraphQL API provides a flexible alternative to the REST API, allowing clients to request exactly the data they need.
+                    </p>
+                    
+                    <h3>Endpoint</h3>
+                    <p>
+                        <code>https://api.web3streaming.io/graphql</code>
+                    </p>
+                    
+                    <h3>Example Query</h3>
+                    <div class="code-block">
+<pre><code class="language-graphql"># Query to get content with creator details and access information
+query GetContentDetails($contentId: ID!) {
+  content(id: $contentId) {
+    id
+    title
+    description
+    contentType
+    accessType
+    price
+    viewCount
+    creator {
+      id
+      name
+      address
+      followerCount
+    }
+    accessDetails {
+      isAccessible
+      expiresAt
+      paymentRequired
+    }
+    comments(first: 5) {
+      edges {
+        node {
+          id
+          text
+          createdAt
+          user {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+                    </div>
+                    
+                    <h3>Using the GraphQL API</h3>
+                    <div class="code-tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="apollo-tab" data-bs-toggle="tab" data-bs-target="#apollo-example" type="button" role="tab" aria-selected="true">Apollo Client</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="fetch-tab" data-bs-toggle="tab" data-bs-target="#fetch-example" type="button" role="tab" aria-selected="false">Fetch API</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="apollo-example" role="tabpanel" aria-labelledby="apollo-tab">
+                                <div class="code-block">
+<pre><code class="language-javascript">import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'https://api.web3streaming.io/graphql',
+  cache: new InMemoryCache(),
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+  }
+});
+
+const GET_CONTENT = gql`
+  query GetContent($id: ID!) {
+    content(id: $id) {
+      id
+      title
+      description
+      contentUrl
+      creator {
+        id
+        name
+      }
+    }
+  }
+`;
+
+// Execute the query
+client.query({
+  query: GET_CONTENT,
+  variables: { id: 'content-123' }
+})
+.then(result => {
+  console.log(result.data);
+})
+.catch(error => {
+  console.error('Error fetching content:', error);
+});</code></pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="fetch-example" role="tabpanel" aria-labelledby="fetch-tab">
+                                <div class="code-block">
+<pre><code class="language-javascript">async function fetchContent(contentId) {
+  const response = await fetch('https://api.web3streaming.io/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+    },
+    body: JSON.stringify({
+      query: `
+        query GetContent($id: ID!) {
+          content(id: $id) {
+            id
+            title
+            description
+            contentUrl
+            creator {
+              id
+              name
+            }
+          }
+        }
+      `,
+      variables: {
+        id: contentId
+      }
+    })
+  });
+
+  const { data, errors } = await response.json();
+  
+  if (errors) {
+    throw new Error(errors[0].message);
+  }
+  
+  return data.content;
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-4">
+                        Explore our GraphQL schema using the <a href="https://developers.web3streaming.io/graphql-explorer" target="_blank" rel="noopener noreferrer">GraphQL Explorer</a>.
+                    </p>
+                </section>
+
+                <!-- Additional sections would continue -->
+                <section id="sdk" class="guide-section">
+                    <h2>SDK Usage</h2>
+                    <!-- SDK documentation content -->
+                    <p>SDK documentation will be filled in subsequent updates.</p>
+                </section>
+
+                <section id="webhooks" class="guide-section">
+                    <h2>Webhooks</h2>
+                    <!-- Webhooks documentation content -->
+                    <p>Webhooks documentation will be filled in subsequent updates.</p>
+                </section>
+
+                <section id="smart-contracts" class="guide-section">
+                    <h2>Smart Contract Integration</h2>
+                    <!-- Smart contract integration content -->
+                    <p>Smart contract integration documentation will be filled in subsequent updates.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <!-- Footer content -->
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize syntax highlighting
+            hljs.highlightAll();
+            
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // Check for saved theme preference or use system preference
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Handle theme toggle click
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+        });
+    </script>
+</body>
+</html>

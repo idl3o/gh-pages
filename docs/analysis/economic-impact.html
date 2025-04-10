@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Impact Analysis</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <header class="bg-primary text-light py-3">
+        <div class="container">
+            <h1>Economic Impact Analysis</h1>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <section>
+            <h2>Introduction</h2>
+            <p>The Web3 Crypto Streaming Service aims to revolutionize the streaming industry by leveraging blockchain technology. This page analyzes the economic impact of the platform.</p>
+        </section>
+
+        <section>
+            <h2>Market Share Analysis</h2>
+            <canvas id="marketShareChart" width="400" height="400"></canvas>
+        </section>
+
+        <section>
+            <h2>Creator Income Comparison</h2>
+            <canvas id="creatorIncomeChart" width="400" height="400"></canvas>
+        </section>
+
+        <section>
+            <h2>STREAM Token Value Drivers</h2>
+            <canvas id="tokenValueChart" width="400" height="400"></canvas>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+
+            // Initialize charts with theme awareness
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const textColor = isDarkMode ? '#f3f4f6' : '#374151';
+            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            
+            // Market Share Chart
+            const marketShareCtx = document.getElementById('marketShareChart').getContext('2d');
+            const marketShareChart = new Chart(marketShareCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['YouTube', 'Netflix', 'Twitch', 'Disney+', 'Other Traditional', 'Web3 Platforms (Current)'],
+                    datasets: [{
+                        data: [26, 19, 8, 12, 34, 1],
+                        backgroundColor: [
+                            '#FF0000', '#E50914', '#6441A4', '#113CCF', '#888888', '#6366F1'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Global Streaming Market Share by Platform Type (2024)',
+                            color: textColor
+                        }
+                    }
+                }
+            });
+            
+            // Creator Income Chart
+            const creatorIncomeCtx = document.getElementById('creatorIncomeChart').getContext('2d');
+            const creatorIncomeChart = new Chart(creatorIncomeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Nano (1K-10K)', 'Micro (10K-50K)', 'Mid (50K-500K)', 'Macro (500K-1M)', 'Mega (1M+)'],
+                    datasets: [{
+                        label: 'Traditional Platform Monthly Income ($)',
+                        data: [50, 500, 3000, 12000, 45000],
+                        backgroundColor: '#888888'
+                    }, {
+                        label: 'Web3 Platform Monthly Income ($)',
+                        data: [120, 1200, 7500, 28000, 95000],
+                        backgroundColor: '#6366F1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Creator Income Comparison by Audience Size',
+                            color: textColor
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Token Value Chart
+            const tokenValueCtx = document.getElementById('tokenValueChart').getContext('2d');
+            const tokenValueChart = new Chart(tokenValueCtx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Platform User Growth',
+                        'Token Utility Expansion',
+                        'Supply Reduction (Burn)',
+                        'Governance Participation',
+                        'Staking Ratio',
+                        'Market Recognition'
+                    ],
+                    datasets: [{
+                        label: 'Impact Strength',
+                        data: [85, 70, 90, 65, 75, 60],
+                        fill: true,
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                        borderColor: '#6366F1',
+                        pointBackgroundColor: '#6366F1',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#6366F1'
+                    }]
+                },
+                options: {
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: gridColor
+                            },
+                            grid: {
+                                color: gridColor
+                            },
+                            pointLabels: {
+                                color: textColor
+                            },
+                            ticks: {
+                                color: textColor,
+                                backdropColor: isDarkMode ? '#1f2937' : 'white'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'STREAM Token Value Drivers',
+                            color: textColor
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

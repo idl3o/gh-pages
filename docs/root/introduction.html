@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Platform Overview | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Introduction to the Web3 Crypto Streaming Service platform">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --dark-primary: #818cf8;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            padding: 2rem 1rem;
+        }
+
+        .doc-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .doc-header h1 {
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .doc-header p {
+            margin-top: 1rem;
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        .doc-navigation {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        body.dark-mode .doc-navigation {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid var(--border);
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--dark-card-bg);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        body.dark-mode .card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border);
+        }
+
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        body.dark-mode .card-header {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom-color: var(--dark-border);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            color: var(--primary);
+            margin-right: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.dark-mode .feature-icon {
+            color: var(--dark-primary);
+        }
+
+        .breadcrumb {
+            margin-bottom: 1.5rem;
+        }
+
+        .next-steps {
+            background-color: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        body.dark-mode .next-steps {
+            background-color: var(--dark-section-bg);
+            border-color: var(--dark-border);
+        }
+
+        @media (max-width: 768px) {
+            .doc-header {
+                padding: 2rem 0;
+            }
+            
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="doc-header">
+        <div class="container">
+            <h1>Web3 Crypto Streaming Service</h1>
+            <p>Platform Overview</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Platform Overview</li>
+            </ol>
+        </nav>
+
+        <div class="doc-navigation">
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="/docs/root/introduction.html" class="btn btn-outline-primary w-100 mb-2">Platform Overview</a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/docs/guides.creators.html" class="btn btn-outline-secondary w-100 mb-2">Creator Guide</a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/whitepaper/web3-streaming-service-whitepaper.html" class="btn btn-outline-secondary w-100 mb-2">Whitepaper</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Introduction</h2>
+            <p>
+                The Web3 Crypto Streaming Service is a decentralized platform built on blockchain technology that allows content creators and viewers to engage in a more direct, transparent, and equitable streaming ecosystem. Our platform leverages the power of cryptocurrencies, smart contracts, and decentralized storage to create a new paradigm for content streaming.
+            </p>
+            <p>
+                Unlike traditional centralized streaming services, our platform eliminates middlemen, reduces fees, and gives content creators and consumers more control over their content and viewing experience.
+            </p>
+        </div>
+
+        <div class="section">
+            <div class="card">
+                <div class="card-header">Key Benefits</div>
+                <div class="card-body">
+                    <ul class="feature-list">
+                        <li>
+                            <span class="feature-icon"><i class="fas fa-coins"></i></span>
+                            <div>
+                                <strong>Lower Fees</strong>
+                                <p>Direct creator-viewer relationships mean more revenue for creators and lower costs for viewers</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><i class="fas fa-shield-alt"></i></span>
+                            <div>
+                                <strong>Content Ownership</strong>
+                                <p>Creators maintain full ownership of their content with immutable proof on the blockchain</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><i class="fas fa-users"></i></span>
+                            <div>
+                                <strong>Community Governance</strong>
+                                <p>Token holders participate in platform decision-making through our DAO structure</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon"><i class="fas fa-lock"></i></span>
+                            <div>
+                                <strong>Enhanced Privacy</strong>
+                                <p>User-controlled data sharing and private viewing options</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>How It Works</h2>
+            <p>
+                Our platform connects content creators directly with viewers through blockchain-based smart contracts. All content is cryptographically signed, ensuring authenticity and ownership, while payments flow directly from viewers to creators with minimal platform fees.
+            </p>
+            
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">For Creators</div>
+                        <div class="card-body">
+                            <p>Upload content, set your terms, and connect directly with your audience. Receive payments in cryptocurrency with lower fees than traditional platforms.</p>
+                            <a href="/docs/guides.creators.html" class="btn btn-primary btn-sm mt-2">Creator Guide</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">For Viewers</div>
+                        <div class="card-body">
+                            <p>Discover authentic content, support creators directly, and earn rewards for your engagement and participation in the ecosystem.</p>
+                            <a href="/docs/guides.viewers.html" class="btn btn-primary btn-sm mt-2">Viewer Guide</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">For Developers</div>
+                        <div class="card-body">
+                            <p>Build on our open platform, create apps and services that enhance the streaming experience, and earn from your contributions.</p>
+                            <a href="/docs/guides.developers.html" class="btn btn-primary btn-sm mt-2">Developer Guide</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Platform Architecture</h2>
+            <p>The Web3 Crypto Streaming Service is built on these key technological pillars:</p>
+            
+            <div class="row mt-4">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">Smart Contracts</div>
+                        <div class="card-body">
+                            <p>Our Ethereum-based smart contracts handle:</p>
+                            <ul>
+                                <li>Content access controls</li>
+                                <li>Payment processing and streaming payments</li>
+                                <li>Proof of content existence and ownership</li>
+                                <li>Governance voting and proposals</li>
+                            </ul>
+                            <a href="/docs/tech.contracts.html" class="btn btn-outline-primary btn-sm">Learn more</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">Tokenized Economy</div>
+                        <div class="card-body">
+                            <p>Our STREAM token powers the ecosystem:</p>
+                            <ul>
+                                <li>Platform governance participation</li>
+                                <li>Creator staking and rewards</li>
+                                <li>Viewer engagement incentives</li>
+                                <li>Network security through staking</li>
+                            </ul>
+                            <a href="/whitepaper/web3-streaming-service-whitepaper.html#tokenomics" class="btn btn-outline-primary btn-sm">Tokenomics</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">Decentralized Storage</div>
+                        <div class="card-body">
+                            <p>Content is stored across a distributed network using:</p>
+                            <ul>
+                                <li>IPFS for content addressing</li>
+                                <li>Filecoin for persistent storage incentives</li>
+                                <li>Redundant pinning services</li>
+                                <li>Optional encrypted storage for private content</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">User-Friendly Interface</div>
+                        <div class="card-body">
+                            <p>Our platform prioritizes accessibility:</p>
+                            <ul>
+                                <li>Web and mobile applications</li>
+                                <li>Simplified wallet integration</li>
+                                <li>Familiar streaming interface</li>
+                                <li>Progressive decentralization options</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="doc-heading">Getting Started</h2>
+            <p>Ready to dive in? Here's how to get started with the Web3 Crypto Streaming Service:</p>
+            
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">For Viewers</h5>
+                            <p class="card-text">Start watching content and earning rewards</p>
+                            <a href="../guides.viewers.html" class="btn btn-primary">Viewer Guide</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">For Creators</h5>
+                            <p class="card-text">Upload and monetize your content</p>
+                            <a href="../guides.creators.html" class="btn btn-primary">Creator Guide</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">For Developers</h5>
+                            <p class="card-text">Build on our platform</p>
+                            <a href="../guides.developers.html" class="btn btn-primary">Developer Guide</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p>
+                You can also explore our <a href="../tech.contracts.html">technical documentation</a> to understand the underlying architecture 
+                or read the <a href="../../whitepaper/web3-streaming-service-whitepaper.html">whitepaper</a> for a comprehensive overview.
+            </p>
+        </div>
+        
+        <div class="next-section">
+            <a href="../tokenomics.html" class="btn btn-outline-primary">
+                Next: STREAM Tokenomics <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+
+        <div class="next-steps">
+            <h3>Next Steps</h3>
+            <p>Ready to dive deeper? Explore these resources to learn more about our platform:</p>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <a href="/whitepaper/web3-streaming-service-whitepaper.html" class="btn btn-outline-primary w-100">Read the Whitepaper</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="/docs/guides.creators.html" class="btn btn-outline-primary w-100">Creator Guide</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="/docs/guides.viewers.html" class="btn btn-outline-primary w-100">Viewer Guide</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-light">Documentation</a></li>
+                        <li><a href="/whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 0.9.0-beta.1</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            if (localStorage.getItem('theme') === 'dark' ||
+                (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+        });
+    </script>
+</body>
+</html>
