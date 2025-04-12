@@ -18,6 +18,12 @@ const { Server } = require('socket.io');
 const io = new Server(server);
 const port = process.env.PORT || 3000;
 
+// Initialize IPFS services
+const { initializeIPFSServices } = require('../scripts/init-ipfs-services');
+const ContentController = require('../controllers/content-controller');
+const IPFSService = require('../services/ipfs-service');
+const PinataService = require('../services/pinata-service');
+
 // Configure CORS for both Express and Socket.io
 const corsOptions = {
   origin: '*',
@@ -360,6 +366,241 @@ app.post('/api/windows/compress-key', async (req, res) => {
   }
 });
 
+// Content API routes with IPFS support
+app.post('/api/content', async (req, res) => {
+  try {
+    const { contentData } = req.body;
+    const authToken = req.headers.authorization?.split(' ')[1];
+    
+    if (!contentData) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Content data is required' 
+      });
+    }
+    
+    const result = await ContentController.createOrUpdateContent(contentData, authToken);
+    res.json(result);
+  } catch (error) {
+    console.error('Error creating/updating content:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error processing content',
+      details: error.message 
+    });
+  }
+});
+
+app.get('/api/content/:id', async (req, res) => {
+  try {
+    const result = await ContentController.getContentById(req.params.id);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error retrieving content ${req.params.id}:`, error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error retrieving content',
+      details: error.message 
+    });
+  }
+});
+
+app.get('/api/content/ipfs/:cid', async (req, res) => {
+  try {
+    const result = await ContentController.getContentByCid(req.params.cid);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error retrieving content by CID ${req.params.cid}:`, error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error retrieving content by CID',
+      details: error.message 
+    });
+  }
+});
+
+app.post('/api/content/upload', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'No file provided' 
+      });
+    }
+    
+    const authToken = req.headers.authorization?.split(' ')[1];
+    const metadata = JSON.parse(req.body.metadata || '{}');
+    
+    // Create file stream from the uploaded file
+    const fileBuffer = fs.readFileSync(req.file.path);
+    
+    // Upload content
+    const result = await ContentController.uploadContent(
+      fileBuffer, 
+      {
+        ...metadata,
+        filename: req.file.originalname,
+        contentType: req.file.mimetype
+      },
+      authToken
+    );
+    
+    // Clean up temp file
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    
+    res.json(result);
+  } catch (error) {
+    console.error('Error uploading content:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error uploading content',
+      details: error.message 
+    });
+    
+    // Clean up temp file on error
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+  }
+});
+
+app.post('/api/content/:id/publish', async (req, res) => {
+  try {
+    const contentId = req.params.id;
+    const authToken = req.headers.authorization?.split(' ')[1];
+    
+    const result = await ContentController.publishContent(contentId, authToken);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error publishing content ${req.params.id}:`, error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error publishing content',
+      details: error.message 
+    });
+  }
+});
+
+app.post('/api/content/:id/view', async (req, res) => {
+  try {
+    const contentId = req.params.id;
+    const authToken = req.headers.authorization?.split(' ')[1];
+    
+    const result = await ContentController.recordView(contentId, authToken);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error recording view for content ${req.params.id}:`, error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error recording view',
+      details: error.message 
+    });
+  }
+});
+
+app.post('/api/content/:id/interact/:type', async (req, res) => {
+  try {
+    const contentId = req.params.id;
+    const interactionType = req.params.type;
+    const authToken = req.headers.authorization?.split(' ')[1];
+    
+    const result = await ContentController.recordInteraction(contentId, interactionType, authToken);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error recording interaction for content ${req.params.id}:`, error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error recording interaction',
+      details: error.message 
+    });
+  }
+});
+
+app.post('/api/content/:id/thumbnail', upload.single('thumbnail'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'No thumbnail file provided' 
+      });
+    }
+    
+    const contentId = req.params.id;
+    const authToken = req.headers.authorization?.split(' ')[1];
+    
+    // Create file stream from the uploaded file
+    const fileBuffer = fs.readFileSync(req.file.path);
+    
+    // Upload thumbnail
+    const result = await ContentController.uploadThumbnail(
+      fileBuffer,
+      contentId,
+      authToken
+    );
+    
+    // Clean up temp file
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    
+    res.json(result);
+  } catch (error) {
+    console.error(`Error uploading thumbnail for content ${req.params.id}:`, error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error uploading thumbnail',
+      details: error.message 
+    });
+    
+    // Clean up temp file on error
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+  }
+});
+
+// IPFS Status API
+app.get('/api/ipfs/status', async (req, res) => {
+  try {
+    const client = await IPFSService.getClient();
+    const ipfsId = await client.id();
+    
+    const pinataEnabled = PinataService.isConfigured();
+    let pinataStatus = null;
+    
+    if (pinataEnabled) {
+      try {
+        const pinList = await PinataService.listPins({ pageLimit: 1 });
+        pinataStatus = {
+          connected: true,
+          totalPins: pinList.count
+        };
+      } catch (error) {
+        pinataStatus = {
+          connected: false,
+          error: error.message
+        };
+      }
+    }
+    
+    res.json({
+      success: true,
+      ipfs: {
+        connected: true,
+        nodeId: ipfsId.id,
+        version: ipfsId.agentVersion,
+        protocolVersion: ipfsId.protocolVersion
+      },
+      pinata: pinataEnabled ? pinataStatus : { enabled: false }
+    });
+  } catch (error) {
+    console.error('Error getting IPFS status:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Error getting IPFS status',
+      details: error.message 
+    });
+  }
+});
+
 // Socket.io connection limits
 io.use((socket, next) => {
   // Get number of connections
@@ -440,4 +681,18 @@ server.listen(port, () => {
   
   Press Ctrl+C to stop the server
   `);
+  
+  // Initialize IPFS services after server starts
+  initializeIPFSServices()
+    .then(() => {
+      // Initialize content controller
+      return ContentController.initialize();
+    })
+    .then(() => {
+      console.log('IPFS services initialized successfully');
+    })
+    .catch(error => {
+      console.error('Error initializing IPFS services:', error);
+      console.log('Server will continue running with limited IPFS functionality');
+    });
 });
