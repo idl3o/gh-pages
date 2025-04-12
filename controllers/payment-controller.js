@@ -1,4 +1,13 @@
 /**
+ * @license
+ * Web3 Crypto Streaming Service
+ * Copyright (c) 2023-2025 idl3o-redx
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
  * Payment Controller
  * Handles payment processing and operations
  */

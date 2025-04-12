@@ -8,25 +8,38 @@
     "start": "webpack serve --mode=development",
     "build": "webpack --mode=production",
     "lint": "eslint controllers/ models/ assets/js/",
-    "generate:docs": "node scripts/generate-module-map.js"
+    "generate:docs": "node scripts/generate-module-map.js",
+    "check-licenses": "node scripts/check-licenses.js",
+    "add-license-headers": "node scripts/add-license-headers.js",
+    "backup": "node scripts/create-compliance-backup.js"
   },
-  "keywords": ["web3", "streaming", "decentralized"],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "web3",
+    "streaming",
+    "decentralized"
+  ],
+  "author": "idl3o-redx",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/idl3o/gh-pages.git"
+  },
   "dependencies": {
-    "web3": "^4.2.0",
-    "ethers": "^6.7.1"
+    "ethers": "^6.7.1",
+    "web3": "^4.2.0"
   },
   "devDependencies": {
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1",
-    "babel-loader": "^9.1.3",
     "@babel/core": "^7.22.20",
     "@babel/preset-env": "^7.22.20",
-    "jest": "^29.7.0",
+    "archiver": "^5.3.2",
+    "babel-loader": "^9.1.3",
     "eslint": "^8.49.0",
+    "glob": "^10.3.3",
+    "jest": "^29.7.0",
+    "license-checker": "^25.0.1",
     "rimraf": "^5.0.1",
-    "glob": "^10.3.3"
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }

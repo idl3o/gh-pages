@@ -1,4 +1,13 @@
 /**
+ * @license
+ * Web3 Crypto Streaming Service
+ * Copyright (c) 2023-2025 idl3o-redx
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
  * Web3 Utilities
  * Common blockchain interaction utilities for the web3 streaming platform
  * Updated for Web3.js v4.x API (April 2025)

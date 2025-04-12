@@ -1,93 +1,62 @@
-# Contributing to Web3 Crypto Streaming Service Documentation
+# Contributing to Web3 Crypto Streaming Service
 
-Thank you for your interest in contributing to our documentation! This guide will help you get started with making contributions to the Web3 Crypto Streaming Service documentation site.
+Thank you for your interest in contributing to our project! This document provides guidelines and instructions for contributing.
 
-## Getting Started
+## Code of Conduct
 
-1. **Fork the repository**
+By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-   Start by forking the GitHub repository to your own account.
+## How to Contribute
 
-2. **Clone your fork**
+### Reporting Bugs
 
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/gh-pages.git
-   cd gh-pages
-   ```
+- Check if the bug has already been reported in our [Issues](https://github.com/idl3o/gh-pages/issues)
+- Use the bug report template when opening a new issue
+- Include detailed steps to reproduce the bug
+- Include screenshots if applicable
+- Describe the expected behavior and what actually happened
 
-3. **Create a branch**
+### Suggesting Features
 
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+- Check if the feature has already been suggested in our [Issues](https://github.com/idl3o/gh-pages/issues)
+- Use the feature request template when opening a new issue
+- Explain why this feature would be useful to most users
+- Be as specific as possible in your description
 
-## Development Environment
+### Pull Requests
 
-For local development:
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/your-feature-name`)
+3. Make your changes
+4. Run tests and linting (`npm test` and `npm run lint`)
+5. Commit your changes with descriptive commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
+6. Push to your branch (`git push origin feature/your-feature-name`)
+7. Open a Pull Request against our main branch
 
-1. **If using Jekyll:**
-   ```bash
-   bundle install
-   bundle exec jekyll serve
-   ```
+### Development Setup
 
-2. **Without Jekyll:**
-   Simply open the HTML files in your browser.
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/gh-pages.git
+cd gh-pages
 
-3. **Generate placeholder images:**
-   ```bash
-   node scripts/generate-placeholders.js
-   node scripts/generate-platform-diagram.js
-   ```
+# Install dependencies
+npm install
 
-## Documentation Structure
+# Run development server
+npm start
+```
 
-Our documentation follows a specific structure:
+## Coding Standards
 
-- `/docs/` - Main documentation files
-  - `/docs/root/` - Getting started and introduction
-  - `/docs/contracts/` - Smart contract documentation
-  - `/docs/resources/` - External resources and references
-  - `/docs/analysis/` - Analysis and research papers
-- `/whitepaper/` - Technical whitepaper
-- `/career/` - Career resources and guides
-- `/assets/` - Images, CSS, and JavaScript files
+- Follow the existing code style
+- Write tests for new features and bug fixes
+- Update documentation for changes
+- Make sure all tests pass before submitting a PR
+- Keep PRs focused on a single issue or feature
 
-## Style Guide
+## License
 
-When contributing documentation:
+By contributing to this project, you agree that your contributions will be licensed under the project's [MIT License](LICENSE).
 
-1. **Use clear, concise language** - Avoid jargon when possible
-2. **Include code examples** where appropriate
-3. **Follow the established visual style** - Use the predefined components and styles
-4. **Support dark mode** - Test your changes in both light and dark modes
-5. **Make content accessible** - Use proper heading structure, alt text for images, etc.
-
-## Making Changes
-
-1. **Make your changes** in your branch
-2. **Test your changes** locally
-3. **Commit your changes** with a clear commit message
-   ```bash
-   git add .
-   git commit -m "Add documentation for XYZ feature"
-   ```
-4. **Push to your fork**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-5. **Submit a pull request** to the main repository
-
-## Pull Request Process
-
-1. Fill out the PR template completely
-2. Link to any related issues
-3. Wait for a maintainer to review your PR
-4. Address any requested changes
-5. Once approved, your PR will be merged
-
-## Questions?
-
-If you have questions about contributing, please open an issue with the label "question" in the GitHub repository.
-
-Thank you for helping improve our documentation!
+Thank you for your contributions!
