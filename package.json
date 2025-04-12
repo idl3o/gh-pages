@@ -1,0 +1,19 @@
+{
+  "name": "gh-pages",
+  "version": "1.0.0",
+  "description": "GitHub Pages project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build step configured\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    
+  }
+}
