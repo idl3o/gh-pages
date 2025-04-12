@@ -254,14 +254,14 @@
                         </button>
                     </div>
                     
-                    <div class="status-message operational mb-4">
+                    <div class="status-message operational mb-4" id="overall-status">
                         <i class="fas fa-check-circle"></i> All Systems Operational
                     </div>
                     
                     <p class="text-muted mb-4">Last updated: <span id="last-updated">June 15, 2024 10:30 UTC</span></p>
                     
                     <table class="status-table">
-                        <tbody>
+                        <tbody id="status-table-body">
                             <tr>
                                 <td width="70%">
                                     <strong>API Services</strong>
@@ -326,6 +326,61 @@
                     </table>
                 </div>
 
+                <div class="status-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="m-0">Blockchain Network Status</h2>
+                        <button class="refresh-button" id="refresh-blockchain">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+
+                    <table class="status-table">
+                        <tbody id="blockchain-status-table">
+                            <tr>
+                                <td width="70%">
+                                    <strong>Ethereum Mainnet</strong>
+                                    <div class="text-muted small">Primary contract network</div>
+                                </td>
+                                <td width="30%" class="text-end" id="ethereum-status">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Checking...</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Polygon Network</strong>
+                                    <div class="text-muted small">Secondary contract network</div>
+                                </td>
+                                <td class="text-end" id="polygon-status">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Checking...</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Arbitrum Network</strong>
+                                    <div class="text-muted small">L2 scaling solution</div>
+                                </td>
+                                <td class="text-end" id="arbitrum-status">
+                                    <span class="status-indicator status-operational"></span>
+                                    <span>Checking...</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="alert alert-info mt-3" id="network-connection-alert">
+                        <i class="fas fa-info-circle"></i> 
+                        <span>Connect your wallet to view real-time blockchain status</span>
+                    </div>
+                    
+                    <div class="d-grid gap-2 mt-3">
+                        <button id="connect-wallet-btn" class="btn btn-outline-primary">
+                            Connect Wallet
+                        </button>
+                    </div>
+                </div>
+
                 <div class="incident-history">
                     <h3>Recent Incidents</h3>
                     
@@ -363,6 +418,30 @@
                     <h3>30-Day Uptime</h3>
                     <p class="uptime-percentage">99.98%</p>
                     <p class="uptime-label">Since May 16, 2024</p>
+                </div>
+                
+                <div class="status-card">
+                    <h3>Web3 Metrics</h3>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <td>Connected Network</td>
+                                <td class="text-end" id="connected-network">-</td>
+                            </tr>
+                            <tr>
+                                <td>Gas Price (gwei)</td>
+                                <td class="text-end" id="gas-price">-</td>
+                            </tr>
+                            <tr>
+                                <td>Block Height</td>
+                                <td class="text-end" id="block-height">-</td>
+                            </tr>
+                            <tr>
+                                <td>Content Contract Calls (24h)</td>
+                                <td class="text-end">1,283</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 
                 <div class="status-card">
@@ -444,7 +523,10 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/web3@4.2.0/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/web3-utils.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Theme toggle functionality
@@ -466,22 +548,17 @@
 
             // Handle refresh button
             document.getElementById('refresh-status').addEventListener('click', function() {
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
-                
-                // Simulate refresh
-                setTimeout(() => {
-                    const now = new Date();
-                    document.getElementById('last-updated').textContent = 
-                        now.toLocaleDateString('en-US', { 
-                            month: 'long', 
-                            day: 'numeric', 
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        }) + ' UTC';
-                        
-                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
-                }, 1000);
+                refreshSystemStatus();
+            });
+            
+            // Handle blockchain refresh button
+            document.getElementById('refresh-blockchain').addEventListener('click', function() {
+                refreshBlockchainStatus();
+            });
+            
+            // Handle wallet connect button
+            document.getElementById('connect-wallet-btn').addEventListener('click', async function() {
+                await connectToWallet();
             });
 
             // Handle subscription form
@@ -500,7 +577,229 @@
                     this.innerHTML = '<div class="alert alert-success mb-0">Subscription successful! You will now receive status updates.</div>';
                 }, 1500);
             });
+            
+            // Initialize the page
+            initializePage();
         });
+        
+        /**
+         * Initialize the status page
+         */
+        async function initializePage() {
+            updateLastUpdated();
+            refreshSystemStatus();
+            
+            // Check if wallet is already connected - updated to EIP-1193 standard
+            try {
+                if (window.ethereum) {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts && accounts.length > 0) {
+                        await connectToWallet(true); // silent mode
+                    }
+                }
+            } catch (error) {
+                console.log('No wallet connected yet');
+            }
+        }
+        
+        /**
+         * Update the last updated timestamp
+         */
+        function updateLastUpdated() {
+            const now = new Date();
+            document.getElementById('last-updated').textContent = 
+                now.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) + ' UTC';
+        }
+        
+        /**
+         * Refresh system status components
+         */
+        function refreshSystemStatus() {
+            const refreshBtn = document.getElementById('refresh-status');
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            
+            // Simulate API call for status
+            setTimeout(() => {
+                updateLastUpdated();
+                refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                
+                // Here you would normally update based on real API data
+            }, 1000);
+        }
+        
+        /**
+         * Connect to user's wallet
+         */
+        async function connectToWallet(silent = false) {
+            const connectBtn = document.getElementById('connect-wallet-btn');
+            const alertBox = document.getElementById('network-connection-alert');
+            
+            if (!silent) {
+                connectBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+            }
+            
+            try {
+                // Use our Web3 utilities module
+                const walletAddress = await window.connectWallet();
+                
+                connectBtn.innerHTML = 'Wallet Connected';
+                connectBtn.classList.replace('btn-outline-primary', 'btn-success');
+                connectBtn.disabled = true;
+                
+                alertBox.classList.replace('alert-info', 'alert-success');
+                alertBox.innerHTML = '<i class="fas fa-check-circle"></i> Wallet connected. Displaying real-time blockchain data.';
+                
+                // Now refresh blockchain status with the connected wallet
+                await refreshBlockchainStatus();
+                
+            } catch (error) {
+                console.error('Failed to connect wallet:', error);
+                
+                connectBtn.innerHTML = 'Connect Wallet';
+                
+                if (!silent) {
+                    alertBox.classList.replace('alert-info', 'alert-danger');
+                    alertBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> Failed to connect wallet: ${error.message}`;
+                    
+                    // Reset the alert after 5 seconds
+                    setTimeout(() => {
+                        alertBox.classList.replace('alert-danger', 'alert-info');
+                        alertBox.innerHTML = '<i class="fas fa-info-circle"></i> Connect your wallet to view real-time blockchain status';
+                    }, 5000);
+                }
+            }
+        }
+        
+        /**
+         * Refresh blockchain status
+         */
+        async function refreshBlockchainStatus() {
+            const refreshBtn = document.getElementById('refresh-blockchain');
+            let isWalletConnected = false;
+            
+            // Using EIP-1193 standard to check connection
+            if (window.ethereum) {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                isWalletConnected = accounts && accounts.length > 0;
+            }
+            
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            
+            if (!isWalletConnected) {
+                setTimeout(() => {
+                    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                }, 500);
+                return;
+            }
+            
+            try {
+                // Get network info using our web3 utility
+                const networkInfo = await window.getNetworkInfo();
+                document.getElementById('connected-network').textContent = networkInfo.name;
+                
+                // Update network status indicators with chainId instead of networkId
+                updateNetworkStatus('ethereum-status', Number(networkInfo.id) === 1);
+                updateNetworkStatus('polygon-status', Number(networkInfo.id) === 137);
+                updateNetworkStatus('arbitrum-status', Number(networkInfo.id) === 42161);
+                
+                // Get gas price and block height - updated to use centralized function
+                const gasInfo = await window.getGasPrice();
+                const web3 = await window.getWeb3Instance();
+                const blockHeight = await web3.eth.getBlockNumber();
+                
+                document.getElementById('gas-price').textContent = 
+                    Math.round(Number(gasInfo.gwei) * 100) / 100;
+                document.getElementById('block-height').textContent = blockHeight.toLocaleString();
+                
+            } catch (error) {
+                console.error('Error fetching blockchain data:', error);
+            }
+            
+            refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+        }
+        
+        /**
+         * Update network status indicator
+         */
+        function updateNetworkStatus(elementId, isConnected) {
+            const element = document.getElementById(elementId);
+            const indicator = element.querySelector('.status-indicator');
+            const text = element.querySelector('span:last-child');
+            
+            if (isConnected) {
+                indicator.className = 'status-indicator status-operational';
+                text.textContent = 'Connected';
+            } else {
+                indicator.className = 'status-indicator status-maintenance';
+                text.textContent = 'Not Connected';
+            }
+        }
+        
+        // Polyfill for our web3 utilities when script is not available
+        if (typeof window.connectWallet !== 'function') {
+            window.connectWallet = async function() {
+                if (window.ethereum) {
+                    try {
+                        const accounts = await window.ethereum.request({ 
+                            method: 'eth_requestAccounts' 
+                        });
+                        return accounts[0];
+                    } catch (error) {
+                        throw new Error('User denied account access');
+                    }
+                } else {
+                    throw new Error('No Ethereum provider found. Install MetaMask or similar wallet.');
+                }
+            };
+            
+            window.getWeb3Instance = async function() {
+                // Updated for Web3.js v4.x
+                const { Web3 } = await import('web3');
+                if (window.ethereum) {
+                    return new Web3(window.ethereum);
+                } else {
+                    return new Web3('https://mainnet.infura.io/v3/your-infura-key');
+                }
+            };
+            
+            window.getNetworkInfo = async function() {
+                const web3 = await window.getWeb3Instance();
+                // Using getChainId() instead of deprecated getId()
+                const chainId = await web3.eth.getChainId();
+                let networkName;
+                
+                switch (Number(chainId)) {
+                    case 1: networkName = 'Ethereum Mainnet'; break;
+                    case 5: networkName = 'Goerli'; break;
+                    case 11155111: networkName = 'Sepolia'; break;
+                    case 56: networkName = 'BSC Mainnet'; break;
+                    case 137: networkName = 'Polygon Mainnet'; break;
+                    case 42161: networkName = 'Arbitrum One'; break;
+                    case 10: networkName = 'Optimism'; break;
+                    case 8453: networkName = 'Base'; break;
+                    default: networkName = `Unknown (${chainId})`;
+                }
+                
+                return { id: chainId, name: networkName };
+            };
+            
+            window.getGasPrice = async function() {
+                const web3 = await window.getWeb3Instance();
+                const gasPrice = await web3.eth.getGasPrice();
+                
+                return {
+                    wei: gasPrice,
+                    gwei: web3.utils.fromWei(gasPrice, 'gwei'),
+                    eth: web3.utils.fromWei(gasPrice, 'ether')
+                };
+            };
+        }
     </script>
 </body>
 </html>
