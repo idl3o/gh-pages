@@ -7,6 +7,7 @@ module.exports = {
     '**/*.test.js',
     '**/*.spec.js'
   ],
+  setupFilesAfterEnv: ['./tests/setup/jest-setup.js'],
   collectCoverage: true,
   collectCoverageFrom: [
     'controllers/**/*.js',
