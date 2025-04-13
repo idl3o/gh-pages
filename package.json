@@ -1,17 +1,11 @@
 {
-  "name": "gh-pages",
+  "name": "token-generator-service",
   "version": "1.0.0",
-  "description": "GitHub Pages project",
-  "main": "index.js",
+  "description": "Web3 Crypto Streaming Service - Local Development",
+  "main": "local-server.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "start": "webpack serve --mode=development",
-    "build": "webpack --mode=production",
-    "lint": "eslint controllers/ models/ assets/js/",
-    "generate:docs": "node scripts/generate-module-map.js",
-    "check-licenses": "node scripts/check-licenses.js",
-    "add-license-headers": "node scripts/add-license-headers.js",
-    "backup": "node scripts/create-compliance-backup.js"
+    "start": "node local-server.js",
+    "dev": "nodemon local-server.js"
   },
   "keywords": [
     "web3",
@@ -25,25 +19,11 @@
     "url": "https://github.com/idl3o/gh-pages.git"
   },
   "dependencies": {
-    "ethers": "^6.7.1",
-    "ipfs-http-client": "^60.0.1",
-    "web3": "^4.2.0"
+    "crypto": "^1.0.1",
+    "events": "^3.3.0",
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.20",
-    "@babel/preset-env": "^7.22.20",
-    "archiver": "^5.3.2",
-    "babel-loader": "^9.1.3",
-    "eslint": "^8.49.0",
-    "glob": "^10.3.3",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "license-checker": "^25.0.1",
-    "node-fetch": "^2.7.0",
-    "rimraf": "^5.0.1",
-    "text-encoding": "^0.7.0",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "nodemon": "^3.1.9"
   }
 }

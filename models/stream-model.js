@@ -9,250 +9,104 @@
 
 /**
  * Stream Model
- * Handles streaming data and operations
+ * Mock implementation for local development
  */
 
 const EventEmitter = require('events');
-const crypto = require('crypto');
 
 class StreamModel extends EventEmitter {
   constructor() {
     super();
-    this.liveStreams = new Map();
+    this.streams = new Map();
     this.streamSessions = new Map();
-    this.viewers = new Map();
-    this.maxViewersAllowed = 1000; // Per stream limit
+    console.log('StreamModel initialized');
   }
 
-  /**
-   * Create or update a live stream
-   * @param {Object} streamData Stream information
-   * @returns {Object} Created/updated stream
-   */
-  async createOrUpdateStream(streamData) {
-    if (!streamData.title || !streamData.creatorAddress) {
-      throw new Error('Title and creator address are required');
-    }
+  getStreamById(id) {
+    return this.streams.get(id) || null;
+  }
 
-    const streamId = streamData.id || `stream_${crypto.randomBytes(8).toString('hex')}`;
-    const existingStream = this.liveStreams.get(streamId);
-
-    const updatedStream = {
-      ...existingStream,
+  startStream(streamData) {
+    const id = `stream_${Date.now()}`;
+    const stream = { 
+      id,
       ...streamData,
-      id: streamId,
-      updatedAt: new Date().toISOString()
+      status: 'live',
+      startedAt: new Date().toISOString(),
+      viewerCount: 0,
+      peakViewerCount: 0,
+      totalViews: 0
     };
-
-    if (!existingStream) {
-      updatedStream.createdAt = updatedStream.updatedAt;
-      updatedStream.status = 'created';
-      updatedStream.viewerCount = 0;
-      updatedStream.peakViewerCount = 0;
-      updatedStream.totalViews = 0;
-      updatedStream.startedAt = null;
-      updatedStream.endedAt = null;
-    }
-
-    this.liveStreams.set(streamId, updatedStream);
-    this.emit('stream:updated', updatedStream);
-
-    return updatedStream;
-  }
-
-  /**
-   * Start a live stream
-   * @param {string} streamId Stream ID
-   * @returns {Object} Updated stream
-   */
-  async startStream(streamId) {
-    const stream = this.liveStreams.get(streamId);
-
-    if (!stream) {
-      throw new Error('Stream not found');
-    }
-
-    if (stream.status === 'live') {
-      throw new Error('Stream is already live');
-    }
-
-    stream.status = 'live';
-    stream.startedAt = new Date().toISOString();
-
-    this.liveStreams.set(streamId, stream);
+    
+    this.streams.set(id, stream);
     this.emit('stream:started', stream);
-
     return stream;
   }
 
-  /**
-   * End a live stream
-   * @param {string} streamId Stream ID
-   * @returns {Object} Updated stream
-   */
-  async endStream(streamId) {
-    const stream = this.liveStreams.get(streamId);
-
-    if (!stream) {
-      throw new Error('Stream not found');
-    }
-
-    if (stream.status !== 'live') {
-      throw new Error('Stream is not live');
-    }
-
+  endStream(streamId) {
+    const stream = this.streams.get(streamId);
+    if (!stream) return null;
+    
     stream.status = 'ended';
     stream.endedAt = new Date().toISOString();
-
-    // Clear all viewers
-    for (const [sessionId, session] of this.streamSessions.entries()) {
-      if (session.streamId === streamId) {
-        this.streamSessions.delete(sessionId);
-      }
-    }
-
-    this.liveStreams.set(streamId, stream);
+    this.streams.set(streamId, stream);
     this.emit('stream:ended', stream);
-
     return stream;
   }
 
-  /**
-   * Add a viewer to a stream
-   * @param {string} streamId Stream ID
-   * @param {string} viewerAddress Viewer's wallet address
-   * @returns {Object} Session information
-   */
-  async addViewer(streamId, viewerAddress) {
-    const stream = this.liveStreams.get(streamId);
-
-    if (!stream) {
-      throw new Error('Stream not found');
-    }
-
-    if (stream.status !== 'live') {
-      throw new Error('Stream is not live');
-    }
-
-    if (stream.viewerCount >= this.maxViewersAllowed) {
-      throw new Error('Stream has reached maximum viewer capacity');
-    }
-
-    const sessionId = `session_${crypto.randomBytes(8).toString('hex')}`;
-
+  addViewer(streamId, viewerData) {
+    const stream = this.streams.get(streamId);
+    if (!stream) return null;
+    
+    const sessionId = `session_${Date.now()}_${viewerData.viewerAddress.substring(0, 6)}`;
     const session = {
       id: sessionId,
       streamId,
-      viewerAddress,
+      ...viewerData,
       startedAt: new Date().toISOString(),
       lastPing: new Date().toISOString()
     };
-
-    // Update viewer count
-    stream.viewerCount += 1;
-    stream.totalViews += 1;
-
+    
+    this.streamSessions.set(sessionId, session);
+    
+    // Update stream stats
+    stream.viewerCount++;
+    stream.totalViews++;
     if (stream.viewerCount > stream.peakViewerCount) {
       stream.peakViewerCount = stream.viewerCount;
     }
-
-    this.streamSessions.set(sessionId, session);
-    this.liveStreams.set(streamId, stream);
-
-    this.emit('viewer:joined', {
-      streamId,
-      viewerAddress,
-      sessionId,
-      currentViewers: stream.viewerCount
-    });
-
-    return {
-      sessionId,
-      stream: {
-        id: stream.id,
-        title: stream.title,
-        creatorAddress: stream.creatorAddress,
-        viewerCount: stream.viewerCount
-      }
-    };
+    
+    this.emit('viewer:joined', { ...session, streamId });
+    return session;
   }
 
-  /**
-   * Remove a viewer from a stream
-   * @param {string} sessionId Session ID
-   * @returns {boolean} Success status
-   */
-  async removeViewer(sessionId) {
+  removeViewer(sessionId) {
     const session = this.streamSessions.get(sessionId);
-
-    if (!session) {
-      return false;
-    }
-
-    const stream = this.liveStreams.get(session.streamId);
-
+    if (!session) return null;
+    
+    const stream = this.streams.get(session.streamId);
     if (stream && stream.status === 'live') {
       stream.viewerCount = Math.max(0, stream.viewerCount - 1);
-      this.liveStreams.set(session.streamId, stream);
     }
-
+    
     this.streamSessions.delete(sessionId);
-
-    this.emit('viewer:left', {
-      streamId: session.streamId,
-      viewerAddress: session.viewerAddress,
+    this.emit('viewer:left', { 
       sessionId,
-      currentViewers: stream ? stream.viewerCount : 0
+      streamId: session.streamId,
+      viewerAddress: session.viewerAddress 
     });
-
-    return true;
+    
+    return session;
   }
 
-  /**
-   * Get all live streams
-   * @returns {Array} Array of live streams
-   */
-  getLiveStreams() {
-    const results = [];
-
-    this.liveStreams.forEach(stream => {
-      if (stream.status === 'live') {
-        results.push(stream);
-      }
+  // Helper method to simulate data for testing
+  createTestStream(creatorAddress) {
+    return this.startStream({
+      title: "Test Stream",
+      description: "Testing the token generation service",
+      creatorAddress,
+      tags: ["test", "development"]
     });
-
-    return results;
-  }
-
-  /**
-   * Get stream by ID
-   * @param {string} streamId Stream ID
-   * @returns {Object|null} Stream or null if not found
-   */
-  getStreamById(streamId) {
-    return this.liveStreams.get(streamId) || null;
-  }
-
-  /**
-   * Get creator's live and past streams
-   * @param {string} creatorAddress Creator's wallet address
-   * @returns {Object} Live and past streams
-   */
-  getCreatorStreams(creatorAddress) {
-    const live = [];
-    const past = [];
-
-    this.liveStreams.forEach(stream => {
-      if (stream.creatorAddress === creatorAddress) {
-        if (stream.status === 'live') {
-          live.push(stream);
-        } else if (stream.status === 'ended') {
-          past.push(stream);
-        }
-      }
-    });
-
-    return { live, past };
   }
 }
 

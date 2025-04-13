@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Content - Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/free-content.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Web3 Crypto Streaming Service</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="free-content.html" class="active">Free Content</a></li>
+                <li><a href="tokens.html">Tokens</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Free Content Library</h1>
+            <p>Access our collection of free resources, tutorials, and content</p>
+        </section>
+
+        <section class="featured-content">
+            <h2>Featured Content</h2>
+            <div id="featured-items" class="content-grid">
+                <!-- Featured items will be dynamically inserted here -->
+                <div class="content-placeholder">Loading featured content...</div>
+            </div>
+        </section>
+
+        <section class="content-browser">
+            <h2>Browse All Free Content</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="category-filter">Category:</label>
+                    <select id="category-filter">
+                        <option value="">All Categories</option>
+                        <!-- Categories will be dynamically inserted here -->
+                    </select>
+                </div>
+                <div class="search-group">
+                    <input type="text" id="search-input" placeholder="Search free content...">
+                    <button id="search-button">Search</button>
+                </div>
+            </div>
+            
+            <div id="content-items" class="content-grid">
+                <!-- Content items will be dynamically inserted here -->
+                <div class="content-placeholder">Loading content...</div>
+            </div>
+            
+            <div class="pagination">
+                <button id="prev-page" disabled>Previous</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button id="next-page" disabled>Next</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023-2025 Web3 Crypto Streaming Service</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

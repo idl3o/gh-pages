@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Generator Service - Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .panel {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Token Generator Service - Local Testing</h1>
+    
+    <div class="container">
+        <div class="panel">
+            <h2>Wallet</h2>
+            <div class="form-group">
+                <input type="text" id="wallet-address" placeholder="Enter wallet address">
+                <button id="set-wallet">Set Wallet</button>
+            </div>
+            <div id="wallet-info">
+                <p>Current wallet: <span id="current-wallet">Not set</span></p>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Create Test Stream</h2>
+            <button id="start-stream">Start Stream</button>
+            <button id="end-stream" disabled>End Stream</button>
+            <div id="stream-info">
+                <p>Stream status: <span id="stream-status">None</span></p>
+                <p>Stream ID: <span id="stream-id">None</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="panel">
+            <h2>Simulate Viewer</h2>
+            <button id="join-stream" disabled>Join Stream</button>
+            <button id="leave-stream" disabled>Leave Stream</button>
+            <div id="viewer-info">
+                <p>Viewer status: <span id="viewer-status">Not connected</span></p>
+                <p>Session ID: <span id="session-id">None</span></p>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Manual Token Generation</h2>
+            <div class="form-group">
+                <label for="token-amount">Amount:</label>
+                <input type="number" id="token-amount" min="1" value="10">
+            </div>
+            <div class="form-group">
+                <label for="token-reason">Reason:</label>
+                <input type="text" id="token-reason" value="manual_test">
+            </div>
+            <button id="generate-token">Generate Token</button>
+        </div>
+    </div>
+    
+    <div class="panel">
+        <h2>Activity Rewards</h2>
+        <div class="form-group">
+            <label for="activity-type">Activity Type:</label>
+            <select id="activity-type">
+                <option value="stream_start">Stream Start</option>
+                <option value="stream_end">Stream End</option>
+                <option value="viewer_watch_time">Viewer Watch Time</option>
+                <option value="content_creation">Content Creation</option>
+                <option value="comment_post">Comment Post</option>
+                <option value="referral_success">Referral Success</option>
+            </select>
+        </div>
+        <button id="generate-activity-reward">Generate Activity Reward</button>
+    </div>
+    
+    <div class="panel">
+        <h2>Token History</h2>
+        <button id="refresh-tokens">Refresh</button>
+        <div id="token-list"></div>
+    </div>
+    
+    <div class="panel">
+        <h2>API Response</h2>
+        <pre id="api-response">No API calls made yet</pre>
+    </div>
+
+    <script>
+        // State variables
+        let currentWallet = '';
+        let currentStream = null;
+        let viewerSession = null;
+        
+        // DOM elements
+        const walletInput = document.getElementById('wallet-address');
+        const currentWalletSpan = document.getElementById('current-wallet');
+        const streamStatusSpan = document.getElementById('stream-status');
+        const streamIdSpan = document.getElementById('stream-id');
+        const viewerStatusSpan = document.getElementById('viewer-status');
+        const sessionIdSpan = document.getElementById('session-id');
+        const tokenAmountInput = document.getElementById('token-amount');
+        const tokenReasonInput = document.getElementById('token-reason');
+        const activityTypeSelect = document.getElementById('activity-type');
+        const apiResponsePre = document.getElementById('api-response');
+        const tokenListDiv = document.getElementById('token-list');
+        
+        // Buttons
+        const setWalletBtn = document.getElementById('set-wallet');
+        const startStreamBtn = document.getElementById('start-stream');
+        const endStreamBtn = document.getElementById('end-stream');
+        const joinStreamBtn = document.getElementById('join-stream');
+        const leaveStreamBtn = document.getElementById('leave-stream');
+        const generateTokenBtn = document.getElementById('generate-token');
+        const generateActivityBtn = document.getElementById('generate-activity-reward');
+        const refreshTokensBtn = document.getElementById('refresh-tokens');
+        
+        // Helper to display API response
+        function displayApiResponse(response) {
+            apiResponsePre.textContent = JSON.stringify(response, null, 2);
+        }
+        
+        // Set wallet
+        setWalletBtn.addEventListener('click', () => {
+            const walletAddress = walletInput.value.trim();
+            if (!walletAddress) {
+                alert('Please enter a wallet address');
+                return;
+            }
+            
+            currentWallet = walletAddress;
+            currentWalletSpan.textContent = currentWallet;
+            startStreamBtn.disabled = false;
+            
+            // Refresh tokens for the new wallet
+            refreshTokens();
+        });
+        
+        // Start stream
+        startStreamBtn.addEventListener('click', async () => {
+            if (!currentWallet) {
+                alert('Please set a wallet address first');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/activities/reward', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipientAddress: currentWallet,
+                        activityType: 'stream_start',
+                        activityData: {
+                            title: 'Test Stream',
+                            description: 'Testing token generator service'
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                displayApiResponse(data);
+                
+                if (data.success) {
+                    currentStream = {
+                        id: `stream_${Date.now()}`,
+                        startedAt: new Date().toISOString()
+                    };
+                    
+                    streamStatusSpan.textContent = 'Live';
+                    streamIdSpan.textContent = currentStream.id;
+                    
+                    endStreamBtn.disabled = false;
+                    joinStreamBtn.disabled = false;
+                    startStreamBtn.disabled = true;
+                    
+                    refreshTokens();
+                }
+            } catch (error) {
+                console.error('Error starting stream:', error);
+                displayApiResponse({ error: error.message });
+            }
+        });
+        
+        // End stream
+        endStreamBtn.addEventListener('click', async () => {
+            if (!currentStream) return;
+            
+            try {
+                const response = await fetch('/api/activities/reward', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipientAddress: currentWallet,
+                        activityType: 'stream_end',
+                        activityData: {
+                            streamId: currentStream.id,
+                            startedAt: currentStream.startedAt,
+                            endedAt: new Date().toISOString(),
+                            averageViewers: 5, // Mock data
+                            peakViewerCount: 10, // Mock data
+                            totalViews: 15 // Mock data
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                displayApiResponse(data);
+                
+                if (data.success) {
+                    streamStatusSpan.textContent = 'Ended';
+                    
+                    endStreamBtn.disabled = true;
+                    joinStreamBtn.disabled = true;
+                    startStreamBtn.disabled = false;
+                    
+                    // If viewer is connected, force disconnect
+                    if (viewerSession) {
+                        leaveStream();
+                    }
+                    
+                    currentStream = null;
+                    refreshTokens();
+                }
+            } catch (error) {
+                console.error('Error ending stream:', error);
+                displayApiResponse({ error: error.message });
+            }
+        });
+        
+        // Join stream as viewer
+        joinStreamBtn.addEventListener('click', async () => {
+            if (!currentStream) return;
+            
+            try {
+                viewerSession = {
+                    id: `session_${Date.now()}`,
+                    startedAt: new Date().toISOString()
+                };
+                
+                viewerStatusSpan.textContent = 'Connected';
+                sessionIdSpan.textContent = viewerSession.id;
+                
+                joinStreamBtn.disabled = true;
+                leaveStreamBtn.disabled = false;
+                
+                // Simulate receiving tokens for watching
+                await simulateWatchTime();
+            } catch (error) {
+                console.error('Error joining stream:', error);
+                displayApiResponse({ error: error.message });
+            }
+        });
+        
+        // Leave stream as viewer
+        leaveStreamBtn.addEventListener('click', async () => {
+            if (!viewerSession) return;
+            await leaveStream();
+        });
+        
+        async function leaveStream() {
+            try {
+                const response = await fetch('/api/activities/reward', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipientAddress: currentWallet,
+                        activityType: 'viewer_watch_time',
+                        activityData: {
+                            streamId: currentStream ? currentStream.id : 'unknown',
+                            sessionId: viewerSession.id,
+                            startedAt: viewerSession.startedAt,
+                            watchTimeMinutes: 5, // Mock watch time
+                            interactions: 2 // Mock interactions
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                displayApiResponse(data);
+                
+                viewerStatusSpan.textContent = 'Disconnected';
+                sessionIdSpan.textContent = 'None';
+                
+                joinStreamBtn.disabled = !currentStream;
+                leaveStreamBtn.disabled = true;
+                
+                viewerSession = null;
+                refreshTokens();
+            } catch (error) {
+                console.error('Error leaving stream:', error);
+                displayApiResponse({ error: error.message });
+            }
+        }
+        
+        // Simulate watch time rewards
+        async function simulateWatchTime() {
+            if (!viewerSession || !currentStream) return;
+            
+            try {
+                const response = await fetch('/api/activities/reward', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipientAddress: currentWallet,
+                        activityType: 'viewer_watch_time',
+                        activityData: {
+                            streamId: currentStream.id,
+                            sessionId: viewerSession.id,
+                            watchTimeMinutes: 2, // Mock watch time
+                            interactions: 1 // Mock interactions
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                displayApiResponse(data);
+                refreshTokens();
+            } catch (error) {
+                console.error('Error simulating watch time:', error);
+            }
+        }
+        
+        // Generate token
+        generateTokenBtn.addEventListener('click', async () => {
+            if (!currentWallet) {
+                alert('Please set a wallet address first');
+                return;
+            }
+            
+            const amount = parseFloat(tokenAmountInput.value);
+            const reason = tokenReasonInput.value;
+            
+            try {
+                const response = await fetch('/api/tokens/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipientAddress: currentWallet,
+                        amount,
+                        reason,
+                        metadata: {
+                            source: 'manual_test',
+                            timestamp: new Date().toISOString()
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                displayApiResponse(data);
+                
+                if (data.success) {
+                    refreshTokens();
+                }
+            } catch (error) {
+                console.error('Error generating token:', error);
+                displayApiResponse({ error: error.message });
+            }
+        });
+        
+        // Generate activity reward
+        generateActivityBtn.addEventListener('click', async () => {
+            if (!currentWallet) {
+                alert('Please set a wallet address first');
+                return;
+            }
+            
+            const activityType = activityTypeSelect.value;
+            let activityData = {};
+            
+            // Different data based on activity type
+            switch (activityType) {
+                case 'stream_start':
+                    activityData = {
+                        title: 'Test Stream',
+                        description: 'Testing token generator service'
+                    };
+                    break;
+                case 'stream_end':
+                    if (!currentStream) {
+                        alert('Please start a stream first');
+                        return;
+                    }
+                    activityData = {
+                        streamId: currentStream.id,
+                        startedAt: currentStream.startedAt,
+                        endedAt: new Date().toISOString(),
+                        averageViewers: 5
+                    };
+                    break;
+                case 'viewer_watch_time':
+                    activityData = {
+                        streamId: currentStream ? currentStream.id : `stream_${Date.now()}`,
+                        sessionId: `session_${Date.now()}`,
+                        watchTimeMinutes: 10,
+                        interactions: 3
+                    };
+                    break;
+                case 'content_creation':
+                    activityData = {
+                        contentId: `content_${Date.now()}`,
+                        contentType: 'video',
+                        title: 'Test Content'
+                    };
+                    break;
+                default:
+                    activityData = {
+                        timestamp: new Date().toISOString()
+                    };
+            }
+            
+            try {
+                const response = await fetch('/api/activities/reward', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipientAddress: currentWallet,
+                        activityType,
+                        activityData
+                    })
+                });
+                
+                const data = await response.json();
+                displayApiResponse(data);
+                
+                if (data.success) {
+                    refreshTokens();
+                }
+            } catch (error) {
+                console.error('Error generating activity reward:', error);
+                displayApiResponse({ error: error.message });
+            }
+        });
+        
+        // Refresh tokens
+        refreshTokensBtn.addEventListener('click', refreshTokens);
+        
+        async function refreshTokens() {
+            if (!currentWallet) return;
+            
+            try {
+                const response = await fetch(`/api/tokens/${currentWallet}`);
+                const data = await response.json();
+                
+                const pendingResponse = await fetch(`/api/tokens/pending/${currentWallet}`);
+                const pendingData = await pendingResponse.json();
+                
+                // Display tokens
+                let tokenHTML = `
+                    <h3>Confirmed Tokens</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Amount</th>
+                                <th>Reason</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                if (data.history.length === 0) {
+                    tokenHTML += '<tr><td colspan="5">No tokens found</td></tr>';
+                } else {
+                    data.history.forEach(token => {
+                        if (token.status === 'confirmed') {
+                            tokenHTML += `
+                                <tr>
+                                    <td>${token.id.substring(0, 8)}...</td>
+                                    <td>${token.amount}</td>
+                                    <td>${token.reason}</td>
+                                    <td>${new Date(token.timestamp).toLocaleString()}</td>
+                                    <td>${token.status}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                }
+                
+                tokenHTML += `
+                        </tbody>
+                    </table>
+                    
+                    <h3>Pending Tokens</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Amount</th>
+                                <th>Reason</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                if (pendingData.pending.length === 0) {
+                    tokenHTML += '<tr><td colspan="4">No pending tokens</td></tr>';
+                } else {
+                    pendingData.pending.forEach(token => {
+                        tokenHTML += `
+                            <tr>
+                                <td>${token.id.substring(0, 8)}...</td>
+                                <td>${token.amount}</td>
+                                <td>${token.reason}</td>
+                                <td>${new Date(token.timestamp).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                }
+                
+                tokenHTML += `
+                        </tbody>
+                    </table>
+                `;
+                
+                tokenListDiv.innerHTML = tokenHTML;
+                
+            } catch (error) {
+                console.error('Error refreshing tokens:', error);
+                displayApiResponse({ error: error.message });
+            }
+        }
+        
+        // Generate random wallet if none provided
+        if (!walletInput.value) {
+            walletInput.value = `0x${Array.from({length: 40}, () => 
+                '0123456789ABCDEF'[Math.floor(Math.random() * 16)]
+            ).join('')}`;
+        }
+    </script>
+</body>
+</html>
