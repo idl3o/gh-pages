@@ -53,5 +53,5 @@ node red_x/server.js\n\
 kill $IPFS_PID\n\
 ' > /app/start.sh && chmod +x /app/start.sh
 
-# Run the startup script
-CMD ["/app/start.sh"]
+# Run the startup script with bash explicitly
+CMD ["/bin/bash", "/app/start.sh"]
