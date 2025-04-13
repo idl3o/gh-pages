@@ -1,0 +1,149 @@
+/**
+ * Math content styles for Laplacian Angel
+ */
+
+.math-hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.math-hero .tagline {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #a7bcff;
+}
+
+.math-hero .math-formula {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem auto;
+    max-width: 600px;
+    font-size: 1.2rem;
+}
+
+.math-formula-display {
+    background: #f8f8fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    text-align: center;
+}
+
+.math-content {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.math-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.math-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.math-card.featured {
+    background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+    border: 1px solid #d4e0ff;
+}
+
+.math-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.math-card .math-type {
+    background: #e7ecff;
+    color: #4361ee;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.math-card .featured-badge {
+    background: #4361ee;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.math-card .formula-preview {
+    background: #f8f8fa;
+    padding: 1rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    overflow-x: auto;
+    text-align: center;
+}
+
+.math-card .title {
+    margin: 0.5rem 0;
+    font-size: 1.3rem;
+    color: #1e293b;
+}
+
+.math-card .description {
+    color: #64748b;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.math-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.math-card .views {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.math-card .read-more {
+    background: #4361ee;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.math-card .read-more:hover {
+    background: #3651d4;
+}
+
+.laplacian-special {
+    margin: 3rem 0;
+}
+
+.laplacian-special h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #1e293b;
+}
