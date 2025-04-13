@@ -39,34 +39,63 @@ class TokenModel extends EventEmitter {
       byCategory: new Map()
     };
     
-    // Laplacian Angel special content - Reference-based storage
-    this.laplacianContent = new Map(); // Stores IDs only for memory efficiency
+    // Laplacian Angel special content
+    this.laplacianContent = new Map();
     this.laplacianStats = {
       totalItems: 0,
       totalViews: 0,
-      popularity: 0,
-    };lastCalculated: null
+      popularity: 0
     };
+    
     // Platonic Form philosophical contental concepts
-    this.platonicContent = new Map();ncepts - Reference-based storage
+    this.platonicContent = new Map();
     this.platonicContentPath = path.join(__dirname, '../data/platonic-content.json');
-    this.philosophyStats = { = path.join(__dirname, '../data/platonic-content.json');
-      totalItems: 0,tats = {
+    this.philosophyStats = {
+      totalItems: 0,
       totalViews: 0,
       byPhilosopher: new Map(),
-      byAllegory: new Map()p(),
-    };legory: new Map()
-};
+      byAllegory: new Map()
+    };
+    
+    // Network compatibility configuration
+    this.networkConfig = {
+      apiVersion: '1.0.0',
+      supportedProtocols: ['http', 'https', 'ws', 'wss'],
+      corsEnabled: true,
+      rateLimiting: {
+        enabled: true,
+        maxRequestsPerMinute: 60,
+        ipBasedThrottling: true
+      },
+      timeout: 30000, // 30 seconds default timeout
+      retryStrategy: {
+        attempts: 3,
+        backoffFactor: 1.5,
+        initialDelay: 1000
+      }
+    };
+    
+    // Distributed nodes synchronization
+    this.nodeSync = {
+      enabled: false,
+      role: 'standalone', // 'primary', 'replica', 'standalone'
+      syncInterval: 5 * 60 * 1000, // 5 minutes
+      peers: [],
+      lastSyncTime: null,
+      conflictResolution: 'timestamp' // 'timestamp', 'version', 'manual'
+    };
+    
     // System monitoring and error handling
     this.systemMonitor = {
       errors: [],
       lastErrorTime: null,
-      lastMemoryCheck: null, maxItemSizeBytes: 1024 * 1024, // 1MB per content item
+      lastMemoryCheck: null,
+      maxItemSizeBytes: 1024 * 1024, // 1MB per content item
       memoryCheckInterval: 60000,
-      maxErrorsStored: 100 30 minutes cache expiration
-    };;
+      maxErrorsStored: 100
+    };
 
-    this.errorHandling = {cache for improved performance
+    this.errorHandling = {
       errorCallback: null
     };
 
@@ -75,30 +104,30 @@ class TokenModel extends EventEmitter {
       lastCleanup: null
     };
 
-    this.contentLimits = {/ Check memory every hour
-      maxItems: 10000,errors: [],
+    this.contentLimits = {
+      maxItems: 10000,
       warningThreshold: 0.8,
       cacheExpiration: 3600000 // 1 hour
     };
 
-    this.initializeDataStorage();ategy
+    this.initializeDataStorage();
   }
 
   /**
    * Initialize data storage and load existing data if available or log errors
-   * @private errorCallback: null // Optional callback for error notification
+   * @private
    */
   async initializeDataStorage() {
-    try {/ Load saved tokens if available
-      // Create data directory if it doesn't exist().catch(err => {
-      const dataDir = path.join(__dirname, '../data');s.logError('Initialization error', err);
+    try {
+      // Create data directory if it doesn't exist
+      const dataDir = path.join(__dirname, '../data');
       await fs.mkdir(dataDir, { recursive: true });
       this.persistenceEnabled = true;
       
       // Try to load existing data
       await this.loadTokensFromDisk();
-      await this.loadFreeContentFromDisk();ing data if available
-      await this.loadSpecializedContent();te
+      await this.loadFreeContentFromDisk();
+      await this.loadSpecializedContent();
       
       // Verify data integrity across collections
       await this.verifyDataIntegrity();
@@ -109,33 +138,32 @@ class TokenModel extends EventEmitter {
       console.warn('Failed to initialize token persistence:', error.message);
     }
   }
-it this.loadFreeContentFromDisk();
-  /**ait this.loadSpecializedContent();
+
+  /**
    * Log and track errors for monitoring
-   * @private/ Verify data integrity across collections
+   * @private
    * @param {string} context - Where the error occurred
-   * @param {Error} error - The error objectkenModel data storage initialized');
+   * @param {Error} error - The error object
    */
   logError(context, error) {
-    const errorInfo = {istence:', error.message);
+    const errorInfo = {
       timestamp: new Date(),
       context,
       message: error.message,
       stack: error.stack
-    };g errors for system monitoring
-    @param {string} message Error message
-    this.systemMonitor.errors.unshift(errorInfo);object
+    };
+    this.systemMonitor.errors.unshift(errorInfo);
     this.systemMonitor.lastErrorTime = new Date();
-    Error(message, error) {
+
     // Keep error log at reasonable size
-    if (this.systemMonitor.errors.length > this.systemMonitor.maxErrorsStored) {sage,
+    if (this.systemMonitor.errors.length > this.systemMonitor.maxErrorsStored) {
       this.systemMonitor.errors.pop();
     }
     
     // Call error callback if provided
-    if (typeof this.errorHandling.errorCallback === 'function') {e.now();
-      try {s.systemMonitor.maxErrorsStored) {
-        this.errorHandling.errorCallback(errorInfo);systemMonitor.errors.shift();
+    if (typeof this.errorHandling.errorCallback === 'function') {
+      try {
+        this.errorHandling.errorCallback(errorInfo);
       } catch (callbackError) {
         console.error('Error in error callback:', callbackError);
       }
@@ -145,32 +173,32 @@ it this.loadFreeContentFromDisk();
   /**
    * Check memory usage and perform cleanup if necessary
    * @private
-   * @returns {Promise<Object>} Memory status information data = await fs.readFile(this.persistencePath, 'utf8');
-   */st parsedData = JSON.parse(data);
+   * @returns {Promise<Object>} Memory status information
+   */
   async checkMemoryUsage() {
     // Skip if last check was recent
-    if (this.systemMonitor.lastMemoryCheck &&    this.tokens.set(token.id, token);
+    if (this.systemMonitor.lastMemoryCheck && 
         (Date.now() - this.systemMonitor.lastMemoryCheck) < this.systemMonitor.memoryCheckInterval) {
       return null;
     }
     
     this.systemMonitor.lastMemoryCheck = Date.now();
-    = parsedData.stats.totalAmount || 0;
+    
     // Get collection sizes
-    const tokenCount = this.tokens.size;         Object.entries(parsedData.stats.byReason).forEach(([reason, value]) => {
-    const freeContentCount = this.freeContent.size;            this.tokenStats.byReason.set(reason, value);
+    const tokenCount = this.tokens.size;
+    const freeContentCount = this.freeContent.size;
     const laplacianCount = this.laplacianContent.size;
     const platonicCount = this.platonicContent.size;
     const cacheSize = this.contentCache.items.size;
      
-    const totalItems = tokenCount + freeContentCount;ens.size} tokens from disk`);
+    const totalItems = tokenCount + freeContentCount;
     const memoryStatus = {
       timestamp: new Date(),
       tokenCount,
       freeContentCount,
-      laplacianCount,found, starting fresh');
-      platonicCount,else {
-      cacheSize,rom disk', error);
+      laplacianCount,
+      platonicCount,
+      cacheSize,
       totalItems,
       maxItems: this.contentLimits.maxItems,
       utilizationPercent: (totalItems / this.contentLimits.maxItems) * 100
@@ -182,31 +210,31 @@ it this.loadFreeContentFromDisk();
       
       // Force persistence to ensure data is saved
       await this.persistToDisk();
-      tPath, 'utf8');
-      // Clean cache to free memory(data);
-      this.cleanContentCache(true); // force cleanata.items)) {
+      
+      // Clean cache to free memory
+      this.cleanContentCache(true); // force clean
     }
     
     // Perform routine cache cleanup
     this.cleanContentCache();
-    lable
+    
     // Log memory stats
     console.log(`Memory usage - Tokens: ${tokenCount}, Free content: ${freeContentCount}, ` +
-                `Laplacian: ${laplacianCount}, Platonic: ${platonicCount}, Cache: ${cacheSize}`); || 0;
-    ry) {
-    return memoryStatus;     Object.entries(parsedData.stats.byCategory).forEach(([category, count]) => {
-  }         this.freeContentStats.byCategory.set(category, count);
+                `Laplacian: ${laplacianCount}, Platonic: ${platonicCount}, Cache: ${cacheSize}`);
+    
+    return memoryStatus;
+  }
 
   /**
    * Clean the content cache based on expiration or force parameter
-   * @private      console.log(`Loaded ${this.freeContent.size} free content items from disk`);
+   * @private
    * @param {boolean} force - Force full cache cleanup regardless of expiration
    */
-  cleanContentCache(force = false) {or.code === 'ENOENT') {
-    const now = Date.now();   console.log('No existing free content data found, starting fresh');
+  cleanContentCache(force = false) {
+    const now = Date.now();
     let cleanedCount = 0;
-     content from disk', error);
-    // Skip if last cleanup was recent and not forcedonsole.error('Error loading free content from disk:', error);
+    
+    // Skip if last cleanup was recent and not forced
     if (!force && (now - this.contentCache.lastCleanup) < (this.contentLimits.cacheExpiration / 2)) {
       return;
     }
@@ -215,66 +243,66 @@ it this.loadFreeContentFromDisk();
     
     for (const [key, item] of this.contentCache.items.entries()) {
       if (force || (now - item.cachedAt > this.contentLimits.cacheExpiration)) {
-        this.contentCache.items.delete(key);nt() {
+        this.contentCache.items.delete(key);
         cleanedCount++;
       }
-    }Store ID only
-    alItems++;
+    }
+    
     if (cleanedCount > 0) {
-      console.log(`Cache cleanup: removed ${cleanedCount} items from cache`); item.views;
-    }}
+      console.log(`Cache cleanup: removed ${cleanedCount} items from cache`);
+    }
   }
-  ) {
-  /**et(id, item.id); // Store ID only
-   * Get content by ID with caching support++;
-   * @privateem.views) {
-   * @param {string} id - Content ID to retrieveiews += item.views;
+
+  /**
+   * Get content by ID with caching support
+   * @private
+   * @param {string} id - Content ID to retrieve
    * @param {string} collectionType - Type of collection ('free', 'laplacian', 'platonic')
    * @returns {Object|null} The content object or null if not found
-   */ilosophyStats.byPhilosopher.get(item.philosopher) || 0;
-  getCachedContent(id, collectionType = 'free') {.set(item.philosopher, count + 1);
+   */
+  getCachedContent(id, collectionType = 'free') {
     // Check cache first
     const cacheKey = `${collectionType}_${id}`;
-    const cachedItem = this.contentCache.items.get(cacheKey);onst count = this.philosophyStats.byAllegory.get(item.allegory) || 0;
-    tem.allegory, count + 1);
-    if (cachedItem) {      }
-      return cachedItem.data; }
+    const cachedItem = this.contentCache.items.get(cacheKey);
+    
+    if (cachedItem) {
+      return cachedItem.data;
     }
-    og(`Loaded ${this.laplacianContent.size} Laplacian Angel items and ${this.platonicContent.size} Platonic Forms items`);
+    
     // Not in cache, retrieve from collection
     let item = null;
     
-    if (collectionType === 'free') { tokens and free content to disk
+    if (collectionType === 'free') {
       item = this.freeContent.get(id);
     } 
     else if (collectionType === 'laplacian') {
       // For reference-based collections, get the ID then fetch from main collection
       const hasItem = this.laplacianContent.has(id);
-      if (hasItem) {st tokensArray = Array.from(this.tokens.values());
-        item = this.freeContent.get(id);const reasonStats = {};
-      }s.byReason.forEach((value, key) => {
-    }alue;
+      if (hasItem) {
+        item = this.freeContent.get(id);
+      }
+    }
     else if (collectionType === 'platonic') {
       const hasItem = this.platonicContent.has(id);
       if (hasItem) {
         item = this.freeContent.get(id);
-      }totalCreated: this.tokenStats.totalCreated,
+      }
     }
-    ts
-    // Store in cache if found  },
-    if (item) {e().toISOString()
+    
+    // Store in cache if found
+    if (item) {
       this.contentCache.items.set(cacheKey, {
         data: item,
         cachedAt: Date.now()
-      });JSON.stringify(data, null, 2),
-    }  'utf8'
+      });
+    }
     
-    return item;e = new Date();
+    return item;
   }
-   await this.persistFreeContentToDisk();
+
   /**
-   * Verify data integrity across collections     this.logError('Error persisting tokens to disk', error);
-   * @returns {Promise<Object>} Integrity check results console.error('Error persisting tokens to disk:', error);
+   * Verify data integrity across collections
+   * @returns {Promise<Object>} Integrity check results
    */
   async verifyDataIntegrity() {
     const results = {
@@ -285,76 +313,75 @@ it this.loadFreeContentFromDisk();
     };
     
     try {
-      // Check for Laplacian content items not in the free content collection.values());
+      // Check for Laplacian content items not in the free content collection
       for (const [id, _] of this.laplacianContent.entries()) {
-        results.checkedItems++;  this.freeContentStats.byCategory.forEach((value, key) => {
+        results.checkedItems++;
         if (!this.freeContent.has(id)) {
           console.warn(`Found orphaned Laplacian item: ${id}`);
           results.orphanedItems.push({id, type: 'laplacian'});
           
-          // Remove reference since the actual content is missing   stats: {
-          this.laplacianContent.delete(id);      totalItems: this.freeContentStats.totalItems,
-          this.laplacianStats.totalItems--;.totalViews,
+          // Remove reference since the actual content is missing
+          this.laplacianContent.delete(id);
+          this.laplacianStats.totalItems--;
         }
-      }   },
+      }
       
       // Check for Platonic content items not in the free content collection
       for (const [id, _] of this.platonicContent.entries()) {
-        results.checkedItems++;.freeContentPath,
+        results.checkedItems++;
         if (!this.freeContent.has(id)) {
-          console.warn(`Found orphaned Platonic item: ${id}`);     'utf8'
-          results.orphanedItems.push({id, type: 'platonic'});      );
-          isk`);
+          console.warn(`Found orphaned Platonic item: ${id}`);
+          results.orphanedItems.push({id, type: 'platonic'});
+          
           // Remove reference since the actual content is missing
-          this.platonicContent.delete(id); disk', error);
-          this.philosophyStats.totalItems--;ersisting free content to disk:', error);
+          this.platonicContent.delete(id);
+          this.philosophyStats.totalItems--;
         }
       }
       
       // Check that all items with special flags have proper references
-      for (const [id, item] of this.freeContent.entries()) {data before creation
-        results.checkedItems++;am {Object} tokenData Token data to validate
+      for (const [id, item] of this.freeContent.entries()) {
+        results.checkedItems++;
         
+        if (item.isLaplacianAngel && !this.laplacianContent.has(id)) {
+          console.warn(`Found Laplacian content without reference: ${id}`);
+          results.inconsistentItems.push({id, type: 'laplacian'});
+          
+          // Fix by adding reference
+          this.laplacianContent.set(id, true);
+          this.laplacianStats.totalItems++;
+          results.fixedItems++;
+        }
+        
+        if (item.isPlatonicForm && !this.platonicContent.has(id)) {
+          console.warn(`Found Platonic content without reference: ${id}`);
+          results.inconsistentItems.push({id, type: 'platonic'});
+          
+          // Fix by adding reference
+          this.platonicContent.set(id, true);
+          this.philosophyStats.totalItems++;
+          results.fixedItems++;
+        }
+      }
+      
+      if (results.fixedItems > 0) {
+        // If we fixed items, persist changes
+        await this.persistFreeContentToDisk();
+      }
+      
+      console.log(`Data integrity check complete: ${results.checkedItems} items checked, ${results.fixedItems} items fixed`);
+    } catch (error) {
+      console.error('Error during data integrity check:', error);
+      this.logError('Data integrity check', error);
+    }
+    
+    return results;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = new TokenModel();}  }    return results;        }      console.error('Error during data integrity check:', error);      this.logError('Data integrity check', error);    } catch (error) {      }        await this.persistFreeContentToDisk();      if (results.fixedItems > 0) {      // If we fixed items, persist changes            console.log(`Data integrity check complete: ${results.checkedItems} items checked, ${results.fixedItems} items fixed`);            }        }          results.fixedItems++;          this.philosophyStats.totalItems++;          this.platonicContent.set(id, true);          // Fix by adding reference                    results.inconsistentItems.push({id, type: 'platonic'});          console.warn(`Found Platonic content without reference: ${id}`);        if (item.isPlatonicForm && !this.platonicContent.has(id)) {        // Ensure Platonic Form items are properly referenced                }          results.fixedItems++;          this.laplacianStats.totalItems++;          this.laplacianContent.set(id, true);          // Fix by adding reference                    results.inconsistentItems.push({id, type: 'laplacian'});          console.warn(`Found Laplacian content without reference: ${id}`);        if (item.isLaplacianAngel && !this.laplacianContent.has(id)) {        // Ensure Laplacian Angel items are properly referenced   */
+  /**
+   * Validate token data before creation
+   * @param {Object} tokenData Token data to validate
+   */
   validateToken(tokenData) {
     const errors = [];
     if (!tokenData.recipientAddress) {
@@ -373,6 +400,218 @@ module.exports = new TokenModel();}  }    return results;        }      console.
     return {
       valid: errors.length === 0,
       errors
+    };
+  }
+
+  /**
+   * Configure Node.js network capabilities
+   * @param {Object} config Network configuration options
+   * @returns {Object} Current network configuration
+   */
+  configureNetwork(config = {}) {
+    if (config.apiVersion) this.networkConfig.apiVersion = config.apiVersion;
+    if (config.supportedProtocols) this.networkConfig.supportedProtocols = config.supportedProtocols;
+    if (typeof config.corsEnabled === 'boolean') this.networkConfig.corsEnabled = config.corsEnabled;
+    
+    // Configure rate limiting
+    if (config.rateLimiting) {
+      Object.assign(this.networkConfig.rateLimiting, config.rateLimiting);
+    }
+    
+    // Configure retry strategy
+    if (config.retryStrategy) {
+      Object.assign(this.networkConfig.retryStrategy, config.retryStrategy);
+    }
+    
+    this.emit('network:configured', this.networkConfig);
+    return this.networkConfig;
+  }
+  
+  /**
+   * Enable distributed node synchronization
+   * @param {Object} options Node synchronization options
+   * @returns {Boolean} Success status
+   */
+  enableNodeSync(options = {}) {
+    this.nodeSync.enabled = true;
+    
+    if (options.role && ['primary', 'replica', 'standalone'].includes(options.role)) {
+      this.nodeSync.role = options.role;
+    }
+    
+    if (options.peers && Array.isArray(options.peers)) {
+      this.nodeSync.peers = options.peers;
+    }
+    
+    if (options.syncInterval) {
+      this.nodeSync.syncInterval = options.syncInterval;
+    }
+    
+    if (options.conflictResolution) {
+      this.nodeSync.conflictResolution = options.conflictResolution;
+    }
+    
+    // Start sync interval if we're not standalone
+    if (this.nodeSync.role !== 'standalone' && this.nodeSync.peers.length > 0) {
+      this.startNodeSync();
+    }
+    
+    this.emit('node:sync-enabled', this.nodeSync);
+    return true;
+  }
+  
+  /**
+   * Start node synchronization process
+   * @private
+   */
+  startNodeSync() {
+    // Clear any existing interval
+    if (this._syncInterval) {
+      clearInterval(this._syncInterval);
+    }
+    
+    // Set up new sync interval
+    this._syncInterval = setInterval(() => {
+      this.synchronizeWithPeers().catch(err => {
+        console.error('Node synchronization error:', err);
+      });
+    }, this.nodeSync.syncInterval);
+    
+    console.log(`Node sync started with ${this.nodeSync.peers.length} peers, interval: ${this.nodeSync.syncInterval}ms`);
+  }
+  
+  /**
+   * Synchronize data with peer nodes
+   * @returns {Promise<Object>} Synchronization results
+   */
+  async synchronizeWithPeers() {
+    if (!this.nodeSync.enabled || this.nodeSync.peers.length === 0) {
+      return { success: false, reason: 'Sync not enabled or no peers configured' };
+    }
+    
+    const results = {
+      timestamp: new Date(),
+      success: false,
+      peersContacted: 0,
+      peersSucceeded: 0,
+      itemsSynchronized: 0,
+      conflicts: 0
+    };
+    
+    try {
+      // Different sync behavior based on role
+      if (this.nodeSync.role === 'primary') {
+        // Primary pushes updates to replicas
+        for (const peer of this.nodeSync.peers) {
+          try {
+            // This would use actual HTTP in production code
+            console.log(`[SIMULATE] Pushing updates to replica: ${peer.url}`);
+            results.peersContacted++;
+            results.peersSucceeded++;
+          } catch (error) {
+            console.error(`Failed to push updates to ${peer.url}:`, error);
+          }
+        }
+      } else if (this.nodeSync.role === 'replica') {
+        // Replica pulls updates from primary
+        try {
+          const primaryPeer = this.nodeSync.peers.find(p => p.role === 'primary');
+          if (primaryPeer) {
+            console.log(`[SIMULATE] Pulling updates from primary: ${primaryPeer.url}`);
+            results.peersContacted++;
+            results.peersSucceeded++;
+          }
+        } catch (error) {
+          console.error('Failed to pull updates from primary:', error);
+        }
+      }
+      
+      results.success = results.peersSucceeded > 0;
+      this.nodeSync.lastSyncTime = new Date();
+      this.emit('node:synchronized', results);
+      
+    } catch (error) {
+      console.error('Synchronization error:', error);
+      results.error = error.message;
+    }
+    
+    return results;
+  }
+  
+  /**
+   * Expose API endpoints for network access
+   * @param {Object} server Express or HTTP server instance
+   * @returns {Object} API endpoint configuration
+   */
+  exposeNetworkApi(server) {
+    // This is a simulation - in a real implementation, this would set up
+    // actual Express routes or other HTTP handlers
+    
+    const apiEndpoints = {
+      getTokens: '/api/tokens',
+      createToken: '/api/tokens/create',
+      getContent: '/api/content',
+      getLaplacianContent: '/api/laplacian',
+      getPlatonicContent: '/api/platonic',
+      sync: '/api/sync'
+    };
+    
+    console.log('TokenModel API endpoints registered:', apiEndpoints);
+    
+    this.emit('network:api-exposed', apiEndpoints);
+    return apiEndpoints;
+  }
+  
+  /**
+   * Handle incoming WebSocket connections for real-time updates
+   * @param {Object} wsServer WebSocket server instance
+   */
+  setupWebSocketSupport(wsServer) {
+    // This is a simulation - in a real implementation, this would set up
+    // actual WebSocket handlers
+    
+    console.log('WebSocket support configured for real-time token updates');
+    
+    // Event handler to broadcast token updates
+    this.on('token:created', (token) => {
+      console.log(`[SIMULATE] Broadcasting new token ${token.id} via WebSocket`);
+    });
+    
+    this.on('token:updated', (token) => {
+      console.log(`[SIMULATE] Broadcasting token update ${token.id} via WebSocket`);
+    });
+    
+    this.emit('network:websocket-configured');
+  }
+  
+  /**
+   * Make HTTP request with Node.js compatibility
+   * @param {string} url URL to request
+   * @param {Object} options Request options
+   * @returns {Promise<Object>} Response data
+   */
+  async makeNetworkRequest(url, options = {}) {
+    // In a real implementation, this would use Node's http/https or fetch API
+    // This is a simulation to demonstrate the API design
+    
+    const defaultOptions = {
+      method: 'GET',
+      timeout: this.networkConfig.timeout,
+      retry: this.networkConfig.retryStrategy.attempts
+    };
+    
+    const requestOptions = { ...defaultOptions, ...options };
+    
+    console.log(`[SIMULATE] Making ${requestOptions.method} request to ${url}`);
+    
+    // Simulate network latency
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Simulate response
+    return {
+      status: 200,
+      data: { success: true, message: 'Simulated network response' },
+      headers: { 'content-type': 'application/json' }
     };
   }
 
