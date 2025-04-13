@@ -1,0 +1,82 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'com.web3streaming'
+version = '1.0.0'
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // AWS Lambda Core SDK
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.2'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.1'
+    implementation 'com.amazonaws:aws-lambda-java-log4j2:1.5.1'
+
+    // JSON processing
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // Web3j for Ethereum/blockchain interactions
+    implementation 'org.web3j:core:4.9.7'
+    
+    // AWS SDK components
+    implementation 'software.amazon.awssdk:dynamodb:2.20.109'
+    implementation 'software.amazon.awssdk:s3:2.20.109'
+    implementation 'software.amazon.awssdk:secretsmanager:2.20.109'
+    
+    // IPFS client
+    implementation 'com.github.ipfs:java-ipfs-api:1.4.3'
+    
+    // Logging
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-slf4j18-impl:2.20.0'
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+    testImplementation 'org.mockito:mockito-core:5.3.1'
+}
+
+application {
+    mainClassName = 'com.web3streaming.handlers.ApiGatewayHandler'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.web3streaming.handlers.ApiGatewayHandler'
+    }
+}
+
+// Task to generate a fat JAR with all dependencies included
+shadowJar {
+    archiveBaseName.set('web3-streaming-serverless')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    mergeServiceFiles()
+    zip64 true
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+// Task for creating the deployment package
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+// Default task
+build.dependsOn shadowJar
