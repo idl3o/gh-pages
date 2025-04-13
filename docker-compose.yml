@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  web3-streaming-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: web3-streaming-app:latest
+    container_name: web3-streaming
+    ports:
+      - "3000:3000"     # Main application
+      - "5001:5001"     # IPFS API
+      - "8081:8080"     # IPFS Gateway (changed from 8080:8080 to 8081:8080)
+      - "4001:4001"     # IPFS Swarm
+    volumes:
+      - ipfs-data:/data/ipfs
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # Add your other environment variables here
+      # - AWS_ACCESS_KEY_ID=
+      # - AWS_SECRET_ACCESS_KEY=
+      # - AWS_REGION=us-west-2
+      # - PINATA_API_KEY=
+      # - PINATA_SECRET_KEY=
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  ipfs-data:
+    # Persistent storage for IPFS data

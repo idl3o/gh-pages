@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Contract Applications | Web3 Streaming Service</title>
+    <meta name="description" content="Explore innovative applications of smart contracts in the Web3 streaming ecosystem">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <header class="bg-primary text-white py-5">
+        <div class="container">
+            <h1>Smart Contract Applications</h1>
+            <p class="lead">Innovative Use Cases in Web3 Content Streaming</p>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/docs">Documentation</a></li>
+                <li class="breadcrumb-item"><a href="/docs/use-cases">Use Cases</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Smart Contract Applications</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <section id="overview">
+                    <h2>Overview</h2>
+                    <p>
+                        Smart contracts are self-executing contracts with the terms directly written into code. 
+                        The Web3 streaming ecosystem leverages these trustless mechanisms to enable new business 
+                        models and creator-audience relationships that were previously impossible in centralized platforms.
+                    </p>
+                    <p>
+                        This guide explores practical applications of our key smart contracts and how they can be integrated
+                        into various streaming scenarios to benefit both creators and viewers.
+                    </p>
+                </section>
+
+                <section id="key-contracts" class="mt-5">
+                    <h2>Key Smart Contracts</h2>
+                    <div class="card mb-4">
+                        <div class="card-header d-flex align-items-center">
+                            <i class="fas fa-file-contract me-2 text-primary"></i>
+                            <h3 class="h5 mb-0">StreamPaymentContract</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Handles all payment operations for content access, including:
+                            </p>
+                            <ul>
+                                <li>Pay-per-view transactions</li>
+                                <li>Subscription management</li>
+                                <li>Revenue sharing and distribution</li>
+                                <li>Multi-token payment support</li>
+                            </ul>
+                            <a href="/docs/contracts/stream-payment.html" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-book me-1"></i> Documentation
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header d-flex align-items-center">
+                            <i class="fas fa-lock me-2 text-primary"></i>
+                            <h3 class="h5 mb-0">StreamAccessContract</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Manages access control for content streams:
+                            </p>
+                            <ul>
+                                <li>Proof of payment verification</li>
+                                <li>Time-based access control</li>
+                                <li>Subscription status validation</li>
+                                <li>Tiered access management</li>
+                            </ul>
+                            <a href="/docs/contracts/stream-access.html" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-book me-1"></i> Documentation
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header d-flex align-items-center">
+                            <i class="fas fa-certificate me-2 text-primary"></i>
+                            <h3 class="h5 mb-0">ProofOfExistenceContract</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Validates content authenticity and ownership:
+                            </p>
+                            <ul>
+                                <li>Content fingerprinting</li>
+                                <li>Timestamp verification</li>
+                                <li>Creator identity validation</li>
+                                <li>Copyright protection mechanisms</li>
+                            </ul>
+                            <a href="/docs/contracts/proof-of-existence.html" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-book me-1"></i> Documentation
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="use-cases" class="mt-5">
+                    <h2>Industry Applications</h2>
+                    
+                    <div class="case-study mb-5">
+                        <h3>1. Micropayment-Based Content Access</h3>
+                        <div class="row align-items-center">
+                            <div class="col-md-5">
+                                <img src="/assets/images/micropayments-diagram.jpg" alt="Micropayment System Diagram" class="img-fluid rounded mb-3">
+                            </div>
+                            <div class="col-md-7">
+                                <p>
+                                    Traditional streaming platforms typically require monthly subscriptions, even if viewers 
+                                    only watch a small portion of the available content. Our smart contracts enable true 
+                                    pay-per-view capabilities with micropayments, allowing:
+                                </p>
+                                <ul>
+                                    <li>Pay only for content you actually consume</li>
+                                    <li>Fair compensation to creators based on actual viewership</li>
+                                    <li>Lower barriers to entry for new viewers</li>
+                                    <li>Support for fractional payments as low as $0.01 equivalent</li>
+                                </ul>
+                                
+                                <div class="code-snippet bg-light p-3 rounded">
+<pre><code class="language-javascript">// Example frontend integration
+async function purchaseSingleVideo(videoId, price) {
+    const contract = new web3.eth.Contract(abiPayment, contractAddress);
+    const priceInWei = web3.utils.toWei(price.toString(), 'ether');
+    
+    // Request purchase with duration of 48 hours
+    await contract.methods.purchaseContent(videoId, 172800)
+        .send({ from: userAddress, value: priceInWei });
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="case-study mb-5">
+                        <h3>2. Creator Revenue Sharing</h3>
+                        <p>
+                            Our smart contracts automate fair revenue distribution between creators, platforms, and other stakeholders:
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header">Traditional Model</div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li>Platform takes 30-50% of revenue</li>
+                                            <li>Payment delays of 30-90 days</li>
+                                            <li>Opaque accounting practices</li>
+                                            <li>High withdrawal thresholds</li>
+                                            <li>Limited payment options</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header">Smart Contract Model</div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li>Platform fees as low as 2.5%</li>
+                                            <li>Instant payment settlement</li>
+                                            <li>Transparent on-chain accounting</li>
+                                            <li>No minimum withdrawal thresholds</li>
+                                            <li>Multiple currency support</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study mb-5">
+                        <h3>3. Content Authentication and Copyright Protection</h3>
+                        <p>
+                            The ProofOfExistenceContract enables creators to timestamp and verify their content's authenticity:
+                        </p>
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                                <ul>
+                                    <li>Register cryptographic hash of content on-chain</li>
+                                    <li>Prove content ownership and creation date</li>
+                                    <li>Verify content hasn't been tampered with</li>
+                                    <li>Integrate with legal copyright enforcement</li>
+                                    <li>Support for DMCA takedown procedures</li>
+                                </ul>
+                                <p>
+                                    This system creates an immutable record of content ownership that can be used
+                                    as evidence in disputes and protects creators' intellectual property rights.
+                                </p>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="bg-light p-4 rounded">
+                                    <h5>Verification Process</h5>
+                                    <ol>
+                                        <li>Creator uploads content</li>
+                                        <li>System generates cryptographic hash</li>
+                                        <li>Hash stored on blockchain with creator signature</li>
+                                        <li>Timestamp and creator ID recorded</li>
+                                        <li>Verification certificate generated</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="implementation" class="mt-5">
+                    <h2>Implementation Guide</h2>
+                    <p>
+                        Follow these steps to integrate our smart contracts into your Web3 streaming application:
+                    </p>
+
+                    <div class="accordion" id="implementationSteps">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Step 1: Set Up Contract Interfaces
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#implementationSteps">
+                                <div class="accordion-body">
+                                    <p>Import the contract ABIs and initialize connections:</p>
+                                    <div class="code-snippet bg-light p-3 rounded">
+<pre><code class="language-javascript">// Import ABIs
+import StreamPaymentABI from './abis/StreamPayment.json';
+import StreamAccessABI from './abis/StreamAccess.json';
+import ProofOfExistenceABI from './abis/ProofOfExistence.json';
+
+// Initialize contracts
+const paymentContract = new web3.eth.Contract(
+    StreamPaymentABI, 
+    '0x2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b'
+);
+
+const accessContract = new web3.eth.Contract(
+    StreamAccessABI, 
+    '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t'
+);
+
+const proofContract = new web3.eth.Contract(
+    ProofOfExistenceABI, 
+    '0xa1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0'
+);</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional accordion items would follow -->
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sticky-top pt-4" style="top: 2rem;">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Table of Contents
+                        </div>
+                        <div class="card-body">
+                            <nav id="toc">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#overview">Overview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#key-contracts">Key Smart Contracts</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#use-cases">Industry Applications</a>
+                                        <ul class="nav flex-column ms-3">
+                                            <li class="nav-item">
+                                                <a class="nav-link py-1" href="#use-cases-1">Micropayment-Based Content</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link py-1" href="#use-cases-2">Creator Revenue Sharing</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link py-1" href="#use-cases-3">Content Authentication</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#implementation">Implementation Guide</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">Related Resources</div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-file-code fa-fw text-primary me-1"></i>
+                                    <a href="/docs/contracts/stream-payment.html">StreamPaymentContract</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-file-code fa-fw text-primary me-1"></i>
+                                    <a href="/docs/contracts/stream-access.html">StreamAccessContract</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-file-code fa-fw text-primary me-1"></i>
+                                    <a href="/docs/contracts/proof-of-existence.html">ProofOfExistenceContract</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-book fa-fw text-primary me-1"></i>
+                                    <a href="/docs/tech.contracts.html">Contract Architecture</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-user-edit fa-fw text-primary me-1"></i>
+                                    <a href="/docs/use-cases/creator-stories.html">Creator Success Stories</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Support</div>
+                        <div class="card-body">
+                            <p>Need help implementing our smart contracts?</p>
+                            <a href="/docs/guides.developers.html" class="btn btn-primary w-100">
+                                <i class="fas fa-code me-1"></i> Developer Guide
+                            </a>
+                            <hr>
+                            <p class="small m-0">Have technical questions?</p>
+                            <a href="mailto:dev@web3streaming.example.com" class="btn btn-outline-secondary btn-sm mt-2 w-100">
+                                <i class="fas fa-envelope me-1"></i> Contact Dev Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Footer content would go here -->
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize syntax highlighting
+            document.querySelectorAll('pre code').forEach(el => {
+                hljs.highlightElement(el);
+            });
+
+            // Smooth scrolling for TOC links
+            document.querySelectorAll('#toc a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Activate TOC links on scroll
+            window.addEventListener('scroll', () => {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('#toc .nav-link');
+                
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.pageYOffset >= sectionTop - 100) {
+                        current = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
