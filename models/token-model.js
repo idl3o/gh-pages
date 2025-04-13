@@ -39,587 +39,209 @@ class TokenModel extends EventEmitter {
       byCategory: new Map()
     };
     
-    // Laplacian Angel special content
-    this.laplacianContent = new Map();
-    this.laplacianStats = {
-      totalItems: 0,
-      totalViews: 0,
-      popularity: 0
+    // Creative Commons licensing options System
+    this.ccLicenses = {ntent = new Map();
+      'cc-by': {temisPath = path.join(__dirname, '../data/codex-artemis.json');
+        name: 'Attribution',
+        url: 'https://creativecommons.org/licenses/by/4.0/'
+      },
+      'cc-by-sa': {
+        name: 'Attribution-ShareAlike',
+        url: 'https://creativecommons.org/licenses/by-sa/4.0/'
+      },
+      'cc-by-nd': {
+        name: 'Attribution-NoDerivs',
+        url: 'https://creativecommons.org/licenses/by-nd/4.0/'
+      },mains: [
+      'cc-by-nc': {iences', 'Formal Sciences', 'Social Sciences', 
+        name: 'Attribution-NonCommercial',nterdisciplinary'
+        url: 'https://creativecommons.org/licenses/by-nc/4.0/'
+      },
+      'cc-by-nc-sa': {anced Beginner', 'Competent', 
+        name: 'Attribution-NonCommercial-ShareAlike',
+        url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
+      },nnectionTypes: [
+      'cc-by-nc-nd': {ion', 'application',
+        name: 'Attribution-NonCommercial-NoDerivs',
+        url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/'
+      }
     };
-    
-    // Platonic Form philosophical contental concepts
+    this.licenseStats = {options
+      totalLicensed: 0,
+      byLicense: new Map()
+    };name: 'Attribution',
+        url: 'https://creativecommons.org/licenses/by/4.0/'
+    // Platonic Form philosophical content
     this.platonicContent = new Map();
     this.platonicContentPath = path.join(__dirname, '../data/platonic-content.json');
     this.philosophyStats = {
       totalItems: 0,
       totalViews: 0,
-      byPhilosopher: new Map(),
-      byAllegory: new Map()
-    };
+      byPhilosopher: new Map(),rivs',
+      byAllegory: new Map()ivecommons.org/licenses/by-nd/4.0/'
+    };},
     
-    // Network compatibility configuration
-    this.networkConfig = {
-      apiVersion: '1.0.0',
-      supportedProtocols: ['http', 'https', 'ws', 'wss'],
-      corsEnabled: true,
-      rateLimiting: {
-        enabled: true,
-        maxRequestsPerMinute: 60,
-        ipBasedThrottling: true
-      },
-      timeout: 30000, // 30 seconds default timeout
-      retryStrategy: {
-        attempts: 3,
-        backoffFactor: 1.5,
-        initialDelay: 1000
-      }
+    // Suprastream and Liminal Time concepts
+    this.suprastreamContent = new Map();g/licenses/by-nc/4.0/'
+    this.liminalTimeContent = new Map();
+    this.suprastreamPath = path.join(__dirname, '../data/suprastream-content.json');
+    this.suprastreamStats = {mercial-ShareAlike',
+      totalItems: 0,//creativecommons.org/licenses/by-nc-sa/4.0/'
+      totalViews: 0,
+      byFlowState: new Map(),
+      totalBandwidth: 0,on-NonCommercial-NoDerivs',
+      peakThroughput: 0reativecommons.org/licenses/by-nc-nd/4.0/'
     };
+    };
+    this.liminalTimeStats = {
+      totalItems: 0, 0,
+      totalViews: 0, Map()
+      byThreshold: new Map(),
+      averageDuration: 0,
+      mostActiveHour: nullsophical content
+    };icContent = new Map();
+    this.platonicContentPath = path.join(__dirname, '../data/platonic-content.json');
+    // FKP content
+    this.fkpContent = new Map();
+    this.fkpContentPath = path.join(__dirname, '../data/fkp-content.json');
+    this.fkpStats = {new Map(),
+      totalItems: 0,
+      totalViews: 0,
+      averageComplexity: 0,
+      byTheorem: new Map(),nal Time concepts
+      bySpecies: new Map(),
+      byComplexity: new Map()
+    };is.suprastreamPath = path.join(__dirname, '../data/suprastream-content.json');
     
-    // Distributed nodes synchronization
-    this.nodeSync = {
-      enabled: false,
-      role: 'standalone', // 'primary', 'replica', 'standalone'
-      syncInterval: 5 * 60 * 1000, // 5 minutes
-      peers: [],
-      lastSyncTime: null,
-      conflictResolution: 'timestamp' // 'timestamp', 'version', 'manual'
+    // Codex Artemis content
+    this.codexArtemisContent = new Map();
+    this.codexArtemisPath = path.join(__dirname, '../data/codex-artemis.json');(),
+    this.codexArtemisStats = {
+      totalEntries: 0,
+      totalReferences: 0,
+      connectivityIndex: 0,
+      byDomain: new Map(),
+      byCompetency: new Map()
+    };talViews: 0,
+    this.codexTaxonomy = {
+      domains: ['Science', 'Technology', 'Philosophy', 'Art', 'History'],
+      competencies: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],null
+      connectionTypes: ['Related', 'Contradictory', 'Supporting', 'Derived']
     };
-    
-    // System monitoring and error handling
-    this.systemMonitor = {
-      errors: [],
-      lastErrorTime: null,
-      lastMemoryCheck: null,
-      maxItemSizeBytes: 1024 * 1024, // 1MB per content item
-      memoryCheckInterval: 60000,
-      maxErrorsStored: 100
-    };
-
-    this.errorHandling = {
-      errorCallback: null
-    };
-
-    this.contentCache = {
-      items: new Map(),
-      lastCleanup: null
-    };
-
-    this.contentLimits = {
-      maxItems: 10000,
-      warningThreshold: 0.8,
-      cacheExpiration: 3600000 // 1 hour
-    };
-
-    this.initializeDataStorage();
-  }
+entific concepts
+    this.initializeDataStorage();new Map();
+  }oin(__dirname, '../data/fkp-content.json');
 
   /**
-   * Initialize data storage and load existing data if available or log errors
+   * Create a new Codex Artemis knowledge entry
+   * @param {Object} entryData Entry dataty: 0,
+   * @returns {Object} Created codex entry
+   */
+  async createCodexEntry(entryData) {y: new Map()
+    // Validate entry data
+    const validation = this.validateCodexEntry(entryData);
+    if (!validation.valid) { Network compatibility configuration
+      throw new Error(`Invalid Codex Artemis entry: ${validation.errors.join(', ')}`);
+    }
+    http', 'https', 'ws', 'wss'],
+    const id = `codex_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+    
+    // Compute complexity level based on content
+    const complexityLevel = this.calculateComplexity(entryData);
+    
+    // Create connections list (empty initially if no connections provided)
+    const connections = entryData.connections || [];cacheTTL: 300, // 5 minutes in seconds
+    / 30 seconds default timeout
+    const entryItem = {
+      id,
+      title: entryData.title,,
+      summary: entryData.summary,    initialDelay: 1000
+      content: entryData.content,
+      domain: entryData.domain,
+      competencyLevel: entryData.competencyLevel,
+      author: entryData.author || 'Codex Artemis', Distributed nodes synchronization
+      keywords: entryData.keywords || [],
+      complexityLevel,
+      connections,e', // 'primary', 'replica', 'standalone'
+      references: entryData.references || [],
+      createdAt: new Date().toISOString(),
+      views: 0lastSyncTime: null,
+    };  conflictResolution: 'timestamp' // 'timestamp', 'version', 'manual'
+    
+    // Store in collections
+    this.codexArtemisContent.set(id, entryItem);ing and error handling
+     = {
+    // Also store in free content for general access
+    this.freeContent.set(id, {ull,
+      ...entryItem,l,
+      category: 'Codex Artemis', item
+      isCodexArtemis: true,
+      description: entryItem.summary,: 100
+      featured: complexityLevel > 7  // Feature entries with high complexity
+    });    
+    
+    // Update statistics   errorCallback: null
+    this.updateCodexStats(entryItem, 'add');
+    this.freeContentStats.totalItems++;
+    
+    const categoryCount = this.freeContentStats.byCategory.get('Codex Artemis') || 0;
+    this.freeContentStats.byCategory.set('Codex Artemis', categoryCount + 1); lastCleanup: null
+    
+    // Emit creation event
+    this.emit('codex:created', entryItem);
+    
+    // Persist changes
+    await this.persistCodexToDisk();our
+    
+    return entryItem;
+  }
+  
+  /**
+   * Validate Codex Artemis entry data
+   * @param {Object} entryData Entry data '',
+   * @returns {Object} Validation result {valid: boolean, errors: string[]}
    * @private
    */
-  async initializeDataStorage() {
-    try {
-      // Create data directory if it doesn't exist
-      const dataDir = path.join(__dirname, '../data');
-      await fs.mkdir(dataDir, { recursive: true });
-      this.persistenceEnabled = true;
-      
-      // Try to load existing data
-      await this.loadTokensFromDisk();
-      await this.loadFreeContentFromDisk();
-      await this.loadSpecializedContent();
-      
-      // Verify data integrity across collections
-      await this.verifyDataIntegrity();
-      
-      console.log('TokenModel data storage initialized');
-    } catch (error) {
-      this.logError('Initialize data storage', error);
-      console.warn('Failed to initialize token persistence:', error.message);
-    }
-  }
-
-  /**
-   * Log and track errors for monitoring
-   * @private
-   * @param {string} context - Where the error occurred
-   * @param {Error} error - The error object
-   */
-  logError(context, error) {
-    const errorInfo = {
-      timestamp: new Date(),
-      context,
-      message: error.message,
-      stack: error.stack
-    };
-    this.systemMonitor.errors.unshift(errorInfo);
-    this.systemMonitor.lastErrorTime = new Date();
-
-    // Keep error log at reasonable size
-    if (this.systemMonitor.errors.length > this.systemMonitor.maxErrorsStored) {
-      this.systemMonitor.errors.pop();
-    }
-    
-    // Call error callback if provided
-    if (typeof this.errorHandling.errorCallback === 'function') {
-      try {
-        this.errorHandling.errorCallback(errorInfo);
-      } catch (callbackError) {
-        console.error('Error in error callback:', callbackError);
-      }
-    }
-  }
-
-  /**
-   * Check memory usage and perform cleanup if necessary
-   * @private
-   * @returns {Promise<Object>} Memory status information
-   */
-  async checkMemoryUsage() {
-    // Skip if last check was recent
-    if (this.systemMonitor.lastMemoryCheck && 
-        (Date.now() - this.systemMonitor.lastMemoryCheck) < this.systemMonitor.memoryCheckInterval) {
-      return null;
-    }
-    
-    this.systemMonitor.lastMemoryCheck = Date.now();
-    
-    // Get collection sizes
-    const tokenCount = this.tokens.size;
-    const freeContentCount = this.freeContent.size;
-    const laplacianCount = this.laplacianContent.size;
-    const platonicCount = this.platonicContent.size;
-    const cacheSize = this.contentCache.items.size;
-     
-    const totalItems = tokenCount + freeContentCount;
-    const memoryStatus = {
-      timestamp: new Date(),
-      tokenCount,
-      freeContentCount,
-      laplacianCount,
-      platonicCount,
-      cacheSize,
-      totalItems,
-      maxItems: this.contentLimits.maxItems,
-      utilizationPercent: (totalItems / this.contentLimits.maxItems) * 100
-    };
-    
-    // Check if we're approaching limits
-    if (totalItems > this.contentLimits.maxItems * this.contentLimits.warningThreshold) {
-      console.warn(`Content collections approaching size limits: ${totalItems}/${this.contentLimits.maxItems} items (${memoryStatus.utilizationPercent.toFixed(2)}%)`);
-      
-      // Force persistence to ensure data is saved
-      await this.persistToDisk();
-      
-      // Clean cache to free memory
-      this.cleanContentCache(true); // force clean
-    }
-    
-    // Perform routine cache cleanup
-    this.cleanContentCache();
-    
-    // Log memory stats
-    console.log(`Memory usage - Tokens: ${tokenCount}, Free content: ${freeContentCount}, ` +
-                `Laplacian: ${laplacianCount}, Platonic: ${platonicCount}, Cache: ${cacheSize}`);
-    
-    return memoryStatus;
-  }
-
-  /**
-   * Clean the content cache based on expiration or force parameter
-   * @private
-   * @param {boolean} force - Force full cache cleanup regardless of expiration
-   */
-  cleanContentCache(force = false) {
-    const now = Date.now();
-    let cleanedCount = 0;
-    
-    // Skip if last cleanup was recent and not forced
-    if (!force && (now - this.contentCache.lastCleanup) < (this.contentLimits.cacheExpiration / 2)) {
-      return;
-    }
-    
-    this.contentCache.lastCleanup = now;
-    
-    for (const [key, item] of this.contentCache.items.entries()) {
-      if (force || (now - item.cachedAt > this.contentLimits.cacheExpiration)) {
-        this.contentCache.items.delete(key);
-        cleanedCount++;
-      }
-    }
-    
-    if (cleanedCount > 0) {
-      console.log(`Cache cleanup: removed ${cleanedCount} items from cache`);
-    }
-  }
-
-  /**
-   * Get content by ID with caching support
-   * @private
-   * @param {string} id - Content ID to retrieve
-   * @param {string} collectionType - Type of collection ('free', 'laplacian', 'platonic')
-   * @returns {Object|null} The content object or null if not found
-   */
-  getCachedContent(id, collectionType = 'free') {
-    // Check cache first
-    const cacheKey = `${collectionType}_${id}`;
-    const cachedItem = this.contentCache.items.get(cacheKey);
-    
-    if (cachedItem) {
-      return cachedItem.data;
-    }
-    
-    // Not in cache, retrieve from collection
-    let item = null;
-    
-    if (collectionType === 'free') {
-      item = this.freeContent.get(id);
-    } 
-    else if (collectionType === 'laplacian') {
-      // For reference-based collections, get the ID then fetch from main collection
-      const hasItem = this.laplacianContent.has(id);
-      if (hasItem) {
-        item = this.freeContent.get(id);
-      }
-    }
-    else if (collectionType === 'platonic') {
-      const hasItem = this.platonicContent.has(id);
-      if (hasItem) {
-        item = this.freeContent.get(id);
-      }
-    }
-    
-    // Store in cache if found
-    if (item) {
-      this.contentCache.items.set(cacheKey, {
-        data: item,
-        cachedAt: Date.now()
-      });
-    }
-    
-    return item;
-  }
-
-  /**
-   * Verify data integrity across collections
-   * @returns {Promise<Object>} Integrity check results
-   */
-  async verifyDataIntegrity() {
-    const results = {
-      orphanedItems: [],
-      inconsistentItems: [],
-      fixedItems: 0,
-      checkedItems: 0
-    };
-    
-    try {
-      // Check for Laplacian content items not in the free content collection
-      for (const [id, _] of this.laplacianContent.entries()) {
-        results.checkedItems++;
-        if (!this.freeContent.has(id)) {
-          console.warn(`Found orphaned Laplacian item: ${id}`);
-          results.orphanedItems.push({id, type: 'laplacian'});
-          
-          // Remove reference since the actual content is missing
-          this.laplacianContent.delete(id);
-          this.laplacianStats.totalItems--;
-        }
-      }
-      
-      // Check for Platonic content items not in the free content collection
-      for (const [id, _] of this.platonicContent.entries()) {
-        results.checkedItems++;
-        if (!this.freeContent.has(id)) {
-          console.warn(`Found orphaned Platonic item: ${id}`);
-          results.orphanedItems.push({id, type: 'platonic'});
-          
-          // Remove reference since the actual content is missing
-          this.platonicContent.delete(id);
-          this.philosophyStats.totalItems--;
-        }
-      }
-      
-      // Check that all items with special flags have proper references
-      for (const [id, item] of this.freeContent.entries()) {
-        results.checkedItems++;
-        
-        if (item.isLaplacianAngel && !this.laplacianContent.has(id)) {
-          console.warn(`Found Laplacian content without reference: ${id}`);
-          results.inconsistentItems.push({id, type: 'laplacian'});
-          
-          // Fix by adding reference
-          this.laplacianContent.set(id, true);
-          this.laplacianStats.totalItems++;
-          results.fixedItems++;
-        }
-        
-        if (item.isPlatonicForm && !this.platonicContent.has(id)) {
-          console.warn(`Found Platonic content without reference: ${id}`);
-          results.inconsistentItems.push({id, type: 'platonic'});
-          
-          // Fix by adding reference
-          this.platonicContent.set(id, true);
-          this.philosophyStats.totalItems++;
-          results.fixedItems++;
-        }
-      }
-      
-      if (results.fixedItems > 0) {
-        // If we fixed items, persist changes
-        await this.persistFreeContentToDisk();
-      }
-      
-      console.log(`Data integrity check complete: ${results.checkedItems} items checked, ${results.fixedItems} items fixed`);
-    } catch (error) {
-      console.error('Error during data integrity check:', error);
-      this.logError('Data integrity check', error);
-    }
-    
-    return results;
-  }
-
-  /**
-   * Validate token data before creation
-   * @param {Object} tokenData Token data to validate
-   */
-  validateToken(tokenData) {
+  validateCodexEntry(entryData) {
     const errors = [];
-    if (!tokenData.recipientAddress) {
-      errors.push('Recipient address is required');
-    } else if (!/^0x[a-fA-F0-9]{40}$/.test(tokenData.recipientAddress)) {
-      errors.push('Invalid recipient address format');
-    }
-    if (tokenData.amount === undefined || tokenData.amount === null) {
-      errors.push('Token amount is required');
-    } else if (typeof tokenData.amount !== 'number' || tokenData.amount <= 0) {
-      errors.push('Token amount must be a positive number');
-    }
-    if (!tokenData.reason) {
-      errors.push('Token reason is required');
-    }
-    return {
-      valid: errors.length === 0,
-      errors
-    };
-  }
-
-  /**
-   * Configure Node.js network capabilities
-   * @param {Object} config Network configuration options
-   * @returns {Object} Current network configuration
-   */
-  configureNetwork(config = {}) {
-    if (config.apiVersion) this.networkConfig.apiVersion = config.apiVersion;
-    if (config.supportedProtocols) this.networkConfig.supportedProtocols = config.supportedProtocols;
-    if (typeof config.corsEnabled === 'boolean') this.networkConfig.corsEnabled = config.corsEnabled;
     
-    // Configure rate limiting
-    if (config.rateLimiting) {
-      Object.assign(this.networkConfig.rateLimiting, config.rateLimiting);
+    if (!entryData.title) {
+      errors.push('Title is required'); this.initializeDataStorage();
+    }  }
+    
+    if (!entryData.content) {
+      errors.push('Content is required');sting data if available or log errors
     }
     
-    // Configure retry strategy
-    if (config.retryStrategy) {
-      Object.assign(this.networkConfig.retryStrategy, config.retryStrategy);
+    if (!entryData.summary) {
+      errors.push('Summary is required');
+    }
+    ;
+    if (!entryData.domain || !this.codexTaxonomy.domains.includes(entryData.domain)) {
+      errors.push(`Domain must be one of: ${this.codexTaxonomy.domains.join(', ')}`);
+    } 
+      // Try to load existing data
+    if (!entryData.competencyLevel || !this.codexTaxonomy.competencies.includes(entryData.competencyLevel)) {
+      errors.push(`Competency level must be one of: ${this.codexTaxonomy.competencies.join(', ')}`);
     }
     
-    this.emit('network:configured', this.networkConfig);
-    return this.networkConfig;
-  }
-  
-  /**
-   * Enable distributed node synchronization
-   * @param {Object} options Node synchronization options
-   * @returns {Boolean} Success status
-   */
-  enableNodeSync(options = {}) {
-    this.nodeSync.enabled = true;
-    
-    if (options.role && ['primary', 'replica', 'standalone'].includes(options.role)) {
-      this.nodeSync.role = options.role;
-    }
-    
-    if (options.peers && Array.isArray(options.peers)) {
-      this.nodeSync.peers = options.peers;
-    }
-    
-    if (options.syncInterval) {
-      this.nodeSync.syncInterval = options.syncInterval;
-    }
-    
-    if (options.conflictResolution) {
-      this.nodeSync.conflictResolution = options.conflictResolution;
-    }
-    
-    // Start sync interval if we're not standalone
-    if (this.nodeSync.role !== 'standalone' && this.nodeSync.peers.length > 0) {
-      this.startNodeSync();
-    }
-    
-    this.emit('node:sync-enabled', this.nodeSync);
-    return true;
-  }
-  
-  /**
-   * Start node synchronization process
-   * @private
-   */
-  startNodeSync() {
-    // Clear any existing interval
-    if (this._syncInterval) {
-      clearInterval(this._syncInterval);
-    }
-    
-    // Set up new sync interval
-    this._syncInterval = setInterval(() => {
-      this.synchronizeWithPeers().catch(err => {
-        console.error('Node synchronization error:', err);
-      });
-    }, this.nodeSync.syncInterval);
-    
-    console.log(`Node sync started with ${this.nodeSync.peers.length} peers, interval: ${this.nodeSync.syncInterval}ms`);
-  }
-  
-  /**
-   * Synchronize data with peer nodes
-   * @returns {Promise<Object>} Synchronization results
-   */
-  async synchronizeWithPeers() {
-    if (!this.nodeSync.enabled || this.nodeSync.peers.length === 0) {
-      return { success: false, reason: 'Sync not enabled or no peers configured' };
-    }
-    
-    const results = {
-      timestamp: new Date(),
-      success: false,
-      peersContacted: 0,
-      peersSucceeded: 0,
-      itemsSynchronized: 0,
-      conflicts: 0
-    };
-    
-    try {
-      // Different sync behavior based on role
-      if (this.nodeSync.role === 'primary') {
-        // Primary pushes updates to replicas
-        for (const peer of this.nodeSync.peers) {
-          try {
-            // This would use actual HTTP in production code
-            console.log(`[SIMULATE] Pushing updates to replica: ${peer.url}`);
-            results.peersContacted++;
-            results.peersSucceeded++;
-          } catch (error) {
-            console.error(`Failed to push updates to ${peer.url}:`, error);
-          }
+    // Validate connections if provided 
+    if (entryData.connections && Array.isArray(entryData.connections)) {  // Verify data integrity across collections
+      for (const connection of entryData.connections) {
+        if (!connection.targetId) {initialized');
+          errors.push('Connection must have a targetId');
+        } error);
+        
+        if (!connection.type || !this.codexTaxonomy.connectionTypes.includes(connection.type)) {
+          errors.push(`Connection type must be one of: ${this.codexTaxonomy.connectionTypes.join(', ')}`);
         }
-      } else if (this.nodeSync.role === 'replica') {
-        // Replica pulls updates from primary
-        try {
-          const primaryPeer = this.nodeSync.peers.find(p => p.role === 'primary');
-          if (primaryPeer) {
-            console.log(`[SIMULATE] Pulling updates from primary: ${primaryPeer.url}`);
-            results.peersContacted++;
-            results.peersSucceeded++;
-          }
-        } catch (error) {
-          console.error('Failed to pull updates from primary:', error);
-        }
-      }
-      
-      results.success = results.peersSucceeded > 0;
-      this.nodeSync.lastSyncTime = new Date();
-      this.emit('node:synchronized', results);
-      
-    } catch (error) {
-      console.error('Synchronization error:', error);
-      results.error = error.message;
+      }ity would be implemented here
     }
-    
-    return results;
-  }
-  
-  /**
-   * Expose API endpoints for network access
-   * @param {Object} server Express or HTTP server instance
-   * @returns {Object} API endpoint configuration
-   */
-  exposeNetworkApi(server) {
-    // This is a simulation - in a real implementation, this would set up
-    // actual Express routes or other HTTP handlers
-    
-    const apiEndpoints = {
-      getTokens: '/api/tokens',
-      createToken: '/api/tokens/create',
-      getContent: '/api/content',
-      getLaplacianContent: '/api/laplacian',
-      getPlatonicContent: '/api/platonic',
-      sync: '/api/sync'
-    };
-    
-    console.log('TokenModel API endpoints registered:', apiEndpoints);
-    
-    this.emit('network:api-exposed', apiEndpoints);
-    return apiEndpoints;
-  }
-  
-  /**
-   * Handle incoming WebSocket connections for real-time updates
-   * @param {Object} wsServer WebSocket server instance
-   */
-  setupWebSocketSupport(wsServer) {
-    // This is a simulation - in a real implementation, this would set up
-    // actual WebSocket handlers
-    
-    console.log('WebSocket support configured for real-time token updates');
-    
-    // Event handler to broadcast token updates
-    this.on('token:created', (token) => {
-      console.log(`[SIMULATE] Broadcasting new token ${token.id} via WebSocket`);
-    });
-    
-    this.on('token:updated', (token) => {
-      console.log(`[SIMULATE] Broadcasting token update ${token.id} via WebSocket`);
-    });
-    
-    this.emit('network:websocket-configured');
-  }
-  
-  /**
-   * Make HTTP request with Node.js compatibility
-   * @param {string} url URL to request
-   * @param {Object} options Request options
-   * @returns {Promise<Object>} Response data
-   */
-  async makeNetworkRequest(url, options = {}) {
-    // In a real implementation, this would use Node's http/https or fetch API
-    // This is a simulation to demonstrate the API design
-    
-    const defaultOptions = {
-      method: 'GET',
-      timeout: this.networkConfig.timeout,
-      retry: this.networkConfig.retryStrategy.attempts
-    };
-    
-    const requestOptions = { ...defaultOptions, ...options };
-    
-    console.log(`[SIMULATE] Making ${requestOptions.method} request to ${url}`);
-    
-    // Simulate network latency
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    // Simulate response
+    ync cleanup() {
     return {
-      status: 200,
-      data: { success: true, message: 'Simulated network response' },
-      headers: { 'content-type': 'application/json' }
+      valid: errors.length === 0,isk();
+      errors;
     };
   }
-
-  async cleanup() {
-    await this.persistToDisk();
-    await this.persistFreeContentToDisk();
-    console.log('TokenModel cleaned up');
-  }
-}
-
-module.exports = new TokenModel();
+  
+  /**   * Calculate complexity level of a Codex entry (1-10 scale)   * @param {Object} entryData Entry data   * @returns {number} Complexity level from 1-10   * @private   */  calculateComplexity(entryData) {    let complexity = 0;        // Competency level contributes up to 5 points    const competencyIndex = this.codexTaxonomy.competencies.indexOf(entryData.competencyLevel);    complexity += ((competencyIndex + 1) / this.codexTaxonomy.competencies.length) * 5;        // Content length contributes up to 3 points    const contentLength = entryData.content.length;    complexity += Math.min(contentLength / 3000, 1) * 3;        // References contribute up to 2 points    const referenceCount = (entryData.references || []).length;    complexity += Math.min(referenceCount / 10, 1) * 2;        // Round to one decimal place    return Math.round(complexity * 10) / 10;  }    /**   * Update Codex Artemis statistics when adding/removing entries   * @param {Object} entryItem Entry item   * @param {string} operation 'add' or 'remove'   * @private   */  updateCodexStats(entryItem, operation = 'add') {    const increment = operation === 'add' ? 1 : -1;        // Update total entries    this.codexArtemisStats.totalEntries += increment;        // Update total references    this.codexArtemisStats.totalReferences += (entryItem.references?.length || 0) * increment;        // Update domain stats    if (entryItem.domain) {      const domainCount = this.codexArtemisStats.byDomain.get(entryItem.domain) || 0;      this.codexArtemisStats.byDomain.set(entryItem.domain, domainCount + increment);    }        // Update competency stats    if (entryItem.competencyLevel) {      const competencyCount = this.codexArtemisStats.byCompetency.get(entryItem.competencyLevel) || 0;      this.codexArtemisStats.byCompetency.set(entryItem.competencyLevel, competencyCount + increment);    }        // Calculate connectivity index (average connections per entry)    if (this.codexArtemisStats.totalEntries > 0) {      let totalConnections = 0;      this.codexArtemisContent.forEach(entry => {        totalConnections += entry.connections?.length || 0;      });            this.codexArtemisStats.connectivityIndex = totalConnections / this.codexArtemisStats.totalEntries;    }  }    /**   * Persist Codex Artemis data to disk   * @private   */  async persistCodexToDisk() {    if (!this.persistenceEnabled) return;        try {      const entriesArray = Array.from(this.codexArtemisContent.values());            // Convert Maps to Objects for JSON serialization      const domainStats = {};      this.codexArtemisStats.byDomain.forEach((value, key) => {        domainStats[key] = value;      });            const competencyStats = {};      this.codexArtemisStats.byCompetency.forEach((value, key) => {        competencyStats[key] = value;      });            const data = {        entries: entriesArray,        stats: {          totalEntries: this.codexArtemisStats.totalEntries,          totalReferences: this.codexArtemisStats.totalReferences,          connectivityIndex: this.codexArtemisStats.connectivityIndex,          byDomain: domainStats,          byCompetency: competencyStats        },        taxonomy: this.codexTaxonomy,        updatedAt: new Date().toISOString()      };            await fs.writeFile(        this.codexArtemisPath,        JSON.stringify(data, null, 2),        'utf8'      );            console.log(`Saved ${entriesArray.length} Codex Artemis entries to disk`);    } catch (error) {      console.error('Error persisting Codex Artemis data to disk:', error);    }  }    /**   * Get Codex Artemis entries with optional filtering   * @param {Object} options Filter options   * @returns {Array} Filtered entries   */  async getCodexEntries(options = {}) {    let entries = Array.from(this.codexArtemisContent.values());        // Apply domain filter    if (options.domain) {      entries = entries.filter(entry => entry.domain === options.domain);    }        // Apply competency level filter    if (options.competencyLevel) {      entries = entries.filter(entry => entry.competencyLevel === options.competencyLevel);    }        // Apply minimum complexity filter    if (options.minComplexity !== undefined) {      entries = entries.filter(entry => entry.complexityLevel >= options.minComplexity);    }        // Apply maximum complexity filter    if (options.maxComplexity !== undefined) {      entries = entries.filter(entry => entry.complexityLevel <= options.maxComplexity);    }        // Apply keyword search    if (options.keyword) {      const keyword = options.keyword.toLowerCase();      entries = entries.filter(entry =>         entry.keywords.some(k => k.toLowerCase().includes(keyword)) ||         entry.title.toLowerCase().includes(keyword) ||        entry.summary.toLowerCase().includes(keyword)      );    }        // Apply sorting    if (options.sortBy) {      const field = options.sortBy;      const direction = options.sortDescending ? -1 : 1;            entries.sort((a, b) => {        if (a[field] < b[field]) return -1 * direction;        if (a[field] > b[field]) return 1 * direction;        return 0;      });    } else {      // Default sort by complexity (descending)      entries.sort((a, b) => b.complexityLevel - a.complexityLevel);    }        return entries;  }    /**   * Get a single Codex Artemis entry by ID   * @param {string} id Entry ID   * @param {boolean} incrementViews Whether to increment view count   * @returns {Object|null} Entry or null if not found   */  async getCodexEntryById(id, incrementViews = false) {    const entry = this.codexArtemisContent.get(id);        if (!entry) {      return null;    }        if (incrementViews) {      entry.views = (entry.views || 0) + 1;            // Also update in free content      const freeContentItem = this.freeContent.get(id);      if (freeContentItem) {        freeContentItem.views = entry.views;      }            // Save updated view count      this.codexArtemisContent.set(id, entry);    }        return entry;  }    /**   * Add a connection between two Codex Artemis entries   * @param {string} sourceId Source entry ID   * @param {string} targetId Target entry ID   * @param {string} connectionType Type of connection   * @param {string} description Optional description of the connection   * @returns {Object} Updated source entry   */  async addCodexConnection(sourceId, targetId, connectionType, description = '') {    // Validate connection type    if (!this.codexTaxonomy.connectionTypes.includes(connectionType)) {      throw new Error(`Invalid connection type. Must be one of: ${this.codexTaxonomy.connectionTypes.join(', ')}`);    }        // Get source and target entries    const sourceEntry = this.codexArtemisContent.get(sourceId);    const targetEntry = this.codexArtemisContent.get(targetId);        if (!sourceEntry) {      throw new Error(`Source entry not found: ${sourceId}`);    }        if (!targetEntry) {      throw new Error(`Target entry not found: ${targetId}`);    }        // Check if connection already exists    if (!sourceEntry.connections) {      sourceEntry.connections = [];    }        const existingConnection = sourceEntry.connections.find(c => c.targetId === targetId);        if (existingConnection) {      // Update existing connection      existingConnection.type = connectionType;      existingConnection.description = description;    } else {      // Add new connection      sourceEntry.connections.push({        targetId,        targetTitle: targetEntry.title,        type: connectionType,        description,        createdAt: new Date().toISOString()      });    }        // Update entry    this.codexArtemisContent.set(sourceId, sourceEntry);        // Update connectivity index    this.updateCodexStats(sourceEntry, 'add');    this.updateCodexStats(sourceEntry, 'remove');        // Persist changes    await this.persistCodexToDisk();        // Emit event    this.emit('codex:connection-added', {      sourceId,      targetId,      connectionType,      description    });        return sourceEntry;  }    /**   * Get Codex Artemis statistics   * @returns {Object} Statistics   */  async getCodexStats() {    return {      totalEntries: this.codexArtemisStats.totalEntries,      totalReferences: this.codexArtemisStats.totalReferences,      connectivityIndex: this.codexArtemisStats.connectivityIndex,      byDomain: Object.fromEntries(this.codexArtemisStats.byDomain),      byCompetency: Object.fromEntries(this.codexArtemisStats.byCompetency),      taxonomy: this.codexTaxonomy,      mostViewed: Array.from(this.codexArtemisContent.values())        .sort((a, b) => (b.views || 0) - (a.views || 0))        .slice(0, 5)    };  }}module.exports = new TokenModel();

@@ -1,0 +1,131 @@
+/**
+ * Creative Commons License Component Styles
+ */
+
+.cc-license-container {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.cc-license-container.read-only {
+  padding: 0.75rem;
+  background-color: #f1f5f9;
+}
+
+.cc-license-selector {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.cc-license-display {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cc-license-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cc-license-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cc-license-icon {
+  height: 24px;
+}
+
+.cc-license-title {
+  font-weight: 500;
+}
+
+.cc-license-description {
+  color: #4a5568;
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+.cc-license-link {
+  color: #3182ce;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.cc-license-link:hover {
+  text-decoration: underline;
+}
+
+.cc-attribution-fields {
+  margin-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
+
+.cc-attribution-fields .field {
+  margin-bottom: 0.75rem;
+}
+
+.cc-attribution-fields label {
+  display: block;
+  font-size: 0.9rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.cc-attribution-fields input,
+.cc-attribution-fields textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.cc-attribution-fields textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.cc-save-attribution {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.2s;
+}
+
+.cc-save-attribution:hover {
+  background-color: #2c5282;
+}
+
+.no-license {
+  color: #718096;
+  font-style: italic;
+}
+
+.cc-attribution {
+  font-size: 0.9rem;
+  color: #4a5568;
+  margin: 0.5rem 0;
+}
+
+.cc-attribution-info {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-top: 0.25rem;
+}

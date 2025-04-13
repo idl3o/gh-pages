@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex Artemis - Advanced Knowledge System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/codex-artemis.css">
+    <script src="js/codex-artemis.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Web3 Crypto Streaming Service</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="free-content.html">Free Content</a></li>
+                <li><a href="laplacian-angel.html">Laplacian Angel</a></li>
+                <li><a href="platonic-forms.html">Platonic Forms</a></li>
+                <li><a href="codex-artemis.html" class="active">Codex Artemis</a></li>
+                <li><a href="tokens.html">Tokens</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero codex-hero">
+            <h1>Codex Artemis</h1>
+            <p class="tagline">Advanced Knowledge Classification System</p>
+            <div class="knowledge-visualization">
+                <div class="knowledge-graph"></div>
+            </div>
+        </section>
+
+        <section class="codex-intro">
+            <div class="intro-grid">
+                <div class="intro-text">
+                    <h2>About Codex Artemis</h2>
+                    <p>Codex Artemis is an advanced knowledge organization system that connects information across disciplines, creating a comprehensive web of interconnected concepts. It allows for sophisticated navigation through complex domains of knowledge.</p>
+                    <p>Each entry in the Codex is classified by domain and competency level, with connections between related concepts forming an intricate knowledge graph that reveals hidden relationships and promotes deeper understanding.</p>
+                </div>
+                <div class="stats-panel">
+                    <h3>Codex Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value" id="total-entries">--</span>
+                            <span class="stat-label">Total Entries</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="total-references">--</span>
+                            <span class="stat-label">References</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="connectivity-index">--</span>
+                            <span class="stat-label">Connectivity</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="domains-count">--</span>
+                            <span class="stat-label">Domains</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="codex-explorer">
+            <h2>Knowledge Explorer</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="domain-filter">Domain:</label>
+                    <select id="domain-filter">
+                        <option value="">All Domains</option>
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="competency-filter">Competency Level:</label>
+                    <select id="competency-filter">
+                        <option value="">All Levels</option>
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="filter-group complexity-filter">
+                    <label>Complexity:</label>
+                    <div class="range-values">
+                        <span id="min-complexity-value">1</span> - <span id="max-complexity-value">10</span>
+                    </div>
+                    <div class="range-slider">
+                        <input type="range" id="min-complexity" min="1" max="10" step="0.5" value="1">
+                        <input type="range" id="max-complexity" min="1" max="10" step="0.5" value="10">
+                    </div>
+                </div>
+                
+                <div class="search-group">
+                    <input type="text" id="keyword-search" placeholder="Search by keyword...">
+                    <button id="search-button">Search</button>
+                </div>
+            </div>
+            
+            <div id="knowledge-grid" class="knowledge-grid">
+                <div class="loading">Loading knowledge entries...</div>
+            </div>
+        </section>
+
+        <section class="featured-domains">
+            <h2>Featured Knowledge Domains</h2>
+            
+            <div class="domain-cards">
+                <div class="domain-card" data-domain="Natural Sciences">
+                    <h3>Natural Sciences</h3>
+                    <p>Physics, Chemistry, Biology, Earth Sciences, Astronomy</p>
+                    <div class="complexity-gauge" data-complexity="8.5"></div>
+                </div>
+                
+                <div class="domain-card" data-domain="Formal Sciences">
+                    <h3>Formal Sciences</h3>
+                    <p>Mathematics, Logic, Theoretical Computer Science, Statistics</p>
+                    <div class="complexity-gauge" data-complexity="9.2"></div>
+                </div>
+                
+                <div class="domain-card" data-domain="Social Sciences">
+                    <h3>Social Sciences</h3>
+                    <p>Economics, Psychology, Sociology, Anthropology, Political Science</p>
+                    <div class="complexity-gauge" data-complexity="7.6"></div>
+                </div>
+                
+                <div class="domain-card" data-domain="Humanities">
+                    <h3>Humanities</h3>
+                    <p>Philosophy, History, Literature, Arts, Religion Studies</p>
+                    <div class="complexity-gauge" data-complexity="6.8"></div>
+                </div>
+                
+                <div class="domain-card" data-domain="Applied Sciences">
+                    <h3>Applied Sciences</h3>
+                    <p>Engineering, Medicine, Agriculture, Computer Science</p>
+                    <div class="complexity-gauge" data-complexity="8.1"></div>
+                </div>
+                
+                <div class="domain-card" data-domain="Interdisciplinary">
+                    <h3>Interdisciplinary</h3>
+                    <p>Cognitive Science, Cybernetics, Environmental Science, Nanotechnology</p>
+                    <div class="complexity-gauge" data-complexity="9.5"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023-2025 Web3 Crypto Streaming Service</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Knowledge Entry Template (hidden) -->
+    <template id="knowledge-entry-template">
+        <article class="knowledge-entry">
+            <header class="entry-header">
+                <div class="entry-meta">
+                    <span class="domain-badge"></span>
+                    <span class="competency-badge"></span>
+                </div>
+                <h3 class="entry-title"></h3>
+            </header>
+            <div class="entry-summary"></div>
+            <footer class="entry-footer">
+                <div class="complexity-indicator">
+                    <span class="complexity-label">Complexity:</span>
+                    <div class="complexity-bar"></div>
+                    <span class="complexity-value"></span>
+                </div>
+                <div class="entry-stats">
+                    <span class="connections-count"></span>
+                    <span class="references-count"></span>
+                </div>
+                <a href="#" class="view-entry-btn">View Entry</a>
+            </footer>
+        </article>
+    </template>
+</body>
+</html>
