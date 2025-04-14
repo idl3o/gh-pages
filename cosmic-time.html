@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Timekeeping - Kali Tetra Satsang</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cosmic-time.css">
+    <script src="js/cosmic-time.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Web3 Crypto Streaming Service</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="free-content.html">Free Content</a></li>
+                <li><a href="cosmic-time.html" class="active">Cosmic Time</a></li>
+                <li><a href="tokens.html">Tokens</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero cosmic-hero">
+            <h1>Kali Tetra Satsang</h1>
+            <p class="tagline">Cosmic Timekeeping Across Multiple Dimensions</p>
+            
+            <div class="cosmic-clock">
+                <div class="cosmic-gradient"></div>
+                <div class="clock-display">
+                    <div class="current-time">Loading cosmic time...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="time-systems">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="kali-yuga">Kali Yuga</button>
+                <button class="tab-button" data-tab="tetra">Tetra Time</button>
+                <button class="tab-button" data-tab="satsang">Satsang</button>
+                <button class="tab-button" data-tab="cosmic">Cosmic Scale</button>
+            </div>
+
+            <div class="tab-content active" id="kali-yuga-tab">
+                <div class="time-panel kali-panel">
+                    <h2>Kali Yuga Timekeeping</h2>
+                    <p class="time-description">Based on ancient Hindu cosmic cycles spanning millions of years</p>
+                    
+                    <div class="yuga-display">
+                        <div class="current-yuga">
+                            <span class="yuga-label">Current Yuga:</span>
+                            <span class="yuga-value" id="current-yuga">Loading...</span>
+                        </div>
+                        
+                        <div class="yuga-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="yuga-progress-fill"></div>
+                            </div>
+                            <div class="progress-label" id="yuga-progress-label">0%</div>
+                        </div>
+                        
+                        <div class="yuga-stats">
+                            <div class="stat">
+                                <span class="stat-label">Yuga Year:</span>
+                                <span class="stat-value" id="yuga-year">--</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Cycle:</span>
+                                <span class="stat-value" id="yuga-cycle">--</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Years Since Start:</span>
+                                <span class="stat-value" id="years-since-start">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="yuga-diagram">
+                        <div class="yuga-cycle">
+                            <div class="yuga-segment kali" data-yuga="kali">
+                                <span class="segment-label">Kali</span>
+                            </div>
+                            <div class="yuga-segment dwapara" data-yuga="dwapara">
+                                <span class="segment-label">Dwapara</span>
+                            </div>
+                            <div class="yuga-segment treta" data-yuga="treta">
+                                <span class="segment-label">Treta</span>
+                            </div>
+                            <div class="yuga-segment satya" data-yuga="satya">
+                                <span class="segment-label">Satya</span>
+                            </div>
+                            <div class="cycle-indicator" id="cycle-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tetra-tab">
+                <div class="time-panel tetra-panel">
+                    <h2>Tetra-Dimensional Time</h2>
+                    <p class="time-description">Time experienced across four different dimensional states</p>
+                    
+                    <div class="dimension-status">
+                        <div class="current-dimension">
+                            <span class="dimension-label">Current Dimension:</span>
+                            <span class="dimension-value" id="current-dimension">Loading...</span>
+                        </div>
+                        
+                        <div class="dimension-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="dimension-progress-fill"></div>
+                            </div>
+                            <div class="progress-label" id="dimension-progress-label">0%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tetra-diagram">
+                        <div class="dimension-grid">
+                            <div class="dimension linear" data-dimension="linear">
+                                <div class="dimension-icon">→</div>
+                                <span class="dimension-name">Linear</span>
+                            </div>
+                            <div class="dimension cyclic" data-dimension="cyclic">
+                                <div class="dimension-icon">⟳</div>
+                                <span class="dimension-name">Cyclic</span>
+                            </div>
+                            <div class="dimension spiraling" data-dimension="spiraling">
+                                <div class="dimension-icon">↻</div>
+                                <span class="dimension-name">Spiraling</span>
+                            </div>
+                            <div class="dimension quantum" data-dimension="quantum">
+                                <div class="dimension-icon">⧫</div>
+                                <span class="dimension-name">Quantum</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tetra-stats">
+                        <div class="stat">
+                            <span class="stat-label">Resonance:</span>
+                            <span class="stat-value" id="resonance-value">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Next Dimension:</span>
+                            <span class="stat-value" id="next-dimension">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Hours Remaining:</span>
+                            <span class="stat-value" id="hours-remaining">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="satsang-tab">
+                <div class="time-panel satsang-panel">
+                    <h2>Satsang Alignment</h2>
+                    <p class="time-description">Spiritual gathering times aligned with lunar and solar cycles</p>
+                    
+                    <div class="alignment-status">
+                        <div class="current-alignment">
+                            <span class="alignment-label">Current Alignment:</span>
+                            <div class="alignment-meter">
+                                <div class="meter-fill" id="alignment-meter-fill"></div>
+                            </div>
+                            <span class="alignment-value" id="alignment-value">--</span>
+                        </div>
+                    </div>
+                    
+                    <div class="celestial-status">
+                        <div class="lunar-phase">
+                            <h3>Lunar Phase</h3>
+                            <div class="moon-display" id="moon-display"></div>
+                            <div class="lunar-data">
+                                <div class="lunar-day" id="lunar-day">Day --</div>
+                                <div class="lunar-phase-name" id="lunar-phase-name">--</div>
+                            </div>
+                        </div>
+                        
+                        <div class="solar-phase">
+                            <h3>Solar Phase</h3>
+                            <div class="season-display" id="season-display"></div>
+                            <div class="solar-data">
+                                <div class="current-season" id="current-season">--</div>
+                                <div class="solar-progress" id="solar-progress">--</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gathering-info">
+                        <h3>Next Optimal Gathering</h3>
+                        <div class="gathering-time" id="next-gathering">--</div>
+                        <div class="gathering-countdown" id="gathering-countdown">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="cosmic-tab">
+                <div class="time-panel cosmic-panel">
+                    <h2>Cosmic Scale Time</h2>
+                    <p class="time-description">Time at the universal and galactic scales</p>
+                    
+                    <div class="cosmic-ages">
+                        <div class="cosmic-age">
+                            <span class="age-label">Universe Age:</span>
+                            <span class="age-value" id="universe-age">-- billion years</span>
+                        </div>
+                        <div class="cosmic-age">
+                            <span class="age-label">Earth Age:</span>
+                            <span class="age-value" id="earth-age">-- billion years</span>
+                        </div>
+                    </div>
+                    
+                    <div class="galactic-position">
+                        <h3>Galactic Position</h3>
+                        <div class="spiral-display">
+                            <div class="galaxy-spiral"></div>
+                            <div class="spiral-arm-indicator" id="spiral-arm-indicator"></div>
+                        </div>
+                        <div class="arm-name" id="spiral-arm">--</div>
+                        <div class="galactic-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="galactic-progress-fill"></div>
+                            </div>
+                            <div class="progress-label" id="galactic-progress-label">0%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quantum-time">
+                        <h3>Quantum Time Deviation</h3>
+                        <div class="deviation-meter">
+                            <div class="deviation-needle" id="deviation-needle"></div>
+                            <div class="deviation-value" id="deviation-value">0.000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cosmic-record">
+            <h2>Record a Cosmic Instant</h2>
+            <div class="record-form">
+                <div class="form-group">
+                    <label for="instant-description">Description:</label>
+                    <input type="text" id="instant-description" placeholder="Describe this cosmic moment...">
+                </div>
+                <div class="form-group">
+                    <label for="instant-significance">Significance:</label>
+                    <input type="range" id="instant-significance" min="0" max="1" step="0.01" value="0.5">
+                    <span class="significance-value" id="significance-value">0.50</span>
+                </div>
+                <button id="record-instant" class="record-button">Record This Moment</button>
+            </div>
+            
+            <div id="record-confirmation" class="record-confirmation hidden">
+                <p>Cosmic instant recorded!</p>
+                <div class="instant-details"></div>
+            </div>
+        </section>
+
+        <section class="recent-instants">
+            <h2>Recent Cosmic Instants</h2>
+            <div id="instants-container" class="instants-container">
+                <p class="no-instants">No cosmic instants recorded yet.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023-2025 Web3 Crypto Streaming Service</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

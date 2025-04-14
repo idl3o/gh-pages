@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gematria Calculator - Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/gematria.css">
+    <script src="js/gematria-calculator.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Web3 Crypto Streaming Service</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="free-content.html">Free Content</a></li>
+                <li><a href="gematria-calculator.html" class="active">Gematria</a></li>
+                <li><a href="tokens.html">Tokens</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero gematria-hero">
+            <h1>Gematria Calculator</h1>
+            <p class="tagline">Explore the numerical values hidden within words and phrases</p>
+        </section>
+
+        <section class="gematria-intro">
+            <div class="info-card">
+                <h2>What is Gematria?</h2>
+                <p>Gematria is a system of assigning numerical values to letters, words, and phrases. It has been used for millennia in various mystical traditions including Jewish Kabbalah, Hermetic Qabalah, and various esoteric systems.</p>
+                <p>By converting text to numbers, practitioners believe hidden connections and meanings can be revealed through mathematical relationships.</p>
+            </div>
+        </section>
+
+        <section class="calculator-section">
+            <div class="calculator-container">
+                <div class="calculator-input">
+                    <textarea id="gematria-input" placeholder="Enter text to calculate..."></textarea>
+                    
+                    <div class="system-selection">
+                        <label for="system-select">Calculation System:</label>
+                        <select id="system-select">
+                            <option value="hebrew">Hebrew Gematria</option>
+                            <option value="english" selected>English Gematria</option>
+                            <option value="pythagorean">Pythagorean Gematria</option>
+                        </select>
+                    </div>
+                    
+                    <button id="calculate-btn" class="primary-button">Calculate Value</button>
+                </div>
+                
+                <div class="calculator-result" id="result-container">
+                    <div class="no-result">Enter text and press Calculate</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gematria-history">
+            <h2>Recent Calculations</h2>
+            <div id="history-container" class="history-container">
+                <div class="loading">Loading recent calculations...</div>
+            </div>
+        </section>
+
+        <section class="gematria-systems">
+            <h2>Gematria Systems</h2>
+            
+            <div class="system-cards">
+                <div class="system-card hebrew">
+                    <h3>Hebrew Gematria</h3>
+                    <p>The original system from Jewish mysticism that assigns specific values to each Hebrew letter.</p>
+                    <div class="example">
+                        <span class="letter">א</span><span class="value">1</span>
+                        <span class="letter">ב</span><span class="value">2</span>
+                        <span class="letter">ג</span><span class="value">3</span>
+                        <span class="letter">י</span><span class="value">10</span>
+                        <span class="letter">ק</span><span class="value">100</span>
+                    </div>
+                </div>
+                
+                <div class="system-card english">
+                    <h3>English Gematria</h3>
+                    <p>A simple ordinal system where A=1, B=2, etc. through the English alphabet.</p>
+                    <div class="example">
+                        <span class="letter">A</span><span class="value">1</span>
+                        <span class="letter">B</span><span class="value">2</span>
+                        <span class="letter">C</span><span class="value">3</span>
+                        <span class="letter">Z</span><span class="value">26</span>
+                    </div>
+                </div>
+                
+                <div class="system-card pythagorean">
+                    <h3>Pythagorean Gematria</h3>
+                    <p>A reduction system where values cycle from 1-9, used in numerology.</p>
+                    <div class="example">
+                        <span class="letter">A,J,S</span><span class="value">1</span>
+                        <span class="letter">B,K,T</span><span class="value">2</span>
+                        <span class="letter">I,R,Z</span><span class="value">9</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="significant-numbers">
+            <h2>Significant Numbers</h2>
+            <div class="number-grid">
+                <div class="number-card">
+                    <div class="number">7</div>
+                    <p>Completion, perfection, divine connection</p>
+                </div>
+                <div class="number-card">
+                    <div class="number">11</div>
+                    <p>Illumination, revelation, transition</p>
+                </div>
+                <div class="number-card">
+                    <div class="number">13</div>
+                    <p>Transformation, death and rebirth</p>
+                </div>
+                <div class="number-card">
+                    <div class="number">18</div>
+                    <p>Life (Hebrew: חי - chai)</p>
+                </div>
+                <div class="number-card">
+                    <div class="number">26</div>
+                    <p>Divine name (יהוה - YHVH)</p>
+                </div>
+                <div class="number-card">
+                    <div class="number">72</div>
+                    <p>The 72 names of God</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023-2025 Web3 Crypto Streaming Service</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
