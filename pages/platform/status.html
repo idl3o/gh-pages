@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>System Status | Web3 Crypto Streaming Service</title>
+    <meta name="description" content="Current status of Web3 Crypto Streaming Service systems and components">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    
+    <!-- Cookie consent script -->
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css">
+    
+    <!-- Preconnect for CDN performance improvements -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Open Graph tags for better social sharing -->
+    <meta property="og:title" content="System Status | Web3 Crypto Streaming Service">
+    <meta property="og:description" content="Current status of Web3 Crypto Streaming Service systems and components">
+    <meta property="og:url" content="https://idl3o.github.io/gh-pages/pages/platform/status.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Accessibility improvements -->
+    <meta name="theme-color" content="#6366f1">
+    
+    <style>
+        /* ...existing CSS styles... */
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+
+    <header class="status-header">
+        <div class="container text-center">
+            <h1>System Status</h1>
+            <p class="lead">Current status of Web3 Crypto Streaming Service systems</p>
+        </div>
+    </header>
+
+    <main class="container py-5" id="main-content">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- New Upload Status Container -->
+                <div class="status-card mb-4" id="upload-status-container">
+                    <!-- Will be populated by upload-status.js -->
+                </div>
+                
+                <!-- ...existing HTML content... -->
+            </div>
+            
+            <div class="col-md-4">
+                <!-- ...existing sidebar content... -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Compliance Notice -->
+    <div class="compliance-notice" id="complianceNotice">
+        <p><strong>Important Notice:</strong> Your wallet address <span id="walletAddressNotice"></span> has been connected to our platform. This information is used in accordance with our <a href="../../PRIVACY.md">Privacy Policy</a>.</p>
+        <button class="btn btn-sm btn-outline-secondary mt-2" id="dismissNotice">Dismiss</button>
+    </div>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Web3 Crypto Streaming Service</h5>
+                    <p>A decentralized platform for content streaming built on blockchain technology</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="../../docs" class="text-light">Documentation</a></li>
+                        <li><a href="../../whitepaper/web3-streaming-service-whitepaper.html" class="text-light">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/idl3o/gh-pages" class="text-light">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 Web3 Crypto Streaming Service. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Version 1.2.0 - Last updated: April 12, 2025</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@4.2.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/web3-utils.js"></script>
+    <!-- Add Upload Status Script -->
+    <script src="../../assets/js/upload-status.js"></script>
+    
+    <script>
+        // ...existing JavaScript code...
+    </script>
+</body>
+</html>

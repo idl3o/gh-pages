@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philosophy Collection | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .philosophy-header {
+            background-image: linear-gradient(120deg, #3498db, #8e44ad);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .philosophy-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .philosophy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card-image {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .card-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .gematria-img {
+            background-image: url('../../assets/images/gematria-bg.jpg');
+        }
+        
+        .panpsychism-img {
+            background-image: url('../../assets/images/consciousness-bg.jpg');
+        }
+        
+        .platonic-img {
+            background-image: url('../../assets/images/platonic-forms-bg.jpg');
+        }
+        
+        .laplacian-img {
+            background-image: url('../../assets/images/laplacian-angel-bg.jpg');
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Web3 Crypto Streaming Service</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../free-content.html">Free Content</a></li>
+                <li><a href="index.html" class="active">Philosophy</a></li>
+                <li><a href="../../tokens.html">Tokens</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="philosophy-header">
+        <div class="container">
+            <h1>Philosophy Collection</h1>
+            <p class="lead">Explore philosophical concepts and their intersection with technology</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <section>
+            <h2>Featured Philosophical Articles</h2>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <div class="card-image gematria-img"></div>
+                    <div class="card-content">
+                        <h3>Gematria Calculator</h3>
+                        <p>Explore the numerical values hidden within words and phrases through ancient gematria practices.</p>
+                        <a href="gematria-calculator.html" class="card-link">Explore Gematria</a>
+                    </div>
+                </div>
+                
+                <div class="philosophy-card">
+                    <div class="card-image panpsychism-img"></div>
+                    <div class="card-content">
+                        <h3>Panpsychism</h3>
+                        <p>Explore the view that consciousness is a fundamental and universal property found throughout nature.</p>
+                        <a href="panpsychism.html" class="card-link">Explore Panpsychism</a>
+                    </div>
+                </div>
+                
+                <div class="philosophy-card">
+                    <div class="card-image platonic-img"></div>
+                    <div class="card-content">
+                        <h3>Platonic Forms</h3>
+                        <p>Discover the theory of perfect, abstract representations that exist beyond the physical realm.</p>
+                        <a href="../../platonic-forms.html" class="card-link">Explore Platonic Forms</a>
+                    </div>
+                </div>
+                
+                <div class="philosophy-card">
+                    <div class="card-image laplacian-img"></div>
+                    <div class="card-content">
+                        <h3>Laplacian Angel</h3>
+                        <p>Examine the philosophical thought experiment that imagines a being with perfect knowledge.</p>
+                        <a href="../../laplacian-angel.html" class="card-link">Explore Laplacian Angel</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>About Our Philosophy Section</h2>
+            <p>The Philosophy Collection explores fundamental questions of reality, consciousness, and meaning through the lens of both ancient traditions and modern scientific understanding. We curate content that bridges esoteric knowledge with cutting-edge developments in science, technology, and crypto.</p>
+            
+            <p>This collection serves as a contemplative space within our technical platform, inviting users to reflect on the deeper implications of the technologies we build and use.</p>
+            
+            <blockquote>
+                "Philosophy begins in wonder." — Plato
+            </blockquote>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023-2025 Web3 Crypto Streaming Service</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

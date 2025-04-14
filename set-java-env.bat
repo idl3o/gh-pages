@@ -1,16 +1,16 @@
 @echo off
 REM Set Java environment variables for VS Code
 
-REM Configure Java 8
-set JAVA_HOME_8=c:\Users\Sam\Documents\GitHub\MASTER\Oracle_JDK-8
-REM Configure Java 11
-set JAVA_HOME_11=c:\Users\Sam\Documents\GitHub\MASTER\Oracle_JDK-11
-REM Configure Java 17
-set JAVA_HOME_17=c:\Users\Sam\Documents\GitHub\MASTER\Oracle_JDK-17
-REM Configure Java 23
-set JAVA_HOME_23=c:\Users\Sam\Documents\GitHub\MASTER\Oracle_JDK-23
+REM Configure Java paths to standard installation locations
+set JAVA_HOME_8=C:\Program Files\Java\jdk-24
+REM Configure Java 11 (use JDK 24 since it's what we have)
+set JAVA_HOME_11=C:\Program Files\Java\jdk-24
+REM Configure Java 17 (use JDK 24 since it's what we have)
+set JAVA_HOME_17=C:\Program Files\Java\jdk-24
+REM Configure Java 23 (use JDK 24 since it's what we have)
+set JAVA_HOME_23=C:\Program Files\Java\jdk-24
 
-REM Set current JAVA_HOME to Java 17
+REM Set current JAVA_HOME to Java 24
 set JAVA_HOME=%JAVA_HOME_17%
 set PATH=%JAVA_HOME%\bin;%PATH%
 

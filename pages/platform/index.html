@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Tools | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .platform-header {
+            background-image: linear-gradient(120deg, #2c3e50, #4a69bd);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .platform-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #fff;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card-icon {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8fafc;
+            font-size: 2.5rem;
+            color: #4a69bd;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-content h3 i {
+            font-size: 1rem;
+            color: #4a69bd;
+        }
+        
+        .card-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #4a69bd;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .card-link:hover {
+            background-color: #3d56a6;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-operational {
+            background-color: #10b981;
+        }
+
+        .status-degraded {
+            background-color: #f59e0b;
+        }
+
+        .status-outage {
+            background-color: #ef4444;
+        }
+        
+        .api-docs-section {
+            background-color: #f8fafc;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+        
+        .api-docs-section h2 {
+            margin-top: 0;
+        }
+        
+        .docs-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .docs-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+        }
+        
+        .docs-link:hover {
+            border-color: #4a69bd;
+            background-color: #f0f5ff;
+            color: #4a69bd;
+        }
+        
+        .docs-link i {
+            color: #4a69bd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Web3 Crypto Streaming Service</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../free-content.html">Free Content</a></li>
+                <li><a href="../philosophy/index.html">Philosophy</a></li>
+                <li><a href="index.html" class="active">Platform</a></li>
+                <li><a href="../../tokens.html">Tokens</a></li>
+                <li><a href="../../about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="platform-header">
+        <div class="container">
+            <h1>Platform Tools & Services</h1>
+            <p class="lead">Monitor and manage your experience with our Web3 crypto streaming platform</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <section>
+            <h2>System Tools</h2>
+            <div class="platform-grid">
+                <div class="platform-card">
+                    <div class="card-icon">
+                        <i class="fas fa-signal"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>
+                            <span class="status-indicator status-degraded"></span>
+                            System Status
+                        </h3>
+                        <p>Monitor the operational status of our platform services, blockchain connections, and infrastructure in real-time.</p>
+                        <a href="status.html" class="card-link">Check Status</a>
+                    </div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>
+                            <span class="status-indicator status-operational"></span>
+                            Dashboard
+                        </h3>
+                        <p>View your personal analytics, content performance metrics, and Web3 token statistics.</p>
+                        <a href="../../dashboard.html" class="card-link">Open Dashboard</a>
+                    </div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="card-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>
+                            <span class="status-indicator status-operational"></span>
+                            Wallet Manager
+                        </h3>
+                        <p>Connect and manage your Web3 wallets, view transactions, and track token balances.</p>
+                        <a href="../../wallet.html" class="card-link">Manage Wallet</a>
+                    </div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="card-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>
+                            <span class="status-indicator status-operational"></span>
+                            Content Uploader
+                        </h3>
+                        <p>Upload new content to the platform with IPFS storage and Web3 contract integration.</p>
+                        <a href="../../uploader.html" class="card-link">Upload Content</a>
+                    </div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>
+                            <span class="status-indicator status-operational"></span>
+                            Security Center
+                        </h3>
+                        <p>Manage your account security, privacy settings, and data protection preferences.</p>
+                        <a href="../../security.html" class="card-link">Manage Security</a>
+                    </div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="card-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>
+                            <span class="status-indicator status-operational"></span>
+                            Smart Contract Explorer
+                        </h3>
+                        <p>Browse and interact with the smart contracts that power our decentralized platform.</p>
+                        <a href="../../contracts.html" class="card-link">Explore Contracts</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="api-docs-section">
+            <h2>Developer Resources</h2>
+            <p>Access our comprehensive documentation, API references, and developer tools to build on top of our platform.</p>
+            
+            <div class="docs-links">
+                <a href="../../docs/api-reference.md" class="docs-link">
+                    <i class="fas fa-book"></i>
+                    API Docs
+                </a>
+                <a href="../../docs/guides.developers.html" class="docs-link">
+                    <i class="fas fa-code"></i>
+                    Developer Guide
+                </a>
+                <a href="../../docs/tech.solidity-review.html" class="docs-link">
+                    <i class="fas fa-file-contract"></i>
+                    Smart Contract Specs
+                </a>
+                <a href="https://github.com/idl3o/gh-pages" class="docs-link">
+                    <i class="fab fa-github"></i>
+                    GitHub Repo
+                </a>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Platform Updates</h2>
+            <div class="updates-list">
+                <div class="update-item">
+                    <h3>April 12, 2025 - Platform v1.2.0 Release</h3>
+                    <p>Our latest platform update includes enhanced IPFS integration, improved wallet connection reliability, and new analytics features for content creators.</p>
+                </div>
+                <div class="update-item">
+                    <h3>March 28, 2025 - Security Enhancements</h3>
+                    <p>We've implemented additional security layers for wallet connections and upgraded our GDPR compliance mechanisms to better protect user data.</p>
+                </div>
+                <div class="update-item">
+                    <h3>March 14, 2025 - Contract Upgrades</h3>
+                    <p>Smart contract infrastructure has been upgraded to improve gas efficiency and provide more granular content access controls.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023-2025 Web3 Crypto Streaming Service</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
