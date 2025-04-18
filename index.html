@@ -6,16 +6,73 @@
     <title>Web3 Crypto Streaming Service</title>
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <script src="assets/js/wallet-connector.js"></script>
     <meta
       name="description"
       content="Decentralized streaming platform that returns control and revenue to creators through blockchain technology"
     />
+    <style>
+      .wallet-section {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 0.5rem 0;
+      }
+
+      .wallet-badge {
+        background-color: rgba(67, 97, 238, 0.1);
+        border: 1px solid #4361ee;
+        color: #4361ee;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .wallet-badge.connected {
+        background-color: rgba(39, 174, 96, 0.1);
+        border: 1px solid #27ae60;
+        color: #2ecc71;
+      }
+
+      .wallet-badge.error {
+        background-color: rgba(231, 76, 60, 0.1);
+        border: 1px solid #e74c3c;
+        color: #f44336;
+      }
+
+      .wallet-badge .wallet-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: currentColor;
+      }
+
+      @media (max-width: 768px) {
+        .wallet-section {
+          margin-top: 1rem;
+          justify-content: center;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Navigation -->
     <div class="navigation">
       <div class="container nav-container">
         <a href="/" class="logo">Web3 Crypto Streaming</a>
+        <div class="wallet-section">
+          <div id="wallet-badge" class="wallet-badge">
+            <span class="wallet-dot"></span>
+            <span id="wallet-status">Not Connected</span>
+          </div>
+        </div>
         <nav class="main-nav">
           <ul>
             <li><a href="#features">Features</a></li>
@@ -40,6 +97,7 @@
         <div>
           <a href="streaming.html" class="button primary">Try Streaming Demo</a>
           <a href="web3-streaming-service-whitepaper.md" class="button outline">Read Whitepaper</a>
+          <button id="connect-wallet" class="button primary">Connect Wallet</button>
         </div>
       </div>
     </div>
@@ -526,5 +584,82 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      // Initialize the wallet connector
+      const walletConnector = new WalletConnector({
+        onStatusChange: statusData => {
+          // Update UI based on wallet status changes
+          const walletBadge = document.getElementById('wallet-badge');
+          const walletStatus = document.getElementById('wallet-status');
+          const connectWalletBtn = document.getElementById('connect-wallet');
+
+          // Update status display
+          if (statusData.status === 'connected') {
+            walletBadge.className = 'wallet-badge connected';
+            walletStatus.textContent = statusData.isDemoMode
+              ? `${statusData.address.substring(0, 6)}...${statusData.address.substring(
+                  statusData.address.length - 4
+                )} (Demo)`
+              : `${statusData.address.substring(0, 6)}...${statusData.address.substring(
+                  statusData.address.length - 4
+                )}`;
+            connectWalletBtn.textContent = 'Wallet Connected';
+            connectWalletBtn.disabled = true;
+          } else if (statusData.status === 'connecting') {
+            walletBadge.className = 'wallet-badge';
+            walletStatus.textContent = 'Connecting...';
+          } else if (statusData.status === 'error') {
+            walletBadge.className = 'wallet-badge error';
+            walletStatus.textContent = 'Connection Error';
+          } else {
+            walletBadge.className = 'wallet-badge';
+            walletStatus.textContent = 'Not Connected';
+            connectWalletBtn.textContent = 'Connect Wallet';
+            connectWalletBtn.disabled = false;
+          }
+
+          // Store connection state in session storage
+          if (statusData.status === 'connected') {
+            sessionStorage.setItem('walletConnected', 'true');
+            sessionStorage.setItem('walletDemo', statusData.isDemoMode.toString());
+            sessionStorage.setItem('walletAddress', statusData.address || '');
+          } else if (statusData.status === 'disconnected') {
+            sessionStorage.removeItem('walletConnected');
+            sessionStorage.removeItem('walletDemo');
+            sessionStorage.removeItem('walletAddress');
+          }
+        }
+      });
+
+      // Connect wallet button
+      const connectWalletBtn = document.getElementById('connect-wallet');
+      if (connectWalletBtn) {
+        connectWalletBtn.addEventListener('click', async () => {
+          try {
+            await walletConnector.connect();
+          } catch (error) {
+            console.error('Connection error:', error);
+          }
+        });
+      }
+
+      // Check if wallet was previously connected in this session
+      document.addEventListener('DOMContentLoaded', () => {
+        if (sessionStorage.getItem('walletConnected') === 'true') {
+          const isDemoMode = sessionStorage.getItem('walletDemo') === 'true';
+
+          if (isDemoMode) {
+            walletConnector.activateDemoMode('Demo session restored');
+          } else {
+            // Try to reconnect wallet
+            walletConnector.connect().catch(error => {
+              console.log('Auto reconnect failed:', error);
+              walletConnector.activateDemoMode('Reconnection failed, using demo mode');
+            });
+          }
+        }
+      });
+    </script>
   </body>
 </html>

@@ -1,44 +1,36 @@
 {
-  "name": "web3-crypto-streaming-service",
-  "version": "1.0.0",
-  "description": "A decentralized streaming platform that returns control and revenue to creators through blockchain technology",
+  "name": "web3-core-functionality",
+  "version": "0.1.0",
+  "description": "Web3 Streaming Platform with smart contracts and frontend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo \"Static HTML site - no build required\"",
-    "start": "npx http-server . -o",
-    "dev": "npx http-server . -o",
-    "check-urls": "node scripts/url-checker.js",
-    "lint-html": "html-validate \"**/*.html\"",
-    "audit-urls": "npm run check-urls && npm run lint-html"
+    "start": "npx serve . -l 8000",
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:mumbai": "hardhat run scripts/deploy.js --network mumbai",
+    "node": "hardhat node",
+    "verify": "hardhat verify"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/idl3o/gh-pages.git"
-  },
-  "keywords": [
-    "web3",
-    "crypto",
-    "streaming",
-    "blockchain",
-    "decentralized"
-  ],
-  "author": "Idl3o",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/idl3o/gh-pages/issues"
-  },
-  "homepage": "https://github.com/idl3o/gh-pages#readme",
   "dependencies": {
-    "http-server": "^14.1.1",
-    "cheerio": "^1.0.0-rc.12",
-    "node-fetch": "^3.3.2",
-    "uuid": "^11.1.0"
+    "@openzeppelin/contracts": "^4.9.3",
+    "dotenv": "^16.3.1",
+    "ipfs-http-client": "^60.0.0",
+    "serve": "^14.2.0"
   },
   "devDependencies": {
-    "eslint": "^9.24.0",
-    "html-validate": "^9.5.3",
-    "prettier": "^3.0.0",
-    "vite": "^6.3.0"
-  }
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.1",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@nomicfoundation/hardhat-verify": "^1.0.0",
+    "chai": "^4.3.7",
+    "ethers": "^6.6.0",
+    "hardhat": "^2.16.0",
+    "hardhat-gas-reporter": "^1.0.9",
+    "solidity-coverage": "^0.8.4"
+  },
+  "author": "Team MODSIAS",
+  "license": "MIT"
 }

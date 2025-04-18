@@ -1,0 +1,14 @@
+{
+  "001": {
+    "description": "Main development branch for core functionality",
+    "deploymentTarget": "production",
+    "primaryFocus": "smart-contracts",
+    "buildCommand": "npm run build:main"
+  },
+  "temp-check-actions": {
+    "description": "Branch for website updates and documentation",
+    "deploymentTarget": "gh-pages",
+    "primaryFocus": "documentation",
+    "buildCommand": "npm run build:docs"
+  }
+}

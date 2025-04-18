@@ -10,6 +10,9 @@
       type="application/javascript"
     ></script>
     <script src="assets/js/video-loader.js"></script>
+    <script src="assets/js/wallet-connector.js"></script>
+    <script src="assets/js/network-config.js"></script>
+    <script src="assets/js/contract-manager.js"></script>
     <style>
       .player-container {
         max-width: 900px;
@@ -119,6 +122,54 @@
           transform: rotate(360deg);
         }
       }
+
+      .network-selector {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        background-color: rgba(67, 97, 238, 0.1);
+        border: 1px solid #4361ee;
+        border-radius: 4px;
+        padding: 10px;
+      }
+
+      .network-selector label {
+        margin-right: 10px;
+        font-weight: bold;
+      }
+
+      .network-selector select {
+        padding: 5px 10px;
+        border-radius: 4px;
+        border: 1px solid #3a56d4;
+        background-color: #161730;
+        color: #fff;
+      }
+
+      .transaction-info {
+        margin-top: 10px;
+        font-size: 0.85rem;
+      }
+
+      .transaction-link {
+        color: #3498db;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .switch-network-btn {
+        margin-left: 10px;
+        background-color: #2c3e50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .switch-network-btn:hover {
+        background-color: #34495e;
+      }
     </style>
   </head>
   <body>
@@ -148,6 +199,16 @@
         <div class="player-container">
           <h2 id="content-title">Demo Content: Blockchain Basics</h2>
           <p id="content-creator">By: Team MODSIAS</p>
+
+          <div class="network-selector">
+            <label for="network-select">Network:</label>
+            <select id="network-select">
+              <option value="0xaa36a7">Sepolia Testnet</option>
+              <option value="0x13881">Mumbai Testnet</option>
+              <option value="0x539">Local Development</option>
+            </select>
+            <button id="switch-network" class="switch-network-btn">Switch Network</button>
+          </div>
 
           <div class="video-container">
             <div class="placeholder" id="player-placeholder">
@@ -184,10 +245,11 @@
             </div>
 
             <div id="stream-message" class="status" style="display: none"></div>
+            <div id="transaction-info" class="transaction-info" style="display: none"></div>
             <div class="loader" id="transaction-loader"></div>
           </div>
 
-          <!-- Content Selection (New) -->
+          <!-- Content Selection -->
           <div class="stream-info">
             <h3>Demo Content Selection</h3>
             <select id="content-selector" class="content-select">
@@ -227,6 +289,107 @@
             </div>
           </div>
 
+          <!-- What's Up Next Section -->
+          <div style="margin-top: 2.5rem">
+            <h2>What's Up Next</h2>
+            <p>Stay tuned for these upcoming features in our Web3 streaming platform:</p>
+
+            <div class="grid" style="margin-top: 1.5rem">
+              <div class="card">
+                <h3>Creator Rewards</h3>
+                <p>
+                  Direct rewards to content creators through smart contracts, ensuring fair
+                  compensation based on viewership metrics.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Community Governance</h3>
+                <p>
+                  Token holders will be able to vote on platform features, content moderation
+                  policies, and treasury allocation.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Multi-Chain Support</h3>
+                <p>
+                  Expand beyond Ethereum to support streaming across multiple blockchains with
+                  unified access control and payments.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Try Our Demos Section -->
+          <div
+            style="
+              margin-top: 2.5rem;
+              background-color: rgba(67, 97, 238, 0.1);
+              padding: 1.5rem;
+              border-radius: 8px;
+              border: 1px solid #4361ee;
+            "
+          >
+            <h2>Try Our Demos</h2>
+            <p>Experience our Web3 streaming technology with these interactive demos:</p>
+
+            <div class="grid" style="margin-top: 1.5rem">
+              <div class="card" style="background-color: #16213e">
+                <h3>Live Demo Player</h3>
+                <p>
+                  Access our demo content by connecting your wallet to this player. No real ETH is
+                  needed in demo mode!
+                </p>
+                <a
+                  href="#"
+                  class="stream-button"
+                  style="
+                    display: inline-block;
+                    margin-top: 10px;
+                    text-align: center;
+                    text-decoration: none;
+                  "
+                  >You're Here!</a
+                >
+              </div>
+              <div class="card" style="background-color: #16213e">
+                <h3>Creator Dashboard</h3>
+                <p>
+                  See how content creators can upload, manage and monetize their content on our
+                  platform.
+                </p>
+                <a
+                  href="creator-dashboard.html"
+                  class="stream-button"
+                  style="
+                    display: inline-block;
+                    margin-top: 10px;
+                    text-align: center;
+                    text-decoration: none;
+                  "
+                  >View Demo</a
+                >
+              </div>
+              <div class="card" style="background-color: #16213e">
+                <h3>Token Explorer</h3>
+                <p>
+                  Interactive visualization of our token economy and how streaming credits flow
+                  between users and creators.
+                </p>
+                <a
+                  href="token-explorer.html"
+                  class="stream-button"
+                  style="
+                    display: inline-block;
+                    margin-top: 10px;
+                    text-align: center;
+                    text-decoration: none;
+                  "
+                  >View Demo</a
+                >
+              </div>
+            </div>
+          </div>
+
           <h3 style="margin-top: 2rem">Smart Contract Integration</h3>
           <p>
             The player interacts with our <code>StreamingToken</code> smart contract through these
@@ -252,19 +415,15 @@
       // Video loader initialization
       const videoLoader = new VideoLoader();
 
-      // Contract address - replace with your deployed contract
-      const contractAddress = '0xYourContractAddressHere';
+      // Initialize Network Config
+      const networkConfig = new NetworkConfig();
 
-      // ABI for the StreamingToken contract
-      const contractABI = [
-        'function purchaseCredits() public payable',
-        'function startStream(string memory contentId) public',
-        'function canStream(address user, string memory contentId) public view returns (bool)',
-        'function balanceOf(address account) public view returns (uint256)'
-      ];
+      // Get initial selected network
+      const networkSelect = document.getElementById('network-select');
+      const currentChainId = networkSelect.value;
 
-      // Get initial demo content
-      const demoContent = videoLoader.getDemoContent('content_001');
+      // Get contract address from network config
+      let contractAddress = networkConfig.getContractAddresses(currentChainId).streamingToken;
 
       // Elements
       const connectWalletBtn = document.getElementById('connect-wallet');
@@ -276,17 +435,174 @@
       const streamStatus = document.getElementById('stream-status');
       const timeRemaining = document.getElementById('time-remaining');
       const streamMessage = document.getElementById('stream-message');
+      const transactionInfo = document.getElementById('transaction-info');
       const transactionLoader = document.getElementById('transaction-loader');
       const videoPlayer = document.getElementById('video-player');
       const playerPlaceholder = document.getElementById('player-placeholder');
       const unlockMessage = document.getElementById('unlock-message');
       const contentSelector = document.getElementById('content-selector');
       const loadContentBtn = document.getElementById('load-content');
+      const switchNetworkBtn = document.getElementById('switch-network');
 
-      let provider, signer, contract;
-      let userAddress = null;
       let streamExpiryTime = 0;
       let accessTimer = null;
+
+      // Initialize the wallet connector
+      const walletConnector = new WalletConnector({
+        contractAddress: contractAddress,
+        contractABI: [
+          'function purchaseCredits() public payable',
+          'function startStream(string memory contentId) public',
+          'function canStream(address user, string memory contentId) public view returns (bool)',
+          'function balanceOf(address account) public view returns (uint256)'
+        ],
+        onStatusChange: statusData => {
+          // Update UI based on wallet status changes
+          walletStatus.textContent = statusData.message;
+          walletStatus.className =
+            statusData.status === 'connected' ? 'status success' : 'status info';
+
+          if (statusData.status === 'connected') {
+            purchaseCreditsBtn.disabled = false;
+            checkAccessBtn.disabled = false;
+            updateCreditBalance();
+
+            // Initialize contract manager when wallet is connected
+            initContractManager(statusData.address);
+          }
+        }
+      });
+
+      // Initialize Contract Manager
+      let contractManager;
+
+      function initContractManager(userAddress) {
+        // Get current chain ID
+        const chainId = networkSelect.value;
+
+        // Get contract address from network config
+        contractAddress = networkConfig.getContractAddresses(chainId).streamingToken;
+
+        contractManager = new ContractManager({
+          networkId: chainId,
+          streamingTokenAddress: contractAddress,
+          walletConnector: walletConnector,
+          onTransactionStart: txData => {
+            transactionLoader.style.display = 'block';
+            streamMessage.textContent = `Submitting ${txData.method} transaction...`;
+            streamMessage.style.display = 'block';
+            streamMessage.className = 'status info';
+          },
+          onTransactionSuccess: txData => {
+            transactionLoader.style.display = 'none';
+            streamMessage.textContent = `${txData.method} transaction successful!`;
+            streamMessage.className = 'status success';
+
+            // Show transaction link if on a public network
+            const txHash = txData.receipt.transactionHash;
+            const explorerUrl = networkConfig.getExplorerTxUrl(chainId, txHash);
+
+            if (explorerUrl) {
+              transactionInfo.innerHTML = `Transaction: <a href="${explorerUrl}" target="_blank" class="transaction-link">${txHash.substring(
+                0,
+                10
+              )}...${txHash.slice(-6)}</a>`;
+              transactionInfo.style.display = 'block';
+            }
+
+            // Update balance after transaction
+            updateCreditBalance();
+          },
+          onTransactionError: txData => {
+            transactionLoader.style.display = 'none';
+            streamMessage.textContent = `${txData.method} failed: ${txData.error.message}`;
+            streamMessage.className = 'status error';
+          }
+        });
+      }
+
+      // Network selection handler
+      networkSelect.addEventListener('change', () => {
+        const chainId = networkSelect.value;
+        const addresses = networkConfig.getContractAddresses(chainId);
+
+        if (addresses && addresses.streamingToken) {
+          contractAddress = addresses.streamingToken;
+
+          // Update contract manager if initialized
+          if (contractManager) {
+            contractManager.options.networkId = chainId;
+            contractManager.options.streamingTokenAddress = contractAddress;
+            contractManager.initContracts();
+          }
+        } else {
+          contractAddress = null;
+        }
+      });
+
+      // Switch network button
+      switchNetworkBtn.addEventListener('click', async () => {
+        const chainId = networkSelect.value;
+
+        if (!window.ethereum) {
+          alert('MetaMask is required to switch networks');
+          return;
+        }
+
+        try {
+          transactionLoader.style.display = 'block';
+          streamMessage.textContent = `Switching to ${networkConfig.getNetworkName(chainId)}...`;
+          streamMessage.style.display = 'block';
+          streamMessage.className = 'status info';
+
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: chainId }]
+          });
+
+          streamMessage.textContent = `Successfully switched to ${networkConfig.getNetworkName(
+            chainId
+          )}`;
+          streamMessage.className = 'status success';
+
+          // Reconnect wallet
+          await walletConnector.connect();
+        } catch (error) {
+          console.error('Failed to switch network:', error);
+          streamMessage.textContent = `Failed to switch network: ${error.message}`;
+          streamMessage.className = 'status error';
+
+          // If the chain is not added to MetaMask, add it
+          if (error.code === 4902) {
+            try {
+              const network = networkConfig.getNetworkInfo(chainId);
+
+              if (network) {
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [
+                    {
+                      chainId: chainId,
+                      chainName: network.name,
+                      nativeCurrency: {
+                        name: network.currencySymbol,
+                        symbol: network.currencySymbol,
+                        decimals: 18
+                      },
+                      rpcUrls: [networkConfig.RPC_URLS[chainId]],
+                      blockExplorerUrls: network.blockExplorer ? [network.blockExplorer] : []
+                    }
+                  ]
+                });
+              }
+            } catch (addError) {
+              console.error('Failed to add network to MetaMask:', addError);
+            }
+          }
+        } finally {
+          transactionLoader.style.display = 'none';
+        }
+      });
 
       // Content selection handler
       loadContentBtn.addEventListener('click', () => {
@@ -317,81 +633,83 @@
         streamMessage.style.display = 'block';
         streamMessage.textContent = `Content information updated. ${content.description}`;
         streamMessage.className = 'status info';
+
+        // Hide transaction info
+        transactionInfo.style.display = 'none';
       });
 
-      // Connect wallet
+      // Connect wallet using our WalletConnector module
       connectWalletBtn.addEventListener('click', async () => {
+        transactionLoader.style.display = 'block';
+
         try {
-          // Check if MetaMask is installed
-          if (window.ethereum) {
-            // Show loader
-            transactionLoader.style.display = 'block';
+          // Connect wallet using our module
+          const result = await walletConnector.connect();
 
-            // Request account access
-            provider = new ethers.providers.Web3Provider(window.ethereum);
-            await provider.send('eth_requestAccounts', []);
-            signer = provider.getSigner();
-            userAddress = await signer.getAddress();
-
-            // Initialize contract
-            contract = new ethers.Contract(contractAddress, contractABI, signer);
-
-            // Update UI
-            walletStatus.textContent = `Connected: ${userAddress.substring(
-              0,
-              6
-            )}...${userAddress.substring(userAddress.length - 4)}`;
-            walletStatus.className = 'status success';
-
-            // Enable buttons
-            purchaseCreditsBtn.disabled = false;
-            checkAccessBtn.disabled = false;
-
-            // Update credit balance
-            await updateCreditBalance();
-
-            // Hide loader
-            transactionLoader.style.display = 'none';
-          } else {
-            walletStatus.textContent = 'MetaMask not found. Please install MetaMask.';
-            walletStatus.className = 'status error';
+          // Check connection result
+          if (result.success && result.isDemoMode) {
+            // Set demo credits
+            creditBalance.textContent = '3';
+            startStreamBtn.disabled = false;
           }
         } catch (error) {
           console.error('Connection error:', error);
           walletStatus.textContent = `Connection error: ${error.message}`;
           walletStatus.className = 'status error';
+        } finally {
           transactionLoader.style.display = 'none';
         }
       });
 
       // Purchase credits
       purchaseCreditsBtn.addEventListener('click', async () => {
+        streamMessage.style.display = 'block';
+        transactionInfo.style.display = 'none';
+
         try {
-          if (!contract) return;
+          const state = walletConnector.getConnectionState();
 
-          streamMessage.style.display = 'block';
-          streamMessage.textContent = 'Purchasing credits...';
-          streamMessage.className = 'status info';
-          transactionLoader.style.display = 'block';
+          if (state.isDemoMode) {
+            // Simulate transaction delay in demo mode
+            transactionLoader.style.display = 'block';
+            streamMessage.textContent = 'Purchasing credits...';
+            streamMessage.className = 'status info';
 
-          // Send 0.01 ETH to purchase credits
-          const tx = await contract.purchaseCredits({ value: ethers.utils.parseEther('0.01') });
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
-          streamMessage.textContent = 'Transaction submitted. Waiting for confirmation...';
+            // Simulate credit purchase in demo mode
+            const currentCredits = parseInt(creditBalance.textContent || '0');
+            const newCredits = currentCredits + 5;
+            creditBalance.textContent = newCredits.toString();
 
-          // Wait for transaction to be mined
-          await tx.wait();
+            streamMessage.textContent = 'Demo credits purchased successfully!';
+            streamMessage.className = 'status success';
+            transactionLoader.style.display = 'none';
 
-          // Update credit balance
-          await updateCreditBalance();
-
-          streamMessage.textContent = 'Credits purchased successfully!';
-          streamMessage.className = 'status success';
-          transactionLoader.style.display = 'none';
-
-          // Enable start stream button if balance > 0
-          if (parseInt(creditBalance.textContent) > 0) {
+            // Enable start stream button
             startStreamBtn.disabled = false;
+          } else if (contractManager) {
+            try {
+              // Use contract manager to purchase credits
+              await contractManager.purchaseCredits('0.01');
+            } catch (txError) {
+              console.error('Transaction error:', txError);
+
+              // If the contract call fails and we're in demo mode fallback
+              if (state.isDemoMode) {
+                const currentCredits = parseInt(creditBalance.textContent || '0');
+                const newCredits = currentCredits + 3;
+                creditBalance.textContent = newCredits.toString();
+
+                streamMessage.textContent = 'Used demo mode: Credits added to your account.';
+                streamMessage.className = 'status info';
+
+                // Enable start stream button
+                startStreamBtn.disabled = false;
+              }
+            }
+          } else {
+            throw new Error('No wallet connected or contract available');
           }
         } catch (error) {
           console.error('Purchase error:', error);
@@ -403,60 +721,95 @@
 
       // Start stream
       startStreamBtn.addEventListener('click', async () => {
+        const contentId = document.getElementById('content-id').textContent;
+
+        streamMessage.style.display = 'block';
+        transactionInfo.style.display = 'none';
+
         try {
-          if (!contract) return;
-
-          const contentId = document.getElementById('content-id').textContent;
-
-          streamMessage.style.display = 'block';
-          streamMessage.textContent = 'Starting stream...';
-          streamMessage.className = 'status info';
-          transactionLoader.style.display = 'block';
-
-          // For demo purposes, we'll simulate the contract call
-          let tx;
-          try {
-            // Try calling the contract (will fail in demo)
-            tx = await contract.startStream(contentId);
-            await tx.wait();
-          } catch (error) {
-            console.log('Using demo mode due to missing contract');
-            // Simulate successful transaction for demo
-            await new Promise(resolve => setTimeout(resolve, 1500));
+          // Check if we have credits
+          const currentCredits = parseInt(creditBalance.textContent || '0');
+          if (currentCredits <= 0) {
+            throw new Error('Insufficient credits. Please purchase credits first.');
           }
 
-          // Update UI
-          streamStatus.textContent = 'Active';
+          const state = walletConnector.getConnectionState();
 
-          // Set expiry time (1 hour from now)
-          streamExpiryTime = Math.floor(Date.now() / 1000) + 3600;
+          if (state.isDemoMode) {
+            // Simulate blockchain transaction delay
+            transactionLoader.style.display = 'block';
+            streamMessage.textContent = 'Starting stream...';
+            streamMessage.className = 'status info';
 
-          // Start countdown timer
-          startAccessTimer();
+            await new Promise(resolve => setTimeout(resolve, 1500));
 
-          // Update credit balance (simulate for demo)
-          creditBalance.textContent = Math.max(
-            0,
-            parseInt(creditBalance.textContent || '0') - 1
-          ).toString();
-          startStreamBtn.disabled = creditBalance.textContent === '0';
+            // Update UI
+            streamStatus.textContent = 'Active';
 
-          // Load the video
-          streamMessage.textContent = 'Loading video stream...';
-          const content = videoLoader.getDemoContent(contentId);
+            // Set expiry time (1 hour from now)
+            streamExpiryTime = Math.floor(Date.now() / 1000) + 3600;
 
-          videoLoader.loadVideo(content.ipfsCid, (videoUrl, error) => {
-            // Show the video player
-            playerPlaceholder.style.display = 'none';
-            videoPlayer.style.display = 'block';
-            videoPlayer.src = videoUrl;
+            // Start countdown timer
+            startAccessTimer();
 
-            streamMessage.textContent = error
-              ? `Stream started with fallback video: ${error}`
-              : 'Stream started successfully!';
-            streamMessage.className = 'status success';
-            transactionLoader.style.display = 'none';
-          });
+            // Deduct credit
+            creditBalance.textContent = (currentCredits - 1).toString();
+            startStreamBtn.disabled = parseInt(creditBalance.textContent) === 0;
+
+            // Load the video
+            const content = videoLoader.getDemoContent(contentId);
+            loadVideoContent(content);
+          } else if (contractManager) {
+            try {
+              // Use contract manager to start the stream
+              await contractManager.startStream(contentId);
+
+              // Set expiry time (1 hour from now)
+              streamExpiryTime = Math.floor(Date.now() / 1000) + 3600;
+
+              // Update UI
+              streamStatus.textContent = 'Active';
+
+              // Start countdown timer
+              startAccessTimer();
+
+              // Load the video content
+              const content = videoLoader.getDemoContent(contentId);
+              loadVideoContent(content);
+            } catch (txError) {
+              console.error('Transaction error:', txError);
+
+              // For demo purposes, allow fallback to demo mode
+              if (state.isDemoMode) {
+                transactionLoader.style.display = 'block';
+
+                // Simulate blockchain transaction delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Update UI
+                streamStatus.textContent = 'Active (Demo)';
+
+                // Set expiry time (1 hour from now)
+                streamExpiryTime = Math.floor(Date.now() / 1000) + 3600;
+
+                // Start countdown timer
+                startAccessTimer();
+
+                // Deduct credit
+                creditBalance.textContent = (currentCredits - 1).toString();
+                startStreamBtn.disabled = parseInt(creditBalance.textContent) === 0;
+
+                // Load the video
+                const content = videoLoader.getDemoContent(contentId);
+                loadVideoContent(content);
+
+                streamMessage.textContent = 'Demo stream started (contract call failed).';
+                streamMessage.className = 'status info';
+              }
+            }
+          } else {
+            throw new Error('No wallet connected or contract available');
+          }
         } catch (error) {
           console.error('Stream error:', error);
           streamMessage.textContent = `Stream error: ${error.message}`;
@@ -467,61 +820,96 @@
 
       // Check access
       checkAccessBtn.addEventListener('click', async () => {
+        const contentId = document.getElementById('content-id').textContent;
+
+        streamMessage.style.display = 'block';
+        transactionInfo.style.display = 'none';
+        streamMessage.textContent = 'Checking access...';
+        streamMessage.className = 'status info';
+        transactionLoader.style.display = 'block';
+
         try {
-          if (!contract || !userAddress) return;
+          const state = walletConnector.getConnectionState();
 
-          const contentId = document.getElementById('content-id').textContent;
+          if (state.isDemoMode) {
+            // In demo mode, simulate a delay and provide randomized access
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
-          streamMessage.style.display = 'block';
-          streamMessage.textContent = 'Checking access...';
-          streamMessage.className = 'status info';
-          transactionLoader.style.display = 'block';
+            // 70% chance of access in demo mode
+            const hasAccess = Math.random() < 0.7;
 
-          // For demo purposes, simulate the contract call
-          let hasAccess = false;
-          try {
-            // Try calling the contract (will fail in demo)
-            hasAccess = await contract.canStream(userAddress, contentId);
-          } catch (error) {
-            console.log('Using demo mode due to missing contract');
-            // Simulate random access for demo
-            hasAccess = Math.random() > 0.5;
-          }
+            if (hasAccess) {
+              streamStatus.textContent = 'Active (Demo)';
 
-          if (hasAccess) {
-            streamStatus.textContent = 'Active';
+              // Set expiry time (30 minutes from now for demo check access)
+              streamExpiryTime = Math.floor(Date.now() / 1000) + 1800;
 
-            // For demo purposes, just set a 1-hour timer from now
-            streamExpiryTime = Math.floor(Date.now() / 1000) + 3600;
+              // Start countdown timer
+              startAccessTimer();
 
-            // Start countdown timer
-            startAccessTimer();
+              // Load the video content
+              const content = videoLoader.getDemoContent(contentId);
+              loadVideoContent(content);
 
-            // Load the video
-            const content = videoLoader.getDemoContent(contentId);
-
-            videoLoader.loadVideo(content.ipfsCid, (videoUrl, error) => {
-              // Show the video player
-              playerPlaceholder.style.display = 'none';
-              videoPlayer.style.display = 'block';
-              videoPlayer.src = videoUrl;
-
-              streamMessage.textContent = error
-                ? `You have access to this stream! (${error})`
-                : 'You have access to this stream!';
+              streamMessage.textContent = 'Demo access verified! You can watch this content.';
               streamMessage.className = 'status success';
+            } else {
+              streamStatus.textContent = 'No access';
+
+              // Hide video player
+              playerPlaceholder.style.display = 'flex';
+              videoPlayer.style.display = 'none';
+
+              streamMessage.textContent =
+                'Demo access check: You do not have access to this stream. Try purchasing access.';
+              streamMessage.className = 'status error';
               transactionLoader.style.display = 'none';
-            });
+            }
+          } else if (contractManager) {
+            try {
+              // Use contract manager to check stream access
+              const hasAccess = await contractManager.checkStreamAccess(contentId);
+
+              if (hasAccess) {
+                streamStatus.textContent = 'Active';
+
+                // Set expiry time (1 hour from now as an example)
+                // In a real implementation, you would get the actual expiry from the contract
+                streamExpiryTime = Math.floor(Date.now() / 1000) + 3600;
+
+                // Start countdown timer
+                startAccessTimer();
+
+                // Load the video content
+                const content = videoLoader.getDemoContent(contentId);
+                loadVideoContent(content);
+              } else {
+                streamStatus.textContent = 'No access';
+
+                // Hide video player
+                playerPlaceholder.style.display = 'flex';
+                videoPlayer.style.display = 'none';
+
+                streamMessage.textContent =
+                  'You do not have access to this stream. Please purchase access.';
+                streamMessage.className = 'status error';
+                transactionLoader.style.display = 'none';
+              }
+            } catch (contractError) {
+              console.error('Contract error:', contractError);
+
+              // Try demo mode if in demo mode fallback
+              if (state.isDemoMode) {
+                streamMessage.textContent = 'Contract error. Trying demo mode...';
+                setTimeout(() => {
+                  checkAccessBtn.click();
+                }, 500);
+              } else {
+                throw contractError;
+              }
+            }
           } else {
-            streamStatus.textContent = 'No access';
-
-            // Hide video player
-            playerPlaceholder.style.display = 'flex';
-            videoPlayer.style.display = 'none';
-
-            streamMessage.textContent = 'You do not have access to this stream.';
-            streamMessage.className = 'status error';
-            transactionLoader.style.display = 'none';
+            throw new Error('No wallet connected or contract available');
           }
         } catch (error) {
           console.error('Check access error:', error);
@@ -531,19 +919,52 @@
         }
       });
 
+      // Helper function to load video content
+      function loadVideoContent(content) {
+        streamMessage.textContent = 'Loading video stream...';
+
+        videoLoader.loadVideo(content.ipfsCid, (videoUrl, error) => {
+          // Show the video player
+          playerPlaceholder.style.display = 'none';
+          videoPlayer.style.display = 'block';
+          videoPlayer.src = videoUrl;
+
+          // Auto-play the video
+          videoPlayer.play().catch(playError => {
+            console.warn('Auto-play prevented:', playError);
+            streamMessage.textContent =
+              'Click to play the video (auto-play was blocked by browser).';
+          });
+
+          streamMessage.textContent = error
+            ? `Stream started with fallback video: ${error}`
+            : 'Stream started successfully!';
+          streamMessage.className = 'status success';
+          transactionLoader.style.display = 'none';
+        });
+      }
+
       // Helper function to update credit balance
       async function updateCreditBalance() {
-        if (!contract || !userAddress) return;
-
         try {
+          const state = walletConnector.getConnectionState();
           let balance;
-          try {
-            // Try calling the contract (will fail in demo)
-            balance = await contract.balanceOf(userAddress);
-          } catch (error) {
-            console.log('Using demo mode due to missing contract');
+
+          if (!state.isConnected) {
+            return;
+          }
+
+          if (state.isDemoMode) {
             // Simulate random balance for demo
             balance = { toString: () => '3' };
+          } else if (contractManager) {
+            try {
+              // Use contract manager to get balance
+              balance = await contractManager.getBalance();
+            } catch (error) {
+              console.log('Using demo mode due to error:', error);
+              balance = { toString: () => '3' };
+            }
           }
 
           creditBalance.textContent = balance.toString();
@@ -595,6 +1016,7 @@
       }
 
       // Initialize content details
+      const demoContent = videoLoader.getDemoContent('content_001');
       document.getElementById('content-title').textContent = `Demo Content: ${demoContent.title}`;
       document.getElementById('content-creator').textContent = `By: ${demoContent.creator}`;
       document.getElementById('content-id').textContent = 'content_001';
@@ -603,6 +1025,23 @@
       playerPlaceholder.style.backgroundImage = `url('${demoContent.thumbnail}')`;
       playerPlaceholder.style.backgroundSize = 'cover';
       playerPlaceholder.style.backgroundPosition = 'center';
+
+      // Check if wallet was previously connected in this session
+      document.addEventListener('DOMContentLoaded', () => {
+        if (sessionStorage.getItem('walletConnected') === 'true') {
+          const isDemoMode = sessionStorage.getItem('walletDemo') === 'true';
+
+          if (isDemoMode) {
+            walletConnector.activateDemoMode('Demo session restored');
+          } else {
+            // Try to reconnect wallet
+            walletConnector.connect().catch(error => {
+              console.log('Auto reconnect failed:', error);
+              walletConnector.activateDemoMode('Reconnection failed, using demo mode');
+            });
+          }
+        }
+      });
     </script>
 
     <!-- Footer -->

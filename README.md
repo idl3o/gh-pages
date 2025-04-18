@@ -42,6 +42,7 @@ This repository uses multiple branches for different purposes:
 The smart contract documentation is automatically generated using a GitHub Actions workflow. When changes are made to Solidity files, the documentation is updated and deployed.
 
 To work with documentation:
+
 1. Check out the `temp-check-actions` branch
 2. Make your changes to the contracts or documentation
 3. Commit and push to trigger the documentation build

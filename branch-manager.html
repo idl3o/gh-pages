@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web3 Branch Manager</title>
+    <style>
+      :root {
+        --bg-color: #0d1117;
+        --text-color: #e6edf3;
+        --primary-color: #1f6feb;
+        --secondary-color: #238636;
+        --warning-color: #f85149;
+        --border-color: #30363d;
+        --panel-bg: #161b22;
+        --hover-color: #1f6feb33;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 20px;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 20px;
+      }
+
+      .panel {
+        background-color: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .panel h2 {
+        margin-top: 0;
+        font-size: 18px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+
+      .branch-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .branch-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        margin-bottom: 5px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .branch-item:hover {
+        background-color: var(--hover-color);
+      }
+
+      .branch-item.active {
+        background-color: #1f6feb33;
+        border-color: #1f6feb;
+      }
+
+      .branch-item .icon {
+        margin-right: 10px;
+        color: var(--primary-color);
+      }
+
+      .branch-item .label {
+        flex-grow: 1;
+      }
+
+      .branch-item .actions {
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      .branch-item:hover .actions {
+        opacity: 1;
+      }
+
+      .terminal {
+        background-color: #0d1117;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 15px;
+        font-family: 'Consolas', 'Monaco', monospace;
+        height: 300px;
+        overflow: auto;
+        margin-bottom: 15px;
+      }
+
+      .terminal-line {
+        margin: 0;
+        white-space: pre-wrap;
+        line-height: 1.5;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      button,
+      select,
+      input[type='text'] {
+        background-color: #21262d;
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 6px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      button:hover,
+      select:hover {
+        background-color: #30363d;
+      }
+
+      button.primary {
+        background-color: var(--primary-color);
+        border-color: #1a7fff;
+      }
+
+      button.primary:hover {
+        background-color: #388bfd;
+      }
+
+      button.success {
+        background-color: var(--secondary-color);
+        border-color: #2ea043;
+      }
+
+      button.success:hover {
+        background-color: #3fb950;
+      }
+
+      button.danger {
+        background-color: #da3633;
+        border-color: #f85149;
+      }
+
+      button.danger:hover {
+        background-color: #f85149;
+      }
+
+      input[type='text'],
+      select {
+        background-color: #0d1117;
+        min-width: 200px;
+      }
+
+      .action-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 2px 6px;
+        font-size: 12px;
+        border-radius: 10px;
+        margin-left: 5px;
+      }
+
+      .badge.main {
+        background-color: var(--primary-color);
+      }
+
+      .badge.docs {
+        background-color: var(--secondary-color);
+      }
+
+      .status-panel {
+        margin-top: 20px;
+      }
+
+      .status-item {
+        display: flex;
+        padding: 8px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .status-item .name {
+        flex-grow: 1;
+        font-weight: bold;
+      }
+
+      .changed {
+        color: #f0883e;
+      }
+
+      .added {
+        color: var(--secondary-color);
+      }
+
+      .deleted {
+        color: var(--warning-color);
+      }
+
+      .modified {
+        color: var(--primary-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Web3 Branch Manager</h1>
+        <div>
+          <button id="refreshBtn">Refresh</button>
+          <button id="syncBtn" class="primary">Sync Branches</button>
+        </div>
+      </header>
+
+      <div class="main-grid">
+        <div class="left-panel">
+          <div class="panel">
+            <h2>Branches</h2>
+            <ul class="branch-list" id="branchList">
+              <!-- Branches will be populated here -->
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h2>Quick Actions</h2>
+            <div class="action-bar">
+              <button id="newBranchBtn">New Branch</button>
+              <button id="commitBtn" class="success">Quick Commit</button>
+            </div>
+
+            <div class="input-group">
+              <select id="actionSelect">
+                <option value="">Select Action...</option>
+                <option value="generateDocs">Generate Contract Docs</option>
+                <option value="deploy">Deploy to GitHub Pages</option>
+                <option value="stash">Stash Changes</option>
+                <option value="pop">Pop Stash</option>
+              </select>
+              <button id="executeActionBtn">Execute</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="panel">
+            <h2>Terminal Output</h2>
+            <div class="terminal" id="terminal">
+              <p class="terminal-line">Welcome to Web3 Branch Manager</p>
+              <p class="terminal-line">Loading branch information...</p>
+            </div>
+          </div>
+
+          <div class="panel status-panel">
+            <h2>Status</h2>
+            <div id="statusContent">
+              <!-- Status will be populated here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dialogs -->
+    <div id="newBranchDialog" style="display: none">
+      <div class="panel">
+        <h2>Create New Branch</h2>
+        <div class="input-group">
+          <label for="branchNameInput">Branch Name:</label>
+          <input type="text" id="branchNameInput" />
+        </div>
+        <div class="action-bar">
+          <button id="cancelNewBranch">Cancel</button>
+          <button id="createBranch" class="primary">Create</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="commitDialog" style="display: none">
+      <div class="panel">
+        <h2>Commit Changes</h2>
+        <div class="input-group">
+          <label for="commitMessageInput">Commit Message:</label>
+          <input type="text" id="commitMessageInput" />
+        </div>
+        <div class="action-bar">
+          <button id="cancelCommit">Cancel</button>
+          <button id="doCommit" class="success">Commit</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // This is just a UI prototype - in a real implementation, we would use
+      // VS Code's extension API to interact with Git and execute terminal commands
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // Simulated branch data
+        const branches = [
+          {
+            name: '001',
+            isCurrent: true,
+            type: 'main',
+            description: 'Main development branch for core functionality'
+          },
+          {
+            name: 'temp-check-actions',
+            isCurrent: false,
+            type: 'docs',
+            description: 'Branch for website updates and documentation'
+          },
+          {
+            name: 'feature/payment-gateway',
+            isCurrent: false,
+            type: 'feature',
+            description: 'New payment processing system'
+          },
+          {
+            name: 'docs/api-reference',
+            isCurrent: false,
+            type: 'docs',
+            description: 'API documentation update'
+          }
+        ];
+
+        // Simulated status data
+        const statusItems = [
+          { name: 'StreamToken.sol', status: 'modified' },
+          { name: 'docs/contracts/index.html', status: 'added' },
+          { name: 'styles.css', status: 'modified' },
+          { name: 'package.json', status: 'modified' }
+        ];
+
+        // Populate branch list
+        const branchList = document.getElementById('branchList');
+        branches.forEach(branch => {
+          const li = document.createElement('li');
+          li.className = `branch-item ${branch.isCurrent ? 'active' : ''}`;
+
+          const badgeType = branch.type === 'main' ? 'main' : branch.type === 'docs' ? 'docs' : '';
+
+          li.innerHTML = `
+                    <span class="icon">📁</span>
+                    <span class="label">${branch.name} ${
+            badgeType ? `<span class="badge ${badgeType}">${branch.type}</span>` : ''
+          }</span>
+                    <div class="actions">
+                        <button class="checkout-btn" data-branch="${branch.name}">Checkout</button>
+                    </div>
+                `;
+
+          if (!branch.isCurrent) {
+            li.querySelector('.checkout-btn').addEventListener('click', function () {
+              switchBranch(branch.name);
+            });
+          }
+
+          branchList.appendChild(li);
+        });
+
+        // Populate status content
+        const statusContent = document.getElementById('statusContent');
+        statusItems.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'status-item';
+          div.innerHTML = `
+                    <span class="name">${item.name}</span>
+                    <span class="${item.status}">${item.status}</span>
+                `;
+          statusContent.appendChild(div);
+        });
+
+        // Button event handlers
+        document.getElementById('refreshBtn').addEventListener('click', refreshInfo);
+        document.getElementById('syncBtn').addEventListener('click', syncBranches);
+        document.getElementById('newBranchBtn').addEventListener('click', showNewBranchDialog);
+        document.getElementById('commitBtn').addEventListener('click', showCommitDialog);
+        document.getElementById('executeActionBtn').addEventListener('click', executeAction);
+
+        function switchBranch(branchName) {
+          appendToTerminal(`> Switching to branch: ${branchName}...`);
+          appendToTerminal(`Successfully switched to branch: ${branchName}`);
+
+          // In a real implementation, this would execute the branch-manager.cmd script
+          // through VS Code's terminal API
+          setTimeout(() => {
+            appendToTerminal('Loaded branch-specific configuration');
+            refreshBranchList(branchName);
+          }, 500);
+        }
+
+        function refreshInfo() {
+          appendToTerminal('> Refreshing repository information...');
+          appendToTerminal('Current branch: 001');
+          appendToTerminal(
+            'Last commit: 8f30e00 - Fix YAML syntax error in URL validation workflow (4 hours ago) <idl3o>'
+          );
+        }
+
+        function syncBranches() {
+          appendToTerminal('> Synchronizing branches with remote...');
+          appendToTerminal('Fetching latest changes...');
+          appendToTerminal('Updating 001...');
+          appendToTerminal('Updating temp-check-actions...');
+          appendToTerminal('All branches synchronized!');
+        }
+
+        function showNewBranchDialog() {
+          // In a real implementation, this would show a proper dialog
+          const branchName = prompt('Enter new branch name:');
+          if (branchName) {
+            appendToTerminal(`> Creating new branch: ${branchName}...`);
+            appendToTerminal(`Successfully created and switched to branch: feature/${branchName}`);
+            refreshBranchList(`feature/${branchName}`);
+          }
+        }
+
+        function showCommitDialog() {
+          // In a real implementation, this would show a proper dialog
+          const message = prompt('Enter commit message:');
+          if (message) {
+            appendToTerminal(`> Committing changes: "${message}"...`);
+            appendToTerminal('Added 4 files');
+            appendToTerminal(`Successfully committed changes with message: "${message}"`);
+          }
+        }
+
+        function executeAction() {
+          const action = document.getElementById('actionSelect').value;
+          if (!action) return;
+
+          switch (action) {
+            case 'generateDocs':
+              appendToTerminal('> Generating contract documentation...');
+              appendToTerminal('Switching to temp-check-actions branch');
+              appendToTerminal('Running solidity-docgen...');
+              appendToTerminal('Documentation generated successfully in ./docs/contracts');
+              break;
+            case 'deploy':
+              appendToTerminal('> Deploying to GitHub Pages...');
+              appendToTerminal('Building static site...');
+              appendToTerminal('Pushing to gh-pages branch...');
+              appendToTerminal('Successfully deployed to GitHub Pages');
+              break;
+            case 'stash':
+              appendToTerminal('> Stashing changes...');
+              appendToTerminal('Saved working directory and index state');
+              break;
+            case 'pop':
+              appendToTerminal('> Applying stashed changes...');
+              appendToTerminal('Applied stash@{0}');
+              break;
+          }
+        }
+
+        function appendToTerminal(text) {
+          const terminal = document.getElementById('terminal');
+          const line = document.createElement('p');
+          line.className = 'terminal-line';
+          line.textContent = text;
+          terminal.appendChild(line);
+          terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function refreshBranchList(currentBranch) {
+          // In a real implementation, this would reload the actual branch list
+          appendToTerminal('> Branch list refreshed');
+        }
+      });
+    </script>
+  </body>
+</html>

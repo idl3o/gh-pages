@@ -22,6 +22,16 @@ cp url-launcher.html $BUILD_DIR/ 2>/dev/null || :
 cp team.html $BUILD_DIR/ 2>/dev/null || :
 cp status.html $BUILD_DIR/ 2>/dev/null || :
 cp streaming.html $BUILD_DIR/
+cp creator-dashboard.html $BUILD_DIR/ 2>/dev/null || :
+cp governance-visualization.html $BUILD_DIR/ 2>/dev/null || :
+cp ranking-power.html $BUILD_DIR/ 2>/dev/null || :
+cp ai-companion.html $BUILD_DIR/ 2>/dev/null || :
+
+# Copy Markdown files (for Jekyll processing)
+cp *.md $BUILD_DIR/ 2>/dev/null || :
+
+# Copy Jekyll config
+cp _config.yml $BUILD_DIR/ 2>/dev/null || :
 
 # Copy assets
 cp -r assets/css/* $BUILD_DIR/assets/css/ 2>/dev/null || :
@@ -55,7 +65,7 @@ fi
 
 # Create a minimal package.json for GitHub Pages in the build directory
 echo '{
-  "name": "red-x-static",
+  "name": "web3-core-functionality",
   "version": "1.0.0",
   "private": true,
   "dependencies": {}
@@ -220,16 +230,48 @@ if [ -f "red_x/js/utils/compression.js" ]; then
   " || echo "WASM optimization skipped"
 fi
 
-echo "Static build complete! Files are in the ./build directory."
-echo "To deploy to GitHub Pages:"
-echo "1. Create a gh-pages branch"
+# Create a CNAME file if needed (customize domain here)
+echo "www.web3streaming.example" > ../build/CNAME
+
+# Automated GitHub Pages deployment
+echo "Deploying to GitHub Pages..."
+if [ -z "$(git branch --list gh-pages)" ]; then
+  echo "Creating gh-pages branch..."
+  git checkout --orphan gh-pages
+  git rm -rf .
+  touch .nojekyll
+  git add .nojekyll
+  git commit -m "Initialize gh-pages branch"
+  git push origin gh-pages
+  git checkout -
+fi
+
+# Deploy to GitHub Pages using git worktree
+echo "Deploying build to gh-pages branch..."
+if [ -d ".git" ]; then
+  # Use git worktree for cleaner deployment
+  rm -rf .git/worktrees/gh-pages 2>/dev/null || true
+  git worktree add -f gh-pages gh-pages
+  rm -rf gh-pages/* gh-pages/.[!.]*
+  cp -a build/. gh-pages/
+  cd gh-pages
+  git add --all
+  git commit -m "Deploy to GitHub Pages: $(date)"
+  git push origin gh-pages
+  cd ..
+  git worktree remove gh-pages
+  echo "Successfully deployed to GitHub Pages!"
+else
+  echo "Not a git repository, skipping automatic deployment."
+  echo "Static build complete! Files are in the ./build directory."
+fi
+
+echo ""
+echo "To manually deploy to GitHub Pages:"
+echo "1. Create a gh-pages branch (if not already created)"
 echo "2. Copy the contents of the build directory to the gh-pages branch"
 echo "3. Push the gh-pages branch to GitHub"
 echo ""
 echo "Or use gh-pages npm package with: npm install -g gh-pages && gh-pages -d build"
-echo ""
-echo "To deploy to the edge (Cloudflare Workers):"
-echo "1. Fill in your account details in wrangler.toml"
-echo "2. Run 'npx wrangler publish' to publish to Cloudflare"
 
 exit 0

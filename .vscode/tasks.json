@@ -72,6 +72,54 @@
       "windows": {
         "command": "powershell -Command \"git checkout temp-check-actions; npm install -g solidity-docgen; solidity-docgen --solc-module solc --solc-settings optimizer.enabled=true,optimizer.runs=200 --output-dir ./docs/contracts\""
       }
+    },
+    {
+      "label": "branch_info",
+      "type": "shell",
+      "command": "${workspaceFolder}/branch-manager.cmd info",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "switch_to_main",
+      "type": "shell",
+      "command": "${workspaceFolder}/branch-manager.cmd switch 001",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "switch_to_docs",
+      "type": "shell",
+      "command": "${workspaceFolder}/branch-manager.cmd switch temp-check-actions",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "sync_branches",
+      "type": "shell",
+      "command": "${workspaceFolder}/branch-manager.cmd sync",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
     }
   ]
 }

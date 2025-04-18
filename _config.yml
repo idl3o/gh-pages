@@ -3,7 +3,7 @@
 # Site settings
 title: Web3 Crypto Streaming Service
 description: A decentralized streaming platform that returns control and revenue to creators through blockchain technology.
-baseurl: "/gh-pages"
+baseurl: "/web3-core-functionality"  # Updated to match repository name
 url: "https://idl3o.github.io"
 
 # Author information
@@ -54,22 +54,22 @@ logo: /assets/images/logo.png
 social:
   name: Project RED X
   links:
-    - https://github.com/idl3o/gh-pages
+    - https://github.com/idl3o/web3-core-functionality
     - https://twitter.com/projectredx
 
 # Project settings
 project:
   name: Project RED X
   version: 1.0.1
-  repository: https://github.com/idl3o/gh-pages
-  documentation: https://idl3o.github.io/gh-pages/docs
+  repository: https://github.com/idl3o/web3-core-functionality
+  documentation: https://idl3o.github.io/web3-core-functionality/docs
   license: MIT
 
 # Team information
 team:
   name: MODSIAS
   project: Web3 Crypto Streaming Service
-  repository: https://github.com/idl3o/gh-pages
+  repository: https://github.com/idl3o/web3-core-functionality
 
 # Feature flags
 features:
@@ -143,7 +143,7 @@ compress_html:
 cdn:
   enabled: true
   provider: "jsdelivr"
-  baseurl: "https://cdn.jsdelivr.net/gh/idl3o/gh-pages@main"
+  baseurl: "https://cdn.jsdelivr.net/gh/idl3o/web3-core-functionality@main"
 
 # Exclude from processing
 exclude:
@@ -163,6 +163,13 @@ exclude:
   - app.js
   - red_x
   - java/serverless-function/target
+
+# GitHub Pages Integration
+github_pages:
+  enabled: true
+  branch: gh-pages
+  auto_deploy: true
+  enforce_https: true
 
 # Analytics
 analytics:
