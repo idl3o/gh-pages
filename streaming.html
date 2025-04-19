@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web3 Streaming Player Demo</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="icon" href="assets/images/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- IPFS Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <style>
+      .quality-selector {
+        margin-top: 10px;
+        padding: 8px;
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: inline-flex;
+        align-items: center;
+      }
+      .quality-option {
+        margin: 0 8px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 3px;
+      }
+      .quality-option.active {
+        background-color: #4a8eff;
+      }
+      .payment-status {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        padding: 6px 12px;
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      .payment-status .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .payment-status .status-dot.active {
+        background-color: #4caf50;
+        box-shadow: 0 0 8px #4caf50;
+      }
+      .payment-status .status-dot.inactive {
+        background-color: #f44336;
+      }
+      .payment-status .status-dot.pending {
+        background-color: #ff9800;
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.6;
+        }
+      }
+      .ipfs-info {
+        margin-top: 10px;
+        font-size: 0.9em;
+        color: #666;
+      }
+      .stream-status.active {
+        background-color: rgba(76, 175, 80, 0.1);
+        border-color: #4caf50;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="navbar-brand">Web3 Streaming</a>
+        <div class="navbar-menu">
+          <a href="index.html">Home</a>
+          <a href="education.html">Education</a>
+          <a href="library.html">Content Library</a>
+          <a href="streaming.html" class="active">Demo Player</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="streaming-container">
+      <h1>Web3 Streaming Demo Player</h1>
+      <p>Experience decentralized content streaming with crypto-based payment channels.</p>
+
+      <!-- Player Section -->
+      <section class="player-section">
+        <div class="video-container">
+          <video id="video-player" controls style="display: none"></video>
+          <div id="player-placeholder">
+            <p>Connect your wallet and start streaming to watch videos</p>
+          </div>
+
+          <!-- Video quality selector (shown when video is playing) -->
+          <div class="quality-selector" id="quality-selector" style="display: none">
+            <span>Quality:</span>
+            <span class="quality-option" data-quality="low">480p</span>
+            <span class="quality-option active" data-quality="medium">720p</span>
+            <span class="quality-option" data-quality="high">1080p</span>
+          </div>
+        </div>
+
+        <div class="content-info">
+          <h2>Currently Selected: <span id="content-title">Blockchain Basics</span></h2>
+          <p id="content-description">An introduction to blockchain technology fundamentals.</p>
+          <p><strong>Creator:</strong> <span id="content-creator">Team MODSIAS</span></p>
+          <div id="content-id" style="display: none">content_001</div>
+
+          <div class="stream-status inactive" id="stream-status">
+            <h3>Stream Status: <span id="status-text">Inactive</span></h3>
+            <p id="status-info">Purchase access to start streaming</p>
+
+            <!-- Payment channel status -->
+            <div class="payment-status" style="display: none" id="payment-status">
+              <div class="status-dot inactive" id="payment-dot"></div>
+              <span id="payment-text">Payment Channel: Inactive</span>
+            </div>
+
+            <!-- IPFS connection info -->
+            <div class="ipfs-info" id="ipfs-info" style="display: none">
+              <p>IPFS Gateway: <span id="ipfs-gateway">Not connected</span></p>
+              <p>Content CID: <span id="content-cid">-</span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Control Section -->
+      <section class="player-section">
+        <h2>Stream Controls</h2>
+
+        <div class="control-section">
+          <!-- Wallet Connection -->
+          <div class="control-group">
+            <h3>Wallet Connection</h3>
+            <p>
+              Wallet Status:
+              <span class="wallet-status disconnected" id="wallet-status">Disconnected</span>
+            </p>
+            <p id="wallet-address">No wallet connected</p>
+            <p>Network: <span id="network-name">Unknown</span></p>
+            <button id="connect-wallet" class="btn btn-primary">Connect Wallet</button>
+            <button id="disconnect-wallet" class="btn btn-secondary" style="display: none">
+              Disconnect
+            </button>
+          </div>
+
+          <!-- Content Selection -->
+          <div class="control-group">
+            <h3>Content Selection</h3>
+            <p>Choose content to stream:</p>
+            <select id="content-selector" class="form-control">
+              <option value="Qmabcdef1">Blockchain Basics</option>
+              <option value="Qmabcdef2">Smart Contract Development</option>
+              <option value="Qmabcdef3">Web3 Integration Guide</option>
+              <option value="local_fallback">Consensus Mechanisms (Local)</option>
+            </select>
+            <button id="check-access" class="btn btn-secondary">Check Access</button>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <!-- Purchase Credits -->
+          <div class="control-group">
+            <h3>Purchase Credits</h3>
+            <p>Buy STRM tokens to access content</p>
+            <input
+              type="text"
+              id="purchase-amount"
+              value="0.01"
+              class="form-control"
+              placeholder="ETH Amount"
+            />
+            <button id="purchase-credits" class="btn btn-primary">Purchase</button>
+          </div>
+
+          <!-- Stream Control -->
+          <div class="control-group">
+            <h3>Stream Control</h3>
+            <p>Current Balance: <span id="token-balance">0 STRM</span></p>
+            <button id="start-stream" class="btn btn-success">Start Streaming</button>
+            <button id="stop-stream" class="btn btn-secondary" style="display: none">
+              Stop Streaming
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced Settings -->
+      <section class="player-section">
+        <h2>Advanced Settings</h2>
+        <div class="control-section">
+          <div class="control-group">
+            <h3>Auto-Commit</h3>
+            <p>Enable automatic payment commitments</p>
+            <div class="form-group">
+              <label for="auto-commit-duration">Duration (hours):</label>
+              <input
+                type="number"
+                id="auto-commit-duration"
+                value="1"
+                min="0.5"
+                max="24"
+                step="0.5"
+                class="form-control"
+              />
+            </div>
+            <button id="enable-auto-commit" class="btn btn-secondary">Enable</button>
+            <button id="disable-auto-commit" class="btn btn-secondary" style="display: none">
+              Disable
+            </button>
+          </div>
+
+          <div class="control-group">
+            <h3>IPFS Settings</h3>
+            <div class="form-group">
+              <label for="gateway-selector">IPFS Gateway:</label>
+              <select id="gateway-selector" class="form-control">
+                <option value="auto">Auto (Fastest)</option>
+                <option value="ipfs.io">ipfs.io</option>
+                <option value="cloudflare-ipfs.com">Cloudflare</option>
+                <option value="gateway.pinata.cloud">Pinata</option>
+                <option value="ipfs.infura.io">Infura</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <h3>Debug Tools</h3>
+            <button id="toggle-debug" class="btn btn-secondary">Enable Debug Mode</button>
+            <button id="get-status" class="btn btn-secondary">Status Report</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activity Log -->
+      <section class="player-section">
+        <h2>Activity Log</h2>
+        <div class="log-container" id="activity-log">
+          <div>Player initialized. Ready for wallet connection...</div>
+        </div>
+        <button id="clear-log" class="btn btn-secondary" style="margin-top: 10px">Clear Log</button>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Web3 Streaming</h3>
+            <p>Decentralized content streaming platform built on blockchain technology.</p>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="education.html">Education</a></li>
+              <li><a href="library.html">Content Library</a></li>
+              <li><a href="#">About</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="whitepaper/web3-streaming-service-whitepaper.html">Whitepaper</a></li>
+              <li><a href="#">Documentation</a></li>
+              <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Connect</h3>
+            <ul>
+              <li><a href="#">Discord</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Telegram</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Web3 Streaming Platform. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/network-config.js"></script>
+    <script src="assets/js/wallet-connector.js"></script>
+    <script src="assets/js/contract-manager.js"></script>
+    <script src="assets/js/video-loader.js"></script>
+    <script src="assets/js/player-helper.js"></script>
+    <script src="assets/js/ipfs-streaming.js"></script>
+
+    <script>
+      // Initialize components
+      document.addEventListener('DOMContentLoaded', function () {
+        // Set up log function
+        const log = function (message) {
+          const logContainer = document.getElementById('activity-log');
+          const logEntry = document.createElement('div');
+          logEntry.textContent = message;
+          logContainer.appendChild(logEntry);
+          logContainer.scrollTop = logContainer.scrollHeight;
+        };
+
+        // Initialize objects
+        const networkConfig = new NetworkConfig();
+        const walletConnector = new WalletConnector({
+          supportedNetworks: [1, 5, 56, 97, 1337, 31337], // Added local networks
+          preferredNetwork: 5 // Goerli as preferred
+        });
+        const contractManager = new ContractManager({
+          walletConnector: walletConnector
+        });
+        const videoLoader = new VideoLoader();
+        const playerHelper = new PlayerHelper({
+          walletConnector: walletConnector,
+          contractManager: contractManager,
+          videoLoader: videoLoader,
+          networkConfig: networkConfig
+        });
+
+        // Initialize IPFS streaming
+        const ipfsStreaming = new IPFSStreaming({
+          walletConnector: walletConnector,
+          contractManager: contractManager,
+          networkConfig: networkConfig
+        });
+
+        // UI Elements
+        const walletStatus = document.getElementById('wallet-status');
+        const walletAddress = document.getElementById('wallet-address');
+        const networkName = document.getElementById('network-name');
+        const connectBtn = document.getElementById('connect-wallet');
+        const disconnectBtn = document.getElementById('disconnect-wallet');
+        const contentSelector = document.getElementById('content-selector');
+        const contentTitle = document.getElementById('content-title');
+        const contentDescription = document.getElementById('content-description');
+        const contentCreator = document.getElementById('content-creator');
+        const contentId = document.getElementById('content-id');
+        const streamStatus = document.getElementById('stream-status');
+        const statusText = document.getElementById('status-text');
+        const statusInfo = document.getElementById('status-info');
+        const checkAccessBtn = document.getElementById('check-access');
+        const purchaseAmount = document.getElementById('purchase-amount');
+        const purchaseBtn = document.getElementById('purchase-credits');
+        const tokenBalance = document.getElementById('token-balance');
+        const startStreamBtn = document.getElementById('start-stream');
+        const stopStreamBtn = document.getElementById('stop-stream');
+        const autoCommitDuration = document.getElementById('auto-commit-duration');
+        const enableAutoCommitBtn = document.getElementById('enable-auto-commit');
+        const disableAutoCommitBtn = document.getElementById('disable-auto-commit');
+        const toggleDebugBtn = document.getElementById('toggle-debug');
+        const getStatusBtn = document.getElementById('get-status');
+        const clearLogBtn = document.getElementById('clear-log');
+        const videoPlayer = document.getElementById('video-player');
+        const playerPlaceholder = document.getElementById('player-placeholder');
+        const qualitySelector = document.getElementById('quality-selector');
+        const paymentStatus = document.getElementById('payment-status');
+        const paymentDot = document.getElementById('payment-dot');
+        const paymentText = document.getElementById('payment-text');
+        const ipfsInfo = document.getElementById('ipfs-info');
+        const ipfsGateway = document.getElementById('ipfs-gateway');
+        const contentCid = document.getElementById('content-cid');
+        const gatewaySelector = document.getElementById('gateway-selector');
+
+        // Event Listeners
+        connectBtn.addEventListener('click', async () => {
+          try {
+            log('Connecting to wallet...');
+            await walletConnector.connect();
+            log('Wallet connected successfully');
+          } catch (error) {
+            log(`Error connecting to wallet: ${error.message}`);
+          }
+        });
+
+        disconnectBtn.addEventListener('click', async () => {
+          try {
+            log('Disconnecting wallet...');
+            await walletConnector.disconnect();
+            log('Wallet disconnected');
+          } catch (error) {
+            log(`Error disconnecting wallet: ${error.message}`);
+          }
+        });
+
+        checkAccessBtn.addEventListener('click', async () => {
+          try {
+            if (!walletConnector.isConnected()) {
+              log('Please connect wallet first');
+              return;
+            }
+
+            const selectedContentId = contentSelector.value;
+            log(`Checking access for content: ${selectedContentId}`);
+
+            const hasAccess = await ipfsStreaming.checkAccess(selectedContentId);
+            if (hasAccess) {
+              log('You have access to this content');
+              statusInfo.textContent = 'You have access to this content';
+            } else {
+              log('No access. Purchase required');
+              statusInfo.textContent = 'No access. Purchase required';
+            }
+          } catch (error) {
+            log(`Error checking access: ${error.message}`);
+          }
+        });
+
+        purchaseBtn.addEventListener('click', async () => {
+          try {
+            if (!walletConnector.isConnected()) {
+              log('Please connect wallet first');
+              return;
+            }
+
+            const amount = purchaseAmount.value;
+            log(`Purchasing tokens for ${amount} ETH...`);
+
+            const success = await ipfsStreaming.purchaseTokens(amount);
+            if (success) {
+              log(`Successfully purchased streaming tokens`);
+              updateTokenBalance();
+            } else {
+              log('Failed to purchase tokens');
+            }
+          } catch (error) {
+            log(`Error purchasing tokens: ${error.message}`);
+          }
+        });
+
+        startStreamBtn.addEventListener('click', async () => {
+          try {
+            if (!walletConnector.isConnected()) {
+              log('Please connect wallet first');
+              return;
+            }
+
+            const selectedContentId = contentSelector.value;
+            log(`Starting stream for content: ${selectedContentId}`);
+
+            playerPlaceholder.style.display = 'none';
+            videoPlayer.style.display = 'block';
+
+            const success = await ipfsStreaming.startStream(selectedContentId, videoPlayer);
+            if (success) {
+              log('Stream started successfully');
+              startStreamBtn.style.display = 'none';
+              stopStreamBtn.style.display = 'inline-block';
+              streamStatus.classList.remove('inactive');
+              streamStatus.classList.add('active');
+              statusText.textContent = 'Active';
+              statusInfo.textContent = 'Stream is active. Payment channel open.';
+              qualitySelector.style.display = 'inline-flex';
+              paymentStatus.style.display = 'block';
+              paymentDot.classList.remove('inactive');
+              paymentDot.classList.add('active');
+              paymentText.textContent = 'Payment Channel: Active';
+              ipfsInfo.style.display = 'block';
+
+              // Update CID info
+              ipfsGateway.textContent = ipfsStreaming.gateways[0];
+              contentCid.textContent = selectedContentId;
+            } else {
+              log('Failed to start stream');
+              videoPlayer.style.display = 'none';
+              playerPlaceholder.style.display = 'block';
+            }
+          } catch (error) {
+            log(`Error starting stream: ${error.message}`);
+            videoPlayer.style.display = 'none';
+            playerPlaceholder.style.display = 'block';
+          }
+        });
+
+        stopStreamBtn.addEventListener('click', async () => {
+          try {
+            log('Stopping stream...');
+
+            await ipfsStreaming.stopStream();
+
+            log('Stream stopped');
+            videoPlayer.pause();
+            videoPlayer.style.display = 'none';
+            playerPlaceholder.style.display = 'block';
+            stopStreamBtn.style.display = 'none';
+            startStreamBtn.style.display = 'inline-block';
+            streamStatus.classList.remove('active');
+            streamStatus.classList.add('inactive');
+            statusText.textContent = 'Inactive';
+            statusInfo.textContent = 'Stream ended. Payment channel closed.';
+            qualitySelector.style.display = 'none';
+            paymentDot.classList.remove('active');
+            paymentDot.classList.add('inactive');
+            paymentText.textContent = 'Payment Channel: Inactive';
+          } catch (error) {
+            log(`Error stopping stream: ${error.message}`);
+          }
+        });
+
+        enableAutoCommitBtn.addEventListener('click', async () => {
+          try {
+            const duration = parseFloat(autoCommitDuration.value) * 3600; // Convert hours to seconds
+            log(`Enabling auto-commit for ${autoCommitDuration.value} hours...`);
+
+            await contractManager.enableAutoCommit(duration);
+
+            log('Auto-commit enabled');
+            enableAutoCommitBtn.style.display = 'none';
+            disableAutoCommitBtn.style.display = 'inline-block';
+          } catch (error) {
+            log(`Error enabling auto-commit: ${error.message}`);
+          }
+        });
+
+        disableAutoCommitBtn.addEventListener('click', async () => {
+          try {
+            log('Disabling auto-commit...');
+
+            await contractManager.disableAutoCommit();
+
+            log('Auto-commit disabled');
+            disableAutoCommitBtn.style.display = 'none';
+            enableAutoCommitBtn.style.display = 'inline-block';
+          } catch (error) {
+            log(`Error disabling auto-commit: ${error.message}`);
+          }
+        });
+
+        toggleDebugBtn.addEventListener('click', () => {
+          const isDebug = toggleDebugBtn.textContent === 'Enable Debug Mode';
+          if (isDebug) {
+            toggleDebugBtn.textContent = 'Disable Debug Mode';
+            ipfsStreaming.enableDebug();
+            log('Debug mode enabled');
+          } else {
+            toggleDebugBtn.textContent = 'Enable Debug Mode';
+            ipfsStreaming.disableDebug();
+            log('Debug mode disabled');
+          }
+        });
+
+        getStatusBtn.addEventListener('click', async () => {
+          try {
+            const status = ipfsStreaming.getStatus();
+            log('------ Status Report ------');
+            log(`Streaming Active: ${status.streamingActive}`);
+            log(`Current Quality: ${status.currentQuality}`);
+            log(`Payment Channel: ${status.paymentChannelOpen ? 'Open' : 'Closed'}`);
+            if (status.paymentChannelId) {
+              log(`Channel ID: ${status.paymentChannelId}`);
+            }
+            log(`Auto-Commit: ${status.autoCommitEnabled ? 'Enabled' : 'Disabled'}`);
+            if (status.autoCommitEnabled) {
+              log(`Remaining: ${Math.floor(status.autoCommitTimeRemaining / 60)} minutes`);
+            }
+            log('---------------------------');
+          } catch (error) {
+            log(`Error getting status: ${error.message}`);
+          }
+        });
+
+        clearLogBtn.addEventListener('click', () => {
+          const logContainer = document.getElementById('activity-log');
+          logContainer.innerHTML = '<div>Log cleared...</div>';
+        });
+
+        // Set up quality selector
+        document.querySelectorAll('.quality-option').forEach(option => {
+          option.addEventListener('click', function () {
+            const quality = this.getAttribute('data-quality');
+
+            // Update active class
+            document.querySelectorAll('.quality-option').forEach(opt => {
+              opt.classList.remove('active');
+            });
+            this.classList.add('active');
+
+            // Update quality in IPFS streaming
+            ipfsStreaming.setQuality(quality);
+            log(`Quality changed to ${quality}`);
+
+            // If streaming is active, restart the stream
+            if (ipfsStreaming.streamingActive) {
+              const currentTime = videoPlayer.currentTime;
+              const selectedContentId = contentSelector.value;
+
+              // Store current position
+              videoPlayer.pause();
+
+              // Restart stream with new quality
+              ipfsStreaming
+                .startStream(selectedContentId, videoPlayer)
+                .then(() => {
+                  // Try to restore position
+                  videoPlayer.currentTime = currentTime;
+                })
+                .catch(error => {
+                  log(`Error changing quality: ${error.message}`);
+                });
+            }
+          });
+        });
+
+        // Gateway selector
+        gatewaySelector.addEventListener('change', () => {
+          const gateway = gatewaySelector.value;
+          if (gateway === 'auto') {
+            log('IPFS gateway set to Auto (Fastest)');
+            // Reset to default gateway order
+            ipfsStreaming.gateways = [
+              'https://ipfs.io/ipfs/',
+              'https://cloudflare-ipfs.com/ipfs/',
+              'https://gateway.pinata.cloud/ipfs/',
+              'https://ipfs.infura.io/ipfs/'
+            ];
+          } else {
+            // Put the selected gateway first in the list
+            const gatewayUrl = `https://${gateway}/ipfs/`;
+            log(`IPFS gateway set to ${gateway}`);
+
+            // Remove the selected gateway if it exists in the array
+            ipfsStreaming.gateways = ipfsStreaming.gateways.filter(g => g !== gatewayUrl);
+
+            // Add it at the beginning
+            ipfsStreaming.gateways.unshift(gatewayUrl);
+          }
+
+          // Update displayed gateway
+          if (ipfsInfo.style.display === 'block') {
+            ipfsGateway.textContent = ipfsStreaming.gateways[0];
+          }
+        });
+
+        // Update content selector change handler
+        contentSelector.addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          contentTitle.textContent = selectedOption.text;
+          contentId.textContent = selectedOption.value;
+
+          // Set default descriptions based on selected content
+          switch (selectedOption.value) {
+            case 'Qmabcdef1':
+              contentDescription.textContent =
+                'An introduction to blockchain technology fundamentals';
+              contentCreator.textContent = 'Team MODSIAS';
+              break;
+            case 'Qmabcdef2':
+              contentDescription.textContent = 'Learn how to develop smart contracts with Solidity';
+              contentCreator.textContent = 'Crypto Dev Hub';
+              break;
+            case 'Qmabcdef3':
+              contentDescription.textContent =
+                'Guide to integrating Web3 technologies in applications';
+              contentCreator.textContent = 'Web3 Foundation';
+              break;
+            case 'local_fallback':
+              contentDescription.textContent =
+                'Exploring different consensus mechanisms in blockchains';
+              contentCreator.textContent = 'Blockchain Academy';
+              break;
+          }
+        });
+
+        // Setup IPFS streaming event listeners
+        ipfsStreaming.addEventListener('streamStarted', data => {
+          log(`Stream started for ${data.contentId}`);
+          if (data.fallback) {
+            log('Using local fallback video (IPFS gateways not available)');
+          }
+        });
+
+        ipfsStreaming.addEventListener('streamStopped', () => {
+          log('Stream stopped');
+        });
+
+        ipfsStreaming.addEventListener('paymentChannelOpened', data => {
+          log(`Payment channel opened: ${data.channelId}`);
+        });
+
+        ipfsStreaming.addEventListener('paymentChannelClosed', data => {
+          log(`Payment channel closed: ${data.channelId}`);
+        });
+
+        ipfsStreaming.addEventListener('paymentProcessed', () => {
+          // Flash payment indicator
+          paymentDot.classList.remove('active');
+          paymentDot.classList.add('pending');
+
+          setTimeout(() => {
+            paymentDot.classList.remove('pending');
+            paymentDot.classList.add('active');
+          }, 1000);
+        });
+
+        ipfsStreaming.addEventListener('tokensPurchased', data => {
+          log(`Purchased tokens for ${data.amount} ETH`);
+          updateTokenBalance();
+        });
+
+        ipfsStreaming.addEventListener('streamError', data => {
+          log(`Stream error: ${data.error}`);
+        });
+
+        // Function to update token balance display
+        async function updateTokenBalance() {
+          try {
+            if (walletConnector.isConnected()) {
+              const balance = await ipfsStreaming.getTokenBalance();
+              tokenBalance.textContent = `${balance} STRM`;
+            }
+          } catch (error) {
+            console.error('Error updating token balance:', error);
+          }
+        }
+
+        // Wallet connection status listeners
+        walletConnector.on('connected', async address => {
+          walletStatus.textContent = 'Connected';
+          walletStatus.classList.remove('disconnected');
+          walletStatus.classList.add('connected');
+          walletAddress.textContent = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+          connectBtn.style.display = 'none';
+          disconnectBtn.style.display = 'inline-block';
+
+          const networkId = await walletConnector.getNetworkId();
+          const network = networkConfig.getNetworkName(networkId);
+          networkName.textContent = network || `Chain ID: ${networkId}`;
+
+          updateTokenBalance();
+        });
+
+        walletConnector.on('disconnected', () => {
+          walletStatus.textContent = 'Disconnected';
+          walletStatus.classList.remove('connected');
+          walletStatus.classList.add('disconnected');
+          walletAddress.textContent = 'No wallet connected';
+          connectBtn.style.display = 'inline-block';
+          disconnectBtn.style.display = 'none';
+          networkName.textContent = 'Unknown';
+          tokenBalance.textContent = '0 STRM';
+        });
+
+        // Initialize wallet if previously connected
+        if (localStorage.getItem('walletConnected') === 'true') {
+          connectBtn.click();
+        }
+      });
+    </script>
+  </body>
+</html>

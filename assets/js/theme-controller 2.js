@@ -10,14 +10,14 @@ class ThemeController {
     this.lightModeClass = 'light-theme';
     this.defaultTheme = 'dark'; // Default theme
     this.transitionDuration = 300; // ms
-    
+
     this.currentTheme = this.loadThemePreference();
     this.listeners = [];
-    
+
     // Initialize on instantiation
     this.applyTheme(this.currentTheme, false);
   }
-  
+
   /**
    * Load saved theme from localStorage or use system preference
    * @returns {string} 'dark' or 'light'
@@ -26,16 +26,16 @@ class ThemeController {
     // Check localStorage first
     const savedTheme = localStorage.getItem(this.themeKey);
     if (savedTheme) return savedTheme;
-    
+
     // Otherwise check system preference
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
       return 'light';
     }
-    
+
     // Default
     return this.defaultTheme;
   }
-  
+
   /**
    * Toggle between light and dark themes
    * @returns {string} The new theme name
@@ -45,7 +45,7 @@ class ThemeController {
     this.applyTheme(newTheme, true);
     return newTheme;
   }
-  
+
   /**
    * Set theme explicitly
    * @param {string} theme - 'dark' or 'light'
@@ -55,7 +55,7 @@ class ThemeController {
       this.applyTheme(theme, true);
     }
   }
-  
+
   /**
    * Apply the specified theme to the document
    * @param {string} theme - 'dark' or 'light'
@@ -65,27 +65,29 @@ class ThemeController {
     // Store the new theme
     this.currentTheme = theme;
     localStorage.setItem(this.themeKey, theme);
-    
+
     // Apply transition if needed
     if (withTransition) {
       document.documentElement.style.transition = `background-color ${this.transitionDuration}ms ease, color ${this.transitionDuration}ms ease`;
-      
+
       setTimeout(() => {
         document.documentElement.style.transition = '';
       }, this.transitionDuration);
     }
-    
+
     // Update DOM
     document.documentElement.classList.remove(this.darkModeClass, this.lightModeClass);
-    document.documentElement.classList.add(theme === 'dark' ? this.darkModeClass : this.lightModeClass);
-    
+    document.documentElement.classList.add(
+      theme === 'dark' ? this.darkModeClass : this.lightModeClass
+    );
+
     // Update HTML attribute for theme-specific CSS
     document.documentElement.setAttribute('data-theme', theme);
-    
+
     // Notify listeners
     this.notifyListeners();
   }
-  
+
   /**
    * Add a theme change listener
    * @param {Function} listener - Callback that receives the theme name
@@ -97,7 +99,7 @@ class ThemeController {
       listener(this.currentTheme);
     }
   }
-  
+
   /**
    * Remove a theme change listener
    * @param {Function} listener - The listener to remove
@@ -108,7 +110,7 @@ class ThemeController {
       this.listeners.splice(index, 1);
     }
   }
-  
+
   /**
    * Notify all listeners of theme change
    */
@@ -121,7 +123,7 @@ class ThemeController {
       }
     });
   }
-  
+
   /**
    * Get current theme name
    * @returns {string} 'dark' or 'light'
@@ -137,17 +139,17 @@ window.themeController = new ThemeController();
 // Initialize theme toggle buttons when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   const toggleButtons = document.querySelectorAll('.theme-toggle');
-  
+
   toggleButtons.forEach(button => {
     button.addEventListener('click', () => {
       const newTheme = window.themeController.toggleTheme();
       updateToggleButtons(newTheme);
     });
   });
-  
+
   // Initial update of toggle buttons
   updateToggleButtons(window.themeController.getCurrentTheme());
-  
+
   function updateToggleButtons(theme) {
     toggleButtons.forEach(button => {
       const icon = button.querySelector('i');

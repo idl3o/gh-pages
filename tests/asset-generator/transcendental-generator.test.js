@@ -188,10 +188,7 @@ describe('Transcendental Asset Generator', () => {
       const environment = testData.testEnvironments[0]; // standard env
       const asset = testData.assets.mythic[0];
 
-      const renderResult = await generator.renderAssetInEnvironment(
-        asset.id,
-        environment.name
-      );
+      const renderResult = await generator.renderAssetInEnvironment(asset.id, environment.name);
 
       expect(renderResult.success).to.be.true;
       expect(renderResult.frameRate).to.be.at.least(environment.frameRate * 0.9); // Allow 10% tolerance
@@ -202,10 +199,7 @@ describe('Transcendental Asset Generator', () => {
       const environment = testData.testEnvironments[1]; // low_end env
       const asset = testData.assets.legendary[0];
 
-      const renderResult = await generator.renderAssetInEnvironment(
-        asset.id,
-        environment.name
-      );
+      const renderResult = await generator.renderAssetInEnvironment(asset.id, environment.name);
 
       expect(renderResult.success).to.be.true;
       expect(renderResult.optimizationApplied).to.be.true;
@@ -216,13 +210,13 @@ describe('Transcendental Asset Generator', () => {
   describe('Unique Ultra-Rare Properties', () => {
     it('should generate unique properties for ultra-rare assets', async () => {
       const ultraRare1 = await generator.generateAsset({
-        name: "Unique Ultra Rare 1",
-        rarity: "ultraRare"
+        name: 'Unique Ultra Rare 1',
+        rarity: 'ultraRare'
       });
 
       const ultraRare2 = await generator.generateAsset({
-        name: "Unique Ultra Rare 2",
-        rarity: "ultraRare"
+        name: 'Unique Ultra Rare 2',
+        rarity: 'ultraRare'
       });
 
       expect(ultraRare1.uniqueProperties).to.be.an('object');

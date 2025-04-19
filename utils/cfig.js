@@ -61,7 +61,11 @@ class ConfigManager {
     let current = this.config;
 
     for (const key of keys) {
-      if (current === undefined || current === null || !Object.prototype.hasOwnProperty.call(current, key)) {
+      if (
+        current === undefined ||
+        current === null ||
+        !Object.prototype.hasOwnProperty.call(current, key)
+      ) {
         return defaultValue;
       }
       current = current[key];
@@ -93,9 +97,11 @@ class ConfigManager {
    * @returns {Object} Network configuration
    */
   getBlockchainConfig(network = null) {
-    const activeNetwork = network ||
-      Object.keys(this.get('blockchain.networks', {}))
-        .find(net => this.get(`blockchain.networks.${net}.active`, false));
+    const activeNetwork =
+      network ||
+      Object.keys(this.get('blockchain.networks', {})).find(net =>
+        this.get(`blockchain.networks.${net}.active`, false)
+      );
 
     return this.get(`blockchain.networks.${activeNetwork}`, {});
   }
@@ -108,8 +114,9 @@ class ConfigManager {
    */
   getContractAddress(contractName, network = null) {
     if (!network) {
-      network = Object.keys(this.get('blockchain.networks', {}))
-        .find(net => this.get(`blockchain.networks.${net}.active`, false));
+      network = Object.keys(this.get('blockchain.networks', {})).find(net =>
+        this.get(`blockchain.networks.${net}.active`, false)
+      );
     }
 
     return this.get(`blockchain.contracts.${contractName}.address.${network}`, null);

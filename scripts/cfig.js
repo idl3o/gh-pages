@@ -79,8 +79,10 @@ function parseValue(valueStr) {
   if (valueStr === 'null') return null;
 
   // Check if value is an object or array (JSON)
-  if ((valueStr.startsWith('{') && valueStr.endsWith('}')) ||
-      (valueStr.startsWith('[') && valueStr.endsWith(']'))) {
+  if (
+    (valueStr.startsWith('{') && valueStr.endsWith('}')) ||
+    (valueStr.startsWith('[') && valueStr.endsWith(']'))
+  ) {
     try {
       return JSON.parse(valueStr);
     } catch (e) {
@@ -123,9 +125,14 @@ function printObject(obj, indent = 0) {
       console.log(`${padding}${chalk.cyan(key)}:`);
       printObject(value, indent + 2);
     } else {
-      const valueColor = typeof value === 'boolean' ?
-        (value ? chalk.green : chalk.red) :
-        typeof value === 'number' ? chalk.yellow : chalk.white;
+      const valueColor =
+        typeof value === 'boolean'
+          ? value
+            ? chalk.green
+            : chalk.red
+          : typeof value === 'number'
+            ? chalk.yellow
+            : chalk.white;
 
       console.log(`${padding}${chalk.cyan(key)}: ${valueColor(value)}`);
     }

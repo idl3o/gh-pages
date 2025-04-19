@@ -25,32 +25,32 @@ class LinkExtractor {
       // Add a timestamp to prevent caching issues
       const cacheBuster = `?t=${Date.now()}`;
       const url = txtFilePath + cacheBuster;
-      
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Accept': 'text/plain'
+          Accept: 'text/plain'
         },
         mode: 'cors',
         credentials: 'same-origin'
       });
-      
+
       if (!response.ok) {
         throw new Error(`Failed to load ${txtFilePath}: ${response.status} ${response.statusText}`);
       }
-      
+
       const content = await response.text();
       this.parseAndDisplay(content);
     } catch (error) {
       console.error('Error loading links:', error);
       this.container.innerHTML = `<p class="error">Failed to load links: ${error.message}</p>`;
-      
+
       // Fallback to local data for demo purposes
       console.log('Using fallback data');
       this.useFallbackData();
     }
   }
-  
+
   /**
    * Use fallback data if remote file can't be loaded
    */
@@ -76,26 +76,26 @@ class LinkExtractor {
   parseAndDisplay(content) {
     // Clear current container
     this.container.innerHTML = '';
-    
+
     // Regular expression to match HTML links
     const linkRegex = /<a\s+href=["']([^"']+)["'][^>]*>([^<]+)<\/a>/g;
-    
+
     // Find section headers (lines starting with ##)
     const sections = content.split(/^## /m);
-    
+
     // Skip the first element if it doesn't contain a section name
     const firstSection = sections.shift();
     if (firstSection && !firstSection.includes('#')) {
       // Create intro section if there's content before first ##
       this.createSection('Introduction', firstSection);
     }
-    
+
     // Process each section
     sections.forEach(section => {
       const sectionLines = section.trim().split('\n');
       const sectionName = sectionLines.shift();
       const sectionContent = sectionLines.join('\n');
-      
+
       this.createSection(sectionName, sectionContent);
     });
   }
@@ -107,39 +107,39 @@ class LinkExtractor {
    */
   createSection(name, content) {
     if (!content.trim()) return;
-    
+
     // Create section container
     const section = document.createElement('div');
     section.className = 'link-section';
-    
+
     // Create section header
     const header = document.createElement('h3');
     header.textContent = name;
     section.appendChild(header);
-    
+
     // Extract links from content
     const linkRegex = /<a\s+href=["']([^"']+)["'][^>]*>([^<]+)<\/a>/g;
     let match;
     const linksList = document.createElement('ul');
-    
+
     // Find all links in the content
     let hasLinks = false;
     while ((match = linkRegex.exec(content)) !== null) {
       hasLinks = true;
       const url = match[1];
       const text = match[2];
-      
+
       const listItem = document.createElement('li');
       const link = document.createElement('a');
       link.href = url;
       link.textContent = text;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
-      
+
       listItem.appendChild(link);
       linksList.appendChild(listItem);
     }
-    
+
     if (hasLinks) {
       section.appendChild(linksList);
     } else {
@@ -148,7 +148,7 @@ class LinkExtractor {
       para.textContent = content.trim();
       section.appendChild(para);
     }
-    
+
     this.container.appendChild(section);
   }
 }

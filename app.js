@@ -33,11 +33,13 @@ const app = http.createServer((req, res) => {
   if (req.url === '/api/status') {
     res.setHeader('Content-Type', 'application/json');
     res.writeHead(200);
-    res.end(JSON.stringify({
-      timestamp: new Date().toISOString(),
-      components: statusEndpoints,
-      overall: 'operational'
-    }));
+    res.end(
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        components: statusEndpoints,
+        overall: 'operational'
+      })
+    );
     return;
   }
 
@@ -45,23 +47,26 @@ const app = http.createServer((req, res) => {
   if (req.url === '/api/security-status') {
     // Update security status data
     statusEndpoints.security.lastScan = new Date().toISOString();
-    statusEndpoints.security.detectedThreats = Math.random() > 0.95 ? Math.floor(Math.random() * 3) : 0;
+    statusEndpoints.security.detectedThreats =
+      Math.random() > 0.95 ? Math.floor(Math.random() * 3) : 0;
 
     res.setHeader('Content-Type', 'application/json');
     res.writeHead(200);
-    res.end(JSON.stringify({
-      timestamp: new Date().toISOString(),
-      securityStatus: statusEndpoints.security,
-      activeThreatProtection: true,
-      firewallStatus: 'active',
-      malwareProtection: 'active',
-      phishingProtection: 'active',
-      smartContractAudit: {
-        lastCheck: new Date(Date.now() - 86400000).toISOString(),
-        vulnerabilitiesFound: 0,
-        status: 'secure'
-      }
-    }));
+    res.end(
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        securityStatus: statusEndpoints.security,
+        activeThreatProtection: true,
+        firewallStatus: 'active',
+        malwareProtection: 'active',
+        phishingProtection: 'active',
+        smartContractAudit: {
+          lastCheck: new Date(Date.now() - 86400000).toISOString(),
+          vulnerabilitiesFound: 0,
+          status: 'secure'
+        }
+      })
+    );
     return;
   }
 
@@ -72,7 +77,7 @@ const app = http.createServer((req, res) => {
     if (!cookie.includes('statusOnboardingShown=true')) {
       // Redirect to onboarding on first visit
       res.writeHead(302, {
-        'Location': '/status-onboarding.html'
+        Location: '/status-onboarding.html'
       });
       res.end();
       return;

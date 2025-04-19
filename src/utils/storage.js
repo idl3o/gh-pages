@@ -23,7 +23,7 @@ const memoryStorage = new Map();
  * @param {string} key - Storage key
  * @returns {string|null} - Stored value or null if not found
  */
-export const getItem = (key) => {
+export const getItem = key => {
   if (isLocalStorageAvailable()) {
     return localStorage.getItem(key);
   } else {
@@ -48,7 +48,7 @@ export const setItem = (key, value) => {
  * Remove an item from storage
  * @param {string} key - Storage key to remove
  */
-export const removeItem = (key) => {
+export const removeItem = key => {
   if (isLocalStorageAvailable()) {
     localStorage.removeItem(key);
   } else {
@@ -97,7 +97,7 @@ export const setObject = (key, value) => {
 export const getObject = (key, defaultValue = null) => {
   const value = getItem(key);
   if (!value) return defaultValue;
-  
+
   try {
     return JSON.parse(value);
   } catch (e) {

@@ -32,7 +32,7 @@ describe('Utility Functions', () => {
 
   test('validates email addresses', () => {
     // Mock implementation of isValidEmail
-    const isValidEmail = (email) => {
+    const isValidEmail = email => {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 

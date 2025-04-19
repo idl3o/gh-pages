@@ -28,13 +28,17 @@ export async function resizeImage(imageFile, maxWidth, maxHeight) {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
 
-      canvas.toBlob((blob) => {
-        const resizedFile = new File([blob], imageFile.name, {
-          type: imageFile.type,
-          lastModified: Date.now()
-        });
-        resolve(resizedFile);
-      }, imageFile.type, 0.7); // Reduce quality to 70%
+      canvas.toBlob(
+        blob => {
+          const resizedFile = new File([blob], imageFile.name, {
+            type: imageFile.type,
+            lastModified: Date.now()
+          });
+          resolve(resizedFile);
+        },
+        imageFile.type,
+        0.7
+      ); // Reduce quality to 70%
     };
     img.onerror = reject;
     img.src = URL.createObjectURL(imageFile);

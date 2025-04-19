@@ -29,7 +29,7 @@ try {
   // Read and parse the JSON file
   const rawData = fs.readFileSync(filePath, 'utf8');
   let jsonData;
-  
+
   try {
     jsonData = JSON.parse(rawData);
     console.log('✅ JSON is valid');
@@ -57,9 +57,14 @@ try {
     keys.slice(0, 10).forEach(key => {
       const value = jsonData[key];
       const type = typeof value;
-      const display = type === 'object' ? 
-        (Array.isArray(value) ? `Array[${value.length}]` : 'Object') : 
-        (value === null ? 'null' : type);
+      const display =
+        type === 'object'
+          ? Array.isArray(value)
+            ? `Array[${value.length}]`
+            : 'Object'
+          : value === null
+            ? 'null'
+            : type;
       console.log(`- ${key}: ${display}`);
     });
     if (keys.length > 10) {
@@ -70,7 +75,6 @@ try {
   // Pretty print the JSON
   console.log('\n--- Formatted JSON ---');
   console.log(JSON.stringify(jsonData, null, 2));
-
 } catch (error) {
   console.error('Error processing JSON file:', error.message);
   process.exit(1);

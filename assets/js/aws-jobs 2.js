@@ -3,7 +3,7 @@
  * Handles job board functionality with AWS backend services
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // DOM Elements
   const jobContainer = document.getElementById('jobs-container');
   const jobSearchInput = document.getElementById('job-search');
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const closePreviewBtn = document.querySelector('#job-preview-modal .close-modal');
   const publishFromPreviewBtn = document.getElementById('publish-from-preview');
   const reloadBtn = document.getElementById('reload-jobs');
-  
+
   // State
   let currentPage = 1;
   let totalPages = 1;
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let jobsData = [];
   let connectedWalletAddress = null;
   let isLoading = false;
-  
+
   // AWS Configuration
   const AWS_CONFIG = {
     apiUrl: 'https://api-gateway-url.execute-api.us-east-1.amazonaws.com/prod',
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     uploadBucket: 'web3-job-attachments',
     jobsTable: 'web3-jobs-table'
   };
-  
+
   // Initialize AWS SDK (in real implementation)
   function initAWS() {
     console.log('Initializing AWS SDK with config:', AWS_CONFIG);
@@ -50,14 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     //   IdentityPoolId: AWS_CONFIG.cognitoPoolId
     // });
-    
+
     // For our implementation, we'll simulate initialization
     setTimeout(() => {
       console.log('AWS SDK initialized successfully');
       loadJobs();
     }, 500);
   }
-  
+
   // Reload jobs functionality
   function reloadJobs() {
     // Show loading spinner on reload button
@@ -65,16 +65,17 @@ document.addEventListener('DOMContentLoaded', function() {
       reloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
       reloadBtn.disabled = true;
     }
-    
+
     // Reset to page 1 and current filters
     const search = jobSearchInput ? jobSearchInput.value : '';
     const category = jobCategorySelect ? jobCategorySelect.value : '';
-    
+
     // Clear current jobs
     if (jobContainer) {
-      jobContainer.innerHTML = '<div class="job-loading">Refreshing job data from AWS Cloud...</div>';
+      jobContainer.innerHTML =
+        '<div class="job-loading">Refreshing job data from AWS Cloud...</div>';
     }
-    
+
     // Load jobs with current filters
     loadJobs(search, category, 1).finally(() => {
       // Reset reload button
@@ -84,32 +85,31 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
+
   // Fetch jobs from AWS
   async function loadJobs(search = '', category = '', page = 1) {
     if (isLoading) return;
-    
+
     isLoading = true;
     setLoading(true);
-    
+
     try {
       // In a real implementation, this would call the AWS API Gateway:
       // const response = await fetch(`${AWS_CONFIG.apiUrl}/jobs?search=${search}&category=${category}&page=${page}`);
       // const data = await response.json();
-      
+
       // For our implementation, we'll simulate API response
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Simulated data
       const mockResponse = generateMockJobs(search, category, page);
-      
+
       jobsData = mockResponse.jobs;
       totalPages = mockResponse.totalPages;
       currentPage = page;
-      
+
       renderJobs(jobsData);
       updatePagination();
-      
     } catch (error) {
       console.error('Error loading jobs:', error);
       jobContainer.innerHTML = `
@@ -123,22 +123,22 @@ document.addEventListener('DOMContentLoaded', function() {
       setLoading(false);
     }
   }
-  
+
   // Handle view toggle
   viewToggleBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const view = btn.getAttribute('data-view');
-      
+
       // Update active toggle button
       viewToggleBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
+
       // Update view
       currentView = view;
       jobContainer.className = `jobs-container ${view}-view`;
     });
   });
-  
+
   // Initialize content moderation for job listings
   if (window.contentModerator) {
     window.contentModerator.initialize({
@@ -146,11 +146,11 @@ document.addEventListener('DOMContentLoaded', function() {
       context: 'job-listings'
     });
   }
-  
+
   // Render jobs with content moderation
   async function renderJobs(jobs) {
     if (!jobContainer) return;
-    
+
     if (jobs.length === 0) {
       jobContainer.innerHTML = `
         <div class="no-jobs">
@@ -161,15 +161,15 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
       return;
     }
-    
+
     jobContainer.innerHTML = '';
-    
-    jobs.forEach(async (job) => {
+
+    jobs.forEach(async job => {
       // Apply content moderation to job description if available
       let jobDescription = job.description;
       let jobTitle = job.title;
       let moderationApplied = false;
-      
+
       if (window.contentModerator) {
         try {
           // Moderate job description
@@ -177,30 +177,29 @@ document.addEventListener('DOMContentLoaded', function() {
             mode: 'redact',
             context: 'job-description'
           });
-          
+
           jobDescription = descResult.modifiedContent;
           moderationApplied = descResult.moderated;
-          
+
           // Moderate job title
           const titleResult = await window.contentModerator.moderateContent(jobTitle, {
             mode: 'redact',
             context: 'job-title'
           });
-          
+
           jobTitle = titleResult.modifiedContent;
           moderationApplied = moderationApplied || titleResult.moderated;
-          
         } catch (error) {
           console.error('Job content moderation error:', error);
         }
       }
-      
+
       const jobCard = document.createElement('div');
       jobCard.className = 'job-card';
       if (moderationApplied) {
         jobCard.classList.add('moderated-content');
       }
-      
+
       jobCard.innerHTML = `
         <div class="job-header">
           <div class="job-company">
@@ -228,40 +227,40 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <a href="/job/${job.id}" class="job-link">View Details</a>
       `;
-      
-      jobCard.addEventListener('click', (e) => {
+
+      jobCard.addEventListener('click', e => {
         if (!e.target.classList.contains('job-link')) {
           window.location.href = `/job/${job.id}`;
         }
       });
-      
+
       jobContainer.appendChild(jobCard);
     });
   }
-  
+
   // Update pagination
   function updatePagination() {
     if (currentPageSpan) currentPageSpan.textContent = currentPage;
     if (totalPagesSpan) totalPagesSpan.textContent = totalPages;
-    
+
     if (prevPageBtn) prevPageBtn.disabled = currentPage === 1;
     if (nextPageBtn) nextPageBtn.disabled = currentPage === totalPages;
   }
-  
+
   // Set loading state
   function setLoading(isLoading) {
     if (isLoading) {
       jobContainer.innerHTML = `<div class="job-loading">Loading opportunities from AWS Cloud...</div>`;
     }
   }
-  
+
   // Generate mock job data
   function generateMockJobs(search = '', category = '', page = 1) {
     const jobTypes = ['Full-time', 'Part-time', 'Contract', 'Freelance'];
     const locations = ['Remote', 'Hybrid', 'On-site'];
     const paymentTypes = ['Fiat', 'Crypto', 'Hybrid (Fiat + Crypto)', 'Project Tokens'];
     const categories = ['Development', 'Content', 'Marketing', 'Community', 'Design'];
-    
+
     const companies = [
       { name: 'Ethereum Foundation', logo: 'https://ethereum.org/favicon-32x32.png' },
       { name: 'Chainlink Labs', logo: 'https://chain.link/favicon.ico' },
@@ -272,21 +271,21 @@ document.addEventListener('DOMContentLoaded', function() {
       { name: 'Uniswap', logo: 'https://uniswap.org/favicon.ico' },
       { name: 'Web3 Streaming', logo: '/favicon.ico' }
     ];
-    
+
     // Generate 16 jobs per page
-    let jobs = [];
+    const jobs = [];
     const jobsPerPage = 12;
     const totalJobs = 37; // Simulate this many total jobs
-    
+
     for (let i = 0; i < jobsPerPage; i++) {
       const index = (page - 1) * jobsPerPage + i;
-      
+
       // Only create jobs up to the total
       if (index >= totalJobs) break;
-      
+
       const company = companies[index % companies.length];
       const jobCategory = categories[index % categories.length];
-      
+
       const job = {
         id: `job-${index + 1}`,
         title: `${jobCategory} ${index % 3 === 0 ? 'Specialist' : index % 2 === 0 ? 'Engineer' : 'Creator'}`,
@@ -297,46 +296,48 @@ document.addEventListener('DOMContentLoaded', function() {
         location: locations[index % locations.length],
         paymentType: paymentTypes[index % paymentTypes.length],
         description: `This is a job description for a ${jobCategory} position. The role involves working with Web3 technologies and blockchain platforms to create innovative solutions.`,
-        postedDate: `${index % 7 + 1}d ago`,
+        postedDate: `${(index % 7) + 1}d ago`,
         applyLink: 'https://example.com/apply',
-        skills: ['Web3', 'Blockchain', 'Smart Contracts', 'DeFi'],
+        skills: ['Web3', 'Blockchain', 'Smart Contracts', 'DeFi']
       };
-      
+
       // Apply filters
       if (
-        (search === '' || job.title.toLowerCase().includes(search.toLowerCase()) || job.company.toLowerCase().includes(search.toLowerCase())) &&
+        (search === '' ||
+          job.title.toLowerCase().includes(search.toLowerCase()) ||
+          job.company.toLowerCase().includes(search.toLowerCase())) &&
         (category === '' || job.category === category)
       ) {
         jobs.push(job);
       }
     }
-    
+
     // Calculate total pages based on filters
-    const filteredTotalJobs = (search === '' && category === '') ? totalJobs : jobs.length;
+    const filteredTotalJobs = search === '' && category === '' ? totalJobs : jobs.length;
     const calculatedTotalPages = Math.ceil(filteredTotalJobs / jobsPerPage);
-    
+
     return {
       jobs: jobs.slice(0, jobsPerPage), // Return only the current page worth of jobs
       totalPages: calculatedTotalPages
     };
   }
-  
+
   // Search jobs
   function searchJobs() {
     const search = jobSearchInput ? jobSearchInput.value : '';
     const category = jobCategorySelect ? jobCategorySelect.value : '';
     loadJobs(search, category, 1); // Reset to first page on search
   }
-  
+
   // Wallet connection
   if (connectWalletBtn) {
-    connectWalletBtn.addEventListener('click', async function() {
+    connectWalletBtn.addEventListener('click', async function () {
       try {
         if (window.ethereum) {
           // Request account access
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           connectedWalletAddress = accounts[0];
-          
+
           // Update wallet status display
           walletStatusElement.innerHTML = `
             <span class="wallet-connected">
@@ -344,11 +345,13 @@ document.addEventListener('DOMContentLoaded', function() {
               Connected: ${connectedWalletAddress.substring(0, 6)}...${connectedWalletAddress.substring(38)}
             </span>
           `;
-          
+
           connectWalletBtn.classList.add('connected');
           connectWalletBtn.innerHTML = '<i class="fas fa-wallet"></i> Wallet Connected';
         } else {
-          throw new Error('No Ethereum wallet detected. Please install MetaMask or another Web3 wallet.');
+          throw new Error(
+            'No Ethereum wallet detected. Please install MetaMask or another Web3 wallet.'
+          );
         }
       } catch (error) {
         console.error('Error connecting wallet:', error);
@@ -361,12 +364,12 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
+
   // Preview job post
   if (previewButton && jobForm) {
-    previewButton.addEventListener('click', function(e) {
+    previewButton.addEventListener('click', function (e) {
       e.preventDefault();
-      
+
       const companyName = document.getElementById('company-name').value;
       const jobTitle = document.getElementById('job-title').value;
       const jobDescription = document.getElementById('job-description').value;
@@ -374,12 +377,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const jobType = document.getElementById('job-type').value;
       const paymentType = document.getElementById('payment-type').value;
       const locationType = document.getElementById('location-type').value;
-      
+
       if (!companyName || !jobTitle || !jobDescription) {
         alert('Please fill in the required fields.');
         return;
       }
-      
+
       jobPreviewContent.innerHTML = `
         <div class="job-preview">
           <div class="preview-header">
@@ -408,60 +411,60 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       `;
-      
+
       jobPreviewModal.style.display = 'block';
     });
   }
-  
+
   // Close preview modal
   if (closePreviewBtn) {
-    closePreviewBtn.addEventListener('click', function() {
+    closePreviewBtn.addEventListener('click', function () {
       jobPreviewModal.style.display = 'none';
     });
   }
-  
+
   // Close modal when clicking outside
-  window.addEventListener('click', function(event) {
+  window.addEventListener('click', function (event) {
     if (event.target === jobPreviewModal) {
       jobPreviewModal.style.display = 'none';
     }
   });
-  
+
   // Publish job from preview
   if (publishFromPreviewBtn) {
-    publishFromPreviewBtn.addEventListener('click', function() {
+    publishFromPreviewBtn.addEventListener('click', function () {
       if (!connectedWalletAddress) {
         alert('Please connect your wallet to post a job.');
         jobPreviewModal.style.display = 'none';
         return;
       }
-      
+
       // In real implementation, this would submit the job to AWS
       submitJobToAWS();
     });
   }
-  
+
   // Submit job form
   if (jobForm) {
-    jobForm.addEventListener('submit', async function(e) {
+    jobForm.addEventListener('submit', async function (e) {
       e.preventDefault();
-      
+
       if (!connectedWalletAddress) {
         alert('Please connect your wallet to post a job.');
         return;
       }
-      
+
       submitJobToAWS();
     });
   }
-  
+
   // Submit job to AWS with content moderation
   async function submitJobToAWS() {
     const submitButton = jobForm.querySelector('button[type="submit"]');
     const originalButtonText = submitButton.textContent;
     submitButton.disabled = true;
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-    
+
     try {
       // Collect job data
       const jobData = {
@@ -475,54 +478,57 @@ document.addEventListener('DOMContentLoaded', function() {
         applicationLink: document.getElementById('application-link').value,
         posterAddress: connectedWalletAddress
       };
-      
+
       // Apply content moderation if available
       if (window.contentModerator) {
         try {
           // Check for sensitive info in job description
           const descResult = await window.contentModerator.moderateContent(jobData.jobDescription, {
-            mode: 'flag',  // Just flag, don't modify yet
+            mode: 'flag', // Just flag, don't modify yet
             context: 'job-submission'
           });
-          
+
           // If critical severity, block submission
           if (descResult.moderated && descResult.metadata.severity === 'critical') {
-            throw new Error('Your job posting contains sensitive blockchain information that should not be shared publicly. Please review and remove private keys, seed phrases, or full wallet addresses.');
+            throw new Error(
+              'Your job posting contains sensitive blockchain information that should not be shared publicly. Please review and remove private keys, seed phrases, or full wallet addresses.'
+            );
           }
-          
+
           // Apply redaction to sensitive fields before submission
-          const redactedDesc = await window.contentModerator.moderateContent(jobData.jobDescription, {
-            mode: 'redact',
-            context: 'job-submission'
-          });
-          
+          const redactedDesc = await window.contentModerator.moderateContent(
+            jobData.jobDescription,
+            {
+              mode: 'redact',
+              context: 'job-submission'
+            }
+          );
+
           const redactedTitle = await window.contentModerator.moderateContent(jobData.jobTitle, {
             mode: 'redact',
             context: 'job-submission'
           });
-          
+
           // Update with redacted content
           jobData.jobDescription = redactedDesc.modifiedContent;
           jobData.jobTitle = redactedTitle.modifiedContent;
           jobData.moderationApplied = redactedDesc.moderated || redactedTitle.moderated;
-          
         } catch (error) {
           throw new Error(`Content moderation: ${error.message}`);
         }
       }
-      
+
       // In real implementation, this would make an API call to AWS API Gateway
       // For demo, simulate a call
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       jobPreviewModal.style.display = 'none';
-      
+
       // Show success message
       alert('Your job has been successfully posted! It will be reviewed and published shortly.');
-      
+
       // Reset the form
       jobForm.reset();
-      
     } catch (error) {
       console.error('Error submitting job:', error);
       alert(`There was an error posting your job: ${error.message}`);
@@ -532,29 +538,33 @@ document.addEventListener('DOMContentLoaded', function() {
       submitButton.innerHTML = originalButtonText;
     }
   }
-  
+
   // Event Listeners
   if (searchButton) searchButton.addEventListener('click', searchJobs);
-  if (jobSearchInput) jobSearchInput.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') searchJobs();
-  });
-  if (prevPageBtn) prevPageBtn.addEventListener('click', () => {
-    if (currentPage > 1) loadJobs(jobSearchInput.value, jobCategorySelect.value, currentPage - 1);
-  });
-  if (nextPageBtn) nextPageBtn.addEventListener('click', () => {
-    if (currentPage < totalPages) loadJobs(jobSearchInput.value, jobCategorySelect.value, currentPage + 1);
-  });
+  if (jobSearchInput)
+    jobSearchInput.addEventListener('keyup', e => {
+      if (e.key === 'Enter') searchJobs();
+    });
+  if (prevPageBtn)
+    prevPageBtn.addEventListener('click', () => {
+      if (currentPage > 1) loadJobs(jobSearchInput.value, jobCategorySelect.value, currentPage - 1);
+    });
+  if (nextPageBtn)
+    nextPageBtn.addEventListener('click', () => {
+      if (currentPage < totalPages)
+        loadJobs(jobSearchInput.value, jobCategorySelect.value, currentPage + 1);
+    });
   if (reloadBtn) reloadBtn.addEventListener('click', reloadJobs);
-  
+
   // Character counter for job description
   const jobDescription = document.getElementById('job-description');
   const charCounter = document.querySelector('.char-counter');
-  
+
   if (jobDescription && charCounter) {
-    jobDescription.addEventListener('input', function() {
+    jobDescription.addEventListener('input', function () {
       const count = this.value.length;
       charCounter.textContent = `${count}/5000`;
-      
+
       if (count > 5000) {
         charCounter.style.color = '#f44336';
         this.value = this.value.substring(0, 5000);
@@ -563,7 +573,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
+
   // Initialize
   initAWS();
 });

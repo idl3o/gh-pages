@@ -61,22 +61,24 @@ function downloadAsset(url, destPath) {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(destPath);
 
-    https.get(url, response => {
-      if (response.statusCode !== 200) {
-        reject(new Error(`Failed to download ${url}: ${response.statusCode}`));
-        return;
-      }
+    https
+      .get(url, response => {
+        if (response.statusCode !== 200) {
+          reject(new Error(`Failed to download ${url}: ${response.statusCode}`));
+          return;
+        }
 
-      response.pipe(file);
+        response.pipe(file);
 
-      file.on('finish', () => {
-        file.close();
-        resolve(true);
+        file.on('finish', () => {
+          file.close();
+          resolve(true);
+        });
+      })
+      .on('error', err => {
+        fs.unlink(destPath, () => {}); // Delete the file on error
+        reject(err);
       });
-    }).on('error', err => {
-      fs.unlink(destPath, () => {}); // Delete the file on error
-      reject(err);
-    });
   });
 }
 
@@ -104,22 +106,24 @@ async function downloadCategoryAssets(category, isEnterprise = false) {
 
     // Fetch the index using Node.js https module
     const indexData = await new Promise((resolve, reject) => {
-      https.get(indexUrl, response => {
-        if (response.statusCode !== 200) {
-          reject(new Error(`Failed to download index: ${response.statusCode}`));
-          return;
-        }
-
-        let data = '';
-        response.on('data', chunk => data += chunk);
-        response.on('end', () => {
-          try {
-            resolve(JSON.parse(data));
-          } catch (err) {
-            reject(new Error('Invalid JSON in index file'));
+      https
+        .get(indexUrl, response => {
+          if (response.statusCode !== 200) {
+            reject(new Error(`Failed to download index: ${response.statusCode}`));
+            return;
           }
-        });
-      }).on('error', reject);
+
+          let data = '';
+          response.on('data', chunk => (data += chunk));
+          response.on('end', () => {
+            try {
+              resolve(JSON.parse(data));
+            } catch (err) {
+              reject(new Error('Invalid JSON in index file'));
+            }
+          });
+        })
+        .on('error', reject);
     });
 
     console.log(`Found ${indexData.assets.length} assets in ${category}`);
@@ -144,51 +148,53 @@ async function downloadCategoryAssets(category, isEnterprise = false) {
     for (let i = 0; i < indexData.assets.length; i += batchSize) {
       const batch = indexData.assets.slice(i, i + batchSize);
 
-      await Promise.all(batch.map(async asset => {
-        const assetUrl = isEnterprise
-          ? `${config.cdnBase}/enterprise/${category}/${asset.filename}`
-          : `${config.cdnBase}/${category}/${asset.filename}`;
+      await Promise.all(
+        batch.map(async asset => {
+          const assetUrl = isEnterprise
+            ? `${config.cdnBase}/enterprise/${category}/${asset.filename}`
+            : `${config.cdnBase}/${category}/${asset.filename}`;
 
-        const destPath = path.join(categoryDir, asset.filename);
+          const destPath = path.join(categoryDir, asset.filename);
 
-        try {
-          await downloadAsset(assetUrl, destPath);
+          try {
+            await downloadAsset(assetUrl, destPath);
 
-          // Update manifest
-          const existingIndex = assetManifest.categories[category].items
-            .findIndex(item => item.id === asset.id);
+            // Update manifest
+            const existingIndex = assetManifest.categories[category].items.findIndex(
+              item => item.id === asset.id
+            );
 
-          if (existingIndex >= 0) {
-            assetManifest.categories[category].items[existingIndex] = {
-              ...asset,
-              localPath: path.relative(config.assetDirectory, destPath),
-              downloadedAt: new Date().toISOString()
-            };
-          } else {
-            assetManifest.categories[category].items.push({
-              ...asset,
-              localPath: path.relative(config.assetDirectory, destPath),
-              downloadedAt: new Date().toISOString()
-            });
-            assetManifest.totalAssets++;
+            if (existingIndex >= 0) {
+              assetManifest.categories[category].items[existingIndex] = {
+                ...asset,
+                localPath: path.relative(config.assetDirectory, destPath),
+                downloadedAt: new Date().toISOString()
+              };
+            } else {
+              assetManifest.categories[category].items.push({
+                ...asset,
+                localPath: path.relative(config.assetDirectory, destPath),
+                downloadedAt: new Date().toISOString()
+              });
+              assetManifest.totalAssets++;
+            }
+
+            completed++;
+
+            // Show progress every 10 assets or when all are done
+            if (completed % 10 === 0 || completed === indexData.assets.length) {
+              const progress = Math.floor((completed / indexData.assets.length) * 100);
+              console.log(`Progress: ${progress}% (${completed}/${indexData.assets.length})`);
+            }
+          } catch (err) {
+            console.error(`Failed to download ${asset.filename}: ${err.message}`);
           }
-
-          completed++;
-
-          // Show progress every 10 assets or when all are done
-          if (completed % 10 === 0 || completed === indexData.assets.length) {
-            const progress = Math.floor((completed / indexData.assets.length) * 100);
-            console.log(`Progress: ${progress}% (${completed}/${indexData.assets.length})`);
-          }
-        } catch (err) {
-          console.error(`Failed to download ${asset.filename}: ${err.message}`);
-        }
-      }));
+        })
+      );
     }
 
     // Update category last updated timestamp
     assetManifest.categories[category].lastUpdated = new Date().toISOString();
-
   } catch (err) {
     console.error(`Error downloading ${category} assets:`, err.message);
     return false;
@@ -203,11 +209,7 @@ async function downloadCategoryAssets(category, isEnterprise = false) {
 function saveManifest() {
   assetManifest.lastUpdated = new Date().toISOString();
 
-  fs.writeFileSync(
-    config.manifestPath,
-    JSON.stringify(assetManifest, null, 2),
-    'utf8'
-  );
+  fs.writeFileSync(config.manifestPath, JSON.stringify(assetManifest, null, 2), 'utf8');
 
   console.log(`📝 Asset manifest updated (${assetManifest.totalAssets} total assets)`);
 }

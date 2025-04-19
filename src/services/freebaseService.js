@@ -47,7 +47,7 @@ const tierRequirements = {
  */
 export function checkContentAccess(tier, user) {
   const tierInfo = tierRequirements[tier] || tierRequirements[ContentTiers.FREE];
-  
+
   // For free content, always grant access
   if (tier === ContentTiers.FREE) {
     return {
@@ -57,7 +57,7 @@ export function checkContentAccess(tier, user) {
       }
     };
   }
-  
+
   // Check if wallet is connected if required
   if (tierInfo.requiresWallet && !user?.walletAddress) {
     return {
@@ -66,11 +66,11 @@ export function checkContentAccess(tier, user) {
       message: 'This content requires a connected wallet.'
     };
   }
-  
+
   // Check if user has enough tokens
   if (tierInfo.tokensRequired > 0) {
     const userTokens = user?.tokenBalance || 0;
-    
+
     if (userTokens < tierInfo.tokensRequired) {
       return {
         hasAccess: false,
@@ -81,7 +81,7 @@ export function checkContentAccess(tier, user) {
       };
     }
   }
-  
+
   // Grant access with any applicable restrictions
   return {
     hasAccess: true,
@@ -107,10 +107,8 @@ export function getTierRequirements(tier) {
  */
 export function calculateFreeContentPercentage(contentItems) {
   if (!contentItems || contentItems.length === 0) return 0;
-  
-  const freeItems = contentItems.filter(item => 
-    item.tier === ContentTiers.FREE
-  );
-  
+
+  const freeItems = contentItems.filter(item => item.tier === ContentTiers.FREE);
+
   return Math.round((freeItems.length / contentItems.length) * 100);
 }

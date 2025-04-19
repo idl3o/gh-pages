@@ -1,12 +1,12 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const checkButton = document.getElementById('check-environment');
   const resultsList = document.getElementById('environment-check-results');
-  
+
   if (!checkButton || !resultsList) return;
-  
-  checkButton.addEventListener('click', async function() {
+
+  checkButton.addEventListener('click', async function () {
     resultsList.innerHTML = '<li class="checking">Checking environment...</li>';
-    
+
     try {
       // Check for Node.js/npm compatibility
       const checks = [
@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
         checkNetwork(),
         checkLocalStorage()
       ];
-      
+
       const results = await Promise.all(checks);
-      
+
       // Display results
       resultsList.innerHTML = '';
       results.forEach(result => {
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         resultsList.appendChild(li);
       });
-      
     } catch (error) {
       resultsList.innerHTML = `
         <li class="failure">
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
     }
   });
-  
+
   async function checkWeb3Availability() {
     // Check if Web3 is available
     if (window.ethereum || window.web3) {
@@ -62,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
       };
     }
   }
-  
+
   async function checkMetaMask() {
     // Check for MetaMask specifically
     if (window.ethereum && window.ethereum.isMetaMask) {
@@ -79,14 +78,14 @@ document.addEventListener('DOMContentLoaded', function() {
       };
     }
   }
-  
+
   async function checkNetwork() {
     // Check if on the correct network
     if (window.ethereum) {
       try {
         const chainId = await window.ethereum.request({ method: 'eth_chainId' });
         const supportedChains = ['0x1', '0x89', '0x13881']; // Ethereum, Polygon, Mumbai
-        
+
         if (supportedChains.includes(chainId)) {
           return {
             name: 'Network',
@@ -108,19 +107,19 @@ document.addEventListener('DOMContentLoaded', function() {
         };
       }
     }
-    
+
     return {
       name: 'Network',
       success: false,
       message: 'No Web3 provider to check network'
     };
   }
-  
+
   async function checkLocalStorage() {
     try {
       localStorage.setItem('test', 'test');
       localStorage.removeItem('test');
-      
+
       return {
         name: 'Browser Storage',
         success: true,

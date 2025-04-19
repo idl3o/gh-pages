@@ -142,23 +142,25 @@ class RankingPowerSystem {
 
     switch (item.id) {
       case 'content_quality':
-        return (metric.qualityScore || 0) *
-               (metric.resolutionFactor || 1) *
-               ((metric.completionRate || 0) / 100) *
-               item.multiplier;
+        return (
+          (metric.qualityScore || 0) *
+          (metric.resolutionFactor || 1) *
+          ((metric.completionRate || 0) / 100) *
+          item.multiplier
+        );
 
       case 'engagement_rate':
-        return ((metric.comments || 0) +
-               (metric.shares || 0) * 2 +
-               (metric.reactions || 0)) /
-               Math.max(1, (metric.viewCount || 1)) *
-               item.multiplier;
+        return (
+          (((metric.comments || 0) + (metric.shares || 0) * 2 + (metric.reactions || 0)) /
+            Math.max(1, metric.viewCount || 1)) *
+          item.multiplier
+        );
 
       // Add cases for other items...
 
       default:
         // Default calculation - use percentage of max
-        return (metric.value || 0) / 100 * item.maxPoints;
+        return ((metric.value || 0) / 100) * item.maxPoints;
     }
   }
 
@@ -287,7 +289,10 @@ class RankingPowerSystem {
    * @returns {number} Progress percentage
    */
   calculateProgressPercentage() {
-    if (!this.currentRank || this.schema.rankLevels.indexOf(this.currentRank) === this.schema.rankLevels.length - 1) {
+    if (
+      !this.currentRank ||
+      this.schema.rankLevels.indexOf(this.currentRank) === this.schema.rankLevels.length - 1
+    ) {
       return 100; // Already at max rank
     }
 
@@ -321,10 +326,11 @@ class RankingPowerSystem {
    * @returns {string} HTML for power items
    */
   renderPowerItems() {
-    return this.powerItems.map(item => {
-      const tierInfo = this.schema.tiers[item.tier];
+    return this.powerItems
+      .map(item => {
+        const tierInfo = this.schema.tiers[item.tier];
 
-      return `
+        return `
         <div class="power-item" data-id="${item.id}">
           <div class="power-item-header">
             <div class="power-icon" style="background-color: ${tierInfo.color}">
@@ -347,7 +353,8 @@ class RankingPowerSystem {
           </div>
         </div>
       `;
-    }).join('');
+      })
+      .join('');
   }
 
   /**

@@ -1,6 +1,6 @@
 /**
  * Feature Flag System for Web3 Crypto Streaming Service
- * 
+ *
  * This module manages feature availability during beta deployment,
  * allowing for controlled feature rollout and A/B testing.
  */
@@ -12,7 +12,7 @@ class FeatureFlags {
     this.initialized = false;
     this.environment = this._detectEnvironment();
   }
-  
+
   /**
    * Initialize the feature flags system
    * @param {Object} user Current user information if available
@@ -20,15 +20,15 @@ class FeatureFlags {
    */
   async initialize(user = null) {
     if (this.initialized) return;
-    
+
     this.user = user;
-    
+
     try {
       // In production, fetch from API
       if (this.environment === 'production') {
         const response = await fetch('/api/feature-flags');
         this.flags = await response.json();
-      } 
+      }
       // In staging, use remote config but with higher refresh rate
       else if (this.environment === 'staging') {
         const response = await fetch('/api/feature-flags?environment=staging');
@@ -38,10 +38,10 @@ class FeatureFlags {
       else {
         this.flags = this._getDefaultFlags();
       }
-      
+
       // Apply user segment overrides
       this._applyUserOverrides();
-      
+
       this.initialized = true;
       console.log('Feature flags initialized:', this.flags);
     } catch (error) {
@@ -51,7 +51,7 @@ class FeatureFlags {
       this.initialized = true;
     }
   }
-  
+
   /**
    * Check if a feature is enabled
    * @param {string} featureKey The feature identifier
@@ -62,26 +62,25 @@ class FeatureFlags {
       console.warn('Feature flags accessed before initialization');
       return false;
     }
-    
+
     if (!this.flags[featureKey]) {
       return false;
     }
-    
+
     const feature = this.flags[featureKey];
-    
+
     // Check if feature is globally enabled
     if (!feature.enabled) {
       return false;
     }
-    
+
     // Check user level requirements
     if (feature.requiredUserLevel && this.user) {
-      if (feature.requiredUserLevel !== 'any' && 
-          this.user.level !== feature.requiredUserLevel) {
+      if (feature.requiredUserLevel !== 'any' && this.user.level !== feature.requiredUserLevel) {
         return false;
       }
     }
-    
+
     // Check percentage rollout (deterministic based on user ID)
     if (feature.userPercentage < 100 && this.user && this.user.id) {
       // Generate a hash from the user ID and feature key
@@ -89,10 +88,10 @@ class FeatureFlags {
       const normalizedHash = hash % 100;
       return normalizedHash < feature.userPercentage;
     }
-    
+
     return true;
   }
-  
+
   /**
    * Get environment from hostname or override
    * @returns {string} Environment name (development, staging, production)
@@ -100,7 +99,7 @@ class FeatureFlags {
    */
   _detectEnvironment() {
     const hostname = window.location.hostname;
-    
+
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       return 'development';
     } else if (hostname.includes('staging') || hostname.includes('beta')) {
@@ -109,7 +108,7 @@ class FeatureFlags {
       return 'production';
     }
   }
-  
+
   /**
    * Apply any user-specific overrides to features
    * @private
@@ -123,7 +122,7 @@ class FeatureFlags {
         }
       });
     }
-    
+
     // Beta tester overrides
     if (this.user && this.user.isBetaTester) {
       Object.keys(this.flags).forEach(key => {
@@ -133,7 +132,7 @@ class FeatureFlags {
       });
     }
   }
-  
+
   /**
    * Simple string hash function
    * @param {string} str String to hash
@@ -143,12 +142,12 @@ class FeatureFlags {
   _hashCode(str) {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
-      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash = (hash << 5) - hash + str.charCodeAt(i);
       hash |= 0;
     }
     return Math.abs(hash);
   }
-  
+
   /**
    * Default feature flags for development environment
    * @returns {Object} Default flags configuration
@@ -203,7 +202,7 @@ const featureFlags = new FeatureFlags();
 document.addEventListener('DOMContentLoaded', () => {
   // Try to get user from global state or localStorage
   const user = window.currentUser || JSON.parse(localStorage.getItem('user') || 'null');
-  
+
   featureFlags.initialize(user).catch(err => {
     console.error('Feature flags initialization error:', err);
   });

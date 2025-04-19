@@ -14,6 +14,7 @@ module.exports = {
   ],
 
   // An array of regexp pattern strings that are matched against all test paths
+<<<<<<< Updated upstream
   testPathIgnorePatterns: [
     '/node_modules/',
     '/_site/',
@@ -21,6 +22,9 @@ module.exports = {
     '/vendor/',
     '/.jekyll-cache/'
   ],
+=======
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/.github/'],
+>>>>>>> Stashed changes
 
   // Indicates whether each individual test should be reported during the run
   verbose: true,
@@ -35,11 +39,7 @@ module.exports = {
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/tests/',
-    '/__mocks__/'
-  ],
+  coveragePathIgnorePatterns: ['/node_modules/', '/tests/', '/__mocks__/'],
 
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: ['text', 'lcov'],

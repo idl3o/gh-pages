@@ -1,5 +1,9 @@
 require('dotenv').config();
-const { EC2Client, DescribeInstancesCommand, GetPasswordDataCommand } = require('@aws-sdk/client-ec2');
+const {
+  EC2Client,
+  DescribeInstancesCommand,
+  GetPasswordDataCommand
+} = require('@aws-sdk/client-ec2');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -43,7 +47,7 @@ class WindowsInstanceConnector {
   log(message) {
     const timestamp = new Date().toISOString();
     const logEntry = `[${timestamp}] ${message}\n`;
-    
+
     console.log(message);
     fs.appendFileSync(this.logFilePath, logEntry);
   }
@@ -53,16 +57,19 @@ class WindowsInstanceConnector {
       const command = new DescribeInstancesCommand({
         InstanceIds: [this.config.instanceId]
       });
-      
+
       const response = await this.ec2Client.send(command);
-      
-      if (response.Reservations && 
-          response.Reservations.length > 0 && 
-          response.Reservations[0].Instances && 
-          response.Reservations[0].Instances.length > 0) {
-        
+
+      if (
+        response.Reservations &&
+        response.Reservations.length > 0 &&
+        response.Reservations[0].Instances &&
+        response.Reservations[0].Instances.length > 0
+      ) {
         this.instanceDetails = response.Reservations[0].Instances[0];
-        this.log(`Found instance: ${this.instanceDetails.InstanceId} (${this.instanceDetails.State.Name})`);
+        this.log(
+          `Found instance: ${this.instanceDetails.InstanceId} (${this.instanceDetails.State.Name})`
+        );
         return this.instanceDetails;
       } else {
         throw new Error(`Instance ${this.config.instanceId} not found`);
@@ -76,14 +83,14 @@ class WindowsInstanceConnector {
   async getWindowsPassword() {
     try {
       let privateKey;
-      
+
       // Check if we have a compressed key path and password
       if (this.config.compressedKeyPath && fs.existsSync(this.config.compressedKeyPath)) {
         this.log('Using compressed private key');
         const compressedData = fs.readFileSync(this.config.compressedKeyPath);
         try {
           const decompressed = await KeyCompressor.decompress(
-            compressedData, 
+            compressedData,
             this.config.keyPassword
           );
           privateKey = decompressed.toString('utf8');
@@ -97,26 +104,30 @@ class WindowsInstanceConnector {
       } else {
         throw new Error('No private key available (neither standard nor compressed)');
       }
-      
+
       const command = new GetPasswordDataCommand({
         InstanceId: this.config.instanceId
       });
-      
+
       const response = await this.ec2Client.send(command);
-      
+
       if (!response.PasswordData) {
-        throw new Error('Password data not available yet. The instance might still be initializing.');
+        throw new Error(
+          'Password data not available yet. The instance might still be initializing.'
+        );
       }
 
       // Decrypt the password using the private key
-      const decryptedPassword = crypto.privateDecrypt(
-        {
-          key: privateKey,
-          padding: crypto.constants.RSA_PKCS1_PADDING
-        },
-        Buffer.from(response.PasswordData, 'base64')
-      ).toString('utf8');
-      
+      const decryptedPassword = crypto
+        .privateDecrypt(
+          {
+            key: privateKey,
+            padding: crypto.constants.RSA_PKCS1_PADDING
+          },
+          Buffer.from(response.PasswordData, 'base64')
+        )
+        .toString('utf8');
+
       this.log('Successfully retrieved Windows password');
       return decryptedPassword;
     } catch (error) {
@@ -130,12 +141,12 @@ class WindowsInstanceConnector {
       if (!this.instanceDetails) {
         await this.getInstanceDetails();
       }
-      
+
       const publicIp = this.instanceDetails.PublicIpAddress;
       if (!publicIp) {
         throw new Error('Instance does not have a public IP address');
       }
-      
+
       let password;
       try {
         password = await this.getWindowsPassword();
@@ -143,7 +154,7 @@ class WindowsInstanceConnector {
         this.log(`Warning: Could not automatically retrieve Windows password: ${error.message}`);
         password = process.env.WINDOWS_PASSWORD || '';
       }
-      
+
       const rdpOptions = {
         address: publicIp,
         username: this.config.username,
@@ -155,11 +166,13 @@ class WindowsInstanceConnector {
         colors: 32
       };
 
-      this.log(`Initiating RDP connection to ${publicIp}:${this.config.port} as ${this.config.username}`);
-      
+      this.log(
+        `Initiating RDP connection to ${publicIp}:${this.config.port} as ${this.config.username}`
+      );
+
       // Generate RDP file
       const rdpFilePath = path.join(os.tmpdir(), `${this.sessionId}.rdp`);
-      let rdpFileContent = [
+      const rdpFileContent = [
         `full address:s:${rdpOptions.address}:${rdpOptions.port}`,
         `username:s:${rdpOptions.username}`,
         `screen mode id:i:1`,
@@ -173,14 +186,14 @@ class WindowsInstanceConnector {
         `alternate shell:s:`,
         `shell working directory:s:`,
         `disable wallpaper:i:0`,
-        `disable full window drag:i:0`,
+        `disable full window drag:i:0`
       ].join('\n');
-      
+
       fs.writeFileSync(rdpFilePath, rdpFileContent);
-      
+
       this.log(`RDP file created at: ${rdpFilePath}`);
       this.log('Please use this file with your RDP client to connect.');
-      
+
       // Try to open the RDP file with the default program
       if (process.platform === 'win32') {
         exec(`start ${rdpFilePath}`);
@@ -194,7 +207,7 @@ class WindowsInstanceConnector {
       } else {
         this.log(`Please open the RDP file manually: ${rdpFilePath}`);
       }
-      
+
       return {
         success: true,
         message: 'RDP connection initiated',
@@ -211,12 +224,12 @@ class WindowsInstanceConnector {
       if (!this.instanceDetails) {
         await this.getInstanceDetails();
       }
-      
+
       const publicIp = this.instanceDetails.PublicIpAddress;
       if (!publicIp) {
         throw new Error('Instance does not have a public IP address');
       }
-      
+
       let password;
       try {
         password = await this.getWindowsPassword();
@@ -224,18 +237,15 @@ class WindowsInstanceConnector {
         this.log(`Warning: Could not automatically retrieve Windows password: ${error.message}`);
         password = process.env.WINDOWS_PASSWORD || '';
       }
-      
+
       let sshKey;
-      
+
       // Check if we have a compressed key path
       if (this.config.compressedKeyPath && fs.existsSync(this.config.compressedKeyPath)) {
         this.log('Using compressed private key for SSH');
         const compressedData = fs.readFileSync(this.config.compressedKeyPath);
         try {
-          sshKey = await KeyCompressor.decompress(
-            compressedData, 
-            this.config.keyPassword
-          );
+          sshKey = await KeyCompressor.decompress(compressedData, this.config.keyPassword);
         } catch (error) {
           this.log(`Error decompressing key for SSH: ${error.message}`);
           throw new Error('Failed to decompress private key for SSH connection');
@@ -243,27 +253,29 @@ class WindowsInstanceConnector {
       } else if (this.config.privateKeyPath && fs.existsSync(this.config.privateKeyPath)) {
         sshKey = fs.readFileSync(this.config.privateKeyPath);
       }
-      
+
       const ssh = new NodeSSH();
-      
-      this.log(`Initiating SSH connection to ${publicIp}:${this.config.port} as ${this.config.username}`);
-      
+
+      this.log(
+        `Initiating SSH connection to ${publicIp}:${this.config.port} as ${this.config.username}`
+      );
+
       const sshOptions = {
         host: publicIp,
         port: this.config.port,
         username: this.config.username,
         password: password
       };
-      
+
       // If we have a key, use it instead of password
       if (sshKey) {
         sshOptions.privateKey = sshKey;
         delete sshOptions.password;
       }
-      
+
       await ssh.connect(sshOptions);
       this.log('SSH connection established');
-      
+
       return {
         success: true,
         message: 'SSH connection established',
@@ -295,7 +307,7 @@ class WindowsInstanceConnector {
     if (!this.config.privateKeyPath || !fs.existsSync(this.config.privateKeyPath)) {
       throw new Error('No private key available to compress');
     }
-    
+
     this.log(`Compressing private key to ${outputPath}`);
     return await KeyCompressor.compressFile(this.config.privateKeyPath, outputPath, password);
   }

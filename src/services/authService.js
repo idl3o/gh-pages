@@ -18,13 +18,13 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://api.cryptostreami
 export const isAuthenticated = () => {
   const token = getItem(AUTH_TOKEN_KEY);
   const expiry = getItem(TOKEN_EXPIRY_KEY);
-  
+
   if (!token || !expiry) return false;
-  
+
   // Check if token is expired
   const expiryDate = new Date(parseInt(expiry, 10));
   const now = new Date();
-  
+
   return now < expiryDate;
 };
 
@@ -43,7 +43,7 @@ export const getAuthToken = () => {
 export const getUserData = () => {
   const userData = getItem(USER_DATA_KEY);
   if (!userData) return null;
-  
+
   try {
     return JSON.parse(userData);
   } catch (e) {
@@ -57,40 +57,40 @@ export const getUserData = () => {
  * @param {object} provider - Ethers provider (e.g., from MetaMask)
  * @returns {Promise<object>} User data and token
  */
-export const loginWithWeb3 = async (provider) => {
+export const loginWithWeb3 = async provider => {
   try {
     // Get signer from provider
     const signer = await provider.getSigner();
     const address = await signer.getAddress();
-    
+
     // Get auth challenge from server
     const challengeResponse = await axios.get(`${API_BASE_URL}/auth/challenge?address=${address}`);
     const { challenge } = challengeResponse.data;
-    
+
     // Sign challenge with wallet
     const signature = await signer.signMessage(challenge);
-    
+
     // Verify signature with backend
     const authResponse = await axios.post(`${API_BASE_URL}/auth/verify`, {
       address,
       challenge,
       signature
     });
-    
+
     const { token, expiresIn, user } = authResponse.data;
-    
+
     // Calculate expiry timestamp
     const expiryDate = new Date();
     expiryDate.setSeconds(expiryDate.getSeconds() + expiresIn);
-    
+
     // Store authentication data
     setItem(AUTH_TOKEN_KEY, token);
     setItem(TOKEN_EXPIRY_KEY, expiryDate.getTime().toString());
     setItem(USER_DATA_KEY, JSON.stringify(user));
-    
+
     // Set authorization header for future requests
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    
+
     return { token, user };
   } catch (error) {
     console.error('Web3 authentication error:', error);
@@ -103,27 +103,27 @@ export const loginWithWeb3 = async (provider) => {
  * @param {string} token - Authentication token
  * @returns {Promise<object>} User data
  */
-export const loginWithToken = async (token) => {
+export const loginWithToken = async token => {
   try {
     // Verify token with server
     const response = await axios.get(`${API_BASE_URL}/auth/verify-token`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    
+
     const { user, expiresIn } = response.data;
-    
+
     // Calculate expiry timestamp
     const expiryDate = new Date();
     expiryDate.setSeconds(expiryDate.getSeconds() + expiresIn);
-    
+
     // Store authentication data
     setItem(AUTH_TOKEN_KEY, token);
     setItem(TOKEN_EXPIRY_KEY, expiryDate.getTime().toString());
     setItem(USER_DATA_KEY, JSON.stringify(user));
-    
+
     // Set authorization header for future requests
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    
+
     return user;
   } catch (error) {
     console.error('Token authentication error:', error);
@@ -136,26 +136,26 @@ export const loginWithToken = async (token) => {
  * @param {string} firebaseToken - Firebase authentication token
  * @returns {Promise<object>} User data
  */
-export const loginWithFirebase = async (firebaseToken) => {
+export const loginWithFirebase = async firebaseToken => {
   try {
     const response = await axios.post(`${API_BASE_URL}/auth/firebase`, {
       token: firebaseToken
     });
-    
+
     const { token, expiresIn, user } = response.data;
-    
+
     // Calculate expiry timestamp
     const expiryDate = new Date();
     expiryDate.setSeconds(expiryDate.getSeconds() + expiresIn);
-    
+
     // Store authentication data
     setItem(AUTH_TOKEN_KEY, token);
     setItem(TOKEN_EXPIRY_KEY, expiryDate.getTime().toString());
     setItem(USER_DATA_KEY, JSON.stringify(user));
-    
+
     // Set authorization header for future requests
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    
+
     return user;
   } catch (error) {
     console.error('Firebase authentication error:', error);
@@ -170,7 +170,7 @@ export const logout = () => {
   removeItem(AUTH_TOKEN_KEY);
   removeItem(USER_DATA_KEY);
   removeItem(TOKEN_EXPIRY_KEY);
-  
+
   // Remove authorization header
   delete axios.defaults.headers.common['Authorization'];
 };
@@ -180,7 +180,7 @@ export const logout = () => {
  */
 export const setupAuthInterceptor = () => {
   const token = getItem(AUTH_TOKEN_KEY);
-  
+
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }

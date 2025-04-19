@@ -40,7 +40,7 @@ function showStatus() {
     // Check if there are uncommitted changes
     const status = execSync('git status --porcelain').toString();
     if (status) {
-      console.log(chalk.yellow('⚠️ You have uncommitted changes that won\'t be deployed'));
+      console.log(chalk.yellow("⚠️ You have uncommitted changes that won't be deployed"));
     } else {
       console.log(chalk.green('✅ Working directory is clean'));
     }
@@ -51,7 +51,9 @@ function showStatus() {
       console.log(`Deployment branch ${chalk.green(config.deployBranch)} exists`);
 
       // Get last deployment info
-      const lastCommit = execSync(`git log -1 --pretty=format:"%h - %s (%cr)" ${config.deployBranch}`).toString();
+      const lastCommit = execSync(
+        `git log -1 --pretty=format:"%h - %s (%cr)" ${config.deployBranch}`
+      ).toString();
       console.log(`Last deployment: ${chalk.cyan(lastCommit)}`);
     } catch (e) {
       console.log(chalk.yellow(`⚠️ Deployment branch ${config.deployBranch} doesn't exist yet`));

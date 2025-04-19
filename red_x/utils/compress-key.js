@@ -11,8 +11,8 @@ const rl = readline.createInterface({
 });
 
 async function promptQuestion(question) {
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
+  return new Promise(resolve => {
+    rl.question(question, answer => {
       resolve(answer);
     });
   });
@@ -28,18 +28,18 @@ async function main() {
   try {
     console.log('🔐 Private Key Compression Utility 🔐');
     console.log('=====================================');
-    
+
     // Get the input file path
     let inputPath = process.argv[2];
     if (!inputPath) {
       inputPath = await promptQuestion('Enter the path to the private key file: ');
     }
-    
+
     if (!fs.existsSync(inputPath)) {
       console.error(`Error: File not found: ${inputPath}`);
       process.exit(1);
     }
-    
+
     // Get the output file path
     let outputPath = process.argv[3];
     if (!outputPath) {
@@ -49,25 +49,24 @@ async function main() {
         outputPath = defaultOutput;
       }
     }
-    
+
     // Get the encryption password
     const password = await promptPassword('Enter password for encryption: ');
     if (!password) {
       console.error('Error: Password is required for encryption');
       process.exit(1);
     }
-    
+
     console.log(`\nCompressing key file: ${inputPath}`);
     console.log(`Output will be saved to: ${outputPath}`);
-    
+
     // Compress the file
     await KeyCompressor.compressFile(inputPath, outputPath, password);
-    
+
     console.log('\n✅ Key compressed and encrypted successfully!');
     console.log(`\nTo use this key with the Windows connector, update your .env file:`);
     console.log(`WINDOWS_COMPRESSED_KEY_PATH=${outputPath}`);
     console.log(`WINDOWS_KEY_PASSWORD=your-password-here`);
-    
   } catch (error) {
     console.error('\n❌ Error:', error.message);
     process.exit(1);

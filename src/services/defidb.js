@@ -1,14 +1,14 @@
 /**
  * DeFiDB Service
  * A decentralized finance database for tracking financial metrics on the Web3 Crypto Streaming platform
- * 
+ *
  * INTERNAL DOCUMENTATION:
  * This module provides a centralized system for accessing DeFi metrics across the application.
  * It implements a singleton pattern and handles:
  * - Local caching with versioning
  * - Smart contract data retrieval and formatting
  * - Subscription model for real-time UI updates
- * 
+ *
  * SECURITY NOTE: This connects to blockchain via user's wallet; ensure proper disclosure
  * PERFORMANCE NOTE: Uses optimistic UI with background refresh
  */
@@ -22,14 +22,14 @@ const DEFI_LAST_UPDATE_KEY = 'defi_last_update';
 
 // Define data structure for DeFi metrics
 export const MetricTypes = {
-  TVL: 'tvl',                  // Total Value Locked
-  TRADING_VOLUME: 'volume',    // Trading Volume
+  TVL: 'tvl', // Total Value Locked
+  TRADING_VOLUME: 'volume', // Trading Volume
   CREATOR_EARNINGS: 'earnings', // Creator Earnings
-  TOKEN_HOLDERS: 'holders',    // Number of Token Holders
-  APY: 'apy',                  // Annual Percentage Yield
-  LIQUIDITY: 'liquidity',      // Liquidity in Pools
-  STAKING: 'staking',          // Staked Tokens
-  SUPPLY: 'supply'             // Token Supply Data
+  TOKEN_HOLDERS: 'holders', // Number of Token Holders
+  APY: 'apy', // Annual Percentage Yield
+  LIQUIDITY: 'liquidity', // Liquidity in Pools
+  STAKING: 'staking', // Staked Tokens
+  SUPPLY: 'supply' // Token Supply Data
 };
 
 // Initial default metrics
@@ -86,7 +86,7 @@ const defaultMetrics = {
 
 /**
  * DeFiDB Class for managing decentralized finance metrics
- * 
+ *
  * IMPLEMENTATION NOTES:
  * - Constructor initializes metrics from cache or defaults
  * - Uses observer pattern (callbacks array) for change notifications
@@ -103,11 +103,11 @@ class DeFiDB {
 
   /**
    * Initialize DeFiDB with Web3 provider
-   * 
+   *
    * INTERNAL: Configures blockchain interaction for metrics retrieval
    * SECURITY: Only connects when explicitly called; provider access is limited
    * ERROR HANDLING: Fails gracefully with defaults if connection issues occur
-   * 
+   *
    * @param {ethers.Provider} provider - Ethereum provider
    * @param {Object} contractAddresses - Contract addresses for DeFi data
    * @returns {Promise<boolean>} - Initialization success status
@@ -120,23 +120,40 @@ class DeFiDB {
       }
 
       this.provider = provider;
-      
+
       // Setup contracts if addresses provided
       if (contractAddresses.token) {
-        const tokenAbi = ["function totalSupply() view returns (uint256)", "function balanceOf(address) view returns (uint256)"];
+        const tokenAbi = [
+          'function totalSupply() view returns (uint256)',
+          'function balanceOf(address) view returns (uint256)'
+        ];
         this.contracts.token = new ethers.Contract(contractAddresses.token, tokenAbi, provider);
       }
-      
+
       if (contractAddresses.staking) {
-        const stakingAbi = ["function totalStaked() view returns (uint256)", "function getAPY() view returns (uint256)"];
-        this.contracts.staking = new ethers.Contract(contractAddresses.staking, stakingAbi, provider);
+        const stakingAbi = [
+          'function totalStaked() view returns (uint256)',
+          'function getAPY() view returns (uint256)'
+        ];
+        this.contracts.staking = new ethers.Contract(
+          contractAddresses.staking,
+          stakingAbi,
+          provider
+        );
       }
-      
+
       if (contractAddresses.treasury) {
-        const treasuryAbi = ["function getTVL() view returns (uint256)", "function getCreatorEarnings() view returns (uint256)"];
-        this.contracts.treasury = new ethers.Contract(contractAddresses.treasury, treasuryAbi, provider);
+        const treasuryAbi = [
+          'function getTVL() view returns (uint256)',
+          'function getCreatorEarnings() view returns (uint256)'
+        ];
+        this.contracts.treasury = new ethers.Contract(
+          contractAddresses.treasury,
+          treasuryAbi,
+          provider
+        );
       }
-      
+
       this.isInitialized = true;
       return true;
     } catch (error) {
@@ -182,10 +199,10 @@ class DeFiDB {
 
   /**
    * Format metric value with appropriate formatting
-   * 
+   *
    * INTERNAL: Called throughout the UI to ensure consistent formatting
    * INTERNATIONALIZATION: Should be updated if app supports multiple locales
-   * 
+   *
    * @param {string} metricType - Type of metric
    * @param {boolean} includeCurrency - Whether to include currency symbol
    * @returns {string} - Formatted value
@@ -202,10 +219,13 @@ class DeFiDB {
     }
 
     formattedValue = this._formatNumber(metric.value);
-    
+
     if (!includeCurrency) return formattedValue;
-    return metric.currency ? `${metric.currency === 'USD' ? '$' : ''}${formattedValue}` : 
-           (metric.unit ? `${formattedValue}${metric.unit}` : formattedValue);
+    return metric.currency
+      ? `${metric.currency === 'USD' ? '$' : ''}${formattedValue}`
+      : metric.unit
+        ? `${formattedValue}${metric.unit}`
+        : formattedValue;
   }
 
   /**
@@ -215,9 +235,9 @@ class DeFiDB {
    */
   _formatNumber(value) {
     const num = typeof value === 'string' ? parseFloat(value) : value;
-    
+
     if (isNaN(num)) return 'N/A';
-    
+
     if (num >= 1000000000) {
       return (num / 1000000000).toFixed(2) + 'B';
     } else if (num >= 1000000) {
@@ -233,11 +253,11 @@ class DeFiDB {
 
   /**
    * Update metrics from blockchain data
-   * 
+   *
    * INTERNAL: Core method for refreshing data from contracts
    * OPTIMIZATION: Uses batch requests when possible to reduce RPC calls
    * FALLBACK: When contracts unavailable, maintains last good state
-   * 
+   *
    * @returns {Promise<boolean>} - Update success status
    */
   async refreshMetrics() {
@@ -251,34 +271,37 @@ class DeFiDB {
       if (this.contracts.token) {
         const totalSupply = await this.contracts.token.totalSupply();
         this.metrics[MetricTypes.SUPPLY].total = totalSupply.toString();
-        
+
         // Simulate circulating supply (90% of total)
         const circulatingSupply = totalSupply.mul(90).div(100);
         this.metrics[MetricTypes.SUPPLY].circulating = circulatingSupply.toString();
       }
-      
+
       if (this.contracts.staking) {
         const totalStaked = await this.contracts.staking.totalStaked();
         this.metrics[MetricTypes.STAKING].value = totalStaked.toString();
-        
+
         const apy = await this.contracts.staking.getAPY();
         this.metrics[MetricTypes.APY].value = (apy.toNumber() / 100).toString(); // Assuming APY is returned as basis points
       }
-      
+
       if (this.contracts.treasury) {
         const tvl = await this.contracts.treasury.getTVL();
         this.metrics[MetricTypes.TVL].value = ethers.formatUnits(tvl, 'ether');
-        
+
         const creatorEarnings = await this.contracts.treasury.getCreatorEarnings();
-        this.metrics[MetricTypes.CREATOR_EARNINGS].value = ethers.formatUnits(creatorEarnings, 'ether');
+        this.metrics[MetricTypes.CREATOR_EARNINGS].value = ethers.formatUnits(
+          creatorEarnings,
+          'ether'
+        );
       }
 
       // Store data in cache
       this._saveToCache();
-      
+
       // Notify subscribers
       this._notifySubscribers();
-      
+
       return true;
     } catch (error) {
       console.error('Error refreshing DeFi metrics:', error);
@@ -305,7 +328,7 @@ class DeFiDB {
     // Add to history
     const timestamp = Date.now();
     const historyEntry = { timestamp, value: data.value || this.metrics[metricType].value };
-    
+
     this.metrics[metricType].history = [
       ...this.metrics[metricType].history.slice(-29), // Keep last 30 entries
       historyEntry
@@ -347,7 +370,7 @@ class DeFiDB {
     try {
       const cachedData = getItem(DEFI_DATA_KEY);
       if (!cachedData) return null;
-      
+
       return JSON.parse(cachedData);
     } catch (error) {
       console.error('Error loading DeFi metrics from cache:', error);
@@ -363,12 +386,12 @@ class DeFiDB {
     try {
       const lastUpdate = getItem(DEFI_LAST_UPDATE_KEY);
       if (!lastUpdate) return true;
-      
+
       const updateTime = parseInt(lastUpdate, 10);
       const currentTime = Date.now();
-      
+
       // Consider data stale after 5 minutes
-      return (currentTime - updateTime) > 300000;
+      return currentTime - updateTime > 300000;
     } catch (error) {
       console.error('Error checking DeFi data staleness:', error);
       return true;
