@@ -3,46 +3,94 @@
 /* Default / Dark Theme */
 :root,
 .dark-theme {
-  /* Color Palette */
+  /* Brand Color Palette */
   --primary-color: #6e45e2; /* Main brand color */
-  --secondary-color: #88d3ce; /* Complementary color */
-  --accent-color: #4285F4; /* Chrome blue */
-  --dark-color: #121212; /* Background color */
-  --light-color: #f7f7f7; /* Text on dark */
-  --text-muted: #a0a0a0; /* Muted text */
-  --dark-bg: #121212;
-  --card-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --text-secondary: #b0b0b0;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --shadow-color: rgba(0, 0, 0, 0.2);
-  --success-color: #4ade80;
-  --danger-color: #f87171;
-  --warning-color: #facc15;
-  --info-color: #60a5fa;
+  --primary-light: #8c5cf6;
+  --primary-dark: #5a35c2;
+  --secondary-color: #00d8ff; /* Complementary color */
+  --secondary-light: #66d9ff;
+  --secondary-dark: #00b3d4;
+  --accent-color: #ff5722; /* Accent color */
+  --accent-light: #ff7a4d;
+  --accent-dark: #e64a19;
   
-  /* Theme transition */
+  /* Background and Text */
+  --background-color: #121212; /* Base background */
+  --dark-bg: #121218; /* Darker background */
+  --dark-2: #1a1a24; /* Slightly lighter dark for cards */
+  --dark-3: #222230; /* Even lighter for inputs, etc */
+  --card-bg: #1e1e28; /* Card backgrounds */
+  --light-color: #f7f7f7; /* Light text color */
+  --text-color: #ffffff; /* Main text color */
+  --text-secondary: #b0b0b0; /* Secondary text */
+  --text-muted: #a0a0a0; /* Muted text */
+  --text-on-dark: #ffffff; /* Text on dark backgrounds */
+  --text-muted-on-dark: #b0b0b0; /* Muted text on dark */
+  
+  /* UI Elements */
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border: 1px solid var(--border-color);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --border-radius: 8px;
+  --border-radius-sm: 4px;
+  --border-radius-lg: 16px;
+  
+  /* State Colors */
+  --success-color: #4ade80;
+  --success-dark: #22c55e;
+  --danger-color: #f87171;
+  --danger-dark: #ef4444;
+  --warning-color: #facc15;
+  --warning-dark: #eab308;
+  --info-color: #60a5fa;
+  --info-dark: #3b82f6;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+  --gradient-accent: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+  
+  /* Animation */
+  --transition-speed: 0.3s;
+  --transition: all 0.3s ease;
   --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Typography */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'Fira Code', 'Courier New', Courier, monospace;
 }
 
 /* Light Theme */
-.light-theme {
-  --primary-color: #5e35b1; /* Slightly darker for contrast */
-  --secondary-color: #66b2b2; /* Adjusted for light bg */
-  --accent-color: #1a73e8; /* Chrome blue - darker */
-  --dark-color: #f7f7f7; /* Inverted */
-  --light-color: #121212; /* Inverted */
-  --text-muted: #6c757d;
-  --dark-bg: #f7f7f7;
+.light-theme, [data-theme='light'] {
+  /* Background and Text */
+  --background-color: #f7f7f7;
+  --dark-bg: #ffffff;
+  --dark-2: #f0f0f0;
+  --dark-3: #e5e5e5;
   --card-bg: #ffffff;
+  --light-color: #121212;
   --text-color: #333333;
   --text-secondary: #505050;
+  --text-muted: #6c757d;
+  --text-on-dark: #ffffff;
+  --text-muted-on-dark: #b0b0b0;
+  
+  /* UI Elements */
   --border-color: rgba(0, 0, 0, 0.1);
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --success-color: #22c55e;
-  --danger-color: #ef4444;
-  --warning-color: #eab308;
-  --info-color: #3b82f6;
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Brand colors - slightly adjusted for light theme */
+  --primary-color: #5e35b1;
+  --primary-light: #7e57c2;
+  --primary-dark: #4527a0;
+  --secondary-color: #0099cc;
+  --secondary-light: #33b5e5;
+  --secondary-dark: #007399;
 }
 
 /* Apply transitions when theme changes */
@@ -51,32 +99,18 @@ body,
 button, 
 input, 
 textarea, 
-.companion-sidebar, 
-.chat-container,
-.job-card,
+.site-header,
+.navigation,
+.footer,
+.site-footer,
+.hero-section,
 .feature-card,
+.card,
+.section-alt,
 .wallet-connection-prompt,
 .register-form-container,
 .modal-content {
   transition: var(--theme-transition);
-}
-
-/* Light theme adjustments */
-.light-theme .wallet-button {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.light-theme .companion-message .message-content {
-  background-color: rgba(94, 53, 177, 0.05);
-  border: 1px solid rgba(94, 53, 177, 0.1);
-}
-
-.light-theme .topic-item:hover {
-  background-color: rgba(94, 53, 177, 0.1);
-}
-
-.light-theme .companion-avatar {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Theme toggle button */
@@ -99,7 +133,7 @@ textarea,
   transform: translateY(-2px);
 }
 
-.light-theme .theme-toggle:hover {
+.light-theme .theme-toggle:hover, [data-theme='light'] .theme-toggle:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
