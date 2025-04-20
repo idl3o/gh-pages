@@ -1,318 +1,1245 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web3 Crypto Streaming Service</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <meta name="description" content="Decentralized streaming platform that returns control and revenue to creators through blockchain technology">
-</head>
-<body>
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=width=device-width, initial-scale=1.0" />
+    <title>StreamChain: Web3 Crypto Streaming Platform | Real-Time Blockchain Payments</title>
+    <meta
+      name="description"
+      content="StreamChain revolutionizes content monetization through blockchain micropayments, NFTs, and transparent revenue sharing. Join the future of decentralized media streaming."
+    />
+    <link rel="stylesheet" href="main.css" />
+    <!-- Modern font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ethereum/ethereum-original.svg"
+    />
+    <!-- OpenGraph Tags for better social sharing -->
+    <meta property="og:title" content="Web3 Crypto Streaming Service" />
+    <meta
+      property="og:description"
+      content="The future of content streaming powered by blockchain technology"
+    />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
     <!-- Navigation -->
-    <div class="navigation">
-        <div class="container nav-container">
-            <a href="/" class="logo">Web3 Crypto Streaming</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#architecture">Architecture</a></li>
-                    <li><a href="#tech">Tech Stack</a></li>
-                    <li><a href="#token">Token</a></li>
-                    <li><a href="java/">Java API</a></li>
-                    <li><a href="docs/">Docs</a></li>
-                </ul>
-            </nav>
+    <nav class="navigation">
+      <div class="container nav-container">
+        <a href="#" class="logo">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="logo-icon"
+          >
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          StreamChain
+        </a>
+        <div class="nav-right">
+          <div class="main-nav">
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#technology">Technology</a></li>
+              <li><a href="#token">Token</a></li>
+              <li><a href="#education">Learn</a></li>
+              <li><a href="#beta">Beta Access</a></li>
+            </ul>
+          </div>
+          <button class="dark-mode-toggle" aria-label="Toggle dark mode">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="sun"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="moon"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <button class="connect-wallet-btn">Connect Wallet</button>
         </div>
-    </div>
+      </div>
+    </nav>
 
     <!-- Hero Section -->
-    <div class="hero">
-        <div class="container">
-            <h1>Web3 Crypto Streaming Service</h1>
-            <p>Revolutionizing content streaming through decentralized blockchain technology</p>
-            <div>
-                <a href="#beta-program" class="button primary">Join Beta</a>
-                <a href="docs/whitepaper.html" class="button outline">Read Whitepaper</a>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content fade-in">
+          <h1>Revolutionizing Digital Content with Web3 Streaming</h1>
+          <p>
+            A decentralized streaming platform that gives power back to creators through blockchain
+            micropayments, NFTs, and transparent revenue sharing.
+          </p>
+          <div class="hero-cta">
+            <a href="#beta" class="button primary">Join Beta Access</a>
+            <a href="#technology" class="button outline">Explore Technology</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">$0.001</span>
+              <span class="stat-label">Per-second streaming rate</span>
             </div>
-        </div>
-    </div>
-
-    <!-- About Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="center-text">About The Project</h2>
-
-            <div class="card">
-                <h3>About Idl3o</h3>
-                <p>Idl3o is the lead developer of Team MODSIAS, specializing in blockchain integration, distributed systems, and Web3 technologies. With expertise in creating decentralized applications that bridge content creation and cryptocurrency, Idl3o focuses on building equitable platforms that empower creators.</p>
+            <div class="stat">
+              <span class="stat-number">99.9%</span>
+              <span class="stat-label">Creator revenue share</span>
             </div>
-
-            <h2>Our Mission</h2>
-            <p>Web3 Crypto Streaming Service is a revolutionary platform that combines blockchain technology with high-quality media streaming. Our mission is to create a more equitable ecosystem for creators and viewers by:</p>
-            <ul>
-                <li>Providing creators with 90% of generated revenue</li>
-                <li>Ensuring content ownership through blockchain verification</li>
-                <li>Enabling direct creator-to-viewer relationships</li>
-                <li>Implementing transparent governance through our DAO structure</li>
-            </ul>
+            <div class="stat">
+              <span class="stat-number">10,000+</span>
+              <span class="stat-label">Beta waitlist signups</span>
+            </div>
+          </div>
         </div>
+        <div class="hero-image fade-in">
+          <img
+            src="https://via.placeholder.com/600x400/6e45e2/ffffff?text=Web3+Streaming"
+            alt="Web3 Streaming Platform Interface"
+          />
+        </div>
+      </div>
+      <div class="hero-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+          <path
+            d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
     </section>
 
     <!-- Features Section -->
-    <section class="section-alt" id="features">
-        <div class="container">
-            <h2 class="center-text">Key Features</h2>
-
-            <div class="grid">
-                <div class="card">
-                    <h3>Decentralized Storage Layer</h3>
-                    <p>Content distributed across IPFS for censorship resistance and improved availability.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Smart Contract Layer</h3>
-                    <p>Transparent, auditable contracts managing all platform interactions and revenue distribution.</p>
-                </div>
-
-                <div class="card">
-                    <h3>STREAM Token</h3>
-                    <p>Native utility token powering the ecosystem, enabling payments, governance, and staking.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Java Serverless</h3>
-                    <p>AWS Lambda functions for token operations and content verification with enterprise-grade reliability.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Web3 Authentication</h3>
-                    <p>Connect with crypto wallets for seamless identity verification without password management.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Creator Dashboard</h3>
-                    <p>Comprehensive analytics and monetization tools providing complete visibility into content performance.</p>
-                </div>
+    <section id="features" class="section features-section">
+      <div class="container">
+        <h2 class="section-title">Revolutionary Features</h2>
+        <p class="section-subtitle">
+          Experience the next generation of content streaming and monetization
+        </p>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                <path d="M14.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                <path d="M9.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                <path d="M14.5 15a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+                <path d="M9.5 4a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+                <path d="M14.5 9L9.5 4"/>
+                <path d="M9.5 20L14.5 15"/>
+              </svg>
             </div>
-        </div>
-    </section>
-
-    <!-- Architecture Section -->
-    <section class="section" id="architecture">
-        <div class="container">
-            <h2 class="center-text">Architecture</h2>
-            <p>Our platform follows a decentralized architecture with layered components working together:</p>
-
-            <div class="architecture-diagram">
-                <pre>
-┌─────────────────┐     ┌───────────────┐     ┌───────────────┐
-│  User Interface │     │ API Gateway   │     │ Smart Contract│
-│  React/TypeScript│────▶│ AWS Lambda    │────▶│ Layer        │
-└─────────────────┘     └───────────────┘     └───────────────┘
-        │                       │                     │
-        ▼                       ▼                     ▼
-┌─────────────────┐     ┌───────────────┐     ┌───────────────┐
-│  Authentication │     │ Java Services │     │ IPFS Storage  │
-│  Web3 Wallets   │     │ Node.js       │     │ Distribution  │
-└─────────────────┘     └───────────────┘     └───────────────┘
-                                │
-                                ▼
-                        ┌───────────────┐
-                        │ STREAM Token  │
-                        │ Economics     │
-                        └───────────────┘</pre>
-            </div>
-
-            <p>Our architecture follows a decentralized approach with the following layers:</p>
-            <ul>
-                <li><strong>Frontend:</strong> Progressive web application for cross-platform compatibility</li>
-                <li><strong>API Layer:</strong> Serverless functions for scalable operations</li>
-                <li><strong>Blockchain:</strong> Smart contracts for transparent transactions</li>
-                <li><strong>Storage:</strong> IPFS-based decentralized file system</li>
-                <li><strong>Token Economy:</strong> STREAM token for platform operations and governance</li>
+            <h3>Real-Time Value Stream</h3>
+            <p>Continuous micropayments flow directly to creators as content is consumed, eliminating payment delays and platform fees.</p>
+            <ul class="feature-list">
+              <li>Sub-second payment settlement</li>
+              <li>Zero-gas microtransactions</li>
+              <li>Direct creator-to-viewer economy</li>
             </ul>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <h3>Sovereign Digital Identity</h3>
+            <p>Own your data and reputation across platforms with portable, self-sovereign identity that puts you in control.</p>
+            <ul class="feature-list">
+              <li>Cross-platform credential verification</li>
+              <li>Selective disclosure controls</li>
+              <li>Reputation portability</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="6" width="20" height="12" rx="2"/>
+                <path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                <path d="M17 9h.01"/>
+                <path d="M17 15h.01"/>
+                <path d="M7 9h.01"/>
+                <path d="M7 15h.01"/>
+              </svg>
+            </div>
+            <h3>Content Ownership Rights</h3>
+            <p>Tokenized ownership of content with programmable royalties and transparent licensing across the content lifecycle.</p>
+            <ul class="feature-list">
+              <li>On-chain proof of creation</li>
+              <li>Automated royalty distribution</li>
+              <li>Derivative work tracking</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 3v19"/>
+                <path d="M5 8l7-5 7 5"/>
+                <path d="M5 16l7 5 7-5"/>
+              </svg>
+            </div>
+            <h3>Dynamic Adaptive Quality</h3>
+            <p>AI-optimized streaming that adjusts to network conditions while maintaining fair compensation for creators.</p>
+            <ul class="feature-list">
+              <li>Bandwidth-aware pricing</li>
+              <li>Network-optimized delivery</li>
+              <li>Edge-cached content</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <h3>Engagement Incentive System</h3>
+            <p>Reward meaningful interactions from viewers with tokenized engagement that benefits the entire ecosystem.</p>
+            <ul class="feature-list">
+              <li>Quality-weighted reviews</li>
+              <li>Curation rewards</li>
+              <li>Community-powered moderation</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+                <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/>
+                <path d="M9 9h1"/>
+                <path d="M9 13h6"/>
+                <path d="M9 17h6"/>
+              </svg>
+            </div>
+            <h3>Composable Smart Contracts</h3>
+            <p>Customize payment models, licensing terms, and viewer experiences with modular contract templates.</p>
+            <ul class="feature-list">
+              <li>No-code contract builder</li>
+              <li>Extensible payment models</li>
+              <li>Multi-party agreements</li>
+            </ul>
+          </div>
         </div>
+        
+        <div class="features-cta">
+          <a href="features.html" class="button primary">Explore All Features</a>
+          <a href="#beta" class="button outline">Join Beta Program</a>
+        </div>
+      </div>
     </section>
 
-    <!-- Tech Stack Section -->
-    <section class="section-alt" id="tech">
-        <div class="container">
-            <h2 class="center-text">Tech Stack</h2>
+    <!-- Technology Section -->
+    <section id="technology" class="section tech-section">
+      <div class="container">
+        <h2 class="section-title">Cutting-Edge Technology</h2>
+        <p class="section-subtitle">
+          Built on the most advanced blockchain and streaming technologies of 2025
+        </p>
 
-            <div class="center-text">
-                <span class="tech-badge">Ethereum/Polygon</span>
-                <span class="tech-badge">IPFS</span>
-                <span class="tech-badge">React</span>
-                <span class="tech-badge">TypeScript</span>
-                <span class="tech-badge">Node.js</span>
-                <span class="tech-badge">Java 17</span>
-                <span class="tech-badge">AWS Lambda</span>
-                <span class="tech-badge">Web3j</span>
-                <span class="tech-badge">GitHub Actions</span>
-                <span class="tech-badge">Smart Contracts</span>
-                <span class="tech-badge">ERC-20</span>
-                <span class="tech-badge">Solidity</span>
-            </div>
+        <div class="tech-grid">
+          <div class="tech-category">
+            <h3>Blockchain Foundation</h3>
+            <ul class="tech-list">
+              <li>
+                <span class="tech-name">Optimistic Rollups Pro</span>
+                <span class="tech-desc">Next-gen scaling solution with 150,000+ TPS</span>
+              </li>
+              <li>
+                <span class="tech-name">Quantum Mesh Interoperability</span>
+                <span class="tech-desc">Zero-latency asset transfers across all chains</span>
+              </li>
+              <li>
+                <span class="tech-name">Social Recovery Smart Wallets</span>
+                <span class="tech-desc">Advanced account abstraction with biometric verification</span>
+              </li>
+              <li>
+                <span class="tech-name">Post-Quantum Cryptography</span>
+                <span class="tech-desc">NIST-approved lattice-based algorithms</span>
+              </li>
+            </ul>
+          </div>
 
-            <div class="grid">
-                <div class="card">
-                    <h3>Blockchain</h3>
-                    <ul>
-                        <li>Ethereum/Polygon smart contracts</li>
-                        <li>Solidity with formal verification</li>
-                        <li>Web3j for Java integration</li>
-                    </ul>
-                </div>
+          <div class="tech-category">
+            <h3>Content Delivery</h3>
+            <ul class="tech-list">
+              <li>
+                <span class="tech-name">Decentralized Compute Network</span>
+                <span class="tech-desc">Node-agnostic processing with incentivized participation</span>
+              </li>
+              <li>
+                <span class="tech-name">Neural Compression Engine</span>
+                <span class="tech-desc">AI-powered 16K video at 10Mbps bandwidth</span>
+              </li>
+              <li>
+                <span class="tech-name">Satellite Mesh Integration</span>
+                <span class="tech-desc">Low-orbit caching for global sub-100ms latency</span>
+              </li>
+              <li>
+                <span class="tech-name">WebAssembly 3.0</span>
+                <span class="tech-desc">Hardware-accelerated runtime with GPU access</span>
+              </li>
+            </ul>
+          </div>
 
-                <div class="card">
-                    <h3>Storage</h3>
-                    <ul>
-                        <li>IPFS-based content addressing</li>
-                        <li>Distributed storage network</li>
-                        <li>Content encryption for premium assets</li>
-                    </ul>
-                </div>
+          <div class="tech-category">
+            <h3>Smart Contract System</h3>
+            <ul class="tech-list">
+              <li>
+                <span class="tech-name">ERC-9725 Standard</span>
+                <span class="tech-desc">Advanced time-value streaming with multi-party compensation</span>
+              </li>
+              <li>
+                <span class="tech-name">Self-Modifying Contracts</span>
+                <span class="tech-desc">AI-audited evolving business logic</span>
+              </li>
+              <li>
+                <span class="tech-name">Distributed Governance Protocol</span>
+                <span class="tech-desc">Quadratic voting with delegated expertise</span>
+              </li>
+              <li>
+                <span class="tech-name">Nano-payment Channels</span>
+                <span class="tech-desc">Zero-fee sub-cent transactions at unlimited scale</span>
+              </li>
+            </ul>
+          </div>
 
-                <div class="card">
-                    <h3>Frontend</h3>
-                    <ul>
-                        <li>React/TypeScript progressive web application</li>
-                        <li>Web3 wallet integration</li>
-                        <li>Responsive design for all devices</li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h3>Backend</h3>
-                    <ul>
-                        <li>Java 17 serverless functions for AWS Lambda</li>
-                        <li>Node.js with decentralized architecture</li>
-                        <li>RESTful APIs with Web3 authentication</li>
-                    </ul>
-                </div>
-            </div>
+          <div class="tech-category">
+            <h3>Developer Experience</h3>
+            <ul class="tech-list">
+              <li>
+                <span class="tech-name">Web6 Framework</span>
+                <span class="tech-desc">Sovereign data with cross-platform credential portability</span>
+              </li>
+              <li>
+                <span class="tech-name">TypeScript 6.0 SDK</span>
+                <span class="tech-desc">AI-assisted type inference and contract binding</span>
+              </li>
+              <li>
+                <span class="tech-name">Federated GraphQL</span>
+                <span class="tech-desc">Decentralized query resolvers with privacy controls</span>
+              </li>
+              <li>
+                <span class="tech-name">Universal Component System</span>
+                <span class="tech-desc">Compile-to-any-framework UI components</span>
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <div class="tech-links">
+          <a href="whitepaper.html" class="link-button">Read the Whitepaper</a>
+          <a href="https://github.com/streaming-protocol" class="link-button">View on GitHub</a>
+          <a href="docs/api" class="link-button">API Documentation</a>
+          <a href="technology-stack.html" class="link-button">Full Tech Stack Details</a>
+        </div>
+      </div>
     </section>
 
     <!-- Token Section -->
     <section class="section" id="token">
-        <div class="container">
-            <h2 class="center-text">STREAM Token Economics</h2>
+      <div class="container">
+        <h2 class="center-text">StreamToken (STRM)</h2>
+        <p class="center-text">The native utility token powering our entire ecosystem.</p>
 
-            <div class="token-info">
-                <h3>Token Overview</h3>
-                <table>
-                    <tr>
-                        <th>Parameter</th>
-                        <th>Value</th>
-                    </tr>
-                    <tr>
-                        <td>Name</td>
-                        <td>Streaming Credits</td>
-                    </tr>
-                    <tr>
-                        <td>Symbol</td>
-                        <td>STRM</td>
-                    </tr>
-                    <tr>
-                        <td>Standard</td>
-                        <td>ERC-20</td>
-                    </tr>
-                    <tr>
-                        <td>Initial Supply</td>
-                        <td>100,000,000 STRM</td>
-                    </tr>
-                </table>
-
-                <h3>Token Utility</h3>
-                <ul>
-                    <li><strong>Content Access:</strong> Pay-per-view or subscription models</li>
-                    <li><strong>Creator Payments:</strong> Direct compensation for content creators</li>
-                    <li><strong>Governance:</strong> Voting rights for token holders</li>
-                    <li><strong>Staking:</strong> Earn rewards by supporting network operations</li>
-                </ul>
-
-                <h3>Staking Mechanism</h3>
-                <p>The platform includes a staking system providing multiple benefits:</p>
-
-                <h4>Staking Tiers</h4>
-                <table>
-                    <tr>
-                        <th>Tier</th>
-                        <th>Required Stake</th>
-                        <th>Benefits</th>
-                    </tr>
-                    <tr>
-                        <td>Bronze</td>
-                        <td>100 STREAM</td>
-                        <td>5% fee reduction, basic profile features</td>
-                    </tr>
-                    <tr>
-                        <td>Silver</td>
-                        <td>1,000 STREAM</td>
-                        <td>10% fee reduction, enhanced discovery</td>
-                    </tr>
-                    <tr>
-                        <td>Gold</td>
-                        <td>10,000 STREAM</td>
-                        <td>20% fee reduction, premium features, early access</td>
-                    </tr>
-                    <tr>
-                        <td>Platinum</td>
-                        <td>100,000 STREAM</td>
-                        <td>30% fee reduction, revenue share, governance amplification</td>
-                    </tr>
-                </table>
-
-                <div style="margin-top: 1.5rem; text-align: center;">
-                    <a href="docs/token.html" class="button primary">Full Token Economics →</a>
-                </div>
+        <div class="token-info">
+          <div class="grid">
+            <div class="card">
+              <h3>Token Utility</h3>
+              <ul>
+                <li>Pay for content streaming at per-second rates</li>
+                <li>Stake tokens to receive platform rewards</li>
+                <li>Vote on governance proposals</li>
+                <li>Access premium creator content</li>
+                <li>Reduced fees for platform transactions</li>
+              </ul>
             </div>
+
+            <div class="card">
+              <h3>Token Economics</h3>
+              <table>
+                <tr>
+                  <th>Total Supply</th>
+                  <td>1,000,000,000 STRM</td>
+                </tr>
+                <tr>
+                  <th>Circulating Supply</th>
+                  <td>250,000,000 STRM</td>
+                </tr>
+                <tr>
+                  <th>Token Type</th>
+                  <td>ERC-20 / Multi-chain</td>
+                </tr>
+                <tr>
+                  <th>Launch Date</th>
+                  <td>August 15, 2025</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="card fade-in">
+            <h3>Token Distribution</h3>
+            <div class="token-chart">
+              <!-- Placeholder for chart - would be implemented with Chart.js or similar -->
+              <svg width="100%" height="200" viewBox="0 0 400 200">
+                <rect x="10" y="30" width="80" height="30" fill="#6e45e2" />
+                <text x="100" y="50" fill="currentColor">40% - Community Rewards</text>
+
+                <rect x="10" y="70" width="50" height="30" fill="#00d8ff" />
+                <text x="100" y="90" fill="currentColor">25% - Creator Incentives</text>
+
+                <rect x="10" y="110" width="30" height="30" fill="#ff5722" />
+                <text x="100" y="130" fill="currentColor">15% - Team & Advisors (3yr vesting)</text>
+
+                <rect x="10" y="150" width="20" height="30" fill="#48bb78" />
+                <text x="100" y="170" fill="currentColor">10% - Development Fund</text>
+
+                <rect x="210" y="150" width="20" height="30" fill="#ed8936" />
+                <text x="240" y="170" fill="currentColor">10% - Platform Reserve</text>
+              </svg>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h3>Web3 Crypto Streaming Service</h3>
-                    <p>Revolutionizing content distribution through blockchain technology.</p>
-                </div>
+    <!-- Education Section -->
+    <section class="section-alt" id="education">
+      <div class="container">
+        <h2 class="center-text">Learn Web3 Streaming</h2>
+        <p class="center-text">
+          Master the concepts behind decentralized content distribution with our free educational
+          resources.
+        </p>
 
-                <div>
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="docs/whitepaper.html">Whitepaper</a></li>
-                        <li><a href="docs/">Documentation</a></li>
-                        <li><a href="blog/">Blog</a></li>
-                    </ul>
-                </div>
+        <div class="grid">
+          <div class="card course-card fade-in">
+            <span class="course-level">Beginner</span>
+            <h3>Web3 Fundamentals</h3>
+            <p>
+              A beginner's guide to blockchain technology and how it's revolutionizing digital
+              content.
+            </p>
+            <ul class="course-details">
+              <li>5 lessons</li>
+              <li>2 hours of content</li>
+              <li>Interactive exercises</li>
+              <li>Free certificate</li>
+            </ul>
+            <a href="#" class="button primary">Start Learning</a>
+          </div>
 
-                <div>
-                    <h4>Community</h4>
-                    <ul>
-                        <li><a href="https://twitter.com/modsias">Twitter</a></li>
-                        <li><a href="https://discord.gg/web3streaming">Discord</a></li>
-                        <li><a href="https://t.me/web3streaming">Telegram</a></li>
-                    </ul>
-                </div>
+          <div class="card course-card fade-in">
+            <span class="course-level">Intermediate</span>
+            <h3>Creator Economics</h3>
+            <p>Learn how to leverage blockchain to monetize your content and grow your audience.</p>
+            <ul class="course-details">
+              <li>8 lessons</li>
+              <li>3.5 hours of content</li>
+              <li>Case studies</li>
+              <li>Creator tools overview</li>
+            </ul>
+            <a href="#" class="button primary">Start Learning</a>
+          </div>
 
-                <div>
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="legal/terms.html">Terms of Service</a></li>
-                        <li><a href="legal/privacy.html">Privacy Policy</a></li>
-                        <li><a href="legal/token-disclaimer.html">Token Disclaimer</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2024 Team MODSIAS | <a href="sitemap.html">Sitemap</a></p>
-            </div>
+          <div class="card course-card fade-in">
+            <span class="course-level">Advanced</span>
+            <h3>Blockchain Development</h3>
+            <p>
+              Deep dive into the technical side of Web3 streaming platforms and smart contracts.
+            </p>
+            <ul class="course-details">
+              <li>12 lessons</li>
+              <li>8 hours of content</li>
+              <li>Coding exercises</li>
+              <li>Developer certification</li>
+            </ul>
+            <a href="#" class="button primary">Start Learning</a>
+          </div>
         </div>
+
+        <div class="education-stats">
+          <div class="stat">
+            <span class="stat-number">50,000+</span>
+            <span class="stat-label">Students enrolled</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Courses available</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.8/5</span>
+            <span class="stat-label">Average course rating</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beta Access Section -->
+    <section class="section" id="beta">
+      <div class="container">
+        <h2 class="center-text">Request Beta Access</h2>
+        <p class="center-text">Be among the first to experience the future of Web3 streaming.</p>
+
+        <div class="card signup-card fade-in">
+          <form class="beta-form" id="beta-form">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="interest">I am a:</label>
+              <select id="interest" name="interest" required>
+                <option value="">Select one</option>
+                <option value="creator">Content Creator</option>
+                <option value="viewer">Viewer/Consumer</option>
+                <option value="investor">Investor</option>
+                <option value="developer">Developer</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="wallet">ETH Wallet Address (optional)</label>
+              <input type="text" id="wallet" name="wallet" />
+            </div>
+
+            <button type="submit" class="button primary full-width">Join Waitlist</button>
+          </form>
+
+          <div class="form-success hidden" id="form-success">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h3>Thank You!</h3>
+            <p>
+              Your application for beta access has been received. We'll contact you when your spot
+              is ready.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Continue to Iterate Section -->
+    <section class="section" id="continue-iterate">
+      <div class="container">
+        <h2 class="center-text">Continue to Iterate?</h2>
+        <p class="center-text">
+          We believe in continuous improvement. Help us shape the future of StreamChain.
+        </p>
+
+        <div class="iteration-container fade-in">
+          <div class="iteration-card">
+            <div class="iteration-header">
+              <h3>Next Platform Update</h3>
+              <div class="countdown-timer">
+                <div class="countdown-unit">
+                  <span id="countdown-days">00</span>
+                  <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-unit">
+                  <span id="countdown-hours">00</span>
+                  <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-unit">
+                  <span id="countdown-minutes">00</span>
+                  <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-unit">
+                  <span id="countdown-seconds">00</span>
+                  <span class="countdown-label">Seconds</span>
+                </div>
+              </div>
+            </div>
+            <div class="iteration-content">
+              <p>We iterate quickly, releasing new features every two weeks. Our next platform update includes:</p>
+              <ul class="feature-updates">
+                <li>Enhanced creator analytics dashboard</li>
+                <li>Multi-chain wallet support expansion</li>
+                <li>AI-powered content recommendation engine</li>
+                <li>Community-driven content curation tools</li>
+              </ul>
+              <div class="iteration-actions">
+                <button class="button primary" id="continue-iteration">Join Next Iteration</button>
+                <button class="button outline" id="provide-feedback">Suggest Feature</button>
+                <button class="button text" id="skip-iteration">Skip Iteration</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="iteration-stats">
+          <div class="stat">
+            <span class="stat-number">95%</span>
+            <span class="stat-label">Feature ideas implemented</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">14 days</span>
+            <span class="stat-label">Average iteration cycle</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">3,500+</span>
+            <span class="stat-label">Active community members</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Iteration Modal -->
+    <div id="iteration-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Continue to Iterate?</h2>
+        <p>We've detected you've been exploring our platform. Would you like to:</p>
+        <div class="modal-options">
+          <button class="button primary" id="join-iteration-modal">Join Next Iteration Cycle</button>
+          <button class="button outline" id="provide-feedback-modal">Provide Feedback</button>
+          <button class="button text" id="remind-later-modal">Remind Me Later</button>
+        </div>
+        <div class="modal-countdown">
+          <p>This prompt will close in <span id="modal-countdown-seconds">30</span> seconds</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <a href="#" class="footer-logo">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              StreamChain
+            </a>
+            <p>
+              Revolutionizing digital content distribution through blockchain technology and Web3
+              innovations since 2025.
+            </p>
+            <div class="newsletter">
+              <h4>Subscribe to our newsletter</h4>
+              <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+                <button type="submit" class="button primary small">Subscribe</button>
+              </form>
+            </div>
+            <div class="social-links">
+              <a href="#" aria-label="Twitter">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" aria-label="GitHub">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" aria-label="Discord">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.39-.444.885-.608 1.284a18.73 18.73 0 0 0-5.487 0 12.57 12.57 0 0 0-.617-1.284.077.077 0 0 0-.079-.036c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026 13.83 13.83 0 0 0 1.226-1.963.074.074 0 0 0-.041-.104 13.3 13.3 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.35-1.22.645-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" aria-label="Medium">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M8 21h8"></path>
+                  <path d="M12 21V8"></path>
+                  <path d="M17 3h4l-5.5 8L21 21h-4l-3.5-8Z"></path>
+                  <path d="M3 3h4l5.5 8-5.5 10H3l5.5-10Z"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul class="footer-links">
+              <li><a href="whitepaper.md">Whitepaper</a></li>
+              <li><a href="documentation.html">Documentation</a></li>
+              <li><a href="api.html">API Reference</a></li>
+              <li><a href="sdk.html">SDK</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="tutorials.html">Tutorials</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <ul class="footer-links">
+              <li><a href="creators.md">For Creators</a></li>
+              <li><a href="viewers.html">For Viewers</a></li>
+              <li><a href="developers.html">For Developers</a></li>
+              <li><a href="status.html">System Status</a></li>
+              <li><a href="governance-visualization.html">Governance</a></li>
+              <li><a href="roadmap.html">Roadmap</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul class="footer-links">
+              <li><a href="about.md">About Us</a></li>
+              <li><a href="team.html">Team</a></li>
+              <li><a href="careers.html">Careers</a></li>
+              <li><a href="investors.html">Investors</a></li>
+              <li><a href="partners.html">Partners</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-legal">
+            <p>&copy; 2025 StreamChain. All rights reserved.</p>
+            <div class="legal-links">
+              <a href="terms.md">Terms</a>
+              <a href="privacy.md">Privacy</a>
+              <a href="cookies.html">Cookies</a>
+              <a href="compliance.html">Compliance</a>
+            </div>
+          </div>
+          <div class="footer-settings">
+            <div class="language-selector">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <select id="language" aria-label="Select language">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="ja">日本語</option>
+                <option value="zh">中文</option>
+              </select>
+            </div>
+            <button id="accessibility-toggle" class="button small outline" aria-label="Accessibility options">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m16.2 10.9-1.2 6.9"></path>
+                <path d="m9 10.9-1.2 6.9"></path>
+                <path d="M12.5 4.5 12 9"></path>
+                <path d="M15 15H9"></path>
+              </svg>
+              Accessibility
+            </button>
+          </div>
+        </div>
+      </div>
     </footer>
-</body>
+
+    <!-- Cookie Banner -->
+    <div class="cookie-banner">
+      <div class="cookie-content">
+        <p>This website uses cookies to ensure you get the best experience.</p>
+        <div class="cookie-buttons">
+          <button class="button small outline" id="decline-cookies">Decline</button>
+          <button class="button small primary" id="accept-cookies">Accept All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m18 15-6-6-6 6"></path>
+      </svg>
+    </button>
+
+    <!-- JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/web3@1.9.0/dist/web3.min.js"
+      integrity="sha256-0+0rJOjuY1VAV1fjKUJJOa/+18+Pn0tDO1NZpWf+Pk="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // Theme switcher
+      const darkModeToggle = document.querySelector(".dark-mode-toggle");
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener("click", () => {
+          const currentTheme = document.documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+          document.documentElement.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+        });
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+      }
+
+      // Mobile menu toggle
+      const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+      const mainNav = document.querySelector(".main-nav");
+      if (mobileMenuToggle && mainNav) {
+        mobileMenuToggle.addEventListener("click", () => {
+          mainNav.classList.toggle("active");
+        });
+      }
+
+      // Back to top button
+      const backToTopButton = document.getElementById("back-to-top");
+      if (backToTopButton) {
+        window.addEventListener("scroll", () => {
+          if (window.pageYOffset > 300) {
+            backToTopButton.classList.add("visible");
+          } else {
+            backToTopButton.classList.remove("visible");
+          }
+        });
+
+        backToTopButton.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      // Cookie banner
+      const cookieBanner = document.querySelector(".cookie-banner");
+      const acceptCookies = document.getElementById("accept-cookies");
+      const declineCookies = document.getElementById("decline-cookies");
+
+      if (cookieBanner && acceptCookies && declineCookies) {
+        // Show cookie banner if not previously accepted
+        if (!localStorage.getItem("cookiesAccepted")) {
+          setTimeout(() => {
+            cookieBanner.classList.add("active");
+          }, 1000);
+        }
+
+        acceptCookies.addEventListener("click", () => {
+          localStorage.setItem("cookiesAccepted", "true");
+          cookieBanner.classList.remove("active");
+        });
+
+        declineCookies.addEventListener("click", () => {
+          localStorage.setItem("cookiesDeclined", "true");
+          cookieBanner.classList.remove("active");
+        });
+      }
+
+      // Beta signup form handling
+      const betaForm = document.getElementById("beta-form");
+      const formSuccess = document.getElementById("form-success");
+
+      if (betaForm) {
+        betaForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          // Normally would send form data to server here
+          betaForm.classList.add("hidden");
+          if (formSuccess) {
+            formSuccess.classList.remove("hidden");
+          }
+        });
+      }
+
+      // Enhanced Countdown Timer for Iteration Section
+      class CountdownTimer {
+        constructor(deadline, updateCallback, completeCallback) {
+          this.deadline = new Date(deadline).getTime();
+          this.updateCallback = updateCallback;
+          this.completeCallback = completeCallback;
+          this.interval = null;
+          this.remaining = {};
+          this.start();
+        }
+        
+        calculate() {
+          const now = new Date().getTime();
+          const distance = this.deadline - now;
+          
+          if (distance < 0) {
+            clearInterval(this.interval);
+            this.completeCallback();
+            return false;
+          }
+          
+          this.remaining = {
+            days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+            hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+            seconds: Math.floor((distance % (1000 * 60)) / 1000)
+          };
+          
+          this.updateCallback(this.remaining);
+          return true;
+        }
+        
+        start() {
+          // Calculate once immediately
+          if (this.calculate()) {
+            this.interval = setInterval(() => this.calculate(), 1000);
+          }
+        }
+        
+        stop() {
+          clearInterval(this.interval);
+        }
+        
+        reset(newDeadline) {
+          this.stop();
+          this.deadline = new Date(newDeadline).getTime();
+          this.start();
+        }
+      }
+
+      // Iteration Modal System with persistence
+      class IterationSystem {
+        constructor() {
+          this.modal = document.getElementById('iteration-modal');
+          this.closeBtn = document.querySelector('.close-modal');
+          this.modalCountdown = document.querySelector('.modal-countdown');
+          this.countdownDisplay = {
+            days: document.getElementById('countdown-days'),
+            hours: document.getElementById('countdown-hours'),
+            minutes: document.getElementById('countdown-minutes'),
+            seconds: document.getElementById('countdown-seconds')
+          };
+          this.continueBtn = document.getElementById('continue-iteration');
+          this.feedbackBtn = document.getElementById('provide-feedback');
+          this.skipBtn = document.getElementById('skip-iteration');
+          this.modalTimerCount = 30; // Seconds before modal auto-closes
+          this.remainingModalTime = this.modalTimerCount;
+          this.modalTimer = null;
+          this.STORAGE_KEY = 'streamchain_iterations';
+          this.iterationData = this.loadIterationData();
+          
+          // Set next check time if not present
+          if (!this.iterationData.nextCheckTime) {
+            this.setNextCheckTime();
+          }
+          
+          this.initializeTimers();
+          this.attachEventListeners();
+          this.checkShouldShowModal();
+        }
+        
+        loadIterationData() {
+          const defaultData = {
+            currentIteration: 1,
+            participatedIterations: 0,
+            skippedIterations: 0,
+            lastInteractionTime: new Date().toISOString(),
+            nextCheckTime: null,
+            deadlineTime: this.getDeadlineTime()
+          };
+          
+          try {
+            const savedData = localStorage.getItem(this.STORAGE_KEY);
+            return savedData ? JSON.parse(savedData) : defaultData;
+          } catch (e) {
+            console.error('Error loading iteration data:', e);
+            return defaultData;
+          }
+        }
+        
+        saveIterationData() {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.iterationData));
+        }
+        
+        setNextCheckTime(minutesFromNow = 30) {
+          const nextCheck = new Date();
+          nextCheck.setMinutes(nextCheck.getMinutes() + minutesFromNow);
+          this.iterationData.nextCheckTime = nextCheck.toISOString();
+          this.saveIterationData();
+        }
+        
+        getDeadlineTime() {
+          // Create a deadline 30 days from now
+          const deadline = new Date();
+          deadline.setDate(deadline.getDate() + 30);
+          return deadline.toISOString();
+        }
+        
+        checkShouldShowModal() {
+          // Check if enough time has passed since the next check time
+          if (!this.iterationData.nextCheckTime) return;
+          
+          const nextCheck = new Date(this.iterationData.nextCheckTime);
+          const now = new Date();
+          
+          if (now >= nextCheck) {
+            // We're past the next check time, show modal
+            setTimeout(() => this.showModal(), 10000); // Show after 10 seconds on page
+          }
+        }
+        
+        showModal() {
+          if (this.modal) {
+            this.modal.classList.add('active');
+            this.startModalCountdown();
+            
+            // Add entrance animation class
+            this.modal.querySelector('.modal-content').classList.add('bounce-in');
+          }
+        }
+        
+        hideModal() {
+          if (this.modal) {
+            // Add exit animation
+            const modalContent = this.modal.querySelector('.modal-content');
+            modalContent.classList.add('fade-out');
+            
+            // Remove modal after animation completes
+            setTimeout(() => {
+              this.modal.classList.remove('active');
+              modalContent.classList.remove('fade-out');
+              modalContent.classList.remove('bounce-in');
+            }, 300);
+          }
+          
+          this.stopModalCountdown();
+        }
+        
+        startModalCountdown() {
+          this.remainingModalTime = this.modalTimerCount;
+          this.updateModalCountdown();
+          
+          this.modalTimer = setInterval(() => {
+            this.remainingModalTime--;
+            this.updateModalCountdown();
+            
+            if (this.remainingModalTime <= 0) {
+              this.hideModal();
+              this.setNextCheckTime();
+            }
+          }, 1000);
+        }
+        
+        stopModalCountdown() {
+          clearInterval(this.modalTimer);
+        }
+        
+        updateModalCountdown() {
+          if (this.modalCountdown) {
+            this.modalCountdown.textContent = `This prompt will close in ${this.remainingModalTime} seconds`;
+          }
+        }
+        
+        initializeTimers() {
+          // Set up the main countdown timer
+          if (this.countdownDisplay.days) {
+            this.countdownTimer = new CountdownTimer(
+              this.iterationData.deadlineTime,
+              (timeLeft) => {
+                // Update displayed countdown
+                for (const [unit, element] of Object.entries(this.countdownDisplay)) {
+                  if (element) {
+                    element.textContent = String(timeLeft[unit]).padStart(2, '0');
+                  }
+                }
+              },
+              () => {
+                // When countdown completes
+                this.iterationData.currentIteration++;
+                this.iterationData.deadlineTime = this.getDeadlineTime();
+                this.saveIterationData();
+                this.countdownTimer.reset(this.iterationData.deadlineTime);
+              }
+            );
+          }
+        }
+        
+        attachEventListeners() {
+          if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => {
+              this.hideModal();
+              this.setNextCheckTime();
+            });
+          }
+          
+          if (this.continueBtn) {
+            this.continueBtn.addEventListener('click', () => {
+              this.iterationData.participatedIterations++;
+              this.iterationData.lastInteractionTime = new Date().toISOString();
+              this.saveIterationData();
+              this.hideModal();
+              this.setNextCheckTime(60 * 24); // Check again in 24 hours
+              
+              // Show thank you message
+              alert('Thank you for continuing to the next iteration! Your feedback helps improve StreamChain.');
+            });
+          }
+          
+          if (this.feedbackBtn) {
+            this.feedbackBtn.addEventListener('click', () => {
+              this.iterationData.participatedIterations++;
+              this.iterationData.lastInteractionTime = new Date().toISOString();
+              this.saveIterationData();
+              this.hideModal();
+              this.setNextCheckTime(60 * 12); // Check again in 12 hours
+              
+              // Redirect to feedback form or open modal
+              window.location.href = '#beta';
+            });
+          }
+          
+          if (this.skipBtn) {
+            this.skipBtn.addEventListener('click', () => {
+              this.iterationData.skippedIterations++;
+              this.iterationData.lastInteractionTime = new Date().toISOString();
+              this.saveIterationData();
+              this.hideModal();
+              this.setNextCheckTime(60 * 48); // Check again in 48 hours
+            });
+          }
+        }
+      }
+      
+      // Initialize the iteration system
+      document.addEventListener('DOMContentLoaded', () => {
+        const iterationSystem = new IterationSystem();
+        
+        // Pulse animation for Call-to-Action buttons
+        const pulseButtons = document.querySelectorAll('.button.primary');
+        pulseButtons.forEach(button => {
+          setInterval(() => {
+            button.classList.add('pulse');
+            setTimeout(() => button.classList.remove('pulse'), 1000);
+          }, 10000);
+        });
+      });
+    </script>
+  </body>
 </html>

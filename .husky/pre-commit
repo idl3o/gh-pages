@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Use npx to run lint-staged with better path resolution
+npx --no-install lint-staged

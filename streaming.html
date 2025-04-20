@@ -3,59 +3,132 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web3 Streaming Player Demo</title>
+    <meta
+      name="description"
+      content="Web3 Streaming Platform with decentralized content delivery and crypto payment channels"
+    />
+    <title>Web3 Streaming Player - 2025 Edition</title>
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="icon" href="assets/images/favicon.ico" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- IPFS Client Library -->
-    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <!-- Modern module imports -->
+    <script type="module">
+      import { Buffer } from 'buffer';
+      window.Buffer = Buffer;
+    </script>
     <style>
+      :root {
+        --primary-color: #4a8eff;
+        --secondary-color: #5d5fef;
+        --success-color: #4caf50;
+        --warning-color: #ff9800;
+        --error-color: #f44336;
+        --background-dark: #121212;
+        --background-light: #f9fafc;
+        --text-dark: #121212;
+        --text-light: #ffffff;
+      }
+
+      .dark-mode {
+        --bg-primary: var(--background-dark);
+        --text-primary: var(--text-light);
+      }
+
+      .light-mode {
+        --bg-primary: var(--background-light);
+        --text-primary: var(--text-dark);
+      }
+
+      body {
+        transition: background-color 0.3s ease;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      .streaming-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
       .quality-selector {
         margin-top: 10px;
         padding: 8px;
-        border-radius: 4px;
+        border-radius: 8px;
         background-color: rgba(0, 0, 0, 0.7);
         display: inline-flex;
         align-items: center;
       }
+
       .quality-option {
         margin: 0 8px;
         cursor: pointer;
-        padding: 4px 8px;
-        border-radius: 3px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
       }
+
+      .quality-option:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
       .quality-option.active {
-        background-color: #4a8eff;
+        background-color: var(--primary-color);
       }
+
       .payment-status {
         display: flex;
         align-items: center;
         margin-top: 10px;
         padding: 6px 12px;
-        border-radius: 4px;
+        border-radius: 8px;
         background-color: rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
       }
+
       .payment-status .status-dot {
         width: 12px;
         height: 12px;
         border-radius: 50%;
         margin-right: 8px;
       }
+
       .payment-status .status-dot.active {
-        background-color: #4caf50;
-        box-shadow: 0 0 8px #4caf50;
+        background-color: var(--success-color);
+        box-shadow: 0 0 8px var(--success-color);
       }
+
       .payment-status .status-dot.inactive {
-        background-color: #f44336;
+        background-color: var(--error-color);
       }
+
       .payment-status .status-dot.pending {
-        background-color: #ff9800;
+        background-color: var(--warning-color);
         animation: pulse 1.5s infinite;
       }
+
       @keyframes pulse {
         0% {
           opacity: 0.6;
@@ -67,18 +140,437 @@
           opacity: 0.6;
         }
       }
+
       .ipfs-info {
         margin-top: 10px;
         font-size: 0.9em;
         color: #666;
+        padding: 8px;
+        border-radius: 8px;
+        background-color: rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.1);
       }
+
+      .stream-status {
+        padding: 16px;
+        margin: 16px 0;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
       .stream-status.active {
         background-color: rgba(76, 175, 80, 0.1);
-        border-color: #4caf50;
+        border-color: var(--success-color);
+      }
+
+      .stream-status.inactive {
+        background-color: rgba(244, 67, 54, 0.05);
+        border-color: rgba(244, 67, 54, 0.3);
+      }
+
+      .video-container {
+        position: relative;
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #000;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        aspect-ratio: 16 / 9;
+      }
+
+      .video-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      #player-placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 1rem;
+      }
+
+      #player-placeholder svg {
+        margin-bottom: 1rem;
+        width: 64px;
+        height: 64px;
+        opacity: 0.6;
+      }
+
+      .content-info {
+        padding: 1.5rem;
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .control-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .control-group {
+        padding: 1.5rem;
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .control-group:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 0.5rem 0 1rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(74, 142, 255, 0.2);
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 0.25rem 0.5rem 0.25rem 0;
+      }
+
+      .btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(74, 142, 255, 0.25);
+      }
+
+      .btn-secondary {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: var(--text-dark);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-secondary:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .btn-success {
+        background-color: var(--success-color);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background-color: #3d9140;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.25);
+      }
+
+      .log-container {
+        height: 200px;
+        overflow-y: auto;
+        padding: 1rem;
+        border-radius: 8px;
+        background-color: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .log-container > div {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 4px 0;
+      }
+
+      .log-container > div:last-child {
+        border-bottom: none;
+      }
+
+      .network-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+        color: white;
+        background-color: #333;
+        margin-left: 8px;
+      }
+
+      .network-badge[data-network='mainnet'] {
+        background-color: #29b6af;
+      }
+
+      .network-badge[data-network='ethereum'] {
+        background-color: #627eea;
+      }
+
+      .network-badge[data-network='polygon'] {
+        background-color: #8247e5;
+      }
+
+      .network-badge[data-network='optimism'] {
+        background-color: #ff0420;
+      }
+
+      .network-badge[data-network='arbitrum'] {
+        background-color: #28a0f0;
+      }
+
+      .network-badge[data-network='base'] {
+        background-color: #0052ff;
+      }
+
+      .wallet-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .wallet-status.connected {
+        color: white;
+        background-color: var(--success-color);
+      }
+
+      .wallet-status.disconnected {
+        color: white;
+        background-color: var(--error-color);
+      }
+
+      .progress-container {
+        width: 100%;
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        margin: 10px 0;
+        height: 6px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background-color: var(--primary-color);
+        border-radius: 10px;
+        transition: width 0.3s ease;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 1px;
+        margin-bottom: 16px;
+      }
+
+      .tab {
+        padding: 10px 16px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+        flex: 1;
+        text-align: center;
+      }
+
+      .tab.active {
+        border-bottom-color: var(--primary-color);
+        color: var(--primary-color);
+        font-weight: 500;
+      }
+
+      .tab-panes > div {
+        display: none;
+      }
+
+      .tab-panes > div.active {
+        display: block;
+        animation: fadeIn 0.5s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .token-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-weight: 600;
+        font-size: 14px;
+        background-color: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin: 0 4px;
+      }
+
+      .token-badge img {
+        width: 18px;
+        height: 18px;
+        margin-right: 6px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .badge.success {
+        color: white;
+        background-color: var(--success-color);
+      }
+
+      .badge.warning {
+        color: #333;
+        background-color: var(--warning-color);
+      }
+
+      .badge.error {
+        color: white;
+        background-color: var(--error-color);
+      }
+
+      .nft-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .nft-card {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .nft-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .nft-image {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+
+      .nft-details {
+        padding: 1rem;
+      }
+
+      .nft-title {
+        font-weight: 600;
+        margin: 0 0 5px;
+      }
+
+      .nft-creator {
+        font-size: 0.8rem;
+        color: #666;
+      }
+
+      /* Loader styling */
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--primary-color);
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .streaming-container {
+          padding: 1rem;
+        }
+
+        .control-section {
+          grid-template-columns: 1fr;
+        }
+
+        .quality-selector {
+          flex-wrap: wrap;
+        }
+      }
+
+      /* Web3Modal overrides */
+      .w3m-modal {
+        --w3m-accent-color: var(--primary-color) !important;
+        --w3m-accent-fill-color: white !important;
       }
     </style>
   </head>
-  <body>
+  <body class="light-mode">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="theme-toggle">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
       <div class="container">
@@ -102,7 +594,22 @@
         <div class="video-container">
           <video id="video-player" controls style="display: none"></video>
           <div id="player-placeholder">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="10 8 16 12 10 16 10 8"></polygon>
+            </svg>
             <p>Connect your wallet and start streaming to watch videos</p>
+            <div id="stream-loader" class="loader" style="display: none"></div>
           </div>
 
           <!-- Video quality selector (shown when video is playing) -->
@@ -117,12 +624,26 @@
         <div class="content-info">
           <h2>Currently Selected: <span id="content-title">Blockchain Basics</span></h2>
           <p id="content-description">An introduction to blockchain technology fundamentals.</p>
-          <p><strong>Creator:</strong> <span id="content-creator">Team MODSIAS</span></p>
+          <p>
+            <strong>Creator:</strong> <span id="content-creator">Team MODSIAS</span>
+            <span id="creator-verified" class="badge success" style="display: none">Verified</span>
+          </p>
           <div id="content-id" style="display: none">content_001</div>
 
           <div class="stream-status inactive" id="stream-status">
             <h3>Stream Status: <span id="status-text">Inactive</span></h3>
             <p id="status-info">Purchase access to start streaming</p>
+
+            <!-- Stream progress tracking -->
+            <div id="stream-progress-container" style="display: none">
+              <div class="progress-container">
+                <div class="progress-bar" id="stream-progress" style="width: 0%"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 12px">
+                <span>0:00</span>
+                <span id="stream-duration">0:00</span>
+              </div>
+            </div>
 
             <!-- Payment channel status -->
             <div class="payment-status" style="display: none" id="payment-status">
@@ -130,119 +651,351 @@
               <span id="payment-text">Payment Channel: Inactive</span>
             </div>
 
-            <!-- IPFS connection info -->
+            <!-- IPFS/Livepeer connection info -->
             <div class="ipfs-info" id="ipfs-info" style="display: none">
-              <p>IPFS Gateway: <span id="ipfs-gateway">Not connected</span></p>
-              <p>Content CID: <span id="content-cid">-</span></p>
+              <p>Content Delivery: <span id="delivery-method">Not connected</span></p>
+              <p>Content ID: <span id="content-cid">-</span></p>
+              <p id="stream-metrics" style="display: none">
+                Data transferred: <span id="data-transferred">0 KB</span> | Streaming rate:
+                <span id="streaming-rate">0 KB/s</span>
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Control Section -->
+      <!-- Control Tabs -->
       <section class="player-section">
-        <h2>Stream Controls</h2>
-
-        <div class="control-section">
-          <!-- Wallet Connection -->
-          <div class="control-group">
-            <h3>Wallet Connection</h3>
-            <p>
-              Wallet Status:
-              <span class="wallet-status disconnected" id="wallet-status">Disconnected</span>
-            </p>
-            <p id="wallet-address">No wallet connected</p>
-            <p>Network: <span id="network-name">Unknown</span></p>
-            <button id="connect-wallet" class="btn btn-primary">Connect Wallet</button>
-            <button id="disconnect-wallet" class="btn btn-secondary" style="display: none">
-              Disconnect
-            </button>
-          </div>
-
-          <!-- Content Selection -->
-          <div class="control-group">
-            <h3>Content Selection</h3>
-            <p>Choose content to stream:</p>
-            <select id="content-selector" class="form-control">
-              <option value="Qmabcdef1">Blockchain Basics</option>
-              <option value="Qmabcdef2">Smart Contract Development</option>
-              <option value="Qmabcdef3">Web3 Integration Guide</option>
-              <option value="local_fallback">Consensus Mechanisms (Local)</option>
-            </select>
-            <button id="check-access" class="btn btn-secondary">Check Access</button>
-          </div>
+        <div class="tabs">
+          <div class="tab active" data-tab="stream-controls">Stream Controls</div>
+          <div class="tab" data-tab="nfts">NFT Access Keys</div>
+          <div class="tab" data-tab="advanced">Advanced Settings</div>
         </div>
 
-        <div class="control-section">
-          <!-- Purchase Credits -->
-          <div class="control-group">
-            <h3>Purchase Credits</h3>
-            <p>Buy STRM tokens to access content</p>
-            <input
-              type="text"
-              id="purchase-amount"
-              value="0.01"
-              class="form-control"
-              placeholder="ETH Amount"
-            />
-            <button id="purchase-credits" class="btn btn-primary">Purchase</button>
-          </div>
+        <div class="tab-panes">
+          <!-- Stream Controls Tab -->
+          <div class="tab-pane active" id="stream-controls-pane">
+            <div class="control-section">
+              <!-- Wallet Connection -->
+              <div class="control-group">
+                <h3>Wallet Connection</h3>
+                <div id="wallet-connect-button"></div>
+                <p style="margin-top: 1rem">
+                  Wallet Status:
+                  <span class="wallet-status disconnected" id="wallet-status">Disconnected</span>
+                </p>
+                <p id="wallet-address">No wallet connected</p>
+                <p>
+                  Network: <span id="network-name">Unknown</span>
+                  <span id="network-badge" class="network-badge">-</span>
+                </p>
+              </div>
 
-          <!-- Stream Control -->
-          <div class="control-group">
-            <h3>Stream Control</h3>
-            <p>Current Balance: <span id="token-balance">0 STRM</span></p>
-            <button id="start-stream" class="btn btn-success">Start Streaming</button>
-            <button id="stop-stream" class="btn btn-secondary" style="display: none">
-              Stop Streaming
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Advanced Settings -->
-      <section class="player-section">
-        <h2>Advanced Settings</h2>
-        <div class="control-section">
-          <div class="control-group">
-            <h3>Auto-Commit</h3>
-            <p>Enable automatic payment commitments</p>
-            <div class="form-group">
-              <label for="auto-commit-duration">Duration (hours):</label>
-              <input
-                type="number"
-                id="auto-commit-duration"
-                value="1"
-                min="0.5"
-                max="24"
-                step="0.5"
-                class="form-control"
-              />
+              <!-- Content Selection -->
+              <div class="control-group">
+                <h3>Content Selection</h3>
+                <p>Choose content to stream:</p>
+                <select id="content-selector" class="form-control">
+                  <option value="bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi">
+                    Blockchain Basics
+                  </option>
+                  <option value="bafybeibnsoufr2renqzsh347nrx5ghtad4e4eygadw2abed4dp5fmdisea">
+                    Smart Contract Development
+                  </option>
+                  <option value="bafybeihegpmobz3g2dkmfozfvt42hfgilxgxd7yfkm6zahgcehg2mxdh2e">
+                    Web3 Integration Guide
+                  </option>
+                  <option value="local_fallback">Consensus Mechanisms (Local)</option>
+                </select>
+                <button id="check-access" class="btn btn-secondary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  Check Access
+                </button>
+              </div>
             </div>
-            <button id="enable-auto-commit" class="btn btn-secondary">Enable</button>
-            <button id="disable-auto-commit" class="btn btn-secondary" style="display: none">
-              Disable
-            </button>
-          </div>
 
-          <div class="control-group">
-            <h3>IPFS Settings</h3>
-            <div class="form-group">
-              <label for="gateway-selector">IPFS Gateway:</label>
-              <select id="gateway-selector" class="form-control">
-                <option value="auto">Auto (Fastest)</option>
-                <option value="ipfs.io">ipfs.io</option>
-                <option value="cloudflare-ipfs.com">Cloudflare</option>
-                <option value="gateway.pinata.cloud">Pinata</option>
-                <option value="ipfs.infura.io">Infura</option>
-              </select>
+            <div class="control-section">
+              <!-- Purchase Credits -->
+              <div class="control-group">
+                <h3>Purchase Credits</h3>
+                <p>Buy STRM tokens to access content</p>
+                <div id="token-balance-display">
+                  Current Balance:
+                  <span class="token-badge">
+                    <img src="assets/images/stream-token.png" alt="STRM" />
+                    <span id="token-balance">0 STRM</span>
+                  </span>
+                </div>
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem">
+                  <input
+                    type="text"
+                    id="purchase-amount"
+                    value="0.01"
+                    class="form-control"
+                    placeholder="ETH Amount"
+                    style="max-width: 120px"
+                  />
+                  <button id="purchase-credits" class="btn btn-primary">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="12" y1="1" x2="12" y2="23"></line>
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    Purchase
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stream Control -->
+              <div class="control-group">
+                <h3>Stream Control</h3>
+                <p>Start and stop your streaming session</p>
+                <button id="start-stream" class="btn btn-success">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Start Streaming
+                </button>
+                <button id="stop-stream" class="btn btn-secondary" style="display: none">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="6" y="6" width="12" height="12" rx="2" ry="2"></rect>
+                  </svg>
+                  Stop Streaming
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="control-group">
-            <h3>Debug Tools</h3>
-            <button id="toggle-debug" class="btn btn-secondary">Enable Debug Mode</button>
-            <button id="get-status" class="btn btn-secondary">Status Report</button>
+          <!-- NFT Access Keys Tab -->
+          <div class="tab-pane" id="nfts-pane">
+            <div class="control-section">
+              <div class="control-group" style="grid-column: 1 / -1">
+                <h3>Access NFTs</h3>
+                <p>Your streaming access NFTs provide unlimited access to specific content</p>
+
+                <div class="nft-container" id="nft-container">
+                  <p>Connect your wallet to view your access NFTs</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <div class="control-group">
+                <h3>Purchase Access NFT</h3>
+                <p>Buy permanent access to premium content</p>
+                <select id="nft-content-selector" class="form-control">
+                  <option value="1">Blockchain Basics Course</option>
+                  <option value="2">Smart Contract Masterclass</option>
+                  <option value="3">Web3 Developer Bundle</option>
+                </select>
+                <div style="display: flex; align-items: center; margin-top: 0.5rem">
+                  <span>Price:</span>
+                  <span class="token-badge" style="margin-left: 0.5rem">
+                    <img src="assets/images/eth-logo.png" alt="ETH" />
+                    <span id="nft-price">0.1 ETH</span>
+                  </span>
+                </div>
+                <button id="purchase-nft" class="btn btn-primary" style="margin-top: 1rem">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                  Purchase NFT Access
+                </button>
+              </div>
+
+              <div class="control-group">
+                <h3>NFT Benefits</h3>
+                <ul style="padding-left: 1.5rem">
+                  <li>Unlimited access to specific content</li>
+                  <li>No recurring payments required</li>
+                  <li>Transferable ownership</li>
+                  <li>Exclusive creator events</li>
+                  <li>Future content airdrops</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Advanced Settings Tab -->
+          <div class="tab-pane" id="advanced-pane">
+            <div class="control-section">
+              <div class="control-group">
+                <h3>Auto-Commit</h3>
+                <p>Enable automatic payment commitments</p>
+                <div class="form-group">
+                  <label for="auto-commit-duration">Duration (hours):</label>
+                  <input
+                    type="number"
+                    id="auto-commit-duration"
+                    value="1"
+                    min="0.5"
+                    max="24"
+                    step="0.5"
+                    class="form-control"
+                  />
+                </div>
+                <button id="enable-auto-commit" class="btn btn-secondary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                  </svg>
+                  Enable
+                </button>
+                <button id="disable-auto-commit" class="btn btn-secondary" style="display: none">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                  </svg>
+                  Disable
+                </button>
+              </div>
+
+              <div class="control-group">
+                <h3>Content Delivery</h3>
+                <div class="form-group">
+                  <label for="delivery-selector">Content Delivery Method:</label>
+                  <select id="delivery-selector" class="form-control">
+                    <option value="auto">Auto (Best Available)</option>
+                    <option value="livepeer">Livepeer</option>
+                    <option value="ipfs">IPFS</option>
+                    <option value="arweave">Arweave</option>
+                    <option value="local">Local Fallback</option>
+                  </select>
+                </div>
+
+                <div class="form-group" id="ipfs-gateway-group" style="margin-top: 1rem">
+                  <label for="gateway-selector">IPFS Gateway:</label>
+                  <select id="gateway-selector" class="form-control">
+                    <option value="auto">Auto (Fastest)</option>
+                    <option value="ipfs.io">ipfs.io</option>
+                    <option value="cloudflare-ipfs.com">Cloudflare</option>
+                    <option value="gateway.pinata.cloud">Pinata</option>
+                    <option value="ipfs.infura.io">Infura</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <h3>Debug Tools</h3>
+                <button id="toggle-debug" class="btn btn-secondary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                    ></path>
+                  </svg>
+                  Enable Debug Mode
+                </button>
+                <button id="get-status" class="btn btn-secondary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                  Status Report
+                </button>
+
+                <div
+                  id="debug-info"
+                  style="
+                    display: none;
+                    margin-top: 1rem;
+                    padding: 0.75rem;
+                    border-radius: 8px;
+                    background-color: rgba(0, 0, 0, 0.05);
+                    font-family: monospace;
+                    font-size: 12px;
+                  "
+                >
+                  <pre id="debug-content">Debug information will appear here when enabled</pre>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -253,7 +1006,24 @@
         <div class="log-container" id="activity-log">
           <div>Player initialized. Ready for wallet connection...</div>
         </div>
-        <button id="clear-log" class="btn btn-secondary" style="margin-top: 10px">Clear Log</button>
+        <button id="clear-log" class="btn btn-secondary" style="margin-top: 10px">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+            ></path>
+          </svg>
+          Clear Log
+        </button>
       </section>
     </div>
 
@@ -277,7 +1047,7 @@
           <div class="footer-section">
             <h3>Resources</h3>
             <ul>
-              <li><a href="whitepaper/web3-streaming-service-whitepaper.html">Whitepaper</a></li>
+              <li><a href="web3-streaming-service-whitepaper.html">Whitepaper</a></li>
               <li><a href="#">Documentation</a></li>
               <li><a href="https://github.com/" target="_blank">GitHub</a></li>
             </ul>
@@ -297,470 +1067,124 @@
       </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="assets/js/network-config.js"></script>
-    <script src="assets/js/wallet-connector.js"></script>
-    <script src="assets/js/contract-manager.js"></script>
-    <script src="assets/js/video-loader.js"></script>
-    <script src="assets/js/player-helper.js"></script>
-    <script src="assets/js/ipfs-streaming.js"></script>
+    <!-- Modern module imports -->
+    <script type="module">
+      // Import libraries
+      import { ethers } from '/node_modules/ethers/dist/ethers.min.js';
+      import {
+        createWeb3Modal,
+        defaultWagmiConfig
+      } from '/node_modules/@web3modal/wagmi/dist/index.js';
+      import { mainnet, polygon, optimism, arbitrum, base } from '/node_modules/wagmi/chains';
+      import {
+        LivepeerConfig,
+        createReactClient,
+        studioProvider
+      } from '/node_modules/@livepeer/react';
 
-    <script>
-      // Initialize components
+      // Initialize Web3Modal
+      const chains = [mainnet, polygon, optimism, arbitrum, base];
+
+      // Web3Modal and Wagmi configuration
+      const projectId = 'YOUR_WALLETCONNECT_PROJECT_ID'; // Replace with your actual project ID
+
+      const metadata = {
+        name: 'Web3 Streaming Platform',
+        description: 'Decentralized content streaming with crypto payments',
+        url: 'https://web3streaming.example',
+        icons: ['https://avatars.githubusercontent.com/u/37784886']
+      };
+
+      const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
+      const web3Modal = createWeb3Modal({ wagmiConfig, projectId, chains });
+
+      // Livepeer configuration
+      const livepeerClient = createReactClient({
+        provider: studioProvider({ apiKey: 'YOUR_LIVEPEER_API_KEY' }) // Replace with your API key
+      });
+
+      // App initialization
       document.addEventListener('DOMContentLoaded', function () {
         // Set up log function
         const log = function (message) {
           const logContainer = document.getElementById('activity-log');
           const logEntry = document.createElement('div');
-          logEntry.textContent = message;
+          const timestamp = new Date().toLocaleTimeString();
+          logEntry.textContent = `[${timestamp}] ${message}`;
           logContainer.appendChild(logEntry);
           logContainer.scrollTop = logContainer.scrollHeight;
         };
 
-        // Initialize objects
-        const networkConfig = new NetworkConfig();
-        const walletConnector = new WalletConnector({
-          supportedNetworks: [1, 5, 56, 97, 1337, 31337], // Added local networks
-          preferredNetwork: 5 // Goerli as preferred
-        });
-        const contractManager = new ContractManager({
-          walletConnector: walletConnector
-        });
-        const videoLoader = new VideoLoader();
-        const playerHelper = new PlayerHelper({
-          walletConnector: walletConnector,
-          contractManager: contractManager,
-          videoLoader: videoLoader,
-          networkConfig: networkConfig
+        // Initialize Web3 streaming components
+        const walletConnector = new WalletConnector({ web3Modal, chains });
+        const contractManager = new ContractManager({ walletConnector });
+        const mediaProvider = new MediaProvider({
+          walletConnector,
+          livepeerClient,
+          contractManager
         });
 
-        // Initialize IPFS streaming
-        const ipfsStreaming = new IPFSStreaming({
-          walletConnector: walletConnector,
-          contractManager: contractManager,
-          networkConfig: networkConfig
+        // Initialize UI components
+        const ui = new UIController({
+          walletConnector,
+          contractManager,
+          mediaProvider
         });
 
-        // UI Elements
-        const walletStatus = document.getElementById('wallet-status');
-        const walletAddress = document.getElementById('wallet-address');
-        const networkName = document.getElementById('network-name');
-        const connectBtn = document.getElementById('connect-wallet');
-        const disconnectBtn = document.getElementById('disconnect-wallet');
-        const contentSelector = document.getElementById('content-selector');
-        const contentTitle = document.getElementById('content-title');
-        const contentDescription = document.getElementById('content-description');
-        const contentCreator = document.getElementById('content-creator');
-        const contentId = document.getElementById('content-id');
-        const streamStatus = document.getElementById('stream-status');
-        const statusText = document.getElementById('status-text');
-        const statusInfo = document.getElementById('status-info');
-        const checkAccessBtn = document.getElementById('check-access');
-        const purchaseAmount = document.getElementById('purchase-amount');
-        const purchaseBtn = document.getElementById('purchase-credits');
-        const tokenBalance = document.getElementById('token-balance');
-        const startStreamBtn = document.getElementById('start-stream');
-        const stopStreamBtn = document.getElementById('stop-stream');
-        const autoCommitDuration = document.getElementById('auto-commit-duration');
-        const enableAutoCommitBtn = document.getElementById('enable-auto-commit');
-        const disableAutoCommitBtn = document.getElementById('disable-auto-commit');
-        const toggleDebugBtn = document.getElementById('toggle-debug');
-        const getStatusBtn = document.getElementById('get-status');
-        const clearLogBtn = document.getElementById('clear-log');
-        const videoPlayer = document.getElementById('video-player');
-        const playerPlaceholder = document.getElementById('player-placeholder');
-        const qualitySelector = document.getElementById('quality-selector');
-        const paymentStatus = document.getElementById('payment-status');
-        const paymentDot = document.getElementById('payment-dot');
-        const paymentText = document.getElementById('payment-text');
-        const ipfsInfo = document.getElementById('ipfs-info');
-        const ipfsGateway = document.getElementById('ipfs-gateway');
-        const contentCid = document.getElementById('content-cid');
-        const gatewaySelector = document.getElementById('gateway-selector');
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+          document.body.classList.toggle('light-mode');
 
-        // Event Listeners
-        connectBtn.addEventListener('click', async () => {
-          try {
-            log('Connecting to wallet...');
-            await walletConnector.connect();
-            log('Wallet connected successfully');
-          } catch (error) {
-            log(`Error connecting to wallet: ${error.message}`);
-          }
-        });
-
-        disconnectBtn.addEventListener('click', async () => {
-          try {
-            log('Disconnecting wallet...');
-            await walletConnector.disconnect();
-            log('Wallet disconnected');
-          } catch (error) {
-            log(`Error disconnecting wallet: ${error.message}`);
-          }
-        });
-
-        checkAccessBtn.addEventListener('click', async () => {
-          try {
-            if (!walletConnector.isConnected()) {
-              log('Please connect wallet first');
-              return;
-            }
-
-            const selectedContentId = contentSelector.value;
-            log(`Checking access for content: ${selectedContentId}`);
-
-            const hasAccess = await ipfsStreaming.checkAccess(selectedContentId);
-            if (hasAccess) {
-              log('You have access to this content');
-              statusInfo.textContent = 'You have access to this content';
-            } else {
-              log('No access. Purchase required');
-              statusInfo.textContent = 'No access. Purchase required';
-            }
-          } catch (error) {
-            log(`Error checking access: ${error.message}`);
-          }
-        });
-
-        purchaseBtn.addEventListener('click', async () => {
-          try {
-            if (!walletConnector.isConnected()) {
-              log('Please connect wallet first');
-              return;
-            }
-
-            const amount = purchaseAmount.value;
-            log(`Purchasing tokens for ${amount} ETH...`);
-
-            const success = await ipfsStreaming.purchaseTokens(amount);
-            if (success) {
-              log(`Successfully purchased streaming tokens`);
-              updateTokenBalance();
-            } else {
-              log('Failed to purchase tokens');
-            }
-          } catch (error) {
-            log(`Error purchasing tokens: ${error.message}`);
-          }
-        });
-
-        startStreamBtn.addEventListener('click', async () => {
-          try {
-            if (!walletConnector.isConnected()) {
-              log('Please connect wallet first');
-              return;
-            }
-
-            const selectedContentId = contentSelector.value;
-            log(`Starting stream for content: ${selectedContentId}`);
-
-            playerPlaceholder.style.display = 'none';
-            videoPlayer.style.display = 'block';
-
-            const success = await ipfsStreaming.startStream(selectedContentId, videoPlayer);
-            if (success) {
-              log('Stream started successfully');
-              startStreamBtn.style.display = 'none';
-              stopStreamBtn.style.display = 'inline-block';
-              streamStatus.classList.remove('inactive');
-              streamStatus.classList.add('active');
-              statusText.textContent = 'Active';
-              statusInfo.textContent = 'Stream is active. Payment channel open.';
-              qualitySelector.style.display = 'inline-flex';
-              paymentStatus.style.display = 'block';
-              paymentDot.classList.remove('inactive');
-              paymentDot.classList.add('active');
-              paymentText.textContent = 'Payment Channel: Active';
-              ipfsInfo.style.display = 'block';
-
-              // Update CID info
-              ipfsGateway.textContent = ipfsStreaming.gateways[0];
-              contentCid.textContent = selectedContentId;
-            } else {
-              log('Failed to start stream');
-              videoPlayer.style.display = 'none';
-              playerPlaceholder.style.display = 'block';
-            }
-          } catch (error) {
-            log(`Error starting stream: ${error.message}`);
-            videoPlayer.style.display = 'none';
-            playerPlaceholder.style.display = 'block';
-          }
-        });
-
-        stopStreamBtn.addEventListener('click', async () => {
-          try {
-            log('Stopping stream...');
-
-            await ipfsStreaming.stopStream();
-
-            log('Stream stopped');
-            videoPlayer.pause();
-            videoPlayer.style.display = 'none';
-            playerPlaceholder.style.display = 'block';
-            stopStreamBtn.style.display = 'none';
-            startStreamBtn.style.display = 'inline-block';
-            streamStatus.classList.remove('active');
-            streamStatus.classList.add('inactive');
-            statusText.textContent = 'Inactive';
-            statusInfo.textContent = 'Stream ended. Payment channel closed.';
-            qualitySelector.style.display = 'none';
-            paymentDot.classList.remove('active');
-            paymentDot.classList.add('inactive');
-            paymentText.textContent = 'Payment Channel: Inactive';
-          } catch (error) {
-            log(`Error stopping stream: ${error.message}`);
-          }
-        });
-
-        enableAutoCommitBtn.addEventListener('click', async () => {
-          try {
-            const duration = parseFloat(autoCommitDuration.value) * 3600; // Convert hours to seconds
-            log(`Enabling auto-commit for ${autoCommitDuration.value} hours...`);
-
-            await contractManager.enableAutoCommit(duration);
-
-            log('Auto-commit enabled');
-            enableAutoCommitBtn.style.display = 'none';
-            disableAutoCommitBtn.style.display = 'inline-block';
-          } catch (error) {
-            log(`Error enabling auto-commit: ${error.message}`);
-          }
-        });
-
-        disableAutoCommitBtn.addEventListener('click', async () => {
-          try {
-            log('Disabling auto-commit...');
-
-            await contractManager.disableAutoCommit();
-
-            log('Auto-commit disabled');
-            disableAutoCommitBtn.style.display = 'none';
-            enableAutoCommitBtn.style.display = 'inline-block';
-          } catch (error) {
-            log(`Error disabling auto-commit: ${error.message}`);
-          }
-        });
-
-        toggleDebugBtn.addEventListener('click', () => {
-          const isDebug = toggleDebugBtn.textContent === 'Enable Debug Mode';
-          if (isDebug) {
-            toggleDebugBtn.textContent = 'Disable Debug Mode';
-            ipfsStreaming.enableDebug();
-            log('Debug mode enabled');
+          // Update toggle icon
+          if (document.body.classList.contains('dark-mode')) {
+            themeToggle.innerHTML =
+              '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
           } else {
-            toggleDebugBtn.textContent = 'Enable Debug Mode';
-            ipfsStreaming.disableDebug();
-            log('Debug mode disabled');
+            themeToggle.innerHTML =
+              '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
           }
+
+          // Save preference
+          localStorage.setItem(
+            'theme',
+            document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+          );
         });
 
-        getStatusBtn.addEventListener('click', async () => {
-          try {
-            const status = ipfsStreaming.getStatus();
-            log('------ Status Report ------');
-            log(`Streaming Active: ${status.streamingActive}`);
-            log(`Current Quality: ${status.currentQuality}`);
-            log(`Payment Channel: ${status.paymentChannelOpen ? 'Open' : 'Closed'}`);
-            if (status.paymentChannelId) {
-              log(`Channel ID: ${status.paymentChannelId}`);
-            }
-            log(`Auto-Commit: ${status.autoCommitEnabled ? 'Enabled' : 'Disabled'}`);
-            if (status.autoCommitEnabled) {
-              log(`Remaining: ${Math.floor(status.autoCommitTimeRemaining / 60)} minutes`);
-            }
-            log('---------------------------');
-          } catch (error) {
-            log(`Error getting status: ${error.message}`);
-          }
-        });
+        // Apply saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+          themeToggle.click();
+        }
 
-        clearLogBtn.addEventListener('click', () => {
-          const logContainer = document.getElementById('activity-log');
-          logContainer.innerHTML = '<div>Log cleared...</div>';
-        });
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            // Add active class to clicked tab
+            tab.classList.add('active');
 
-        // Set up quality selector
-        document.querySelectorAll('.quality-option').forEach(option => {
-          option.addEventListener('click', function () {
-            const quality = this.getAttribute('data-quality');
-
-            // Update active class
-            document.querySelectorAll('.quality-option').forEach(opt => {
-              opt.classList.remove('active');
-            });
-            this.classList.add('active');
-
-            // Update quality in IPFS streaming
-            ipfsStreaming.setQuality(quality);
-            log(`Quality changed to ${quality}`);
-
-            // If streaming is active, restart the stream
-            if (ipfsStreaming.streamingActive) {
-              const currentTime = videoPlayer.currentTime;
-              const selectedContentId = contentSelector.value;
-
-              // Store current position
-              videoPlayer.pause();
-
-              // Restart stream with new quality
-              ipfsStreaming
-                .startStream(selectedContentId, videoPlayer)
-                .then(() => {
-                  // Try to restore position
-                  videoPlayer.currentTime = currentTime;
-                })
-                .catch(error => {
-                  log(`Error changing quality: ${error.message}`);
-                });
-            }
+            // Hide all panes
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            // Show corresponding pane
+            const paneId = `${tab.getAttribute('data-tab')}-pane`;
+            document.getElementById(paneId).classList.add('active');
           });
         });
 
-        // Gateway selector
-        gatewaySelector.addEventListener('change', () => {
-          const gateway = gatewaySelector.value;
-          if (gateway === 'auto') {
-            log('IPFS gateway set to Auto (Fastest)');
-            // Reset to default gateway order
-            ipfsStreaming.gateways = [
-              'https://ipfs.io/ipfs/',
-              'https://cloudflare-ipfs.com/ipfs/',
-              'https://gateway.pinata.cloud/ipfs/',
-              'https://ipfs.infura.io/ipfs/'
-            ];
-          } else {
-            // Put the selected gateway first in the list
-            const gatewayUrl = `https://${gateway}/ipfs/`;
-            log(`IPFS gateway set to ${gateway}`);
-
-            // Remove the selected gateway if it exists in the array
-            ipfsStreaming.gateways = ipfsStreaming.gateways.filter(g => g !== gatewayUrl);
-
-            // Add it at the beginning
-            ipfsStreaming.gateways.unshift(gatewayUrl);
-          }
-
-          // Update displayed gateway
-          if (ipfsInfo.style.display === 'block') {
-            ipfsGateway.textContent = ipfsStreaming.gateways[0];
-          }
-        });
-
-        // Update content selector change handler
-        contentSelector.addEventListener('change', function () {
-          const selectedOption = this.options[this.selectedIndex];
-          contentTitle.textContent = selectedOption.text;
-          contentId.textContent = selectedOption.value;
-
-          // Set default descriptions based on selected content
-          switch (selectedOption.value) {
-            case 'Qmabcdef1':
-              contentDescription.textContent =
-                'An introduction to blockchain technology fundamentals';
-              contentCreator.textContent = 'Team MODSIAS';
-              break;
-            case 'Qmabcdef2':
-              contentDescription.textContent = 'Learn how to develop smart contracts with Solidity';
-              contentCreator.textContent = 'Crypto Dev Hub';
-              break;
-            case 'Qmabcdef3':
-              contentDescription.textContent =
-                'Guide to integrating Web3 technologies in applications';
-              contentCreator.textContent = 'Web3 Foundation';
-              break;
-            case 'local_fallback':
-              contentDescription.textContent =
-                'Exploring different consensus mechanisms in blockchains';
-              contentCreator.textContent = 'Blockchain Academy';
-              break;
-          }
-        });
-
-        // Setup IPFS streaming event listeners
-        ipfsStreaming.addEventListener('streamStarted', data => {
-          log(`Stream started for ${data.contentId}`);
-          if (data.fallback) {
-            log('Using local fallback video (IPFS gateways not available)');
-          }
-        });
-
-        ipfsStreaming.addEventListener('streamStopped', () => {
-          log('Stream stopped');
-        });
-
-        ipfsStreaming.addEventListener('paymentChannelOpened', data => {
-          log(`Payment channel opened: ${data.channelId}`);
-        });
-
-        ipfsStreaming.addEventListener('paymentChannelClosed', data => {
-          log(`Payment channel closed: ${data.channelId}`);
-        });
-
-        ipfsStreaming.addEventListener('paymentProcessed', () => {
-          // Flash payment indicator
-          paymentDot.classList.remove('active');
-          paymentDot.classList.add('pending');
-
-          setTimeout(() => {
-            paymentDot.classList.remove('pending');
-            paymentDot.classList.add('active');
-          }, 1000);
-        });
-
-        ipfsStreaming.addEventListener('tokensPurchased', data => {
-          log(`Purchased tokens for ${data.amount} ETH`);
-          updateTokenBalance();
-        });
-
-        ipfsStreaming.addEventListener('streamError', data => {
-          log(`Stream error: ${data.error}`);
-        });
-
-        // Function to update token balance display
-        async function updateTokenBalance() {
-          try {
-            if (walletConnector.isConnected()) {
-              const balance = await ipfsStreaming.getTokenBalance();
-              tokenBalance.textContent = `${balance} STRM`;
-            }
-          } catch (error) {
-            console.error('Error updating token balance:', error);
-          }
-        }
-
-        // Wallet connection status listeners
-        walletConnector.on('connected', async address => {
-          walletStatus.textContent = 'Connected';
-          walletStatus.classList.remove('disconnected');
-          walletStatus.classList.add('connected');
-          walletAddress.textContent = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-          connectBtn.style.display = 'none';
-          disconnectBtn.style.display = 'inline-block';
-
-          const networkId = await walletConnector.getNetworkId();
-          const network = networkConfig.getNetworkName(networkId);
-          networkName.textContent = network || `Chain ID: ${networkId}`;
-
-          updateTokenBalance();
-        });
-
-        walletConnector.on('disconnected', () => {
-          walletStatus.textContent = 'Disconnected';
-          walletStatus.classList.remove('connected');
-          walletStatus.classList.add('disconnected');
-          walletAddress.textContent = 'No wallet connected';
-          connectBtn.style.display = 'inline-block';
-          disconnectBtn.style.display = 'none';
-          networkName.textContent = 'Unknown';
-          tokenBalance.textContent = '0 STRM';
-        });
-
-        // Initialize wallet if previously connected
-        if (localStorage.getItem('walletConnected') === 'true') {
-          connectBtn.click();
-        }
+        // Log initialization
+        log('Web3 Streaming Player initialized with latest technology (April 2025)');
+        log('Livepeer streaming and Web3Modal v3 integration ready');
       });
     </script>
+
+    <!-- Module implementation scripts -->
+    <script type="module" src="assets/js/web3/wallet-connector.js"></script>
+    <script type="module" src="assets/js/web3/contract-manager.js"></script>
+    <script type="module" src="assets/js/web3/media-provider.js"></script>
+    <script type="module" src="assets/js/ui-controller.js"></script>
   </body>
 </html>
