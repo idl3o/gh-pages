@@ -1,0 +1,3 @@
+@echo off
+echo Opening Web3 Branch Manager...
+start "" "c:\Users\Sam\Documents\GitHub\web3-core-functionality\branch-manager.html"

@@ -22,6 +22,13 @@
   --danger: #e53e3e;
   --border-color: rgba(255, 255, 255, 0.1);
 
+  /* Additional colors from merged version */
+  --primary-color: #4361ee;
+  --background-dark: #1a1a2e;
+  --background-light: #16213e;
+  --info-color: #3498db;
+  --error-color: #e74c3c;
+
   /* Typography */
   --font-main:
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
@@ -72,6 +79,7 @@ body {
   color: var(--text-color);
   background-color: var(--background-color);
   scroll-behavior: smooth;
+  min-height: 100vh;
 }
 
 h1,
@@ -171,6 +179,7 @@ ol {
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all var(--transition-speed) ease;
+  padding: 15px 0;
 }
 
 [data-theme='light'] .navigation {
@@ -226,6 +235,22 @@ ol {
   width: 100%;
 }
 
+/* Add active link styling to match the hover effect */
+.main-nav a.active {
+  color: var(--primary);
+  position: relative;
+}
+
+.main-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gradient-primary);
+}
+
 .connect-wallet-btn {
   background: var(--gradient-primary);
   padding: 0.5rem 1.25rem !important;
@@ -270,6 +295,7 @@ ol {
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, var(--dark), #1e1e1e);
+  text-align: center;
 }
 
 [data-theme='light'] .hero {
@@ -395,11 +421,13 @@ ol {
     transform var(--transition-speed) ease,
     box-shadow var(--transition-speed) ease;
   border: none;
+  margin-right: 10px;
 }
 
 .button.primary {
   background: var(--gradient-primary);
   color: white;
+  border: none;
 }
 
 .button.outline {
@@ -420,6 +448,16 @@ ol {
 .button:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow);
+}
+
+.primary:hover {
+  background-color: var(--primary-dark);
+  color: white;
+}
+
+.outline:hover {
+  background-color: var(--primary);
+  color: white;
 }
 
 /* Tech Badges */
@@ -488,6 +526,24 @@ ol {
 
 [data-theme='light'] .token-info table tr:nth-child(even) {
   background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+table th {
+  background-color: var(--background-dark);
 }
 
 /* Education Courses */
@@ -586,7 +642,8 @@ ol {
 }
 
 /* Footer */
-#footer {
+#footer,
+.footer {
   background-color: var(--dark-2);
   color: var(--light);
   padding: 5rem 0 2rem;
@@ -662,6 +719,8 @@ ol {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
+  margin-top: 40px;
 }
 
 .language-selector select {
@@ -816,6 +875,43 @@ ol {
   }
 
   .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .iteration-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .countdown-timer {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .iteration-actions {
+    flex-direction: column;
+  }
+
+  .iteration-stats {
+    gap: 1.5rem;
+  }
+
+  .nav-container {
+    flex-direction: column;
+  }
+
+  .main-nav ul {
+    margin-top: 15px;
+  }
+
+  .main-nav ul li {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-grid {
     grid-template-columns: 1fr;
   }
 
@@ -872,6 +968,14 @@ ol {
 
   .architecture-diagram pre {
     font-size: 0.75rem;
+  }
+
+  .countdown-unit {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .countdown-unit span:first-child {
+    font-size: 1.25rem;
   }
 }
 
@@ -1054,81 +1158,6 @@ ol {
   border: 1px solid #2c2c44;
 }
 
-/* Pulse animation for buttons */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.5);
-  }
-  70% {
-    transform: scale(1.02);
-    box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.button.primary.pulse {
-  animation: pulse 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.progress-ring {
-  width: 24px;
-  height: 24px;
-  margin-left: 8px;
-  transform: rotate(-90deg);
-}
-
-.progress-ring__circle {
-  stroke: var(--primary-color);
-  fill: transparent;
-  stroke-width: 2;
-  stroke-linecap: round;
-  transition: all 0.2s ease;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .iteration-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .countdown-timer {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .iteration-actions {
-    flex-direction: column;
-  }
-  
-  .iteration-stats {
-    gap: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .countdown-unit {
-    padding: 0.35rem 0.5rem;
-  }
-  
-  .countdown-unit span:first-child {
-    font-size: 1.25rem;
-  }
-}
-
 /* Iteration Modal Styling */
 #iteration-modal {
   display: none;
@@ -1150,209 +1179,60 @@ ol {
   opacity: 1;
 }
 
-.modal-content {
-  background-color: var(--background-color);
-  border-radius: 8px;
-  padding: 2rem;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  position: relative;
-  transform: scale(0.95);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.modal-content.bounce-in {
-  animation: modal-bounce-in 0.5s forwards;
-}
-
-.modal-content.fade-out {
-  animation: modal-fade-out 0.3s forwards;
-}
-
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  cursor: pointer;
-  color: var(--text-color);
-  background: none;
-  border: none;
-  transition: color 0.2s ease;
-}
-
-.close-modal:hover {
-  color: var(--primary-color);
-}
-
-.modal-title {
-  margin-top: 0;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--accent-color);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.modal-countdown {
-  font-size: 0.8rem;
-  color: var(--text-color-light);
-  margin-top: 1rem;
-  text-align: right;
-}
-
-.modal-options {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin: 1.5rem 0;
-}
-
-.modal-options button {
-  transform: translateY(0);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.modal-options button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-progress {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  margin-top: 1rem;
-  overflow: hidden;
-}
-
-.modal-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-  width: 100%;
-  transition: width 1s linear;
-}
-
-#continue-iteration {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-#continue-iteration:hover {
-  background-color: var(--primary-color-dark);
-  transform: translateY(-2px);
-}
-
-#provide-feedback {
-  background-color: var(--accent-color);
-  color: white;
-}
-
-#provide-feedback:hover {
-  background-color: var(--accent-color-dark);
-  transform: translateY(-2px);
-}
-
-#skip-iteration {
-  background-color: transparent;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-}
-
-#skip-iteration:hover {
-  background-color: var(--border-color);
-}
-
-.countdown-container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.countdown-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.countdown-number {
-  background-color: var(--accent-color);
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  border-radius: 4px;
-  padding: 0.5rem 0.75rem;
-  min-width: 3rem;
-  text-align: center;
-}
-
-.countdown-label {
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  color: var(--text-color-light);
-}
-
-.iteration-count {
-  display: inline-block;
-  background: var(--accent-color);
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  margin-left: 0.5rem;
-  font-weight: bold;
-}
-
 /* Animations */
 @keyframes bounce-in {
-  0% { transform: scale(0.3); opacity: 0; }
-  50% { transform: scale(1.05); opacity: 1; }
-  70% { transform: scale(0.9); }
-  100% { transform: scale(1); }
-}
-
-@keyframes fade-out {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(0.3); opacity: 0; }
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(var(--primary-color-rgb), 0); }
-  100% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0); }
-}
-
-@keyframes modal-bounce-in {
   0% {
-    transform: scale(0.8);
+    transform: scale(0.3);
     opacity: 0;
   }
-  40% {
-    transform: scale(1.03);
+  50% {
+    transform: scale(1.05);
     opacity: 1;
   }
   70% {
-    transform: scale(0.98);
+    transform: scale(0.9);
   }
   100% {
     transform: scale(1);
   }
 }
 
-@keyframes modal-fade-out {
+@keyframes fade-out {
   0% {
     transform: scale(1);
     opacity: 1;
   }
   100% {
-    transform: scale(0.8);
+    transform: scale(0.3);
     opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .bounce-in {
-  animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) forwards;
+  animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .fade-out {

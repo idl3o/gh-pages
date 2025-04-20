@@ -1,562 +1,255 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StreamChain: Live Streaming | Web3 Content Platform</title>
     <meta
       name="description"
-      content="Web3 Streaming Platform with decentralized content delivery and crypto payment channels"
+      content="Watch and stream content with real-time blockchain micropayments. Support creators directly through decentralized payments."
     />
-    <title>Web3 Streaming Player - 2025 Edition</title>
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="icon" href="assets/images/favicon.ico" />
+    <link rel="stylesheet" href="main.css" />
+    <!-- Modern font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Modern module imports -->
-    <script type="module">
-      import { Buffer } from 'buffer';
-      window.Buffer = Buffer;
-    </script>
-    <style>
-      :root {
-        --primary-color: #4a8eff;
-        --secondary-color: #5d5fef;
-        --success-color: #4caf50;
-        --warning-color: #ff9800;
-        --error-color: #f44336;
-        --background-dark: #121212;
-        --background-light: #f9fafc;
-        --text-dark: #121212;
-        --text-light: #ffffff;
-      }
-
-      .dark-mode {
-        --bg-primary: var(--background-dark);
-        --text-primary: var(--text-light);
-      }
-
-      .light-mode {
-        --bg-primary: var(--background-light);
-        --text-primary: var(--text-dark);
-      }
-
-      body {
-        transition: background-color 0.3s ease;
-      }
-
-      .theme-toggle {
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        z-index: 100;
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .theme-toggle:hover {
-        transform: scale(1.1);
-      }
-
-      .streaming-container {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-
-      .quality-selector {
-        margin-top: 10px;
-        padding: 8px;
-        border-radius: 8px;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: inline-flex;
-        align-items: center;
-      }
-
-      .quality-option {
-        margin: 0 8px;
-        cursor: pointer;
-        padding: 6px 12px;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-      }
-
-      .quality-option:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-
-      .quality-option.active {
-        background-color: var(--primary-color);
-      }
-
-      .payment-status {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-        padding: 6px 12px;
-        border-radius: 8px;
-        background-color: rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-      }
-
-      .payment-status .status-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        margin-right: 8px;
-      }
-
-      .payment-status .status-dot.active {
-        background-color: var(--success-color);
-        box-shadow: 0 0 8px var(--success-color);
-      }
-
-      .payment-status .status-dot.inactive {
-        background-color: var(--error-color);
-      }
-
-      .payment-status .status-dot.pending {
-        background-color: var(--warning-color);
-        animation: pulse 1.5s infinite;
-      }
-
-      @keyframes pulse {
-        0% {
-          opacity: 0.6;
-        }
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0.6;
-        }
-      }
-
-      .ipfs-info {
-        margin-top: 10px;
-        font-size: 0.9em;
-        color: #666;
-        padding: 8px;
-        border-radius: 8px;
-        background-color: rgba(0, 0, 0, 0.03);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-      }
-
-      .stream-status {
-        padding: 16px;
-        margin: 16px 0;
-        border-radius: 8px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .stream-status.active {
-        background-color: rgba(76, 175, 80, 0.1);
-        border-color: var(--success-color);
-      }
-
-      .stream-status.inactive {
-        background-color: rgba(244, 67, 54, 0.05);
-        border-color: rgba(244, 67, 54, 0.3);
-      }
-
-      .video-container {
-        position: relative;
-        width: 100%;
-        border-radius: 12px;
-        overflow: hidden;
-        background-color: #000;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        aspect-ratio: 16 / 9;
-      }
-
-      .video-container video {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-
-      #player-placeholder {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        text-align: center;
-        background-color: rgba(0, 0, 0, 0.8);
-        padding: 1rem;
-      }
-
-      #player-placeholder svg {
-        margin-bottom: 1rem;
-        width: 64px;
-        height: 64px;
-        opacity: 0.6;
-      }
-
-      .content-info {
-        padding: 1.5rem;
-        border-radius: 12px;
-        background-color: rgba(0, 0, 0, 0.02);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        margin-bottom: 2rem;
-      }
-
-      .control-section {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .control-group {
-        padding: 1.5rem;
-        border-radius: 12px;
-        background-color: rgba(0, 0, 0, 0.02);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .control-group:hover {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      }
-
-      .form-control {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        margin: 0.5rem 0 1rem;
-        background-color: rgba(255, 255, 255, 0.9);
-        transition: all 0.3s ease;
-      }
-
-      .form-control:focus {
-        border-color: var(--primary-color);
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(74, 142, 255, 0.2);
-      }
-
-      .btn {
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        border: none;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        margin: 0.25rem 0.5rem 0.25rem 0;
-      }
-
-      .btn svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .btn-primary {
-        background-color: var(--primary-color);
-        color: white;
-      }
-
-      .btn-primary:hover {
-        background-color: var(--secondary-color);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(74, 142, 255, 0.25);
-      }
-
-      .btn-secondary {
-        background-color: rgba(0, 0, 0, 0.05);
-        color: var(--text-dark);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-      }
-
-      .btn-secondary:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
-      }
-
-      .btn-success {
-        background-color: var(--success-color);
-        color: white;
-      }
-
-      .btn-success:hover {
-        background-color: #3d9140;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.25);
-      }
-
-      .log-container {
-        height: 200px;
-        overflow-y: auto;
-        padding: 1rem;
-        border-radius: 8px;
-        background-color: #f5f5f5;
-        border: 1px solid #e0e0e0;
-        font-family: monospace;
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      .log-container > div {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        padding: 4px 0;
-      }
-
-      .log-container > div:last-child {
-        border-bottom: none;
-      }
-
-      .network-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 8px;
-        border-radius: 16px;
-        font-size: 12px;
-        font-weight: 500;
-        color: white;
-        background-color: #333;
-        margin-left: 8px;
-      }
-
-      .network-badge[data-network='mainnet'] {
-        background-color: #29b6af;
-      }
-
-      .network-badge[data-network='ethereum'] {
-        background-color: #627eea;
-      }
-
-      .network-badge[data-network='polygon'] {
-        background-color: #8247e5;
-      }
-
-      .network-badge[data-network='optimism'] {
-        background-color: #ff0420;
-      }
-
-      .network-badge[data-network='arbitrum'] {
-        background-color: #28a0f0;
-      }
-
-      .network-badge[data-network='base'] {
-        background-color: #0052ff;
-      }
-
-      .wallet-status {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 8px;
-        border-radius: 16px;
-        font-size: 12px;
-        font-weight: 500;
-      }
-
-      .wallet-status.connected {
-        color: white;
-        background-color: var(--success-color);
-      }
-
-      .wallet-status.disconnected {
-        color: white;
-        background-color: var(--error-color);
-      }
-
-      .progress-container {
-        width: 100%;
-        background-color: #e0e0e0;
-        border-radius: 10px;
-        margin: 10px 0;
-        height: 6px;
-        overflow: hidden;
-      }
-
-      .progress-bar {
-        height: 100%;
-        background-color: var(--primary-color);
-        border-radius: 10px;
-        transition: width 0.3s ease;
-      }
-
-      .tabs {
-        display: flex;
-        gap: 1px;
-        margin-bottom: 16px;
-      }
-
-      .tab {
-        padding: 10px 16px;
-        cursor: pointer;
-        border-bottom: 2px solid transparent;
-        transition: all 0.3s ease;
-        flex: 1;
-        text-align: center;
-      }
-
-      .tab.active {
-        border-bottom-color: var(--primary-color);
-        color: var(--primary-color);
-        font-weight: 500;
-      }
-
-      .tab-panes > div {
-        display: none;
-      }
-
-      .tab-panes > div.active {
-        display: block;
-        animation: fadeIn 0.5s;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      .token-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 12px;
-        border-radius: 16px;
-        font-weight: 600;
-        font-size: 14px;
-        background-color: rgba(0, 0, 0, 0.05);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        margin: 0 4px;
-      }
-
-      .token-badge img {
-        width: 18px;
-        height: 18px;
-        margin-right: 6px;
-      }
-
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 8px;
-        border-radius: 16px;
-        font-size: 12px;
-        font-weight: 600;
-      }
-
-      .badge.success {
-        color: white;
-        background-color: var(--success-color);
-      }
-
-      .badge.warning {
-        color: #333;
-        background-color: var(--warning-color);
-      }
-
-      .badge.error {
-        color: white;
-        background-color: var(--error-color);
-      }
-
-      .nft-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .nft-card {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .nft-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .nft-image {
-        width: 100%;
-        aspect-ratio: 1;
-        object-fit: cover;
-      }
-
-      .nft-details {
-        padding: 1rem;
-      }
-
-      .nft-title {
-        font-weight: 600;
-        margin: 0 0 5px;
-      }
-
-      .nft-creator {
-        font-size: 0.8rem;
-        color: #666;
-      }
-
-      /* Loader styling */
-      .loader {
-        width: 48px;
-        height: 48px;
-        border: 5px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: var(--primary-color);
-        animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Mobile responsiveness */
-      @media (max-width: 768px) {
-        .streaming-container {
-          padding: 1rem;
-        }
-
-        .control-section {
-          grid-template-columns: 1fr;
-        }
-
-        .quality-selector {
-          flex-wrap: wrap;
-        }
-      }
-
-      /* Web3Modal overrides */
-      .w3m-modal {
-        --w3m-accent-color: var(--primary-color) !important;
-        --w3m-accent-fill-color: white !important;
-      }
-    </style>
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ethereum/ethereum-original.svg"
+    />
+    <!-- OpenGraph Tags for better social sharing -->
+    <meta property="og:title" content="StreamChain: Live Streaming Platform" />
+    <meta
+      property="og:description"
+      content="Watch and stream content with real-time blockchain micropayments."
+    />
+    <meta property="og:type" content="website" />
   </head>
-  <body class="light-mode">
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" id="theme-toggle">
+  <body>
+    <!-- Navigation -->
+    <nav class="navigation">
+      <div class="container nav-container">
+        <a href="index.html" class="logo">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            class="logo-icon"
+          >
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          StreamChain
+        </a>
+        <div class="nav-right">
+          <div class="main-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="#">Features</a></li>
+              <li><a href="streaming.html" class="active">Stream</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">About</a></li>
+            </ul>
+          </div>
+          <button class="connect-wallet-btn">Connect Wallet</button>
+          <button class="dark-mode-toggle">
+            <svg
+              class="sun"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              class="moon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button class="mobile-menu-toggle">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Streaming Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content fade-in">
+          <h1>Live Streaming Platform</h1>
+          <p>
+            Watch content with per-second micropayments directly to creators. No ads, no
+            subscriptions, just pay for what you watch.
+          </p>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">1,000+</span>
+              <span class="stat-label">Active creators</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">24/7</span>
+              <span class="stat-label">Live streaming</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">0% Fee</span>
+              <span class="stat-label">Platform commission</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+          <path
+            d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Streaming Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="center-text">Featured Streams</h2>
+        <p class="center-text">Support your favorite creators with real-time micropayments</p>
+
+        <div class="grid">
+          <!-- Stream Card 1 -->
+          <div class="card">
+            <img
+              src="https://via.placeholder.com/600x350/6e45e2/ffffff?text=Live+Stream+1"
+              alt="Live Stream 1"
+              style="width: 100%; border-radius: var(--border-radius)"
+            />
+            <h3>Crypto Market Analysis</h3>
+            <p>Live analysis of the current crypto market trends and predictions.</p>
+            <p><strong>Creator:</strong> CryptoExpert</p>
+            <p><strong>Rate:</strong> 0.001 ETH/minute</p>
+            <button class="button primary full-width">Watch Stream</button>
+          </div>
+
+          <!-- Stream Card 2 -->
+          <div class="card">
+            <img
+              src="https://via.placeholder.com/600x350/00d8ff/121212?text=Live+Stream+2"
+              alt="Live Stream 2"
+              style="width: 100%; border-radius: var(--border-radius)"
+            />
+            <h3>Web3 Development Workshop</h3>
+            <p>Learn how to build dApps on Ethereum with our step-by-step workshop.</p>
+            <p><strong>Creator:</strong> DevBuilder</p>
+            <p><strong>Rate:</strong> 0.0015 ETH/minute</p>
+            <button class="button primary full-width">Watch Stream</button>
+          </div>
+
+          <!-- Stream Card 3 -->
+          <div class="card">
+            <img
+              src="https://via.placeholder.com/600x350/ff5722/ffffff?text=Live+Stream+3"
+              alt="Live Stream 3"
+              style="width: 100%; border-radius: var(--border-radius)"
+            />
+            <h3>NFT Creation Masterclass</h3>
+            <p>Create your own NFT collection from concept to minting.</p>
+            <p><strong>Creator:</strong> NFTartist</p>
+            <p><strong>Rate:</strong> 0.002 ETH/minute</p>
+            <button class="button primary full-width">Watch Stream</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Start Streaming Section -->
+    <section class="section-alt">
+      <div class="container center-text">
+        <h2>Start Your Own Stream</h2>
+        <p>Become a creator and earn cryptocurrency directly from your viewers</p>
+        <button class="button primary">Start Streaming</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>StreamChain</h3>
+            <p>Revolutionizing content distribution through blockchain technology.</p>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="whitepaper.md">Whitepaper</a></li>
+              <li><a href="docs/">Documentation</a></li>
+              <li><a href="blog/">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://twitter.com/modsias">Twitter</a></li>
+              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="terms.md">Terms of Service</a></li>
+              <li><a href="privacy.md">Privacy Policy</a></li>
+              <li><a href="docs/token-disclaimer.html">Token Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 StreamChain | <a href="sitemap.html">Sitemap</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="hidden">
       <svg
         width="24"
         height="24"
@@ -564,627 +257,57 @@
         fill="none"
         stroke="currentColor"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
       >
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
       </svg>
-    </div>
+    </button>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="container">
-        <a href="index.html" class="navbar-brand">Web3 Streaming</a>
-        <div class="navbar-menu">
-          <a href="index.html">Home</a>
-          <a href="education.html">Education</a>
-          <a href="library.html">Content Library</a>
-          <a href="streaming.html" class="active">Demo Player</a>
-        </div>
-      </div>
-    </nav>
+    <!-- Scripts -->
+    <script>
+      // Dark mode toggle functionality
+      const darkModeToggle = document.querySelector('.dark-mode-toggle');
+      const htmlElement = document.documentElement;
 
-    <!-- Main Content -->
-    <div class="streaming-container">
-      <h1>Web3 Streaming Demo Player</h1>
-      <p>Experience decentralized content streaming with crypto-based payment channels.</p>
+      // Check for saved theme preference or use default
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-theme', savedTheme);
 
-      <!-- Player Section -->
-      <section class="player-section">
-        <div class="video-container">
-          <video id="video-player" controls style="display: none"></video>
-          <div id="player-placeholder">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <polygon points="10 8 16 12 10 16 10 8"></polygon>
-            </svg>
-            <p>Connect your wallet and start streaming to watch videos</p>
-            <div id="stream-loader" class="loader" style="display: none"></div>
-          </div>
+      darkModeToggle.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-          <!-- Video quality selector (shown when video is playing) -->
-          <div class="quality-selector" id="quality-selector" style="display: none">
-            <span>Quality:</span>
-            <span class="quality-option" data-quality="low">480p</span>
-            <span class="quality-option active" data-quality="medium">720p</span>
-            <span class="quality-option" data-quality="high">1080p</span>
-          </div>
-        </div>
-
-        <div class="content-info">
-          <h2>Currently Selected: <span id="content-title">Blockchain Basics</span></h2>
-          <p id="content-description">An introduction to blockchain technology fundamentals.</p>
-          <p>
-            <strong>Creator:</strong> <span id="content-creator">Team MODSIAS</span>
-            <span id="creator-verified" class="badge success" style="display: none">Verified</span>
-          </p>
-          <div id="content-id" style="display: none">content_001</div>
-
-          <div class="stream-status inactive" id="stream-status">
-            <h3>Stream Status: <span id="status-text">Inactive</span></h3>
-            <p id="status-info">Purchase access to start streaming</p>
-
-            <!-- Stream progress tracking -->
-            <div id="stream-progress-container" style="display: none">
-              <div class="progress-container">
-                <div class="progress-bar" id="stream-progress" style="width: 0%"></div>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-size: 12px">
-                <span>0:00</span>
-                <span id="stream-duration">0:00</span>
-              </div>
-            </div>
-
-            <!-- Payment channel status -->
-            <div class="payment-status" style="display: none" id="payment-status">
-              <div class="status-dot inactive" id="payment-dot"></div>
-              <span id="payment-text">Payment Channel: Inactive</span>
-            </div>
-
-            <!-- IPFS/Livepeer connection info -->
-            <div class="ipfs-info" id="ipfs-info" style="display: none">
-              <p>Content Delivery: <span id="delivery-method">Not connected</span></p>
-              <p>Content ID: <span id="content-cid">-</span></p>
-              <p id="stream-metrics" style="display: none">
-                Data transferred: <span id="data-transferred">0 KB</span> | Streaming rate:
-                <span id="streaming-rate">0 KB/s</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Control Tabs -->
-      <section class="player-section">
-        <div class="tabs">
-          <div class="tab active" data-tab="stream-controls">Stream Controls</div>
-          <div class="tab" data-tab="nfts">NFT Access Keys</div>
-          <div class="tab" data-tab="advanced">Advanced Settings</div>
-        </div>
-
-        <div class="tab-panes">
-          <!-- Stream Controls Tab -->
-          <div class="tab-pane active" id="stream-controls-pane">
-            <div class="control-section">
-              <!-- Wallet Connection -->
-              <div class="control-group">
-                <h3>Wallet Connection</h3>
-                <div id="wallet-connect-button"></div>
-                <p style="margin-top: 1rem">
-                  Wallet Status:
-                  <span class="wallet-status disconnected" id="wallet-status">Disconnected</span>
-                </p>
-                <p id="wallet-address">No wallet connected</p>
-                <p>
-                  Network: <span id="network-name">Unknown</span>
-                  <span id="network-badge" class="network-badge">-</span>
-                </p>
-              </div>
-
-              <!-- Content Selection -->
-              <div class="control-group">
-                <h3>Content Selection</h3>
-                <p>Choose content to stream:</p>
-                <select id="content-selector" class="form-control">
-                  <option value="bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi">
-                    Blockchain Basics
-                  </option>
-                  <option value="bafybeibnsoufr2renqzsh347nrx5ghtad4e4eygadw2abed4dp5fmdisea">
-                    Smart Contract Development
-                  </option>
-                  <option value="bafybeihegpmobz3g2dkmfozfvt42hfgilxgxd7yfkm6zahgcehg2mxdh2e">
-                    Web3 Integration Guide
-                  </option>
-                  <option value="local_fallback">Consensus Mechanisms (Local)</option>
-                </select>
-                <button id="check-access" class="btn btn-secondary">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                  Check Access
-                </button>
-              </div>
-            </div>
-
-            <div class="control-section">
-              <!-- Purchase Credits -->
-              <div class="control-group">
-                <h3>Purchase Credits</h3>
-                <p>Buy STRM tokens to access content</p>
-                <div id="token-balance-display">
-                  Current Balance:
-                  <span class="token-badge">
-                    <img src="assets/images/stream-token.png" alt="STRM" />
-                    <span id="token-balance">0 STRM</span>
-                  </span>
-                </div>
-                <div style="display: flex; gap: 0.5rem; margin-top: 1rem">
-                  <input
-                    type="text"
-                    id="purchase-amount"
-                    value="0.01"
-                    class="form-control"
-                    placeholder="ETH Amount"
-                    style="max-width: 120px"
-                  />
-                  <button id="purchase-credits" class="btn btn-primary">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <line x1="12" y1="1" x2="12" y2="23"></line>
-                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                    </svg>
-                    Purchase
-                  </button>
-                </div>
-              </div>
-
-              <!-- Stream Control -->
-              <div class="control-group">
-                <h3>Stream Control</h3>
-                <p>Start and stop your streaming session</p>
-                <button id="start-stream" class="btn btn-success">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                  Start Streaming
-                </button>
-                <button id="stop-stream" class="btn btn-secondary" style="display: none">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <rect x="6" y="6" width="12" height="12" rx="2" ry="2"></rect>
-                  </svg>
-                  Stop Streaming
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- NFT Access Keys Tab -->
-          <div class="tab-pane" id="nfts-pane">
-            <div class="control-section">
-              <div class="control-group" style="grid-column: 1 / -1">
-                <h3>Access NFTs</h3>
-                <p>Your streaming access NFTs provide unlimited access to specific content</p>
-
-                <div class="nft-container" id="nft-container">
-                  <p>Connect your wallet to view your access NFTs</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="control-section">
-              <div class="control-group">
-                <h3>Purchase Access NFT</h3>
-                <p>Buy permanent access to premium content</p>
-                <select id="nft-content-selector" class="form-control">
-                  <option value="1">Blockchain Basics Course</option>
-                  <option value="2">Smart Contract Masterclass</option>
-                  <option value="3">Web3 Developer Bundle</option>
-                </select>
-                <div style="display: flex; align-items: center; margin-top: 0.5rem">
-                  <span>Price:</span>
-                  <span class="token-badge" style="margin-left: 0.5rem">
-                    <img src="assets/images/eth-logo.png" alt="ETH" />
-                    <span id="nft-price">0.1 ETH</span>
-                  </span>
-                </div>
-                <button id="purchase-nft" class="btn btn-primary" style="margin-top: 1rem">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                  </svg>
-                  Purchase NFT Access
-                </button>
-              </div>
-
-              <div class="control-group">
-                <h3>NFT Benefits</h3>
-                <ul style="padding-left: 1.5rem">
-                  <li>Unlimited access to specific content</li>
-                  <li>No recurring payments required</li>
-                  <li>Transferable ownership</li>
-                  <li>Exclusive creator events</li>
-                  <li>Future content airdrops</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- Advanced Settings Tab -->
-          <div class="tab-pane" id="advanced-pane">
-            <div class="control-section">
-              <div class="control-group">
-                <h3>Auto-Commit</h3>
-                <p>Enable automatic payment commitments</p>
-                <div class="form-group">
-                  <label for="auto-commit-duration">Duration (hours):</label>
-                  <input
-                    type="number"
-                    id="auto-commit-duration"
-                    value="1"
-                    min="0.5"
-                    max="24"
-                    step="0.5"
-                    class="form-control"
-                  />
-                </div>
-                <button id="enable-auto-commit" class="btn btn-secondary">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="16"></line>
-                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                  </svg>
-                  Enable
-                </button>
-                <button id="disable-auto-commit" class="btn btn-secondary" style="display: none">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                  </svg>
-                  Disable
-                </button>
-              </div>
-
-              <div class="control-group">
-                <h3>Content Delivery</h3>
-                <div class="form-group">
-                  <label for="delivery-selector">Content Delivery Method:</label>
-                  <select id="delivery-selector" class="form-control">
-                    <option value="auto">Auto (Best Available)</option>
-                    <option value="livepeer">Livepeer</option>
-                    <option value="ipfs">IPFS</option>
-                    <option value="arweave">Arweave</option>
-                    <option value="local">Local Fallback</option>
-                  </select>
-                </div>
-
-                <div class="form-group" id="ipfs-gateway-group" style="margin-top: 1rem">
-                  <label for="gateway-selector">IPFS Gateway:</label>
-                  <select id="gateway-selector" class="form-control">
-                    <option value="auto">Auto (Fastest)</option>
-                    <option value="ipfs.io">ipfs.io</option>
-                    <option value="cloudflare-ipfs.com">Cloudflare</option>
-                    <option value="gateway.pinata.cloud">Pinata</option>
-                    <option value="ipfs.infura.io">Infura</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="control-group">
-                <h3>Debug Tools</h3>
-                <button id="toggle-debug" class="btn btn-secondary">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path
-                      d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
-                    ></path>
-                  </svg>
-                  Enable Debug Mode
-                </button>
-                <button id="get-status" class="btn btn-secondary">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                  </svg>
-                  Status Report
-                </button>
-
-                <div
-                  id="debug-info"
-                  style="
-                    display: none;
-                    margin-top: 1rem;
-                    padding: 0.75rem;
-                    border-radius: 8px;
-                    background-color: rgba(0, 0, 0, 0.05);
-                    font-family: monospace;
-                    font-size: 12px;
-                  "
-                >
-                  <pre id="debug-content">Debug information will appear here when enabled</pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Activity Log -->
-      <section class="player-section">
-        <h2>Activity Log</h2>
-        <div class="log-container" id="activity-log">
-          <div>Player initialized. Ready for wallet connection...</div>
-        </div>
-        <button id="clear-log" class="btn btn-secondary" style="margin-top: 10px">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path
-              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-            ></path>
-          </svg>
-          Clear Log
-        </button>
-      </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section">
-            <h3>Web3 Streaming</h3>
-            <p>Decentralized content streaming platform built on blockchain technology.</p>
-          </div>
-          <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="education.html">Education</a></li>
-              <li><a href="library.html">Content Library</a></li>
-              <li><a href="#">About</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Resources</h3>
-            <ul>
-              <li><a href="web3-streaming-service-whitepaper.html">Whitepaper</a></li>
-              <li><a href="#">Documentation</a></li>
-              <li><a href="https://github.com/" target="_blank">GitHub</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Connect</h3>
-            <ul>
-              <li><a href="#">Discord</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">Telegram</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 Web3 Streaming Platform. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Modern module imports -->
-    <script type="module">
-      // Import libraries
-      import { ethers } from '/node_modules/ethers/dist/ethers.min.js';
-      import {
-        createWeb3Modal,
-        defaultWagmiConfig
-      } from '/node_modules/@web3modal/wagmi/dist/index.js';
-      import { mainnet, polygon, optimism, arbitrum, base } from '/node_modules/wagmi/chains';
-      import {
-        LivepeerConfig,
-        createReactClient,
-        studioProvider
-      } from '/node_modules/@livepeer/react';
-
-      // Initialize Web3Modal
-      const chains = [mainnet, polygon, optimism, arbitrum, base];
-
-      // Web3Modal and Wagmi configuration
-      const projectId = 'YOUR_WALLETCONNECT_PROJECT_ID'; // Replace with your actual project ID
-
-      const metadata = {
-        name: 'Web3 Streaming Platform',
-        description: 'Decentralized content streaming with crypto payments',
-        url: 'https://web3streaming.example',
-        icons: ['https://avatars.githubusercontent.com/u/37784886']
-      };
-
-      const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
-      const web3Modal = createWeb3Modal({ wagmiConfig, projectId, chains });
-
-      // Livepeer configuration
-      const livepeerClient = createReactClient({
-        provider: studioProvider({ apiKey: 'YOUR_LIVEPEER_API_KEY' }) // Replace with your API key
+        htmlElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
       });
 
-      // App initialization
-      document.addEventListener('DOMContentLoaded', function () {
-        // Set up log function
-        const log = function (message) {
-          const logContainer = document.getElementById('activity-log');
-          const logEntry = document.createElement('div');
-          const timestamp = new Date().toLocaleTimeString();
-          logEntry.textContent = `[${timestamp}] ${message}`;
-          logContainer.appendChild(logEntry);
-          logContainer.scrollTop = logContainer.scrollHeight;
-        };
+      // Mobile menu toggle
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      const mainNav = document.querySelector('.main-nav');
 
-        // Initialize Web3 streaming components
-        const walletConnector = new WalletConnector({ web3Modal, chains });
-        const contractManager = new ContractManager({ walletConnector });
-        const mediaProvider = new MediaProvider({
-          walletConnector,
-          livepeerClient,
-          contractManager
-        });
+      mobileMenuToggle.addEventListener('click', () => {
+        mainNav.classList.toggle('active');
+      });
 
-        // Initialize UI components
-        const ui = new UIController({
-          walletConnector,
-          contractManager,
-          mediaProvider
-        });
+      // Back to top button functionality
+      const backToTopButton = document.getElementById('back-to-top');
 
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.addEventListener('click', () => {
-          document.body.classList.toggle('dark-mode');
-          document.body.classList.toggle('light-mode');
-
-          // Update toggle icon
-          if (document.body.classList.contains('dark-mode')) {
-            themeToggle.innerHTML =
-              '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
-          } else {
-            themeToggle.innerHTML =
-              '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-          }
-
-          // Save preference
-          localStorage.setItem(
-            'theme',
-            document.body.classList.contains('dark-mode') ? 'dark' : 'light'
-          );
-        });
-
-        // Apply saved theme preference
-        if (localStorage.getItem('theme') === 'dark') {
-          themeToggle.click();
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          backToTopButton.classList.add('visible');
+          backToTopButton.classList.remove('hidden');
+        } else {
+          backToTopButton.classList.remove('visible');
+          backToTopButton.classList.add('hidden');
         }
+      });
 
-        // Tab functionality
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => {
-          tab.addEventListener('click', () => {
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            // Add active class to clicked tab
-            tab.classList.add('active');
-
-            // Hide all panes
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-            // Show corresponding pane
-            const paneId = `${tab.getAttribute('data-tab')}-pane`;
-            document.getElementById(paneId).classList.add('active');
-          });
+      backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
         });
-
-        // Log initialization
-        log('Web3 Streaming Player initialized with latest technology (April 2025)');
-        log('Livepeer streaming and Web3Modal v3 integration ready');
       });
     </script>
-
-    <!-- Module implementation scripts -->
-    <script type="module" src="assets/js/web3/wallet-connector.js"></script>
-    <script type="module" src="assets/js/web3/contract-manager.js"></script>
-    <script type="module" src="assets/js/web3/media-provider.js"></script>
-    <script type="module" src="assets/js/ui-controller.js"></script>
   </body>
 </html>

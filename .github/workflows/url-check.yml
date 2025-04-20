@@ -2,7 +2,7 @@ name: URL Validation
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
     # Allow manual triggering
 
@@ -34,4 +34,3 @@ jobs:
         with:
           name: url-check-results
           path: url-check-results.json
-```

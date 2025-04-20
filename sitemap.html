@@ -1,188 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitemap - Web3 Crypto Streaming Service</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <meta name="description" content="Complete sitemap of the Web3 Crypto Streaming Service website">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sitemap | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
     <style>
-        .sitemap-section {
-            margin-bottom: 30px;
-        }
-
-        .sitemap-section h3 {
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #e1e4e8;
-        }
-
-        .sitemap-list {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .sitemap-list li {
-            margin-bottom: 8px;
-        }
-
-        .sitemap-list li a {
-            display: inline-block;
-            padding: 4px 0;
-        }
-
-        .sitemap-sublist {
-            list-style-type: none;
-            padding-left: 20px;
-            margin-top: 5px;
-        }
+      .sitemap-section {
+        margin-bottom: 2rem;
+      }
+      .sitemap-section h2 {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .sitemap-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+      .sitemap-card {
+        background-color: var(--background-dark);
+        border-radius: 8px;
+        padding: 1.5rem;
+      }
+      .sitemap-card h3 {
+        margin-top: 0;
+        color: var(--primary-color);
+      }
+      .sitemap-card ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      .sitemap-card li {
+        margin-bottom: 0.75rem;
+      }
+      .sitemap-card a {
+        color: var(--text-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .sitemap-card a:hover {
+        color: var(--primary-color);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navigation -->
     <div class="navigation">
-        <div class="container nav-container">
-            <a href="/" class="logo">Web3 Crypto Streaming</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#architecture">Architecture</a></li>
-                    <li><a href="#tech">Tech Stack</a></li>
-                    <li><a href="#token">Token</a></li>
-                    <li><a href="java/">Java API</a></li>
-                    <li><a href="docs/">Docs</a></li>
-                </ul>
-            </nav>
-        </div>
+      <div class="container nav-container">
+        <a href="./" class="logo">Web3 Crypto Streaming</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#architecture">Architecture</a></li>
+            <li><a href="streaming.html">Demo Player</a></li>
+            <li><a href="index.html#token">Token</a></li>
+            <li><a href="index.html">Home</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="container">
-            <h1>Site Map</h1>
-            <p>Complete navigation guide for Web3 Crypto Streaming Service</p>
-        </div>
-    </div>
-
-    <!-- Sitemap Content -->
+    <!-- Sitemap Header -->
     <section class="section">
-        <div class="container">
-            <div class="sitemap-section">
-                <h3>Main Pages</h3>
-                <ul class="sitemap-list">
-                    <li><a href="index.html">Homepage</a></li>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#architecture">Architecture</a></li>
-                    <li><a href="index.html#tech">Tech Stack</a></li>
-                    <li><a href="index.html#token">Token</a></li>
-                    <li><a href="index.html#beta-program">Beta Program</a></li>
-                </ul>
+      <div class="container">
+        <h1>Sitemap</h1>
+        <p>A complete overview of all pages available on our website.</p>
+
+        <!-- Main Pages -->
+        <div class="sitemap-section">
+          <h2>Main Pages</h2>
+          <div class="sitemap-grid">
+            <div class="sitemap-card">
+              <h3>Core Pages</h3>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.md">About</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="faq.md">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+              </ul>
             </div>
 
-            <div class="sitemap-section">
-                <h3>Technical Documentation</h3>
-                <ul class="sitemap-list">
-                    <li><a href="java/">Java API Documentation</a>
-                        <ul class="sitemap-sublist">
-                            <li><a href="java/#getting-started">Getting Started</a></li>
-                            <li><a href="java/#api-reference">API Reference</a></li>
-                            <li><a href="java/javadocs/">JavaDocs</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="docs/">Developer Documentation</a>
-                        <ul class="sitemap-sublist">
-                            <li><a href="docs/installation.html">Installation Guide</a></li>
-                            <li><a href="docs/integration.html">Integration Guide</a></li>
-                            <li><a href="docs/token.html">Token Documentation</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="docs/whitepaper.html">Whitepaper</a></li>
-                    <li><a href="docs/contracts/">Smart Contract Documentation</a></li>
-                </ul>
+            <div class="sitemap-card">
+              <h3>Platform Features</h3>
+              <ul>
+                <li><a href="streaming.html">Demo Streaming Player</a></li>
+                <li><a href="creators.md">For Content Creators</a></li>
+                <li><a href="viewers.html">For Viewers</a></li>
+                <li><a href="governance-visualization.html">Governance</a></li>
+                <li><a href="ranking-power.html">Ranking Power</a></li>
+                <li><a href="ultimate-use-case.md">Use Cases</a></li>
+              </ul>
             </div>
 
-            <div class="sitemap-section">
-                <h3>User Guides</h3>
-                <ul class="sitemap-list">
-                    <li><a href="docs/guides/creators.html">Creator Guide</a></li>
-                    <li><a href="docs/guides/viewers.html">Viewer Guide</a></li>
-                    <li><a href="docs/guides/developers.html">Developer Guide</a></li>
-                </ul>
+            <div class="sitemap-card">
+              <h3>Legal & Information</h3>
+              <ul>
+                <li><a href="terms.md">Terms of Service</a></li>
+                <li><a href="privacy.md">Privacy Policy</a></li>
+                <li><a href="security.html">Security</a></li>
+                <li><a href="docs/token-disclaimer.html">Token Disclaimer</a></li>
+                <li><a href="sitemap.html">Sitemap</a></li>
+              </ul>
             </div>
-
-            <div class="sitemap-section">
-                <h3>Legal</h3>
-                <ul class="sitemap-list">
-                    <li><a href="legal/terms.html">Terms of Service</a></li>
-                    <li><a href="legal/privacy.html">Privacy Policy</a></li>
-                    <li><a href="legal/token-disclaimer.html">Token Disclaimer</a></li>
-                </ul>
-            </div>
-
-            <div class="sitemap-section">
-                <h3>Community & Support</h3>
-                <ul class="sitemap-list">
-                    <li><a href="blog/">Blog</a></li>
-                    <li><a href="https://twitter.com/modsias">Twitter</a></li>
-                    <li><a href="https://discord.gg/web3streaming">Discord</a></li>
-                    <li><a href="https://t.me/web3streaming">Telegram</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="faq.html">FAQs</a></li>
-                </ul>
-            </div>
-
-            <div class="sitemap-section">
-                <h3>Other</h3>
-                <ul class="sitemap-list">
-                    <li><a href="register/">Registration</a></li>
-                    <li><a href="sitemap.html">This Sitemap</a></li>
-                </ul>
-            </div>
+          </div>
         </div>
+
+        <!-- Documentation -->
+        <div class="sitemap-section">
+          <h2>Documentation</h2>
+          <div class="sitemap-grid">
+            <div class="sitemap-card">
+              <h3>Developer Resources</h3>
+              <ul>
+                <li><a href="docs/index.html">Documentation Home</a></li>
+                <li><a href="docs/contracts.html">Smart Contract Documentation</a></li>
+                <li><a href="docs/api-reference.html">API Reference</a></li>
+                <li><a href="docs/integration.html">Integration Guide</a></li>
+                <li><a href="docs/sdk.html">SDKs & Libraries</a></li>
+                <li><a href="docs/faq-technical.html">Technical FAQ</a></li>
+              </ul>
+            </div>
+
+            <div class="sitemap-card">
+              <h3>Token Documentation</h3>
+              <ul>
+                <li><a href="docs/token.html">Token Overview</a></li>
+                <li><a href="docs/staking.html">Staking Guide</a></li>
+                <li><a href="docs/governance.html">Governance Framework</a></li>
+                <li><a href="docs/token-economics.html">Token Economics</a></li>
+                <li><a href="docs/faq-token.html">Token FAQ</a></li>
+              </ul>
+            </div>
+
+            <div class="sitemap-card">
+              <h3>User Guides</h3>
+              <ul>
+                <li><a href="docs/creator-guide.html">Creator Onboarding</a></li>
+                <li><a href="docs/viewer-guide.html">Viewer Getting Started</a></li>
+                <li><a href="docs/wallet-setup.html">Wallet Setup</a></li>
+                <li><a href="docs/monetization.html">Monetization Strategies</a></li>
+                <li><a href="docs/faq-general.html">General FAQ</a></li>
+              </ul>
+            </div>
+
+            <div class="sitemap-card">
+              <h3>Tutorials</h3>
+              <ul>
+                <li><a href="docs/tutorial-stream.html">How to Start Streaming</a></li>
+                <li><a href="docs/tutorial-staking.html">How to Stake Tokens</a></li>
+                <li><a href="docs/tutorial-vote.html">How to Participate in Governance</a></li>
+                <li><a href="docs/tutorials.html">All Tutorials</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Smart Contracts -->
+        <div class="sitemap-section">
+          <h2>Smart Contracts</h2>
+          <div class="sitemap-grid">
+            <div class="sitemap-card">
+              <h3>Core Contracts</h3>
+              <ul>
+                <li><a href="StreamToken.sol">StreamToken.sol</a></li>
+                <li><a href="StreamPayment.sol">StreamPayment.sol</a></li>
+                <li><a href="StreamAccessContract.sol">StreamAccessContract.sol</a></li>
+                <li><a href="Streaming.sol">Streaming.sol</a></li>
+              </ul>
+            </div>
+
+            <div class="sitemap-card">
+              <h3>Utility Contracts</h3>
+              <ul>
+                <li><a href="ProofOfExistence.sol">ProofOfExistence.sol</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog & News (Placeholder) -->
+        <div class="sitemap-section">
+          <h2>Blog & News</h2>
+          <div class="sitemap-grid">
+            <div class="sitemap-card">
+              <h3>Blog Categories</h3>
+              <ul>
+                <li><a href="blog/index.html">Blog Home</a></li>
+                <li><a href="blog/announcements/">Announcements</a></li>
+                <li><a href="blog/tutorials/">Tutorials</a></li>
+                <li><a href="blog/ecosystem/">Ecosystem Updates</a></li>
+                <li><a href="blog/technology/">Technology Insights</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h3>Web3 Crypto Streaming Service</h3>
-                    <p>Revolutionizing content distribution through blockchain technology.</p>
-                </div>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Crypto Streaming Service</h3>
+            <p>Revolutionizing content distribution through blockchain technology.</p>
+          </div>
 
-                <div>
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="docs/whitepaper.html">Whitepaper</a></li>
-                        <li><a href="docs/">Documentation</a></li>
-                        <li><a href="blog/">Blog</a></li>
-                    </ul>
-                </div>
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+              <li><a href="docs/">Documentation</a></li>
+              <li><a href="blog/">Blog</a></li>
+            </ul>
+          </div>
 
-                <div>
-                    <h4>Community</h4>
-                    <ul>
-                        <li><a href="https://twitter.com/modsias">Twitter</a></li>
-                        <li><a href="https://discord.gg/web3streaming">Discord</a></li>
-                        <li><a href="https://t.me/web3streaming">Telegram</a></li>
-                    </ul>
-                </div>
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://twitter.com/modsias">Twitter</a></li>
+              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+            </ul>
+          </div>
 
-                <div>
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="legal/terms.html">Terms of Service</a></li>
-                        <li><a href="legal/privacy.html">Privacy Policy</a></li>
-                        <li><a href="legal/token-disclaimer.html">Token Disclaimer</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2024 Team MODSIAS</p>
-            </div>
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="terms.md">Terms of Service</a></li>
+              <li><a href="privacy.md">Privacy Policy</a></li>
+              <li><a href="docs/token-disclaimer.html">Token Disclaimer</a></li>
+            </ul>
+          </div>
         </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Team MODSIAS | <a href="sitemap.html">Sitemap</a></p>
+        </div>
+      </div>
     </footer>
-</body>
+  </body>
 </html>

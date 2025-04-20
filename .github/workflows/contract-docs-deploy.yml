@@ -1,0 +1,217 @@
+name: Smart Contract Documentation Deployment
+
+on:
+  push:
+    branches: [temp-check-actions, 001]
+    paths:
+      - '**.sol'
+      - 'docs/contracts/**'
+      - '.github/workflows/contract-docs-deploy.yml'
+  pull_request:
+    branches: [temp-check-actions, 001]
+    paths:
+      - '**.sol'
+      - 'docs/contracts/**'
+  # Manual trigger
+  workflow_dispatch:
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install -g solidity-docgen
+          npm install -g @openzeppelin/contracts
+          npm install -g solc
+          npm install -g hardhat
+
+      - name: Create docs directory if it doesn't exist
+        run: mkdir -p docs/contracts
+
+      - name: Generate documentation
+        run: |
+          # Generate Solidity documentation
+          solidity-docgen --solc-module solc --solc-settings optimizer.enabled=true,optimizer.runs=200 --output-dir ./docs/contracts
+
+      - name: Create contract index page
+        run: |
+          echo "# Smart Contract Documentation" > ./docs/contracts/index.md
+          echo "" >> ./docs/contracts/index.md
+          echo "## Contracts" >> ./docs/contracts/index.md
+          echo "" >> ./docs/contracts/index.md
+
+          # List all contract files
+          for file in *.sol; do
+            if [ -f "$file" ]; then
+              name=$(basename "$file" .sol)
+              echo "* [$name]($name.md)" >> ./docs/contracts/index.md
+            fi
+          done
+
+          echo "" >> ./docs/contracts/index.md
+          echo "Last updated: $(date)" >> ./docs/contracts/index.md
+
+      - name: Create combined docs HTML
+        run: |
+          # Create an HTML version of the documentation for better presentation
+          echo '<!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Smart Contract Documentation | Web3 Crypto Streaming Service</title>
+            <link rel="stylesheet" href="../../assets/css/main.css">
+            <style>
+              .contract-section { margin-bottom: 2rem; }
+              .function-details { background-color: #1a1a2e; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+              .solidity-code { font-family: monospace; background-color: #121225; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+              .toc { background-color: #1a1a2e; padding: 1rem; border-radius: 6px; margin-bottom: 2rem; }
+              .toc ul { list-style-type: none; padding-left: 1rem; }
+            </style>
+          </head>
+          <body>
+            <div class="navigation">
+              <div class="container nav-container">
+                <a href="../../" class="logo">Web3 Crypto Streaming</a>
+                <nav class="main-nav">
+                  <ul>
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="../index.html">Docs</a></li>
+                    <li><a href="../../streaming.html">Demo Player</a></li>
+                    <li><a href="../token.html">Token</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+
+            <div class="container">
+              <h1>Smart Contract Documentation</h1>
+              <p>Comprehensive technical reference for the Web3 Crypto Streaming Service smart contracts.</p>
+
+              <div class="toc">
+                <h2>Table of Contents</h2>
+                <ul id="contract-toc"></ul>
+              </div>
+
+              <div id="contracts-content">
+                <!-- Contract documentation will be inserted here -->
+              </div>
+            </div>
+
+            <footer class="footer">
+              <div class="container">
+                <div class="footer-grid">
+                  <div>
+                    <h3>Web3 Crypto Streaming Service</h3>
+                    <p>Revolutionizing content distribution through blockchain technology.</p>
+                  </div>
+                  <div>
+                    <h4>Resources</h4>
+                    <ul>
+                      <li><a href="../../web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+                      <li><a href="../">Documentation</a></li>
+                      <li><a href="../../blog/">Blog</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Community</h4>
+                    <ul>
+                      <li><a href="https://twitter.com/modsias">Twitter</a></li>
+                      <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+                      <li><a href="https://t.me/web3streaming">Telegram</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Legal</h4>
+                    <ul>
+                      <li><a href="../../terms.md">Terms of Service</a></li>
+                      <li><a href="../../privacy.md">Privacy Policy</a></li>
+                      <li><a href="../token-disclaimer.html">Token Disclaimer</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="footer-bottom">
+                  <p>&copy; 2025 Team MODSIAS | <a href="../../sitemap.html">Sitemap</a></p>
+                </div>
+              </div>
+            </footer>
+
+            <script>
+              // This script will be replaced with actual data during build
+              document.addEventListener("DOMContentLoaded", function() {
+                // Placeholder for dynamic contract loading
+                console.log("Contract documentation loaded");
+              });
+            </script>
+          </body>
+          </html>' > ./docs/contracts/index.html
+
+      - name: Build additional documentation
+        run: |
+          # Create directory for contract visualizations if it doesn't exist
+          mkdir -p ./docs/contracts/diagrams
+
+          # Create a simple script to generate contract diagrams (placeholder)
+          echo "console.log('Generating contract diagrams');" > generate-diagrams.js
+
+          # Execute the script (in a real implementation, this would generate actual diagrams)
+          node generate-diagrams.js
+
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: contract-docs
+          path: ./docs/contracts
+          retention-days: 7
+
+  deploy-docs:
+    needs: generate-docs
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/temp-check-actions' && github.event_name != 'pull_request'
+
+    # Define permissions
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    # Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: contract-docs
+          path: ./docs/contracts
+
+      - name: List files in docs
+        run: ls -la ./docs/contracts
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

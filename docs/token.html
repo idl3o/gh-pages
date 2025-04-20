@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STREAM Token | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon" />
+    <style>
+      .token-card {
+        background-color: var(--background-dark);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .token-logo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4361ee, #3a0ca3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0 auto 1.5rem;
+      }
+
+      .token-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      @media (max-width: 768px) {
+        .token-metrics {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .metric-card {
+        background-color: #1a1a2e;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .metric-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin: 0.5rem 0;
+      }
+
+      .metric-name {
+        font-size: 0.9rem;
+        color: #a0a0a0;
+      }
+
+      .distribution-chart {
+        width: 100%;
+        max-width: 600px;
+        margin: 2rem auto;
+      }
+
+      .distribution-legend {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="container nav-container">
+        <a href="../" class="logo">Web3 Crypto Streaming</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="index.html">Docs</a></li>
+            <li><a href="../streaming.html">Demo Player</a></li>
+            <li><a href="../web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Token Header -->
+    <section class="section">
+      <div class="container">
+        <h1>STREAM Token</h1>
+        <p>The native utility token that powers the Web3 Crypto Streaming Service ecosystem.</p>
+
+        <div class="token-card">
+          <div class="token-logo">STRM</div>
+          <div style="text-align: center">
+            <h2>Streaming Credits</h2>
+            <p>ERC-20 Token on Ethereum and Polygon Networks</p>
+          </div>
+
+          <div class="token-metrics">
+            <div class="metric-card">
+              <div class="metric-name">Initial Supply</div>
+              <div class="metric-value">100,000,000</div>
+              <div class="metric-name">STRM</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-name">Creator Rewards</div>
+              <div class="metric-value">90%</div>
+              <div class="metric-name">of Generated Revenue</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-name">Staking APY</div>
+              <div class="metric-value">8-15%</div>
+              <div class="metric-name">Estimated Annual Return</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Token Utility -->
+    <section class="section-alt">
+      <div class="container">
+        <h2>Token Utility</h2>
+        <p>The STREAM token serves multiple essential functions within our ecosystem:</p>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Content Access</h3>
+            <p>STREAM tokens are used to access streaming content through:</p>
+            <ul>
+              <li>Pay-per-view: 1 token for time-limited access</li>
+              <li>Subscription models: Monthly token commitment</li>
+              <li>Premium content unlocking: Special token allocations</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Creator Payments</h3>
+            <p>Tokens flow directly from viewers to creators with:</p>
+            <ul>
+              <li>90% of streaming revenue going to creators</li>
+              <li>Direct tipping with minimal platform fees</li>
+              <li>Instant settlement without payment delays</li>
+              <li>Cross-border transfers with no currency conversion fees</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Governance</h3>
+            <p>Token holders participate in platform governance:</p>
+            <ul>
+              <li>Voting rights proportional to token holdings</li>
+              <li>Proposal creation and review</li>
+              <li>Treasury fund allocation decisions</li>
+              <li>Protocol parameter adjustments</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Staking</h3>
+            <p>Stake tokens to earn rewards and platform benefits:</p>
+            <ul>
+              <li>Content delivery staking: Support network operations</li>
+              <li>Curation staking: Highlight quality content</li>
+              <li>Governance staking: Amplified voting power</li>
+              <li>Security staking: Protocol validation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Token Distribution -->
+    <section class="section">
+      <div class="container">
+        <h2>Token Distribution</h2>
+        <p>
+          The initial allocation of 100 million STREAM tokens is structured for long-term
+          sustainability:
+        </p>
+
+        <div class="distribution-chart">
+          <!-- SVG Pie Chart -->
+          <svg viewBox="0 0 100 100" style="width: 100%; height: auto">
+            <!-- Community Treasury -->
+            <circle
+              r="25"
+              cx="50"
+              cy="50"
+              fill="transparent"
+              stroke="#4361ee"
+              stroke-width="50"
+              stroke-dasharray="47.1 100"
+              stroke-dashoffset="0"
+            ></circle>
+            <!-- Development Team -->
+            <circle
+              r="25"
+              cx="50"
+              cy="50"
+              fill="transparent"
+              stroke="#3a0ca3"
+              stroke-width="50"
+              stroke-dasharray="39.25 100"
+              stroke-dashoffset="-47.1"
+            ></circle>
+            <!-- Ecosystem Development -->
+            <circle
+              r="25"
+              cx="50"
+              cy="50"
+              fill="transparent"
+              stroke="#7209b7"
+              stroke-width="50"
+              stroke-dasharray="31.4 100"
+              stroke-dashoffset="-86.35"
+            ></circle>
+            <!-- Public Sale -->
+            <circle
+              r="25"
+              cx="50"
+              cy="50"
+              fill="transparent"
+              stroke="#f72585"
+              stroke-width="50"
+              stroke-dasharray="23.55 100"
+              stroke-dashoffset="-117.75"
+            ></circle>
+            <!-- Liquidity Provision -->
+            <circle
+              r="25"
+              cx="50"
+              cy="50"
+              fill="transparent"
+              stroke="#480ca8"
+              stroke-width="50"
+              stroke-dasharray="15.7 100"
+              stroke-dashoffset="-141.3"
+            ></circle>
+          </svg>
+        </div>
+
+        <div class="distribution-legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #4361ee"></div>
+            <div>30% - Community Treasury</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #3a0ca3"></div>
+            <div>25% - Development Team</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #7209b7"></div>
+            <div>20% - Ecosystem Development</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #f72585"></div>
+            <div>15% - Public Sale</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #480ca8"></div>
+            <div>10% - Liquidity Provision</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Staking Section -->
+    <section class="section-alt">
+      <div class="container">
+        <h2>Staking Mechanism</h2>
+        <p>
+          Our multi-tier staking system provides increasing benefits based on the amount staked:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Required Stake</th>
+              <th>Benefits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bronze</td>
+              <td>100 STREAM</td>
+              <td>5% fee reduction, basic profile features</td>
+            </tr>
+            <tr>
+              <td>Silver</td>
+              <td>1,000 STREAM</td>
+              <td>10% fee reduction, enhanced content discovery</td>
+            </tr>
+            <tr>
+              <td>Gold</td>
+              <td>10,000 STREAM</td>
+              <td>20% fee reduction, premium features, early access</td>
+            </tr>
+            <tr>
+              <td>Platinum</td>
+              <td>100,000 STREAM</td>
+              <td>30% fee reduction, revenue share, governance amplification</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Staking Rewards</h3>
+        <p>Rewards are generated through multiple sources:</p>
+        <ul>
+          <li>
+            <strong>Transaction Fee Sharing</strong>: 50% of platform fees are distributed to
+            stakers
+          </li>
+          <li><strong>Inflationary Rewards</strong>: 2% annual inflation allocated to stakers</li>
+          <li>
+            <strong>Network Services</strong>: Additional rewards for providing content delivery
+            resources
+          </li>
+          <li>
+            <strong>Curation Incentives</strong>: Rewards for identifying high-quality content
+          </li>
+        </ul>
+
+        <div class="center-text" style="margin-top: 2rem">
+          <a href="staking.html" class="button primary">Staking Guide →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Governance Section -->
+    <section class="section">
+      <div class="container">
+        <h2>Token Governance</h2>
+        <p>
+          STREAM token holders participate in platform governance through a Decentralized Autonomous
+          Organization (DAO) model.
+        </p>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr">
+          <div class="card">
+            <h3>Governance Process</h3>
+            <ol>
+              <li>
+                <strong>Proposal Creation</strong>: Users with at least 1,000 STREAM can create
+                proposals
+              </li>
+              <li><strong>Discussion Period</strong>: 7-day community review and feedback</li>
+              <li>
+                <strong>Voting Period</strong>: 5-day voting window for eligible token holders
+              </li>
+              <li><strong>Implementation</strong>: Proposals that reach quorum are enacted</li>
+            </ol>
+          </div>
+
+          <div class="card">
+            <h3>Governance Scope</h3>
+            <p>Token holders can vote on:</p>
+            <ul>
+              <li>Platform fee adjustments</li>
+              <li>Revenue distribution models</li>
+              <li>Protocol upgrades</li>
+              <li>Treasury fund allocation</li>
+              <li>Content moderation guidelines</li>
+              <li>New feature prioritization</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Governance Phases</h3>
+        <p>The platform will transition through three governance phases as it matures:</p>
+
+        <div class="grid">
+          <div class="card">
+            <h4>Phase 1: Initial Phase (Years 1-2)</h4>
+            <ul>
+              <li>Core team maintains primary decision-making authority</li>
+              <li>Community feedback through non-binding proposals</li>
+              <li>Quarterly governance votes on feature priorities</li>
+              <li>Limited scope of community governance</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h4>Phase 2: Transition Phase (Years 2-3)</h4>
+            <ul>
+              <li>Formation of specialized governance committees</li>
+              <li>Gradual transfer of decision-making to token holders</li>
+              <li>Delegation system for passive participants</li>
+              <li>Expanded governance scope</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h4>Phase 3: Mature DAO (Year 3+)</h4>
+            <ul>
+              <li>Full on-chain governance for protocol changes</li>
+              <li>Treasury management by community vote</li>
+              <li>Multiple specialized sub-DAOs for distinct platform aspects</li>
+              <li>Complete community ownership</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Token Economics -->
+    <section class="section-alt">
+      <div class="container">
+        <h2>Token Economics</h2>
+        <p>
+          The STREAM token is designed with sustainable economic principles to ensure long-term
+          value:
+        </p>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Value Capture</h3>
+            <p>The token captures value through:</p>
+            <ul>
+              <li>Platform transaction fees</li>
+              <li>Content access payments</li>
+              <li>Staking rewards</li>
+              <li>Governance rights</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Deflationary Mechanisms</h3>
+            <p>Token supply is managed through:</p>
+            <ul>
+              <li>Token burning from platform fees (25%)</li>
+              <li>Buy-back program from platform profits</li>
+              <li>Time-locked vesting for team and investors</li>
+              <li>Incentivized staking to reduce circulating supply</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Token Velocity Management</h3>
+            <p>Mechanisms to control token velocity:</p>
+            <ul>
+              <li>Staking incentives with lock-up periods</li>
+              <li>Governance voting weight based on staking duration</li>
+              <li>Fee discounts for long-term holders</li>
+              <li>Premium tier access requiring token holding</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Treasury Management</h3>
+            <p>The community treasury is allocated to:</p>
+            <ul>
+              <li>Creator incentives and grants</li>
+              <li>Platform development funding</li>
+              <li>Marketing and user acquisition</li>
+              <li>Strategic partnerships and integrations</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="token-card" style="margin-top: 2rem">
+          <h3>Token Contract Details</h3>
+          <table>
+            <tr>
+              <th>Network</th>
+              <th>Contract Address</th>
+            </tr>
+            <tr>
+              <td>Ethereum Mainnet</td>
+              <td><code>0x1234...5678</code> (placeholder)</td>
+            </tr>
+            <tr>
+              <td>Polygon</td>
+              <td><code>0xabcd...efgh</code> (placeholder)</td>
+            </tr>
+          </table>
+          <div class="center-text" style="margin-top: 1.5rem">
+            <a href="contracts.html" class="button outline">View Contract Documentation</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Crypto Streaming Service</h3>
+            <p>Revolutionizing content distribution through blockchain technology.</p>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="../web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+              <li><a href="../docs/">Documentation</a></li>
+              <li><a href="../blog/">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://twitter.com/modsias">Twitter</a></li>
+              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="../terms.md">Terms of Service</a></li>
+              <li><a href="../privacy.md">Privacy Policy</a></li>
+              <li><a href="token-disclaimer.html">Token Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Team MODSIAS | <a href="../sitemap.html">Sitemap</a></p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

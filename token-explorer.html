@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Token Explorer | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <script src="assets/js/wallet-connector.js"></script>
+    <script src="assets/js/network-config.js"></script>
+    <script src="assets/js/contract-manager.js"></script>
+    <!-- D3.js for visualizations -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      .explorer-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background-color: #1a1a2e;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .explorer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #2d3748;
+      }
+
+      .explorer-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background-color: #16213e;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .stat-card h3 {
+        font-size: 0.9rem;
+        color: #a0aec0;
+        margin: 0;
+      }
+
+      .stat-card .value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+      }
+
+      .token-visualization {
+        background-color: #16213e;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        min-height: 300px;
+      }
+
+      .token-transactions {
+        background-color: #16213e;
+        border-radius: 8px;
+        padding: 1.5rem;
+        overflow-x: auto;
+      }
+
+      .network-selector {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        background-color: rgba(67, 97, 238, 0.1);
+        border: 1px solid #4361ee;
+        border-radius: 4px;
+        padding: 10px;
+      }
+
+      .network-selector label {
+        margin-right: 10px;
+        font-weight: bold;
+      }
+
+      .network-selector select {
+        padding: 5px 10px;
+        border-radius: 4px;
+        border: 1px solid #3a56d4;
+        background-color: #161730;
+        color: #fff;
+      }
+
+      .switch-network-btn {
+        margin-left: 10px;
+        background-color: #2c3e50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table th,
+      table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #2d3748;
+      }
+
+      table th {
+        background-color: #1a1a2e;
+        color: #a0aec0;
+      }
+
+      .tx-hash {
+        font-family: monospace;
+        color: #4361ee;
+      }
+
+      .wallet-address {
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+
+      .tab-container {
+        margin-bottom: 1.5rem;
+      }
+
+      .tabs {
+        display: flex;
+        margin-bottom: 1rem;
+      }
+
+      .tab {
+        padding: 0.75rem 1.5rem;
+        background-color: #1a1a2e;
+        cursor: pointer;
+        border: none;
+        color: #a0aec0;
+        font-weight: bold;
+      }
+
+      .tab.active {
+        background-color: #4361ee;
+        color: white;
+        border-radius: 4px;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .token-flow-diagram {
+        width: 100%;
+        height: 300px;
+        background-color: #0f0f1a;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+
+      .stream-button {
+        background-color: #4361ee;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      .stream-button:hover {
+        background-color: #3a56d4;
+      }
+
+      .connect-section {
+        margin-bottom: 1.5rem;
+        background-color: rgba(67, 97, 238, 0.1);
+        border: 1px solid #4361ee;
+        border-radius: 4px;
+        padding: 1rem;
+      }
+
+      .wallet-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .loader {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid #4361ee;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .status {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 4px;
+      }
+
+      .status.success {
+        background-color: rgba(39, 174, 96, 0.2);
+        border: 1px solid #27ae60;
+        color: #2ecc71;
+      }
+
+      .status.error {
+        background-color: rgba(231, 76, 60, 0.2);
+        border: 1px solid #e74c3c;
+        color: #f44336;
+      }
+
+      .status.info {
+        background-color: rgba(41, 128, 185, 0.2);
+        border: 1px solid #2980b9;
+        color: #3498db;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="container nav-container">
+        <a href="/" class="logo">Web3 Crypto Streaming</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#tech">Tech Stack</a></li>
+            <li><a href="index.html#token">Token</a></li>
+            <li><a href="index.html#roadmap">Roadmap</a></li>
+            <li><a href="docs/">Docs</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Token Explorer Section -->
+    <section class="section">
+      <div class="container">
+        <h1>STRM Token Explorer</h1>
+        <p>Explore the Web3 Streaming Token economy and transaction data</p>
+
+        <div class="explorer-container">
+          <div class="connect-section">
+            <div class="wallet-info">
+              <h3>Your Wallet</h3>
+              <button id="connect-wallet" class="stream-button">Connect Wallet</button>
+            </div>
+            <div id="wallet-status" class="status info">
+              Please connect your wallet to view your token data
+            </div>
+            <div id="user-token-balance" style="display: none; margin-top: 1rem">
+              <p>Your STRM Balance: <span id="user-balance">0</span></p>
+              <p>Streams Watched: <span id="streams-watched">0</span></p>
+            </div>
+          </div>
+
+          <div class="network-selector">
+            <label for="network-select">Network:</label>
+            <select id="network-select">
+              <option value="0xaa36a7">Sepolia Testnet</option>
+              <option value="0x13881">Mumbai Testnet</option>
+              <option value="0x539">Local Development</option>
+            </select>
+            <button id="switch-network" class="switch-network-btn">Switch Network</button>
+          </div>
+
+          <div class="explorer-stats">
+            <div class="stat-card">
+              <h3>Total Supply</h3>
+              <div id="total-supply" class="value">1,000,000</div>
+              <div class="label">STRM</div>
+            </div>
+            <div class="stat-card">
+              <h3>Circulating Supply</h3>
+              <div id="circulating-supply" class="value">320,500</div>
+              <div class="label">STRM</div>
+            </div>
+            <div class="stat-card">
+              <h3>Active Streams</h3>
+              <div id="active-streams" class="value">142</div>
+              <div class="label">Now</div>
+            </div>
+            <div class="stat-card">
+              <h3>Holders</h3>
+              <div id="token-holders" class="value">1,240</div>
+              <div class="label">Accounts</div>
+            </div>
+          </div>
+
+          <div class="tab-container">
+            <div class="tabs">
+              <button class="tab active" data-tab="token-flow">Token Flow</button>
+              <button class="tab" data-tab="transactions">Transactions</button>
+              <button class="tab" data-tab="distribution">Token Distribution</button>
+            </div>
+
+            <div id="token-flow" class="tab-content active">
+              <div class="token-visualization">
+                <h3>STRM Token Economy Flow</h3>
+                <p>
+                  This diagram shows how STRM tokens flow through the streaming platform ecosystem
+                </p>
+                <div class="token-flow-diagram" id="flow-diagram"></div>
+              </div>
+
+              <div class="stat-card" style="margin-top: 1rem">
+                <h3>How Token Flow Works</h3>
+                <p>
+                  1. Users purchase STRM tokens with ETH at a rate of 100 STRM per 0.01 ETH<br />
+                  2. Users spend 1 STRM to unlock 1 hour of streaming access<br />
+                  3. 70% of spent tokens are distributed to content creators<br />
+                  4. 20% goes to platform maintenance and development<br />
+                  5. 10% is burned, creating deflationary pressure
+                </p>
+              </div>
+            </div>
+
+            <div id="transactions" class="tab-content">
+              <div class="token-transactions">
+                <h3>Recent Token Transactions</h3>
+                <table id="transactions-table">
+                  <thead>
+                    <tr>
+                      <th>Transaction</th>
+                      <th>Type</th>
+                      <th>From</th>
+                      <th>To</th>
+                      <th>Amount</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="tx-hash">0x71c...e29f</span></td>
+                      <td>Purchase</td>
+                      <td><span class="wallet-address">0x42b...f19d</span></td>
+                      <td><span class="wallet-address">Contract</span></td>
+                      <td>100 STRM</td>
+                      <td>2 mins ago</td>
+                    </tr>
+                    <tr>
+                      <td><span class="tx-hash">0x38d...92a1</span></td>
+                      <td>Stream</td>
+                      <td><span class="wallet-address">0x71e...a35c</span></td>
+                      <td><span class="wallet-address">Content #24</span></td>
+                      <td>1 STRM</td>
+                      <td>5 mins ago</td>
+                    </tr>
+                    <tr>
+                      <td><span class="tx-hash">0x93f...b77d</span></td>
+                      <td>Creator Payment</td>
+                      <td><span class="wallet-address">Contract</span></td>
+                      <td><span class="wallet-address">0x19f...e45a</span></td>
+                      <td>35 STRM</td>
+                      <td>12 mins ago</td>
+                    </tr>
+                    <tr>
+                      <td><span class="tx-hash">0x25a...c43e</span></td>
+                      <td>Purchase</td>
+                      <td><span class="wallet-address">0x83c...b22a</span></td>
+                      <td><span class="wallet-address">Contract</span></td>
+                      <td>500 STRM</td>
+                      <td>24 mins ago</td>
+                    </tr>
+                    <tr>
+                      <td><span class="tx-hash">0x61d...f33b</span></td>
+                      <td>Burn</td>
+                      <td><span class="wallet-address">Contract</span></td>
+                      <td><span class="wallet-address">0x000...0000</span></td>
+                      <td>15 STRM</td>
+                      <td>30 mins ago</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="distribution" class="tab-content">
+              <div class="token-visualization">
+                <h3>Token Distribution</h3>
+                <p>Current allocation of STRM tokens across different stakeholders</p>
+                <div class="token-flow-diagram" id="distribution-diagram"></div>
+              </div>
+
+              <div class="token-transactions" style="margin-top: 1rem">
+                <h3>Token Allocation</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Percentage</th>
+                      <th>Amount (STRM)</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Platform Users</td>
+                      <td>35%</td>
+                      <td>350,000</td>
+                      <td>Circulating</td>
+                    </tr>
+                    <tr>
+                      <td>Creator Incentives</td>
+                      <td>25%</td>
+                      <td>250,000</td>
+                      <td>Partially Released</td>
+                    </tr>
+                    <tr>
+                      <td>Development</td>
+                      <td>20%</td>
+                      <td>200,000</td>
+                      <td>Locked (Vesting)</td>
+                    </tr>
+                    <tr>
+                      <td>Community Treasury</td>
+                      <td>15%</td>
+                      <td>150,000</td>
+                      <td>Governed by DAO</td>
+                    </tr>
+                    <tr>
+                      <td>Initial Liquidity</td>
+                      <td>5%</td>
+                      <td>50,000</td>
+                      <td>Deployed</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 2rem">
+            <a href="streaming.html" class="stream-button">Try the Streaming Player</a>
+          </div>
+        </div>
+
+        <div class="section-alt" style="margin-top: 3rem; padding: 2rem; border-radius: 8px">
+          <h2>About STRM Token</h2>
+          <p>
+            The STRM token powers our decentralized streaming economy, creating a transparent and
+            fair value exchange between viewers and creators.
+          </p>
+          <div class="grid">
+            <div class="card">
+              <h3>Utility</h3>
+              <p>
+                STRM tokens are required to access premium streaming content, with 1 STRM unlocking
+                1 hour of viewing time.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Value Flow</h3>
+              <p>
+                When users spend STRM tokens to watch content, the majority flows directly to
+                creators, creating a sustainable income stream.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Governance</h3>
+              <p>
+                Token holders can participate in platform governance decisions through our DAO,
+                influencing the platform's future.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Useful Engagements Section -->
+        <div
+          class="section-alt"
+          style="
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 8px;
+            background-color: rgba(67, 97, 238, 0.05);
+          "
+        >
+          <h2>Useful Token Engagements</h2>
+          <p>Here are the most valuable ways to engage with the STRM token ecosystem:</p>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              gap: 1.5rem;
+              margin-top: 1.5rem;
+            "
+          >
+            <div
+              style="
+                background-color: #16213e;
+                padding: 1.5rem;
+                border-radius: 8px;
+                border-left: 4px solid #4361ee;
+              "
+            >
+              <h3 style="color: #4361ee; margin-top: 0">Content Streaming</h3>
+              <p>
+                Use tokens to access premium content while supporting your favorite creators. Each
+                view contributes to creator rewards.
+              </p>
+              <div style="margin-top: 1rem">
+                <a
+                  href="streaming.html"
+                  class="stream-button"
+                  style="font-size: 0.9rem; padding: 0.5rem 1rem"
+                  >Stream Content</a
+                >
+              </div>
+            </div>
+
+            <div
+              style="
+                background-color: #16213e;
+                padding: 1.5rem;
+                border-radius: 8px;
+                border-left: 4px solid #4361ee;
+              "
+            >
+              <h3 style="color: #4361ee; margin-top: 0">Creator Registration</h3>
+              <p>
+                Content creators can stake STRM tokens to register and publish content, earning
+                direct rewards from viewers.
+              </p>
+              <div style="margin-top: 1rem">
+                <a
+                  href="creator-dashboard.html"
+                  class="stream-button"
+                  style="font-size: 0.9rem; padding: 0.5rem 1rem"
+                  >Register as Creator</a
+                >
+              </div>
+            </div>
+
+            <div
+              style="
+                background-color: #16213e;
+                padding: 1.5rem;
+                border-radius: 8px;
+                border-left: 4px solid #4361ee;
+              "
+            >
+              <h3 style="color: #4361ee; margin-top: 0">Governance Voting</h3>
+              <p>
+                Participate in platform governance by voting on proposals with your STRM tokens,
+                shaping platform features and policies.
+              </p>
+              <div style="margin-top: 1rem">
+                <a href="#" class="stream-button" style="font-size: 0.9rem; padding: 0.5rem 1rem"
+                  >View Proposals</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              margin-top: 2rem;
+              background-color: #16213e;
+              padding: 1.5rem;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div>
+              <h3 style="margin-top: 0">Ready to get involved?</h3>
+              <p style="margin-bottom: 0">
+                Start with our comprehensive documentation to learn how to make the most of STRM
+                tokens.
+              </p>
+            </div>
+            <a href="docs/token-guide.html" class="stream-button">Token Guide</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Initialize variables
+      const networkConfig = new NetworkConfig();
+      const networkSelect = document.getElementById('network-select');
+      const connectWalletBtn = document.getElementById('connect-wallet');
+      const switchNetworkBtn = document.getElementById('switch-network');
+      const walletStatus = document.getElementById('wallet-status');
+      const userTokenBalance = document.getElementById('user-token-balance');
+      const userBalance = document.getElementById('user-balance');
+
+      // Initialize tab functionality
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs and contents
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+
+          // Add active class to clicked tab and corresponding content
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
+
+          // If we're viewing the token flow or distribution tab, render the visualizations
+          if (tab.dataset.tab === 'token-flow') {
+            renderTokenFlow();
+          } else if (tab.dataset.tab === 'distribution') {
+            renderDistribution();
+          }
+        });
+      });
+
+      // Initialize wallet connector
+      const walletConnector = new WalletConnector({
+        contractAddress: networkConfig.getContractAddresses(networkSelect.value).streamingToken,
+        contractABI: [
+          'function balanceOf(address account) public view returns (uint256)',
+          'function totalSupply() public view returns (uint256)'
+        ],
+        onStatusChange: statusData => {
+          walletStatus.textContent = statusData.message;
+          walletStatus.className =
+            statusData.status === 'connected' ? 'status success' : 'status info';
+
+          if (statusData.status === 'connected') {
+            userTokenBalance.style.display = 'block';
+            fetchUserData();
+          } else {
+            userTokenBalance.style.display = 'none';
+          }
+        }
+      });
+
+      // Connect wallet event handler
+      connectWalletBtn.addEventListener('click', async () => {
+        try {
+          await walletConnector.connect();
+        } catch (error) {
+          console.error('Connection error:', error);
+          walletStatus.textContent = `Connection error: ${error.message}`;
+          walletStatus.className = 'status error';
+        }
+      });
+
+      // Switch network button handler
+      switchNetworkBtn.addEventListener('click', async () => {
+        const chainId = networkSelect.value;
+
+        if (!window.ethereum) {
+          alert('MetaMask is required to switch networks');
+          return;
+        }
+
+        try {
+          walletStatus.textContent = `Switching to ${networkConfig.getNetworkName(chainId)}...`;
+          walletStatus.className = 'status info';
+
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: chainId }]
+          });
+
+          walletStatus.textContent = `Successfully switched to ${networkConfig.getNetworkName(chainId)}`;
+          walletStatus.className = 'status success';
+
+          // Reconnect wallet
+          await walletConnector.connect();
+        } catch (error) {
+          console.error('Failed to switch network:', error);
+          walletStatus.textContent = `Failed to switch network: ${error.message}`;
+          walletStatus.className = 'status error';
+        }
+      });
+
+      // Fetch user data (tokens, streams watched)
+      async function fetchUserData() {
+        try {
+          const state = walletConnector.getConnectionState();
+
+          if (state.isDemoMode) {
+            // Demo data
+            userBalance.textContent = '75';
+            document.getElementById('streams-watched').textContent = '12';
+          } else if (state.isConnected && window.ethereum) {
+            // Try to get real balance from the contract
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const chainId = networkSelect.value;
+            const contractAddress = networkConfig.getContractAddresses(chainId).streamingToken;
+
+            if (contractAddress) {
+              const tokenContract = new ethers.Contract(
+                contractAddress,
+                ['function balanceOf(address account) view returns (uint256)'],
+                provider
+              );
+
+              try {
+                const balance = await tokenContract.balanceOf(state.address);
+                userBalance.textContent = balance.toString();
+
+                // In a real application, we would fetch the streaming history
+                document.getElementById('streams-watched').textContent = Math.floor(
+                  Math.random() * 20
+                );
+              } catch (e) {
+                console.error('Error fetching token balance:', e);
+                // Fallback to demo mode
+                userBalance.textContent = '75';
+                document.getElementById('streams-watched').textContent = '12';
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          userBalance.textContent = 'Error';
+        }
+      }
+
+      // Render token flow diagram using D3.js
+      function renderTokenFlow() {
+        // This would be more complex in a real application
+        // Here we'll just show a simple placeholder
+        const svg = d3
+          .select('#flow-diagram')
+          .html('')
+          .append('svg')
+          .attr('width', '100%')
+          .attr('height', '100%')
+          .attr('viewBox', '0 0 800 300');
+
+        // Define nodes
+        const nodes = [
+          { id: 'users', label: 'Users', x: 150, y: 150, r: 50 },
+          { id: 'platform', label: 'Platform', x: 400, y: 80, r: 40 },
+          { id: 'creators', label: 'Creators', x: 650, y: 150, r: 50 },
+          { id: 'burn', label: 'Token Burn', x: 400, y: 220, r: 30 }
+        ];
+
+        // Define links
+        const links = [
+          { source: 'users', target: 'platform', value: 1 },
+          { source: 'platform', target: 'creators', value: 0.7 },
+          { source: 'platform', target: 'burn', value: 0.1 }
+        ];
+
+        // Draw circles for nodes
+        svg
+          .selectAll('circle')
+          .data(nodes)
+          .enter()
+          .append('circle')
+          .attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+          .attr('r', d => d.r)
+          .attr('fill', '#4361ee')
+          .attr('opacity', 0.7);
+
+        // Add labels to nodes
+        svg
+          .selectAll('text')
+          .data(nodes)
+          .enter()
+          .append('text')
+          .attr('x', d => d.x)
+          .attr('y', d => d.y)
+          .attr('text-anchor', 'middle')
+          .attr('dy', '0.3em')
+          .text(d => d.label)
+          .attr('fill', 'white')
+          .attr('font-weight', 'bold');
+
+        // Draw links between nodes
+        svg
+          .selectAll('line')
+          .data(links)
+          .enter()
+          .append('line')
+          .attr('x1', d => nodes.find(n => n.id === d.source).x)
+          .attr('y1', d => nodes.find(n => n.id === d.source).y)
+          .attr('x2', d => nodes.find(n => n.id === d.target).x)
+          .attr('y2', d => nodes.find(n => n.id === d.target).y)
+          .attr('stroke', 'white')
+          .attr('stroke-width', d => d.value * 5)
+          .attr('opacity', 0.6);
+      }
+
+      // Render token distribution pie chart
+      function renderDistribution() {
+        // Clear previous chart
+        d3.select('#distribution-diagram').html('');
+
+        // Define data
+        const data = [
+          { category: 'Platform Users', value: 35 },
+          { category: 'Creator Incentives', value: 25 },
+          { category: 'Development', value: 20 },
+          { category: 'Community Treasury', value: 15 },
+          { category: 'Initial Liquidity', value: 5 }
+        ];
+
+        const width = document.getElementById('distribution-diagram').clientWidth;
+        const height = 300;
+        const radius = Math.min(width, height) / 2 - 40;
+
+        const svg = d3
+          .select('#distribution-diagram')
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height)
+          .append('g')
+          .attr('transform', `translate(${width / 2},${height / 2})`);
+
+        const color = d3
+          .scaleOrdinal()
+          .domain(data.map(d => d.category))
+          .range(['#4361ee', '#3a56d4', '#2c4bca', '#2743b0', '#213892']);
+
+        const pie = d3.pie().value(d => d.value);
+
+        const arc = d3
+          .arc()
+          .innerRadius(radius * 0.4)
+          .outerRadius(radius);
+
+        // Draw pie chart
+        const arcs = svg.selectAll('arc').data(pie(data)).enter().append('g');
+
+        arcs
+          .append('path')
+          .attr('d', arc)
+          .attr('fill', d => color(d.data.category));
+
+        // Add percentage labels
+        arcs
+          .append('text')
+          .attr('transform', d => `translate(${arc.centroid(d)})`)
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '12px')
+          .attr('fill', 'white')
+          .text(d => `${d.data.value}%`);
+
+        // Add legend
+        const legend = svg
+          .selectAll('.legend')
+          .data(data)
+          .enter()
+          .append('g')
+          .attr('class', 'legend')
+          .attr('transform', (d, i) => `translate(-${width / 2 - 20}, ${i * 20 - 60})`);
+
+        legend
+          .append('rect')
+          .attr('width', 12)
+          .attr('height', 12)
+          .attr('fill', d => color(d.category));
+
+        legend
+          .append('text')
+          .attr('x', 20)
+          .attr('y', 10)
+          .attr('font-size', '12px')
+          .attr('fill', 'white')
+          .text(d => d.category);
+      }
+
+      // Initialize visualizations on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        renderTokenFlow();
+
+        // Check if wallet was previously connected
+        if (sessionStorage.getItem('walletConnected') === 'true') {
+          const isDemoMode = sessionStorage.getItem('walletDemo') === 'true';
+
+          if (isDemoMode) {
+            walletConnector.activateDemoMode('Demo session restored');
+          } else {
+            walletConnector.connect().catch(error => {
+              console.log('Auto reconnect failed:', error);
+              walletConnector.activateDemoMode('Reconnection failed, using demo mode');
+            });
+          }
+        }
+      });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Crypto Streaming Service</h3>
+            <p>Revolutionizing content distribution through blockchain technology.</p>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+              <li><a href="docs/">Documentation</a></li>
+              <li><a href="blog/">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://twitter.com/modsias">Twitter</a></li>
+              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="terms.md">Terms of Service</a></li>
+              <li><a href="privacy.md">Privacy Policy</a></li>
+              <li><a href="docs/token-disclaimer.html">Token Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Team MODSIAS | Demo Prototype</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Message Received - Web3 Crypto Streaming</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #4c51bf 0%, #667eea 100%);
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+        margin: -20px -20px 20px;
+      }
+      .header h1 {
+        color: white;
+        margin: 0;
+        font-size: 24px;
+      }
+      .content {
+        padding: 20px 0;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        color: #999;
+        font-size: 12px;
+      }
+      .message-box {
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .button {
+        background-color: #4c51bf;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        display: inline-block;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>We've Received Your Message</h1>
+      </div>
+      <div class="content">
+        <p>Hello {{name}},</p>
+
+        <p>
+          Thank you for contacting the Web3 Crypto Streaming Service. This email confirms that we've
+          received your message about <strong>"{{subject}}"</strong>.
+        </p>
+
+        <div class="message-box">
+          <p><strong>Inquiry Type:</strong> {{type}}</p>
+          <p>Our team will review your message and get back to you as soon as possible.</p>
+        </div>
+
+        <p>What to expect next:</p>
+        <ul>
+          <li>For general inquiries: We typically respond within 1-2 business days</li>
+          <li>For technical support: You should hear from us within 24 hours</li>
+          <li>
+            For urgent matters: Please join our
+            <a href="https://discord.com/invite/web3streaming">Discord community</a> for faster
+            assistance
+          </li>
+        </ul>
+
+        <p>While you wait, you might find answers in our:</p>
+        <p style="text-align: center">
+          <a href="https://web3streaming.example/faq" class="button">Frequently Asked Questions</a>
+        </p>
+
+        <p>Thank you for your interest in our platform!</p>
+
+        <p>Best regards,<br />The Web3 Streaming Team</p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2025 Web3 Crypto Streaming Service. All rights reserved.</p>
+        <p>
+          <a href="https://web3streaming.example/privacy">Privacy Policy</a> |
+          <a href="https://web3streaming.example/terms">Terms of Service</a>
+        </p>
+        <p>This is an automated response to your inquiry. Please do not reply to this email.</p>
+      </div>
+    </div>
+  </body>
+</html>

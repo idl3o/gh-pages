@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentation | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon" />
+    <style>
+      .doc-section {
+        margin-bottom: 3rem;
+      }
+
+      .doc-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 4rem 0 2rem;
+        margin-bottom: 3rem;
+        border-radius: 0 0 1rem 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .search-container {
+        max-width: 600px;
+        margin: 2rem auto 0;
+      }
+
+      .search-container input {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+      }
+
+      .doc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .doc-card {
+        background-color: var(--background-dark);
+        border-radius: 8px;
+        padding: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+      }
+
+      .doc-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .doc-card h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+      }
+
+      .doc-card-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+      }
+
+      .quick-links {
+        background-color: var(--background-dark);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .quick-links ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .quick-links li a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.05);
+        transition: background-color 0.3s ease;
+      }
+
+      .quick-links li a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+      }
+
+      .quick-links li a::before {
+        content: '→';
+        margin-right: 0.5rem;
+        color: var(--primary-color);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="container nav-container">
+        <a href="../" class="logo">Web3 Crypto Streaming</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="index.html">Docs</a></li>
+            <li><a href="../streaming.html">Demo Player</a></li>
+            <li><a href="token.html">Token</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Documentation Header -->
+    <header class="doc-header">
+      <div class="container">
+        <h1>Documentation</h1>
+        <p>
+          Comprehensive resources for using and integrating with the Web3 Crypto Streaming Service.
+        </p>
+
+        <div class="search-container">
+          <input type="text" placeholder="Search documentation..." id="doc-search" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Quick Links -->
+    <section class="container quick-links">
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="contracts.html">Smart Contract Documentation</a></li>
+        <li><a href="token.html">Token Overview</a></li>
+        <li><a href="../web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+        <li><a href="wallet-setup.html">Wallet Setup Guide</a></li>
+        <li><a href="tutorial-stream.html">How to Start Streaming</a></li>
+        <li><a href="faq-technical.html">Technical FAQ</a></li>
+      </ul>
+    </section>
+
+    <!-- Main Documentation Categories -->
+    <section class="container doc-section">
+      <h2>Explore Documentation</h2>
+
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-card-icon">📝</div>
+          <h3>Getting Started</h3>
+          <p>
+            Begin your journey with Web3 Crypto Streaming Service with these introductory guides.
+          </p>
+          <ul>
+            <li><a href="getting-started.html">Overview</a></li>
+            <li><a href="wallet-setup.html">Setting Up Your Wallet</a></li>
+            <li><a href="basic-concepts.html">Basic Concepts</a></li>
+            <li><a href="faq-general.html">General FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">💻</div>
+          <h3>For Developers</h3>
+          <p>Technical documentation for developers integrating with our platform.</p>
+          <ul>
+            <li><a href="contracts.html">Smart Contract Documentation</a></li>
+            <li><a href="api-reference.html">API Reference</a></li>
+            <li><a href="sdk.html">SDKs & Libraries</a></li>
+            <li><a href="integration.html">Integration Guide</a></li>
+          </ul>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">🎬</div>
+          <h3>Content Creators</h3>
+          <p>Resources for content creators looking to monetize their work.</p>
+          <ul>
+            <li><a href="creator-guide.html">Creator Onboarding</a></li>
+            <li><a href="monetization.html">Monetization Strategies</a></li>
+            <li><a href="content-protection.html">Content Protection</a></li>
+            <li><a href="analytics.html">Creator Analytics</a></li>
+          </ul>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">🎭</div>
+          <h3>Viewers</h3>
+          <p>Guides for viewers who want to watch and support creators.</p>
+          <ul>
+            <li><a href="viewer-guide.html">Viewer Getting Started</a></li>
+            <li><a href="subscription-models.html">Understanding Subscriptions</a></li>
+            <li><a href="tipping.html">Tipping & Support Features</a></li>
+            <li><a href="viewer-faq.html">Viewer FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">💰</div>
+          <h3>Token & Economics</h3>
+          <p>Documentation about the STREAM token and platform economics.</p>
+          <ul>
+            <li><a href="token.html">Token Overview</a></li>
+            <li><a href="staking.html">Staking Guide</a></li>
+            <li><a href="governance.html">Governance Framework</a></li>
+            <li><a href="token-economics.html">Token Economics</a></li>
+          </ul>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">🛠️</div>
+          <h3>Tutorials</h3>
+          <p>Step-by-step guides for using the platform's features.</p>
+          <ul>
+            <li><a href="tutorial-stream.html">How to Start Streaming</a></li>
+            <li><a href="tutorial-staking.html">How to Stake Tokens</a></li>
+            <li><a href="tutorial-vote.html">How to Participate in Governance</a></li>
+            <li><a href="tutorials.html">All Tutorials</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Documentation -->
+    <section class="container doc-section">
+      <h2>Technical Documentation</h2>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-card-icon">📊</div>
+          <h3>Smart Contracts</h3>
+          <p>Details about our smart contract architecture and implementation.</p>
+          <ul>
+            <li><a href="contracts.html">Smart Contract Documentation</a></li>
+            <li><a href="contract-architecture.html">Contract Architecture</a></li>
+            <li><a href="contract-security.html">Security Measures</a></li>
+            <li><a href="contract-audits.html">Audit Reports</a></li>
+          </ul>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">🔌</div>
+          <h3>Integration</h3>
+          <p>Resources for integrating with the platform.</p>
+          <ul>
+            <li><a href="integration.html">Integration Overview</a></li>
+            <li><a href="webhooks.html">Webhooks</a></li>
+            <li><a href="oauth.html">Authentication</a></li>
+            <li><a href="player-embedding.html">Player Embedding</a></li>
+          </ul>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">📡</div>
+          <h3>API Reference</h3>
+          <p>Comprehensive API documentation for developers.</p>
+          <ul>
+            <li><a href="api-reference.html">API Overview</a></li>
+            <li><a href="api-authentication.html">Authentication</a></li>
+            <li><a href="api-endpoints.html">Endpoints</a></li>
+            <li><a href="api-examples.html">Code Examples</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="section-alt">
+      <div class="container doc-section">
+        <h2>Resources</h2>
+        <div class="doc-grid">
+          <div class="doc-card">
+            <div class="doc-card-icon">📘</div>
+            <h3>Whitepaper</h3>
+            <p>Our comprehensive whitepaper detailing the technology, tokenomics, and vision.</p>
+            <a href="../web3-streaming-service-whitepaper.md" class="button primary"
+              >Read Whitepaper</a
+            >
+          </div>
+
+          <div class="doc-card">
+            <div class="doc-card-icon">🧩</div>
+            <h3>SDKs & Libraries</h3>
+            <p>Developer resources for multiple programming languages and frameworks.</p>
+            <a href="sdk.html" class="button primary">Explore SDKs</a>
+          </div>
+
+          <div class="doc-card">
+            <div class="doc-card-icon">📚</div>
+            <h3>GitHub Repositories</h3>
+            <p>Open-source code, examples, and community contributions.</p>
+            <a href="https://github.com/web3streaming" class="button primary">View on GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Support -->
+    <section class="container doc-section">
+      <h2>Community & Support</h2>
+
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-card-icon">💬</div>
+          <h3>Discord Community</h3>
+          <p>
+            Join our Discord server to connect with other users and get support from the community.
+          </p>
+          <a href="https://discord.gg/web3streaming" class="button outline">Join Discord</a>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">🔧</div>
+          <h3>Technical Support</h3>
+          <p>Need help? Our support team is ready to assist you with any technical issues.</p>
+          <a href="support.html" class="button outline">Get Support</a>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-card-icon">📱</div>
+          <h3>Social Media</h3>
+          <p>
+            Follow us on social media for the latest updates, announcements, and community events.
+          </p>
+          <div class="social-links">
+            <a href="https://twitter.com/modsias">Twitter</a> |
+            <a href="https://t.me/web3streaming">Telegram</a> |
+            <a href="https://medium.com/web3streaming">Medium</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Crypto Streaming Service</h3>
+            <p>Revolutionizing content distribution through blockchain technology.</p>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="../web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="../blog/">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://twitter.com/modsias">Twitter</a></li>
+              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="../terms.md">Terms of Service</a></li>
+              <li><a href="../privacy.md">Privacy Policy</a></li>
+              <li><a href="token-disclaimer.html">Token Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Team MODSIAS | <a href="../sitemap.html">Sitemap</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Simple search functionality
+      document.getElementById('doc-search').addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+          const searchTerm = this.value.toLowerCase();
+          if (searchTerm.length > 2) {
+            // This would typically send to a search endpoint
+            // For now, we'll just redirect to a hypothetical search results page
+            window.location.href = `search.html?q=${encodeURIComponent(searchTerm)}`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

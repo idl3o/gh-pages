@@ -1,0 +1,1283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creator Dashboard | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <script src="assets/js/wallet-connector.js"></script>
+    <script src="assets/js/network-config.js"></script>
+    <script src="assets/js/contract-manager.js"></script>
+    <script src="assets/js/ipfs-content-loader.js"></script>
+    <style>
+      .dashboard-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 2rem;
+      }
+
+      .sidebar {
+        background-color: #1a1a2e;
+        border-radius: 8px;
+        padding: 1.5rem;
+        height: fit-content;
+      }
+
+      .sidebar-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar-menu li {
+        margin-bottom: 0.5rem;
+      }
+
+      .sidebar-menu a {
+        display: block;
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .sidebar-menu a:hover,
+      .sidebar-menu a.active {
+        background-color: #4361ee;
+      }
+
+      .dashboard-main {
+        background-color: #1a1a2e;
+        border-radius: 8px;
+        padding: 1.5rem;
+      }
+
+      .section-title {
+        border-bottom: 1px solid #2f2f4d;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .content-card {
+        background-color: #16213e;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s;
+      }
+
+      .content-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .content-thumbnail {
+        position: relative;
+        height: 160px;
+        background-color: #0f0f1a;
+        overflow: hidden;
+      }
+
+      .content-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .content-metadata {
+        padding: 1rem;
+      }
+
+      .content-title {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.1rem;
+      }
+
+      .content-metrics {
+        font-size: 0.9rem;
+        color: #a0a0c0;
+      }
+
+      .content-actions {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background-color: #1a1a2e;
+        border-top: 1px solid #2f2f4d;
+      }
+
+      .upload-container {
+        background-color: #16213e;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .upload-area {
+        border: 2px dashed #4361ee;
+        border-radius: 8px;
+        padding: 2rem 1rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        background-color: rgba(67, 97, 238, 0.1);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .upload-area:hover {
+        background-color: rgba(67, 97, 238, 0.2);
+      }
+
+      .upload-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #4361ee;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 4px;
+        border: 1px solid #2f2f4d;
+        background-color: #1a1a2e;
+        color: #fff;
+      }
+
+      textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .form-group.full-width {
+        grid-column: span 2;
+      }
+
+      .upload-progress {
+        height: 6px;
+        background-color: #1a1a2e;
+        border-radius: 3px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        display: none;
+      }
+
+      .upload-progress-bar {
+        height: 100%;
+        background-color: #4361ee;
+        width: 0%;
+        transition: width 0.3s;
+      }
+
+      .upload-status {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .metrics-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .metric-card {
+        background-color: #16213e;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      .metric-label {
+        color: #a0a0c0;
+        font-size: 0.9rem;
+      }
+
+      .earning-history {
+        margin-bottom: 2rem;
+      }
+
+      .earning-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .earning-table th,
+      .earning-table td {
+        padding: 0.75rem 1rem;
+        text-align: left;
+      }
+
+      .earning-table th {
+        background-color: #16213e;
+        font-weight: normal;
+        color: #a0a0c0;
+        border-bottom: 1px solid #2f2f4d;
+      }
+
+      .earning-table tr {
+        border-bottom: 1px solid #2f2f4d;
+      }
+
+      .earning-table tr:last-child {
+        border-bottom: none;
+      }
+
+      .transaction-hash {
+        font-family: monospace;
+        color: #4361ee;
+        cursor: pointer;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 2rem;
+        font-size: 0.8rem;
+      }
+
+      .badge-blue {
+        background-color: rgba(67, 97, 238, 0.2);
+        color: #4361ee;
+      }
+
+      .badge-green {
+        background-color: rgba(46, 204, 113, 0.2);
+        color: #2ecc71;
+      }
+
+      .badge-red {
+        background-color: rgba(231, 76, 60, 0.2);
+        color: #e74c3c;
+      }
+
+      .wallet-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #2f2f4d;
+      }
+
+      .wallet-address {
+        font-family: monospace;
+        margin-left: 0.5rem;
+      }
+
+      .stat-change {
+        font-size: 0.8rem;
+      }
+
+      .stat-change.positive {
+        color: #2ecc71;
+      }
+
+      .stat-change.negative {
+        color: #e74c3c;
+      }
+
+      /* Content Detail Page Styles */
+      .content-detail {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .video-preview {
+        background-color: #0f0f1a;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 ratio */
+        height: 0;
+      }
+
+      .video-preview video,
+      .video-preview .placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .content-details {
+        background-color: #16213e;
+        border-radius: 8px;
+        padding: 1.5rem;
+      }
+
+      .content-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .stat-item {
+        padding: 0.75rem;
+        background-color: #1a1a2e;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+        color: #a0a0c0;
+      }
+
+      .tab-buttons {
+        display: flex;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #2f2f4d;
+      }
+
+      .tab-button {
+        padding: 0.75rem 1.5rem;
+        background: none;
+        border: none;
+        color: #a0a0c0;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+
+      .tab-button.active {
+        color: #fff;
+        border-bottom: 2px solid #4361ee;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .ipfs-info {
+        background-color: rgba(67, 97, 238, 0.1);
+        padding: 0.75rem;
+        border-radius: 4px;
+        font-family: monospace;
+        overflow-x: auto;
+      }
+
+      .earnings-chart {
+        background-color: #1a1a2e;
+        border-radius: 8px;
+        padding: 1rem;
+        height: 250px;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .earnings-chart::before {
+        content: 'Chart visualization would appear here';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #4361ee;
+      }
+
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
+      }
+
+      .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top: 4px solid #4361ee;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="container nav-container">
+        <a href="/" class="logo">Web3 Crypto Streaming</a>
+        <div class="wallet-section">
+          <div id="wallet-badge" class="wallet-badge">
+            <span class="wallet-dot"></span>
+            <span id="wallet-status">Not Connected</span>
+          </div>
+        </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="streaming.html">Streaming</a></li>
+            <li><a href="creator-dashboard.html" class="active">Creator Dashboard</a></li>
+            <li><a href="docs/">Docs</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+      <div class="dashboard-grid">
+        <!-- Sidebar -->
+        <div class="sidebar">
+          <div class="wallet-info">
+            <div>
+              <div>Connected as:</div>
+              <div class="wallet-address" id="creator-wallet"></div>
+            </div>
+          </div>
+
+          <ul class="sidebar-menu">
+            <li><a href="#" class="active" data-section="overview">Overview</a></li>
+            <li><a href="#" data-section="content">My Content</a></li>
+            <li><a href="#" data-section="upload">Upload New Content</a></li>
+            <li><a href="#" data-section="earnings">Earnings</a></li>
+            <li><a href="#" data-section="settings">Settings</a></li>
+          </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-main">
+          <!-- Dashboard Sections -->
+          <div id="overview-section" class="dashboard-section">
+            <h2 class="section-title">Dashboard Overview</h2>
+
+            <!-- Stats Cards -->
+            <div class="metrics-cards">
+              <div class="metric-card">
+                <div class="metric-value">12</div>
+                <div class="metric-label">Total Content Items</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">1,384</div>
+                <div class="metric-label">Total Views</div>
+                <div class="stat-change positive">+24% this month</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">325</div>
+                <div class="metric-label">STREAM Earned</div>
+                <div class="stat-change positive">+12% this month</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">84%</div>
+                <div class="metric-label">Completion Rate</div>
+                <div class="stat-change negative">-2% this month</div>
+              </div>
+            </div>
+
+            <!-- Earnings Chart -->
+            <h3>Earnings Trend</h3>
+            <div class="earnings-chart"></div>
+
+            <!-- Recent Content -->
+            <h3>Recent Content</h3>
+            <div class="card-grid">
+              <div class="content-card">
+                <div class="content-thumbnail">
+                  <img
+                    src="assets/images/thumbnails/blockchain-basics.jpg"
+                    alt="Blockchain Basics"
+                  />
+                </div>
+                <div class="content-metadata">
+                  <h4 class="content-title">Blockchain Basics</h4>
+                  <div class="content-metrics">548 views • 2 days ago</div>
+                </div>
+                <div class="content-actions">
+                  <span class="badge badge-green">Active</span>
+                  <button class="button small">Manage</button>
+                </div>
+              </div>
+
+              <div class="content-card">
+                <div class="content-thumbnail">
+                  <img
+                    src="assets/images/thumbnails/smart-contract-dev.jpg"
+                    alt="Smart Contract Development"
+                  />
+                </div>
+                <div class="content-metadata">
+                  <h4 class="content-title">Smart Contract Development</h4>
+                  <div class="content-metrics">327 views • 5 days ago</div>
+                </div>
+                <div class="content-actions">
+                  <span class="badge badge-green">Active</span>
+                  <button class="button small">Manage</button>
+                </div>
+              </div>
+
+              <div class="content-card">
+                <div class="content-thumbnail">
+                  <img
+                    src="assets/images/thumbnails/web3-integration.jpg"
+                    alt="Web3 Integration Guide"
+                  />
+                </div>
+                <div class="content-metadata">
+                  <h4 class="content-title">Web3 Integration Guide</h4>
+                  <div class="content-metrics">209 views • 1 week ago</div>
+                </div>
+                <div class="content-actions">
+                  <span class="badge badge-green">Active</span>
+                  <button class="button small">Manage</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Section -->
+          <div id="content-section" class="dashboard-section" style="display: none">
+            <h2 class="section-title">My Content</h2>
+
+            <div class="card-grid">
+              <div class="content-card">
+                <div class="content-thumbnail">
+                  <img
+                    src="assets/images/thumbnails/blockchain-basics.jpg"
+                    alt="Blockchain Basics"
+                  />
+                </div>
+                <div class="content-metadata">
+                  <h4 class="content-title">Blockchain Basics</h4>
+                  <div class="content-metrics">548 views • 2 days ago</div>
+                </div>
+                <div class="content-actions">
+                  <span class="badge badge-green">Active</span>
+                  <button class="button small view-content" data-id="content_001">View</button>
+                </div>
+              </div>
+
+              <div class="content-card">
+                <div class="content-thumbnail">
+                  <img
+                    src="assets/images/thumbnails/smart-contract-dev.jpg"
+                    alt="Smart Contract Development"
+                  />
+                </div>
+                <div class="content-metadata">
+                  <h4 class="content-title">Smart Contract Development</h4>
+                  <div class="content-metrics">327 views • 5 days ago</div>
+                </div>
+                <div class="content-actions">
+                  <span class="badge badge-green">Active</span>
+                  <button class="button small view-content" data-id="content_002">View</button>
+                </div>
+              </div>
+
+              <div class="content-card">
+                <div class="content-thumbnail">
+                  <img
+                    src="assets/images/thumbnails/web3-integration.jpg"
+                    alt="Web3 Integration Guide"
+                  />
+                </div>
+                <div class="content-metadata">
+                  <h4 class="content-title">Web3 Integration Guide</h4>
+                  <div class="content-metrics">209 views • 1 week ago</div>
+                </div>
+                <div class="content-actions">
+                  <span class="badge badge-green">Active</span>
+                  <button class="button small view-content" data-id="content_003">View</button>
+                </div>
+              </div>
+
+              <!-- Add more content cards here -->
+            </div>
+          </div>
+
+          <!-- Upload Section -->
+          <div id="upload-section" class="dashboard-section" style="display: none">
+            <h2 class="section-title">Upload New Content</h2>
+
+            <div class="upload-container">
+              <div class="upload-area" id="drop-area">
+                <div class="upload-icon">↑</div>
+                <h3>Drag & Drop or Click to Upload Video</h3>
+                <p>Supported formats: MP4, WebM (max 2GB)</p>
+                <input type="file" id="file-input" style="display: none" accept="video/*" />
+              </div>
+
+              <div class="upload-progress">
+                <div class="upload-progress-bar" id="progress-bar"></div>
+              </div>
+              <div class="upload-status" id="upload-status"></div>
+
+              <form id="content-form">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="content-title">Title</label>
+                    <input type="text" class="form-control" id="content-title" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="content-category">Category</label>
+                    <select class="form-control" id="content-category">
+                      <option value="education">Education</option>
+                      <option value="tutorial">Tutorial</option>
+                      <option value="entertainment">Entertainment</option>
+                      <option value="crypto">Crypto</option>
+                      <option value="gaming">Gaming</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label for="content-description">Description</label>
+                    <textarea class="form-control" id="content-description"></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="content-price">Price (STREAM tokens)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="content-price"
+                      min="0"
+                      step="1"
+                      value="1"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="content-tags">Tags (comma separated)</label>
+                    <input type="text" class="form-control" id="content-tags" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="thumbnail-input">Thumbnail Image</label>
+                    <input type="file" class="form-control" id="thumbnail-input" accept="image/*" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="content-visibility">Visibility</label>
+                    <select class="form-control" id="content-visibility">
+                      <option value="public">Public</option>
+                      <option value="token-holders">Token Holders Only</option>
+                      <option value="paid">Paid Content</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button type="submit" class="button primary" id="upload-button" disabled>
+                  Upload to IPFS
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Earnings Section -->
+          <div id="earnings-section" class="dashboard-section" style="display: none">
+            <h2 class="section-title">Earnings</h2>
+
+            <div class="metrics-cards">
+              <div class="metric-card">
+                <div class="metric-value">325</div>
+                <div class="metric-label">Total STREAM Earned</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">28</div>
+                <div class="metric-label">STREAM This Month</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">12</div>
+                <div class="metric-label">STREAM Withdrawable</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">~$97.50</div>
+                <div class="metric-label">Est. Value in USD</div>
+              </div>
+            </div>
+
+            <div class="earning-history">
+              <h3>Transaction History</h3>
+              <table class="earning-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Transaction</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Apr 16, 2025</td>
+                    <td>Content Streaming Revenue: Blockchain Basics</td>
+                    <td>4.5 STREAM</td>
+                    <td>
+                      <span class="transaction-hash" title="View on Etherscan">0x12ab...3def</span>
+                    </td>
+                    <td><span class="badge badge-green">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 14, 2025</td>
+                    <td>Content Streaming Revenue: Smart Contract Development</td>
+                    <td>3.2 STREAM</td>
+                    <td>
+                      <span class="transaction-hash" title="View on Etherscan">0x34bc...5fed</span>
+                    </td>
+                    <td><span class="badge badge-green">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 12, 2025</td>
+                    <td>Creator Staking Rewards</td>
+                    <td>5.0 STREAM</td>
+                    <td>
+                      <span class="transaction-hash" title="View on Etherscan">0x56de...7abc</span>
+                    </td>
+                    <td><span class="badge badge-green">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 10, 2025</td>
+                    <td>Withdrawal to External Wallet</td>
+                    <td>-25.0 STREAM</td>
+                    <td>
+                      <span class="transaction-hash" title="View on Etherscan">0x78ef...9cbd</span>
+                    </td>
+                    <td><span class="badge badge-blue">Processed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 8, 2025</td>
+                    <td>Content Streaming Revenue: Multiple Videos</td>
+                    <td>8.7 STREAM</td>
+                    <td>
+                      <span class="transaction-hash" title="View on Etherscan">0x90gh...1def</span>
+                    </td>
+                    <td><span class="badge badge-green">Completed</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem">
+              <button class="button primary">Withdraw STREAM</button>
+            </div>
+          </div>
+
+          <!-- Content Details Section (Hidden initially) -->
+          <div id="content-detail-section" class="dashboard-section" style="display: none">
+            <div class="section-header" style="display: flex; justify-content: space-between">
+              <h2 class="section-title" id="detail-content-title">Content Details</h2>
+              <button class="button outline" id="back-to-content">Back to Content List</button>
+            </div>
+
+            <div class="content-detail">
+              <div class="video-preview">
+                <video id="detail-video-player" controls>
+                  <source src="" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <div class="content-details">
+                <h3 id="detail-title">Video Title</h3>
+                <p id="detail-description">Video description will appear here.</p>
+
+                <div class="content-stats">
+                  <div class="stat-item">
+                    <div class="stat-value" id="detail-views">0</div>
+                    <div class="stat-label">Total Views</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value" id="detail-earnings">0</div>
+                    <div class="stat-label">STREAM Earned</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value" id="detail-completion">0%</div>
+                    <div class="stat-label">Completion Rate</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value" id="detail-votes">0</div>
+                    <div class="stat-label">Upvotes</div>
+                  </div>
+                </div>
+
+                <div class="tab-buttons" style="margin-top: 1.5rem">
+                  <button class="tab-button active" data-tab="engagement">Engagement</button>
+                  <button class="tab-button" data-tab="technical">Technical</button>
+                  <button class="tab-button" data-tab="settings">Settings</button>
+                </div>
+
+                <div class="tab-content active" id="engagement-tab">
+                  <h4>Viewer Demographics</h4>
+                  <p>Demographics data will appear here in a production environment.</p>
+
+                  <h4>Top Referrers</h4>
+                  <p>Referral data will appear here in a production environment.</p>
+                </div>
+
+                <div class="tab-content" id="technical-tab">
+                  <h4>IPFS Information</h4>
+                  <div class="ipfs-info" id="detail-ipfs-cid">
+                    QmV5FWwfr4akgVMbPQZgDKWjkNP4RXh8vw7NjPBwzK2B45
+                  </div>
+
+                  <h4>Content Access Settings</h4>
+                  <p>Permission model: <span id="detail-permission">Public</span></p>
+                  <p>Smart contract address: <span id="detail-contract">0x1234...5678</span></p>
+                </div>
+
+                <div class="tab-content" id="settings-tab">
+                  <h4>Content Status</h4>
+                  <div style="margin-bottom: 1rem">
+                    <select class="form-control" id="detail-status">
+                      <option value="active">Active</option>
+                      <option value="unlisted">Unlisted</option>
+                      <option value="archived">Archived</option>
+                    </select>
+                  </div>
+
+                  <h4>Monetization</h4>
+                  <div style="margin-bottom: 1rem">
+                    <select class="form-control" id="detail-monetization">
+                      <option value="free">Free</option>
+                      <option value="paid">Paid (1 STREAM)</option>
+                      <option value="subscription">Subscription Only</option>
+                    </select>
+                  </div>
+
+                  <div style="margin-top: 2rem">
+                    <button class="button primary">Save Changes</button>
+                    <button class="button outline" style="margin-left: 0.5rem">
+                      Delete Content
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Section -->
+          <div id="settings-section" class="dashboard-section" style="display: none">
+            <h2 class="section-title">Settings</h2>
+
+            <h3>Profile Settings</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="creator-name">Display Name</label>
+                <input type="text" class="form-control" id="creator-name" value="Team MODSIAS" />
+              </div>
+              <div class="form-group">
+                <label for="creator-bio">Bio</label>
+                <textarea class="form-control" id="creator-bio">
+Blockchain specialists focusing on educational content and decentralized streaming.</textarea
+                >
+              </div>
+              <div class="form-group">
+                <label for="profile-image">Profile Image</label>
+                <input type="file" class="form-control" id="profile-image" accept="image/*" />
+              </div>
+              <div class="form-group">
+                <label for="banner-image">Banner Image</label>
+                <input type="file" class="form-control" id="banner-image" accept="image/*" />
+              </div>
+            </div>
+
+            <h3>Payout Settings</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="payout-address">Payout Address</label>
+                <input type="text" class="form-control" id="payout-address" placeholder="0x..." />
+              </div>
+              <div class="form-group">
+                <label for="auto-withdrawal">Auto Withdrawal Threshold</label>
+                <input type="number" class="form-control" id="auto-withdrawal" value="100" />
+              </div>
+            </div>
+
+            <h3>Notification Settings</h3>
+            <div>
+              <div class="form-group">
+                <input type="checkbox" id="notify-earnings" checked />
+                <label for="notify-earnings">Earnings updates</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" id="notify-comments" checked />
+                <label for="notify-comments">New comments</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" id="notify-votes" checked />
+                <label for="notify-votes">New votes</label>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem">
+              <button class="button primary">Save Settings</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Initialize IPFS Content Loader
+      const ipfsLoader = new IPFSContentLoader({
+        demoVideoPath: 'assets/videos/demo/'
+      });
+
+      // Initialize Network Config
+      const networkConfig = new NetworkConfig();
+
+      // Initialize the wallet connector
+      const walletConnector = new WalletConnector({
+        onStatusChange: statusData => {
+          // Update UI based on wallet status changes
+          const walletBadge = document.getElementById('wallet-badge');
+          const walletStatus = document.getElementById('wallet-status');
+          const creatorWallet = document.getElementById('creator-wallet');
+
+          // Update status display
+          if (statusData.status === 'connected') {
+            walletBadge.className = 'wallet-badge connected';
+            walletStatus.textContent = statusData.isDemoMode
+              ? `${statusData.address.substring(0, 6)}...${statusData.address.substring(statusData.address.length - 4)} (Demo)`
+              : `${statusData.address.substring(0, 6)}...${statusData.address.substring(statusData.address.length - 4)}`;
+
+            // Update creator wallet display
+            if (creatorWallet) {
+              creatorWallet.textContent = statusData.address;
+            }
+          } else if (statusData.status === 'connecting') {
+            walletBadge.className = 'wallet-badge';
+            walletStatus.textContent = 'Connecting...';
+          } else if (statusData.status === 'error') {
+            walletBadge.className = 'wallet-badge error';
+            walletStatus.textContent = 'Connection Error';
+          } else {
+            walletBadge.className = 'wallet-badge';
+            walletStatus.textContent = 'Not Connected';
+          }
+        }
+      });
+
+      // Sidebar navigation
+      document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          // Hide all sections
+          document.querySelectorAll('.dashboard-section').forEach(section => {
+            section.style.display = 'none';
+          });
+
+          // Remove active class from all links
+          document.querySelectorAll('.sidebar-menu a').forEach(item => {
+            item.classList.remove('active');
+          });
+
+          // Show selected section
+          const sectionId = this.getAttribute('data-section');
+          document.getElementById(`${sectionId}-section`).style.display = 'block';
+
+          // Add active class to clicked link
+          this.classList.add('active');
+        });
+      });
+
+      // Tab navigation
+      document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', function () {
+          // Remove active class from all tabs
+          document.querySelectorAll('.tab-button').forEach(tab => {
+            tab.classList.remove('active');
+          });
+
+          // Hide all tab content
+          document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+          });
+
+          // Show selected tab and add active class
+          const tabId = this.getAttribute('data-tab');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+          this.classList.add('active');
+        });
+      });
+
+      // View content detail
+      document.querySelectorAll('.view-content').forEach(button => {
+        button.addEventListener('click', function () {
+          const contentId = this.getAttribute('data-id');
+          openContentDetail(contentId);
+        });
+      });
+
+      // Back button in content detail
+      document.getElementById('back-to-content').addEventListener('click', () => {
+        document.getElementById('content-detail-section').style.display = 'none';
+        document.getElementById('content-section').style.display = 'block';
+
+        // Update sidebar selection
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('data-section') === 'content') {
+            link.classList.add('active');
+          }
+        });
+      });
+
+      // Handle file upload UI
+      const dropArea = document.getElementById('drop-area');
+      const fileInput = document.getElementById('file-input');
+      const progressBar = document.getElementById('progress-bar');
+      const uploadStatus = document.getElementById('upload-status');
+      const uploadProgress = document.querySelector('.upload-progress');
+      const uploadButton = document.getElementById('upload-button');
+
+      // Click to upload
+      if (dropArea) {
+        dropArea.addEventListener('click', () => {
+          fileInput.click();
+        });
+
+        // Drag and drop events
+        dropArea.addEventListener('dragover', e => {
+          e.preventDefault();
+          dropArea.classList.add('active');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+          dropArea.classList.remove('active');
+        });
+
+        dropArea.addEventListener('drop', e => {
+          e.preventDefault();
+          dropArea.classList.remove('active');
+
+          if (e.dataTransfer.files.length) {
+            handleFileUpload(e.dataTransfer.files[0]);
+          }
+        });
+
+        // File input change
+        fileInput.addEventListener('change', () => {
+          if (fileInput.files.length) {
+            handleFileUpload(fileInput.files[0]);
+          }
+        });
+      }
+
+      // Handle file upload
+      function handleFileUpload(file) {
+        // Check if file is video
+        if (!file.type.startsWith('video/')) {
+          alert('Please select a video file.');
+          return;
+        }
+
+        // Update UI
+        dropArea.innerHTML = `<div class="upload-icon">✓</div><h3>${file.name}</h3><p>${formatFileSize(file.size)}</p>`;
+        uploadProgress.style.display = 'block';
+        uploadStatus.style.display = 'block';
+        uploadStatus.textContent = 'Ready to upload';
+        uploadButton.disabled = false;
+
+        // Simulate upload on button click
+        uploadButton.addEventListener('click', async e => {
+          e.preventDefault();
+
+          // Validate form
+          const title = document.getElementById('content-title').value;
+          if (!title) {
+            alert('Please enter a title for your content.');
+            return;
+          }
+
+          // Simulate upload process
+          uploadStatus.textContent = 'Uploading to IPFS...';
+
+          // Simulate progress updates
+          let progress = 0;
+          const interval = setInterval(() => {
+            progress += Math.random() * 10;
+            if (progress > 100) progress = 100;
+
+            progressBar.style.width = `${progress}%`;
+            uploadStatus.textContent = `Uploading to IPFS... ${Math.floor(progress)}%`;
+
+            if (progress === 100) {
+              clearInterval(interval);
+
+              // Simulate IPFS upload
+              setTimeout(() => {
+                uploadStatus.textContent = 'Processing...';
+
+                // Simulate processing delay
+                setTimeout(async () => {
+                  try {
+                    // Get form data
+                    const contentData = {
+                      title: document.getElementById('content-title').value,
+                      category: document.getElementById('content-category').value,
+                      description: document.getElementById('content-description').value,
+                      price: document.getElementById('content-price').value,
+                      tags: document.getElementById('content-tags').value,
+                      visibility: document.getElementById('content-visibility').value
+                    };
+
+                    // Simulate upload to IPFS
+                    const result = await ipfsLoader.uploadContent(file, contentData);
+
+                    // Success message
+                    uploadStatus.textContent = `Upload successful! Content CID: ${result.cid}`;
+                    uploadStatus.classList.add('success');
+
+                    // Add transaction message after a delay
+                    setTimeout(() => {
+                      uploadStatus.textContent += '\nRegistering on blockchain...';
+
+                      // Simulate blockchain transaction
+                      setTimeout(() => {
+                        uploadStatus.textContent =
+                          'Content successfully uploaded and registered on the blockchain!';
+
+                        // Redirect to content section after delay
+                        setTimeout(() => {
+                          // In real app, would refresh content list with new item
+                          document.querySelector('.sidebar-menu a[data-section="content"]').click();
+                        }, 3000);
+                      }, 2000);
+                    }, 1000);
+                  } catch (error) {
+                    uploadStatus.textContent = `Upload failed: ${error.message}`;
+                    uploadStatus.classList.add('error');
+                  }
+                }, 1500);
+              }, 500);
+            }
+          }, 300);
+        });
+      }
+
+      // Format file size
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' bytes';
+        else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
+        else return (bytes / 1048576).toFixed(2) + ' MB';
+      }
+
+      // Open content detail view
+      function openContentDetail(contentId) {
+        // Hide content section and show detail section
+        document.getElementById('content-section').style.display = 'none';
+        document.getElementById('content-detail-section').style.display = 'block';
+
+        // Get content data
+        const content = ipfsLoader.getContentMetadata(contentId);
+
+        // Update UI with content details
+        document.getElementById('detail-content-title').textContent =
+          `Content Details: ${content.title}`;
+        document.getElementById('detail-title').textContent = content.title;
+        document.getElementById('detail-description').textContent = content.description;
+        document.getElementById('detail-ipfs-cid').textContent = content.ipfsCid;
+
+        // Set video source
+        const videoPlayer = document.getElementById('detail-video-player');
+        if (videoPlayer) {
+          ipfsLoader.loadVideo(
+            contentId,
+            videoUrl => {
+              videoPlayer.src = videoUrl;
+            },
+            true
+          );
+        }
+
+        // Set placeholder metrics (would be real data in production)
+        document.getElementById('detail-views').textContent =
+          contentId === 'content_001' ? '548' : contentId === 'content_002' ? '327' : '209';
+        document.getElementById('detail-earnings').textContent =
+          contentId === 'content_001' ? '52.3' : contentId === 'content_002' ? '31.8' : '18.5';
+        document.getElementById('detail-completion').textContent =
+          contentId === 'content_001' ? '87%' : contentId === 'content_002' ? '76%' : '82%';
+        document.getElementById('detail-votes').textContent =
+          contentId === 'content_001' ? '43' : contentId === 'content_002' ? '28' : '17';
+      }
+
+      // On page load, check for wallet connection
+      document.addEventListener('DOMContentLoaded', () => {
+        // Check if already connected from session
+        if (sessionStorage.getItem('walletConnected') === 'true') {
+          const isDemoMode = sessionStorage.getItem('walletDemo') === 'true';
+
+          if (isDemoMode) {
+            walletConnector.activateDemoMode('Demo session restored');
+          } else {
+            // Try to reconnect wallet
+            walletConnector.connect().catch(() => {
+              walletConnector.activateDemoMode('Reconnection failed, using demo mode');
+            });
+          }
+        } else {
+          // If not already connected, prompt wallet connection
+          setTimeout(() => {
+            // Show wallet connection prompt (in production would be a modal)
+            if (confirm('Connect your wallet to access the creator dashboard?')) {
+              walletConnector.connect().catch(error => {
+                console.log('Wallet connection error:', error);
+                walletConnector.activateDemoMode('Connection failed, using demo mode');
+              });
+            } else {
+              // Use demo mode if declined
+              walletConnector.activateDemoMode('Demo mode activated');
+            }
+          }, 1000);
+        }
+      });
+    </script>
+  </body>
+</html>
