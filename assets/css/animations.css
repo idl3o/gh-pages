@@ -1,43 +1,14 @@
-/**
- * Animation styles for Web3 Crypto Streaming Service
- * These animations enhance the user experience across the site
+/*
+ * Low RAM SVG Animations and Patterns
+ * For GitHub Pages - Optimized for performance on lower-end devices
  */
 
-/* Base animation classes */
-.animate {
-  animation-duration: 1s;
-  animation-fill-mode: both;
+/* Basic fade-in animation that works well on all devices */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in forwards;
 }
 
-.animate.infinite {
-  animation-iteration-count: infinite;
-}
-
-.animate.delay-1 {
-  animation-delay: 0.2s;
-}
-
-.animate.delay-2 {
-  animation-delay: 0.4s;
-}
-
-.animate.delay-3 {
-  animation-delay: 0.6s;
-}
-
-.animate.delay-4 {
-  animation-delay: 0.8s;
-}
-
-.animate.fast {
-  animation-duration: 0.5s;
-}
-
-.animate.slow {
-  animation-duration: 1.5s;
-}
-
-/* Entrance animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -47,104 +18,154 @@
   }
 }
 
-.fadeIn {
-  animation-name: fadeIn;
+/* Staggered fade-in for multiple elements */
+.fade-in-1 {
+  animation-delay: 0.1s;
+}
+.fade-in-2 {
+  animation-delay: 0.3s;
+}
+.fade-in-3 {
+  animation-delay: 0.5s;
+}
+.fade-in-4 {
+  animation-delay: 0.7s;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 30px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
+/* SVG-based pulse animation (used for buttons/highlights) */
+.svg-pulse {
+  position: relative;
+  z-index: 1;
 }
 
-.fadeInUp {
-  animation-name: fadeInUp;
+.svg-pulse::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  animation: svgPulse 2s infinite;
 }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translate3d(0, -30px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.fadeInDown {
-  animation-name: fadeInDown;
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translate3d(-30px, 0, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.fadeInLeft {
-  animation-name: fadeInLeft;
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translate3d(30px, 0, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.fadeInRight {
-  animation-name: fadeInRight;
-}
-
-/* Blockchain-themed animations */
-@keyframes pulse {
+@keyframes svgPulse {
   0% {
-    opacity: 1;
-    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+/* Lightweight loading spinner */
+.svg-spinner {
+  animation: spin 1.2s linear infinite;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Optimized wave animation for hero section backgrounds */
+.svg-wave {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: waveMove 12s linear infinite;
+  animation-delay: -2s;
+}
+
+.svg-wave.second {
+  opacity: 0.5;
+  animation-delay: -5s;
+  bottom: 10px;
+}
+
+@keyframes waveMove {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
   }
   50% {
-    opacity: 0.8;
-    transform: scale(1.05);
+    transform: translateX(-25%) translateZ(0) scaleY(0.8);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+/* Animated count-up numbers */
+.counter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: countUp 2s forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes countUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.pulse {
-  animation-name: pulse;
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
     transform: translateY(0);
   }
 }
 
-.float {
-  animation-name: float;
+/* Smooth stat number transition */
+.stat-counter {
+  transition: all 2s;
+}
+
+/* Token distribution chart animation */
+.token-chart-segment {
+  transition: all 0.8s;
+  transform-origin: center;
+}
+
+.token-chart-segment:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Button & Link hover animations */
+.hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Lightweight shimmer effect for loading content */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }
 
 @keyframes shimmer {
@@ -156,238 +177,163 @@
   }
 }
 
-.shimmer {
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.05) 8%,
-    rgba(255, 255, 255, 0.15) 18%,
-    rgba(255, 255, 255, 0.05) 33%
-  );
-  background-size: 200% 100%;
-  animation-name: shimmer;
-  animation-duration: 2s;
+/* Button click effect */
+.btn-press {
+  transition: transform 0.1s;
 }
 
-/* Token animations */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* SVG Icon patterns for use in various components */
+.svg-icon-pattern {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(99, 102, 241, 0.1);
+  mask-size: 24px;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+
+/* Accessible lowered motion option */
+@media (prefers-reduced-motion) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* SVG Background patterns */
+.svg-bg-grid {
+  background-color: var(--bg-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v1H0V0zm2 2h1v1H2V2zm2 0h1v1H4V2zm2 0h1v1H6V2zm2 0h1v1H8V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zM0 4h1v1H0V4zm14 0h1v1h-1V4zM0 6h1v1H0V6zm14 0h1v1h-1V6zM0 8h1v1H0V8zm14 0h1v1h-1V8zM0 10h1v1H0v-1zm14 0h1v1h-1v-1zM0 12h1v1H0v-1zm14 0h1v1h-1v-1zM0 14h1v1H0v-1zm14 0h1v1h-1v-1zM0 16h1v1H0v-1zm14 0h1v1h-1v-1zM0 18h1v1H0v-1zm14 0h1v1h-1v-1z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.svg-bg-circuit {
+  background-color: var(--bg-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Cpath d='M10 0h12v6h-2v2h-2v2h-2v2h-2v4h2v2h2v2h2v2h2v6H10v-6h2v-2h2v-2h2v-2h2v-4h-2v-2h-2v-2h-2V8h-2V0z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.svg-bg-dots {
+  background-color: var(--bg-color);
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%236366f1' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='12' cy='12' r='1.5'/%3E%3Ccircle cx='12' cy='5' r='1.5'/%3E%3Ccircle cx='12' cy='19' r='1.5'/%3E%3Ccircle cx='5' cy='12' r='1.5'/%3E%3Ccircle cx='19' cy='12' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* SVG animations for technical concept visualization */
+.svg-hyperstitial .node {
+  fill: var(--primary-color, #6366f1);
+}
+
+.svg-hyperstitial .connection {
+  stroke: var(--primary-color, #6366f1);
+  stroke-width: 2;
+}
+
+.svg-hyperstitial .pulse {
+  stroke: rgba(99, 102, 241, 0.6);
+  stroke-width: 1;
+  fill: none;
+  animation: svgPulseCircle 2s infinite;
+}
+
+@keyframes svgPulseCircle {
+  0% {
+    r: 10;
+    opacity: 1;
+  }
+  100% {
+    r: 30;
+    opacity: 0;
+  }
+}
+
+.svg-hyperstitial .data {
+  fill: var(--accent-color, #f59e0b);
+  animation: dataMove 3s infinite;
+}
+
+@keyframes dataMove {
+  0% {
+    transform: translateX(-60px);
+  }
+  50% {
+    transform: translateX(60px);
+  }
+  100% {
+    transform: translateX(-60px);
+  }
+}
+
+/* Warp animation */
+.svg-warp .warp-line {
+  stroke: #8b5cf6;
+  stroke-width: 2;
+  stroke-dasharray: 10 5;
+  animation: dashMove 1s linear infinite;
+}
+
+@keyframes dashMove {
   to {
-    transform: rotate(360deg);
+    stroke-dashoffset: -15;
   }
 }
 
-.spin {
-  animation-name: spin;
-  transform-origin: center;
+.svg-warp .packet {
+  fill: #10b981;
+  animation: warpSpeed 2s ease-in infinite;
 }
 
-@keyframes glow {
+@keyframes warpSpeed {
   0% {
-    box-shadow: 0 0 5px rgba(110, 69, 226, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(110, 69, 226, 0.8), 0 0 30px rgba(0, 216, 255, 0.6);
-  }
-  100% {
-    box-shadow: 0 0 5px rgba(110, 69, 226, 0.5);
-  }
-}
-
-.glow {
-  animation-name: glow;
-}
-
-/* Typing cursor animation */
-@keyframes blink {
-  0%, 100% {
+    transform: translateX(0) scale(1);
     opacity: 1;
   }
-  50% {
+  60% {
+    transform: translateX(140px) scale(0.5);
+    opacity: 0.7;
+  }
+  61% {
+    transform: translateX(-140px) scale(0.5);
     opacity: 0;
   }
-}
-
-.typing::after {
-  content: '|';
-  animation-name: blink;
-  animation-duration: 0.8s;
-  animation-iteration-count: infinite;
-}
-
-/* Network connection animation */
-@keyframes connect {
-  0% {
-    stroke-dashoffset: 100;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-.connect-line {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation-name: connect;
-  animation-duration: 1.5s;
-  animation-fill-mode: forwards;
-}
-
-/* Page transition animations */
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.page-content {
-  animation: pageEnter 0.6s ease-out;
-}
-
-/* Token rain animation */
-@keyframes tokenRain {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(1000%);
-    opacity: 0;
-  }
-}
-
-.token-rain {
-  position: absolute;
-  animation-name: tokenRain;
-  animation-timing-function: linear;
-}
-
-/* Node connection animation for network visualization */
-.node-pulse {
-  transform-origin: center;
-  transform-box: fill-box;
-  animation: nodePulse 2s infinite;
-}
-
-@keyframes nodePulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
+  62% {
+    transform: translateX(-140px) scale(1);
     opacity: 0.7;
   }
   100% {
-    transform: scale(1);
+    transform: translateX(0) scale(1);
     opacity: 1;
   }
 }
 
-/* Data blocks moving animation */
-@keyframes dataBlock {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  25% {
-    transform: translateX(10px) translateY(-10px);
-  }
-  50% {
-    transform: translateX(20px) translateY(0);
-  }
-  75% {
-    transform: translateX(10px) translateY(10px);
-  }
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-}
-
-.data-block {
-  animation-name: dataBlock;
-  animation-duration: 4s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-/* Loading animations */
-.loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.1);
-  border-left-color: var(--primary);
-  border-radius: 50%;
-  width: 30px;
+/* Creator stats animation */
+.creator-chart {
   height: 30px;
-  animation: spin 1s linear infinite;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(99, 102, 241, 0.1) 0%,
+    rgba(16, 185, 129, 0.1) 50%,
+    rgba(99, 102, 241, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: chartGradient 3s ease-in-out infinite;
+  border-radius: 4px;
 }
 
-.loading-dots span {
-  animation: fadeInOut 1.4s infinite;
-}
-
-.loading-dots span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.loading-dots span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes fadeInOut {
-  0% { opacity: 0.2; }
-  20% { opacity: 1; }
-  100% { opacity: 0.2; }
-}
-
-/* Card hover animations */
-.card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Blockchain cube animation */
-@keyframes rotateCube {
+@keyframes chartGradient {
   0% {
-    transform: rotateX(0) rotateY(0);
-  }
-  100% {
-    transform: rotateX(360deg) rotateY(360deg);
-  }
-}
-
-.blockchain-cube {
-  animation: rotateCube 10s linear infinite;
-  transform-style: preserve-3d;
-}
-
-/* Button click animation */
-@keyframes buttonClick {
-  0% {
-    transform: scale(1);
+    background-position: 0% 50%;
   }
   50% {
-    transform: scale(0.95);
+    background-position: 100% 50%;
   }
   100% {
-    transform: scale(1);
+    background-position: 0% 50%;
   }
-}
-
-.button-click {
-  animation: buttonClick 0.3s;
 }

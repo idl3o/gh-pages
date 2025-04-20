@@ -3,38 +3,377 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StreamChain: Web3 Crypto Streaming Platform | Real-Time Blockchain Payments</title>
-    <meta
-      name="description"
-      content="StreamChain revolutionizes content monetization through blockchain micropayments, NFTs, and transparent revenue sharing. Join the future of decentralized media streaming."
-    />
-    <link rel="stylesheet" href="main.css" />
-    <!-- Modern font import -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Favicon -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ethereum/ethereum-original.svg"
-    />
-    <!-- OpenGraph Tags for better social sharing -->
-    <meta property="og:title" content="Web3 Crypto Streaming Service" />
-    <meta
-      property="og:description"
-      content="The future of content streaming powered by blockchain technology"
-    />
-    <meta property="og:type" content="website" />
+    <title>Web3 Crypto Streaming Service | Decentralized Content Platform</title>
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/animations.css" />
+    <!-- Add our optimized animations -->
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon" />
+    <style>
+      /* Core styling variables - light theme */
+      :root {
+        --primary-color: #6366f1;
+        --secondary-color: #4f46e5;
+        --accent-color: #10b981;
+        --bg-color: #ffffff;
+        --card-bg: #f9fafb;
+        --text-color: #1f2937;
+        --light-text: #6b7280;
+        --border-color: #e5e7eb;
+        --radius: 8px;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Dark theme variables */
+      .dark-theme {
+        --primary-color: #818cf8;
+        --secondary-color: #6366f1;
+        --accent-color: #34d399;
+        --bg-color: #111827;
+        --card-bg: #1f2937;
+        --text-color: #f9fafb;
+        --light-text: #d1d5db;
+        --border-color: #374151;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header & Navigation */
+      .header {
+        background-color: var(--bg-color);
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        transition: background-color 0.3s;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      .dark-theme .header {
+        background-color: rgba(17, 24, 39, 0.8);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 36px;
+        margin-right: 8px;
+      }
+
+      .main-nav ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .main-nav li {
+        margin-left: 1.5rem;
+      }
+
+      .main-nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .main-nav a:hover {
+        color: var(--primary-color);
+      }
+
+      .connect-wallet-btn,
+      .dark-mode-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        color: var(--text-color);
+        transition: color 0.2s;
+      }
+
+      .connect-wallet-btn {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .connect-wallet-btn:hover {
+        background-color: var(--secondary-color);
+      }
+
+      /* Hero Section */
+      .hero {
+        padding: 5rem 0 6rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        max-width: 600px;
+        margin-bottom: 2rem;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: var(--light-text);
+        margin-bottom: 2rem;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius);
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        color: var(--text-color);
+        border: 2px solid var(--primary-color);
+      }
+
+      .btn-secondary:hover {
+        background-color: rgba(99, 102, 241, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Hidden elements */
+      .hidden {
+        display: none;
+      }
+
+      /* Back to Top Button */
+      #back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+        z-index: 99;
+        box-shadow: var(--shadow-md);
+        transform: translateY(100px);
+      }
+
+      #back-to-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Mobile Navigation */
+      .mobile-menu {
+        display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 1.5rem;
+      }
+
+      /* SVG Wave */
+      .wave-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+        pointer-events: none;
+      }
+
+      /* Responsive Media Queries */
+      @media (max-width: 768px) {
+        .main-nav {
+          display: none;
+        }
+
+        .mobile-menu-toggle {
+          display: flex;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero-cta {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    </style>
   </head>
+
   <body>
-    <!-- Navigation -->
-    <nav class="navigation">
-      <div class="container nav-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="container header-content">
         <a href="#" class="logo">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="svg-pulse"
+          >
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+            ></polygon>
+          </svg>
+          StreamChain
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="streaming.html">Stream</a></li>
+            <li><a href="docs/">Docs</a></li>
+            <li><a href="about.md">About</a></li>
+          </ul>
+        </nav>
+        <button class="connect-wallet-btn hover-lift">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <circle cx="12" cy="12" r="2"></circle>
+            <path d="M6 12h.01M18 12h.01"></path>
+          </svg>
+          Connect Wallet
+        </button>
+        <button class="dark-mode-toggle">
+          <svg
+            class="sun"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg
+            class="moon hidden"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="mobile-menu-toggle">
           <svg
             width="24"
             height="24"
@@ -42,149 +381,333 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linecap="round"
-            class="logo-icon"
           >
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
-          StreamChain
-        </a>
-        <div class="nav-right">
-          <div class="main-nav">
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Features</a></li>
-              <li><a href="streaming.html">Stream</a></li>
-              <li><a href="#">Pricing</a></li>
-              <li><a href="#">About</a></li>
-            </ul>
-          </div>
-          <button class="connect-wallet-btn">Connect Wallet</button>
-          <button class="dark-mode-toggle">
-            <svg
-              class="sun"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg
-              class="moon"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </button>
-          <button class="mobile-menu-toggle">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-        </div>
+        </button>
       </div>
-    </nav>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero">
       <div class="container">
         <div class="hero-content fade-in">
-          <h1>Revolutionizing Digital Content with Web3 Streaming</h1>
+          <h1>Decentralized Media Streaming Powered By Blockchain</h1>
           <p>
-            A decentralized streaming platform that gives power back to creators through blockchain
-            micropayments, NFTs, and transparent revenue sharing.
+            A next-generation platform for video creators and viewers that eliminates
+            intermediaries, offers direct monetization, and returns control to content owners.
           </p>
           <div class="hero-cta">
-            <a href="#beta" class="button primary">Join Beta Access</a>
-            <a href="#technology" class="button outline">Explore Technology</a>
-          </div>
-          <div class="hero-stats">
-            <div class="stat">
-              <span class="stat-number">$0.001</span>
-              <span class="stat-label">Per-second streaming rate</span>
-            </div>
-            <div class="stat">
-              <span class="stat-number">99.9%</span>
-              <span class="stat-label">Creator revenue share</span>
-            </div>
-            <div class="stat">
-              <span class="stat-number">10,000+</span>
-              <span class="stat-label">Beta waitlist signups</span>
-            </div>
+            <a href="streaming.html" class="btn btn-primary hover-lift btn-press"
+              >Try Streaming Demo</a
+            >
+            <a href="docs/whitepaper.html" class="btn btn-secondary hover-lift btn-press"
+              >Read Whitepaper</a
+            >
           </div>
         </div>
-        <div class="hero-image fade-in">
-          <img
-            src="https://via.placeholder.com/600x400/6e45e2/ffffff?text=Web3+Streaming"
-            alt="Web3 Streaming Platform Interface"
-          />
+        <div class="wave-container">
+          <svg
+            class="svg-wave"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+          >
+            <path
+              fill="rgba(99, 102, 241, 0.1)"
+              fill-opacity="1"
+              d="M0,96L48,112C96,128,192,160,288,181.3C384,203,480,213,576,197.3C672,181,768,139,864,138.7C960,139,1056,181,1152,208C1248,235,1344,245,1392,250.7L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            ></path>
+          </svg>
+          <svg
+            class="svg-wave second"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+          >
+            <path
+              fill="rgba(16, 185, 129, 0.1)"
+              fill-opacity="1"
+              d="M0,224L48,224C96,224,192,224,288,197.3C384,171,480,117,576,101.3C672,85,768,107,864,133.3C960,160,1056,192,1152,202.7C1248,213,1344,203,1392,197.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            ></path>
+          </svg>
         </div>
       </div>
-      <div class="hero-wave">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
-          <path
-            d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-          ></path>
-        </svg>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="svg-bg-dots">
+      <div class="container">
+        <h2>Key Features</h2>
+        <div class="features-grid">
+          <!-- Feature cards with SVG icons -->
+          <div class="feature-card fade-in fade-in-1">
+            <div class="feature-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <h3>Decentralized Storage</h3>
+            <p>
+              Content is stored across a distributed network, making it censorship-resistant and
+              always available
+            </p>
+          </div>
+
+          <div class="feature-card fade-in fade-in-2">
+            <div class="feature-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <h3>Smart Contract Payments</h3>
+            <p>Automatic, transparent revenue distribution directly to creators with every view</p>
+          </div>
+
+          <div class="feature-card fade-in fade-in-3">
+            <div class="feature-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"
+                ></path>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+              </svg>
+            </div>
+            <h3>Fair Monetization</h3>
+            <p>
+              Multiple revenue streams including micropayments, subscriptions, NFTs, and direct tips
+            </p>
+          </div>
+
+          <div class="feature-card fade-in fade-in-4">
+            <div class="feature-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <h3>Creator Control</h3>
+            <p>Full ownership of content, audience relationships, and revenue streams</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="svg-bg-circuit">
+      <div class="container">
+        <h2>Web3 Streaming Architecture</h2>
+        <div class="architecture-diagram">
+          <!-- SVG Architecture Diagram -->
+          <svg width="100%" height="400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color: var(--primary-color); stop-opacity: 0.8" />
+                <stop offset="100%" style="stop-color: var(--accent-color); stop-opacity: 0.8" />
+              </linearGradient>
+            </defs>
+
+            <!-- Connection Lines -->
+            <line x1="150" y1="150" x2="300" y2="100" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="150" y1="150" x2="300" y2="200" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="300" y1="100" x2="450" y2="150" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="300" y1="200" x2="450" y2="150" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="450" y1="150" x2="600" y2="100" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="450" y1="150" x2="600" y2="200" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="450" y1="150" x2="450" y2="250" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="450" y1="250" x2="300" y2="300" stroke="url(#grad1)" stroke-width="2" />
+            <line x1="450" y1="250" x2="600" y2="300" stroke="url(#grad1)" stroke-width="2" />
+
+            <!-- Nodes -->
+            <circle
+              cx="150"
+              cy="150"
+              r="40"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+              class="svg-pulse"
+            />
+            <circle
+              cx="300"
+              cy="100"
+              r="30"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+            />
+            <circle
+              cx="300"
+              cy="200"
+              r="30"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+            />
+            <circle
+              cx="450"
+              cy="150"
+              r="40"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+              class="svg-pulse"
+            />
+            <circle
+              cx="600"
+              cy="100"
+              r="30"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+            />
+            <circle
+              cx="600"
+              cy="200"
+              r="30"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+            />
+            <circle
+              cx="450"
+              cy="250"
+              r="30"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+            />
+            <circle
+              cx="300"
+              cy="300"
+              r="30"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+            />
+            <circle
+              cx="600"
+              cy="300"
+              r="30"
+              fill="var(--card-bg)"
+              stroke="var(--primary-color)"
+              stroke-width="2"
+            />
+
+            <!-- Node Labels -->
+            <text x="150" y="155" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Creator
+            </text>
+            <text x="300" y="105" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              IPFS
+            </text>
+            <text x="300" y="205" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Blockchain
+            </text>
+            <text x="450" y="155" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Smart Contracts
+            </text>
+            <text x="600" y="105" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Viewer
+            </text>
+            <text x="600" y="205" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Wallet
+            </text>
+            <text x="450" y="255" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Payment System
+            </text>
+            <text x="300" y="305" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Token
+            </text>
+            <text x="600" y="305" font-size="12" fill="var(--text-color)" text-anchor="middle">
+              Analytics
+            </text>
+          </svg>
+        </div>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer>
       <div class="container">
         <div class="footer-grid">
           <div>
             <h3>StreamChain</h3>
-            <p>Revolutionizing content distribution through blockchain technology.</p>
+            <p>Decentralized streaming platform built on blockchain technology.</p>
+            <div class="social-icons">
+              <a href="#" aria-label="Twitter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 9.785 9.785 0 01-3.127 1.195 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" aria-label="Discord">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                  ></path>
+                </svg>
+              </a>
+            </div>
           </div>
-
           <div>
-            <h4>Resources</h4>
+            <h3>Resources</h3>
             <ul>
-              <li><a href="whitepaper.md">Whitepaper</a></li>
-              <li><a href="docs/">Documentation</a></li>
-              <li><a href="blog/">Blog</a></li>
+              <li><a href="docs/whitepaper.html">Whitepaper</a></li>
+              <li><a href="docs/api.html">API Documentation</a></li>
+              <li><a href="docs/token.html">STREAM Token</a></li>
+              <li><a href="docs/governance.html">Governance</a></li>
             </ul>
           </div>
-
           <div>
-            <h4>Community</h4>
+            <h3>Company</h3>
             <ul>
-              <li><a href="https://twitter.com/modsias">Twitter</a></li>
-              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
-              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+              <li><a href="about.md">About Us</a></li>
+              <li><a href="team.html">Team</a></li>
+              <li><a href="faq.md">FAQ</a></li>
+              <li><a href="#">Contact</a></li>
             </ul>
           </div>
-
           <div>
-            <h4>Legal</h4>
+            <h3>Legal</h3>
             <ul>
-              <li><a href="terms.md">Terms of Service</a></li>
+              <li><a href="#">Terms of Service</a></li>
               <li><a href="privacy.md">Privacy Policy</a></li>
               <li><a href="docs/token-disclaimer.html">Token Disclaimer</a></li>
             </ul>
@@ -198,7 +721,7 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="hidden">
+    <button id="back-to-top" class="hidden btn-press">
       <svg
         width="24"
         height="24"
@@ -216,33 +739,27 @@
     <script>
       // Dark mode toggle functionality
       const darkModeToggle = document.querySelector('.dark-mode-toggle');
-      const htmlElement = document.documentElement;
+      const sunIcon = document.querySelector('.sun');
+      const moonIcon = document.querySelector('.moon');
 
-      // Check for saved theme preference or use default
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      htmlElement.setAttribute('data-theme', savedTheme);
+      // Check if user prefers dark mode
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-theme');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
 
       darkModeToggle.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        htmlElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+        document.body.classList.toggle('dark-theme');
+        sunIcon.classList.toggle('hidden');
+        moonIcon.classList.toggle('hidden');
       });
 
-      // Mobile menu toggle
-      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-      const mainNav = document.querySelector('.main-nav');
-
-      mobileMenuToggle.addEventListener('click', () => {
-        mainNav.classList.toggle('active');
-      });
-
-      // Back to top button functionality
+      // Back to top functionality
       const backToTopButton = document.getElementById('back-to-top');
 
       window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
+        if (window.scrollY > 300) {
           backToTopButton.classList.add('visible');
           backToTopButton.classList.remove('hidden');
         } else {
@@ -256,6 +773,68 @@
           top: 0,
           behavior: 'smooth'
         });
+      });
+
+      // Connect wallet functionality
+      const connectWalletBtn = document.querySelector('.connect-wallet-btn');
+
+      connectWalletBtn.addEventListener('click', () => {
+        alert(
+          'Wallet connection functionality will be implemented in the future. For now, please enjoy the static demo.'
+        );
+      });
+
+      // Animate number counters
+      document.addEventListener('DOMContentLoaded', () => {
+        // Add any counter animations as needed
+        function animateStats() {
+          const counters = document.querySelectorAll('.stat-counter');
+
+          counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const increment = target / 100;
+
+            const updateCounter = () => {
+              const count = +counter.innerText;
+              if (count < target) {
+                counter.innerText = Math.ceil(count + increment);
+                setTimeout(updateCounter, 10);
+              } else {
+                counter.innerText = target;
+              }
+            };
+
+            updateCounter();
+          });
+        }
+
+        // Check if element is in viewport
+        const isInViewport = element => {
+          const rect = element.getBoundingClientRect();
+          return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+          );
+        };
+
+        // Trigger animations when elements come into view
+        const handleScrollAnimations = () => {
+          const animElements = document.querySelectorAll('.fade-in');
+
+          animElements.forEach(element => {
+            if (isInViewport(element)) {
+              element.style.opacity = 1;
+            }
+          });
+
+          // Other scroll-based animations can be triggered here
+        };
+
+        // Check for animations on load and scroll
+        window.addEventListener('load', handleScrollAnimations);
+        window.addEventListener('scroll', handleScrollAnimations);
       });
     </script>
   </body>
