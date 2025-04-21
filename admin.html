@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="StreamChain - Explore our decentralized streaming platform" />
-    <title>Streaming | StreamChain</title>
+    <meta
+      name="description"
+      content="StreamChain Admin Dashboard - Site management and control panel"
+    />
+    <title>Admin Dashboard | StreamChain</title>
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/animations.css" />
     <link rel="stylesheet" href="./assets/css/definitive.css" />
@@ -106,97 +109,61 @@
       </div>
     </header>
 
-    <!-- Streaming Content Section -->
-    <section id="streaming-content" class="streaming-section">
+    <section class="admin-section">
       <div class="container">
-        <h1>Decentralized Streaming Platform</h1>
-        <p class="section-intro">
-          Experience the future of content distribution with our Web3 streaming service.
-        </p>
+        <h1>Admin Dashboard</h1>
 
-        <div class="video-player-large">
-          <div class="featured-video">
-            <video controls width="100%">
-              <source src="./assets/videos/sample-web3-video.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <h2>Web3 Technology Explained</h2>
-            <p class="video-creator">By CryptoCreator • 12.5K views</p>
-            <div class="video-actions">
-              <button class="btn btn-secondary">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                  ></path>
-                </svg>
-                Like
+        <div class="admin-authentication">
+          <div class="login-form">
+            <h2>Admin Authentication</h2>
+            <form>
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required />
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+              <button type="button" class="btn btn-secondary wallet-login">
+                Connect Wallet to Authenticate
               </button>
-              <button class="btn btn-secondary">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-                Comment
-              </button>
-              <button class="btn btn-primary">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <polyline points="19 12 12 19 5 12"></polyline>
-                </svg>
-                Tip Creator
-              </button>
-            </div>
+            </form>
           </div>
         </div>
 
-        <h2 class="section-title">Popular Videos</h2>
-        <div class="video-grid">
-          <div class="video-card">
-            <div class="thumbnail">
-              <img src="./assets/images/video-thumbnail-1.jpg" alt="Video thumbnail" />
-              <span class="duration">12:34</span>
+        <div class="admin-controls" style="display: block">
+          <div class="admin-panel-grid">
+            <div class="admin-card">
+              <h3>Site Deployment</h3>
+              <div class="admin-actions">
+                <button class="admin-btn" data-action="build-site">Build Site</button>
+                <button class="admin-btn" data-action="deploy-prod">Deploy to Production</button>
+                <button class="admin-btn" data-action="deploy-stage">Deploy to Staging</button>
+              </div>
+              <div class="output-console" id="deploy-output"></div>
             </div>
-            <h3>Introduction to Decentralized Storage</h3>
-            <p class="creator">TechExplorer</p>
-            <p class="views">8.2K views</p>
-          </div>
-          <div class="video-card">
-            <div class="thumbnail">
-              <img src="./assets/images/video-thumbnail-2.jpg" alt="Video thumbnail" />
-              <span class="duration">8:15</span>
+
+            <div class="admin-card">
+              <h3>Content Management</h3>
+              <div class="admin-actions">
+                <button class="admin-btn" data-action="list-content">List Content</button>
+                <button class="admin-btn" data-action="add-content">Add New Content</button>
+                <button class="admin-btn" data-action="moderate-comments">Moderate Comments</button>
+              </div>
+              <div class="output-console" id="content-output"></div>
             </div>
-            <h3>Smart Contract Fundamentals</h3>
-            <p class="creator">BlockchainDev</p>
-            <p class="views">15.7K views</p>
-          </div>
-          <div class="video-card">
-            <div class="thumbnail">
-              <img src="./assets/images/video-thumbnail-3.jpg" alt="Video thumbnail" />
-              <span class="duration">22:01</span>
+
+            <div class="admin-card">
+              <h3>System Diagnostics</h3>
+              <div class="admin-actions">
+                <button class="admin-btn" data-action="check-health">System Health Check</button>
+                <button class="admin-btn" data-action="view-logs">View Logs</button>
+                <button class="admin-btn" data-action="clear-cache">Clear Cache</button>
+              </div>
+              <div class="output-console" id="diagnostic-output"></div>
             </div>
-            <h3>Crypto Monetization for Creators</h3>
-            <p class="creator">CreatorEconomy</p>
-            <p class="views">11.3K views</p>
           </div>
         </div>
       </div>
@@ -259,6 +226,16 @@
               <li><a href="token-disclaimer.html">Token Disclaimer</a></li>
             </ul>
           </div>
+          <div>
+            <h3>Navigation</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="streaming.html">Streaming</a></li>
+              <li><a href="creator-dashboard.html">Creator Dashboard</a></li>
+              <li><a href="security.html">Security</a></li>
+              <li><a href="sitemap.html">Sitemap</a></li>
+            </ul>
+          </div>
         </div>
         <div class="footer-bottom">
           <p>&copy; 2025 StreamChain | <a href="sitemap.html">Sitemap</a></p>
@@ -290,6 +267,37 @@
         alert(
           'Wallet connection functionality will be implemented in the future. For now, please enjoy the static demo.'
         );
+      });
+
+      // Admin button functionality
+      document.querySelectorAll('.admin-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const action = button.getAttribute('data-action');
+          const outputElement = document.getElementById(
+            action.includes('deploy')
+              ? 'deploy-output'
+              : action.includes('content')
+                ? 'content-output'
+                : 'diagnostic-output'
+          );
+
+          button.innerHTML = '<span class="loading-spinner"></span> Running...';
+          button.disabled = true;
+
+          setTimeout(() => {
+            let output = `Executed ${action} successfully at ${new Date().toLocaleTimeString()}`;
+            if (outputElement) {
+              outputElement.innerHTML = `<pre>${output}</pre>`;
+            }
+
+            button.innerHTML = button
+              .getAttribute('data-action')
+              .split('-')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+            button.disabled = false;
+          }, 1500);
+        });
       });
     </script>
   </body>
