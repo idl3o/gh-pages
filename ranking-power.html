@@ -1,386 +1,423 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Creator Ranking Power | Web3 Crypto Streaming Service</title>
-    <meta name="description" content="Understand how the creator ranking system works and how to improve your rank">
+    <meta
+      name="description"
+      content="Understand how the creator ranking system works and how to improve your rank"
+    />
 
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
     <!-- Main site CSS -->
-    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/main.css" />
 
     <!-- Ranking-specific CSS -->
     <style>
-        /* Ranking System Styles */
-        .page-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
+      /* Ranking System Styles */
+      .page-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
 
-        .page-title {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+      .page-title {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
 
-        .ranking-intro {
-            background-color: rgba(110, 69, 226, 0.1);
-            border-left: 4px solid #6e45e2;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: 4px;
-        }
+      .ranking-intro {
+        background-color: rgba(110, 69, 226, 0.1);
+        border-left: 4px solid #6e45e2;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-radius: 4px;
+      }
 
-        .ranking-container {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+      .ranking-container {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
 
+      .ranking-header {
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      .rank-badge {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: white;
+        margin-right: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .rank-info {
+        flex-grow: 1;
+      }
+
+      .rank-info h3 {
+        margin: 0;
+        font-size: 1.8rem;
+      }
+
+      .rank-score {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: #d1d5db;
+      }
+
+      .rank-progress {
+        margin-top: 0.75rem;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #6e45e2, #00d8ff);
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+
+      .progress-text {
+        font-size: 0.9rem;
+        color: #d1d5db;
+      }
+
+      .ranking-benefits {
+        padding: 1.5rem;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .ranking-benefits h4 {
+        margin-top: 0;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .ranking-benefits ul {
+        margin: 0;
+        padding-left: 1.5rem;
+      }
+
+      .power-items-container {
+        padding: 1.5rem;
+      }
+
+      .power-items-container h4 {
+        margin-top: 0;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .power-items-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .power-item {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .power-item:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .power-item-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+      }
+
+      .power-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: white;
+        margin-right: 1rem;
+      }
+
+      .power-info {
+        flex-grow: 1;
+      }
+
+      .power-info h5 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1rem;
+      }
+
+      .power-score {
+        font-size: 0.9rem;
+        color: #d1d5db;
+      }
+
+      .power-progress {
+        margin-bottom: 0.75rem;
+      }
+
+      .power-description {
+        font-size: 0.9rem;
+        color: #d1d5db;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .power-description p {
+        margin: 0;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .section-header {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid rgba(110, 69, 226, 0.5);
+      }
+
+      .rank-tiers {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .rank-tier {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .tier-badge {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        line-height: 50px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 0.5rem;
+      }
+
+      .rank-tier h4 {
+        margin: 0.5rem 0;
+      }
+
+      .rank-tier p {
+        font-size: 0.9rem;
+        color: #d1d5db;
+      }
+
+      .loading-indicator {
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        border-top-color: #6e45e2;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 768px) {
         .ranking-header {
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.2);
+          flex-direction: column;
+          text-align: center;
         }
 
         .rank-badge {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: white;
-            margin-right: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .rank-info {
-            flex-grow: 1;
-        }
-
-        .rank-info h3 {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .rank-score {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #d1d5db;
-        }
-
-        .rank-progress {
-            margin-top: 0.75rem;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #6e45e2, #00d8ff);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-text {
-            font-size: 0.9rem;
-            color: #d1d5db;
-        }
-
-        .ranking-benefits {
-            padding: 1.5rem;
-            background-color: rgba(0, 0, 0, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .ranking-benefits h4 {
-            margin-top: 0;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .ranking-benefits ul {
-            margin: 0;
-            padding-left: 1.5rem;
-        }
-
-        .power-items-container {
-            padding: 1.5rem;
-        }
-
-        .power-items-container h4 {
-            margin-top: 0;
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
+          margin: 0 0 1rem 0;
         }
 
         .power-items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .power-item {
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .power-item:hover {
-            background-color: rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .power-item-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .power-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: white;
-            margin-right: 1rem;
-        }
-
-        .power-info {
-            flex-grow: 1;
-        }
-
-        .power-info h5 {
-            margin: 0 0 0.25rem 0;
-            font-size: 1rem;
-        }
-
-        .power-score {
-            font-size: 0.9rem;
-            color: #d1d5db;
-        }
-
-        .power-progress {
-            margin-bottom: 0.75rem;
-        }
-
-        .power-description {
-            font-size: 0.9rem;
-            color: #d1d5db;
-            padding-top: 0.75rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .power-description p {
-            margin: 0;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .section-header {
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid rgba(110, 69, 226, 0.5);
+          grid-template-columns: 1fr;
         }
 
         .rank-tiers {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+          grid-template-columns: 1fr;
         }
-
-        .rank-tier {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .tier-badge {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            line-height: 50px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .rank-tier h4 {
-            margin: 0.5rem 0;
-        }
-
-        .rank-tier p {
-            font-size: 0.9rem;
-            color: #d1d5db;
-        }
-
-        .loading-indicator {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: #6e45e2;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .ranking-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .rank-badge {
-                margin: 0 0 1rem 0;
-            }
-
-            .power-items-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .rank-tiers {
-                grid-template-columns: 1fr;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <!-- Your site header goes here -->
+      <!-- Your site header goes here -->
     </header>
 
     <main class="page-container">
-        <h1 class="page-title">Creator Ranking Power System</h1>
+      <h1 class="page-title">Creator Ranking Power System</h1>
 
-        <div class="ranking-intro">
-            <p>The Web3 Crypto Streaming Service uses a comprehensive ranking system to recognize and reward content creators. Your ranking affects revenue share percentages, feature access, and visibility on the platform.</p>
-            <p>Click on each power item to learn more about how it's calculated.</p>
+      <div class="ranking-intro">
+        <p>
+          The Web3 Crypto Streaming Service uses a comprehensive ranking system to recognize and
+          reward content creators. Your ranking affects revenue share percentages, feature access,
+          and visibility on the platform.
+        </p>
+        <p>Click on each power item to learn more about how it's calculated.</p>
+      </div>
+
+      <!-- Creator ranking preview -->
+      <div id="creator-ranking">
+        <div class="loading-indicator">
+          <div class="spinner"></div>
+          <p>Loading your ranking data...</p>
         </div>
+      </div>
 
-        <!-- Creator ranking preview -->
-        <div id="creator-ranking">
-            <div class="loading-indicator">
-                <div class="spinner"></div>
-                <p>Loading your ranking data...</p>
-            </div>
-        </div>
+      <h2 class="section-header">Rank Tiers</h2>
+      <div class="rank-tiers" id="rank-tiers">
+        <!-- Tier information will be loaded here -->
+      </div>
 
-        <h2 class="section-header">Rank Tiers</h2>
-        <div class="rank-tiers" id="rank-tiers">
-            <!-- Tier information will be loaded here -->
-        </div>
+      <h2 class="section-header">Improving Your Ranking</h2>
+      <div class="ranking-tips">
+        <h3>Content Quality</h3>
+        <p>
+          Focus on high-resolution streams with engaging content that keeps viewers watching until
+          the end. Higher resolution and completion rates significantly boost your content quality
+          score.
+        </p>
 
-        <h2 class="section-header">Improving Your Ranking</h2>
-        <div class="ranking-tips">
-            <h3>Content Quality</h3>
-            <p>Focus on high-resolution streams with engaging content that keeps viewers watching until the end. Higher resolution and completion rates significantly boost your content quality score.</p>
+        <h3>Engagement</h3>
+        <p>
+          Encourage discussions in your streams, respond to comments, and create content worth
+          sharing. The engagement rate is calculated as (comments + shares*2 + reactions) divided by
+          view count.
+        </p>
 
-            <h3>Engagement</h3>
-            <p>Encourage discussions in your streams, respond to comments, and create content worth sharing. The engagement rate is calculated as (comments + shares*2 + reactions) divided by view count.</p>
+        <h3>Consistency</h3>
+        <p>
+          Maintain a regular streaming schedule. The platform rewards creators who stream
+          consistently rather than sporadically, even if the total hours are the same.
+        </p>
 
-            <h3>Consistency</h3>
-            <p>Maintain a regular streaming schedule. The platform rewards creators who stream consistently rather than sporadically, even if the total hours are the same.</p>
+        <h3>Ecosystem Participation</h3>
+        <p>
+          Stake STREAM tokens, participate in governance votes, and become an active community
+          member. These actions significantly impact your overall ranking beyond just content
+          metrics.
+        </p>
+      </div>
 
-            <h3>Ecosystem Participation</h3>
-            <p>Stake STREAM tokens, participate in governance votes, and become an active community member. These actions significantly impact your overall ranking beyond just content metrics.</p>
-        </div>
-
-        <h2 class="section-header">Ranking History</h2>
-        <p>Your ranking data is updated daily. View your historical progress in the <a href="#">Creator Dashboard</a>.</p>
+      <h2 class="section-header">Ranking History</h2>
+      <p>
+        Your ranking data is updated daily. View your historical progress in the
+        <a href="creator-dashboard.html">Creator Dashboard</a>.
+      </p>
     </main>
 
     <footer>
-        <!-- Your site footer goes here -->
+      <!-- Your site footer goes here -->
     </footer>
 
     <!-- Load the ranking power system JavaScript -->
     <script src="/assets/js/ranking-power.js"></script>
 
     <script>
-        // Demo implementation for the ranking page
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Initialize the ranking system
-            const rankingSystem = new RankingPowerSystem();
-            const initialized = await rankingSystem.initialize();
+      // Demo implementation for the ranking page
+      document.addEventListener('DOMContentLoaded', async function () {
+        // Initialize the ranking system
+        const rankingSystem = new RankingPowerSystem();
+        const initialized = await rankingSystem.initialize();
 
-            if (initialized) {
-                // Load creator data (in production this would use the actual creator ID)
-                await rankingSystem.loadCreatorMetrics('demo-creator');
+        if (initialized) {
+          // Load creator data (in production this would use the actual creator ID)
+          await rankingSystem.loadCreatorMetrics('demo-creator');
 
-                // Render the ranking UI
-                const container = document.getElementById('creator-ranking');
-                rankingSystem.renderRankingUI(container);
+          // Render the ranking UI
+          const container = document.getElementById('creator-ranking');
+          rankingSystem.renderRankingUI(container);
 
-                // Render rank tiers
-                renderRankTiers(rankingSystem.schema.rankLevels);
-            } else {
-                document.getElementById('creator-ranking').innerHTML = `
+          // Render rank tiers
+          renderRankTiers(rankingSystem.schema.rankLevels);
+        } else {
+          document.getElementById('creator-ranking').innerHTML = `
                     <div class="error-message">
                         <p>Unable to load ranking data. Please try again later.</p>
                     </div>
                 `;
-            }
-        });
+        }
+      });
 
-        /**
-         * Render the rank tiers section
-         * @param {Array} tiers - Array of tier objects
-         */
-        function renderRankTiers(tiers) {
-            const container = document.getElementById('rank-tiers');
+      /**
+       * Render the rank tiers section
+       * @param {Array} tiers - Array of tier objects
+       */
+      function renderRankTiers(tiers) {
+        const container = document.getElementById('rank-tiers');
 
-            const html = tiers.map(tier => `
+        const html = tiers
+          .map(
+            tier => `
                 <div class="rank-tier">
                     <div class="tier-badge" style="background-color: ${tier.color}">${tier.icon}</div>
                     <h4>${tier.name}</h4>
                     <p>${tier.minScore} - ${tier.maxScore} points</p>
                     <div class="tier-benefit-preview">
-                        ${tier.benefits.slice(0, 2).map(b => `<div class="tier-benefit">${b}</div>`).join('')}
+                        ${tier.benefits
+                          .slice(0, 2)
+                          .map(b => `<div class="tier-benefit">${b}</div>`)
+                          .join('')}
                         ${tier.benefits.length > 2 ? `<div class="tier-benefit">+${tier.benefits.length - 2} more</div>` : ''}
                     </div>
                 </div>
-            `).join('');
+            `
+          )
+          .join('');
 
-            container.innerHTML = html;
-        }
+        container.innerHTML = html;
+      }
     </script>
-</body>
+  </body>
 </html>

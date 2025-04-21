@@ -53,6 +53,14 @@
   --card-background: var(--dark-2);
   --text-color: var(--light);
   --border: 1px solid var(--border-color);
+
+  /* Responsive breakpoints */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1600px; /* New breakpoint for extra large screens */
+  --breakpoint-ultrawide: 2100px; /* New breakpoint for ultra-wide screens */
 }
 
 /* Light mode theme */
@@ -146,6 +154,27 @@ ol {
   padding: 0 1.5rem;
 }
 
+/* New container sizes for larger screens */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1500px;
+  }
+
+  .container.container-wide {
+    max-width: 1800px;
+  }
+}
+
+@media (min-width: 2100px) {
+  .container {
+    max-width: 1800px;
+  }
+
+  .container.container-wide {
+    max-width: 2000px;
+  }
+}
+
 /* Layout */
 .section {
   padding: 5rem 0;
@@ -161,6 +190,25 @@ ol {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin: 2rem 0;
+}
+
+/* Enhanced grid for larger screens */
+@media (min-width: 1600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  .grid-4-cols {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .grid-5-cols {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .grid-6-cols {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 .center-text {
@@ -309,6 +357,41 @@ ol {
   align-items: center;
 }
 
+/* Enhanced hero layout for larger screens */
+@media (min-width: 1600px) {
+  .hero {
+    padding: 12rem 0 8rem;
+  }
+
+  .hero .container {
+    grid-template-columns: 5fr 6fr;
+    gap: 4rem;
+  }
+
+  .hero-content h1 {
+    font-size: 4.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 2100px) {
+  .hero {
+    padding: 14rem 0 10rem;
+  }
+
+  .hero .container {
+    grid-template-columns: 4fr 6fr;
+    gap: 6rem;
+  }
+
+  .hero-content h1 {
+    font-size: 5rem;
+  }
+}
+
 .hero-content h1 {
   font-size: 3.5rem;
   margin-bottom: 1.25rem;
@@ -407,6 +490,19 @@ ol {
 .card h3 {
   margin-bottom: 1rem;
   color: var(--text-color);
+}
+
+/* Enhanced card layout for larger screens */
+@media (min-width: 1600px) {
+  .card-large {
+    padding: 3rem;
+  }
+
+  .featured-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
 }
 
 /* Buttons */
@@ -655,6 +751,14 @@ table th {
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 3rem;
   margin-bottom: 3rem;
+}
+
+/* Enhanced footer layout for larger screens */
+@media (min-width: 1600px) {
+  .footer-grid {
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 4rem;
+  }
 }
 
 .footer-col h3,
@@ -1245,4 +1349,51 @@ table th {
 
 .button.primary.pulse {
   animation: pulse 1s ease-out;
+}
+
+/* Multi-column content for larger screens */
+@media (min-width: 1600px) {
+  .multi-column-text {
+    column-count: 2;
+    column-gap: 3rem;
+  }
+
+  .multi-column-text-3 {
+    column-count: 3;
+    column-gap: 3rem;
+  }
+}
+
+/* Wide screen optimized dashboard layout */
+@media (min-width: 1600px) {
+  .dashboard-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    gap: 2rem;
+  }
+
+  .main-content-wide {
+    padding: 0 2.5rem;
+  }
+
+  .side-by-side-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* Ultra-wide screen optimizations */
+@media (min-width: 2100px) {
+  .ultra-wide-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr 350px;
+    gap: 3rem;
+  }
+
+  .quad-panel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
 }

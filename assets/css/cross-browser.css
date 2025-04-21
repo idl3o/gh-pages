@@ -1,0 +1,208 @@
+/**
+ * Cross-browser compatibility styles
+ * These styles provide fallbacks and vendor-prefixed properties for better browser compatibility
+ */
+
+/* CSS Variables with fallbacks for older browsers */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #50e3c2;
+  --text-color: #333333;
+  --background-color: #ffffff;
+  --transition-speed: 0.3s;
+}
+
+.no-css-variables .primary-colored {
+  color: #4a90e2;
+}
+
+.no-css-variables .secondary-colored {
+  color: #50e3c2;
+}
+
+/* Flexbox with prefixes and fallbacks */
+.flex-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+/* Grid with fallbacks */
+.grid-container {
+  display: -ms-grid;
+  display: grid;
+}
+
+.no-cssgrid .grid-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+/* Transforms with prefixes */
+.transform-element {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Transitions with prefixes */
+.transition-element {
+  -webkit-transition: all var(--transition-speed) ease;
+  -moz-transition: all var(--transition-speed) ease;
+  -ms-transition: all var(--transition-speed) ease;
+  -o-transition: all var(--transition-speed) ease;
+  transition: all var(--transition-speed) ease;
+}
+
+.no-css-variables .transition-element {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Animation with prefixes */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Object-fit with fallback for IE */
+.image-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  font-family: 'object-fit: cover;'; /* IE polyfill */
+}
+
+.image-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  font-family: 'object-fit: contain;'; /* IE polyfill */
+}
+
+/* Backdrop-filter with prefixes and fallbacks */
+.backdrop-blur {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.no-backdropfilter .backdrop-blur {
+  background-color: rgba(255, 255, 255, 0.9); /* Fallback for browsers without backdrop-filter */
+}
+
+/* iOS vh unit fix with CSS variables */
+.full-height {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Responsive media display */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Focus outlines for accessibility */
+:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.no-css-variables :focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+/* Touch optimization */
+.touch-action-manipulation {
+  touch-action: manipulation;
+}
+
+/* Prevent text size adjustment on orientation changes */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Better font rendering */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling with fallback */
+html {
+  scroll-behavior: smooth;
+}
+
+.no-scroll-behavior .smooth-scroll {
+  scroll-behavior: auto;
+}
+
+/* Better tables */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Browser-specific optimizations */
+.firefox .firefox-optimize {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) transparent;
+}
+
+.no-css-variables.firefox .firefox-optimize {
+  scrollbar-color: #4a90e2 transparent;
+}
+
+.safari .safari-optimize {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Media queries for high-resolution displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .high-res-bg {
+    background-image: url('../images/high-res.png');
+  }
+}
+
+/* WebP format support */
+.webp .bg-image {
+  background-image: url('../images/image.webp');
+}
+
+.no-webp .bg-image {
+  background-image: url('../images/image.jpg');
+}
