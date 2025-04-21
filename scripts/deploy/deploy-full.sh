@@ -19,19 +19,19 @@ function check_prerequisites() {
     echo "Error: Git is not installed!" >&2
     exit 1
   fi
-  
+
   # Check for npm
   if ! command -v npm &> /dev/null; then
     echo "Error: npm is not installed!" >&2
     exit 1
   fi
-  
+
   # Check if we're in a Git repository
   if ! git rev-parse --is-inside-work-tree &> /dev/null; then
     echo "Error: Not in a Git repository!" >&2
     exit 1
   fi
-  
+
   echo "✓ All prerequisites met"
 }
 
@@ -64,31 +64,31 @@ function deploy() {
   echo "Deploying to GitHub Pages..."
   # Get current branch
   CURRENT_BRANCH=$(git branch --show-current)
-  
+
   # Stash any changes
   git stash -m "Pre-deployment stash $(date)"
-  
+
   # Switch to or create gh-pages branch
   if git show-ref --verify --quiet refs/heads/gh-pages; then
     git checkout gh-pages
   else
     git checkout -b gh-pages
   fi
-  
+
   # Get the built files - adjust this path as needed
   cp -r ./red_x/dist/* .
-  
+
   # Add, commit and push
   git add .
   git commit -m "Deploy at $(date)"
   git push origin gh-pages
-  
+
   # Switch back to original branch
   git checkout $CURRENT_BRANCH
-  
+
   # Apply stashed changes if any
   git stash pop || true
-  
+
   echo "✓ Deployment complete"
 }
 

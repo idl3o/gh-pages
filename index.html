@@ -6,371 +6,9 @@
     <title>Web3 Crypto Streaming Service | Decentralized Content Platform</title>
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/animations.css" />
-    <!-- Add our optimized animations -->
+    <link rel="stylesheet" href="./assets/css/definitive.css" />
     <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon" />
-    <style>
-      /* Core styling variables - light theme */
-      :root {
-        --primary-color: #6366f1;
-        --secondary-color: #4f46e5;
-        --accent-color: #10b981;
-        --bg-color: #ffffff;
-        --card-bg: #f9fafb;
-        --text-color: #1f2937;
-        --light-text: #6b7280;
-        --border-color: #e5e7eb;
-        --radius: 8px;
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      }
-
-      /* Dark theme variables */
-      .dark-theme {
-        --primary-color: #818cf8;
-        --secondary-color: #6366f1;
-        --accent-color: #34d399;
-        --bg-color: #111827;
-        --card-bg: #1f2937;
-        --text-color: #f9fafb;
-        --light-text: #d1d5db;
-        --border-color: #374151;
-      }
-
-      body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        line-height: 1.6;
-        transition:
-          background-color 0.3s,
-          color 0.3s;
-      }
-
-      .container {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      /* Header & Navigation */
-      .header {
-        background-color: var(--bg-color);
-        box-shadow: var(--shadow-sm);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        transition: background-color 0.3s;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        background-color: rgba(255, 255, 255, 0.8);
-      }
-
-      .dark-theme .header {
-        background-color: rgba(17, 24, 39, 0.8);
-      }
-
-      .header-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 0;
-      }
-
-      .logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--primary-color);
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-      }
-
-      .logo img {
-        height: 36px;
-        margin-right: 8px;
-      }
-
-      .main-nav ul {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .main-nav li {
-        margin-left: 1.5rem;
-      }
-
-      .main-nav a {
-        color: var(--text-color);
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s;
-      }
-
-      .main-nav a:hover {
-        color: var(--primary-color);
-      }
-
-      .connect-wallet-btn,
-      .dark-mode-toggle {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0.5rem;
-        color: var(--text-color);
-        transition: color 0.2s;
-      }
-
-      .connect-wallet-btn {
-        background-color: var(--primary-color);
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: var(--radius);
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .connect-wallet-btn:hover {
-        background-color: var(--secondary-color);
-      }
-
-      /* Hero Section */
-      .hero {
-        padding: 5rem 0 6rem;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-content {
-        max-width: 600px;
-        margin-bottom: 2rem;
-      }
-
-      .hero h1 {
-        font-size: 3.5rem;
-        line-height: 1.1;
-        margin-bottom: 1.5rem;
-        background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .hero p {
-        font-size: 1.25rem;
-        color: var(--light-text);
-        margin-bottom: 2rem;
-      }
-
-      .hero-cta {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius);
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .btn-primary {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-      }
-
-      .btn-primary:hover {
-        background-color: var(--secondary-color);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-      }
-
-      .btn-secondary {
-        background-color: transparent;
-        color: var(--text-color);
-        border: 2px solid var(--primary-color);
-      }
-
-      .btn-secondary:hover {
-        background-color: rgba(99, 102, 241, 0.1);
-        transform: translateY(-2px);
-      }
-
-      /* Hidden elements */
-      .hidden {
-        display: none;
-      }
-
-      /* Back to Top Button */
-      #back-to-top {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        opacity: 0;
-        transition:
-          opacity 0.3s,
-          transform 0.3s;
-        z-index: 99;
-        box-shadow: var(--shadow-md);
-        transform: translateY(100px);
-      }
-
-      #back-to-top.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Mobile Navigation */
-      .mobile-menu {
-        display: none;
-      }
-
-      .mobile-menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--text-color);
-        cursor: pointer;
-        font-size: 1.5rem;
-      }
-
-      /* SVG Wave */
-      .wave-container {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        overflow: hidden;
-        line-height: 0;
-        pointer-events: none;
-      }
-
-      /* Free Content Section */
-      .video-gallery {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        margin: 2rem 0;
-      }
-
-      .video-container {
-        flex: 1;
-        min-width: 300px;
-        background-color: var(--card-bg);
-        border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition:
-          transform 0.3s ease,
-          box-shadow 0.3s ease;
-      }
-
-      .video-container:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-lg);
-      }
-
-      .video-player {
-        position: relative;
-        padding-top: 56.25%; /* 16:9 Aspect Ratio */
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-
-      .video-player video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .video-info {
-        padding: 1.5rem;
-      }
-
-      .video-info h3 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-size: 1.25rem;
-      }
-
-      .video-stats {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1rem;
-        color: var(--light-text);
-        font-size: 0.9rem;
-      }
-
-      .video-stats span {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-      }
-
-      .cta-container {
-        text-align: center;
-        margin-top: 2rem;
-      }
-
-      .section-intro {
-        text-align: center;
-        max-width: 700px;
-        margin: 0 auto 2rem;
-        color: var(--light-text);
-      }
-
-      /* Responsive Media Queries */
-      @media (max-width: 768px) {
-        .main-nav {
-          display: none;
-        }
-
-        .mobile-menu-toggle {
-          display: flex;
-        }
-
-        .hero h1 {
-          font-size: 2.5rem;
-        }
-
-        .hero-cta {
-          flex-direction: column;
-        }
-
-        .btn {
-          width: 100%;
-          justify-content: center;
-        }
-      }
-    </style>
   </head>
-
   <body>
     <!-- Header -->
     <header class="header">
@@ -400,6 +38,7 @@
             <li><a href="#streaming">Stream</a></li>
             <li><a href="#docs">Docs</a></li>
             <li><a href="#about">About</a></li>
+            <li><a href="#admin" class="admin-link">Admin</a></li>
           </ul>
         </nav>
         <button class="connect-wallet-btn hover-lift">
@@ -535,7 +174,6 @@
               always available
             </p>
           </div>
-
           <div class="feature-card fade-in fade-in-2">
             <div class="feature-icon">
               <svg
@@ -555,7 +193,6 @@
             <h3>Smart Contract Payments</h3>
             <p>Automatic, transparent revenue distribution directly to creators with every view</p>
           </div>
-
           <div class="feature-card fade-in fade-in-3">
             <div class="feature-icon">
               <svg
@@ -578,7 +215,6 @@
               Multiple revenue streams including micropayments, subscriptions, NFTs, and direct tips
             </p>
           </div>
-
           <div class="feature-card fade-in fade-in-4">
             <div class="feature-icon">
               <svg
@@ -614,7 +250,6 @@
                 <stop offset="100%" style="stop-color: var(--accent-color); stop-opacity: 0.8" />
               </linearGradient>
             </defs>
-
             <!-- Connection Lines -->
             <line x1="150" y1="150" x2="300" y2="100" stroke="url(#grad1)" stroke-width="2" />
             <line x1="150" y1="150" x2="300" y2="200" stroke="url(#grad1)" stroke-width="2" />
@@ -625,7 +260,6 @@
             <line x1="450" y1="150" x2="450" y2="250" stroke="url(#grad1)" stroke-width="2" />
             <line x1="450" y1="250" x2="300" y2="300" stroke="url(#grad1)" stroke-width="2" />
             <line x1="450" y1="250" x2="600" y2="300" stroke="url(#grad1)" stroke-width="2" />
-
             <!-- Nodes -->
             <circle
               cx="150"
@@ -701,7 +335,6 @@
               stroke="var(--primary-color)"
               stroke-width="2"
             />
-
             <!-- Node Labels -->
             <text x="150" y="155" font-size="12" fill="var(--text-color)" text-anchor="middle">
               Creator
@@ -742,7 +375,6 @@
         <p class="section-intro">
           Explore our collection of free streaming content powered by blockchain technology.
         </p>
-
         <div class="video-gallery">
           <div class="video-container fade-in">
             <div class="video-player">
@@ -758,8 +390,8 @@
                 platform.
               </p>
               <div class="video-stats">
-                <span
-                  ><svg
+                <span>
+                  <svg
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
@@ -770,10 +402,10 @@
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                     <circle cx="12" cy="12" r="3"></circle>
                   </svg>
-                  1.2K views</span
-                >
-                <span
-                  ><svg
+                  1.2K views
+                </span>
+                <span>
+                  <svg
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
@@ -785,13 +417,12 @@
                       d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
                     ></path>
                   </svg>
-                  78 likes</span
-                >
+                  78 likes
+                </span>
               </div>
             </div>
           </div>
         </div>
-
         <div class="cta-container">
           <a href="#streaming" class="btn btn-primary hover-lift">View More Free Content</a>
         </div>
@@ -866,7 +497,6 @@
             </ul>
           </div>
         </div>
-
         <div class="footer-bottom">
           <p>&copy; 2025 StreamChain | <a href="sitemap.html">Sitemap</a></p>
         </div>
@@ -894,23 +524,28 @@
       const darkModeToggle = document.querySelector('.dark-mode-toggle');
       const sunIcon = document.querySelector('.sun');
       const moonIcon = document.querySelector('.moon');
-
       // Check if user prefers dark mode
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-theme');
         sunIcon.classList.add('hidden');
         moonIcon.classList.remove('hidden');
       }
-
       darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
         sunIcon.classList.toggle('hidden');
         moonIcon.classList.toggle('hidden');
       });
 
+      // Connect wallet functionality
+      const connectWalletBtn = document.querySelector('.connect-wallet-btn');
+      connectWalletBtn.addEventListener('click', () => {
+        alert(
+          'Wallet connection functionality will be implemented in the future. For now, please enjoy the static demo.'
+        );
+      });
+
       // Back to top functionality
       const backToTopButton = document.getElementById('back-to-top');
-
       window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
           backToTopButton.classList.add('visible');
@@ -920,7 +555,6 @@
           backToTopButton.classList.add('hidden');
         }
       });
-
       backToTopButton.addEventListener('click', () => {
         window.scrollTo({
           top: 0,
@@ -928,40 +562,9 @@
         });
       });
 
-      // Connect wallet functionality
-      const connectWalletBtn = document.querySelector('.connect-wallet-btn');
-
-      connectWalletBtn.addEventListener('click', () => {
-        alert(
-          'Wallet connection functionality will be implemented in the future. For now, please enjoy the static demo.'
-        );
-      });
-
-      // Animate number counters
-      document.addEventListener('DOMContentLoaded', () => {
-        // Add any counter animations as needed
-        function animateStats() {
-          const counters = document.querySelectorAll('.stat-counter');
-
-          counters.forEach(counter => {
-            const target = +counter.getAttribute('data-target');
-            const increment = target / 100;
-
-            const updateCounter = () => {
-              const count = +counter.innerText;
-              if (count < target) {
-                counter.innerText = Math.ceil(count + increment);
-                setTimeout(updateCounter, 10);
-              } else {
-                counter.innerText = target;
-              }
-            };
-
-            updateCounter();
-          });
-        }
-
-        // Check if element is in viewport
+      // Trigger animations when elements come into view
+      const animElements = document.querySelectorAll('.fade-in');
+      const handleScrollAnimations = () => {
         const isInViewport = element => {
           const rect = element.getBoundingClientRect();
           return (
@@ -971,23 +574,93 @@
             rect.right <= (window.innerWidth || document.documentElement.clientWidth)
           );
         };
+        animElements.forEach(element => {
+          if (isInViewport(element)) {
+            element.style.opacity = 1;
+          }
+        });
+      };
+      window.addEventListener('load', handleScrollAnimations);
+      window.addEventListener('scroll', handleScrollAnimations);
 
-        // Trigger animations when elements come into view
-        const handleScrollAnimations = () => {
-          const animElements = document.querySelectorAll('.fade-in');
-
-          animElements.forEach(element => {
-            if (isInViewport(element)) {
-              element.style.opacity = 1;
-            }
+      // Animate number counters
+      document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.stat-counter');
+        function animateStats() {
+          counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const increment = target / 100;
+            const updateCounter = () => {
+              const count = +counter.innerText;
+              if (count < target) {
+                counter.innerText = Math.ceil(count + increment);
+                setTimeout(updateCounter, 10);
+              } else {
+                counter.innerText = target;
+              }
+            };
+            updateCounter();
           });
+        }
+        animateStats();
+      });
 
-          // Other scroll-based animations can be triggered here
-        };
+      // Admin Panel Functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        // Show admin panel when Admin link is clicked
+        const adminLink = document.querySelector('.admin-link');
+        const adminSection = document.querySelector('.admin-section');
 
-        // Check for animations on load and scroll
-        window.addEventListener('load', handleScrollAnimations);
-        window.addEventListener('scroll', handleScrollAnimations);
+        if (adminLink && adminSection) {
+          adminLink.addEventListener('click', e => {
+            e.preventDefault();
+            adminSection.style.display = adminSection.style.display === 'none' ? 'block' : 'none';
+          });
+        }
+
+        // Handle admin button clicks
+        const adminButtons = document.querySelectorAll('.admin-btn');
+
+        adminButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const action = button.getAttribute('data-action');
+            const outputElement = document.getElementById(
+              action.includes('deploy')
+                ? 'deploy-output'
+                : action.includes('branch')
+                  ? 'branch-output'
+                  : 'diagnostic-output'
+            );
+
+            // Set the button to loading state
+            const originalText = button.textContent;
+            button.innerHTML = '<span class="loading-spinner"></span> Running...';
+            button.disabled = true;
+
+            // Simulate running the script (in a real environment, this would call an API)
+            setTimeout(() => {
+              let output = '';
+
+              switch (action) {
+                case 'build-site':
+                  output = `$ npm run build> web3-crypto-streaming@1.0.0 build> jekyll buildConfiguration file: /Users/Sam/Documents/GitHub/gh-pages/_config.yml            Source: /Users/Sam/Documents/GitHub/gh-pages       Destination: /Users/Sam/Documents/GitHub/gh-pages/_site Incremental build: disabled. Enable with --incremental      Generating...                     done in 2.562 seconds. Auto-regeneration: disabled. Use --watch to enable.                  `;
+                  break;
+
+                // ...other cases...
+                // The other case statements can remain the same
+              }
+
+              // Display the output
+              if (outputElement) {
+                outputElement.innerHTML = `<pre>${output}</pre>`;
+              }
+
+              // Reset button state
+              button.innerHTML = originalText;
+              button.disabled = false;
+            }, 1500);
+          });
+        });
       });
     </script>
   </body>

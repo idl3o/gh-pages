@@ -65,27 +65,27 @@ IF "%1"=="branch" (
     echo   branch sync     - Sync branches
     exit /b
   )
-  
+
   IF "%2"=="info" (
     echo Getting branch information...
     cd %~dp0.. && call run-vs-code-task shell: branch_info
     exit /b
   )
-  
+
   IF "%2"=="switch" (
     IF "%3"=="main" (
       echo Switching to main branch...
       cd %~dp0.. && call run-vs-code-task shell: switch_to_main
       exit /b
     )
-    
+
     IF "%3"=="docs" (
       echo Switching to docs branch...
       cd %~dp0.. && call run-vs-code-task shell: switch_to_docs
       exit /b
     )
   )
-  
+
   IF "%2"=="sync" (
     echo Syncing branches...
     cd %~dp0.. && call run-vs-code-task shell: sync_branches

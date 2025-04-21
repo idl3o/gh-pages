@@ -1,0 +1,138 @@
+name: Deploy to GitHub Pages
+
+# Control when the workflow will run
+on:
+  # Runs on pushes to the main branch
+  push:
+    branches: [main]
+
+  # Allows manual triggering from the Actions tab
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual deployment'
+        required: false
+        default: 'Manual trigger'
+
+# Use concurrency to prevent multiple deployments running simultaneously
+# This is a common source of conflicts and failures
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+# Required permissions for GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # Ubuntu has better performance for most web projects
+
+    steps:
+      # Step 1: Checkout the repository
+      # Common failure: Not checking out the code or using wrong version
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Always use specific versions, not @master
+        with:
+          fetch-depth: 0 # Important for Git history actions
+
+      # Step 2: Set up Node.js with dependency caching
+      # Common failure: Missing or incompatible Node.js version
+      - name: Setup Node.js
+        id: setup-node # Adding ID for conditional reference later
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Specify a version that works with your dependencies
+          cache: 'npm' # Enable dependency caching to speed up workflows
+
+      # Step 3: Verify the existence of package-lock.json
+      # Common failure: Missing lock file causing inconsistent builds
+      - name: Check for package-lock.json
+        id: check-lock-file
+        run: |
+          if [ -f "package-lock.json" ]; then
+            echo "lock-file-exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "lock-file-exists=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Warning: package-lock.json not found"
+          fi
+
+      # Step 4: Create package-lock.json if it doesn't exist
+      # Common failure: Inconsistent dependency versions
+      - name: Create lock file if needed
+        if: steps.check-lock-file.outputs.lock-file-exists == 'false'
+        run: npm install --package-lock-only
+
+      # Step 5: Install dependencies
+      # Common failure: Failing to handle errors during installation
+      - name: Install dependencies
+        id: install
+        run: |
+          echo "Installing dependencies..."
+          npm ci || npm install
+          echo "Dependencies installed successfully!"
+
+      # Step 6: Build the project
+      # Common failure: Build errors not being caught and reported properly
+      - name: Build
+        id: build
+        run: |
+          if [ -f "package.json" ] && grep -q "\"build\"" package.json; then
+            npm run build
+          elif [ -f "_config.yml" ]; then
+            echo "Jekyll site detected, using Jekyll build"
+            gem install bundler
+            bundle install
+            bundle exec jekyll build
+          else
+            echo "No standard build script found, creating site directory"
+            mkdir -p _site
+            cp -r *.html *.css *.js assets _site/ 2>/dev/null || true
+          fi
+
+      # Step 7: Validate URLs in built HTML files (optional but useful)
+      # Common failure: Broken links in deployed site
+      - name: Validate URLs
+        id: validate-urls
+        continue-on-error: true # Don't fail the workflow, just report issues
+        run: |
+          if [ -f "scripts/url-checker.js" ]; then
+            echo "Checking for broken links..."
+            node scripts/url-checker.js
+          else
+            echo "URL checker not found, skipping validation"
+          fi
+
+      # Step 8: Configure GitHub Pages
+      # Common failure: Missing GitHub Pages configuration
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+
+      # Step 9: Upload artifact for deployment
+      # Common failure: Not using the proper artifact upload action
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '_site'
+
+      # Step 10: Deploy to GitHub Pages
+      # Common failure: Incorrect branch settings or permissions
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
+
+      # Step 11: Report deployment status
+      # This helps understand if deployment succeeded
+      - name: Report deployment status
+        if: always() # Run even if previous steps fail
+        run: |
+          if [ "${{ steps.deployment.outcome }}" == "success" ]; then
+            echo "✅ Deployment successful!"
+            echo "🔗 Site available at: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          else
+            echo "❌ Deployment failed or skipped"
+            echo "Check the logs above for errors"
+          fi

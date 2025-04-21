@@ -86,11 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
           this.updateIterationCount();
           this.hideModal();
           this.saveState();
-          
+
           // Broadcast a custom event that other parts of the app can listen for
-          window.dispatchEvent(new CustomEvent('iterationContinued', {
-            detail: { iterationCount: this.state.iterationCount }
-          }));
+          window.dispatchEvent(
+            new CustomEvent('iterationContinued', {
+              detail: { iterationCount: this.state.iterationCount }
+            })
+          );
         });
       }
 
@@ -113,9 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     checkAndShowModal() {
       const now = Date.now();
-      const minutesSinceLastShown = this.state.lastShown ? 
-        (now - this.state.lastShown) / (1000 * 60) : 
-        this.config.showInterval + 1; // Ensure we show on first load if no record
+      const minutesSinceLastShown = this.state.lastShown
+        ? (now - this.state.lastShown) / (1000 * 60)
+        : this.config.showInterval + 1; // Ensure we show on first load if no record
 
       if (minutesSinceLastShown >= this.config.showInterval) {
         this.showModal();
@@ -171,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Set initial time
       this.state.timeRemaining = this.config.autoCloseTime;
-      
+
       // Update progress bar width
       if (this.progressBar) {
         this.progressBar.style.width = '100%';
@@ -185,10 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Start progress bar animation
       const updateProgress = () => {
         if (this.state.timeRemaining <= 0) return;
-        
+
         this.state.timeRemaining--;
         const percentage = (this.state.timeRemaining / this.config.autoCloseTime) * 100;
-        
+
         if (this.progressBar) {
           this.progressBar.style.width = `${percentage}%`;
         }
@@ -241,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `;
-    
+
     // Add modal styles
     const modalStyles = `
       <style>
@@ -256,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
           background-color: rgba(0,0,0,0.5);
           overflow: auto;
         }
-        
+
         .modal-content {
           background-color: #fefefe;
           margin: 15% auto;
@@ -268,23 +270,23 @@ document.addEventListener('DOMContentLoaded', () => {
           opacity: 0;
           transition: transform 0.3s ease, opacity 0.3s ease;
         }
-        
+
         .modal-content.show {
           transform: translateY(0);
           opacity: 1;
         }
-        
+
         .modal h2 {
           margin-top: 0;
           color: #333;
         }
-        
+
         .modal-actions {
           margin-top: 20px;
           display: flex;
           gap: 10px;
         }
-        
+
         .btn {
           padding: 8px 16px;
           border: none;
@@ -293,41 +295,41 @@ document.addEventListener('DOMContentLoaded', () => {
           font-weight: 500;
           transition: background-color 0.2s;
         }
-        
+
         .btn-primary {
           background-color: #4CAF50;
           color: white;
         }
-        
+
         .btn-primary:hover {
           background-color: #45a049;
         }
-        
+
         .btn-secondary {
           background-color: #f1f1f1;
           color: #333;
         }
-        
+
         .btn-secondary:hover {
           background-color: #e1e1e1;
         }
-        
+
         .btn-outline {
           background-color: transparent;
           border: 1px solid #999;
           color: #666;
           display: none;
         }
-        
+
         .btn-outline:hover {
           background-color: #f9f9f9;
         }
-        
+
         .small {
           font-size: 0.8em;
           color: #666;
         }
-        
+
         .modal-progress-container {
           height: 4px;
           background-color: #f1f1f1;
@@ -336,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
           border-radius: 2px;
           overflow: hidden;
         }
-        
+
         .modal-progress-bar {
           height: 100%;
           background-color: #4CAF50;
@@ -345,11 +347,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       </style>
     `;
-    
+
     // Create a container for the modal
     const modalContainer = document.createElement('div');
     modalContainer.innerHTML = modalHTML + modalStyles;
-    
+
     // Append to body
     document.body.appendChild(modalContainer);
   }
