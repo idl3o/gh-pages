@@ -8,7 +8,7 @@ class ContractIntegration {
     this.web3 = null;
     this.contracts = {};
     this.isInitialized = false;
-    
+
     // Contract addresses by network
     this.contractAddresses = {
       // Ethereum Mainnet
@@ -36,115 +36,121 @@ class ContractIntegration {
         streamPayment: '0x6789012345678901234567890123456789012345'
       }
     };
-    
+
     // Contract ABI definitions
     this.contractABIs = {
       streamToken: [
         {
-          "inputs": [{"internalType": "address", "name": "account", "type": "address"}],
-          "name": "balanceOf",
-          "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-          "stateMutability": "view",
-          "type": "function"
+          inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+          name: 'balanceOf',
+          outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+          stateMutability: 'view',
+          type: 'function'
         },
         {
-          "inputs": [],
-          "name": "name",
-          "outputs": [{"internalType": "string", "name": "", "type": "string"}],
-          "stateMutability": "view",
-          "type": "function"
+          inputs: [],
+          name: 'name',
+          outputs: [{ internalType: 'string', name: '', type: 'string' }],
+          stateMutability: 'view',
+          type: 'function'
         },
         {
-          "inputs": [],
-          "name": "symbol",
-          "outputs": [{"internalType": "string", "name": "", "type": "string"}],
-          "stateMutability": "view",
-          "type": "function"
+          inputs: [],
+          name: 'symbol',
+          outputs: [{ internalType: 'string', name: '', type: 'string' }],
+          stateMutability: 'view',
+          type: 'function'
         },
         {
-          "inputs": [{"internalType": "address", "name": "to", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}],
-          "name": "transfer",
-          "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-          "stateMutability": "nonpayable",
-          "type": "function"
+          inputs: [
+            { internalType: 'address', name: 'to', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' }
+          ],
+          name: 'transfer',
+          outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+          stateMutability: 'nonpayable',
+          type: 'function'
         },
         {
-          "inputs": [],
-          "name": "totalSupply",
-          "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-          "stateMutability": "view",
-          "type": "function"
+          inputs: [],
+          name: 'totalSupply',
+          outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+          stateMutability: 'view',
+          type: 'function'
         },
         {
-          "inputs": [],
-          "name": "decimals",
-          "outputs": [{"internalType": "uint8", "name": "", "type": "uint8"}],
-          "stateMutability": "view",
-          "type": "function"
+          inputs: [],
+          name: 'decimals',
+          outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+          stateMutability: 'view',
+          type: 'function'
         }
       ],
       proofOfExistence: [
         {
-          "inputs": [{"internalType": "string", "name": "document", "type": "string"}],
-          "name": "notarize",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
+          inputs: [{ internalType: 'string', name: 'document', type: 'string' }],
+          name: 'notarize',
+          outputs: [],
+          stateMutability: 'nonpayable',
+          type: 'function'
         },
         {
-          "inputs": [{"internalType": "string", "name": "document", "type": "string"}],
-          "name": "checkDocument",
-          "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-          "stateMutability": "view",
-          "type": "function"
+          inputs: [{ internalType: 'string', name: 'document', type: 'string' }],
+          name: 'checkDocument',
+          outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+          stateMutability: 'view',
+          type: 'function'
         },
         {
-          "inputs": [{"internalType": "string", "name": "document", "type": "string"}],
-          "name": "getTimestamp",
-          "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-          "stateMutability": "view",
-          "type": "function"
+          inputs: [{ internalType: 'string', name: 'document', type: 'string' }],
+          name: 'getTimestamp',
+          outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+          stateMutability: 'view',
+          type: 'function'
         }
       ],
       streamPayment: [
         {
-          "inputs": [{"internalType": "address", "name": "recipient", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}],
-          "name": "createPayment",
-          "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [{"internalType": "uint256", "name": "paymentId", "type": "uint256"}],
-          "name": "releasePayment",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [{"internalType": "uint256", "name": "paymentId", "type": "uint256"}],
-          "name": "cancelPayment",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [{"internalType": "uint256", "name": "paymentId", "type": "uint256"}],
-          "name": "getPaymentDetails",
-          "outputs": [
-            {"internalType": "address", "name": "sender", "type": "address"},
-            {"internalType": "address", "name": "recipient", "type": "address"},
-            {"internalType": "uint256", "name": "amount", "type": "uint256"},
-            {"internalType": "uint256", "name": "releaseTime", "type": "uint256"},
-            {"internalType": "bool", "name": "isReleased", "type": "bool"},
-            {"internalType": "bool", "name": "isCancelled", "type": "bool"}
+          inputs: [
+            { internalType: 'address', name: 'recipient', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' }
           ],
-          "stateMutability": "view",
-          "type": "function"
+          name: 'createPayment',
+          outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+          stateMutability: 'nonpayable',
+          type: 'function'
+        },
+        {
+          inputs: [{ internalType: 'uint256', name: 'paymentId', type: 'uint256' }],
+          name: 'releasePayment',
+          outputs: [],
+          stateMutability: 'nonpayable',
+          type: 'function'
+        },
+        {
+          inputs: [{ internalType: 'uint256', name: 'paymentId', type: 'uint256' }],
+          name: 'cancelPayment',
+          outputs: [],
+          stateMutability: 'nonpayable',
+          type: 'function'
+        },
+        {
+          inputs: [{ internalType: 'uint256', name: 'paymentId', type: 'uint256' }],
+          name: 'getPaymentDetails',
+          outputs: [
+            { internalType: 'address', name: 'sender', type: 'address' },
+            { internalType: 'address', name: 'recipient', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' },
+            { internalType: 'uint256', name: 'releaseTime', type: 'uint256' },
+            { internalType: 'bool', name: 'isReleased', type: 'bool' },
+            { internalType: 'bool', name: 'isCancelled', type: 'bool' }
+          ],
+          stateMutability: 'view',
+          type: 'function'
         }
       ]
     };
-    
+
     // Bind methods
     this.initialize = this.initialize.bind(this);
     this.getContract = this.getContract.bind(this);
@@ -169,12 +175,12 @@ class ContractIntegration {
       if (!web3) {
         throw new Error('Web3 instance is required');
       }
-      
+
       this.web3 = web3;
-      
+
       // Initialize contracts for this network
       await this.handleNetworkChange(networkId);
-      
+
       this.isInitialized = true;
       return true;
     } catch (error) {
@@ -192,27 +198,27 @@ class ContractIntegration {
     try {
       // Clear existing contracts
       this.contracts = {};
-      
+
       // Get contract addresses for this network
       const addresses = this.contractAddresses[networkId];
-      
+
       if (!addresses) {
         console.warn(`No contract addresses defined for network ${networkId}`);
         return;
       }
-      
+
       // Initialize contracts with ABIs and addresses
       for (const [contractName, address] of Object.entries(addresses)) {
         const abi = this.contractABIs[contractName];
-        
+
         if (!abi) {
           console.warn(`No ABI defined for contract ${contractName}`);
           continue;
         }
-        
+
         this.contracts[contractName] = new this.web3.eth.Contract(abi, address);
       }
-      
+
       console.log(`Contracts initialized for network ${networkId}`);
     } catch (error) {
       console.error('Failed to handle network change:', error);
@@ -227,11 +233,11 @@ class ContractIntegration {
    */
   getContract(contractName) {
     const contract = this.contracts[contractName];
-    
+
     if (!contract) {
       throw new Error(`Contract ${contractName} not initialized`);
     }
-    
+
     return contract;
   }
 
@@ -245,7 +251,7 @@ class ContractIntegration {
       const tokenContract = this.getContract('streamToken');
       const balance = await tokenContract.methods.balanceOf(address).call();
       const decimals = await tokenContract.methods.decimals().call();
-      
+
       return this.formatToken(balance, decimals);
     } catch (error) {
       console.error('Failed to get token balance:', error);
@@ -261,15 +267,15 @@ class ContractIntegration {
   async verifyContent(contentHash) {
     try {
       const proofContract = this.getContract('proofOfExistence');
-      
+
       const exists = await proofContract.methods.checkDocument(contentHash).call();
-      
+
       if (!exists) {
         return { verified: false };
       }
-      
+
       const timestamp = await proofContract.methods.getTimestamp(contentHash).call();
-      
+
       return {
         verified: true,
         timestamp: parseInt(timestamp) * 1000, // Convert to milliseconds
@@ -290,15 +296,15 @@ class ContractIntegration {
     try {
       const proofContract = this.getContract('proofOfExistence');
       const accounts = await this.web3.eth.getAccounts();
-      
+
       if (!accounts || accounts.length === 0) {
         throw new Error('No accounts available');
       }
-      
+
       const receipt = await proofContract.methods.notarize(contentHash).send({
         from: accounts[0]
       });
-      
+
       return receipt;
     } catch (error) {
       console.error('Failed to notarize content:', error);
@@ -317,37 +323,33 @@ class ContractIntegration {
       const streamPaymentContract = this.getContract('streamPayment');
       const tokenContract = this.getContract('streamToken');
       const accounts = await this.web3.eth.getAccounts();
-      
+
       if (!accounts || accounts.length === 0) {
         throw new Error('No accounts available');
       }
-      
+
       // Convert amount to token units
       const decimals = await tokenContract.methods.decimals().call();
       const tokenAmount = this.parseToken(amount, decimals);
-      
+
       // Approve token transfer
-      await tokenContract.methods.approve(
-        streamPaymentContract._address, 
-        tokenAmount
-      ).send({
+      await tokenContract.methods.approve(streamPaymentContract._address, tokenAmount).send({
         from: accounts[0]
       });
-      
+
       // Create payment
-      const receipt = await streamPaymentContract.methods.createPayment(
-        recipient,
-        tokenAmount
-      ).send({
-        from: accounts[0]
-      });
-      
+      const receipt = await streamPaymentContract.methods
+        .createPayment(recipient, tokenAmount)
+        .send({
+          from: accounts[0]
+        });
+
       // Extract payment ID from event logs
       const event = receipt.events.PaymentCreated;
       if (!event) {
         throw new Error('PaymentCreated event not found in transaction receipt');
       }
-      
+
       return parseInt(event.returnValues.paymentId);
     } catch (error) {
       console.error('Failed to create stream payment:', error);
@@ -364,15 +366,15 @@ class ContractIntegration {
     try {
       const streamPaymentContract = this.getContract('streamPayment');
       const accounts = await this.web3.eth.getAccounts();
-      
+
       if (!accounts || accounts.length === 0) {
         throw new Error('No accounts available');
       }
-      
+
       const receipt = await streamPaymentContract.methods.releasePayment(paymentId).send({
         from: accounts[0]
       });
-      
+
       return receipt;
     } catch (error) {
       console.error('Failed to release stream payment:', error);
@@ -389,21 +391,21 @@ class ContractIntegration {
   formatToken(value, decimals) {
     const divisor = BigInt(10) ** BigInt(decimals);
     const valueBI = BigInt(value);
-    
+
     const integerPart = valueBI / divisor;
     const fractionalPart = valueBI % divisor;
-    
+
     // Convert to string and pad with leading zeros
     let fractionalStr = fractionalPart.toString();
     fractionalStr = fractionalStr.padStart(decimals, '0');
-    
+
     // Trim trailing zeros
     fractionalStr = fractionalStr.replace(/0+$/, '');
-    
+
     if (fractionalStr.length === 0) {
       return integerPart.toString();
     }
-    
+
     return `${integerPart}.${fractionalStr}`;
   }
 
@@ -415,20 +417,20 @@ class ContractIntegration {
    */
   parseToken(value, decimals) {
     const parts = value.toString().split('.');
-    
+
     let integerPart = parts[0] || '0';
     let fractionalPart = parts[1] || '';
-    
+
     // Pad or truncate fractional part to match decimals
     if (fractionalPart.length > decimals) {
       fractionalPart = fractionalPart.substring(0, decimals);
     } else {
       fractionalPart = fractionalPart.padEnd(decimals, '0');
     }
-    
+
     const combined = integerPart + fractionalPart;
     const result = BigInt(combined).toString();
-    
+
     return result;
   }
 }

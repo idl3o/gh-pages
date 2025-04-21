@@ -11,10 +11,10 @@ class StreamToken {
       // Production networks
       1: '0x1234567890123456789012345678901234567890', // Ethereum Mainnet (placeholder)
       137: '0x2345678901234567890123456789012345678901', // Polygon Mainnet (placeholder)
-      
+
       // Test networks
       5: '0x3456789012345678901234567890123456789012', // Goerli Testnet (placeholder)
-      80001: '0x4567890123456789012345678901234567890123', // Mumbai Testnet (placeholder)
+      80001: '0x4567890123456789012345678901234567890123' // Mumbai Testnet (placeholder)
     };
     this.decimals = 18;
     this.isInitialized = false;
@@ -23,68 +23,81 @@ class StreamToken {
     this.tokenAbi = [
       // Read functions
       {
-        "constant": true,
-        "inputs": [{"name": "_owner", "type": "address"}],
-        "name": "balanceOf",
-        "outputs": [{"name": "balance", "type": "uint256"}],
-        "type": "function"
+        constant: true,
+        inputs: [{ name: '_owner', type: 'address' }],
+        name: 'balanceOf',
+        outputs: [{ name: 'balance', type: 'uint256' }],
+        type: 'function'
       },
       {
-        "constant": true,
-        "inputs": [],
-        "name": "decimals",
-        "outputs": [{"name": "", "type": "uint8"}],
-        "type": "function"
+        constant: true,
+        inputs: [],
+        name: 'decimals',
+        outputs: [{ name: '', type: 'uint8' }],
+        type: 'function'
       },
       {
-        "constant": true,
-        "inputs": [],
-        "name": "symbol",
-        "outputs": [{"name": "", "type": "string"}],
-        "type": "function"
+        constant: true,
+        inputs: [],
+        name: 'symbol',
+        outputs: [{ name: '', type: 'string' }],
+        type: 'function'
       },
       {
-        "constant": true,
-        "inputs": [],
-        "name": "name",
-        "outputs": [{"name": "", "type": "string"}],
-        "type": "function"
+        constant: true,
+        inputs: [],
+        name: 'name',
+        outputs: [{ name: '', type: 'string' }],
+        type: 'function'
       },
       {
-        "constant": true,
-        "inputs": [],
-        "name": "totalSupply",
-        "outputs": [{"name": "", "type": "uint256"}],
-        "type": "function"
+        constant: true,
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [{ name: '', type: 'uint256' }],
+        type: 'function'
       },
       // Write functions
       {
-        "constant": false,
-        "inputs": [{"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}],
-        "name": "transfer",
-        "outputs": [{"name": "", "type": "bool"}],
-        "type": "function"
+        constant: false,
+        inputs: [
+          { name: '_to', type: 'address' },
+          { name: '_value', type: 'uint256' }
+        ],
+        name: 'transfer',
+        outputs: [{ name: '', type: 'bool' }],
+        type: 'function'
       },
       {
-        "constant": false,
-        "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}],
-        "name": "approve",
-        "outputs": [{"name": "", "type": "bool"}],
-        "type": "function"
+        constant: false,
+        inputs: [
+          { name: '_spender', type: 'address' },
+          { name: '_value', type: 'uint256' }
+        ],
+        name: 'approve',
+        outputs: [{ name: '', type: 'bool' }],
+        type: 'function'
       },
       {
-        "constant": true,
-        "inputs": [{"name": "_owner", "type": "address"}, {"name": "_spender", "type": "address"}],
-        "name": "allowance",
-        "outputs": [{"name": "", "type": "uint256"}],
-        "type": "function"
+        constant: true,
+        inputs: [
+          { name: '_owner', type: 'address' },
+          { name: '_spender', type: 'address' }
+        ],
+        name: 'allowance',
+        outputs: [{ name: '', type: 'uint256' }],
+        type: 'function'
       },
       {
-        "constant": false,
-        "inputs": [{"name": "_from", "type": "address"}, {"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}],
-        "name": "transferFrom",
-        "outputs": [{"name": "", "type": "bool"}],
-        "type": "function"
+        constant: false,
+        inputs: [
+          { name: '_from', type: 'address' },
+          { name: '_to', type: 'address' },
+          { name: '_value', type: 'uint256' }
+        ],
+        name: 'transferFrom',
+        outputs: [{ name: '', type: 'bool' }],
+        type: 'function'
       }
     ];
 
@@ -109,18 +122,18 @@ class StreamToken {
     if (!web3) return false;
 
     this.web3 = web3;
-    
+
     // Get the correct token address for the current network
     const tokenAddress = this.tokenAddress[chainId];
     if (!tokenAddress) {
       console.error(`STREAM Token not deployed on network ${chainId}`);
       return false;
     }
-    
+
     try {
       // Create contract instance
       this.contract = new this.web3.eth.Contract(this.tokenAbi, tokenAddress);
-      
+
       // Get token decimals
       try {
         const decimals = await this.contract.methods.decimals().call();
@@ -128,7 +141,7 @@ class StreamToken {
       } catch (error) {
         console.warn("Couldn't fetch token decimals, using default (18):", error);
       }
-      
+
       this.isInitialized = true;
       return true;
     } catch (error) {
@@ -146,7 +159,7 @@ class StreamToken {
     if (!this.contract) {
       throw new Error('STREAM token contract not initialized');
     }
-    
+
     try {
       const balance = await this.contract.methods.balanceOf(address).call();
       return this.formatAmount(balance);
@@ -163,7 +176,7 @@ class StreamToken {
    */
   formatAmount(amount) {
     if (!this.web3) return '0';
-    
+
     return this.web3.utils.fromWei(amount.toString(), 'ether');
   }
 
@@ -174,7 +187,7 @@ class StreamToken {
    */
   parseAmount(amount) {
     if (!this.web3) return '0';
-    
+
     return this.web3.utils.toWei(amount.toString(), 'ether');
   }
 
@@ -189,19 +202,19 @@ class StreamToken {
     if (!this.contract) {
       throw new Error('STREAM token contract not initialized');
     }
-    
+
     const rawAmount = this.parseAmount(amount);
     const sender = from || window.web3Auth.currentAccount;
-    
+
     if (!sender) {
       throw new Error('No wallet connected');
     }
-    
+
     try {
       const tx = await this.contract.methods.transfer(to, rawAmount).send({
         from: sender
       });
-      
+
       return tx.transactionHash;
     } catch (error) {
       console.error('Error transferring STREAM tokens:', error);
@@ -219,19 +232,19 @@ class StreamToken {
     if (!this.contract) {
       throw new Error('STREAM token contract not initialized');
     }
-    
+
     const rawAmount = this.parseAmount(amount);
     const sender = window.web3Auth.currentAccount;
-    
+
     if (!sender) {
       throw new Error('No wallet connected');
     }
-    
+
     try {
       const tx = await this.contract.methods.approve(spender, rawAmount).send({
         from: sender
       });
-      
+
       return tx.transactionHash;
     } catch (error) {
       console.error('Error approving STREAM tokens:', error);
@@ -249,29 +262,30 @@ class StreamToken {
     if (!this.contract) {
       throw new Error('STREAM token contract not initialized');
     }
-    
+
     try {
-      const subscription = this.contract.events.Transfer({
-        filter: {
-          to: address
-        }
-      })
-      .on('data', event => {
-        const { from, to, value } = event.returnValues;
-        const formattedValue = this.formatAmount(value);
-        
-        callback({
-          from,
-          to,
-          value: formattedValue,
-          timestamp: Math.floor(Date.now() / 1000),
-          transactionHash: event.transactionHash
+      const subscription = this.contract.events
+        .Transfer({
+          filter: {
+            to: address
+          }
+        })
+        .on('data', event => {
+          const { from, to, value } = event.returnValues;
+          const formattedValue = this.formatAmount(value);
+
+          callback({
+            from,
+            to,
+            value: formattedValue,
+            timestamp: Math.floor(Date.now() / 1000),
+            transactionHash: event.transactionHash
+          });
+        })
+        .on('error', error => {
+          console.error('Error watching STREAM transfers:', error);
         });
-      })
-      .on('error', error => {
-        console.error('Error watching STREAM transfers:', error);
-      });
-      
+
       return subscription;
     } catch (error) {
       console.error('Failed to watch for STREAM token transfers:', error);

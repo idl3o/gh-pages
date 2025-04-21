@@ -12,7 +12,7 @@ class Web3Auth {
     this.networkId = null;
     this.isConnected = false;
     this.authListeners = [];
-    
+
     // Supported wallet providers
     this.walletProviders = {
       metamask: {
@@ -29,13 +29,14 @@ class Web3Auth {
           if (!window.WalletConnectProvider) {
             await new Promise((resolve, reject) => {
               const script = document.createElement('script');
-              script.src = 'https://unpkg.com/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js';
+              script.src =
+                'https://unpkg.com/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js';
               script.onload = resolve;
               script.onerror = reject;
               document.head.appendChild(script);
             });
           }
-          
+
           const WalletConnectProvider = window.WalletConnectProvider.default;
           return new WalletConnectProvider({
             infuraId: '9aa3d95b3bc440fa88ea12eaa4456161', // Public Infura ID
@@ -57,7 +58,7 @@ class Web3Auth {
         logo: 'assets/images/coinbase-logo.svg'
       }
     };
-    
+
     // Bind methods
     this.initialize = this.initialize.bind(this);
     this.connect = this.connect.bind(this);
@@ -76,7 +77,7 @@ class Web3Auth {
    */
   async initialize() {
     if (this.isInitialized) return true;
-    
+
     try {
       // Load Web3.js if not already loaded
       if (!window.Web3) {
@@ -88,11 +89,11 @@ class Web3Auth {
           document.head.appendChild(script);
         });
       }
-      
+
       // Try to reconnect previously connected wallet
       const lastWallet = localStorage.getItem('web3_wallet_provider');
       const lastConnected = localStorage.getItem('web3_connected') === 'true';
-      
+
       if (lastConnected && lastWallet) {
         try {
           await this.connect(lastWallet, true);
@@ -102,7 +103,7 @@ class Web3Auth {
           localStorage.removeItem('web3_connected');
         }
       }
-      
+
       this.isInitialized = true;
       return true;
     } catch (error) {
@@ -123,24 +124,24 @@ class Web3Auth {
       if (!walletProvider) {
         throw new Error(`Provider ${providerName} not supported`);
       }
-      
+
       if (!walletProvider.check()) {
         if (silent) return false;
-        
+
         if (providerName === 'metamask') {
           window.open('https://metamask.io/download/', '_blank');
         }
         throw new Error(`${walletProvider.name} is not installed`);
       }
-      
+
       // Get provider instance
       this.provider = await walletProvider.getProvider();
-      
+
       // Connect to the wallet
       let accounts;
       try {
-        accounts = await this.provider.request({ 
-          method: 'eth_requestAccounts' 
+        accounts = await this.provider.request({
+          method: 'eth_requestAccounts'
         });
       } catch (error) {
         if (error.code === 4001) {
@@ -149,37 +150,37 @@ class Web3Auth {
         }
         throw error;
       }
-      
+
       if (!accounts || accounts.length === 0) {
         throw new Error('No accounts returned from wallet');
       }
-      
+
       // Create Web3 instance
       this.web3 = new Web3(this.provider);
-      
+
       // Set current account
       this.currentAccount = accounts[0];
-      
+
       // Get network ID
       this.networkId = await this.web3.eth.getChainId();
-      
+
       // Set up event listeners
       if (this.provider.on) {
         this.provider.on('accountsChanged', this.handleAccountsChanged);
         this.provider.on('chainChanged', this.handleChainChanged);
         this.provider.on('disconnect', this.handleDisconnect);
       }
-      
+
       // Update connection status
       this.isConnected = true;
-      
+
       // Store connection preferences
       localStorage.setItem('web3_wallet_provider', providerName);
       localStorage.setItem('web3_connected', 'true');
-      
+
       // Notify listeners
       this.notifyAuthChange();
-      
+
       return true;
     } catch (error) {
       console.error('Connection error:', error);
@@ -187,7 +188,7 @@ class Web3Auth {
       this.currentAccount = null;
       this.networkId = null;
       this.provider = null;
-      
+
       throw error;
     }
   }
@@ -204,25 +205,25 @@ class Web3Auth {
         this.provider.removeListener('chainChanged', this.handleChainChanged);
         this.provider.removeListener('disconnect', this.handleDisconnect);
       }
-      
+
       // Special handling for WalletConnect
       if (this.provider && this.provider.close) {
         await this.provider.close();
       }
-      
+
       // Clear connection status
       this.isConnected = false;
       this.currentAccount = null;
       this.networkId = null;
       this.provider = null;
       this.web3 = null;
-      
+
       // Clear stored connection preferences
       localStorage.removeItem('web3_connected');
-      
+
       // Notify listeners
       this.notifyAuthChange();
-      
+
       return true;
     } catch (error) {
       console.error('Disconnection error:', error);
@@ -239,7 +240,7 @@ class Web3Auth {
     if (!this.provider || !this.isConnected) {
       throw new Error('Not connected to a wallet');
     }
-    
+
     // Network configurations
     const networks = {
       1: {
@@ -271,25 +272,26 @@ class Web3Auth {
         blockExplorerUrls: ['https://mumbai.polygonscan.com']
       }
     };
-    
+
     // Convert network ID to hex for wallet compatibility
-    const networkIdHex = typeof networkId === 'string' && networkId.startsWith('0x') 
-      ? networkId 
-      : '0x' + parseInt(networkId).toString(16);
-    
+    const networkIdHex =
+      typeof networkId === 'string' && networkId.startsWith('0x')
+        ? networkId
+        : '0x' + parseInt(networkId).toString(16);
+
     try {
       // Try to switch to the network
       await this.provider.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: networkIdHex }]
       });
-      
+
       // Update current network ID
       this.networkId = parseInt(networkIdHex, 16);
-      
+
       // Notify listeners
       this.notifyAuthChange();
-      
+
       return true;
     } catch (error) {
       // If the chain hasn't been added to the wallet yet
@@ -298,14 +300,14 @@ class Web3Auth {
         if (!networkConfig) {
           throw new Error(`Network configuration for ID ${networkId} not found`);
         }
-        
+
         try {
           // Add the network to the wallet
           await this.provider.request({
             method: 'wallet_addEthereumChain',
             params: [networkConfig]
           });
-          
+
           // Try switching again
           return await this.switchNetwork(networkId);
         } catch (addError) {
@@ -313,7 +315,7 @@ class Web3Auth {
           throw addError;
         }
       }
-      
+
       console.error('Failed to switch network:', error);
       throw error;
     }
@@ -340,12 +342,12 @@ class Web3Auth {
    */
   onAuthChange(callback) {
     this.authListeners.push(callback);
-    
+
     // Immediately notify about current state
     if (callback && typeof callback === 'function') {
       callback(this.isConnected, this.currentAccount, this.networkId);
     }
-    
+
     // Return unsubscribe function
     return () => {
       this.authListeners = this.authListeners.filter(cb => cb !== callback);
@@ -375,10 +377,10 @@ class Web3Auth {
       this.handleDisconnect();
       return;
     }
-    
+
     // Update current account
     this.currentAccount = accounts[0];
-    
+
     // Notify listeners
     this.notifyAuthChange();
   }
@@ -390,7 +392,7 @@ class Web3Auth {
   handleChainChanged(chainIdHex) {
     // Update network ID (convert hex to decimal)
     this.networkId = parseInt(chainIdHex, 16);
-    
+
     // Notify listeners
     this.notifyAuthChange();
   }
@@ -402,10 +404,10 @@ class Web3Auth {
     // Update connection status
     this.isConnected = false;
     this.currentAccount = null;
-    
+
     // Clear stored connection preferences
     localStorage.removeItem('web3_connected');
-    
+
     // Notify listeners
     this.notifyAuthChange();
   }

@@ -7,14 +7,14 @@
     {{ site.beta_status }} {% if site.beta_link %}<a href="{{ site.beta_link }}">Learn More</a>{% endif %}
   </div>
   {% endif %}
-  
+
   <header class="site-header">
     <div class="container">
       <div class="nav-container">
         <div class="logo">
           <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
         </div>
-        
+
         <nav class="main-nav">
           <ul class="nav-links">
             <li><a href="{{ '/#about' | relative_url }}" {% if page.url == '/#about' %}class="active"{% endif %}>About</a></li>

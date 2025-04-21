@@ -2,7 +2,7 @@
  * Main JavaScript for Web3 Crypto Streaming Service
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Initialize components
   initThemeSwitcher();
   initSmoothScroll();
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (nav && navLinks && window.innerWidth <= 768) {
     nav.insertBefore(mobileMenuButton, navLinks);
 
-    mobileMenuButton.addEventListener('click', function() {
+    mobileMenuButton.addEventListener('click', function () {
       navLinks.classList.toggle('active');
     });
   }
@@ -67,7 +67,7 @@ function initThemeSwitcher() {
   }
 
   // Theme switch event handler
-  themeSwitcher.addEventListener('click', function() {
+  themeSwitcher.addEventListener('click', function () {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
@@ -81,7 +81,7 @@ function initThemeSwitcher() {
  */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
 
       // Skip if it's just "#" or empty
@@ -169,7 +169,7 @@ function initWalletConnect() {
 
   if (!connectButton) return;
 
-  connectButton.addEventListener('click', async function() {
+  connectButton.addEventListener('click', async function () {
     // Check if Web3 is available
     if (window.ethereum) {
       try {
