@@ -75,6 +75,38 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Ruby setup with improved error handling
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: false
+
+      - name: Update Bundler
+        run: |
+          gem install bundler
+          bundle --version
+        continue-on-error: true
+
+      - name: Clean RubyGems
+        run: |
+          gem pristine --all || true
+        continue-on-error: true
+
+      - name: Install Ruby Dependencies with Retry
+        run: |
+          for i in 1 2 3; do
+            bundle install --jobs 4 --retry 3 && break || echo "Retry $i..."
+            sleep 5
+          done
+        continue-on-error: true
+
+      - name: Debug Bundler
+        run: |
+          bundle config
+          bundle list
+        continue-on-error: true
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
