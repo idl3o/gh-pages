@@ -1,23 +1,26 @@
 version: 2
 updates:
   # Enable npm dependency updates
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-    # Limit to 5 PRs at a time
-    open-pull-requests-limit: 5
+      interval: 'monthly'
+    # Limit to 10 PRs at a time
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-patch']
     # Assign labels to PRs
     labels:
-      - "dependencies"
-      - "automated pr"
+      - 'dependencies'
+      - 'automated pr'
 
   # Enable GitHub Actions updates
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
     labels:
-      - "dependencies"
-      - "automated pr"
-      - "actions"
+      - 'dependencies'
+      - 'automated pr'
+      - 'actions'
