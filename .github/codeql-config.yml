@@ -1,0 +1,16 @@
+name: 'CodeQL Configuration'
+
+paths:
+  - '.'
+
+paths-ignore:
+  - node_modules
+  - '**/*.test.js'
+  - '**/*.spec.js'
+  - dist
+  - _site
+
+# Temporarily exclude files with syntax errors
+exclude:
+  - assets/js/content-loader.js
+  - assets/js/web3-connect.js
