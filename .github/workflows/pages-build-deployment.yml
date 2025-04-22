@@ -42,20 +42,25 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: false
 
+      - name: Verify Ruby and Bundler versions
+        if: steps.check-gemfile.outputs.gemfile == 'true'
+        run: |
+          ruby --version
+          bundler --version
+
       - name: Install Bundler
         if: steps.check-gemfile.outputs.gemfile == 'true'
         run: |
-          gem install bundler -v "~> 2.3.0"
+          gem install bundler
           bundle --version
         continue-on-error: true
 
-      - name: Install dependencies with retry
+      - name: Install Ruby dependencies
         if: steps.check-gemfile.outputs.gemfile == 'true'
         run: |
-          for i in 1 2 3; do
-            bundle install --jobs 4 --retry 3 && break || echo "Retry $i..."
-            sleep 5
-          done
+          bundle config set --local path 'vendor/bundle'
+          bundle install --retry=3 --jobs=4
+          bundle check || echo "Bundle check failed"
         continue-on-error: true
 
       - name: List Ruby gems

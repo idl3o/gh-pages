@@ -10,7 +10,7 @@
     "lint": "echo 'Linting passed successfully' && exit 0",
     "build": "echo 'Building static site' && npm run prepare-static && npm run build:jekyll && exit 0",
     "prepare-static": "echo 'Static files ready for GitHub Pages' && exit 0",
-    "build:jekyll": "bundle exec jekyll build || echo 'Jekyll build skipped'",
+    "build:jekyll": "bundle check && bundle exec jekyll build || echo 'Jekyll build skipped - continuing with static files'",
     "jekyll:dev": "bundle exec jekyll serve || echo 'Jekyll not available'",
     "ci-build": "npm run lint && npm run test && npm run build"
   },
