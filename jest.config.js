@@ -14,17 +14,7 @@ module.exports = {
   ],
 
   // An array of regexp pattern strings that are matched against all test paths
-<<<<<<< Updated upstream
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/_site/',
-    '/dist/',
-    '/vendor/',
-    '/.jekyll-cache/'
-  ],
-=======
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/.github/'],
->>>>>>> Stashed changes
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
 
   // Indicates whether each individual test should be reported during the run
   verbose: true,
@@ -34,6 +24,15 @@ module.exports = {
 
   // Indicates whether the coverage information should be collected
   collectCoverage: true,
+
+  // Collect coverage from specific files
+  collectCoverageFrom: [
+    '**/*.{js,jsx}',
+    '!**/node_modules/**',
+    '!**/dist/**',
+    '!**/coverage/**',
+    '!jest.config.js'
+  ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
@@ -65,7 +64,7 @@ module.exports = {
   setupFiles: [],
 
   // Setup files that will run after the test framework is instantiated
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: [],
 
   // The test results processor used by Jest
   // testResultsProcessor: undefined,
@@ -77,7 +76,8 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'node'],
 
   // Transform files with babel-jest
-  transform: {
-    '^.+\\.(js|jsx)$': 'babel-jest'
-  }
+  transform: {},
+
+  // Set a timeout for tests
+  testTimeout: 30000
 };
