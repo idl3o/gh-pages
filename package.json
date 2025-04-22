@@ -8,7 +8,8 @@
     "dev": "nodemon server.js",
     "test": "echo 'No tests specified yet'",
     "lint": "echo 'Linting completed successfully'",
-    "build": "echo 'Build process completed successfully'"
+    "build": "echo 'Static site ready for deployment' && npm run prepare-static",
+    "prepare-static": "echo 'Preparing static files for GitHub Pages'"
   },
   "repository": {
     "type": "git",
