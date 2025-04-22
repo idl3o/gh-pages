@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="StreamChain Documentation - Whitepaper, API guides, and technical specifications"
+      content="StreamChain Documentation - Technical specifications, API references, and developer guides"
     />
-    <title>Documentation | StreamChain</title>
+    <title>Documentation | Web3 Crypto Streaming Service</title>
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/animations.css" />
     <link rel="stylesheet" href="./assets/css/definitive.css" />
@@ -109,74 +109,195 @@
       </div>
     </header>
 
-    <section class="documentation-section">
+    <!-- Documentation Main Section -->
+    <section class="docs-main">
       <div class="container">
         <h1>StreamChain Documentation</h1>
 
-        <div class="docs-navigation">
-          <ul>
-            <li><a href="#whitepaper" class="active">Whitepaper</a></li>
-            <li><a href="#api">API Documentation</a></li>
-            <li><a href="#technical">Technical Architecture</a></li>
-            <li><a href="#tokenomics">Tokenomics</a></li>
-          </ul>
-        </div>
+        <div class="docs-container">
+          <!-- Sidebar Navigation -->
+          <aside class="docs-sidebar">
+            <nav>
+              <ul>
+                <li>
+                  <a href="#whitepaper" class="active">Whitepaper</a>
+                </li>
+                <li>
+                  <a href="#architecture">Architecture</a>
+                </li>
+                <li>
+                  <a href="#smart-contracts">Smart Contracts</a>
+                </li>
+                <li>
+                  <a href="#api" id="api-link">API Reference</a>
+                  <ul class="submenu">
+                    <li><a href="#api-auth">Authentication</a></li>
+                    <li><a href="#api-content">Content Endpoints</a></li>
+                    <li><a href="#api-users">User Endpoints</a></li>
+                    <li><a href="#api-payments">Payment Endpoints</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#sdk">SDK Documentation</a>
+                </li>
+                <li>
+                  <a href="#guides">Developer Guides</a>
+                </li>
+              </ul>
+            </nav>
+          </aside>
 
-        <div class="doc-content" id="whitepaper">
-          <h2>Whitepaper</h2>
-          <p class="doc-intro">
-            The StreamChain whitepaper outlines our vision for building the future of decentralized
-            content streaming.
-          </p>
+          <!-- Documentation Content -->
+          <div class="docs-content">
+            <section id="whitepaper">
+              <h2>Whitepaper</h2>
+              <div class="download-btn">
+                <a href="./assets/docs/StreamChain-Whitepaper.pdf" class="btn btn-primary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  Download Whitepaper (PDF)
+                </a>
+              </div>
 
-          <div class="paper-download">
-            <a href="#" class="btn btn-primary">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              Download Whitepaper
-            </a>
-          </div>
+              <h3>Abstract</h3>
+              <p>
+                StreamChain represents a paradigm shift in content distribution. By leveraging
+                blockchain technology, we have created a truly decentralized streaming platform that
+                eliminates intermediaries, provides direct monetization for creators, and returns
+                content ownership and control to its rightful owners. This document outlines the
+                technical architecture, token economics, and governance model of the StreamChain
+                platform.
+              </p>
 
-          <div class="whitepaper-abstract">
-            <h3>Abstract</h3>
-            <p>
-              StreamChain represents a paradigm shift in content distribution by leveraging
-              blockchain technology to create a decentralized streaming platform that prioritizes
-              creator compensation and viewer control. This whitepaper outlines the technological
-              architecture, tokenomics, and governance models that power our platform.
-            </p>
-          </div>
-        </div>
+              <h3>Problem Statement</h3>
+              <p>
+                Centralized streaming platforms have created numerous issues for content creators
+                and consumers:
+              </p>
+              <ul>
+                <li>Creators receive only a fraction of generated revenue</li>
+                <li>Platform censorship limits creative freedom</li>
+                <li>Opaque recommendation algorithms create content echo chambers</li>
+                <li>User data privacy concerns abound with targeted advertising</li>
+                <li>Content is vulnerable to platform policy changes and shutdowns</li>
+              </ul>
 
-        <div class="doc-content" id="api">
-          <h2>API Documentation</h2>
-          <p class="doc-intro">
-            Integrate with the StreamChain platform using our comprehensive API. Build applications,
-            viewers, or creator tools on top of our decentralized infrastructure.
-          </p>
+              <h3>Our Solution</h3>
+              <p>
+                StreamChain provides a decentralized alternative that addresses these issues
+                through:
+              </p>
+              <ul>
+                <li>Direct creator-to-viewer payments via smart contracts</li>
+                <li>Content stored on IPFS for censorship resistance</li>
+                <li>Transparent recommendation algorithms governed by community</li>
+                <li>User privacy preserved through anonymous viewing options</li>
+                <li>True content ownership through blockchain verification</li>
+              </ul>
+            </section>
 
-          <div class="code-block">
-            <pre><code>// Example API Request
-const response = await fetch('https://api.streamchain.io/v1/content', {
-  method: 'GET',
+            <section id="architecture">
+              <h2>Architecture</h2>
+              <p>StreamChain's architecture consists of several interconnected components:</p>
+
+              <div class="architecture-image">
+                <img
+                  src="./assets/images/architecture-diagram.jpg"
+                  alt="StreamChain Architecture Diagram"
+                />
+              </div>
+
+              <h3>Decentralized Storage Layer</h3>
+              <p>
+                Content is stored on IPFS (InterPlanetary File System), a distributed storage
+                protocol. When a creator uploads content, it's split into chunks, encrypted if
+                specified, and distributed across the IPFS network. This ensures content cannot be
+                censored or removed by a single entity.
+              </p>
+
+              <h3>Blockchain Layer</h3>
+              <p>
+                Content metadata, ownership records, and payment instructions are stored on the
+                blockchain. Smart contracts manage the relationship between creators, viewers, and
+                content, automating payments and ensuring transparency.
+              </p>
+
+              <h3>Application Layer</h3>
+              <p>
+                The web and mobile interfaces provide a user-friendly experience for creators and
+                viewers. This layer interacts with both the blockchain and IPFS through dedicated
+                APIs and SDKs.
+              </p>
+            </section>
+
+            <section id="api">
+              <h2>API Reference</h2>
+              <p>
+                Our API allows developers to integrate StreamChain functionality into their
+                applications.
+              </p>
+
+              <h3 id="api-auth">Authentication</h3>
+              <p>
+                All API requests require authentication using JWT tokens or Web3 wallet signatures.
+              </p>
+
+              <div class="code-block">
+                <pre><code>
+// Example Authentication Request
+const authResponse = await fetch('https://api.streamchain.io/v1/auth', {
+  method: 'POST',
   headers: {
-    'Authorization': `Bearer ${YOUR_API_KEY}`,
     'Content-Type': 'application/json'
-  }
+  },
+  body: JSON.stringify({
+    signature: signedMessage,
+    wallet: userWalletAddress
+  })
 });
 
-const data = await response.json();
-console.log(data);</code></pre>
+const { token } = await authResponse.json();
+                </code></pre>
+              </div>
+
+              <h3 id="api-content">Content Endpoints</h3>
+              <p>These endpoints allow interaction with the content library.</p>
+
+              <div class="endpoint">
+                <h4>GET /v1/content</h4>
+                <p>Retrieves a paginated list of available content</p>
+                <h5>Parameters:</h5>
+                <ul>
+                  <li><code>page</code> (optional): Page number, default 1</li>
+                  <li><code>limit</code> (optional): Items per page, default 20</li>
+                  <li><code>category</code> (optional): Filter by content category</li>
+                </ul>
+              </div>
+
+              <div class="endpoint">
+                <h4>GET /v1/content/:id</h4>
+                <p>Retrieves details about a specific content item</p>
+              </div>
+
+              <div class="endpoint">
+                <h4>POST /v1/content</h4>
+                <p>Uploads new content to the platform</p>
+              </div>
+
+              <!-- More API endpoints would go here -->
+            </section>
+
+            <!-- Additional documentation sections would go here -->
           </div>
         </div>
       </div>
@@ -216,10 +337,10 @@ console.log(data);</code></pre>
           <div>
             <h3>Resources</h3>
             <ul>
-              <li><a href="#whitepaper">Whitepaper</a></li>
-              <li><a href="#api">API Documentation</a></li>
+              <li><a href="docs.html">Whitepaper</a></li>
+              <li><a href="docs.html#api">API Documentation</a></li>
               <li><a href="token.html">STREAM Token</a></li>
-              <li><a href="governance-visualization.html">Governance</a></li>
+              <li><a href="governance.html">Governance</a></li>
             </ul>
           </div>
           <div>
@@ -234,7 +355,7 @@ console.log(data);</code></pre>
           <div>
             <h3>Legal</h3>
             <ul>
-              <li><a href="terms-of-service.html">Terms of Service</a></li>
+              <li><a href="terms.html">Terms of Service</a></li>
               <li><a href="privacy.html">Privacy Policy</a></li>
               <li><a href="token-disclaimer.html">Token Disclaimer</a></li>
             </ul>
@@ -252,7 +373,6 @@ console.log(data);</code></pre>
       const darkModeToggle = document.querySelector('.dark-mode-toggle');
       const sunIcon = document.querySelector('.sun');
       const moonIcon = document.querySelector('.moon');
-      // Check if user prefers dark mode
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-theme');
         sunIcon.classList.add('hidden');
@@ -270,6 +390,32 @@ console.log(data);</code></pre>
         alert(
           'Wallet connection functionality will be implemented in the future. For now, please enjoy the static demo.'
         );
+      });
+
+      // Documentation sidebar functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        const sidebarLinks = document.querySelectorAll('.docs-sidebar a');
+
+        // Add click event to each sidebar link
+        sidebarLinks.forEach(link => {
+          link.addEventListener('click', e => {
+            // Remove active class from all links
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            // Add active class to clicked link
+            e.target.classList.add('active');
+          });
+        });
+
+        // Toggle submenu visibility when API link is clicked
+        const apiLink = document.getElementById('api-link');
+        if (apiLink) {
+          apiLink.addEventListener('click', e => {
+            const submenu = e.target.nextElementSibling;
+            if (submenu && submenu.classList.contains('submenu')) {
+              submenu.classList.toggle('active');
+            }
+          });
+        }
       });
     </script>
   </body>

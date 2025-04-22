@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="StreamChain Admin Dashboard - Site management and control panel"
+      content="StreamChain Admin Dashboard - Manage the decentralized streaming platform"
     />
     <title>Admin Dashboard | StreamChain</title>
     <link rel="stylesheet" href="./assets/css/main.css" />
@@ -109,61 +109,245 @@
       </div>
     </header>
 
+    <!-- Admin Dashboard Section -->
     <section class="admin-section">
       <div class="container">
         <h1>Admin Dashboard</h1>
 
-        <div class="admin-authentication">
-          <div class="login-form">
-            <h2>Admin Authentication</h2>
-            <form>
-              <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required />
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required />
-              </div>
+        <div class="admin-login" id="admin-login">
+          <h2>Admin Authentication</h2>
+          <p>Please authenticate to access the admin dashboard</p>
+
+          <form id="login-form" class="admin-form">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+            <div class="form-actions">
               <button type="submit" class="btn btn-primary">Login</button>
-              <button type="button" class="btn btn-secondary wallet-login">
-                Connect Wallet to Authenticate
+              <button type="button" id="wallet-auth-btn" class="btn btn-secondary">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <circle cx="12" cy="12" r="2"></circle>
+                  <path d="M6 12h.01M18 12h.01"></path>
+                </svg>
+                Authenticate with Wallet
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
 
-        <div class="admin-controls" style="display: block">
-          <div class="admin-panel-grid">
-            <div class="admin-card">
-              <h3>Site Deployment</h3>
-              <div class="admin-actions">
-                <button class="admin-btn" data-action="build-site">Build Site</button>
-                <button class="admin-btn" data-action="deploy-prod">Deploy to Production</button>
-                <button class="admin-btn" data-action="deploy-stage">Deploy to Staging</button>
+        <div class="admin-dashboard" id="admin-dashboard" style="display: none">
+          <div class="admin-sidebar">
+            <nav>
+              <ul>
+                <li>
+                  <a href="#" data-section="site-management" class="active">Site Management</a>
+                </li>
+                <li><a href="#" data-section="content-management">Content Management</a></li>
+                <li><a href="#" data-section="user-management">User Management</a></li>
+                <li><a href="#" data-section="analytics">Analytics</a></li>
+                <li><a href="#" data-section="settings">Settings</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="admin-content">
+            <!-- Site Management Section -->
+            <div class="admin-panel-section" id="site-management">
+              <h2>Site Management</h2>
+
+              <div class="admin-card">
+                <h3>Deployment</h3>
+                <div class="admin-actions">
+                  <button class="admin-btn" data-action="build-site">Build Site</button>
+                  <button class="admin-btn" data-action="deploy-prod">Deploy to Production</button>
+                  <button class="admin-btn" data-action="deploy-stage">Deploy to Staging</button>
+                </div>
+                <div class="output-console" id="deploy-output"></div>
               </div>
-              <div class="output-console" id="deploy-output"></div>
+
+              <div class="admin-card">
+                <h3>Git Branch Management</h3>
+                <div class="admin-actions">
+                  <button class="admin-btn" data-action="list-branches">List Branches</button>
+                  <button class="admin-btn" data-action="create-branch">Create Branch</button>
+                  <button class="admin-btn" data-action="merge-branch">Merge Branch</button>
+                </div>
+                <div class="output-console" id="branch-output"></div>
+              </div>
+
+              <div class="admin-card">
+                <h3>System Diagnostics</h3>
+                <div class="admin-actions">
+                  <button class="admin-btn" data-action="check-health">System Health Check</button>
+                  <button class="admin-btn" data-action="view-logs">View Logs</button>
+                  <button class="admin-btn" data-action="clear-cache">Clear Cache</button>
+                </div>
+                <div class="output-console" id="diagnostic-output"></div>
+              </div>
             </div>
 
-            <div class="admin-card">
-              <h3>Content Management</h3>
-              <div class="admin-actions">
-                <button class="admin-btn" data-action="list-content">List Content</button>
-                <button class="admin-btn" data-action="add-content">Add New Content</button>
-                <button class="admin-btn" data-action="moderate-comments">Moderate Comments</button>
+            <!-- Content Management Section -->
+            <div class="admin-panel-section" id="content-management" style="display: none">
+              <h2>Content Management</h2>
+
+              <div class="admin-card">
+                <h3>Video Content</h3>
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Creator</th>
+                      <th>Upload Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Web3 Demo Experience</td>
+                      <td>CryptoCreator</td>
+                      <td>2024-04-15</td>
+                      <td><span class="status published">Published</span></td>
+                      <td>
+                        <button class="icon-btn" title="Edit">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path>
+                            <path
+                              d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                            ></path>
+                          </svg>
+                        </button>
+                        <button class="icon-btn" title="Delete">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path
+                              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                            ></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Blockchain Gaming Revolution</td>
+                      <td>GameTheory</td>
+                      <td>2024-04-10</td>
+                      <td><span class="status published">Published</span></td>
+                      <td>
+                        <button class="icon-btn" title="Edit">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path>
+                            <path
+                              d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                            ></path>
+                          </svg>
+                        </button>
+                        <button class="icon-btn" title="Delete">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path
+                              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                            ></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>NFTs and Digital Ownership</td>
+                      <td>CryptoArtist</td>
+                      <td>2024-04-05</td>
+                      <td><span class="status review">Under Review</span></td>
+                      <td>
+                        <button class="icon-btn" title="Edit">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path>
+                            <path
+                              d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                            ></path>
+                          </svg>
+                        </button>
+                        <button class="icon-btn" title="Delete">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path
+                              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                            ></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="output-console" id="content-output"></div>
             </div>
 
-            <div class="admin-card">
-              <h3>System Diagnostics</h3>
-              <div class="admin-actions">
-                <button class="admin-btn" data-action="check-health">System Health Check</button>
-                <button class="admin-btn" data-action="view-logs">View Logs</button>
-                <button class="admin-btn" data-action="clear-cache">Clear Cache</button>
-              </div>
-              <div class="output-console" id="diagnostic-output"></div>
-            </div>
+            <!-- Other admin sections would go here -->
           </div>
         </div>
       </div>
@@ -206,7 +390,7 @@
               <li><a href="docs.html">Whitepaper</a></li>
               <li><a href="docs.html#api">API Documentation</a></li>
               <li><a href="token.html">STREAM Token</a></li>
-              <li><a href="governance-visualization.html">Governance</a></li>
+              <li><a href="governance.html">Governance</a></li>
             </ul>
           </div>
           <div>
@@ -221,19 +405,9 @@
           <div>
             <h3>Legal</h3>
             <ul>
-              <li><a href="terms-of-service.html">Terms of Service</a></li>
+              <li><a href="terms.html">Terms of Service</a></li>
               <li><a href="privacy.html">Privacy Policy</a></li>
               <li><a href="token-disclaimer.html">Token Disclaimer</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Navigation</h3>
-            <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="streaming.html">Streaming</a></li>
-              <li><a href="creator-dashboard.html">Creator Dashboard</a></li>
-              <li><a href="security.html">Security</a></li>
-              <li><a href="sitemap.html">Sitemap</a></li>
             </ul>
           </div>
         </div>
@@ -249,7 +423,6 @@
       const darkModeToggle = document.querySelector('.dark-mode-toggle');
       const sunIcon = document.querySelector('.sun');
       const moonIcon = document.querySelector('.moon');
-      // Check if user prefers dark mode
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-theme');
         sunIcon.classList.add('hidden');
@@ -269,33 +442,100 @@
         );
       });
 
+      // Admin login form functionality
+      document.getElementById('login-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        // This is a demo, so we'll just show the dashboard without actual authentication
+        document.getElementById('admin-login').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'flex';
+      });
+
+      // Wallet authentication button functionality
+      document.getElementById('wallet-auth-btn').addEventListener('click', function () {
+        alert(
+          'Wallet authentication will be implemented in the future. For now, please use the standard login form.'
+        );
+      });
+
+      // Admin sidebar navigation
+      document.querySelectorAll('.admin-sidebar nav a').forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          // Remove active class from all links
+          document.querySelectorAll('.admin-sidebar nav a').forEach(el => {
+            el.classList.remove('active');
+          });
+
+          // Add active class to clicked link
+          this.classList.add('active');
+
+          // Hide all sections
+          document.querySelectorAll('.admin-panel-section').forEach(section => {
+            section.style.display = 'none';
+          });
+
+          // Show the selected section
+          const sectionId = this.getAttribute('data-section');
+          document.getElementById(sectionId).style.display = 'block';
+        });
+      });
+
       // Admin button functionality
       document.querySelectorAll('.admin-btn').forEach(button => {
-        button.addEventListener('click', () => {
-          const action = button.getAttribute('data-action');
+        button.addEventListener('click', function () {
+          const action = this.getAttribute('data-action');
           const outputElement = document.getElementById(
             action.includes('deploy')
               ? 'deploy-output'
-              : action.includes('content')
-                ? 'content-output'
+              : action.includes('branch')
+                ? 'branch-output'
                 : 'diagnostic-output'
           );
 
-          button.innerHTML = '<span class="loading-spinner"></span> Running...';
-          button.disabled = true;
+          // Set button to loading state
+          const originalText = this.textContent;
+          this.innerHTML = '<span class="loading-spinner"></span> Running...';
+          this.disabled = true;
 
+          // Simulate API call
           setTimeout(() => {
-            let output = `Executed ${action} successfully at ${new Date().toLocaleTimeString()}`;
+            let output = '';
+
+            switch (action) {
+              case 'build-site':
+                output = `$ npm run build\n> web3-crypto-streaming@1.0.0 build\n> jekyll build\nConfiguration file: /Users/Sam/Documents/GitHub/gh-pages/_config.yml\n            Source: /Users/Sam/Documents/GitHub/gh-pages\n       Destination: /Users/Sam/Documents/GitHub/gh-pages/_site\n Incremental build: disabled. Enable with --incremental\n      Generating...\n                    done in 2.562 seconds.\n Auto-regeneration: disabled. Use --watch to enable.`;
+                break;
+              case 'deploy-prod':
+                output = `Deploying to production server...\nConnecting to server...\nUploading files...\nRestarting services...\nDeployment completed successfully.\nSite is now live at https://streamchain.io`;
+                break;
+              case 'deploy-stage':
+                output = `Deploying to staging server...\nConnecting to staging environment...\nUploading files...\nRestarting staging services...\nDeployment completed successfully.\nStaging site is now available at https://staging.streamchain.io`;
+                break;
+              case 'list-branches':
+                output = `$ git branch\n  develop\n* main\n  feature/token-gating\n  feature/livepeer-integration\n  hotfix/wallet-connect`;
+                break;
+              case 'check-health':
+                output = `System Health Check: ✅ All Systems Operational\n\nAPI Server: Online (200 OK)\nDatabase: Connected\nIPFS Gateway: Online\nBlockchain Node: Synced\nCache Server: Running\nCDN: Operational\n\nLast incident: None in the last 30 days`;
+                break;
+              case 'view-logs':
+                output = `Fetching recent logs...\n\n[2024-04-20 08:15:22] INFO: User authentication successful (0x1a2b...3f4d)\n[2024-04-20 08:16:05] INFO: Content uploaded (ID: 1234)\n[2024-04-20 08:30:15] WARN: API rate limit reached for IP 192.168.1.45\n[2024-04-20 09:05:30] INFO: Smart contract interaction successful (tx: 0xabcd...1234)\n[2024-04-20 09:42:18] INFO: CDN cache refreshed\n[2024-04-20 10:01:27] INFO: Scheduled backup completed`;
+                break;
+              case 'clear-cache':
+                output = `Clearing system cache...\nRemoving temporary files...\nInvalidating CDN cache...\nResetting API cache...\nCache cleared successfully.\n\nSystem performance should now be improved.`;
+                break;
+              default:
+                output = `Command '${action}' executed successfully.`;
+            }
+
+            // Display the output
             if (outputElement) {
               outputElement.innerHTML = `<pre>${output}</pre>`;
             }
 
-            button.innerHTML = button
-              .getAttribute('data-action')
-              .split('-')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ');
-            button.disabled = false;
+            // Reset button state
+            this.innerHTML = originalText;
+            this.disabled = false;
           }, 1500);
         });
       });

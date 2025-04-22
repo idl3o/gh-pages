@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Admin Panel for StreamChain - Manage content and users" />
+    <title>Admin Panel | StreamChain</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/animations.css" />
+    <link rel="stylesheet" href="../assets/css/definitive.css" />
+  </head>
+  <body>
+    <!-- Admin Header -->
+    <header class="header">
+      <div class="container header-content">
+        <h1>Admin Panel</h1>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Admin Content -->
+    <main class="admin-content">
+      <div class="container">
+        <h2>Manage Users</h2>
+        <p>Here you can manage users, view statistics, and perform administrative tasks.</p>
+        <div class="admin-actions">
+          <button class="admin-btn" data-action="view-users">View Users</button>
+          <button class="admin-btn" data-action="manage-content">Manage Content</button>
+          <button class="admin-btn" data-action="site-settings">Site Settings</button>
+        </div>
+        <div id="admin-output"></div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 StreamChain | <a href="../sitemap.html">Sitemap</a></p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+      // Admin button functionality
+      const adminButtons = document.querySelectorAll('.admin-btn');
+      const adminOutput = document.getElementById('admin-output');
+
+      adminButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const action = button.getAttribute('data-action');
+          let output = '';
+
+          switch (action) {
+            case 'view-users':
+              output = 'Displaying list of users...';
+              break;
+            case 'manage-content':
+              output = 'Content management interface...';
+              break;
+            case 'site-settings':
+              output = 'Site settings configuration...';
+              break;
+            default:
+              output = 'Unknown action.';
+          }
+
+          adminOutput.innerHTML = `<pre>${output}</pre>`;
+        });
+      });
+    </script>
+  </body>
+</html>

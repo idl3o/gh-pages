@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="StreamChain - Explore our decentralized streaming platform" />
-    <title>Streaming | StreamChain</title>
+    <meta
+      name="description"
+      content="StreamChain - Decentralized streaming platform for content creators and viewers"
+    />
+    <title>Stream | Web3 Crypto Streaming Service</title>
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/animations.css" />
     <link rel="stylesheet" href="./assets/css/definitive.css" />
@@ -106,24 +109,50 @@
       </div>
     </header>
 
-    <!-- Streaming Content Section -->
-    <section id="streaming-content" class="streaming-section">
+    <!-- Streaming Hero Section -->
+    <section class="streaming-hero">
       <div class="container">
-        <h1>Decentralized Streaming Platform</h1>
-        <p class="section-intro">
-          Experience the future of content distribution with our Web3 streaming service.
-        </p>
+        <div class="streaming-hero-content fade-in">
+          <h1>Decentralized Web3 Streaming Platform</h1>
+          <p>Watch, stream, and monetize content with full ownership and control</p>
+        </div>
+      </div>
+    </section>
 
+    <!-- Featured Content -->
+    <section class="featured-content">
+      <div class="container">
+        <h2>Featured Content</h2>
         <div class="video-player-large">
-          <div class="featured-video">
-            <video controls width="100%">
+          <div class="video-container">
+            <video controls width="100%" poster="./assets/images/featured-video-thumbnail.jpg">
               <source src="./assets/videos/sample-web3-video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <h2>Web3 Technology Explained</h2>
-            <p class="video-creator">By CryptoCreator • 12.5K views</p>
-            <div class="video-actions">
-              <button class="btn btn-secondary">
+          </div>
+          <div class="video-info">
+            <h3>Understanding Blockchain Streaming</h3>
+            <p class="creator">By CryptoCreator</p>
+            <p class="description">
+              Learn how blockchain technology is transforming the video streaming industry by
+              returning power to creators and viewers.
+            </p>
+            <div class="video-stats">
+              <span>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                12.5K views
+              </span>
+              <span>
                 <svg
                   width="16"
                   height="16"
@@ -136,68 +165,95 @@
                     d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
                   ></path>
                 </svg>
-                Like
-              </button>
-              <button class="btn btn-secondary">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-                Comment
-              </button>
-              <button class="btn btn-primary">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <polyline points="19 12 12 19 5 12"></polyline>
-                </svg>
-                Tip Creator
-              </button>
+                423 likes
+              </span>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <h2 class="section-title">Popular Videos</h2>
+    <!-- Content Library -->
+    <section class="content-library">
+      <div class="container">
+        <h2>Explore Content</h2>
+        <div class="filter-bar">
+          <button class="filter-btn active">All</button>
+          <button class="filter-btn">Educational</button>
+          <button class="filter-btn">Entertainment</button>
+          <button class="filter-btn">Gaming</button>
+          <button class="filter-btn">Music</button>
+        </div>
         <div class="video-grid">
+          <!-- Video Card 1 -->
           <div class="video-card">
             <div class="thumbnail">
               <img src="./assets/images/video-thumbnail-1.jpg" alt="Video thumbnail" />
-              <span class="duration">12:34</span>
+              <span class="duration">12:45</span>
             </div>
-            <h3>Introduction to Decentralized Storage</h3>
-            <p class="creator">TechExplorer</p>
-            <p class="views">8.2K views</p>
+            <h3>Web3 for Beginners</h3>
+            <p class="creator">CryptoExplained</p>
+            <div class="video-stats">
+              <span>8.2K views</span>
+              <span>2 days ago</span>
+            </div>
           </div>
+          <!-- Video Card 2 -->
           <div class="video-card">
             <div class="thumbnail">
               <img src="./assets/images/video-thumbnail-2.jpg" alt="Video thumbnail" />
-              <span class="duration">8:15</span>
+              <span class="duration">24:18</span>
             </div>
-            <h3>Smart Contract Fundamentals</h3>
-            <p class="creator">BlockchainDev</p>
-            <p class="views">15.7K views</p>
+            <h3>Blockchain Gaming Revolution</h3>
+            <p class="creator">GameTheory</p>
+            <div class="video-stats">
+              <span>15.7K views</span>
+              <span>1 week ago</span>
+            </div>
           </div>
+          <!-- Video Card 3 -->
           <div class="video-card">
             <div class="thumbnail">
               <img src="./assets/images/video-thumbnail-3.jpg" alt="Video thumbnail" />
-              <span class="duration">22:01</span>
+              <span class="duration">8:32</span>
             </div>
-            <h3>Crypto Monetization for Creators</h3>
-            <p class="creator">CreatorEconomy</p>
-            <p class="views">11.3K views</p>
+            <h3>Decentralized Storage Explained</h3>
+            <p class="creator">TechTalks</p>
+            <div class="video-stats">
+              <span>4.3K views</span>
+              <span>3 days ago</span>
+            </div>
           </div>
+          <!-- Video Card 4 -->
+          <div class="video-card">
+            <div class="thumbnail">
+              <img src="./assets/images/video-thumbnail-4.jpg" alt="Video thumbnail" />
+              <span class="duration">15:22</span>
+            </div>
+            <h3>NFTs and Digital Ownership</h3>
+            <p class="creator">CryptoArtist</p>
+            <div class="video-stats">
+              <span>9.6K views</span>
+              <span>5 days ago</span>
+            </div>
+          </div>
+        </div>
+        <div class="load-more">
+          <button class="btn btn-secondary">Load More</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Creator CTA -->
+    <section class="creator-cta">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Become a Creator</h2>
+          <p>
+            Share your content with our decentralized community and earn cryptocurrency directly
+            from your viewers.
+          </p>
+          <a href="creator-dashboard.html" class="btn btn-primary hover-lift">Start Creating</a>
         </div>
       </div>
     </section>
@@ -239,7 +295,7 @@
               <li><a href="docs.html">Whitepaper</a></li>
               <li><a href="docs.html#api">API Documentation</a></li>
               <li><a href="token.html">STREAM Token</a></li>
-              <li><a href="governance-visualization.html">Governance</a></li>
+              <li><a href="governance.html">Governance</a></li>
             </ul>
           </div>
           <div>
@@ -254,7 +310,7 @@
           <div>
             <h3>Legal</h3>
             <ul>
-              <li><a href="terms-of-service.html">Terms of Service</a></li>
+              <li><a href="terms.html">Terms of Service</a></li>
               <li><a href="privacy.html">Privacy Policy</a></li>
               <li><a href="token-disclaimer.html">Token Disclaimer</a></li>
             </ul>
@@ -272,7 +328,6 @@
       const darkModeToggle = document.querySelector('.dark-mode-toggle');
       const sunIcon = document.querySelector('.sun');
       const moonIcon = document.querySelector('.moon');
-      // Check if user prefers dark mode
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-theme');
         sunIcon.classList.add('hidden');
@@ -290,6 +345,15 @@
         alert(
           'Wallet connection functionality will be implemented in the future. For now, please enjoy the static demo.'
         );
+      });
+
+      // Filter buttons
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+        });
       });
     </script>
   </body>
