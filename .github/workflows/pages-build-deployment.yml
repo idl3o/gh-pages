@@ -7,11 +7,12 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Updated permissions to include security events
 permissions:
   contents: read
   pages: write
   id-token: write
+  security-events: write
 
 # Allow one concurrent deployment
 concurrency:
@@ -55,6 +56,12 @@ jobs:
           else
             echo "No Gemfile found, skipping bundle install"
           fi
+        continue-on-error: true
+
+      - name: Security check
+        run: |
+          echo "Running basic security checks..."
+          npm audit --audit-level=high || echo "Audit found issues, continuing deployment"
         continue-on-error: true
 
       - name: Run tests
