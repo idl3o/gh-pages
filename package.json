@@ -13,10 +13,11 @@
     "test:github": "jest tests/dummy.test.js --verbose",
     "test:security": "npm audit --audit-level=high || echo 'Security issues found'",
     "lint": "echo 'Linting passed successfully' && exit 0",
-    "build": "echo 'Building static site' && npm run prepare-static && npm run build:jekyll && exit 0",
-    "prepare-static": "echo 'Static files ready for GitHub Pages' && exit 0",
+    "build": "node scripts/build-manager.js",
+    "prepare-static": "node scripts/prepare-static.js",
     "check:ruby": "node scripts/check-ruby.js",
     "build:jekyll": "node scripts/jekyll-build.js",
+    "build:static": "node scripts/static-build.js",
     "jekyll:dev": "node scripts/jekyll-serve.js",
     "ci-build": "npm run lint && npm run test && npm run build",
     "verify:github": "node tests/github-compatibility.js && npm run test:github",
@@ -34,7 +35,7 @@
     "docs:build": "npm run docs:generate && npm run docs:whitepaper && npm run docs:architecture && npm run docs:contracts && npm run docs:api",
     "docs:nav": "node scripts/generate-docs-nav.js",
     "docs:complete": "npm run docs:build && npm run docs:auth && npm run docs:endpoints && npm run docs:sdk && npm run docs:guides && npm run docs:nav",
-    "docs:deploy": "npm run docs:complete && cp -r docs/* ."
+    "docs:deploy": "npm run docs:complete && node scripts/deploy-helper.js"
   },
   "repository": {
     "type": "git",
