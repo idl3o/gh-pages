@@ -28,6 +28,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs/
 
 # OS generated files #
 ######################
@@ -69,6 +70,11 @@ vendor/
 *.swp
 *.swo
 *~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Build artifacts
 dist/
@@ -79,6 +85,8 @@ temp/
 /build
 .cache/
 .temp/
+out/
+.next/
 
 # Local deploy files
 .deploy/
@@ -116,6 +124,7 @@ node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
+package-lock.json
 
 # Keep lock files for GitHub Actions
 !package-lock.json
@@ -133,3 +142,12 @@ red_x/index.html
 red_x/index.js
 red_x/index.wasm
 red_x/template.html
+
+# Ruby/Jekyll
+.bundle/
+vendor/
+.sass-cache/
+_site/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
