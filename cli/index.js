@@ -24,6 +24,8 @@ const registerBlockchainCommands = require('./commands/blockchain');
 const registerTokenCommands = require('./commands/token');
 const registerArtCommands = require('./commands/art');
 const registerWelcomeCommand = require('./commands/welcome');
+const registerFourierCommands = require('./commands/fourier');
+const registerRSSCommands = require('./commands/rss');
 
 // Get package info
 const packageJsonPath = path.join(__dirname, '..', 'package.json');
@@ -48,6 +50,8 @@ registerAnalyzeCommands(program);
 registerBlockchainCommands(program);
 registerTokenCommands(program);
 registerArtCommands(program);
+registerFourierCommands(program);
+registerRSSCommands(program);
 
 // Register basic commands
 program
