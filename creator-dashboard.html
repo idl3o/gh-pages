@@ -3,1280 +3,822 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Creator Dashboard | Web3 Crypto Streaming Service</title>
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-    <script
-      src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js"
-      type="application/javascript"
-    ></script>
-    <script src="assets/js/wallet-connector.js"></script>
-    <script src="assets/js/network-config.js"></script>
-    <script src="assets/js/contract-manager.js"></script>
-    <script src="assets/js/ipfs-content-loader.js"></script>
-    <style>
-      .dashboard-container {
-        max-width: 1200px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
-
-      .dashboard-grid {
-        display: grid;
-        grid-template-columns: 300px 1fr;
-        gap: 2rem;
-      }
-
-      .sidebar {
-        background-color: #1a1a2e;
-        border-radius: 8px;
-        padding: 1.5rem;
-        height: fit-content;
-      }
-
-      .sidebar-menu {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .sidebar-menu li {
-        margin-bottom: 0.5rem;
-      }
-
-      .sidebar-menu a {
-        display: block;
-        padding: 0.75rem 1rem;
-        border-radius: 4px;
-        color: #fff;
-        text-decoration: none;
-        transition: background-color 0.3s;
-      }
-
-      .sidebar-menu a:hover,
-      .sidebar-menu a.active {
-        background-color: #4361ee;
-      }
-
-      .dashboard-main {
-        background-color: #1a1a2e;
-        border-radius: 8px;
-        padding: 1.5rem;
-      }
-
-      .section-title {
-        border-bottom: 1px solid #2f2f4d;
-        padding-bottom: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .content-card {
-        background-color: #16213e;
-        border-radius: 8px;
-        overflow: hidden;
-        transition: transform 0.3s;
-      }
-
-      .content-card:hover {
-        transform: translateY(-4px);
-      }
-
-      .content-thumbnail {
-        position: relative;
-        height: 160px;
-        background-color: #0f0f1a;
-        overflow: hidden;
-      }
-
-      .content-thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .content-metadata {
-        padding: 1rem;
-      }
-
-      .content-title {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.1rem;
-      }
-
-      .content-metrics {
-        font-size: 0.9rem;
-        color: #a0a0c0;
-      }
-
-      .content-actions {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.75rem 1rem;
-        background-color: #1a1a2e;
-        border-top: 1px solid #2f2f4d;
-      }
-
-      .upload-container {
-        background-color: #16213e;
-        border-radius: 8px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .upload-area {
-        border: 2px dashed #4361ee;
-        border-radius: 8px;
-        padding: 2rem 1rem;
-        text-align: center;
-        margin-bottom: 1.5rem;
-        background-color: rgba(67, 97, 238, 0.1);
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .upload-area:hover {
-        background-color: rgba(67, 97, 238, 0.2);
-      }
-
-      .upload-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        color: #4361ee;
-      }
-
-      .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-
-      .form-group {
-        margin-bottom: 1rem;
-      }
-
-      .form-control {
-        width: 100%;
-        padding: 0.75rem;
-        border-radius: 4px;
-        border: 1px solid #2f2f4d;
-        background-color: #1a1a2e;
-        color: #fff;
-      }
-
-      textarea.form-control {
-        min-height: 120px;
-        resize: vertical;
-      }
-
-      .form-group.full-width {
-        grid-column: span 2;
-      }
-
-      .upload-progress {
-        height: 6px;
-        background-color: #1a1a2e;
-        border-radius: 3px;
-        margin-bottom: 1rem;
-        overflow: hidden;
-        display: none;
-      }
-
-      .upload-progress-bar {
-        height: 100%;
-        background-color: #4361ee;
-        width: 0%;
-        transition: width 0.3s;
-      }
-
-      .upload-status {
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
-        display: none;
-      }
-
-      .metrics-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
-      }
-
-      .metric-card {
-        background-color: #16213e;
-        border-radius: 8px;
-        padding: 1.5rem;
-        text-align: center;
-      }
-
-      .metric-value {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-      }
-
-      .metric-label {
-        color: #a0a0c0;
-        font-size: 0.9rem;
-      }
-
-      .earning-history {
-        margin-bottom: 2rem;
-      }
-
-      .earning-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .earning-table th,
-      .earning-table td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-      }
-
-      .earning-table th {
-        background-color: #16213e;
-        font-weight: normal;
-        color: #a0a0c0;
-        border-bottom: 1px solid #2f2f4d;
-      }
-
-      .earning-table tr {
-        border-bottom: 1px solid #2f2f4d;
-      }
-
-      .earning-table tr:last-child {
-        border-bottom: none;
-      }
-
-      .transaction-hash {
-        font-family: monospace;
-        color: #4361ee;
-        cursor: pointer;
-      }
-
-      .badge {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        border-radius: 2rem;
-        font-size: 0.8rem;
-      }
-
-      .badge-blue {
-        background-color: rgba(67, 97, 238, 0.2);
-        color: #4361ee;
-      }
-
-      .badge-green {
-        background-color: rgba(46, 204, 113, 0.2);
-        color: #2ecc71;
-      }
-
-      .badge-red {
-        background-color: rgba(231, 76, 60, 0.2);
-        color: #e74c3c;
-      }
-
-      .wallet-info {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid #2f2f4d;
-      }
-
-      .wallet-address {
-        font-family: monospace;
-        margin-left: 0.5rem;
-      }
-
-      .stat-change {
-        font-size: 0.8rem;
-      }
-
-      .stat-change.positive {
-        color: #2ecc71;
-      }
-
-      .stat-change.negative {
-        color: #e74c3c;
-      }
-
-      /* Content Detail Page Styles */
-      .content-detail {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 2rem;
-        margin-bottom: 2rem;
-      }
-
-      .video-preview {
-        background-color: #0f0f1a;
-        border-radius: 8px;
-        overflow: hidden;
-        position: relative;
-        padding-bottom: 56.25%; /* 16:9 ratio */
-        height: 0;
-      }
-
-      .video-preview video,
-      .video-preview .placeholder {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      .content-details {
-        background-color: #16213e;
-        border-radius: 8px;
-        padding: 1.5rem;
-      }
-
-      .content-stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .stat-item {
-        padding: 0.75rem;
-        background-color: #1a1a2e;
-        border-radius: 8px;
-        text-align: center;
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
-        margin-bottom: 0.25rem;
-      }
-
-      .stat-label {
-        font-size: 0.8rem;
-        color: #a0a0c0;
-      }
-
-      .tab-buttons {
-        display: flex;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid #2f2f4d;
-      }
-
-      .tab-button {
-        padding: 0.75rem 1.5rem;
-        background: none;
-        border: none;
-        color: #a0a0c0;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: all 0.3s;
-      }
-
-      .tab-button.active {
-        color: #fff;
-        border-bottom: 2px solid #4361ee;
-      }
-
-      .tab-content {
-        display: none;
-      }
-
-      .tab-content.active {
-        display: block;
-      }
-
-      .ipfs-info {
-        background-color: rgba(67, 97, 238, 0.1);
-        padding: 0.75rem;
-        border-radius: 4px;
-        font-family: monospace;
-        overflow-x: auto;
-      }
-
-      .earnings-chart {
-        background-color: #1a1a2e;
-        border-radius: 8px;
-        padding: 1rem;
-        height: 250px;
-        margin-bottom: 2rem;
-        position: relative;
-      }
-
-      .earnings-chart::before {
-        content: 'Chart visualization would appear here';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #4361ee;
-      }
-
-      .loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 200px;
-      }
-
-      .spinner {
-        border: 4px solid rgba(255, 255, 255, 0.1);
-        border-top: 4px solid #4361ee;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
+    <meta
+      name="description"
+      content="StreamChain Creator Dashboard - Manage your content, analytics, and earnings on the decentralized streaming platform"
+    />
+    <title>Creator Dashboard | StreamChain</title>
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Dashboard Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/apexcharts@3.42.0/dist/apexcharts.css"
+    />
   </head>
-  <body>
-    <!-- Navigation -->
-    <div class="navigation">
-      <div class="container nav-container">
-        <a href="/" class="logo">Web3 Crypto Streaming</a>
-        <div class="wallet-section">
-          <div id="wallet-badge" class="wallet-badge">
-            <span class="wallet-dot"></span>
-            <span id="wallet-status">Not Connected</span>
+  <body class="dashboard-body">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+      <div class="dashboard-logo">
+        <img src="images/logo.svg" alt="StreamChain Logo" />
+        <span>StreamChain</span>
+      </div>
+
+      <div class="dashboard-search">
+        <i class="ri-search-line"></i>
+        <input type="text" placeholder="Search content, analytics, settings..." />
+      </div>
+
+      <div class="dashboard-actions">
+        <button class="btn-upload" id="uploadBtn">
+          <i class="ri-upload-cloud-line"></i>
+          <span>Upload</span>
+        </button>
+
+        <div class="notifications">
+          <i class="ri-notification-3-line"></i>
+          <span class="badge">3</span>
+        </div>
+
+        <div class="account">
+          <img src="images/avatar.jpg" alt="Creator Avatar" class="avatar" />
+          <span class="name">Creator Name</span>
+          <i class="ri-arrow-down-s-line"></i>
+
+          <div class="account-dropdown">
+            <ul>
+              <li>
+                <a href="#"><i class="ri-user-line"></i> Profile</a>
+              </li>
+              <li>
+                <a href="#"><i class="ri-settings-3-line"></i> Settings</a>
+              </li>
+              <li>
+                <a href="#"><i class="ri-wallet-3-line"></i> Wallet</a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a href="#" class="logout"><i class="ri-logout-box-r-line"></i> Logout</a>
+              </li>
+            </ul>
           </div>
         </div>
-        <nav class="main-nav">
+      </div>
+    </header>
+
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <aside class="dashboard-sidebar">
+        <nav class="sidebar-nav">
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="streaming.html">Streaming</a></li>
-            <li><a href="creator-dashboard.html" class="active">Creator Dashboard</a></li>
-            <li><a href="docs/">Docs</a></li>
+            <li class="active">
+              <a href="#">
+                <i class="ri-dashboard-line"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-film-line"></i>
+                <span>Content</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-line-chart-line"></i>
+                <span>Analytics</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-money-dollar-circle-line"></i>
+                <span>Revenue</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-community-line"></i>
+                <span>Community</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-live-line"></i>
+                <span>Live Streams</span>
+              </a>
+            </li>
+            <li class="divider">
+              <span>NFT & TOKEN</span>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-nft-line"></i>
+                <span>NFTs</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-token-swap-line"></i>
+                <span>Creator Token</span>
+              </a>
+            </li>
+            <li class="divider">
+              <span>SETTINGS</span>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-settings-4-line"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ri-customer-service-2-line"></i>
+                <span>Support</span>
+              </a>
+            </li>
           </ul>
         </nav>
-      </div>
-    </div>
 
-    <!-- Dashboard Content -->
-    <div class="dashboard-container">
-      <div class="dashboard-grid">
-        <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar-footer">
+          <div class="network-status connected">
+            <i class="ri-checkbox-circle-line"></i>
+            <span>Connected to Blockchain</span>
+          </div>
           <div class="wallet-info">
-            <div>
-              <div>Connected as:</div>
-              <div class="wallet-address" id="creator-wallet"></div>
-            </div>
+            <i class="ri-wallet-3-line"></i>
+            <span class="wallet-address">0x1a2b...3c4d</span>
           </div>
+        </div>
+      </aside>
 
-          <ul class="sidebar-menu">
-            <li><a href="#overview-section" class="active" data-section="overview">Overview</a></li>
-            <li><a href="#content-section" data-section="content">My Content</a></li>
-            <li><a href="#upload-section" data-section="upload">Upload New Content</a></li>
-            <li><a href="#earnings-section" data-section="earnings">Earnings</a></li>
-            <li><a href="#settings-section" data-section="settings">Settings</a></li>
-          </ul>
+      <!-- Main Content -->
+      <main class="dashboard-content">
+        <div class="dashboard-welcome">
+          <div>
+            <h1>Welcome back, Creator!</h1>
+            <p>Here's what's happening with your content today</p>
+          </div>
+          <div class="date-range">
+            <span>Last 7 days</span>
+            <i class="ri-calendar-line"></i>
+          </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="dashboard-main">
-          <!-- Dashboard Sections -->
-          <div id="overview-section" class="dashboard-section">
-            <h2 class="section-title">Dashboard Overview</h2>
-
-            <!-- Stats Cards -->
-            <div class="metrics-cards">
-              <div class="metric-card">
-                <div class="metric-value">12</div>
-                <div class="metric-label">Total Content Items</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-value">1,384</div>
-                <div class="metric-label">Total Views</div>
-                <div class="stat-change positive">+24% this month</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-value">325</div>
-                <div class="metric-label">STREAM Earned</div>
-                <div class="stat-change positive">+12% this month</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-value">84%</div>
-                <div class="metric-label">Completion Rate</div>
-                <div class="stat-change negative">-2% this month</div>
-              </div>
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>Total Views</h3>
+              <i class="ri-eye-line"></i>
             </div>
-
-            <!-- Earnings Chart -->
-            <h3>Earnings Trend</h3>
-            <div class="earnings-chart"></div>
-
-            <!-- Recent Content -->
-            <h3>Recent Content</h3>
-            <div class="card-grid">
-              <div class="content-card">
-                <div class="content-thumbnail">
-                  <img
-                    src="assets/images/thumbnails/blockchain-basics.jpg"
-                    alt="Blockchain Basics"
-                  />
-                </div>
-                <div class="content-metadata">
-                  <h4 class="content-title">Blockchain Basics</h4>
-                  <div class="content-metrics">548 views • 2 days ago</div>
-                </div>
-                <div class="content-actions">
-                  <span class="badge badge-green">Active</span>
-                  <button class="button small">Manage</button>
-                </div>
-              </div>
-
-              <div class="content-card">
-                <div class="content-thumbnail">
-                  <img
-                    src="assets/images/thumbnails/smart-contract-dev.jpg"
-                    alt="Smart Contract Development"
-                  />
-                </div>
-                <div class="content-metadata">
-                  <h4 class="content-title">Smart Contract Development</h4>
-                  <div class="content-metrics">327 views • 5 days ago</div>
-                </div>
-                <div class="content-actions">
-                  <span class="badge badge-green">Active</span>
-                  <button class="button small">Manage</button>
-                </div>
-              </div>
-
-              <div class="content-card">
-                <div class="content-thumbnail">
-                  <img
-                    src="assets/images/thumbnails/web3-integration.jpg"
-                    alt="Web3 Integration Guide"
-                  />
-                </div>
-                <div class="content-metadata">
-                  <h4 class="content-title">Web3 Integration Guide</h4>
-                  <div class="content-metrics">209 views • 1 week ago</div>
-                </div>
-                <div class="content-actions">
-                  <span class="badge badge-green">Active</span>
-                  <button class="button small">Manage</button>
-                </div>
-              </div>
+            <div class="stat-value">152.4K</div>
+            <div class="stat-change increase">
+              <i class="ri-arrow-up-line"></i>
+              <span>12.7%</span> vs last week
             </div>
           </div>
 
-          <!-- Content Section -->
-          <div id="content-section" class="dashboard-section" style="display: none">
-            <h2 class="section-title">My Content</h2>
-
-            <div class="card-grid">
-              <div class="content-card">
-                <div class="content-thumbnail">
-                  <img
-                    src="assets/images/thumbnails/blockchain-basics.jpg"
-                    alt="Blockchain Basics"
-                  />
-                </div>
-                <div class="content-metadata">
-                  <h4 class="content-title">Blockchain Basics</h4>
-                  <div class="content-metrics">548 views • 2 days ago</div>
-                </div>
-                <div class="content-actions">
-                  <span class="badge badge-green">Active</span>
-                  <button class="button small view-content" data-id="content_001">View</button>
-                </div>
-              </div>
-
-              <div class="content-card">
-                <div class="content-thumbnail">
-                  <img
-                    src="assets/images/thumbnails/smart-contract-dev.jpg"
-                    alt="Smart Contract Development"
-                  />
-                </div>
-                <div class="content-metadata">
-                  <h4 class="content-title">Smart Contract Development</h4>
-                  <div class="content-metrics">327 views • 5 days ago</div>
-                </div>
-                <div class="content-actions">
-                  <span class="badge badge-green">Active</span>
-                  <button class="button small view-content" data-id="content_002">View</button>
-                </div>
-              </div>
-
-              <div class="content-card">
-                <div class="content-thumbnail">
-                  <img
-                    src="assets/images/thumbnails/web3-integration.jpg"
-                    alt="Web3 Integration Guide"
-                  />
-                </div>
-                <div class="content-metadata">
-                  <h4 class="content-title">Web3 Integration Guide</h4>
-                  <div class="content-metrics">209 views • 1 week ago</div>
-                </div>
-                <div class="content-actions">
-                  <span class="badge badge-green">Active</span>
-                  <button class="button small view-content" data-id="content_003">View</button>
-                </div>
-              </div>
-
-              <!-- Add more content cards here -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>Watch Time</h3>
+              <i class="ri-time-line"></i>
+            </div>
+            <div class="stat-value">4,826 hrs</div>
+            <div class="stat-change increase">
+              <i class="ri-arrow-up-line"></i>
+              <span>8.3%</span> vs last week
             </div>
           </div>
 
-          <!-- Upload Section -->
-          <div id="upload-section" class="dashboard-section" style="display: none">
-            <h2 class="section-title">Upload New Content</h2>
-
-            <div class="upload-container">
-              <div class="upload-area" id="drop-area">
-                <div class="upload-icon">↑</div>
-                <h3>Drag & Drop or Click to Upload Video</h3>
-                <p>Supported formats: MP4, WebM (max 2GB)</p>
-                <input type="file" id="file-input" style="display: none" accept="video/*" />
-              </div>
-
-              <div class="upload-progress">
-                <div class="upload-progress-bar" id="progress-bar"></div>
-              </div>
-              <div class="upload-status" id="upload-status"></div>
-
-              <form id="content-form">
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="content-title">Title</label>
-                    <input type="text" class="form-control" id="content-title" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="content-category">Category</label>
-                    <select class="form-control" id="content-category">
-                      <option value="education">Education</option>
-                      <option value="tutorial">Tutorial</option>
-                      <option value="entertainment">Entertainment</option>
-                      <option value="crypto">Crypto</option>
-                      <option value="gaming">Gaming</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group full-width">
-                    <label for="content-description">Description</label>
-                    <textarea class="form-control" id="content-description"></textarea>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="content-price">Price (STREAM tokens)</label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="content-price"
-                      min="0"
-                      step="1"
-                      value="1"
-                    />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="content-tags">Tags (comma separated)</label>
-                    <input type="text" class="form-control" id="content-tags" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="thumbnail-input">Thumbnail Image</label>
-                    <input type="file" class="form-control" id="thumbnail-input" accept="image/*" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="content-visibility">Visibility</label>
-                    <select class="form-control" id="content-visibility">
-                      <option value="public">Public</option>
-                      <option value="token-holders">Token Holders Only</option>
-                      <option value="paid">Paid Content</option>
-                    </select>
-                  </div>
-                </div>
-
-                <button type="submit" class="button primary" id="upload-button" disabled>
-                  Upload to IPFS
-                </button>
-              </form>
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>Subscribers</h3>
+              <i class="ri-user-follow-line"></i>
+            </div>
+            <div class="stat-value">24.8K</div>
+            <div class="stat-change increase">
+              <i class="ri-arrow-up-line"></i>
+              <span>5.1%</span> vs last week
             </div>
           </div>
 
-          <!-- Earnings Section -->
-          <div id="earnings-section" class="dashboard-section" style="display: none">
-            <h2 class="section-title">Earnings</h2>
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>Revenue</h3>
+              <i class="ri-coins-line"></i>
+            </div>
+            <div class="stat-value">$3,482</div>
+            <div class="stat-change decrease">
+              <i class="ri-arrow-down-line"></i>
+              <span>2.4%</span> vs last week
+            </div>
+          </div>
+        </div>
 
-            <div class="metrics-cards">
-              <div class="metric-card">
-                <div class="metric-value">325</div>
-                <div class="metric-label">Total STREAM Earned</div>
+        <!-- Analytics Charts -->
+        <div class="charts-container">
+          <div class="chart-card large">
+            <div class="chart-header">
+              <h3>Views & Engagement</h3>
+              <div class="chart-controls">
+                <button class="active">Views</button>
+                <button>Watch Time</button>
+                <button>Engagement</button>
               </div>
-              <div class="metric-card">
-                <div class="metric-value">28</div>
-                <div class="metric-label">STREAM This Month</div>
+            </div>
+            <div id="viewsChart" class="chart"></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>Audience Demographics</h3>
+              <i class="ri-more-2-fill"></i>
+            </div>
+            <div id="demographicsChart" class="chart"></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>Revenue Breakdown</h3>
+              <i class="ri-more-2-fill"></i>
+            </div>
+            <div id="revenueChart" class="chart"></div>
+          </div>
+        </div>
+
+        <!-- Recent Content -->
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Recent Content</h2>
+            <button class="btn-ghost">View All <i class="ri-arrow-right-line"></i></button>
+          </div>
+
+          <div class="content-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Content</th>
+                  <th>Published</th>
+                  <th>Views</th>
+                  <th>Watch Time</th>
+                  <th>Revenue</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="content-info">
+                    <img src="images/thumbnail1.jpg" alt="Thumbnail" class="thumbnail" />
+                    <div>
+                      <h4>Web3 Gaming: The Future of In-Game Economies</h4>
+                      <span>45:18 • Gaming</span>
+                    </div>
+                  </td>
+                  <td>2 days ago</td>
+                  <td>12.4K</td>
+                  <td>834 hrs</td>
+                  <td>$421.50</td>
+                  <td><span class="badge published">Published</span></td>
+                  <td><i class="ri-more-2-fill"></i></td>
+                </tr>
+                <tr>
+                  <td class="content-info">
+                    <img src="images/thumbnail2.jpg" alt="Thumbnail" class="thumbnail" />
+                    <div>
+                      <h4>NFT Collections: Creating Sustainable Value</h4>
+                      <span>38:22 • NFT</span>
+                    </div>
+                  </td>
+                  <td>4 days ago</td>
+                  <td>8.7K</td>
+                  <td>512 hrs</td>
+                  <td>$295.20</td>
+                  <td><span class="badge published">Published</span></td>
+                  <td><i class="ri-more-2-fill"></i></td>
+                </tr>
+                <tr>
+                  <td class="content-info">
+                    <img src="images/thumbnail3.jpg" alt="Thumbnail" class="thumbnail" />
+                    <div>
+                      <h4>DeFi Deep Dive: Yield Farming Strategies</h4>
+                      <span>52:05 • Finance</span>
+                    </div>
+                  </td>
+                  <td>1 week ago</td>
+                  <td>15.2K</td>
+                  <td>1,128 hrs</td>
+                  <td>$587.60</td>
+                  <td><span class="badge published">Published</span></td>
+                  <td><i class="ri-more-2-fill"></i></td>
+                </tr>
+                <tr>
+                  <td class="content-info">
+                    <img src="images/thumbnail4.jpg" alt="Thumbnail" class="thumbnail" />
+                    <div>
+                      <h4>Blockchain Technology: Explaining Zero-Knowledge Proofs</h4>
+                      <span>41:30 • Technology</span>
+                    </div>
+                  </td>
+                  <td>2 weeks ago</td>
+                  <td>9.8K</td>
+                  <td>642 hrs</td>
+                  <td>$328.10</td>
+                  <td><span class="badge scheduled">Scheduled</span></td>
+                  <td><i class="ri-more-2-fill"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+          <div class="section-header">
+            <h2>Recent Comments</h2>
+            <button class="btn-ghost">View All <i class="ri-arrow-right-line"></i></button>
+          </div>
+
+          <div class="comments-grid">
+            <div class="comment-card">
+              <div class="comment-header">
+                <img src="images/user1.jpg" alt="User Avatar" class="user-avatar" />
+                <div>
+                  <h4>Alex Thompson</h4>
+                  <span>2 hours ago on "Web3 Gaming: The Future of In-Game Economies"</span>
+                </div>
               </div>
-              <div class="metric-card">
-                <div class="metric-value">12</div>
-                <div class="metric-label">STREAM Withdrawable</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-value">~$97.50</div>
-                <div class="metric-label">Est. Value in USD</div>
+              <p class="comment-body">
+                This is one of the best explanations of Web3 gaming economics I've seen. The part
+                about token velocity was especially insightful!
+              </p>
+              <div class="comment-actions">
+                <button><i class="ri-heart-line"></i></button>
+                <button><i class="ri-reply-line"></i> Reply</button>
+                <button><i class="ri-spam-2-line"></i> Report</button>
               </div>
             </div>
 
-            <div class="earning-history">
-              <h3>Transaction History</h3>
-              <table class="earning-table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Transaction</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Apr 16, 2025</td>
-                    <td>Content Streaming Revenue: Blockchain Basics</td>
-                    <td>4.5 STREAM</td>
-                    <td>
-                      <span class="transaction-hash" title="View on Etherscan">0x12ab...3def</span>
-                    </td>
-                    <td><span class="badge badge-green">Completed</span></td>
-                  </tr>
-                  <tr>
-                    <td>Apr 14, 2025</td>
-                    <td>Content Streaming Revenue: Smart Contract Development</td>
-                    <td>3.2 STREAM</td>
-                    <td>
-                      <span class="transaction-hash" title="View on Etherscan">0x34bc...5fed</span>
-                    </td>
-                    <td><span class="badge badge-green">Completed</span></td>
-                  </tr>
-                  <tr>
-                    <td>Apr 12, 2025</td>
-                    <td>Creator Staking Rewards</td>
-                    <td>5.0 STREAM</td>
-                    <td>
-                      <span class="transaction-hash" title="View on Etherscan">0x56de...7abc</span>
-                    </td>
-                    <td><span class="badge badge-green">Completed</span></td>
-                  </tr>
-                  <tr>
-                    <td>Apr 10, 2025</td>
-                    <td>Withdrawal to External Wallet</td>
-                    <td>-25.0 STREAM</td>
-                    <td>
-                      <span class="transaction-hash" title="View on Etherscan">0x78ef...9cbd</span>
-                    </td>
-                    <td><span class="badge badge-blue">Processed</span></td>
-                  </tr>
-                  <tr>
-                    <td>Apr 8, 2025</td>
-                    <td>Content Streaming Revenue: Multiple Videos</td>
-                    <td>8.7 STREAM</td>
-                    <td>
-                      <span class="transaction-hash" title="View on Etherscan">0x90gh...1def</span>
-                    </td>
-                    <td><span class="badge badge-green">Completed</span></td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="comment-card">
+              <div class="comment-header">
+                <img src="images/user2.jpg" alt="User Avatar" class="user-avatar" />
+                <div>
+                  <h4>Mia Johnson</h4>
+                  <span>5 hours ago on "NFT Collections: Creating Sustainable Value"</span>
+                </div>
+              </div>
+              <p class="comment-body">
+                I'm implementing your strategies for my upcoming NFT collection. Quick question -
+                would you recommend lazy minting for artists just getting started?
+              </p>
+              <div class="comment-actions">
+                <button><i class="ri-heart-line"></i></button>
+                <button><i class="ri-reply-line"></i> Reply</button>
+                <button><i class="ri-spam-2-line"></i> Report</button>
+              </div>
             </div>
 
-            <div style="text-align: center; margin-top: 2rem">
-              <button class="button primary">Withdraw STREAM</button>
+            <div class="comment-card">
+              <div class="comment-header">
+                <img src="images/user3.jpg" alt="User Avatar" class="user-avatar" />
+                <div>
+                  <h4>David Chen</h4>
+                  <span>1 day ago on "DeFi Deep Dive: Yield Farming Strategies"</span>
+                </div>
+              </div>
+              <p class="comment-body">
+                Could you do a follow-up video on impermanent loss? That's the concept I still
+                struggle with the most in DeFi.
+              </p>
+              <div class="comment-actions">
+                <button><i class="ri-heart-line"></i></button>
+                <button><i class="ri-reply-line"></i> Reply</button>
+                <button><i class="ri-spam-2-line"></i> Report</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar -->
+      <aside class="dashboard-sidebar-right">
+        <div class="upcoming-section">
+          <h3>Upcoming Schedule</h3>
+          <div class="schedule-item">
+            <div class="schedule-date">
+              <span class="day">12</span>
+              <span class="month">Oct</span>
+            </div>
+            <div class="schedule-details">
+              <h4>Live AMA Session</h4>
+              <p>2:00 PM - 3:30 PM</p>
+              <span class="badge live">Live Stream</span>
             </div>
           </div>
 
-          <!-- Content Details Section (Hidden initially) -->
-          <div id="content-detail-section" class="dashboard-section" style="display: none">
-            <div class="section-header" style="display: flex; justify-content: space-between">
-              <h2 class="section-title" id="detail-content-title">Content Details</h2>
-              <button class="button outline" id="back-to-content">Back to Content List</button>
+          <div class="schedule-item">
+            <div class="schedule-date">
+              <span class="day">15</span>
+              <span class="month">Oct</span>
             </div>
-
-            <div class="content-detail">
-              <div class="video-preview">
-                <video id="detail-video-player" controls>
-                  <source src="" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-
-              <div class="content-details">
-                <h3 id="detail-title">Video Title</h3>
-                <p id="detail-description">Video description will appear here.</p>
-
-                <div class="content-stats">
-                  <div class="stat-item">
-                    <div class="stat-value" id="detail-views">0</div>
-                    <div class="stat-label">Total Views</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-value" id="detail-earnings">0</div>
-                    <div class="stat-label">STREAM Earned</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-value" id="detail-completion">0%</div>
-                    <div class="stat-label">Completion Rate</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-value" id="detail-votes">0</div>
-                    <div class="stat-label">Upvotes</div>
-                  </div>
-                </div>
-
-                <div class="tab-buttons" style="margin-top: 1.5rem">
-                  <button class="tab-button active" data-tab="engagement">Engagement</button>
-                  <button class="tab-button" data-tab="technical">Technical</button>
-                  <button class="tab-button" data-tab="settings">Settings</button>
-                </div>
-
-                <div class="tab-content active" id="engagement-tab">
-                  <h4>Viewer Demographics</h4>
-                  <p>Demographics data will appear here in a production environment.</p>
-
-                  <h4>Top Referrers</h4>
-                  <p>Referral data will appear here in a production environment.</p>
-                </div>
-
-                <div class="tab-content" id="technical-tab">
-                  <h4>IPFS Information</h4>
-                  <div class="ipfs-info" id="detail-ipfs-cid">
-                    QmV5FWwfr4akgVMbPQZgDKWjkNP4RXh8vw7NjPBwzK2B45
-                  </div>
-
-                  <h4>Content Access Settings</h4>
-                  <p>Permission model: <span id="detail-permission">Public</span></p>
-                  <p>Smart contract address: <span id="detail-contract">0x1234...5678</span></p>
-                </div>
-
-                <div class="tab-content" id="settings-tab">
-                  <h4>Content Status</h4>
-                  <div style="margin-bottom: 1rem">
-                    <select class="form-control" id="detail-status">
-                      <option value="active">Active</option>
-                      <option value="unlisted">Unlisted</option>
-                      <option value="archived">Archived</option>
-                    </select>
-                  </div>
-
-                  <h4>Monetization</h4>
-                  <div style="margin-bottom: 1rem">
-                    <select class="form-control" id="detail-monetization">
-                      <option value="free">Free</option>
-                      <option value="paid">Paid (1 STREAM)</option>
-                      <option value="subscription">Subscription Only</option>
-                    </select>
-                  </div>
-
-                  <div style="margin-top: 2rem">
-                    <button class="button primary">Save Changes</button>
-                    <button class="button outline" style="margin-left: 0.5rem">
-                      Delete Content
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <div class="schedule-details">
+              <h4>NFT Drop: Crypto Punks 2.0</h4>
+              <p>12:00 PM</p>
+              <span class="badge nft">NFT</span>
             </div>
           </div>
 
-          <!-- Settings Section -->
-          <div id="settings-section" class="dashboard-section" style="display: none">
-            <h2 class="section-title">Settings</h2>
-
-            <h3>Profile Settings</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="creator-name">Display Name</label>
-                <input type="text" class="form-control" id="creator-name" value="Team MODSIAS" />
-              </div>
-              <div class="form-group">
-                <label for="creator-bio">Bio</label>
-                <textarea class="form-control" id="creator-bio">
-Blockchain specialists focusing on educational content and decentralized streaming.</textarea
-                >
-              </div>
-              <div class="form-group">
-                <label for="profile-image">Profile Image</label>
-                <input type="file" class="form-control" id="profile-image" accept="image/*" />
-              </div>
-              <div class="form-group">
-                <label for="banner-image">Banner Image</label>
-                <input type="file" class="form-control" id="banner-image" accept="image/*" />
-              </div>
+          <div class="schedule-item">
+            <div class="schedule-date">
+              <span class="day">18</span>
+              <span class="month">Oct</span>
             </div>
-
-            <h3>Payout Settings</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="payout-address">Payout Address</label>
-                <input type="text" class="form-control" id="payout-address" placeholder="0x..." />
-              </div>
-              <div class="form-group">
-                <label for="auto-withdrawal">Auto Withdrawal Threshold</label>
-                <input type="number" class="form-control" id="auto-withdrawal" value="100" />
-              </div>
+            <div class="schedule-details">
+              <h4>Metaverse Tour</h4>
+              <p>4:00 PM - 5:00 PM</p>
+              <span class="badge event">Event</span>
             </div>
+          </div>
+        </div>
 
-            <h3>Notification Settings</h3>
+        <div class="token-section">
+          <div class="token-header">
+            <h3>Creator Token</h3>
+            <span class="token-price">$2.47</span>
+          </div>
+          <div class="token-chart" id="tokenChart"></div>
+          <div class="token-stats">
             <div>
-              <div class="form-group">
-                <input type="checkbox" id="notify-earnings" checked />
-                <label for="notify-earnings">Earnings updates</label>
-              </div>
-              <div class="form-group">
-                <input type="checkbox" id="notify-comments" checked />
-                <label for="notify-comments">New comments</label>
-              </div>
-              <div class="form-group">
-                <input type="checkbox" id="notify-votes" checked />
-                <label for="notify-votes">New votes</label>
-              </div>
+              <span>Market Cap</span>
+              <p>$2.47M</p>
             </div>
-
-            <div style="margin-top: 2rem">
-              <button class="button primary">Save Settings</button>
+            <div>
+              <span>24h Change</span>
+              <p class="token-increase">+5.8%</p>
+            </div>
+            <div>
+              <span>Holders</span>
+              <p>1,247</p>
             </div>
           </div>
+        </div>
+
+        <div class="todo-section">
+          <h3>To-Do Items</h3>
+          <div class="todo-list">
+            <label class="todo-item">
+              <input type="checkbox" />
+              <span>Upload thumbnail for next video</span>
+            </label>
+            <label class="todo-item">
+              <input type="checkbox" />
+              <span>Schedule Twitter Spaces event</span>
+            </label>
+            <label class="todo-item">
+              <input type="checkbox" checked />
+              <span>Review analytics for Q3</span>
+            </label>
+            <label class="todo-item">
+              <input type="checkbox" />
+              <span>Plan community giveaway</span>
+            </label>
+            <label class="todo-item">
+              <input type="checkbox" />
+              <span>Update roadmap on Discord</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Upload Content</h2>
+          <button class="close-modal"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="upload-area">
+            <i class="ri-upload-cloud-2-line"></i>
+            <p>Drag and drop files here<br />or</p>
+            <button class="btn-primary">Browse Files</button>
+            <input type="file" hidden />
+          </div>
+
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" placeholder="Enter content title" />
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea placeholder="Enter content description"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Category</label>
+              <select>
+                <option>Select category</option>
+                <option>Gaming</option>
+                <option>NFT</option>
+                <option>Finance</option>
+                <option>Technology</option>
+                <option>Education</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Visibility</label>
+              <select>
+                <option>Public</option>
+                <option>Unlisted</option>
+                <option>Token Holders Only</option>
+                <option>NFT Holders Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tags</label>
+            <input type="text" placeholder="Add tags separated by commas" />
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox">
+              <input type="checkbox" />
+              <span>Enable Web3 monetization</span>
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" />
+              <span>Create as NFT</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-ghost">Save as Draft</button>
+          <button class="btn-primary">Upload Content</button>
         </div>
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.42.0/dist/apexcharts.min.js"></script>
     <script>
-      // Initialize IPFS Content Loader
-      const ipfsLoader = new IPFSContentLoader({
-        demoVideoPath: 'assets/videos/demo/'
-      });
+      document.addEventListener('DOMContentLoaded', function () {
+        // Toggle account dropdown
+        document.querySelector('.account').addEventListener('click', function () {
+          this.classList.toggle('active');
+        });
 
-      // Initialize Network Config
-      const networkConfig = new NetworkConfig();
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+          if (!event.target.closest('.account')) {
+            document.querySelector('.account').classList.remove('active');
+          }
+        });
 
-      // Initialize the wallet connector
-      const walletConnector = new WalletConnector({
-        onStatusChange: statusData => {
-          // Update UI based on wallet status changes
-          const walletBadge = document.getElementById('wallet-badge');
-          const walletStatus = document.getElementById('wallet-status');
-          const creatorWallet = document.getElementById('creator-wallet');
+        // Upload modal functionality
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const closeModal = document.querySelector('.close-modal');
 
-          // Update status display
-          if (statusData.status === 'connected') {
-            walletBadge.className = 'wallet-badge connected';
-            walletStatus.textContent = statusData.isDemoMode
-              ? `${statusData.address.substring(0, 6)}...${statusData.address.substring(statusData.address.length - 4)} (Demo)`
-              : `${statusData.address.substring(0, 6)}...${statusData.address.substring(statusData.address.length - 4)}`;
+        uploadBtn.addEventListener('click', function () {
+          uploadModal.classList.add('show');
+          document.body.classList.add('modal-open');
+        });
 
-            // Update creator wallet display
-            if (creatorWallet) {
-              creatorWallet.textContent = statusData.address;
+        closeModal.addEventListener('click', function () {
+          uploadModal.classList.remove('show');
+          document.body.classList.remove('modal-open');
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (event) {
+          if (event.target === uploadModal) {
+            uploadModal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+          }
+        });
+
+        // Initialize charts
+        // Views chart
+        const viewsOptions = {
+          series: [
+            {
+              name: 'Views',
+              data: [12400, 15700, 10900, 18600, 16400, 21300, 22100]
             }
-          } else if (statusData.status === 'connecting') {
-            walletBadge.className = 'wallet-badge';
-            walletStatus.textContent = 'Connecting...';
-          } else if (statusData.status === 'error') {
-            walletBadge.className = 'wallet-badge error';
-            walletStatus.textContent = 'Connection Error';
-          } else {
-            walletBadge.className = 'wallet-badge';
-            walletStatus.textContent = 'Not Connected';
-          }
-        }
-      });
-
-      // Sidebar navigation
-      document.querySelectorAll('.sidebar-menu a').forEach(link => {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-
-          // Hide all sections
-          document.querySelectorAll('.dashboard-section').forEach(section => {
-            section.style.display = 'none';
-          });
-
-          // Remove active class from all links
-          document.querySelectorAll('.sidebar-menu a').forEach(item => {
-            item.classList.remove('active');
-          });
-
-          // Show selected section
-          const sectionId = this.getAttribute('data-section');
-          document.getElementById(`${sectionId}-section`).style.display = 'block';
-
-          // Add active class to clicked link
-          this.classList.add('active');
-        });
-      });
-
-      // Tab navigation
-      document.querySelectorAll('.tab-button').forEach(button => {
-        button.addEventListener('click', function () {
-          // Remove active class from all tabs
-          document.querySelectorAll('.tab-button').forEach(tab => {
-            tab.classList.remove('active');
-          });
-
-          // Hide all tab content
-          document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-          });
-
-          // Show selected tab and add active class
-          const tabId = this.getAttribute('data-tab');
-          document.getElementById(`${tabId}-tab`).classList.add('active');
-          this.classList.add('active');
-        });
-      });
-
-      // View content detail
-      document.querySelectorAll('.view-content').forEach(button => {
-        button.addEventListener('click', function () {
-          const contentId = this.getAttribute('data-id');
-          openContentDetail(contentId);
-        });
-      });
-
-      // Back button in content detail
-      document.getElementById('back-to-content').addEventListener('click', () => {
-        document.getElementById('content-detail-section').style.display = 'none';
-        document.getElementById('content-section').style.display = 'block';
-
-        // Update sidebar selection
-        document.querySelectorAll('.sidebar-menu a').forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('data-section') === 'content') {
-            link.classList.add('active');
-          }
-        });
-      });
-
-      // Handle file upload UI
-      const dropArea = document.getElementById('drop-area');
-      const fileInput = document.getElementById('file-input');
-      const progressBar = document.getElementById('progress-bar');
-      const uploadStatus = document.getElementById('upload-status');
-      const uploadProgress = document.querySelector('.upload-progress');
-      const uploadButton = document.getElementById('upload-button');
-
-      // Click to upload
-      if (dropArea) {
-        dropArea.addEventListener('click', () => {
-          fileInput.click();
-        });
-
-        // Drag and drop events
-        dropArea.addEventListener('dragover', e => {
-          e.preventDefault();
-          dropArea.classList.add('active');
-        });
-
-        dropArea.addEventListener('dragleave', () => {
-          dropArea.classList.remove('active');
-        });
-
-        dropArea.addEventListener('drop', e => {
-          e.preventDefault();
-          dropArea.classList.remove('active');
-
-          if (e.dataTransfer.files.length) {
-            handleFileUpload(e.dataTransfer.files[0]);
-          }
-        });
-
-        // File input change
-        fileInput.addEventListener('change', () => {
-          if (fileInput.files.length) {
-            handleFileUpload(fileInput.files[0]);
-          }
-        });
-      }
-
-      // Handle file upload
-      function handleFileUpload(file) {
-        // Check if file is video
-        if (!file.type.startsWith('video/')) {
-          alert('Please select a video file.');
-          return;
-        }
-
-        // Update UI
-        dropArea.innerHTML = `<div class="upload-icon">✓</div><h3>${file.name}</h3><p>${formatFileSize(file.size)}</p>`;
-        uploadProgress.style.display = 'block';
-        uploadStatus.style.display = 'block';
-        uploadStatus.textContent = 'Ready to upload';
-        uploadButton.disabled = false;
-
-        // Simulate upload on button click
-        uploadButton.addEventListener('click', async e => {
-          e.preventDefault();
-
-          // Validate form
-          const title = document.getElementById('content-title').value;
-          if (!title) {
-            alert('Please enter a title for your content.');
-            return;
-          }
-
-          // Simulate upload process
-          uploadStatus.textContent = 'Uploading to IPFS...';
-
-          // Simulate progress updates
-          let progress = 0;
-          const interval = setInterval(() => {
-            progress += Math.random() * 10;
-            if (progress > 100) progress = 100;
-
-            progressBar.style.width = `${progress}%`;
-            uploadStatus.textContent = `Uploading to IPFS... ${Math.floor(progress)}%`;
-
-            if (progress === 100) {
-              clearInterval(interval);
-
-              // Simulate IPFS upload
-              setTimeout(() => {
-                uploadStatus.textContent = 'Processing...';
-
-                // Simulate processing delay
-                setTimeout(async () => {
-                  try {
-                    // Get form data
-                    const contentData = {
-                      title: document.getElementById('content-title').value,
-                      category: document.getElementById('content-category').value,
-                      description: document.getElementById('content-description').value,
-                      price: document.getElementById('content-price').value,
-                      tags: document.getElementById('content-tags').value,
-                      visibility: document.getElementById('content-visibility').value
-                    };
-
-                    // Simulate upload to IPFS
-                    const result = await ipfsLoader.uploadContent(file, contentData);
-
-                    // Success message
-                    uploadStatus.textContent = `Upload successful! Content CID: ${result.cid}`;
-                    uploadStatus.classList.add('success');
-
-                    // Add transaction message after a delay
-                    setTimeout(() => {
-                      uploadStatus.textContent += '\nRegistering on blockchain...';
-
-                      // Simulate blockchain transaction
-                      setTimeout(() => {
-                        uploadStatus.textContent =
-                          'Content successfully uploaded and registered on the blockchain!';
-
-                        // Redirect to content section after delay
-                        setTimeout(() => {
-                          // In real app, would refresh content list with new item
-                          document.querySelector('.sidebar-menu a[data-section="content"]').click();
-                        }, 3000);
-                      }, 2000);
-                    }, 1000);
-                  } catch (error) {
-                    uploadStatus.textContent = `Upload failed: ${error.message}`;
-                    uploadStatus.classList.add('error');
-                  }
-                }, 1500);
-              }, 500);
+          ],
+          chart: {
+            height: 300,
+            type: 'area',
+            fontFamily: 'Inter, sans-serif',
+            toolbar: {
+              show: false
             }
-          }, 300);
-        });
-      }
+          },
+          colors: ['#3498db'],
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 2
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shadeIntensity: 1,
+              opacityFrom: 0.7,
+              opacityTo: 0.3
+            }
+          },
+          xaxis: {
+            categories: ['Oct 5', 'Oct 6', 'Oct 7', 'Oct 8', 'Oct 9', 'Oct 10', 'Oct 11'],
+            labels: {
+              style: {
+                colors: '#8e8da4'
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: '#8e8da4'
+              },
+              formatter: function (val) {
+                return val.toLocaleString();
+              }
+            }
+          },
+          tooltip: {
+            theme: 'dark'
+          }
+        };
 
-      // Format file size
-      function formatFileSize(bytes) {
-        if (bytes < 1024) return bytes + ' bytes';
-        else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
-        else return (bytes / 1048576).toFixed(2) + ' MB';
-      }
+        const viewsChart = new ApexCharts(document.querySelector('#viewsChart'), viewsOptions);
+        viewsChart.render();
 
-      // Open content detail view
-      function openContentDetail(contentId) {
-        // Hide content section and show detail section
-        document.getElementById('content-section').style.display = 'none';
-        document.getElementById('content-detail-section').style.display = 'block';
+        // Demographics chart
+        const demographicsOptions = {
+          series: [44, 28, 15, 13],
+          chart: {
+            height: 300,
+            type: 'donut',
+            fontFamily: 'Inter, sans-serif'
+          },
+          labels: ['18-24', '25-34', '35-44', '45+'],
+          colors: ['#3498db', '#2ecc71', '#9b59b6', '#e74c3c'],
+          legend: {
+            position: 'bottom'
+          },
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  height: 280
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }
+          ]
+        };
 
-        // Get content data
-        const content = ipfsLoader.getContentMetadata(contentId);
+        const demographicsChart = new ApexCharts(
+          document.querySelector('#demographicsChart'),
+          demographicsOptions
+        );
+        demographicsChart.render();
 
-        // Update UI with content details
-        document.getElementById('detail-content-title').textContent =
-          `Content Details: ${content.title}`;
-        document.getElementById('detail-title').textContent = content.title;
-        document.getElementById('detail-description').textContent = content.description;
-        document.getElementById('detail-ipfs-cid').textContent = content.ipfsCid;
-
-        // Set video source
-        const videoPlayer = document.getElementById('detail-video-player');
-        if (videoPlayer) {
-          ipfsLoader.loadVideo(
-            contentId,
-            videoUrl => {
-              videoPlayer.src = videoUrl;
+        // Revenue chart
+        const revenueOptions = {
+          series: [
+            {
+              name: 'Subscriptions',
+              data: [420, 380, 450, 510, 490, 530, 580]
             },
-            true
-          );
-        }
-
-        // Set placeholder metrics (would be real data in production)
-        document.getElementById('detail-views').textContent =
-          contentId === 'content_001' ? '548' : contentId === 'content_002' ? '327' : '209';
-        document.getElementById('detail-earnings').textContent =
-          contentId === 'content_001' ? '52.3' : contentId === 'content_002' ? '31.8' : '18.5';
-        document.getElementById('detail-completion').textContent =
-          contentId === 'content_001' ? '87%' : contentId === 'content_002' ? '76%' : '82%';
-        document.getElementById('detail-votes').textContent =
-          contentId === 'content_001' ? '43' : contentId === 'content_002' ? '28' : '17';
-      }
-
-      // On page load, check for wallet connection
-      document.addEventListener('DOMContentLoaded', () => {
-        // Check if already connected from session
-        if (sessionStorage.getItem('walletConnected') === 'true') {
-          const isDemoMode = sessionStorage.getItem('walletDemo') === 'true';
-
-          if (isDemoMode) {
-            walletConnector.activateDemoMode('Demo session restored');
-          } else {
-            // Try to reconnect wallet
-            walletConnector.connect().catch(() => {
-              walletConnector.activateDemoMode('Reconnection failed, using demo mode');
-            });
-          }
-        } else {
-          // If not already connected, prompt wallet connection
-          setTimeout(() => {
-            // Show wallet connection prompt (in production would be a modal)
-            if (confirm('Connect your wallet to access the creator dashboard?')) {
-              walletConnector.connect().catch(error => {
-                console.log('Wallet connection error:', error);
-                walletConnector.activateDemoMode('Connection failed, using demo mode');
-              });
-            } else {
-              // Use demo mode if declined
-              walletConnector.activateDemoMode('Demo mode activated');
+            {
+              name: 'Tips',
+              data: [180, 200, 140, 160, 180, 210, 250]
+            },
+            {
+              name: 'Token Value',
+              data: [80, 90, 110, 120, 130, 140, 150]
             }
-          }, 1000);
-        }
+          ],
+          chart: {
+            height: 300,
+            type: 'bar',
+            stacked: true,
+            fontFamily: 'Inter, sans-serif',
+            toolbar: {
+              show: false
+            }
+          },
+          colors: ['#3498db', '#2ecc71', '#9b59b6'],
+          plotOptions: {
+            bar: {
+              borderRadius: 4,
+              horizontal: false
+            }
+          },
+          xaxis: {
+            categories: ['Oct 5', 'Oct 6', 'Oct 7', 'Oct 8', 'Oct 9', 'Oct 10', 'Oct 11'],
+            labels: {
+              style: {
+                colors: '#8e8da4'
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: '#8e8da4'
+              },
+              formatter: function (val) {
+                return '$' + val;
+              }
+            }
+          },
+          tooltip: {
+            theme: 'dark'
+          },
+          legend: {
+            position: 'bottom'
+          }
+        };
+
+        const revenueChart = new ApexCharts(
+          document.querySelector('#revenueChart'),
+          revenueOptions
+        );
+        revenueChart.render();
+
+        // Token chart
+        const tokenOptions = {
+          series: [
+            {
+              name: 'Token Price',
+              data: [2.1, 2.15, 2.08, 2.18, 2.3, 2.25, 2.47]
+            }
+          ],
+          chart: {
+            height: 100,
+            type: 'area',
+            fontFamily: 'Inter, sans-serif',
+            sparkline: {
+              enabled: true
+            },
+            toolbar: {
+              show: false
+            }
+          },
+          colors: ['#2ecc71'],
+          stroke: {
+            curve: 'straight',
+            width: 2
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shadeIntensity: 1,
+              opacityFrom: 0.7,
+              opacityTo: 0.3
+            }
+          },
+          tooltip: {
+            theme: 'dark',
+            fixed: {
+              enabled: true,
+              position: 'topRight',
+              offsetX: 0,
+              offsetY: 0
+            },
+            x: {
+              show: false
+            },
+            y: {
+              formatter: function (val) {
+                return '$' + val;
+              }
+            }
+          }
+        };
+
+        const tokenChart = new ApexCharts(document.querySelector('#tokenChart'), tokenOptions);
+        tokenChart.render();
       });
     </script>
   </body>
