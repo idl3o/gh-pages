@@ -1,0 +1,569 @@
+/* Batch Upload CSS */
+
+/* Batch Type Selector */
+.batch-type-selector {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.batch-type-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.batch-type-option i {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: var(--primary-color);
+}
+
+.batch-type-option h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.batch-type-option p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.batch-type-option.selected {
+  border-color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+/* CSV Template Section */
+.csv-template-download {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: var(--info-light);
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.csv-template-download i {
+  font-size: 32px;
+  margin-right: 16px;
+  color: var(--info-color);
+}
+
+.csv-template-download div {
+  flex: 1;
+}
+
+.csv-template-download h4 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.csv-template-download p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.csv-template-download button {
+  background: var(--info-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.csv-template-download button i {
+  font-size: 18px;
+  margin-right: 6px;
+  color: white;
+}
+
+/* Batch Dropzone */
+.batch-dropzone {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  background: var(--background-light);
+  margin-bottom: 24px;
+  transition: all 0.2s ease;
+}
+
+.batch-dropzone.drag-over {
+  border-color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+.batch-dropzone i {
+  font-size: 48px;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+}
+
+.batch-dropzone h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.batch-dropzone p {
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+}
+
+.batch-dropzone .upload-formats {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+/* Batch Items Container */
+.batch-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.batch-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+}
+
+.batch-item-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: var(--background-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.batch-item-preview img,
+.batch-item-preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.batch-item-preview i {
+  font-size: 32px;
+  color: var(--text-secondary);
+}
+
+.batch-item-info {
+  padding: 10px;
+}
+
+.batch-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.batch-item-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.batch-remove-item {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.batch-remove-item:hover {
+  opacity: 1;
+}
+
+.batch-item-edit {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.batch-item-edit:hover {
+  opacity: 1;
+}
+
+/* Batch Upload Controls */
+.batch-upload-controls {
+  margin-bottom: 24px;
+}
+
+.batch-upload-progress {
+  margin-top: 16px;
+}
+
+.batch-progress-bar {
+  height: 6px;
+  background: var(--background-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.batch-progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.batch-progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Common Settings */
+.common-settings {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.common-settings h3 {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.common-settings h3 i {
+  margin-right: 8px;
+  color: var(--primary-color);
+}
+
+.common-settings-toggle {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.common-settings-toggle input[type='checkbox'] {
+  margin-right: 8px;
+}
+
+/* Tags input styling */
+.tags-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: var(--input-bg);
+  min-height: 42px;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.tag {
+  background: var(--primary-light);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.tag i {
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+#batchTagInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  min-width: 120px;
+  padding: 8px 4px;
+}
+
+/* Checkbox and Radio groups */
+.checkbox-group,
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.checkbox-label,
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-label input,
+.radio-label input {
+  margin-right: 8px;
+}
+
+/* Option groups */
+.option-group {
+  margin-bottom: 24px;
+}
+
+.option-group h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+/* Pricing container */
+.pricing-container {
+  margin-bottom: 24px;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-right: 30px;
+}
+
+.input-with-icon i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+}
+
+.token-conversion {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Toggle switch */
+.toggle-label {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  margin-right: 8px;
+  background-color: var(--text-muted);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 18px;
+  background-color: white;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s;
+}
+
+input[type='checkbox']:checked + .toggle-switch {
+  background-color: var(--primary-color);
+}
+
+input[type='checkbox']:checked + .toggle-switch::after {
+  transform: translateX(20px);
+}
+
+.toggle-label input[type='checkbox'] {
+  display: none;
+}
+
+/* NFT Settings */
+.nft-settings {
+  border-top: 1px solid var(--border-color);
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.nft-options {
+  margin-top: 24px;
+}
+
+/* Batch Summary */
+.batch-summary {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Publishing Options */
+.publishing-options {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.publishing-options h3 {
+  margin-bottom: 16px;
+}
+
+.schedule-container,
+.staggered-container {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--background-light);
+  border-radius: 8px;
+}
+
+/* Blockchain Notice */
+.blockchain-notice {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  background: var(--warning-light);
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.blockchain-notice i {
+  color: var(--warning-color);
+  font-size: 20px;
+  margin-right: 12px;
+  margin-top: 2px;
+}
+
+.blockchain-notice p {
+  color: var(--text-dark);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Batch Upload Progress Container */
+.batch-upload-progress-container {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 24px;
+}
+
+.progress-tracker {
+  margin-bottom: 12px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--background-light);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.progress-stage {
+  color: var(--text-primary);
+}
+
+.progress-percentage {
+  font-weight: 500;
+}
+
+.batch-progress-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Helper classes */
+.hidden {
+  display: none !important;
+}

@@ -9,6 +9,8 @@
     />
     <title>Creator Dashboard | StreamChain</title>
     <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/dashboard-upload.css" />
+    <link rel="stylesheet" href="css/dashboard-batch-upload.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
@@ -22,6 +24,8 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/apexcharts@3.42.0/dist/apexcharts.css"
     />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   </head>
   <body class="dashboard-body">
     <!-- Dashboard Header -->
@@ -231,8 +235,6 @@
               <div class="chart-controls">
                 <button class="active">Views</button>
                 <button>Watch Time</button>
-                <button>Engagement</button>
-              </div>
             </div>
             <div id="viewsChart" class="chart"></div>
           </div>
@@ -501,86 +503,837 @@
 
     <!-- Upload Modal -->
     <div class="modal" id="uploadModal">
-      <div class="modal-content">
+      <div class="modal-content upload-workflow">
         <div class="modal-header">
           <h2>Upload Content</h2>
+          <div class="upload-progress-indicator">
+            <div class="progress-step active" data-step="1">
+              <span class="step-number">1</span>
+              <span class="step-label">Select</span>
+            </div>
+            <div class="progress-step" data-step="2">
+              <span class="step-number">2</span>
+              <span class="step-label">Details</span>
+            </div>
+            <div class="progress-step" data-step="3">
+              <span class="step-number">3</span>
+              <span class="step-label">Monetize</span>
+            </div>
+            <div class="progress-step" data-step="4">
+              <span class="step-number">4</span>
+              <span class="step-label">Publish</span>
+            </div>
+          </div>
           <button class="close-modal"><i class="ri-close-line"></i></button>
         </div>
-        <div class="modal-body">
-          <div class="upload-area">
+
+        <!-- Step 1: File Selection -->
+        <div class="modal-body step-content active" id="uploadStep1">
+          <div class="upload-area" id="dropzone">
             <i class="ri-upload-cloud-2-line"></i>
+            <h3>Upload to StreamChain</h3>
             <p>Drag and drop files here<br />or</p>
-            <button class="btn-primary">Browse Files</button>
-            <input type="file" hidden />
+            <button class="btn-primary" id="browseFilesBtn">Browse Files</button>
+            <input
+              type="file"
+              id="fileInput"
+              accept="video/*,audio/*,image/*,.pdf,.doc,.docx"
+              multiple
+              hidden
+            />
+            <p class="supported-formats">Supports: MP4, MOV, MP3, WAV, JPG, PNG, PDF and more</p>
           </div>
 
+          <div class="selected-files-container hidden" id="selectedFilesContainer">
+            <h3>Selected Files</h3>
+            <div class="file-preview-grid" id="filePreviewGrid"></div>
+            <div class="file-list" id="fileList"></div>
+          </div>
+
+          <div class="upload-settings">
+            <h3>Upload Settings</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Upload Quality</label>
+                <select id="uploadQuality">
+                  <option value="high">High (Original)</option>
+                  <option value="medium" selected>Medium (Recommended)</option>
+                  <option value="low">Low (Faster)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Storage Type</label>
+                <select id="storageType">
+                  <option value="ipfs" selected>IPFS (Decentralized)</option>
+                  <option value="standard">Standard (Centralized)</option>
+                  <option value="hybrid">Hybrid (Both)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Content Details -->
+        <div class="modal-body step-content" id="uploadStep2">
           <div class="form-group">
-            <label>Title</label>
-            <input type="text" placeholder="Enter content title" />
+            <label>Title<span class="required">*</span></label>
+            <input
+              type="text"
+              id="contentTitle"
+              placeholder="Enter content title"
+              maxlength="100"
+            />
+            <span class="character-counter" id="titleCounter">0/100</span>
           </div>
 
           <div class="form-group">
             <label>Description</label>
-            <textarea placeholder="Enter content description"></textarea>
+            <textarea
+              id="contentDescription"
+              placeholder="Enter content description"
+              maxlength="5000"
+            ></textarea>
+            <span class="character-counter" id="descCounter">0/5000</span>
+          </div>
+
+          <div class="thumbnail-section">
+            <label>Thumbnail</label>
+            <div class="thumbnail-options">
+              <div class="thumbnail-preview" id="thumbnailPreview">
+                <div class="placeholder">
+                  <i class="ri-image-line"></i>
+                  <span>No thumbnail selected</span>
+                </div>
+              </div>
+              <div class="thumbnail-actions">
+                <button class="btn-secondary" id="generateThumbBtn">
+                  <i class="ri-movie-line"></i> Generate from Video
+                </button>
+                <button class="btn-secondary" id="uploadThumbBtn">
+                  <i class="ri-upload-line"></i> Upload Custom
+                </button>
+                <input type="file" id="thumbnailInput" accept="image/*" hidden />
+              </div>
+            </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Category</label>
-              <select>
-                <option>Select category</option>
-                <option>Gaming</option>
-                <option>NFT</option>
-                <option>Finance</option>
-                <option>Technology</option>
-                <option>Education</option>
+              <label>Category<span class="required">*</span></label>
+              <select id="contentCategory">
+                <option value="">Select category</option>
+                <option value="gaming">Gaming</option>
+                <option value="nft">NFT</option>
+                <option value="finance">Finance</option>
+                <option value="technology">Technology</option>
+                <option value="education">Education</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="crypto">Crypto</option>
+                <option value="music">Music</option>
+                <option value="art">Art</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Visibility</label>
-              <select>
-                <option>Public</option>
-                <option>Unlisted</option>
-                <option>Token Holders Only</option>
-                <option>NFT Holders Only</option>
+              <label>Language</label>
+              <select id="contentLanguage">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="ja">Japanese</option>
+                <option value="zh">Chinese</option>
+                <option value="ko">Korean</option>
+                <option value="other">Other</option>
               </select>
             </div>
           </div>
 
           <div class="form-group">
             <label>Tags</label>
-            <input type="text" placeholder="Add tags separated by commas" />
-          </div>
-
-          <div class="form-group checkbox-group">
-            <label class="checkbox">
-              <input type="checkbox" />
-              <span>Enable Web3 monetization</span>
-            </label>
-            <label class="checkbox">
-              <input type="checkbox" />
-              <span>Create as NFT</span>
-            </label>
+            <div class="tags-input-container">
+              <div class="tags-container" id="tagsContainer"></div>
+              <input type="text" id="tagInput" placeholder="Type tag and press Enter" />
+            </div>
+            <span class="helper-text">Add up to 10 tags to help viewers discover your content</span>
           </div>
         </div>
+
+        <!-- Step 3: Monetization -->
+        <div class="modal-body step-content" id="uploadStep3">
+          <div class="monetization-options">
+            <div class="option-group">
+              <h3>Access Control</h3>
+              <div class="form-group radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="accessType" value="public" checked />
+                  <span>Public (Available to everyone)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="accessType" value="token" />
+                  <span>Token Gated (Requires token ownership)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="accessType" value="nft" />
+                  <span>NFT Holders (Requires specific NFT)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="option-group">
+              <h3>Revenue Model</h3>
+              <div class="form-group radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="revenueModel" value="free" checked />
+                  <span>Free (No charge for viewers)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="revenueModel" value="payPerView" />
+                  <span>Pay-per-View (One-time payment)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="revenueModel" value="subscription" />
+                  <span>Subscription Only (For subscribers)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="pricing-container" id="pricingContainer">
+              <h3>Pricing</h3>
+              <div class="form-group">
+                <label>Price (STREAM Tokens)</label>
+                <div class="input-with-icon">
+                  <input type="number" id="contentPrice" min="0" step="0.1" value="5.0" />
+                  <i class="ri-coins-line"></i>
+                </div>
+                <span class="token-conversion">≈ $2.35 USD</span>
+              </div>
+            </div>
+
+            <div class="nft-options" id="nftOptionsContainer">
+              <h3>NFT Creation</h3>
+              <div class="form-group">
+                <label class="toggle-label">
+                  <input type="checkbox" id="createNft" />
+                  <span class="toggle-switch"></span>
+                  <span>Create as collectible NFT</span>
+                </label>
+              </div>
+
+              <div class="nft-settings hidden" id="nftSettings">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Edition Size</label>
+                    <input type="number" id="editionSize" min="1" max="1000" value="1" />
+                    <span class="helper-text">Number of copies (1 = unique)</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Royalty Percentage</label>
+                    <div class="input-with-icon">
+                      <input type="number" id="royaltyPercent" min="0" max="50" value="10" />
+                      <i class="ri-percent-line"></i>
+                    </div>
+                    <span class="helper-text">Secondary sales royalty</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="toggle-label">
+                    <input type="checkbox" id="lazyMinting" />
+                    <span class="toggle-switch"></span>
+                    <span>Enable Lazy Minting</span>
+                  </label>
+                  <span class="helper-text">Mint NFTs only when purchased to save on gas fees</span>
+                </div>
+
+                <div class="form-group" id="lazyMintingOptions">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Sale Price (STREAM)</label>
+                      <div class="input-with-icon">
+                        <input type="number" id="lazyMintPrice" min="0" step="0.1" value="10.0" />
+                        <i class="ri-coins-line"></i>
+                      </div>
+                      <span class="token-conversion">≈ $4.70 USD</span>
+                    </div>
+                    <div class="form-group">
+                      <label>Sale Duration</label>
+                      <select id="lazyMintDuration">
+                        <option value="7">7 days</option>
+                        <option value="14" selected>14 days</option>
+                        <option value="30">30 days</option>
+                        <option value="90">3 months</option>
+                        <option value="unlimited">Unlimited</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="collaborators-container">
+              <h3>Revenue Splitting</h3>
+              <div class="form-group">
+                <label class="toggle-label">
+                  <input type="checkbox" id="enableSplitting" />
+                  <span class="toggle-switch"></span>
+                  <span>Split revenue with collaborators</span>
+                </label>
+              </div>
+
+              <div class="collaborators-list hidden" id="collaboratorsList">
+                <div class="collaborator-item creator">
+                  <span class="collaborator-name">You (Creator)</span>
+                  <div class="input-with-icon">
+                    <input type="number" value="100" min="1" max="100" id="creatorShare" />
+                    <i class="ri-percent-line"></i>
+                  </div>
+                </div>
+                <div id="collaboratorsContainer"></div>
+                <button class="btn-ghost" id="addCollaboratorBtn">
+                  <i class="ri-add-line"></i> Add Collaborator
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Review & Publish -->
+        <div class="modal-body step-content" id="uploadStep4">
+          <div class="content-preview">
+            <h3>Content Preview</h3>
+            <div class="preview-card" id="contentPreview">
+              <div class="preview-thumbnail">
+                <img
+                  src="images/placeholder-thumb.jpg"
+                  alt="Content Thumbnail"
+                  id="previewThumbnail"
+                />
+              </div>
+              <div class="preview-details">
+                <h4 id="previewTitle">Content Title</h4>
+                <p id="previewDescription">Content description will appear here...</p>
+                <div class="preview-metadata">
+                  <span class="preview-category" id="previewCategory"
+                    ><i class="ri-folder-line"></i> Category</span
+                  >
+                  <span class="preview-access" id="previewAccess"
+                    ><i class="ri-lock-line"></i> Access Type</span
+                  >
+                  <span class="preview-price" id="previewPrice"
+                    ><i class="ri-coin-line"></i> Price</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="publishing-options">
+            <h3>Publishing Options</h3>
+            <div class="form-group radio-group">
+              <label class="radio-label">
+                <input type="radio" name="publishType" value="now" checked />
+                <span>Publish Now</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="publishType" value="schedule" />
+                <span>Schedule for Later</span>
+              </label>
+            </div>
+
+            <div class="schedule-container hidden" id="scheduleContainer">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Date</label>
+                  <input type="date" id="scheduleDate" />
+                </div>
+                <div class="form-group">
+                  <label>Time</label>
+                  <input type="time" id="scheduleTime" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="notifyFollowers" checked />
+                <span>Notify followers when published</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="shareToSocial" />
+                <span>Share to connected social media</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="blockchain-notice">
+            <i class="ri-information-line"></i>
+            <p>
+              Publishing this content will create a blockchain transaction. This process typically
+              takes 15-30 seconds to complete.
+            </p>
+          </div>
+
+          <div class="upload-progress-container hidden" id="uploadProgressContainer">
+            <h3>Upload Progress</h3>
+            <div class="progress-tracker">
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div class="progress-info">
+                <span class="progress-stage" id="progressStage">Preparing...</span>
+                <span class="progress-percentage" id="progressPercentage">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="modal-footer">
-          <button class="btn-ghost">Save as Draft</button>
-          <button class="btn-primary">Upload Content</button>
+          <div class="step-navigation">
+            <button class="btn-ghost hidden" id="prevStepBtn">Back</button>
+            <button class="btn-primary" id="nextStepBtn">Next</button>
+            <button class="btn-primary hidden" id="publishBtn">Publish Content</button>
+          </div>
+          <button class="btn-ghost" id="saveAsDraftBtn">Save as Draft</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Upload Modal -->
+    <div class="modal" id="batchUploadModal">
+      <div class="modal-content upload-workflow">
+        <div class="modal-header">
+          <h2>Batch Upload</h2>
+          <div class="upload-progress-indicator">
+            <div class="progress-step active" data-step="1">
+              <span class="step-number">1</span>
+              <span class="step-label">Files</span>
+            </div>
+            <div class="progress-step" data-step="2">
+              <span class="step-number">2</span>
+              <span class="step-label">Common Settings</span>
+            </div>
+            <div class="progress-step" data-step="3">
+              <span class="step-number">3</span>
+              <span class="step-label">Monetization</span>
+            </div>
+            <div class="progress-step" data-step="4">
+              <span class="step-number">4</span>
+              <span class="step-label">Review</span>
+            </div>
+          </div>
+          <button class="close-modal"><i class="ri-close-line"></i></button>
+        </div>
+
+        <!-- Step 1: Batch File Selection -->
+        <div class="modal-body step-content active" id="batchUploadStep1">
+          <!-- Batch upload type selector -->
+          <div class="batch-type-selector">
+            <div class="batch-type-option selected" data-type="files">
+              <i class="ri-file-upload-line"></i>
+              <h3>Multiple Files</h3>
+              <p>Upload several files at once with common settings</p>
+            </div>
+            <div class="batch-type-option" data-type="csv">
+              <i class="ri-file-excel-line"></i>
+              <h3>CSV Import</h3>
+              <p>Upload with detailed metadata from a CSV file</p>
+            </div>
+            <div class="batch-type-option" data-type="folder">
+              <i class="ri-folder-upload-line"></i>
+              <h3>Folder Upload</h3>
+              <p>Upload an entire folder with its structure</p>
+            </div>
+          </div>
+
+          <!-- CSV template download section -->
+          <div class="csv-template-download" id="csvTemplateSection">
+            <i class="ri-file-download-line"></i>
+            <div>
+              <h4>Download CSV Template</h4>
+              <p>Use this template to prepare your batch upload with detailed metadata</p>
+            </div>
+            <button id="downloadCsvTemplateBtn">
+              <i class="ri-download-line"></i>Download Template
+            </button>
+          </div>
+
+          <!-- Drag and drop for batch upload -->
+          <div class="batch-dropzone" id="batchDropzone">
+            <i class="ri-upload-cloud-2-line"></i>
+            <h3>Upload Multiple Files</h3>
+            <p>
+              Drag and drop multiple files here<br />
+              or
+            </p>
+            <button class="btn-primary" id="batchBrowseFilesBtn">Browse Files</button>
+            <input
+              type="file"
+              id="batchFileInput"
+              accept="video/*,audio/*,image/*,.pdf,.doc,.docx,.csv"
+              multiple
+              hidden
+            />
+            <p class="upload-formats">
+              Supports: MP4, MOV, MP3, WAV, JPG, PNG, PDF and more (up to 50 files)
+            </p>
+          </div>
+
+          <!-- Selected files container -->
+          <div class="batch-items" id="batchItemsContainer">
+            <!-- Batch items will be inserted here dynamically -->
+          </div>
+
+          <div class="batch-upload-controls">
+            <div class="batch-upload-progress">
+              <div class="batch-progress-bar">
+                <div class="batch-progress-fill" id="batchProgressFill"></div>
+              </div>
+              <div class="batch-progress-stats">
+                <span id="batchSelectedCount">0 files selected</span>
+                <span id="batchTotalSize">0 MB total</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Common Settings -->
+        <div class="modal-body step-content" id="batchUploadStep2">
+          <div class="common-settings">
+            <h3><i class="ri-settings-3-line"></i> Common Settings</h3>
+            <div class="common-settings-toggle">
+              <input type="checkbox" id="applyCommonSettings" checked />
+              <span>Apply these settings to all files in batch</span>
+            </div>
+
+            <div class="common-settings-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Category<span class="required">*</span></label>
+                  <select id="batchCategory">
+                    <option value="">Select category</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="nft">NFT</option>
+                    <option value="finance">Finance</option>
+                    <option value="technology">Technology</option>
+                    <option value="education">Education</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="crypto">Crypto</option>
+                    <option value="music">Music</option>
+                    <option value="art">Art</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Language</label>
+                  <select id="batchLanguage">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="ja">Japanese</option>
+                    <option value="zh">Chinese</option>
+                    <option value="ko">Korean</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Tags (Common for all uploads)</label>
+                <div class="tags-input-container">
+                  <div class="tags-container" id="batchTagsContainer"></div>
+                  <input type="text" id="batchTagInput" placeholder="Type tag and press Enter" />
+                </div>
+                <span class="helper-text"
+                  >Add up to 10 tags to help viewers discover your content</span
+                >
+              </div>
+
+              <div class="form-group">
+                <label>Description Template</label>
+                <textarea
+                  id="batchDescription"
+                  placeholder="Enter a description template. Use {title} to insert the file name."
+                  maxlength="5000"
+                ></textarea>
+                <span class="helper-text">
+                  This template will be applied to all files. You can customize individual
+                  descriptions later.
+                </span>
+              </div>
+
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="generateThumbnails" checked />
+                  <span>Auto-generate thumbnails from videos</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="useFilenamesAsTitles" checked />
+                  <span>Use filenames as content titles</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="stripExtensions" checked />
+                  <span>Remove file extensions from titles</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Batch Monetization -->
+        <div class="modal-body step-content" id="batchUploadStep3">
+          <div class="common-settings">
+            <h3><i class="ri-coin-line"></i> Monetization Settings</h3>
+            <div class="common-settings-toggle">
+              <input type="checkbox" id="applyCommonMonetization" checked />
+              <span>Apply these monetization settings to all files in batch</span>
+            </div>
+
+            <div class="common-settings-form">
+              <div class="option-group">
+                <h3>Access Control</h3>
+                <div class="form-group radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="batchAccessType" value="public" checked />
+                    <span>Public (Available to everyone)</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="batchAccessType" value="token" />
+                    <span>Token Gated (Requires token ownership)</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="batchAccessType" value="nft" />
+                    <span>NFT Holders (Requires specific NFT)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="option-group">
+                <h3>Revenue Model</h3>
+                <div class="form-group radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="batchRevenueModel" value="free" checked />
+                    <span>Free (No charge for viewers)</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="batchRevenueModel" value="payPerView" />
+                    <span>Pay-per-View (One-time payment)</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="batchRevenueModel" value="subscription" />
+                    <span>Subscription Only (For subscribers)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="pricing-container" id="batchPricingContainer">
+                <h3>Pricing</h3>
+                <div class="form-group">
+                  <label>Price (STREAM Tokens)</label>
+                  <div class="input-with-icon">
+                    <input type="number" id="batchContentPrice" min="0" step="0.1" value="5.0" />
+                    <i class="ri-coins-line"></i>
+                  </div>
+                  <span class="token-conversion">≈ $2.35 USD</span>
+                </div>
+              </div>
+
+              <div class="nft-options">
+                <h3>NFT Creation</h3>
+                <div class="form-group">
+                  <label class="toggle-label">
+                    <input type="checkbox" id="batchCreateNft" />
+                    <span class="toggle-switch"></span>
+                    <span>Create items as collectible NFTs</span>
+                  </label>
+                </div>
+
+                <div class="nft-settings hidden" id="batchNftSettings">
+                  <div class="form-group">
+                    <label class="toggle-label">
+                      <input type="checkbox" id="batchLazyMinting" checked />
+                      <span class="toggle-switch"></span>
+                      <span>Enable Lazy Minting</span>
+                    </label>
+                    <span class="helper-text"
+                      >Mint NFTs only when purchased to save on gas fees</span
+                    >
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Sale Price (STREAM)</label>
+                      <div class="input-with-icon">
+                        <input
+                          type="number"
+                          id="batchLazyMintPrice"
+                          min="0"
+                          step="0.1"
+                          value="10.0"
+                        />
+                        <i class="ri-coins-line"></i>
+                      </div>
+                      <span class="token-conversion">≈ $4.70 USD</span>
+                    </div>
+                    <div class="form-group">
+                      <label>Royalty Percentage</label>
+                      <div class="input-with-icon">
+                        <input type="number" id="batchRoyaltyPercent" min="0" max="50" value="10" />
+                        <i class="ri-percent-line"></i>
+                      </div>
+                      <span class="helper-text">Secondary sales royalty</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Review & Upload -->
+        <div class="modal-body step-content" id="batchUploadStep4">
+          <h3>Batch Upload Summary</h3>
+          <div class="batch-summary">
+            <div class="summary-row">
+              <span class="summary-label">Files to upload:</span>
+              <span class="summary-value" id="summaryFileCount">0 files</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Total size:</span>
+              <span class="summary-value" id="summaryTotalSize">0 MB</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Category:</span>
+              <span class="summary-value" id="summaryCategory">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Access type:</span>
+              <span class="summary-value" id="summaryAccess">Public</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Revenue model:</span>
+              <span class="summary-value" id="summaryRevenue">Free</span>
+            </div>
+            <div class="summary-row" id="summaryPriceRow">
+              <span class="summary-label">Price per item:</span>
+              <span class="summary-value" id="summaryPrice">-</span>
+            </div>
+            <div class="summary-row" id="summaryNftRow">
+              <span class="summary-label">NFT creation:</span>
+              <span class="summary-value" id="summaryNft">No</span>
+            </div>
+          </div>
+
+          <div class="batch-items" id="batchSummaryItems">
+            <!-- Summary of batch items will be inserted here dynamically -->
+          </div>
+
+          <div class="publishing-options">
+            <h3>Publishing Options</h3>
+            <div class="form-group radio-group">
+              <label class="radio-label">
+                <input type="radio" name="batchPublishType" value="now" checked />
+                <span>Publish All Immediately</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="batchPublishType" value="schedule" />
+                <span>Schedule for Later</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="batchPublishType" value="staggered" />
+                <span>Staggered Release</span>
+              </label>
+            </div>
+
+            <div class="schedule-container hidden" id="batchScheduleContainer">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Date</label>
+                  <input type="date" id="batchScheduleDate" />
+                </div>
+                <div class="form-group">
+                  <label>Time</label>
+                  <input type="time" id="batchScheduleTime" />
+                </div>
+              </div>
+            </div>
+
+            <div class="staggered-container hidden" id="staggeredReleaseContainer">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="date" id="staggeredStartDate" />
+                </div>
+                <div class="form-group">
+                  <label>Interval</label>
+                  <select id="staggeredInterval">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="custom">Custom hours</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="customHoursContainer">
+                <label>Hours between releases</label>
+                <input type="number" id="customHoursInterval" min="1" value="24" />
+              </div>
+            </div>
+          </div>
+
+          <div class="blockchain-notice">
+            <i class="ri-information-line"></i>
+            <p>
+              Publishing this batch will create multiple blockchain transactions. This process may
+              take several minutes depending on the number of files and blockchain conditions.
+            </p>
+          </div>
+
+          <div class="batch-upload-progress-container hidden" id="batchUploadProgressContainer">
+            <h3>Batch Upload Progress</h3>
+            <div class="progress-tracker">
+              <div class="progress-bar">
+                <div class="progress-fill" id="batchFinalProgressFill"></div>
+              </div>
+              <div class="progress-info">
+                <span class="progress-stage" id="batchProgressStage">Preparing...</span>
+                <span class="progress-percentage" id="batchProgressPercentage">0%</span>
+              </div>
+            </div>
+            <div class="batch-progress-details">
+              <span id="batchItemsCompleted">0 of 0 files completed</span>
+              <span id="batchEstimatedTime">Estimating time remaining...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <div class="step-navigation">
+            <button class="btn-ghost hidden" id="batchPrevStepBtn">Back</button>
+            <button class="btn-primary" id="batchNextStepBtn">Next</button>
+            <button class="btn-primary hidden" id="startBatchUploadBtn">Start Batch Upload</button>
+          </div>
+          <button class="btn-ghost" id="saveAsBatchDraftBtn">Save as Drafts</button>
         </div>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.42.0/dist/apexcharts.min.js"></script>
+
+    <!-- Add the CSS link for batch upload styling -->
+    <link rel="stylesheet" href="dashboard-batch-upload.css" />
+
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
+      // Main JavaScript code
+      document.addEventListener('DOMContentLoaded', function() {
         // Toggle account dropdown
-        document.querySelector('.account').addEventListener('click', function () {
+        document.querySelector('.account').addEventListener('click', function() {
           this.classList.toggle('active');
         });
 
         // Close dropdown when clicking outside
-        document.addEventListener('click', function (event) {
+        document.addEventListener('click', function(event) {
           if (!event.target.closest('.account')) {
             document.querySelector('.account').classList.remove('active');
           }
@@ -590,236 +1343,59 @@
         const uploadBtn = document.getElementById('uploadBtn');
         const uploadModal = document.getElementById('uploadModal');
         const closeModal = document.querySelector('.close-modal');
+        const publishBtn = document.getElementById('publishBtn');
 
-        uploadBtn.addEventListener('click', function () {
+        uploadBtn.addEventListener('click', function() {
           uploadModal.classList.add('show');
           document.body.classList.add('modal-open');
         });
 
-        closeModal.addEventListener('click', function () {
+        closeModal.addEventListener('click', function() {
           uploadModal.classList.remove('show');
           document.body.classList.remove('modal-open');
         });
 
-        // Close modal when clicking outside
-        window.addEventListener('click', function (event) {
-          if (event.target === uploadModal) {
+        // Publish button functionality
+        publishBtn.addEventListener('click', async function() {
+          if (!validateStep(currentStep)) return;
+
+          // Show progress
+          uploadProgressContainer.classList.remove('hidden');
+          publishBtn.disabled = true;
+          saveAsDraftBtn.disabled = true;
+
+          try {
+            // Determine if we're doing lazy minting
+            const isNftEnabled = createNft.checked;
+            const isLazyMinting = isNftEnabled && lazyMinting.checked;
+
+            // Simulate upload process with appropriate messages
+            let uploadResult = await simulateUpload(isNftEnabled, isLazyMinting);
+
+            // Show success message
+            alert(uploadResult.message);
+
+            // Close modal
             uploadModal.classList.remove('show');
             document.body.classList.remove('modal-open');
+
+            // Reset form
+            resetUploadForm();
+          } catch (error) {
+            alert('Upload failed: ' + error.message);
+            console.error('Upload error:', error);
+
+            publishBtn.disabled = false;
+            saveAsDraftBtn.disabled = false;
           }
         });
 
-        // Initialize charts
-        // Views chart
-        const viewsOptions = {
-          series: [
-            {
-              name: 'Views',
-              data: [12400, 15700, 10900, 18600, 16400, 21300, 22100]
-            }
-          ],
-          chart: {
-            height: 300,
-            type: 'area',
-            fontFamily: 'Inter, sans-serif',
-            toolbar: {
-              show: false
-            }
-          },
-          colors: ['#3498db'],
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            curve: 'smooth',
-            width: 2
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shadeIntensity: 1,
-              opacityFrom: 0.7,
-              opacityTo: 0.3
-            }
-          },
-          xaxis: {
-            categories: ['Oct 5', 'Oct 6', 'Oct 7', 'Oct 8', 'Oct 9', 'Oct 10', 'Oct 11'],
-            labels: {
-              style: {
-                colors: '#8e8da4'
-              }
-            }
-          },
-          yaxis: {
-            labels: {
-              style: {
-                colors: '#8e8da4'
-              },
-              formatter: function (val) {
-                return val.toLocaleString();
-              }
-            }
-          },
-          tooltip: {
-            theme: 'dark'
-          }
-        };
-
-        const viewsChart = new ApexCharts(document.querySelector('#viewsChart'), viewsOptions);
-        viewsChart.render();
-
-        // Demographics chart
-        const demographicsOptions = {
-          series: [44, 28, 15, 13],
-          chart: {
-            height: 300,
-            type: 'donut',
-            fontFamily: 'Inter, sans-serif'
-          },
-          labels: ['18-24', '25-34', '35-44', '45+'],
-          colors: ['#3498db', '#2ecc71', '#9b59b6', '#e74c3c'],
-          legend: {
-            position: 'bottom'
-          },
-          responsive: [
-            {
-              breakpoint: 480,
-              options: {
-                chart: {
-                  height: 280
-                },
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }
-          ]
-        };
-
-        const demographicsChart = new ApexCharts(
-          document.querySelector('#demographicsChart'),
-          demographicsOptions
-        );
-        demographicsChart.render();
-
-        // Revenue chart
-        const revenueOptions = {
-          series: [
-            {
-              name: 'Subscriptions',
-              data: [420, 380, 450, 510, 490, 530, 580]
-            },
-            {
-              name: 'Tips',
-              data: [180, 200, 140, 160, 180, 210, 250]
-            },
-            {
-              name: 'Token Value',
-              data: [80, 90, 110, 120, 130, 140, 150]
-            }
-          ],
-          chart: {
-            height: 300,
-            type: 'bar',
-            stacked: true,
-            fontFamily: 'Inter, sans-serif',
-            toolbar: {
-              show: false
-            }
-          },
-          colors: ['#3498db', '#2ecc71', '#9b59b6'],
-          plotOptions: {
-            bar: {
-              borderRadius: 4,
-              horizontal: false
-            }
-          },
-          xaxis: {
-            categories: ['Oct 5', 'Oct 6', 'Oct 7', 'Oct 8', 'Oct 9', 'Oct 10', 'Oct 11'],
-            labels: {
-              style: {
-                colors: '#8e8da4'
-              }
-            }
-          },
-          yaxis: {
-            labels: {
-              style: {
-                colors: '#8e8da4'
-              },
-              formatter: function (val) {
-                return '$' + val;
-              }
-            }
-          },
-          tooltip: {
-            theme: 'dark'
-          },
-          legend: {
-            position: 'bottom'
-          }
-        };
-
-        const revenueChart = new ApexCharts(
-          document.querySelector('#revenueChart'),
-          revenueOptions
-        );
-        revenueChart.render();
-
-        // Token chart
-        const tokenOptions = {
-          series: [
-            {
-              name: 'Token Price',
-              data: [2.1, 2.15, 2.08, 2.18, 2.3, 2.25, 2.47]
-            }
-          ],
-          chart: {
-            height: 100,
-            type: 'area',
-            fontFamily: 'Inter, sans-serif',
-            sparkline: {
-              enabled: true
-            },
-            toolbar: {
-              show: false
-            }
-          },
-          colors: ['#2ecc71'],
-          stroke: {
-            curve: 'straight',
-            width: 2
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shadeIntensity: 1,
-              opacityFrom: 0.7,
-              opacityTo: 0.3
-            }
-          },
-          tooltip: {
-            theme: 'dark',
-            fixed: {
-              enabled: true,
-              position: 'topRight',
-              offsetX: 0,
-              offsetY: 0
-            },
-            x: {
-              show: false
-            },
-            y: {
-              formatter: function (val) {
-                return '$' + val;
-              }
-            }
-          }
-        };
-
-        const tokenChart = new ApexCharts(document.querySelector('#tokenChart'), tokenOptions);
-        tokenChart.render();
+        // Additional code for other functionalities
+        // ...existing code...
       });
+
+      // Additional functions defined outside the DOMContentLoaded event
+      // ...existing code...
     </script>
   </body>
 </html>

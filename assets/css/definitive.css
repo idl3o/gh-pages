@@ -523,6 +523,229 @@ section {
   }
 }
 
+/* ---------- Documentation Sidebar Styling ---------- */
+
+.docs-container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 90px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding-right: 1rem;
+  border-right: 1px solid var(--border-color);
+}
+
+.docs-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.docs-sidebar nav > ul > li {
+  margin-bottom: 0.75rem;
+}
+
+.docs-sidebar a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  color: var(--text-color);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.docs-sidebar a:hover {
+  background-color: var(--hover-bg);
+  color: var(--primary-color);
+}
+
+.docs-sidebar a.active {
+  background-color: var(--primary-color-transparent);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Submenu styling */
+.docs-sidebar .submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+  opacity: 0.8;
+}
+
+.docs-sidebar .submenu.active {
+  max-height: 250px;
+}
+
+.docs-sidebar .submenu a {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
+
+.docs-sidebar .submenu a.active {
+  background-color: transparent;
+  border-left: 3px solid var(--primary-color);
+  border-radius: 0;
+  padding-left: calc(0.75rem - 3px);
+}
+
+/* Documentation content styling */
+.docs-content {
+  min-height: 100vh;
+}
+
+.docs-content section {
+  margin-bottom: 4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.docs-content section:last-child {
+  border-bottom: none;
+}
+
+.docs-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--heading-color);
+  font-size: 2rem;
+}
+
+.docs-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--heading-color);
+  font-size: 1.5rem;
+}
+
+/* Code blocks styling */
+.code-block {
+  background-color: var(--code-bg);
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.code-block pre {
+  padding: 1.25rem;
+  margin: 0;
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: var(--code-color);
+}
+
+/* API endpoint styling */
+.endpoint {
+  background-color: var(--card-bg);
+  border-left: 4px solid var(--primary-color);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.endpoint h4 {
+  margin-top: 0;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.endpoint h5 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Guide cards styling */
+.guides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.guide-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  border: 1px solid var(--border-color);
+}
+
+.guide-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.guide-icon {
+  background-color: var(--primary-color-transparent);
+  color: var(--primary-color);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.guide-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.guide-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.guide-link:hover {
+  text-decoration: underline;
+}
+
+/* Download button and CTAs */
+.download-btn,
+.contract-docs-cta,
+.sdk-docs-cta,
+.guides-cta {
+  margin: 2rem 0;
+}
+
+.btn svg {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Architecture image */
+.architecture-image {
+  max-width: 100%;
+  margin: 2rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.architecture-image img {
+  width: 100%;
+  height: auto;
+}
+
 /* ---------- Footer ---------- */
 
 footer {
@@ -672,6 +895,24 @@ footer {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .docs-container {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-sidebar {
+    position: relative;
+    top: 0;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .guides-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -691,3 +932,4 @@ footer {
     font-size: 1.25rem;
   }
 }
+;;;

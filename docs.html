@@ -294,10 +294,348 @@ const { token } = await authResponse.json();
                 <p>Uploads new content to the platform</p>
               </div>
 
-              <!-- More API endpoints would go here -->
+              <h3 id="api-users">User Endpoints</h3>
+              <p>These endpoints allow management of user accounts and profiles.</p>
+
+              <div class="endpoint">
+                <h4>GET /v1/users/profile</h4>
+                <p>Retrieves the profile of the authenticated user</p>
+              </div>
+
+              <div class="endpoint">
+                <h4>PUT /v1/users/profile</h4>
+                <p>Updates the profile of the authenticated user</p>
+              </div>
+
+              <div class="endpoint">
+                <h4>GET /v1/users/:walletAddress</h4>
+                <p>Retrieves the public profile of a user by wallet address</p>
+              </div>
+
+              <h3 id="api-payments">Payment Endpoints</h3>
+              <p>These endpoints handle payment operations and transactions.</p>
+
+              <div class="endpoint">
+                <h4>GET /v1/payments/history</h4>
+                <p>Retrieves payment history for the authenticated user</p>
+                <h5>Parameters:</h5>
+                <ul>
+                  <li><code>page</code> (optional): Page number, default 1</li>
+                  <li><code>limit</code> (optional): Items per page, default 20</li>
+                  <li>
+                    <code>type</code> (optional): Filter by payment type (subscription, tip, etc.)
+                  </li>
+                </ul>
+              </div>
+
+              <div class="endpoint">
+                <h4>POST /v1/payments/tip</h4>
+                <p>Sends a tip to a content creator</p>
+              </div>
+
+              <div class="endpoint">
+                <h4>POST /v1/payments/subscribe</h4>
+                <p>Creates a subscription to a creator's channel</p>
+              </div>
             </section>
 
-            <!-- Additional documentation sections would go here -->
+            <section id="smart-contracts">
+              <h2>Smart Contracts</h2>
+              <p>
+                StreamChain's core functionality is powered by a suite of smart contracts that
+                handle content ownership, payments, and platform governance.
+              </p>
+
+              <h3>Content Registry Contract</h3>
+              <p>
+                This contract manages the registration and ownership of content on the platform. It
+                implements ERC-721 for non-fungible content tokens and includes mechanisms for:
+              </p>
+              <ul>
+                <li>Content registration and minting</li>
+                <li>Ownership verification and transfers</li>
+                <li>Content metadata storage</li>
+                <li>Access control for permissioned content</li>
+              </ul>
+
+              <div class="code-block">
+                <pre><code>
+// Example content registration
+await contentRegistryContract.methods.registerContent(
+  contentId,
+  metadataHash,
+  accessControl,
+  royaltyPercentage
+).send({ from: creatorWalletAddress });
+                </code></pre>
+              </div>
+
+              <h3>Payment Contract</h3>
+              <p>
+                Handles all payment-related operations including tips, subscriptions, and revenue
+                sharing. Key features include:
+              </p>
+              <ul>
+                <li>Direct creator payments</li>
+                <li>Subscription management</li>
+                <li>Automated revenue distribution</li>
+                <li>Fee calculation and platform revenue</li>
+              </ul>
+
+              <h3>Governance Contract</h3>
+              <p>
+                Enables community-based decision making for platform parameters and upgrades.
+                Leverages the STREAM token for voting power.
+              </p>
+
+              <div class="contract-docs-cta">
+                <a href="./docs/contracts/" class="btn btn-secondary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  View Full Contract Documentation
+                </a>
+              </div>
+            </section>
+
+            <section id="sdk">
+              <h2>SDK Documentation</h2>
+              <p>
+                Our Software Development Kits (SDKs) provide easy integration with the StreamChain
+                platform for various programming languages and environments.
+              </p>
+
+              <h3>JavaScript SDK</h3>
+              <p>
+                The JavaScript SDK is the most comprehensive, supporting both browser and Node.js
+                environments. It provides full access to the StreamChain API and smart contract
+                functionality.
+              </p>
+
+              <div class="code-block">
+                <pre><code>
+// Example JavaScript SDK usage
+import { StreamChain } from '@streamchain/sdk';
+
+// Initialize the SDK
+const streamChain = new StreamChain({
+  apiKey: 'YOUR_API_KEY',
+  web3Provider: window.ethereum
+});
+
+// Connect user's wallet
+await streamChain.connect();
+
+// Get content list
+const content = await streamChain.content.list({
+  category: 'gaming',
+  page: 1,
+  limit: 10
+});
+                </code></pre>
+              </div>
+
+              <h3>Python SDK</h3>
+              <p>
+                Ideal for backend integrations, data analysis, and machine learning applications
+                related to the StreamChain platform.
+              </p>
+
+              <div class="code-block">
+                <pre><code>
+# Example Python SDK usage
+from streamchain import StreamChain
+
+# Initialize the SDK
+stream_chain = StreamChain(
+    api_key="YOUR_API_KEY",
+    private_key="YOUR_WALLET_PRIVATE_KEY"
+)
+
+# Get user profile
+profile = stream_chain.users.get_profile()
+
+# Upload content
+content_id = stream_chain.content.upload(
+    file_path="./video.mp4",
+    title="My Web3 Video",
+    description="A video about Web3 streaming",
+    tags=["web3", "blockchain", "streaming"]
+)
+                </code></pre>
+              </div>
+
+              <h3>Installation</h3>
+              <p>Our SDKs can be installed via standard package managers:</p>
+
+              <div class="code-block">
+                <pre><code>
+# JavaScript/Node.js
+npm install @streamchain/sdk
+
+# Python
+pip install streamchain-sdk
+                </code></pre>
+              </div>
+
+              <div class="sdk-docs-cta">
+                <a href="./sdk/reference/" class="btn btn-secondary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  Complete SDK Reference
+                </a>
+              </div>
+            </section>
+
+            <section id="guides">
+              <h2>Developer Guides</h2>
+              <p>
+                These guides provide step-by-step instructions for common integration scenarios and
+                development tasks.
+              </p>
+
+              <div class="guides-grid">
+                <div class="guide-card">
+                  <div class="guide-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="3" y1="9" x2="21" y2="9"></line>
+                      <line x1="9" y1="21" x2="9" y2="9"></line>
+                    </svg>
+                  </div>
+                  <h3>Getting Started</h3>
+                  <p>
+                    Set up your development environment and create your first StreamChain
+                    integration
+                  </p>
+                  <a href="./guides/getting-started.html" class="guide-link">Read Guide</a>
+                </div>
+
+                <div class="guide-card">
+                  <div class="guide-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+                      <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+                      <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+                      <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+                      <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+                      <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+                    </svg>
+                  </div>
+                  <h3>Content Upload & Management</h3>
+                  <p>Learn how to upload, manage, and distribute content on StreamChain</p>
+                  <a href="./guides/content-management.html" class="guide-link">Read Guide</a>
+                </div>
+
+                <div class="guide-card">
+                  <div class="guide-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                      <path d="M6 8h.01"></path>
+                      <path d="M2 8h.01"></path>
+                      <path d="M2 12h.01"></path>
+                      <path d="M2 16h.01"></path>
+                      <path d="M6 12h.01"></path>
+                      <path d="M6 16h.01"></path>
+                      <path d="M10 8h.01"></path>
+                      <path d="M10 12h.01"></path>
+                      <path d="M10 16h.01"></path>
+                      <path d="M14 8h.01"></path>
+                      <path d="M14 12h.01"></path>
+                      <path d="M14 16h.01"></path>
+                      <path d="M18 8h.01"></path>
+                      <path d="M18 12h.01"></path>
+                      <path d="M18 16h.01"></path>
+                    </svg>
+                  </div>
+                  <h3>Payment Integration</h3>
+                  <p>Implement subscriptions, tipping, and revenue sharing in your application</p>
+                  <a href="./guides/payment-integration.html" class="guide-link">Read Guide</a>
+                </div>
+
+                <div class="guide-card">
+                  <div class="guide-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h3>Smart Contract Interaction</h3>
+                  <p>Directly interact with StreamChain smart contracts for advanced use cases</p>
+                  <a href="./guides/smart-contracts.html" class="guide-link">Read Guide</a>
+                </div>
+              </div>
+
+              <div class="guides-cta">
+                <a href="./guides/" class="btn btn-primary">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  View All Developer Guides
+                </a>
+              </div>
+            </section>
           </div>
         </div>
       </div>
@@ -395,27 +733,111 @@ const { token } = await authResponse.json();
       // Documentation sidebar functionality
       document.addEventListener('DOMContentLoaded', () => {
         const sidebarLinks = document.querySelectorAll('.docs-sidebar a');
+        const submenu = document.querySelector('.submenu');
+        const apiLink = document.getElementById('api-link');
+
+        // Initialize state: check if the URL hash points to an API section
+        const hash = window.location.hash;
+        if (hash && (hash.startsWith('#api') || hash === '#api')) {
+          if (submenu) {
+            submenu.classList.add('active');
+
+            // If it's a specific API section, highlight that link too
+            if (hash !== '#api') {
+              const specificLink = document.querySelector(`a[href="${hash}"]`);
+              if (specificLink) {
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                apiLink.classList.add('active');
+                specificLink.classList.add('active');
+              }
+            }
+          }
+        }
 
         // Add click event to each sidebar link
         sidebarLinks.forEach(link => {
           link.addEventListener('click', e => {
-            // Remove active class from all links
-            sidebarLinks.forEach(l => l.classList.remove('active'));
+            // Remove active class from all links except submenu items
+            sidebarLinks.forEach(l => {
+              if (!l.closest('.submenu')) {
+                l.classList.remove('active');
+              }
+            });
+
             // Add active class to clicked link
-            e.target.classList.add('active');
+            if (!link.closest('.submenu')) {
+              e.target.classList.add('active');
+            }
           });
         });
 
         // Toggle submenu visibility when API link is clicked
-        const apiLink = document.getElementById('api-link');
         if (apiLink) {
           apiLink.addEventListener('click', e => {
+            e.preventDefault();
             const submenu = e.target.nextElementSibling;
             if (submenu && submenu.classList.contains('submenu')) {
               submenu.classList.toggle('active');
             }
+            window.location.hash = '#api';
           });
         }
+
+        // Add click events for submenu items
+        const submenuItems = document.querySelectorAll('.submenu a');
+        submenuItems.forEach(item => {
+          item.addEventListener('click', e => {
+            // Remove active class from all submenu links
+            submenuItems.forEach(i => i.classList.remove('active'));
+            // Add active class to clicked link
+            e.target.classList.add('active');
+            // Ensure parent menu remains active
+            if (apiLink) apiLink.classList.add('active');
+            // Ensure submenu stays open
+            if (submenu) submenu.classList.add('active');
+          });
+        });
+
+        // Highlight the active section based on scroll position
+        window.addEventListener('scroll', () => {
+          const scrollPosition = window.scrollY;
+
+          // Find all section elements
+          const sections = document.querySelectorAll('section[id]');
+
+          // Find the section that's currently in view
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+              const currentId = section.getAttribute('id');
+
+              // Update active class on sidebar links
+              sidebarLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === `#${currentId}`) {
+                  if (!link.closest('.submenu')) {
+                    sidebarLinks.forEach(l => {
+                      if (!l.closest('.submenu')) l.classList.remove('active');
+                    });
+                    link.classList.add('active');
+
+                    // If it's an API subsection, open submenu and highlight API link
+                    if (currentId.startsWith('api-')) {
+                      if (apiLink) apiLink.classList.add('active');
+                      if (submenu) submenu.classList.add('active');
+                    }
+                  } else {
+                    // If it's a submenu item, highlight it
+                    submenuItems.forEach(item => item.classList.remove('active'));
+                    link.classList.add('active');
+                  }
+                }
+              });
+            }
+          });
+        });
       });
     </script>
   </body>
