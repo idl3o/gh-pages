@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Creator Onboarding Guide
 description: Everything you need to know to get started as a creator on Web3 Crypto Streaming Service
 permalink: /creators/
----
+- --
 
 # Creator Onboarding Guide
 
@@ -45,3 +45,4 @@ For the best streaming experience, we recommend:
 - [Creator Community Discord](https://discord.gg/web3streaming)
 - [Video Tutorials](https://www.youtube.com/web3streaming)
 - [Contact Creator Support](mailto:creators@web3streaming.example)
+

@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Introduction to Web3 Crypto Streaming Service
 description: How to properly configure Git when contributing to the Web3 Crypto Streaming Service project
 permalink: /docs/introduction/
----
+- --
 
 # Introduction to Web3 Crypto Streaming Service
 
@@ -87,3 +87,4 @@ Ready to get started with Web3 Crypto Streaming Service?
 - **For Creators**: Check out our [Creator Onboarding Guide](/docs/creator-onboarding)
 - **For Viewers**: Learn how to [Set Up Your Wallet](/docs/wallet-setup) and start watching
 - **For Developers**: Explore our [API Reference](/docs/api-reference) and integration options
+

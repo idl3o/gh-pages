@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: StreamAccessContract | Web3 Crypto Streaming Service
----
+- --
 
 # StreamAccessContract
 
@@ -186,3 +186,4 @@ contract StreamAccessContract is Ownable, ReentrancyGuard {
 - [Web3 Developer Guide](../guides.developers.html)
 - [ProofOfExistence Contract](proof-of-existence.html)
 - [StreamPayment Contract](stream-payment.html)
+

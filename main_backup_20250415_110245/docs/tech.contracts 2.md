@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Smart Contracts | Web3 Crypto Streaming Service
----
+- --
 
 # Smart Contract Architecture
 
@@ -216,7 +216,7 @@ For developers looking to integrate with our smart contracts:
 - Read the [integration documentation](guides.developers.html)
 - Explore the [governance mechanism](gov.overview.html)
 
----
+- --
 
 <div style="background: #f0f7ff; border-left: 4px solid #4361ee; padding: 1rem; margin-top: 2rem;">
   <h3 style="margin-top: 0;">Important</h3>
@@ -225,3 +225,4 @@ For developers looking to integrate with our smart contracts:
     always refer to the official GitHub repository and deployed contract addresses.
   </p>
 </div>
+

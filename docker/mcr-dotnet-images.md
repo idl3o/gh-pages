@@ -266,13 +266,13 @@ ENTRYPOINT ["dotnet", "WebStreamClient.dll"]
 ## Common Issues and Solutions
 
 ### Issue: Build failures with compiler errors
-**Solution**: Ensure your .NET SDK version in the Dockerfile matches your project's target framework
+* *Solution**: Ensure your .NET SDK version in the Dockerfile matches your project's target framework
 
 ### Issue: Connection refused when accessing services
-**Solution**: Verify that you're exposing the correct ports and that your service is listening on 0.0.0.0 (not localhost)
+* *Solution**: Verify that you're exposing the correct ports and that your service is listening on 0.0.0.0 (not localhost)
 
 ### Issue: Startup errors
-**Solution**: Check that all environment variables are properly configured in your docker-compose file
+* *Solution**: Check that all environment variables are properly configured in your docker-compose file
 
 ## Useful Commands
 
@@ -294,3 +294,4 @@ docker-compose up -d --no-deps --build web-client
 ```
 
 For more information on Microsoft Container Registry images, visit the [official MCR catalog](https://mcr.microsoft.com/en-us/catalog).
+

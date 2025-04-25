@@ -1,8 +1,8 @@
----
+- --
 layout: default
 title: Documentation
 description: Web3 Crypto Streaming Service Documentation
----
+- --
 
 # Web3 Crypto Streaming Service Documentation
 
@@ -50,7 +50,7 @@ Welcome to the official documentation for the Web3 Crypto Streaming Service. Her
 - [Technical FAQs](/docs/faqs-technical)
 - [Governance FAQs](/docs/faqs-governance)
 
----
+- --
 
 ## Need Help?
 
@@ -59,3 +59,4 @@ If you can't find what you're looking for in the documentation, you can:
 - Join our [Discord community](https://discord.gg/web3streaming)
 - Open an issue on [GitHub](https://github.com/idl3o/gh-pages)
 - Contact us at [x@idl3.modsias](mailto:x@idl3.modsias)
+

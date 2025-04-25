@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Technical Recommendations | Web3 Crypto Streaming Service
----
+- --
 
 # Technical Recommendations
 
@@ -133,3 +133,4 @@ const deliveryStrategy = {
 | Security Measures | Critical | High | 8 weeks |
 | Layer 2 Scaling | High | High | 10 weeks |
 | Content Delivery Optimization | Medium | Medium | 5 weeks |
+

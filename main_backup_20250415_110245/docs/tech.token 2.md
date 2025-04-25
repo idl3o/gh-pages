@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Token Economics | Web3 Crypto Streaming Service
----
+- --
 
 # STREAM Token Economics
 
@@ -186,7 +186,7 @@ Planned enhancements to the token economy include:
 - **Enhanced Reward Mechanisms**: More granular creator compensation models
 - **NFT Integration**: STREAM token utility within NFT marketplace functions
 
----
+- --
 
 <div style="background: #f0f7ff; border-left: 4px solid #4361ee; padding: 1rem; margin-top: 2rem;">
   <h3 style="margin-top: 0;">Note on Tokenomics Evolution</h3>
@@ -195,3 +195,4 @@ Planned enhancements to the token economy include:
     may change over time as the platform matures and the community makes decisions on its future direction.
   </p>
 </div>
+

@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Smart Contracts in Action | Web3 Crypto Streaming Service
----
+- --
 
 # Smart Contracts in Action: Real-World Applications
 
@@ -13,13 +13,13 @@ While smart contract code may appear technical, the applications they enable are
 
 ## Case Study 1: Independent Filmmaker
 
-**Creator:** Maya, an independent documentary filmmaker
+* *Creator:** Maya, an independent documentary filmmaker
 
-**Scenario:** Maya has produced a documentary exposing environmental issues but struggles with traditional distribution platforms taking large cuts and controlling her content's availability.
+* *Scenario:** Maya has produced a documentary exposing environmental issues but struggles with traditional distribution platforms taking large cuts and controlling her content's availability.
 
 ### How Our Smart Contracts Help
 
-**Step 1: Content Registration**
+* *Step 1: Content Registration**
 
 Maya uploads her documentary to our platform, which triggers the `StreamAccessContract`:
 
@@ -34,13 +34,13 @@ function registerContent(
 )
 ```
 
-**Real-world impact:** 
+* *Real-world impact:** 
 - Her content's authenticity is verified and timestamped using `ProofOfExistence`
 - She maintains full intellectual property rights
 - She sets her own price (0.001 ETH, approximately $3)
 - She retains 90% of all revenue
 
-**Step 2: Content Monetization**
+* *Step 2: Content Monetization**
 
 Maya offers multiple access models:
 - Pay-per-view for casual viewers
@@ -51,7 +51,7 @@ Maya offers multiple access models:
 function startStream(string memory contentId)
 ```
 
-**Step 3: Payment Streaming**
+* *Step 3: Payment Streaming**
 
 As viewers watch her content, the payment flows continuously:
 
@@ -60,7 +60,7 @@ As viewers watch her content, the payment flows continuously:
 function createStream(address recipient, uint256 ratePerSecond)
 ```
 
-**Real-world impact:**
+* *Real-world impact:**
 - Maya receives payments in real-time rather than monthly payouts
 - No minimum threshold for withdrawals
 - No intermediaries taking additional fees
@@ -68,13 +68,13 @@ function createStream(address recipient, uint256 ratePerSecond)
 
 ## Case Study 2: Educational Platform
 
-**Creator:** Professor Chen, computer science educator
+* *Creator:** Professor Chen, computer science educator
 
-**Scenario:** Professor Chen wants to create a programming course with tiered access models and collaborative revenue sharing with teaching assistants.
+* *Scenario:** Professor Chen wants to create a programming course with tiered access models and collaborative revenue sharing with teaching assistants.
 
 ### Smart Contract Integration
 
-**Step 1: Collaborative Content Structure**
+* *Step 1: Collaborative Content Structure**
 
 Using custom payment splits:
 
@@ -88,12 +88,12 @@ function setCustomSplit(
 )
 ```
 
-**Real-world impact:**
+* *Real-world impact:**
 - Professor Chen automatically shares 15% with teaching assistants
 - Payment distribution happens immediately upon purchase
 - Transparent tracking of all revenue
 
-**Step 2: Tiered Access Models**
+* *Step 2: Tiered Access Models**
 
 Professor Chen creates different subscription plans:
 
@@ -102,12 +102,12 @@ Professor Chen creates different subscription plans:
 function createPlan(string memory _name, uint256 _price, uint256 _duration)
 ```
 
-**Plans offered:**
+* *Plans offered:**
 1. Basic access: Course videos only
 2. Premium access: Videos + code repositories
 3. Mentorship access: Everything + weekly office hours
 
-**Step 3: Proof of Learning**
+* *Step 3: Proof of Learning**
 
 Students receive verifiable certificates of completion:
 
@@ -122,13 +122,13 @@ function registerProof(
 
 ## Case Study 3: Music Artist Collective
 
-**Creators:** Indie music collective with 5 artists
+* *Creators:** Indie music collective with 5 artists
 
-**Scenario:** The collective wants to release albums while transparently sharing revenue based on contribution to each track.
+* *Scenario:** The collective wants to release albums while transparently sharing revenue based on contribution to each track.
 
 ### Smart Contract Flow
 
-**Step 1: Collective Ownership Registration**
+* *Step 1: Collective Ownership Registration**
 
 The group registers their album using multi-signature capability:
 
@@ -140,7 +140,7 @@ function registerCollective(
 )
 ```
 
-**Step 2: Proportional Revenue Distribution**
+* *Step 2: Proportional Revenue Distribution**
 
 Each track has customized revenue splits based on contribution:
 
@@ -152,12 +152,12 @@ Track: "Midnight Symphony"
 - Artist C (production): 25%
 ```
 
-**Real-world impact:**
+* *Real-world impact:**
 - Transparent attribution of work
 - Automatic payment distribution
 - Full history of contribution and payments
 
-**Step 3: Superfan Engagement**
+* *Step 3: Superfan Engagement**
 
 The collective offers premium listening experiences for their superfans:
 
@@ -273,7 +273,7 @@ Ready to bring your content to the Web3 Crypto Streaming Service?
 3. [Understand revenue models](/docs/guides.creators.monetization)
 4. [Join our creator community](https://discord.gg/web3streaming)
 
----
+- --
 
 <div style="background: #f0f7ff; border-left: 4px solid #4361ee; padding: 1rem; margin-top: 2rem;">
   <h3 style="margin-top: 0;">Creator Spotlight</h3>
@@ -286,3 +286,4 @@ Ready to bring your content to the Web3 Crypto Streaming Service?
     <strong>— Jordan M., Documentary Filmmaker</strong>
   </p>
 </div>
+

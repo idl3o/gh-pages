@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Blockchain Miner Game
 description: Play our blockchain-themed minigame while learning about crypto concepts
 permalink: /game/
----
+- --
 
 # Blockchain Miner Game
 
@@ -84,3 +84,4 @@ permalink: /game/
 
 <link rel="stylesheet" href="{{ '/assets/css/blockchain-game.css' | relative_url }}">
 <script src="{{ '/assets/js/blockchain-game.js' | relative_url }}"></script>
+

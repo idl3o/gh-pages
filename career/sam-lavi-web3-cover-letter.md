@@ -50,7 +50,7 @@ Sincerely,
 
 Sam Lavi
 
----
+- --
 
 ## ATTACHMENT CHECKLIST
 - Resume
@@ -58,3 +58,4 @@ Sam Lavi
 - GitHub profile
 - Technical writing samples (if requested)
 - References (upon request)
+

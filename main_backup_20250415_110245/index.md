@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Web3 Crypto Streaming Service
----
+- --
 
 <div class="hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 4rem 2rem; text-align: center; border-radius: 8px;">
   <h1 style="font-size: 2.8rem; margin-bottom: 1rem;">Web3 Crypto Streaming Service</h1>
@@ -167,10 +167,10 @@ title: Web3 Crypto Streaming Service
     <p>&copy; 2025 Web3 Crypto Streaming Service. All rights reserved.</p>
   </div>
 </footer>
----
+- --
 layout: default
 title: Web3 Crypto Streaming Service
----
+- --
 
 <div class="hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 4rem 2rem; text-align: center; border-radius: 8px;">
   <h1 style="font-size: 2.8rem; margin-bottom: 1rem;">Web3 Crypto Streaming Service</h1>
@@ -336,3 +336,4 @@ title: Web3 Crypto Streaming Service
     <p>&copy; 2025 Web3 Crypto Streaming Service. All rights reserved.</p>
   </div>
 </footer>
+

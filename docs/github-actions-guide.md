@@ -6,9 +6,9 @@ GitHub Actions is a powerful CI/CD platform that allows you to automate your sof
 
 ### 1. Environment Setup Issues
 
-**Problem**: Missing or incompatible Node.js, Ruby, or other runtime environments.
+* *Problem**: Missing or incompatible Node.js, Ruby, or other runtime environments.
 
-**Solution**:
+* *Solution**:
 
 ```yaml
 - name: Setup Node.js
@@ -20,9 +20,9 @@ GitHub Actions is a powerful CI/CD platform that allows you to automate your sof
 
 ### 2. Dependency Management
 
-**Problem**: Missing lock files (package-lock.json, yarn.lock) causing inconsistent builds.
+* *Problem**: Missing lock files (package-lock.json, yarn.lock) causing inconsistent builds.
 
-**Solution**: Always commit your lock files to the repository, or generate them during workflow:
+* *Solution**: Always commit your lock files to the repository, or generate them during workflow:
 
 ```yaml
 - name: Create lock file if missing
@@ -31,9 +31,9 @@ GitHub Actions is a powerful CI/CD platform that allows you to automate your sof
 
 ### 3. Branch & Permission Configuration
 
-**Problem**: Workflows fail because the service account doesn't have permission to push to protected branches.
+* *Problem**: Workflows fail because the service account doesn't have permission to push to protected branches.
 
-**Solution**: Ensure proper permissions are set in the workflow:
+* *Solution**: Ensure proper permissions are set in the workflow:
 
 ```yaml
 permissions:
@@ -44,9 +44,9 @@ permissions:
 
 ### 4. Concurrent Workflow Conflicts
 
-**Problem**: Multiple workflows running simultaneously on the same branch causing conflicts.
+* *Problem**: Multiple workflows running simultaneously on the same branch causing conflicts.
 
-**Solution**: Use concurrency to manage workflows:
+* *Solution**: Use concurrency to manage workflows:
 
 ```yaml
 concurrency:
@@ -56,9 +56,9 @@ concurrency:
 
 ### 5. Caching Errors
 
-**Problem**: Corrupted caches or misconfigured cache paths.
+* *Problem**: Corrupted caches or misconfigured cache paths.
 
-**Solution**: Use proper cache keys and paths:
+* *Solution**: Use proper cache keys and paths:
 
 ```yaml
 - uses: actions/cache@v3
@@ -71,9 +71,9 @@ concurrency:
 
 ### 6. GitHub Pages Specific Issues
 
-**Problem**: Incorrect build output directory or missing configuration.
+* *Problem**: Incorrect build output directory or missing configuration.
 
-**Solution**: Ensure you're using the proper GitHub Pages actions:
+* *Solution**: Ensure you're using the proper GitHub Pages actions:
 
 ```yaml
 - name: Setup Pages
@@ -108,3 +108,4 @@ To diagnose issues with your GitHub Actions workflows:
 5. **Commit lock files**: Ensures consistent dependency versions
 
 By following these guidelines, you'll create more reliable GitHub Actions workflows that are easier to debug when issues arise.
+

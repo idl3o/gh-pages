@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Telos - Our Ultimate Purpose
 description: The core philosophy and ultimate goals of Web3 Crypto Streaming Service
 permalink: /telos/
----
+- --
 
 # Telos: Our Ultimate Purpose
 
@@ -141,3 +141,4 @@ We invite creators, viewers, developers, and believers in a more equitable inter
   <a href="{{ '/whitepaper' | relative_url }}" class="button secondary">Read Our Whitepaper</a>
   <a href="{{ '/playground' | relative_url }}" class="button tertiary">Experience The Future</a>
 </div>
+

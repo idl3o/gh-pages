@@ -1,6 +1,6 @@
 # Sarah Chen
 
-**Engineering Manager - AI Infrastructure & Inference Systems**  
+* *Engineering Manager - AI Infrastructure & Inference Systems**  
 [sarah.chen@example.com](mailto:sarah.chen@example.com) | [linkedin.com/in/sarahchen](https://linkedin.com/in/sarahchen) | San Francisco, CA
 
 ## Summary
@@ -10,7 +10,7 @@ Engineering leader with 12+ years of experience building high-performance distri
 ## Professional Experience
 
 ### Distributed Systems Technology Inc.
-**Senior Engineering Manager, ML Inference Platform** | 2021 - Present
+* *Senior Engineering Manager, ML Inference Platform** | 2021 - Present
 - Lead a team of 20+ engineers building a high-throughput inference system serving 10M+ daily requests with 99.99% reliability
 - Architected a dynamic scaling system that reduced inference costs by 47% while maintaining sub-100ms p95 latency
 - Implemented efficient model deployment pipelines reducing time-to-production from weeks to hours
@@ -18,7 +18,7 @@ Engineering leader with 12+ years of experience building high-performance distri
 - Collaborated with research teams to optimize transformer models, achieving 3.5x throughput improvement
 
 ### BlockStream Technologies
-**Engineering Manager, Platform Infrastructure** | 2018 - 2021
+* *Engineering Manager, Platform Infrastructure** | 2018 - 2021
 - Led distributed systems team focused on real-time data processing and high-performance serving
 - Designed and implemented a decentralized content delivery network with intelligent caching systems
 - Created smart contract verification systems using formal methods to ensure platform security
@@ -26,14 +26,14 @@ Engineering leader with 12+ years of experience building high-performance distri
 - Mentored 12 engineers, with 5 promoted to senior roles under my leadership
 
 ### TechFrontier Innovations
-**Senior Software Engineer, Infrastructure** | 2015 - 2018
+* *Senior Software Engineer, Infrastructure** | 2015 - 2018
 - Designed and implemented distributed payment processing system with fault tolerance capabilities
 - Developed horizontal scaling mechanisms for real-time data processing, handling 30K events/second
 - Built ML-based anomaly detection systems to identify unusual transaction patterns
 - Created performance testing frameworks that identified and resolved system bottlenecks
 
 ### DataSystems Inc.
-**Software Engineer** | 2011 - 2015
+* *Software Engineer** | 2011 - 2015
 - Developed high-performance data indexing and retrieval systems
 - Implemented efficient caching layers reducing database load by 65%
 - Created analytics pipelines for real-time metrics processing
@@ -49,10 +49,10 @@ Engineering leader with 12+ years of experience building high-performance distri
 
 ## Education
 
-**Stanford University**  
+* *Stanford University**  
 M.S. Computer Science, Concentration in Machine Learning | 2009 - 2011
 
-**University College London**  
+* *University College London**  
 B.Eng. Computer Science, First Class Honours | 2005 - 2009
 
 ## Publications & Talks
@@ -61,3 +61,4 @@ B.Eng. Computer Science, First Class Honours | 2005 - 2009
 - "Dynamic Batching Strategies for Efficient Model Serving," NeurIPS Workshop on ML Systems, 2022
 - "Optimizing Cache Coherence Protocols for Distributed ML Inference," OSDI, 2021
 - "Building Resilient ML Production Systems," QCon San Francisco, 2020
+

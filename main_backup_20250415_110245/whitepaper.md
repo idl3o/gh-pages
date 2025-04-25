@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Whitepaper
 description: Technical whitepaper for Web3 Crypto Streaming Service
 permalink: /whitepaper/
----
+- --
 
 # Web3 Crypto Streaming Service Whitepaper
 
@@ -145,8 +145,9 @@ Web3 Crypto Streaming Service represents a fundamental shift in how digital cont
 4. Token Engineering Fundamentals
 5. Content Delivery Networks: Architecture and Practical Applications
 
----
+- --
 
-*Disclaimer: This whitepaper is for informational purposes only and does not constitute investment advice or an offer to sell securities. The STREAM token is a utility token designed for use within our platform ecosystem.*
+* Disclaimer: This whitepaper is for informational purposes only and does not constitute investment advice or an offer to sell securities. The STREAM token is a utility token designed for use within our platform ecosystem.*
 
 [Download PDF Version](/assets/documents/whitepaper.pdf)
+

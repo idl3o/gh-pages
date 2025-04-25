@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: ProofOfExistence | Web3 Crypto Streaming Service
----
+- --
 
 # ProofOfExistence Contract
 
@@ -217,3 +217,4 @@ contract ProofOfExistence {
 - [Web3 Developer Guide](../guides.developers.html)
 - [StreamAccessContract](stream-access.html)
 - [Content Verification Guide](../guides.creators.verification.html)
+

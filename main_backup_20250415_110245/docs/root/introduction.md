@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Introduction | Web3 Crypto Streaming Service
----
+- --
 
 # Introduction to Web3 Crypto Streaming Service
 
@@ -84,8 +84,9 @@ Despite the underlying complexity, we provide intuitive interfaces for:
 - Review the complete [Technical Architecture](../tech.architecture)
 - Read our comprehensive [Whitepaper](/whitepaper/web3-streaming-service-whitepaper)
 
----
+- --
 
 <div style="text-align: center; margin-top: 2rem;">
   <a href="../root/quickstart" style="display: inline-block; background: #4361ee; color: white; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: bold;">Get Started →</a>
 </div>
+

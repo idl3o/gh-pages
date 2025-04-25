@@ -1,13 +1,13 @@
----
+- --
 layout: default
 title: Privacy Policy
 description: Privacy policy for Web3 Crypto Streaming Service
 permalink: /privacy/
----
+- --
 
 # Privacy Policy
 
-*Last Updated: March 25, 2023*
+* Last Updated: March 25, 2023*
 
 This Privacy Policy describes how Web3 Crypto Streaming Service ("we," "us," or "our") collects, uses, and discloses your information when you use our services.
 
@@ -70,3 +70,4 @@ We may modify this Privacy Policy from time to time. We will notify you of mater
 ## Contact Us
 
 If you have questions about this Privacy Policy, please contact us at privacy@web3streaming.example.
+

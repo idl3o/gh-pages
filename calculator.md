@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Monetization Calculator
 description: Calculate your potential earnings on Web3 Crypto Streaming Service
 permalink: /calculator/
----
+- --
 
 # Monetization Calculator
 
@@ -90,3 +90,4 @@ Use our calculator to estimate your potential earnings on Web3 Crypto Streaming 
 </div>
 
 <script src="{{ '/assets/js/calculator.js' | relative_url }}"></script>
+

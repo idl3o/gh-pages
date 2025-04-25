@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Enhanced Roadmap | Web3 Crypto Streaming Service
----
+- --
 
 # Enhanced Platform Roadmap
 
@@ -93,3 +93,4 @@ The following metrics will be tracked throughout all phases:
 | Token price volatility | High | Medium | Token utility focus, treasury management |
 
 This enhanced roadmap provides a clear framework for development while maintaining flexibility to adapt to market conditions and technological advancements.
+

@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: API Documentation
 description: Complete API reference for Web3 Crypto Streaming Service
 permalink: /docs/api/
----
+- --
 
 # API Documentation
 
@@ -17,7 +17,7 @@ All API requests require authentication using JWT tokens. To obtain a token:
 POST /api/auth/token
 ```
 
-**Request body:**
+* *Request body:**
 ```json
 {
   "wallet_address": "0x1234...",
@@ -25,7 +25,7 @@ POST /api/auth/token
 }
 ```
 
-**Response:**
+* *Response:**
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -110,3 +110,4 @@ Our API uses conventional HTTP response codes to indicate the success or failure
 ## Rate Limits
 
 API calls are limited to 100 requests per minute per authenticated user. Exceeding this limit will result in a 429 response.
+

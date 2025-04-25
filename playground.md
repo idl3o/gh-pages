@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Interactive Playground
 description: Test and experience Web3 Crypto Streaming Service features in a sandbox environment
 permalink: /playground/
----
+- --
 
 # Interactive Playground
 
@@ -582,3 +582,4 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 }
 </style>
+

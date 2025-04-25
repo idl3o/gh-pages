@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Emergency Protocol - POEBC
 description: Protocol for On-chain Emergency Blockchain Control (POEBC)
 permalink: /docs/emergency-protocol/
----
+- --
 
 # GitHub SOS - Protocol for On-chain Emergency Blockchain Control
 
@@ -90,3 +90,4 @@ function emergencyPause() external onlyEmergencyAdmin {
 ## Communication Templates
 
 ### User Notification - Level 3+
+

@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Viewer Rewards System | Web3 Crypto Streaming Service
----
+- --
 
 # Viewer Rewards System
 
@@ -174,7 +174,7 @@ The viewer rewards system creates a sustainable economy by:
 - [View this week's reward leaderboard](community/rewards-leaderboard.html)
 - [Understand cash withdrawal options](guides.viewers.cash-withdrawals.html)
 
----
+- --
 
 <div style="background: #f0f7ff; border-left: 4px solid #4361ee; padding: 1rem; margin-top: 2rem;">
   <h3 style="margin-top: 0;">Important</h3>
@@ -183,3 +183,4 @@ The viewer rewards system creates a sustainable economy by:
     All reward distributions are recorded on-chain and can be independently verified.
   </p>
 </div>
+

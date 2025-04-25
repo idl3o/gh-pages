@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Beta Deployment Guide
 description: Best practices for pushing the Web3 Crypto Streaming Service beta to production
 permalink: /docs/beta-deployment/
----
+- --
 
 # Beta Deployment Guide
 
@@ -200,3 +200,4 @@ Following this structured approach to our beta deployment will ensure we gather 
   <a href="{{ '/playground' | relative_url }}" class="button primary">Try the Beta</a>
   <a href="{{ '/docs/contributing' | relative_url }}" class="button secondary">Contribute</a>
 </div>
+

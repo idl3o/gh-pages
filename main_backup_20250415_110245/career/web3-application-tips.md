@@ -55,6 +55,7 @@ The documents in this directory are designed to help you create compelling job a
 - Build a public portfolio of smart contracts and dApps
 - Participate in hackathons to build connections and showcase skills
 
----
+- --
 
-*These documents were created as templates and should be customized for each specific job application. Replace sample information with your actual experience, achievements, and technical skills.*
+* These documents were created as templates and should be customized for each specific job application. Replace sample information with your actual experience, achievements, and technical skills.*
+

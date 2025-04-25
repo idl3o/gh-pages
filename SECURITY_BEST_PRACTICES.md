@@ -853,12 +853,12 @@
    * - address public owner;
    * - uint256 public totalSupply;
    * - uint256[47] private __gap;
-   *
+   * 
    * @notice Upgrade Procedure:
    * 1. Deploy new implementation
    * 2. Call upgradeTo(newImplementation)
    * 3. Verify state preservation
-   */
+   * /
   contract TokenV1 {
       // Implementation
   }
@@ -1588,7 +1588,7 @@
 
 - [ ] Follow best practices for specific token standards:
 
-  **ERC-20 Best Practices:**
+  * *ERC-20 Best Practices:**
 
   - [ ] Protect against ERC-20 approve/transferFrom race conditions
 
@@ -1621,7 +1621,7 @@
   - [ ] Always emit Transfer event when minting/burning tokens
   - [ ] Consider implementing ERC-20 permit extension for gasless approvals
 
-  **ERC-721 Best Practices:**
+  * *ERC-721 Best Practices:**
 
   - [ ] Check for ownership before transfers
 
@@ -1661,7 +1661,7 @@
   }
   ```
 
-  **ERC-1155 Best Practices:**
+  * *ERC-1155 Best Practices:**
 
   - [ ] Implement batch functions efficiently
 
@@ -1760,7 +1760,7 @@
    * - Token recovery for accidentally sent tokens
    * - Snapshot functionality for governance use cases
    * - Deviation from ERC-20: transfer and transferFrom revert instead of returning false
-   */
+   * /
   contract EnhancedToken is ERC20 {
       // Implementation...
   }
@@ -1851,3 +1851,4 @@
 - [ ] Consider bug bounty programs to leverage community expertise
 - [ ] Review and test all upgrade paths thoroughly before deployment
 - [ ] Ensure proper testing of all security mechanisms in place
+

@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Frequently Asked Questions
 description: Find answers to common questions about Web3 Crypto Streaming Service
 permalink: /faq/
----
+- --
 
 # Frequently Asked Questions
 
@@ -43,3 +43,4 @@ permalink: /faq/
     </div>
   </details>
 </div>
+

@@ -1,5 +1,5 @@
 # SAM LAVI
-**Blockchain Developer & Web3 Enthusiast**  
+* *Blockchain Developer & Web3 Enthusiast**  
 sam.lavi@email.com | github.com/samlavi | linkedin.com/in/samlavi  
 New York, NY
 
@@ -15,7 +15,7 @@ Forward-thinking developer with emerging expertise in blockchain technologies an
 ## PROFESSIONAL EXPERIENCE
 
 ### Blockchain Developer Intern | Web3 Crypto Streaming Service
-*June 2023 - Present*
+* June 2023 - Present*
 
 - Contributed to smart contract development for a decentralized content streaming platform
 - Implemented token-based access control for premium content streaming
@@ -39,7 +39,7 @@ Forward-thinking developer with emerging expertise in blockchain technologies an
 ## EDUCATION
 
 ### Bachelor of Science in Computer Science
-*University Technical Institute* | 2019 - 2023
+* University Technical Institute* | 2019 - 2023
 - Focus on Blockchain Development
 - Capstone Project: Decentralized Content Distribution Platform
 
@@ -48,6 +48,7 @@ Forward-thinking developer with emerging expertise in blockchain technologies an
 - Web3 Development Fundamentals
 - Solidity Programming - Advanced Course
 
----
+- --
 
-*References available upon request*
+* References available upon request*
+

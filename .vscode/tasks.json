@@ -18,7 +18,15 @@
     {
       "label": "make_native",
       "type": "shell",
-      "command": "cd ${workspaceFolder}/red_x && make",
+      "command": "C:\\tools\\msys64\\msys2_shell.cmd",
+      "args": [
+        "-mingw64",
+        "-defterm",
+        "-no-start",
+        "-here",
+        "-c",
+        "cd '${workspaceFolder}/red_x' && make"
+      ],
       "group": "build",
       "presentation": {
         "reveal": "always",
@@ -29,7 +37,8 @@
     {
       "label": "start_server",
       "type": "shell",
-      "command": "cd ${workspaceFolder}/red_x && node server.js",
+      "command": "powershell",
+      "args": ["-Command", "Set-Location -Path '${workspaceFolder}/red_x'; node server.js"],
       "group": "none",
       "presentation": {
         "reveal": "always",
@@ -118,6 +127,21 @@
         "reveal": "always",
         "panel": "dedicated",
         "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "make_native_bypass",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "if (!(Test-Path '${workspaceFolder}/red_x/red_x.exe') -and !(Test-Path '${workspaceFolder}/red_x/red_x')) { echo 'Creating placeholder file for red_x' > '${workspaceFolder}/red_x/red_x.placeholder' }"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
       },
       "problemMatcher": []
     }

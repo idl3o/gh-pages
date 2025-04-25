@@ -78,6 +78,7 @@ This document provides references to key resources, papers, projects, and tools 
 
 3. European Commission. (2020). "Proposal for a Regulation on Markets in Crypto-assets (MiCA)."
 
----
+- --
 
 This reference document will be continuously updated as new resources, technologies, and research becomes available.
+

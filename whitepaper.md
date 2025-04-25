@@ -1,8 +1,8 @@
----
+- --
 layout: default
 title: Web3 Crypto Streaming Service Whitepaper
 description: A detailed overview of our decentralized content streaming platform
----
+- --
 
 # Web3 Crypto Streaming Service Whitepaper
 
@@ -112,8 +112,9 @@ The platform will transition to a decentralized autonomous organization (DAO):
 
 Web3 Crypto Streaming Service represents a fundamental shift in how digital content is distributed and monetized. By combining blockchain's transparency and efficiency with high-performance streaming technology, we aim to create a more equitable ecosystem for creators and viewers alike.
 
----
+- --
 
-**Contact**: [x@idl3.modsias](mailto:x@idl3.modsias)
-**GitHub**: [@idl3o](https://github.com/idl3o)
-**Team**: MODSIAS
+* *Contact**: [x@idl3.modsias](mailto:x@idl3.modsias)
+* *GitHub**: [@idl3o](https://github.com/idl3o)
+* *Team**: MODSIAS
+

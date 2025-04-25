@@ -312,7 +312,7 @@ app.on('activate', () => {
 
 ```bash
 # filepath: /Users/s/vsc25/gh-pages/electron/build-all-platforms.sh
-#!/bin/bash
+# !/bin/bash
 
 # Build script for all desktop platforms
 echo "Building Web3 Crypto Streaming Platform for all desktop platforms..."
@@ -425,3 +425,4 @@ ares-package .
        this.pool.push(object);
      }
    }
+

@@ -1,15 +1,15 @@
 {
   "watch": [
+    "server.js",
     "app.js",
     "red_x/*.js",
-    "red_x/utils/*.js"
+    "red_x/utils/*.js",
+    "cli/**/*.js",
+    "scripts/**/*.js"
   ],
-  "ignore": [
-    "node_modules",
-    "red_x/public"
-  ],
+  "ignore": ["node_modules", "red_x/public", "**/*.test.js"],
   "ext": "js,json,html",
-  "exec": "node app.js",
+  "exec": "node server.js",
   "env": {
     "NODE_ENV": "development"
   },

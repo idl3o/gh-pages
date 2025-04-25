@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: AMM & Lazy Minting | StreamChain Web3 Platform
----
+- --
 
 # AMM and Lazy Minting on StreamChain
 
@@ -120,6 +120,7 @@ When used together, these technologies provide a powerful economic model for cre
 - [LazyContentMinter Contract Documentation](docs/contracts/LazyContentMinter.html)
 - [JavaScript Integration Guide](docs/guides/web3-integration.html)
 
----
+- --
 
 > For support or questions about AMM and lazy minting features, contact our developer team at developers@streamchain.example.com
+

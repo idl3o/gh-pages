@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Content Viewer
 description: Stream content securely through the Web3 Crypto Streaming Service platform
 permalink: /viewer/
----
+- --
 
 # Web3 Content Viewer
 
@@ -219,3 +219,4 @@ permalink: /viewer/
 <link rel="stylesheet" href="{{ '/assets/css/content-viewer.css' | relative_url }}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script src="{{ '/assets/js/content-viewer.js' | relative_url }}" defer></script>
+

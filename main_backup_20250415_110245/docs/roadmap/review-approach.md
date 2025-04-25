@@ -29,7 +29,7 @@ This document outlines best practices for systematically reviewing the codebase,
 - [ ] API or contract interface docs
 - [ ] Architecture diagrams
 
----
+- --
 
 ## 2. Use Case Overview
 
@@ -45,7 +45,7 @@ This document outlines best practices for systematically reviewing the codebase,
    - Tiered subscriptions managed by custom contracts  
    - Automated royalty splits for multi-creator collaborations.
 
----
+- --
 
 ## 3. Roadmap
 
@@ -64,7 +64,7 @@ This document outlines best practices for systematically reviewing the codebase,
 - Release advanced NFT-based licensing
 - Expand to enterprise-level streaming partnerships
 
----
+- --
 
 ## 4. Example Automated Checks
 

@@ -3,7 +3,7 @@
   Start this step by acknowledging the previous step.
   Define terms and link to docs.github.com.
   Historic note: previous version checked the homepage content was not empty.
--->
+- ->
 
 ## Step 3: Customize your homepage
 
@@ -19,3 +19,4 @@ You can customize your homepage by adding content to either an `index.md` file o
 1. (optional) You can also modify `title:` or just ignore it for now. We'll discuss it in the next step.
 1. Commit your changes to the `my-pages` branch.
 1. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+

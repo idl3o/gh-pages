@@ -1,13 +1,13 @@
----
+- --
 layout: default
 title: Terms of Service
 description: Terms of service for Web3 Crypto Streaming Service
 permalink: /terms/
----
+- --
 
 # Terms of Service
 
-*Last Updated: March 25, 2023*
+* Last Updated: March 25, 2023*
 
 Welcome to Web3 Crypto Streaming Service. Please read these Terms of Service ("Terms") carefully as they contain important information about your legal rights, remedies, and obligations. By accessing or using our services, you agree to be bound by these Terms.
 
@@ -83,3 +83,4 @@ We may suspend or terminate your access to our services for violations of these 
 ## Contact Us
 
 If you have questions about these Terms, please contact us at legal@web3streaming.example.
+

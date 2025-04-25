@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Animation Showcase
 description: Interactive demonstrations of the Web3 Crypto Streaming Service platform's animations and effects
 permalink: /animations/
----
+- --
 
 # Animation Showcase
 
@@ -356,3 +356,4 @@ Animation principles used in our platform:
     }
   }
 </style>
+

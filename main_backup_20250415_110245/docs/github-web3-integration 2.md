@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: GitHub for Web3 Content
 description: How to use GitHub to create, manage, and deploy content for the Web3 Crypto Streaming Service
 permalink: /docs/github-web3-integration/
----
+- --
 
 # Creating Web3 Content with GitHub
 

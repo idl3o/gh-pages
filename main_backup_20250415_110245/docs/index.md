@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Documentation
 description: Technical documentation for Web3 Crypto Streaming Service
 permalink: /docs/
----
+- --
 
 # Documentation
 
@@ -38,3 +38,4 @@ Welcome to the Web3 Crypto Streaming Service documentation. Here you'll find com
 - [Creating Your First Stream](/docs/tutorials/first-stream)
 - [Setting Up Subscriptions](/docs/tutorials/subscriptions)
 - [Integrating with Your Website](/docs/tutorials/website-integration)
+

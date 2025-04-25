@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: Git Configuration Guide
 description: How to properly configure Git when contributing to the Web3 Crypto Streaming Service project
 permalink: /docs/git-setup/
----
+- --
 
 # Git Configuration Guide
 
@@ -54,12 +54,12 @@ git config --global init.defaultBranch main
 
 For cross-platform compatibility:
 
-**On macOS/Linux:**
+* *On macOS/Linux:**
 ```bash
 git config --global core.autocrlf input
 ```
 
-**On Windows:**
+* *On Windows:**
 ```bash
 git config --global core.autocrlf true
 ```
@@ -181,3 +181,4 @@ After configuring Git correctly:
 - [Project Contribution Guidelines](/docs/contributing)
 
 For any questions about Git configuration, please ask in our [Discord community](https://discord.gg/web3streaming).
+

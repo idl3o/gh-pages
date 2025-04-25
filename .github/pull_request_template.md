@@ -25,8 +25,8 @@ Fixes #(issue number)
 - [ ] URL validation passes
 - [ ] Visual inspection in major browsers
 - [ ] Manual testing steps:
-  1.
-  2.
+  1. 
+  2. 
 
 ## Checklist
 
@@ -38,3 +38,4 @@ Fixes #(issue number)
 - [ ] I have added tests that prove my fix/feature works
 - [ ] UI changes include screenshots in the PR description
 - [ ] I have verified my changes in multiple browser environments
+

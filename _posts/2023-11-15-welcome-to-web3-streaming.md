@@ -1,4 +1,4 @@
----
+- --
 layout: post
 title: "Welcome to Web3 Crypto Streaming: The Future of Content Delivery"
 subtitle: "Discover how blockchain technology is revolutionizing the streaming industry"
@@ -9,7 +9,7 @@ categories: [updates, technology]
 tags: [blockchain, streaming, web3, introduction]
 image: /assets/images/blog/welcome-post.jpg
 image_caption: "Web3 streaming technology connects creators directly with their audience"
----
+- --
 
 The streaming industry has experienced explosive growth over the past decade, but this growth has come with significant challenges. Traditional platforms take substantial cuts from creator earnings, exercise increasing control over content policies, and collect vast amounts of user data. Enter Web3 Crypto Streaming—a revolutionary approach designed to address these fundamental issues by leveraging blockchain technology and decentralized infrastructure.
 
@@ -125,6 +125,7 @@ Whether you're a creator tired of platform restrictions and high fees, or a view
 
 Sign up for our beta program today and experience the future of decentralized content delivery!
 
----
+- --
 
-*This article was published on November 15, 2023. The platform features and roadmap are subject to change as we continue development.*
+* This article was published on November 15, 2023. The platform features and roadmap are subject to change as we continue development.*
+

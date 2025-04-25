@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: POEBC Emergency Simulator
 description: Training environment for Protocol for On-chain Emergency Blockchain Control
 permalink: /docs/poebc-simulator/
----
+- --
 
 # Emergency Response Simulator
 
@@ -207,3 +207,4 @@ This training simulator helps team members practice responding to blockchain eme
     margin-top: 3rem;
   }
 </style>
+

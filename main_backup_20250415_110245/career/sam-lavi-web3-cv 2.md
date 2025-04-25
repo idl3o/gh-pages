@@ -1,5 +1,5 @@
 # SAM LAVI
-**Blockchain Developer & Smart Contract Specialist**
+* *Blockchain Developer & Smart Contract Specialist**
 
 sam.lavi@email.com | github.com/samlavi | linkedin.com/in/samlavi  
 New York, NY | (555) 123-4567
@@ -45,7 +45,7 @@ Dedicated Blockchain Developer with proven expertise in secure smart contract im
 ## PROFESSIONAL EXPERIENCE
 
 ### Blockchain Developer | Web3 Crypto Streaming Service
-*June 2023 - Present*
+* June 2023 - Present*
 
 #### Technical Achievements:
 - Architected a modular smart contract ecosystem with seven interconnected contracts enabling decentralized content streaming
@@ -65,7 +65,7 @@ Dedicated Blockchain Developer with proven expertise in secure smart contract im
 - Assisted in security audit preparations, addressing and resolving all identified issues
 
 ### Junior Web Developer | TechSolutions Inc.
-*January 2022 - May 2023*
+* January 2022 - May 2023*
 
 - Built responsive web applications using React, TypeScript, and modern CSS frameworks
 - Integrated Web3 wallet connections (MetaMask, WalletConnect) into existing applications
@@ -78,35 +78,35 @@ Dedicated Blockchain Developer with proven expertise in secure smart contract im
 ## PROJECT PORTFOLIO
 
 ### Decentralized Content Streaming Platform
-*Lead Developer | 2023*
+* Lead Developer | 2023*
 
 A comprehensive Web3 platform enabling creators to monetize content through blockchain technology.
 
-**Technical Implementation:**
+* *Technical Implementation:**
 - Smart contract suite including access control, payment processing, and content verification
 - Token-based economy with staking mechanisms and governance capabilities
 - Subscription and pay-per-view monetization models with automated revenue distribution
 - Integration with IPFS for decentralized content storage
 - Formal verification of critical contract components
 
-**Outcomes:**
+* *Outcomes:**
 - Created a fully functional decentralized alternative to traditional streaming platforms
 - Reduced platform fees from industry standard 30% to less than 5%
 - Enabled microsecond payment precision for fair creator compensation
 - Implemented transparent governance allowing community-driven development
 
 ### Smart Contract Documentation System
-*Developer | 2022-2023*
+* Developer | 2022-2023*
 
 A comprehensive documentation and testing framework for enterprise smart contract systems.
 
-**Technical Components:**
+* *Technical Components:**
 - Automatic interface generation from contract ABIs
 - Interactive testing environment for contract interactions
 - Comprehensive gas usage analysis and optimization suggestions
 - Security vulnerability scanning integrated with CI/CD pipeline
 
-**Outcomes:**
+* *Outcomes:**
 - Reduced onboarding time for new developers by 60%
 - Improved test coverage from 70% to 98%
 - Identified and resolved 12 potential security vulnerabilities
@@ -115,7 +115,7 @@ A comprehensive documentation and testing framework for enterprise smart contrac
 ## EDUCATION
 
 ### Bachelor of Science in Computer Science
-*University Technical Institute* | 2019 - 2023
+* University Technical Institute* | 2019 - 2023
 
 - **Focus:** Blockchain Development & Distributed Systems
 - **Relevant Coursework:** Cryptography, Distributed Systems, Secure Software Engineering, Algorithm Design
@@ -123,7 +123,7 @@ A comprehensive documentation and testing framework for enterprise smart contrac
 - **GPA:** 3.8/4.0
 
 ### Blockchain Development Specialization
-*Online Learning Platform* | 2021
+* Online Learning Platform* | 2021
 
 - Intensive 6-month program focused on practical blockchain development
 - Created multiple smart contracts for various use cases
@@ -152,6 +152,7 @@ A comprehensive documentation and testing framework for enterprise smart contrac
 - JavaScript (Fluent)
 - Solidity (Fluent)
 
----
+- --
 
-*References available upon request*
+* References available upon request*
+

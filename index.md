@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Web3 Crypto Streaming Service | Decentralized Content Streaming
----
+- --
 
 <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
   <header style="text-align: center; margin-bottom: 3rem;">
@@ -119,3 +119,4 @@ title: Web3 Crypto Streaming Service | Decentralized Content Streaming
     <a href="./about.html" style="display: inline-block; border: 1px solid #4361ee; color: #4361ee; padding: 1rem 2rem; border-radius: 4px; text-decoration: none; font-weight: bold;">Learn More</a>
   </section>
 </div>
+

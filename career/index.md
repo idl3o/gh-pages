@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Professional Documents | Web3 Crypto Streaming Service
----
+- --
 
 # Professional Documents
 
@@ -24,3 +24,4 @@ The technical experience highlighted in these documents aligns with our [project
 4. Developing secure smart contract verification
 
 Our Web3 Streaming project provides excellent opportunities to develop many of the skills highlighted in these professional documents.
+

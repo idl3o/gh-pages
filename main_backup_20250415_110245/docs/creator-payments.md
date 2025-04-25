@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Creator Payment System | Web3 Crypto Streaming Service
----
+- --
 
 # Creator Payment System
 
@@ -186,7 +186,7 @@ Our payment system includes several security features:
 - [Learn about tax implications](guides.creators.tax-considerations.html)
 - [Optimize your revenue streams](guides.creators.monetization-strategies.html)
 
----
+- --
 
 <div style="background: #f0f7ff; border-left: 4px solid #4361ee; padding: 1rem; margin-top: 2rem;">
   <h3 style="margin-top: 0;">Important</h3>
@@ -195,3 +195,4 @@ Our payment system includes several security features:
     Always verify transaction details before confirming any financial operation.
   </p>
 </div>
+

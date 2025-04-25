@@ -1,7 +1,7 @@
----
+- --
 layout: default
 title: Smart Contract Catalog | Web3 Crypto Streaming Service
----
+- --
 
 # Smart Contract Catalog
 
@@ -145,3 +145,4 @@ Planned improvements to the contract ecosystem:
 4. Additional tokenomics features
 
 Join our developer community to contribute to the evolution of these smart contracts.
+

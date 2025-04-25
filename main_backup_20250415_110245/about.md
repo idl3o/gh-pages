@@ -1,9 +1,9 @@
----
+- --
 layout: default
 title: About Us
 description: Learn about Web3 Crypto Streaming Service and our mission
 permalink: /about/
----
+- --
 
 # About Web3 Crypto Streaming Service
 
@@ -28,3 +28,4 @@ We're building on cutting-edge technologies across the web3 and streaming ecosys
 ## Get Involved
 
 Interested in joining our team or contributing to our project? Check out our [open positions](/careers) or [contact us](/contact) directly.
+

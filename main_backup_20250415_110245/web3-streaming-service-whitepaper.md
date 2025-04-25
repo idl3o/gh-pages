@@ -1,7 +1,7 @@
 # Web3 Crypto Streaming Service: Whitepaper
 
-**Version 1.0.0**
-**March 2025**
+* *Version 1.0.0**
+* *March 2025**
 
 ## Executive Summary
 
@@ -232,11 +232,11 @@ Our approach combines the best aspects of blockchain technology with the perform
 
 We invite content creators, viewers, developers, and investors to join us in building the future of decentralized media.
 
----
+- --
 
-**Disclaimer**: This whitepaper is for informational purposes only and does not constitute financial or investment advice. Token economics and technical specifications are subject to change based on regulatory requirements and technical optimization.
+* *Disclaimer**: This whitepaper is for informational purposes only and does not constitute financial or investment advice. Token economics and technical specifications are subject to change based on regulatory requirements and technical optimization.
 
----
+- --
 
 # Web3 Crypto Streaming Service: DAO Governance Framework
 
@@ -296,3 +296,4 @@ The governance system implements a hybrid consensus mechanism designed specifica
 ### 1. Reputation-Weighted Proof of Stake (RWPoS)
 
 The primary consensus mechanism combines traditional Proof of Stake with reputation metrics:
+
