@@ -25,14 +25,14 @@ fi
 if [ -d ".husky" ]; then
   echo "✅ .husky directory found with hooks:"
   ls -la .husky
-
-  # Check specific hooks
-  if [ -f ".husky/pre-commit" ]; then
-    echo -e "\npre-commit hook content:"
-    cat .husky/pre-commit
-  fi
 else
   echo "❌ No .husky directory found"
+fi
+
+# Check specific hooks
+if [ -f ".husky/pre-commit" ]; then
+  echo -e "\npre-commit hook content:"
+  cat .husky/pre-commit
 fi
 
 # Check if Husky is configured in package.json

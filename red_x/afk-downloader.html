@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFK Downloading Hub - Project RED X</title>
+    <style>
+      :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #e74c3c;
+        --accent-color: #3498db;
+        --background-color: #ecf0f1;
+        --text-color: #2c3e50;
+        --border-color: #bdc3c7;
+        --hover-color: #2980b9;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 5px solid var(--secondary-color);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+      }
+
+      header p {
+        margin: 10px 0 0;
+        font-size: 1.1rem;
+        opacity: 0.8;
+      }
+
+      .dashboard {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        flex: 1 1 300px;
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 10px;
+      }
+
+      .progress-container {
+        margin: 15px 0;
+      }
+
+      .progress-bar {
+        height: 20px;
+        background-color: var(--border-color);
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background-color: var(--accent-color);
+        border-radius: 10px;
+        transition: width 0.5s ease;
+      }
+
+      .progress-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+      }
+
+      .download-stats {
+        display: flex;
+        justify-content: space-between;
+        color: var(--text-color);
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+      }
+
+      .btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        flex: 1;
+        margin: 0 5px;
+        text-align: center;
+      }
+
+      .btn:hover {
+        background-color: var(--hover-color);
+      }
+
+      .btn-pause {
+        background-color: var(--primary-color);
+      }
+
+      .btn-cancel {
+        background-color: var(--secondary-color);
+      }
+
+      .status-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
+
+      .status-active {
+        background-color: #2ecc71;
+      }
+
+      .status-paused {
+        background-color: #f39c12;
+      }
+
+      .status-error {
+        background-color: #e74c3c;
+      }
+
+      .status-completed {
+        background-color: #3498db;
+      }
+
+      .download-list {
+        margin-top: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .download-list table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .download-list th,
+      .download-list td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .download-list th {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .download-list tr:last-child td {
+        border-bottom: none;
+      }
+
+      .download-list tr:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+
+      .download-list tr:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .network-viz {
+        margin-top: 30px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      .network-viz h2 {
+        margin-top: 0;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 10px;
+      }
+
+      .viz-container {
+        height: 200px;
+        position: relative;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .node {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--accent-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .node-main {
+        background-color: var(--secondary-color);
+        transform: scale(1.2);
+      }
+
+      .node-line {
+        height: 2px;
+        background-color: var(--border-color);
+        position: absolute;
+        top: 50%;
+        z-index: -1;
+        animation: pulseLine 1.5s infinite;
+      }
+
+      .connection-info {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+      }
+
+      .connection-stat {
+        background-color: rgba(0, 0, 0, 0.03);
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .connection-stat h4 {
+        margin: 0 0 5px;
+        font-size: 0.9rem;
+        color: var(--primary-color);
+      }
+
+      .connection-stat p {
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: var(--accent-color);
+      }
+
+      @keyframes pulseLine {
+        0% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 0.7;
+        }
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      .footer {
+        margin-top: 40px;
+        text-align: center;
+        color: var(--text-color);
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>AFK Downloading Hub</h1>
+      <p>Decentralized Content Distribution System</p>
+    </header>
+
+    <div class="container">
+      <div class="dashboard">
+        <div class="card">
+          <h3>Download Progress</h3>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" id="main-progress" style="width: 65%"></div>
+              <div class="progress-text">65%</div>
+            </div>
+            <div class="download-stats">
+              <div>Downloaded: <span id="downloaded-size">128.5 MB</span></div>
+              <div>Total: <span id="total-size">198.3 MB</span></div>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="btn btn-pause" id="pause-btn">Pause</button>
+            <button class="btn" id="speed-btn">Limit Speed</button>
+            <button class="btn btn-cancel" id="cancel-btn">Cancel</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>System Status</h3>
+          <div>
+            <p><span class="status-indicator status-active"></span> Download Active</p>
+            <p>Current Speed: <span id="current-speed">3.2 MB/s</span></p>
+            <p>Connected Peers: <span id="peer-count">7</span></p>
+            <p>Est. Time Left: <span id="time-left">00:05:42</span></p>
+          </div>
+          <div class="controls">
+            <button class="btn" id="peers-btn">View Peers</button>
+            <button class="btn" id="details-btn">View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="download-list">
+        <table>
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Size</th>
+              <th>Progress</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>web3platform_core.zip</td>
+              <td>85.2 MB</td>
+              <td>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </td>
+              <td><span class="status-indicator status-completed"></span> Complete</td>
+            </tr>
+            <tr>
+              <td>stream_access_module.bin</td>
+              <td>45.7 MB</td>
+              <td>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </td>
+              <td><span class="status-indicator status-completed"></span> Complete</td>
+            </tr>
+            <tr>
+              <td>verification_tools.zip</td>
+              <td>32.6 MB</td>
+              <td>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 62%"></div>
+                </div>
+              </td>
+              <td><span class="status-indicator status-active"></span> Downloading</td>
+            </tr>
+            <tr>
+              <td>proof_of_existence.dat</td>
+              <td>28.4 MB</td>
+              <td>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 8%"></div>
+                </div>
+              </td>
+              <td><span class="status-indicator status-active"></span> Downloading</td>
+            </tr>
+            <tr>
+              <td>nft_license_manager.pkg</td>
+              <td>6.4 MB</td>
+              <td>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 0%"></div>
+                </div>
+              </td>
+              <td><span class="status-indicator status-paused"></span> Queued</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="network-viz">
+        <h2>Network Visualization</h2>
+        <div class="viz-container">
+          <div class="node">P1</div>
+          <div class="node-line" style="width: 18%; left: 7%"></div>
+          <div class="node">P2</div>
+          <div class="node-line" style="width: 18%; left: 24%"></div>
+          <div class="node node-main">YOU</div>
+          <div class="node-line" style="width: 18%; left: 58%"></div>
+          <div class="node">P3</div>
+          <div class="node-line" style="width: 18%; left: 75%"></div>
+          <div class="node">P4</div>
+        </div>
+        <div class="connection-info">
+          <div class="connection-stat">
+            <h4>Upload Speed</h4>
+            <p>1.2 MB/s</p>
+          </div>
+          <div class="connection-stat">
+            <h4>Download Speed</h4>
+            <p>3.2 MB/s</p>
+          </div>
+          <div class="connection-stat">
+            <h4>Peer Ratio</h4>
+            <p>1:1.7</p>
+          </div>
+          <div class="connection-stat">
+            <h4>Network Health</h4>
+            <p>Excellent</p>
+          </div>
+          <div class="connection-stat">
+            <h4>Active Connections</h4>
+            <p>7</p>
+          </div>
+          <div class="connection-stat">
+            <h4>Contribution Score</h4>
+            <p>726</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>©2025 Project RED X - Web3 Decentralized Content Delivery Network - v2.3.7</p>
+      </div>
+    </div>
+
+    <script>
+      // Simulated download progress
+      let currentProgress = 65;
+      let downloadedSize = 128.5;
+      const totalSize = 198.3;
+      const progressBar = document.getElementById('main-progress');
+      const progressText = document.querySelector('.progress-text');
+      const downloadedSizeEl = document.getElementById('downloaded-size');
+      const currentSpeedEl = document.getElementById('current-speed');
+      const timeLeftEl = document.getElementById('time-left');
+      const pauseBtn = document.getElementById('pause-btn');
+
+      let isPaused = false;
+      let downloadInterval;
+
+      // Start the download simulation
+      function startDownload() {
+        if (downloadInterval) clearInterval(downloadInterval);
+
+        downloadInterval = setInterval(() => {
+          if (isPaused) return;
+
+          if (currentProgress < 100) {
+            // Randomize progress increment for realistic effect
+            const increment = Math.random() * 0.8;
+            currentProgress += increment;
+            if (currentProgress > 100) currentProgress = 100;
+
+            // Update UI
+            progressBar.style.width = `${currentProgress}%`;
+            progressText.textContent = `${Math.floor(currentProgress)}%`;
+
+            // Update downloaded size
+            downloadedSize += (increment / 100) * totalSize;
+            downloadedSizeEl.textContent = `${downloadedSize.toFixed(1)} MB`;
+
+            // Update time left based on current speed
+            const currentSpeed = parseFloat(currentSpeedEl.textContent);
+            const remaining = totalSize - downloadedSize;
+            const secondsLeft = remaining / currentSpeed;
+
+            const minutes = Math.floor(secondsLeft / 60);
+            const seconds = Math.floor(secondsLeft % 60);
+            timeLeftEl.textContent = `00:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            // Vary the speed a bit
+            const newSpeed = (2.8 + Math.random()).toFixed(1);
+            currentSpeedEl.textContent = `${newSpeed} MB/s`;
+
+            if (currentProgress >= 100) {
+              clearInterval(downloadInterval);
+              alert('Download completed!');
+              document.querySelector('.status-indicator').classList.remove('status-active');
+              document.querySelector('.status-indicator').classList.add('status-completed');
+              document.querySelector('.status-indicator').parentElement.textContent =
+                'Download Complete';
+            }
+          }
+        }, 1000);
+      }
+
+      // Toggle pause/resume
+      pauseBtn.addEventListener('click', () => {
+        isPaused = !isPaused;
+        pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
+
+        const statusIndicator = document.querySelector('.status-indicator');
+        if (isPaused) {
+          statusIndicator.classList.remove('status-active');
+          statusIndicator.classList.add('status-paused');
+          statusIndicator.parentElement.textContent = ' Download Paused';
+        } else {
+          statusIndicator.classList.remove('status-paused');
+          statusIndicator.classList.add('status-active');
+          statusIndicator.parentElement.textContent = ' Download Active';
+        }
+      });
+
+      // Cancel download
+      document.getElementById('cancel-btn').addEventListener('click', () => {
+        if (confirm('Are you sure you want to cancel this download?')) {
+          clearInterval(downloadInterval);
+          progressBar.style.width = '0%';
+          progressText.textContent = '0%';
+          downloadedSizeEl.textContent = '0 MB';
+
+          const statusIndicator = document.querySelector('.status-indicator');
+          statusIndicator.classList.remove('status-active', 'status-paused');
+          statusIndicator.classList.add('status-error');
+          statusIndicator.parentElement.textContent = ' Download Cancelled';
+        }
+      });
+
+      // Speed limit button
+      document.getElementById('speed-btn').addEventListener('click', () => {
+        const limit = prompt('Enter speed limit in KB/s (leave empty for unlimited):', '');
+
+        if (limit !== null) {
+          if (limit === '' || isNaN(limit)) {
+            alert('Speed limit removed. Downloading at maximum speed.');
+          } else {
+            const limitInMB = (parseInt(limit) / 1024).toFixed(1);
+            currentSpeedEl.textContent = `${limitInMB} MB/s`;
+            alert(`Speed limit set to ${limit} KB/s (${limitInMB} MB/s)`);
+          }
+        }
+      });
+
+      // Peers button
+      document.getElementById('peers-btn').addEventListener('click', () => {
+        alert(
+          'Connected Peers (7):\n\nPeer 1: 192.168.1.45 (Upload: 256KB/s)\nPeer 2: 76.45.212.67 (Upload: 512KB/s)\nPeer 3: 103.54.167.8 (Upload: 768KB/s)\nPeer 4: 45.23.78.112 (Upload: 384KB/s)\nPeer 5: 198.45.23.67 (Upload: 640KB/s)\nPeer 6: 87.45.123.56 (Upload: 128KB/s)\nPeer 7: 142.67.89.12 (Upload: 512KB/s)'
+        );
+      });
+
+      // Details button
+      document.getElementById('details-btn').addEventListener('click', () => {
+        alert(
+          'Download Details:\n\nContent: Project RED X Distribution\nHash: f7d8e5c2b9a4f3d1e0c6b7a2d4e5f8c9\nSeeder Count: 15\nLeecher Count: 8\nAverage Speed: 3.2 MB/s\nContribution Score: 726\nVerification Status: Authentic\nConnection Type: P2P WebRTC\nEncryption: AES-256'
+        );
+      });
+
+      // Initialize download simulation
+      startDownload();
+    </script>
+  </body>
+</html>
