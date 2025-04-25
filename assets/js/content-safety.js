@@ -269,7 +269,18 @@ class ContentSafetyService {
     const hashHex = (hash >>> 0).toString(16);
     return hashHex.padStart(8, '0');
   }
+
+  /**
+   * Compatibility method for existing code
+   * Maps to processContent for backward compatibility
+   */
+  async moderateContent(content, options = {}) {
+    return this.processContent(content, options);
+  }
 }
 
 // Create global singleton instance
 window.contentSafety = new ContentSafetyService();
+
+// For backwards compatibility with existing code
+window.contentModerator = window.contentSafety;

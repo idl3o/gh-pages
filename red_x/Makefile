@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
-LDFLAGS = `sdl2-config --libs`
+LDFLAGS = `sdl2-config --libs` -lm
 INCLUDES = `sdl2-config --cflags`
 
 all: red_x

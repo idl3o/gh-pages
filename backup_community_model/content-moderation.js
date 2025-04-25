@@ -71,7 +71,9 @@ class ContentSafetyService {
       ],
 
       // Sensitive terminology
-      sensitive: [/\b(password|pwd|secret|key|mnemonic|seed phrase)\b/gi]
+      sensitive: [
+        /\b(password|pwd|secret|key|mnemonic|seed phrase)\b/gi
+      ]
     };
   }
 
