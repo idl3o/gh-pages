@@ -101,6 +101,12 @@ mkdir -p ../build/red_x
 # Copy necessary files
 cp index.html index.js index.wasm ../build/red_x/
 
+# Copy test deployment file if it exists
+if [ -f "deployment_test.html" ]; then
+    echo "Copying deployment test file..."
+    cp deployment_test.html ../build/red_x/
+fi
+
 # Copy copyright information in machine language
 mkdir -p ../build/red_x/legal
 cp COPYRIGHT.* ../build/red_x/legal/ 2>/dev/null || echo "No COPYRIGHT files found"
