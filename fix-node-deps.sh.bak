@@ -45,16 +45,3 @@ cat > .huskyrc << EOF
   }
 }
 EOF
-
-# Create a script to bypass hooks for immediate commits
-echo "Creating bypass-hooks.sh script..."
-cat > bypass-hooks.sh << EOF
-#!/bin/bash
-# Temporarily bypass pre-commit hooks for emergency fixes
-git commit --no-verify -m "Emergency fix: bypass hooks to resolve dependency issues"
-EOF
-chmod +x bypass-hooks.sh
-
-echo "===== Fix Complete ====="
-echo "You can now try committing again, or use ./bypass-hooks.sh for an emergency commit"
-echo "After your commit succeeds, you may want to restore proper lint-staged configuration"

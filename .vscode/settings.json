@@ -68,5 +68,6 @@
     "titleBar.activeForeground": "#ffffff"
   },
   "npm.packageManager": "npm",
-  "npm.scriptExplorerExclude": ["^prepare$", "^preinstall$", "^postinstall$"]
+  "npm.scriptExplorerExclude": ["^prepare$", "^preinstall$", "^postinstall$"],
+  "cmake.sourceDirectory": "C:/Users/Sam/Documents/GitHub/gh-pages/emsdk/upstream/emscripten/test/cmake/stdproperty"
 }

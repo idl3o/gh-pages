@@ -18,23 +18,3 @@ find . -name "*backup*" -o -name "* 2.*" -o -name "*(1)*" | while read file; do
     rm "$file"
   fi
 done
-
-# Consolidate scripts
-echo "Organizing scripts..."
-mkdir -p ./scripts/{build,deploy,dev,utils}
-
-# Move build scripts
-mv build-and-deploy.sh ./scripts/build/ 2>/dev/null
-mv run-build.cmd ./scripts/build/ 2>/dev/null
-mv run-app.cmd ./scripts/build/ 2>/dev/null
-
-# Move deploy scripts
-mv deploy-gh-pages.sh ./scripts/deploy/ 2>/dev/null
-mv deploy-gh-pages.cmd ./scripts/deploy/ 2>/dev/null
-
-# Move utility scripts
-mv fix-*.sh ./scripts/utils/ 2>/dev/null
-mv ensure-dependencies.sh ./scripts/utils/ 2>/dev/null
-mv format-and-lint.sh ./scripts/utils/ 2>/dev/null
-
-echo "Cleanup complete!"

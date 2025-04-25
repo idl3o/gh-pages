@@ -62,5 +62,3 @@ for file in $(find . -type f -name "*.md"); do
     rm "$TEMP_FILE"
   fi
 done
-
-echo "Completed fixing markdown issues in $FIXED out of $MD_FILES files"

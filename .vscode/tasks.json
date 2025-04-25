@@ -4,7 +4,11 @@
     {
       "label": "make_web",
       "type": "shell",
-      "command": "cd ${workspaceFolder}/red_x && make web",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "& {$emsdkDir = Join-Path -Path '${workspaceFolder}' -ChildPath 'emsdk'; if (Test-Path -Path $emsdkDir) { & \"$emsdkDir\\emsdk_env.bat\" | Out-Null; Push-Location '${workspaceFolder}/red_x'; make web } else { Write-Host 'emsdk not found. Please run the setup_emsdk task first.' -ForegroundColor Red }}"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -49,7 +53,8 @@
     {
       "label": "clean",
       "type": "shell",
-      "command": "cd ${workspaceFolder}/red_x && make clean",
+      "command": "powershell",
+      "args": ["-Command", "Set-Location -Path '${workspaceFolder}/red_x'; make clean"],
       "group": "none",
       "presentation": {
         "reveal": "always",
@@ -60,7 +65,8 @@
     {
       "label": "deploy",
       "type": "shell",
-      "command": "${workspaceFolder}/deploy-gh-pages.sh",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/deploy-gh-pages.ps1"],
       "group": "none",
       "presentation": {
         "reveal": "always",
@@ -71,16 +77,17 @@
     {
       "label": "generate_contract_docs",
       "type": "shell",
-      "command": "git checkout temp-check-actions && solidity-docgen --solc-module solc --solc-settings optimizer.enabled=true,optimizer.runs=200 --output-dir ./docs/contracts",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "git checkout temp-check-actions; npm install -g solidity-docgen; solidity-docgen --solc-module solc --solc-settings 'optimizer.enabled=true,optimizer.runs=200' --output-dir ./docs/contracts"
+      ],
       "group": "build",
       "presentation": {
         "reveal": "always",
         "panel": "new"
       },
-      "problemMatcher": [],
-      "windows": {
-        "command": "powershell -Command \"git checkout temp-check-actions; npm install -g solidity-docgen; solidity-docgen --solc-module solc --solc-settings optimizer.enabled=true,optimizer.runs=200 --output-dir ./docs/contracts\""
-      }
+      "problemMatcher": []
     },
     {
       "label": "branch_info",
@@ -142,6 +149,19 @@
       "presentation": {
         "reveal": "always",
         "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "setup_emsdk",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/setup-emsdk.ps1"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "clear": true
       },
       "problemMatcher": []
     }

@@ -57,9 +57,3 @@ for action in "${ACTIONS[@]}"; do
     echo "⚠️ Warning: $repo might not exist or might be private"
   fi
 done
-
-echo "===== Verification Complete ====="
-echo ""
-echo "If any warnings were shown, consider updating those dependencies or actions."
-echo "For npm packages, try: npm install --save-dev [package-name]"
-echo "For GitHub Actions, check for the latest versions at: https://github.com/[action-repo]"

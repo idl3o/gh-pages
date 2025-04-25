@@ -24,8 +24,3 @@ npx prettier --write "**/*.{js,jsx,json,md,html,css}" --ignore-path .eslintignor
 # Fix linting issues with ESLint
 echo "Fixing linting issues with ESLint..."
 npx eslint . --fix
-
-echo "===== Formatting and Linting Complete ====="
-echo ""
-echo "Note: Some errors may require manual fixes."
-echo "Check the output above for any remaining issues."
