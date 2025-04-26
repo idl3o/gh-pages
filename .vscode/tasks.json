@@ -29,7 +29,7 @@
         "-no-start",
         "-here",
         "-c",
-        "cd '${workspaceFolder}/red_x' && make"
+        "cd '${workspaceFolder}/red_x'; make"
       ],
       "group": "build",
       "presentation": {
@@ -80,7 +80,7 @@
       "command": "powershell",
       "args": [
         "-Command",
-        "git checkout temp-check-actions; npm install -g solidity-docgen; solidity-docgen --solc-module solc --solc-settings 'optimizer.enabled=true,optimizer.runs=200' --output-dir ./docs/contracts"
+        "git checkout temp-check-actions; Clear-Host; Write-Host 'Installing solidity-docgen...' -ForegroundColor Cyan; npm install -g solidity-docgen; Write-Host 'Generating documentation...' -ForegroundColor Green; solidity-docgen --solc-module solc --solc-settings 'optimizer.enabled=true,optimizer.runs=200' --output-dir ./docs/contracts"
       ],
       "group": "build",
       "presentation": {

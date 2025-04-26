@@ -1,0 +1,298 @@
+{
+  "version": "1.0.0",
+  "intents": {
+    "build_web": {
+      "patterns": [
+        "build the web version",
+        "create a web build",
+        "compile for web",
+        "build for browser",
+        "make a web version",
+        "create wasm build",
+        "compile to webassembly",
+        "prepare for web deployment",
+        "build the website version",
+        "make_web",
+        "run the web build task",
+        "generate web assets"
+      ]
+    },
+    "build_native": {
+      "patterns": [
+        "build the native version",
+        "create a desktop build",
+        "compile for windows",
+        "make a local executable",
+        "build the native app",
+        "compile for desktop",
+        "build local version",
+        "create windows executable",
+        "make_native",
+        "build the app locally",
+        "create desktop executable"
+      ]
+    },
+    "start_server": {
+      "patterns": [
+        "start the server",
+        "run the web server",
+        "launch local server",
+        "start development server",
+        "serve the application",
+        "run the app locally",
+        "host the project",
+        "start hosting",
+        "launch the server",
+        "serve the site",
+        "preview the website",
+        "start preview server"
+      ]
+    },
+    "deploy_project": {
+      "patterns": [
+        "deploy the project",
+        "push to github pages",
+        "publish the website",
+        "deploy to production",
+        "publish to gh pages",
+        "put online",
+        "make live",
+        "deploy the changes",
+        "push the site live",
+        "release the project",
+        "deploy to the web",
+        "publish changes",
+        "deploy build to github"
+      ]
+    },
+    "clean_project": {
+      "patterns": [
+        "clean the project",
+        "remove build files",
+        "delete compiled assets",
+        "clean up",
+        "clear old builds",
+        "purge build artifacts",
+        "clean the workspace",
+        "remove temporary files",
+        "clean build directory",
+        "reset build files"
+      ]
+    },
+    "setup_environment": {
+      "patterns": [
+        "set up the environment",
+        "install dependencies",
+        "prepare development environment",
+        "setup emsdk",
+        "initialize the workspace",
+        "configure development tools",
+        "install required tools",
+        "prepare for development",
+        "setup emscripten sdk",
+        "initialize project dependencies",
+        "prepare sdk"
+      ]
+    },
+    "help": {
+      "patterns": [
+        "show help",
+        "help me",
+        "what can you do",
+        "list commands",
+        "available commands",
+        "how do I use this",
+        "instructions",
+        "show documentation",
+        "command reference",
+        "available options"
+      ]
+    },
+    "environment_info": {
+      "patterns": [
+        "show environment info",
+        "display system information",
+        "check environment",
+        "what is my environment",
+        "show system details",
+        "display powershell info",
+        "get environment variables",
+        "check system setup"
+      ]
+    },
+    "node_status": {
+      "patterns": [
+        "show node status",
+        "check active nodes",
+        "display node information",
+        "list connected nodes",
+        "network status",
+        "show connection status",
+        "display network topology",
+        "check network health"
+      ]
+    },
+    "generate_docs": {
+      "patterns": [
+        "generate documentation",
+        "create contract docs",
+        "make documentation",
+        "build api docs",
+        "generate contract documentation",
+        "create solidity docs",
+        "document contracts"
+      ]
+    },
+    "branch_info": {
+      "patterns": [
+        "show branch info",
+        "display branch information",
+        "check branch status",
+        "list branches",
+        "show git branches",
+        "check current branch",
+        "display git branch details"
+      ]
+    },
+    "switch_to_main": {
+      "patterns": [
+        "switch to main branch",
+        "go to main branch",
+        "checkout main branch",
+        "change to main",
+        "use main branch",
+        "switch to primary branch",
+        "select main branch"
+      ]
+    },
+    "switch_to_docs": {
+      "patterns": [
+        "switch to docs branch",
+        "go to documentation branch",
+        "checkout docs branch",
+        "change to docs",
+        "use documentation branch",
+        "switch to temp-check-actions",
+        "select docs branch"
+      ]
+    },
+    "sync_branches": {
+      "patterns": [
+        "synchronize branches",
+        "sync git branches",
+        "update all branches",
+        "sync repo branches",
+        "pull latest changes",
+        "update branches",
+        "sync repository"
+      ]
+    },
+    "bypass_native_build": {
+      "patterns": [
+        "bypass native build",
+        "skip native compilation",
+        "create placeholder",
+        "mock native build",
+        "fake native build",
+        "use native build placeholder"
+      ]
+    }
+  },
+  "parameters": {
+    "port": {
+      "patterns": ["port {number}", "on port {number}", "using port {number}", "at port {number}"]
+    },
+    "mode": {
+      "patterns": ["in {word} mode", "using {word} mode", "with {word} mode", "{word} mode"]
+    },
+    "environment": {
+      "patterns": ["in {word} environment", "for {word} environment", "{word} environment"]
+    },
+    "verbose": {
+      "patterns": ["verbose", "detailed", "with details", "show details", "in detail"]
+    },
+    "debug": {
+      "patterns": ["debug mode", "with debugging", "show debug info", "debug", "debugging"]
+    },
+    "branch": {
+      "patterns": ["branch {word}", "to branch {word}", "on branch {word}", "using branch {word}"]
+    }
+  },
+  "synonyms": {
+    "build": ["compile", "create", "make", "generate", "produce"],
+    "run": ["start", "launch", "execute", "begin", "initiate"],
+    "deploy": ["publish", "release", "push", "ship", "upload"],
+    "clean": ["clear", "remove", "delete", "purge", "erase"],
+    "setup": ["initialize", "prepare", "configure", "install", "set up"],
+    "branch": ["git branch", "code branch", "version", "fork"],
+    "switch": ["checkout", "change", "move", "go", "select"],
+    "synchronize": ["sync", "update", "refresh", "pull", "merge"]
+  },
+  "contexts": {
+    "development": {
+      "priority_intents": ["build_web", "build_native", "start_server", "clean_project"]
+    },
+    "deployment": {
+      "priority_intents": ["deploy_project", "build_web"]
+    },
+    "maintenance": {
+      "priority_intents": ["clean_project", "setup_environment"]
+    },
+    "documentation": {
+      "priority_intents": ["generate_docs", "switch_to_docs"]
+    },
+    "git_management": {
+      "priority_intents": ["branch_info", "sync_branches", "switch_to_main"]
+    }
+  },
+  "responses": {
+    "not_understood": [
+      "I'm not sure what you want me to do. Could you rephrase that?",
+      "I didn't understand that command. Try using different wording.",
+      "Sorry, I couldn't recognize that instruction. Type 'help' for a list of things I can do.",
+      "That command isn't clear to me. Can you be more specific?"
+    ],
+    "success": [
+      "Done! The {intent} was completed successfully.",
+      "Completed {intent} operation successfully.",
+      "Task finished: {intent}",
+      "{intent} completed without errors."
+    ],
+    "error": [
+      "Sorry, there was a problem with {intent}: {error}",
+      "Error occurred while performing {intent}: {error}",
+      "Failed to complete {intent}: {error}",
+      "Couldn't finish {intent} due to an error: {error}"
+    ],
+    "greeting": [
+      "Hello! How can I help with your RED X project today?",
+      "Welcome to RED X CLI. What would you like to do?",
+      "Ready to assist with RED X. What can I do for you?",
+      "RED X CLI at your service. What would you like to do?"
+    ]
+  },
+  "plugins": {
+    "powershell_integration": {
+      "enabled": true,
+      "commands": {
+        "get_environment": "Get-ChildItem Env:",
+        "check_node_version": "node -v",
+        "list_processes": "Get-Process | Where-Object { $_.Name -like '*node*' -or $_.Name -like '*npm*' }"
+      }
+    },
+    "memory": {
+      "enabled": true,
+      "remember_last_commands": 5,
+      "remember_context": true
+    },
+    "task_integration": {
+      "enabled": true,
+      "tasks_path": ".vscode/tasks.json"
+    },
+    "branch_management": {
+      "enabled": true,
+      "default_branch": "main",
+      "favorite_branches": ["main", "temp-check-actions"]
+    }
+  }
+}

@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+# SxS (Side by Side) CLI Launcher
+# Cross-platform script that detects environment and launches the appropriate script
+# Created: April 26, 2025
+
+# Detect the operating system
+detect_os() {
+    case "$(uname -s)" in
+        Darwin*)    echo "macos" ;;
+        Linux*)     echo "linux" ;;
+        CYGWIN*)    echo "windows" ;;
+        MINGW*)     echo "windows" ;;
+        MSYS*)      echo "windows" ;;
+        Windows*)   echo "windows" ;;
+        *)          echo "unknown" ;;
+    esac
+}
+
+# Get script directory
+get_script_dir() {
+    local source="${BASH_SOURCE[0]}"
+    # Resolve $source until the file is no longer a symlink
+    while [ -L "$source" ]; do
+        dir="$( cd -P "$( dirname "$source" )" && pwd )"
+        source="$(readlink "$source")"
+        # If $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+        [[ $source != /* ]] && source="$dir/$source"
+    done
+    echo "$( cd -P "$( dirname "$source" )" && pwd )"
+}
+
+# Process input args and pass through to the appropriate script
+process_args() {
+    local mode="web"
+    local nowindow="false"
+    local port="8080"
+    local verbose="false"
+
+    # Parse command line arguments for bash style (--option value)
+    while [[ $# -gt 0 ]]; do
+        key="$1"
+        case $key in
+            --mode|-m)
+                mode="$2"
+                shift 2
+                ;;
+            --no-window|-n)
+                nowindow="true"
+                shift
+                ;;
+            --port|-p)
+                port="$2"
+                shift 2
+                ;;
+            --verbose|-v)
+                verbose="true"
+                shift
+                ;;
+            --help|-h)
+                display_help
+                exit 0
+                ;;
+            *)
+                # Unknown option - it could be a PowerShell style parameter
+                # For now, just show help and exit
+                echo "Unknown option: $key"
+                display_help
+                exit 1
+                ;;
+        esac
+    done
+
+    # Return the processed arguments as an array
+    echo "$mode" "$nowindow" "$port" "$verbose"
+}
+
+display_help() {
+    echo "SxS CLI - Cross-platform launcher for RED X"
+    echo ""
+    echo "Usage: sxs [options]"
+    echo ""
+    echo "Options:"
+    echo "  --mode, -m <mode>      Select mode: web, native, server, dev, afk (default: web)"
+    echo "  --no-window, -n        Don't open a new terminal window for the server"
+    echo "  --port, -p <port>      Set server port (default: 8080)"
+    echo "  --verbose, -v          Enable verbose output"
+    echo "  --help, -h             Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  sxs                    # Run in web mode with default settings"
+    echo "  sxs -m server -p 3000  # Run in server mode on port 3000"
+    echo "  sxs -m native          # Run in native mode"
+    echo ""
+}
+
+# Main execution
+main() {
+    local os_type=$(detect_os)
+    local script_dir=$(get_script_dir)
+
+    # If invoked without file extension, figure out the right script to call
+    if [ "$os_type" = "windows" ] && command -v powershell.exe >/dev/null 2>&1; then
+        # On Windows, prefer PowerShell script
+        if [ $# -eq 0 ]; then
+            # No arguments, just launch with defaults
+            powershell.exe -ExecutionPolicy Bypass -File "$script_dir\\Run-RedX.ps1"
+        else
+            # Process and convert args
+            IFS=' ' read -ra args <<< "$(process_args "$@")"
+            mode=${args[0]}
+            nowindow=${args[1]}
+            port=${args[2]}
+            verbose=${args[3]}
+
+            # Build PowerShell parameters
+            ps_args="-Mode $mode -Port $port"
+            [ "$nowindow" = "true" ] && ps_args="$ps_args -NoWindow"
+            [ "$verbose" = "true" ] && ps_args="$ps_args -Verbose"
+
+            # Call PowerShell script with parameters
+            powershell.exe -ExecutionPolicy Bypass -File "$script_dir\\Run-RedX.ps1" $ps_args
+        fi
+    else
+        # On Unix-like systems, use bash script
+        chmod +x "$script_dir/run-redx.sh"
+
+        if [ $# -eq 0 ]; then
+            # No arguments, just launch with defaults
+            "$script_dir/run-redx.sh"
+        else
+            # Pass all arguments directly to bash script
+            "$script_dir/run-redx.sh" "$@"
+        fi
+    fi
+}
+
+# Run the script
+main "$@"

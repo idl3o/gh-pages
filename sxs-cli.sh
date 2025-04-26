@@ -45,18 +45,18 @@ RESET='\033[0m'
 try_command_chain() {
   local commands=("$@")
   local result=0
-  
+
   for cmd in "${commands[@]}"; do
     echo -e "${YELLOW}Executing: ${cmd}${RESET}"
     eval "$cmd"
     result=$?
-    
+
     if [ $result -ne 0 ]; then
       echo -e "${RED}Command failed with exit code: $result${RESET}"
       return $result
     fi
   done
-  
+
   echo -e "${GREEN}All commands in chain executed successfully!${RESET}"
   return 0
 }
@@ -179,29 +179,29 @@ run_task() {
       ;;
     "try-chain")
       echo -e "${CYAN}Demonstrating command chaining with && operator...${RESET}"
-      
+
       # Example with try_command_chain function
       try_command_chain \
         "echo 'Step 1: Creating temporary directory...' && mkdir -p ./temp_demo" \
         "echo 'Step 2: Changing to directory...' && cd ./temp_demo" \
         "echo 'Step 3: Creating test file...' && echo 'This is a test' > test.txt" \
         "echo 'Step 4: Showing file contents...' && cat test.txt"
-      
+
       # Cleanup
       rm -rf ./temp_demo
-      
+
       # Example with direct && usage
       echo -e "\n${CYAN}Direct && operator example:${RESET}"
       echo -e "${YELLOW}mkdir -p ./temp_demo2 && echo 'Created directory' && touch ./temp_demo2/test2.txt && echo 'Created file'${RESET}"
       mkdir -p ./temp_demo2 && echo -e "${GREEN}Created directory${RESET}" && \
       touch ./temp_demo2/test2.txt && echo -e "${GREEN}Created file${RESET}"
-      
+
       # Show what happens when a command fails
       echo -e "\n${CYAN}Example with failing command:${RESET}"
       echo -e "${YELLOW}mkdir -p ./temp_demo2 && cd ./non_existent_dir && echo 'This will not execute'${RESET}"
       mkdir -p ./temp_demo2 && cd ./non_existent_dir 2>/dev/null && echo "This will not execute"
       echo -e "${RED}As expected, the last command didn't execute because a command in the chain failed${RESET}"
-      
+
       # Final cleanup
       rm -rf ./temp_demo2
       ;;
@@ -258,7 +258,7 @@ build_web() {
 
 build_native() {
   local red_x_dir="$WORKSPACE_ROOT/red_x"
-  
+
   # Use && for command chaining
   (cd "$red_x_dir" && make) && \
   echo -e "${GREEN}✅ Native build completed successfully!${RESET}" || \
@@ -267,7 +267,7 @@ build_native() {
 
 clean_project() {
   local red_x_dir="$WORKSPACE_ROOT/red_x"
-  
+
   # Use && for command chaining
   (cd "$red_x_dir" && make clean) && \
   echo -e "${GREEN}✅ Clean completed successfully!${RESET}" || \
@@ -544,12 +544,12 @@ fix_node_dependencies() {
 
 safe_commit() {
   local message="$1"
-  
+
   if [ -z "$message" ]; then
     echo -e "${RED}Error: Commit message is required.${RESET}"
     return 1
   fi
-  
+
   # Use && for command chaining
   git add . && \
   git commit --no-verify -m "$message" && \

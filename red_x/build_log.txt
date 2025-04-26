@@ -1,0 +1,37 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250426125207
+Username: DESKTOP-FDGFATB\Sam
+RunAs User: DESKTOP-FDGFATB\Sam
+Configuration Name: 
+Machine: DESKTOP-FDGFATB (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Users\Sam\Documents\GitHub\gh-pages\\red_x\Start-RedX-Build.ps1
+Process ID: 30056
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\Sam\Documents\GitHub\gh-pages\red_x\build_log.txt
+Starting RED X build process...
+Logging output to C:\Users\Sam\Documents\GitHub\gh-pages\red_x\build_log.txt
+================================================
+Error during build: At C:\Users\Sam\Documents\GitHub\gh-pages\red_x\Run-RedX.ps1:10 char:13
++     [string]
++             ~
+Missing closing ')' in expression.
+
+At C:\Users\Sam\Documents\GitHub\gh-pages\red_x\Run-RedX.ps1:22 char:1
++ )
++ ~
+Unexpected token ')' in expression or statement.
+================================================
+Build process completed. Press Enter to exit...
+**********************
+Windows PowerShell transcript end
+End time: 20250426125207
+**********************

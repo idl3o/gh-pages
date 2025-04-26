@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audience Engagement Tools | Web3 Educational Platform</title>
+    <meta name="description" content="Engage your audience with interactive tools and features" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/dashboard.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header with navigation -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img src="./assets/images/logo.svg" alt="Web3 Educational Platform" />
+            </a>
+          </div>
+          <nav class="main-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="streaming.html">Learn</a></li>
+              <li><a href="token.html">Token</a></li>
+              <li><a href="docs/index.html">Documentation</a></li>
+              <li><a href="creator-dashboard.html">Dashboard</a></li>
+            </ul>
+          </nav>
+          <div class="account-section">
+            <span class="account-balance">
+              <i class="ri-coin-line"></i>
+              <span id="tokenBalance">2,450</span>
+            </span>
+            <button class="wallet-btn">
+              <i class="ri-wallet-3-line"></i>
+              <span class="address-display">0x1a2...3b4c</span>
+            </button>
+          </div>
+          <button class="mobile-menu-btn" aria-label="Toggle menu">
+            <i class="ri-menu-line"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Audience Engagement Main Content -->
+    <div class="dashboard">
+      <div class="container dashboard-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+          <h1>Audience Engagement Tools</h1>
+          <div class="dashboard-actions">
+            <button id="createEngagementBtn" class="btn-primary">
+              <i class="ri-add-line"></i>
+              Create New Engagement
+            </button>
+          </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <!-- Main Content Area -->
+          <main class="main-content">
+            <div class="content-overview">
+              <h2>Engagement Overview</h2>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-question-answer-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">14</span>
+                    <span class="stat-label">Active Polls</span>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-chat-poll-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">8</span>
+                    <span class="stat-label">Q&A Sessions</span>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-user-voice-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">487</span>
+                    <span class="stat-label">Audience Responses</span>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-medal-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">78%</span>
+                    <span class="stat-label">Engagement Rate</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Engagement Tools Section -->
+            <div class="engagement-tools">
+              <div class="section-header">
+                <h2>Engagement Tools</h2>
+                <div class="section-actions">
+                  <div class="search-box">
+                    <i class="ri-search-line"></i>
+                    <input type="text" placeholder="Search tools..." />
+                  </div>
+                  <div class="filter-dropdown">
+                    <button class="btn-secondary">
+                      <i class="ri-filter-3-line"></i>
+                      Filter
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tools-grid">
+                <!-- Poll Creator Tool -->
+                <div class="tool-card">
+                  <div class="tool-icon">
+                    <i class="ri-bar-chart-grouped-line"></i>
+                  </div>
+                  <div class="tool-content">
+                    <h3>Poll Creator</h3>
+                    <p>Create interactive polls to gather audience feedback and opinions</p>
+                    <div class="tool-stats">
+                      <span class="stat"><i class="ri-check-line"></i> Easy to embed</span>
+                      <span class="stat"><i class="ri-time-line"></i> Real-time results</span>
+                    </div>
+                  </div>
+                  <div class="tool-actions">
+                    <button class="btn-primary">Create Poll</button>
+                  </div>
+                </div>
+
+                <!-- Q&A Session Tool -->
+                <div class="tool-card">
+                  <div class="tool-icon">
+                    <i class="ri-questionnaire-line"></i>
+                  </div>
+                  <div class="tool-content">
+                    <h3>Q&A Session</h3>
+                    <p>Host live or async question and answer sessions with your audience</p>
+                    <div class="tool-stats">
+                      <span class="stat"
+                        ><i class="ri-user-voice-line"></i> Moderation controls</span
+                      >
+                      <span class="stat"><i class="ri-inbox-archive-line"></i> Save for later</span>
+                    </div>
+                  </div>
+                  <div class="tool-actions">
+                    <button class="btn-primary">Start Q&A</button>
+                  </div>
+                </div>
+
+                <!-- Live Chat Tool -->
+                <div class="tool-card">
+                  <div class="tool-icon">
+                    <i class="ri-chat-3-line"></i>
+                  </div>
+                  <div class="tool-content">
+                    <h3>Live Chat</h3>
+                    <p>Enable real-time discussions during your educational streams</p>
+                    <div class="tool-stats">
+                      <span class="stat"><i class="ri-shield-check-line"></i> Auto moderation</span>
+                      <span class="stat"><i class="ri-rocket-line"></i> Low latency</span>
+                    </div>
+                  </div>
+                  <div class="tool-actions">
+                    <button class="btn-primary">Configure Chat</button>
+                  </div>
+                </div>
+
+                <!-- Quiz Builder Tool -->
+                <div class="tool-card">
+                  <div class="tool-icon">
+                    <i class="ri-survey-line"></i>
+                  </div>
+                  <div class="tool-content">
+                    <h3>Quiz Builder</h3>
+                    <p>Create interactive quizzes to test knowledge and increase engagement</p>
+                    <div class="tool-stats">
+                      <span class="stat"><i class="ri-trophy-line"></i> Leaderboards</span>
+                      <span class="stat"><i class="ri-token-swap-line"></i> Token rewards</span>
+                    </div>
+                  </div>
+                  <div class="tool-actions">
+                    <button class="btn-primary">Build Quiz</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Engagements Section -->
+            <div class="active-engagements">
+              <div class="section-header">
+                <h2>Your Active Engagements</h2>
+                <button class="btn-secondary">
+                  <i class="ri-history-line"></i>
+                  View Archive
+                </button>
+              </div>
+
+              <div class="engagement-list">
+                <!-- Poll Item -->
+                <div class="engagement-item poll">
+                  <div class="engagement-header">
+                    <span class="engagement-type">Poll</span>
+                    <span class="engagement-status active">Active</span>
+                  </div>
+                  <h3 class="engagement-title">Which blockchain feature is most important?</h3>
+                  <div class="engagement-meta">
+                    <span class="meta-item"><i class="ri-time-line"></i> Ends in 2 days</span>
+                    <span class="meta-item"><i class="ri-user-line"></i> 247 responses</span>
+                  </div>
+                  <div class="mini-poll-results">
+                    <div class="poll-option">
+                      <span class="option-label">Security</span>
+                      <div class="progress-bar">
+                        <div class="progress" style="width: 45%"></div>
+                      </div>
+                      <span class="option-percent">45%</span>
+                    </div>
+                    <div class="poll-option">
+                      <span class="option-label">Decentralization</span>
+                      <div class="progress-bar">
+                        <div class="progress" style="width: 32%"></div>
+                      </div>
+                      <span class="option-percent">32%</span>
+                    </div>
+                    <div class="poll-option">
+                      <span class="option-label">Scalability</span>
+                      <div class="progress-bar">
+                        <div class="progress" style="width: 23%"></div>
+                      </div>
+                      <span class="option-percent">23%</span>
+                    </div>
+                  </div>
+                  <div class="engagement-actions">
+                    <button class="btn-secondary">View Details</button>
+                    <button class="btn-icon" title="Share Poll">
+                      <i class="ri-share-line"></i>
+                    </button>
+                    <button class="btn-icon" title="Close Poll">
+                      <i class="ri-close-circle-line"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Q&A Session Item -->
+                <div class="engagement-item qa-session">
+                  <div class="engagement-header">
+                    <span class="engagement-type">Q&A Session</span>
+                    <span class="engagement-status scheduled">Scheduled</span>
+                  </div>
+                  <h3 class="engagement-title">Smart Contract Security Best Practices</h3>
+                  <div class="engagement-meta">
+                    <span class="meta-item"><i class="ri-calendar-line"></i> Apr 28, 2025</span>
+                    <span class="meta-item"><i class="ri-time-line"></i> 4:00 PM UTC</span>
+                    <span class="meta-item"
+                      ><i class="ri-question-line"></i> 18 questions submitted</span
+                    >
+                  </div>
+                  <p class="engagement-description">
+                    Join this live Q&A session where I'll answer your questions about securing smart
+                    contracts against common vulnerabilities and attacks.
+                  </p>
+                  <div class="engagement-actions">
+                    <button class="btn-secondary">Manage Questions</button>
+                    <button class="btn-icon" title="Share Session">
+                      <i class="ri-share-line"></i>
+                    </button>
+                    <button class="btn-icon" title="Edit Session">
+                      <i class="ri-edit-line"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Quiz Item -->
+                <div class="engagement-item quiz">
+                  <div class="engagement-header">
+                    <span class="engagement-type">Quiz</span>
+                    <span class="engagement-status active">Active</span>
+                  </div>
+                  <h3 class="engagement-title">Blockchain Fundamentals Quiz</h3>
+                  <div class="engagement-meta">
+                    <span class="meta-item"><i class="ri-time-line"></i> Ends in 5 days</span>
+                    <span class="meta-item"><i class="ri-user-line"></i> 156 participants</span>
+                    <span class="meta-item"><i class="ri-question-line"></i> 10 questions</span>
+                  </div>
+                  <div class="quiz-stats">
+                    <div class="stat-item">
+                      <span class="stat-label">Avg. Score</span>
+                      <span class="stat-value">7.2/10</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-label">Completion Rate</span>
+                      <span class="stat-value">82%</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-label">Token Rewards</span>
+                      <span class="stat-value">750 STREAM</span>
+                    </div>
+                  </div>
+                  <div class="engagement-actions">
+                    <button class="btn-secondary">View Results</button>
+                    <button class="btn-icon" title="Share Quiz">
+                      <i class="ri-share-line"></i>
+                    </button>
+                    <button class="btn-icon" title="Edit Quiz">
+                      <i class="ri-edit-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          <!-- Sidebar -->
+          <aside class="sidebar">
+            <!-- Quick Actions Widget -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-flashlight-line"></i>
+                  Quick Actions
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="quick-actions">
+                  <button class="quick-action-btn">
+                    <i class="ri-bar-chart-grouped-line"></i>
+                    <span>New Poll</span>
+                  </button>
+                  <button class="quick-action-btn">
+                    <i class="ri-questionnaire-line"></i>
+                    <span>New Q&A</span>
+                  </button>
+                  <button class="quick-action-btn">
+                    <i class="ri-survey-line"></i>
+                    <span>New Quiz</span>
+                  </button>
+                  <button class="quick-action-btn">
+                    <i class="ri-chat-3-line"></i>
+                    <span>Live Chat</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Engagement Analytics Widget -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-line-chart-line"></i>
+                  Engagement Analytics
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="mini-chart">
+                  <canvas id="engagementChart"></canvas>
+                </div>
+                <ul class="analytics-list">
+                  <li>
+                    <span class="analytics-label">Most Engaged Content:</span>
+                    <span class="analytics-value">DeFi Fundamentals</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">Most Active Time:</span>
+                    <span class="analytics-value">Weekdays, 3-6PM</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">Top Audience Location:</span>
+                    <span class="analytics-value">United States</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">Growth (This Month):</span>
+                    <span class="analytics-value positive">+24%</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Upcoming Engagements Widget -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-calendar-event-line"></i>
+                  Upcoming Engagements
+                </h3>
+              </div>
+              <div class="widget-content">
+                <ul class="schedule-list">
+                  <li class="schedule-item">
+                    <div class="schedule-date">Apr 28</div>
+                    <div class="schedule-content">
+                      <span class="schedule-title">Smart Contract Security Q&A</span>
+                      <span class="schedule-status scheduled">Live Q&A</span>
+                    </div>
+                  </li>
+                  <li class="schedule-item">
+                    <div class="schedule-date">May 02</div>
+                    <div class="schedule-content">
+                      <span class="schedule-title">Tokenomics Poll Closes</span>
+                      <span class="schedule-status active">Poll</span>
+                    </div>
+                  </li>
+                  <li class="schedule-item">
+                    <div class="schedule-date">May 05</div>
+                    <div class="schedule-content">
+                      <span class="schedule-title">NFT Community Meet-up</span>
+                      <span class="schedule-status planned">Live Chat</span>
+                    </div>
+                  </li>
+                </ul>
+                <button class="btn-secondary full-width">
+                  <i class="ri-calendar-line"></i>
+                  View Full Calendar
+                </button>
+              </div>
+            </div>
+
+            <!-- Audience Feedback Widget -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-feedback-line"></i>
+                  Recent Audience Feedback
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="feedback-list">
+                  <div class="feedback-item">
+                    <div class="feedback-header">
+                      <span class="user-name">Alex W.</span>
+                      <span class="feedback-time">2 hours ago</span>
+                    </div>
+                    <p class="feedback-text">
+                      "The NFT Workshop poll results were really insightful. Looking forward to the
+                      deep dive on royalty mechanics."
+                    </p>
+                  </div>
+                  <div class="feedback-item">
+                    <div class="feedback-header">
+                      <span class="user-name">Maria T.</span>
+                      <span class="feedback-time">Yesterday</span>
+                    </div>
+                    <p class="feedback-text">
+                      "Great Q&A session on DeFi protocols! Could we get more hands-on demos in the
+                      next one?"
+                    </p>
+                  </div>
+                  <div class="feedback-item">
+                    <div class="feedback-header">
+                      <span class="user-name">Sam K.</span>
+                      <span class="feedback-time">2 days ago</span>
+                    </div>
+                    <p class="feedback-text">
+                      "The quiz on blockchain fundamentals helped me identify gaps in my knowledge.
+                      Thanks!"
+                    </p>
+                  </div>
+                </div>
+                <button class="btn-text full-width">View All Feedback</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Engagement Modal -->
+    <div class="modal" id="createEngagementModal">
+      <div class="modal-content engagement-workflow">
+        <div class="modal-header">
+          <h2>Create New Audience Engagement</h2>
+          <div class="upload-progress-indicator">
+            <div class="progress-step active" data-step="1">
+              <span class="step-number">1</span>
+              <span class="step-label">Select Type</span>
+            </div>
+            <div class="progress-step" data-step="2">
+              <span class="step-number">2</span>
+              <span class="step-label">Configure</span>
+            </div>
+            <div class="progress-step" data-step="3">
+              <span class="step-number">3</span>
+              <span class="step-label">Schedule</span>
+            </div>
+          </div>
+          <button class="modal-close" aria-label="Close">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+
+        <!-- Step 1: Select Engagement Type -->
+        <div class="modal-body step-content active" id="engagementStep1">
+          <h3>Select Engagement Type</h3>
+          <div class="content-type-selector">
+            <div class="content-type-card" data-type="poll">
+              <div class="card-icon">
+                <i class="ri-bar-chart-grouped-line"></i>
+              </div>
+              <h4>Poll</h4>
+              <p>Create a simple poll to gather feedback or opinions</p>
+            </div>
+
+            <div class="content-type-card" data-type="qa">
+              <div class="card-icon">
+                <i class="ri-questionnaire-line"></i>
+              </div>
+              <h4>Q&A Session</h4>
+              <p>Host a live or asynchronous Q&A session</p>
+            </div>
+
+            <div class="content-type-card" data-type="quiz">
+              <div class="card-icon">
+                <i class="ri-survey-line"></i>
+              </div>
+              <h4>Quiz</h4>
+              <p>Create an interactive quiz with token rewards</p>
+            </div>
+
+            <div class="content-type-card" data-type="chat">
+              <div class="card-icon">
+                <i class="ri-chat-3-line"></i>
+              </div>
+              <h4>Live Chat</h4>
+              <p>Enable real-time discussions during streams</p>
+            </div>
+
+            <div class="content-type-card" data-type="giveaway">
+              <div class="card-icon">
+                <i class="ri-gift-line"></i>
+              </div>
+              <h4>Token Giveaway</h4>
+              <p>Create participation-based token rewards</p>
+            </div>
+          </div>
+
+          <div class="modal-actions right-aligned">
+            <button class="btn-secondary modal-cancel">Cancel</button>
+            <button class="btn-primary step-forward" data-goto="2">Next Step</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Configure Engagement -->
+        <div class="modal-body step-content" id="engagementStep2">
+          <h3>Configure Poll</h3>
+
+          <!-- Poll Configuration Form -->
+          <div class="form-group">
+            <label>Poll Question<span class="required">*</span></label>
+            <input
+              type="text"
+              id="pollQuestion"
+              placeholder="Enter your poll question"
+              maxlength="150"
+            />
+            <span class="character-counter" id="questionCounter">0/150</span>
+          </div>
+
+          <div class="form-group">
+            <label>Poll Description</label>
+            <textarea
+              id="pollDescription"
+              placeholder="Enter additional context for your poll (optional)"
+              maxlength="500"
+            ></textarea>
+            <span class="character-counter" id="descCounter">0/500</span>
+          </div>
+
+          <div class="form-group">
+            <label>Poll Options<span class="required">*</span></label>
+            <div class="poll-options-container" id="pollOptionsContainer">
+              <div class="poll-option-input">
+                <input type="text" placeholder="Option 1" />
+                <button class="btn-icon option-remove" title="Remove option">
+                  <i class="ri-delete-bin-line"></i>
+                </button>
+              </div>
+              <div class="poll-option-input">
+                <input type="text" placeholder="Option 2" />
+                <button class="btn-icon option-remove" title="Remove option">
+                  <i class="ri-delete-bin-line"></i>
+                </button>
+              </div>
+            </div>
+            <button class="btn-text" id="addOptionBtn">
+              <i class="ri-add-line"></i>
+              Add Another Option
+            </button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Poll Type</label>
+              <select id="pollType">
+                <option value="single">Single Choice</option>
+                <option value="multiple">Multiple Choice</option>
+                <option value="ranking">Ranking</option>
+              </select>
+            </div>
+
+            <div class="form-group half">
+              <label>Display Results</label>
+              <select id="resultsVisibility">
+                <option value="always">Always Visible</option>
+                <option value="after-vote">After Voting</option>
+                <option value="after-close">After Poll Closes</option>
+                <option value="creator-only">Creator Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" id="enableComments" />
+              <span class="checkmark"></span>
+              <span>Enable comments on this poll</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" id="tokenRewards" />
+              <span class="checkmark"></span>
+              <span>Distribute token rewards for participation</span>
+            </label>
+          </div>
+
+          <div class="form-group reward-settings hidden">
+            <label>Reward Amount per Participant</label>
+            <div class="token-input">
+              <input type="number" id="rewardAmount" min="1" value="5" />
+              <span class="token-symbol">STREAM</span>
+            </div>
+            <span class="helper-text">Total estimated: <span id="totalReward">0</span> STREAM</span>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-text step-back" data-goto="1">
+              <i class="ri-arrow-left-line"></i>
+              Back
+            </button>
+            <div>
+              <button class="btn-secondary modal-cancel">Cancel</button>
+              <button class="btn-primary step-forward" data-goto="3">Next Step</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Schedule Engagement -->
+        <div class="modal-body step-content" id="engagementStep3">
+          <h3>Schedule Your Poll</h3>
+
+          <div class="form-group">
+            <label>Publication Status</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="engagementStatus" value="publish" checked />
+                <span class="radio-label">Publish immediately</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="engagementStatus" value="schedule" />
+                <span class="radio-label">Schedule for later</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="engagementStatus" value="draft" />
+                <span class="radio-label">Save as draft</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-row schedule-group hidden">
+            <div class="form-group half">
+              <label>Start Date</label>
+              <input type="date" id="startDate" />
+            </div>
+            <div class="form-group half">
+              <label>Start Time</label>
+              <input type="time" id="startTime" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Duration</label>
+            <div class="form-row">
+              <div class="form-group half">
+                <select id="durationType">
+                  <option value="hours">Hours</option>
+                  <option value="days" selected>Days</option>
+                  <option value="weeks">Weeks</option>
+                  <option value="no-limit">No time limit</option>
+                </select>
+              </div>
+              <div class="form-group half">
+                <input type="number" id="durationValue" min="1" value="7" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Visibility & Access</label>
+            <select id="accessControl">
+              <option value="public">Public - Anyone can participate</option>
+              <option value="subscribers">Subscribers Only</option>
+              <option value="token-holders">Token Holders Only</option>
+              <option value="password">Password Protected</option>
+            </select>
+          </div>
+
+          <div class="form-group password-group hidden">
+            <label>Access Password</label>
+            <input type="text" id="accessPassword" placeholder="Create a password" />
+          </div>
+
+          <div class="form-group">
+            <label>Content Association</label>
+            <select id="contentAssociation">
+              <option value="">Not associated with specific content</option>
+              <option value="blockchain-basics">
+                Blockchain Fundamentals: Consensus Mechanisms
+              </option>
+              <option value="smart-contracts">Smart Contracts: Beyond the Basics</option>
+              <option value="defi-intro">Introduction to Decentralized Finance</option>
+              <option value="nft-workshop">NFT Development Workshop</option>
+            </select>
+            <span class="helper-text"
+              >Associating with content will display this poll alongside that content</span
+            >
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-text step-back" data-goto="2">
+              <i class="ri-arrow-left-line"></i>
+              Back
+            </button>
+            <div>
+              <button class="btn-secondary modal-cancel">Cancel</button>
+              <button class="btn-primary" id="publishEngagementBtn">Publish Poll</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Initialize audience engagement page functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        // Show create engagement modal
+        const createEngagementBtn = document.getElementById('createEngagementBtn');
+        const createEngagementModal = document.getElementById('createEngagementModal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalCancel = document.querySelectorAll('.modal-cancel');
+
+        createEngagementBtn.addEventListener('click', () => {
+          createEngagementModal.classList.add('visible');
+        });
+
+        modalClose.addEventListener('click', () => {
+          createEngagementModal.classList.remove('visible');
+        });
+
+        modalCancel.forEach(button => {
+          button.addEventListener('click', () => {
+            createEngagementModal.classList.remove('visible');
+          });
+        });
+
+        // Step navigation
+        const stepForward = document.querySelectorAll('.step-forward');
+        const stepBack = document.querySelectorAll('.step-back');
+
+        stepForward.forEach(button => {
+          button.addEventListener('click', () => {
+            const nextStep = button.getAttribute('data-goto');
+            changeStep(nextStep);
+          });
+        });
+
+        stepBack.forEach(button => {
+          button.addEventListener('click', () => {
+            const prevStep = button.getAttribute('data-goto');
+            changeStep(prevStep);
+          });
+        });
+
+        function changeStep(step) {
+          // Hide all steps
+          document.querySelectorAll('.step-content').forEach(content => {
+            content.classList.remove('active');
+          });
+
+          // Show selected step
+          document.getElementById(`engagementStep${step}`).classList.add('active');
+
+          // Update progress indicator
+          document.querySelectorAll('.progress-step').forEach(indicator => {
+            indicator.classList.remove('active');
+            if (indicator.getAttribute('data-step') <= step) {
+              indicator.classList.add('active');
+            }
+          });
+        }
+
+        // Toggle token rewards section visibility
+        const tokenRewardsCheckbox = document.getElementById('tokenRewards');
+        const rewardSettings = document.querySelector('.reward-settings');
+
+        tokenRewardsCheckbox?.addEventListener('change', function () {
+          if (this.checked) {
+            rewardSettings.classList.remove('hidden');
+          } else {
+            rewardSettings.classList.add('hidden');
+          }
+        });
+
+        // Toggle password field visibility
+        const accessControl = document.getElementById('accessControl');
+        const passwordGroup = document.querySelector('.password-group');
+
+        accessControl?.addEventListener('change', function () {
+          if (this.value === 'password') {
+            passwordGroup.classList.remove('hidden');
+          } else {
+            passwordGroup.classList.add('hidden');
+          }
+        });
+
+        // Toggle schedule fields visibility
+        const publishRadios = document.querySelectorAll('input[name="engagementStatus"]');
+        const scheduleGroup = document.querySelector('.schedule-group');
+
+        publishRadios.forEach(radio => {
+          radio.addEventListener('change', function () {
+            if (this.value === 'schedule') {
+              scheduleGroup.classList.remove('hidden');
+            } else {
+              scheduleGroup.classList.add('hidden');
+            }
+          });
+        });
+
+        // Add poll option
+        const addOptionBtn = document.getElementById('addOptionBtn');
+        const pollOptionsContainer = document.getElementById('pollOptionsContainer');
+
+        addOptionBtn?.addEventListener('click', () => {
+          const optionCount = pollOptionsContainer.children.length + 1;
+          const newOption = document.createElement('div');
+          newOption.className = 'poll-option-input';
+          newOption.innerHTML = `
+            <input type="text" placeholder="Option ${optionCount}" />
+            <button class="btn-icon option-remove" title="Remove option">
+              <i class="ri-delete-bin-line"></i>
+            </button>
+          `;
+          pollOptionsContainer.appendChild(newOption);
+
+          // Add event listener to new remove button
+          const removeBtn = newOption.querySelector('.option-remove');
+          removeBtn.addEventListener('click', () => {
+            pollOptionsContainer.removeChild(newOption);
+            // Update placeholders for all options
+            updateOptionPlaceholders();
+          });
+        });
+
+        // Function to update option placeholders
+        function updateOptionPlaceholders() {
+          const optionInputs = pollOptionsContainer.querySelectorAll('.poll-option-input');
+          optionInputs.forEach((option, index) => {
+            const input = option.querySelector('input');
+            input.placeholder = `Option ${index + 1}`;
+          });
+        }
+
+        // Initialize remove option buttons
+        document.querySelectorAll('.option-remove').forEach(button => {
+          button.addEventListener('click', () => {
+            const option = button.parentNode;
+            pollOptionsContainer.removeChild(option);
+            updateOptionPlaceholders();
+          });
+        });
+
+        // Initialize engagement chart
+        const ctx = document.getElementById('engagementChart')?.getContext('2d');
+        if (ctx) {
+          const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+              datasets: [
+                {
+                  label: 'Poll Responses',
+                  data: [124, 247, 323, 487],
+                  borderColor: '#4361ee',
+                  backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                  tension: 0.3,
+                  fill: true
+                },
+                {
+                  label: 'Quiz Participation',
+                  data: [87, 120, 156, 187],
+                  borderColor: '#3a0ca3',
+                  backgroundColor: 'rgba(58, 12, 163, 0.1)',
+                  tension: 0.3,
+                  fill: true
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  grid: {
+                    display: false
+                  }
+                },
+                x: {
+                  grid: {
+                    display: false
+                  }
+                }
+              }
+            }
+          });
+        }
+
+        // Initialize character counters
+        const pollQuestion = document.getElementById('pollQuestion');
+        const questionCounter = document.getElementById('questionCounter');
+
+        pollQuestion?.addEventListener('input', function () {
+          questionCounter.textContent = `${this.value.length}/150`;
+        });
+
+        const pollDescription = document.getElementById('pollDescription');
+        const descCounter = document.getElementById('descCounter');
+
+        pollDescription?.addEventListener('input', function () {
+          descCounter.textContent = `${this.value.length}/500`;
+        });
+
+        // Update total reward calculation
+        const rewardAmount = document.getElementById('rewardAmount');
+        const totalReward = document.getElementById('totalReward');
+
+        rewardAmount?.addEventListener('input', function () {
+          // Assume average of 100 participants
+          const estimatedParticipants = 100;
+          const totalTokens = this.value * estimatedParticipants;
+          totalReward.textContent = totalTokens;
+        });
+
+        // Initial total reward calculation
+        if (rewardAmount && totalReward) {
+          const estimatedParticipants = 100;
+          const totalTokens = rewardAmount.value * estimatedParticipants;
+          totalReward.textContent = totalTokens;
+        }
+      });
+    </script>
+  </body>
+</html>

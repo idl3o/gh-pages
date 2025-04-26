@@ -5,33 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Web3 Streaming Platform</title>
-    <!-- Added theme-color for mobile browsers -->
-    <meta name="theme-color" content="#121212" />
-    <!-- Added manifest for PWA support -->
-    <link rel="manifest" href="manifest.json" />
-    <!-- Added apple touch icon for iOS devices -->
-    <link rel="apple-touch-icon" href="./assets/images/icon-192x192.png" />
-    <!-- Core CSS -->
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/animations.css" />
     <link rel="stylesheet" href="./assets/css/definitive.css" />
-    <!-- Added mobile optimizations CSS -->
-    <link rel="stylesheet" href="./assets/css/mobile.css" />
     <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon" />
-    <meta
-      name="description"
-      content="Web3 powered content streaming platform with direct creator compensation, transparent revenue sharing, and decentralized governance"
-    />
-    <!-- Added Open Graph tags for better social media sharing -->
-    <meta property="og:title" content="Web3 Streaming Platform" />
-    <meta
-      property="og:description"
-      content="Using blockchain technology to create direct connections between creators and audiences."
-    />
-    <meta property="og:image" content="https://your-domain.com/assets/images/og-image.jpg" />
-    <meta property="og:url" content="https://your-domain.com" />
-    <meta name="twitter:card" content="summary_large_image" />
-
+    <meta name="description" content="Web3 powered content streaming platform" />
+    <!-- Add progress bar styles -->
     <style>
       .progress-container {
         margin: 20px 0;
@@ -93,14 +72,6 @@
         font-weight: bold;
         margin-bottom: 1rem;
       }
-      /* Critical CSS inline for fastest rendering */
-      .header.scrolled {
-        background-color: rgba(18, 18, 18, 0.95);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        transition:
-          background-color 0.3s ease,
-          box-shadow 0.3s ease;
-      }
     </style>
   </head>
   <body>
@@ -148,7 +119,7 @@
               <circle cx="12" cy="12" r="2"></circle>
               <path d="M6 12h.01M18 12h.01"></path>
             </svg>
-            <span>Connect Wallet</span>
+            Connect Wallet
           </button>
           <button class="dark-mode-toggle">
             <svg
@@ -215,7 +186,7 @@
                 >Creator Portal</a
               >
             </div>
-            <!-- Version tag -->
+            <!-- Add version tag -->
             <div style="margin-top: 20px">
               <span class="version-tag">Alpha v0.5.3</span>
               <span style="margin-left: 10px; font-style: italic"
@@ -226,7 +197,7 @@
         </div>
       </section>
 
-      <!-- Project Completion Status Section -->
+      <!-- Add Project Completion Status Section -->
       <section class="completion-section">
         <div class="container">
           <h2>
@@ -245,49 +216,49 @@
                 <li>✅ Interface Design</li>
                 <li>✅ Authentication System</li>
                 <li>✅ RED X Gateway Integration</li>
-                <li>✅ Mobile Optimization</li>
-                <li>✅ Performance Enhancements</li>
+                <li>⏳ Mobile Optimization</li>
+                <li>⏳ Performance Enhancements</li>
               </ul>
             </div>
 
             <div class="completion-card">
-              <h3>Blockchain Integration <span class="status-tag status-in-progress">72%</span></h3>
+              <h3>Blockchain Integration <span class="status-tag status-in-progress">68%</span></h3>
               <div class="progress-container">
-                <div class="progress-bar" style="width: 72%">72%</div>
+                <div class="progress-bar" style="width: 68%">68%</div>
               </div>
               <ul style="margin-top: 15px">
                 <li>✅ Smart Contract Development</li>
                 <li>✅ Wallet Connection</li>
                 <li>✅ Transaction Processing</li>
                 <li>⏳ Multi-chain Support</li>
-                <li>✅ Gas Optimization</li>
+                <li>⏳ Gas Optimization</li>
               </ul>
             </div>
 
             <div class="completion-card">
-              <h3>Creator Tools <span class="status-tag status-in-progress">65%</span></h3>
+              <h3>Creator Tools <span class="status-tag status-in-progress">55%</span></h3>
               <div class="progress-container">
-                <div class="progress-bar" style="width: 65%">65%</div>
+                <div class="progress-bar" style="width: 55%">55%</div>
               </div>
               <ul style="margin-top: 15px">
                 <li>✅ Content Uploading</li>
                 <li>✅ Analytics Dashboard</li>
-                <li>✅ Monetization Options</li>
+                <li>⏳ Monetization Options</li>
                 <li>⏳ Audience Engagement Tools</li>
                 <li>⏳ Creator Community Features</li>
               </ul>
             </div>
 
             <div class="completion-card">
-              <h3>Viewer Experience <span class="status-tag status-in-progress">75%</span></h3>
+              <h3>Viewer Experience <span class="status-tag status-in-progress">65%</span></h3>
               <div class="progress-container">
-                <div class="progress-bar" style="width: 75%">75%</div>
+                <div class="progress-bar" style="width: 65%">65%</div>
               </div>
               <ul style="margin-top: 15px">
                 <li>✅ Content Discovery</li>
                 <li>✅ HD Video Playback</li>
                 <li>✅ User Preferences</li>
-                <li>✅ Personalized Recommendations</li>
+                <li>⏳ Personalized Recommendations</li>
                 <li>⏳ Social Sharing Features</li>
               </ul>
             </div>
@@ -296,7 +267,7 @@
           <div style="text-align: center; margin-top: 2rem">
             <p>Overall Project Completion:</p>
             <div class="progress-container" style="max-width: 600px; margin: 0 auto">
-              <div class="progress-bar" style="width: 75%">75%</div>
+              <div class="progress-bar" style="width: 65%">65%</div>
             </div>
             <p style="margin-top: 15px">
               <a href="docs.html" class="btn btn-outline">View Development Roadmap</a>
@@ -416,83 +387,6 @@
         </div>
       </section>
 
-      <!-- Multi-chain Support Showcase Section -->
-      <section class="features" id="multi-chain">
-        <div class="container">
-          <h2>New: Multi-chain Support <span class="status-tag status-completed">Live</span></h2>
-          <p>
-            Connect and interact with multiple blockchain networks through our unified interface
-          </p>
-
-          <div class="feature-grid">
-            <div class="feature-card">
-              <!-- Using lazy loading for images -->
-              <img
-                class="lazy-load"
-                data-src="assets/images/ethereum.svg"
-                alt="Ethereum"
-                width="60"
-                height="60"
-                src="assets/images/placeholder.svg"
-              />
-              <h3>Ethereum Mainnet</h3>
-              <p>
-                Full support for Ethereum mainnet transactions, smart contracts, and dApps
-                integration.
-              </p>
-            </div>
-
-            <div class="feature-card">
-              <img
-                class="lazy-load"
-                data-src="assets/images/polygon.svg"
-                alt="Polygon"
-                width="60"
-                height="60"
-                src="assets/images/placeholder.svg"
-              />
-              <h3>Polygon Network</h3>
-              <p>
-                Lower fees and faster transactions while maintaining Ethereum compatibility and
-                security.
-              </p>
-            </div>
-
-            <div class="feature-card">
-              <img
-                class="lazy-load"
-                data-src="assets/images/bsc.svg"
-                alt="Binance Smart Chain"
-                width="60"
-                height="60"
-                src="assets/images/placeholder.svg"
-              />
-              <h3>BNB Chain</h3>
-              <p>
-                Access to BNB Chain ecosystem for cross-chain asset transfers and DeFi applications.
-              </p>
-            </div>
-
-            <div class="feature-card">
-              <img
-                class="lazy-load"
-                data-src="assets/images/solana.svg"
-                alt="Solana"
-                width="60"
-                height="60"
-                src="assets/images/placeholder.svg"
-              />
-              <h3>Solana</h3>
-              <p>High-throughput blockchain support for scalable apps and microsecond finality.</p>
-            </div>
-          </div>
-
-          <div style="text-align: center; margin-top: 2rem">
-            <a href="chains.html" class="btn btn-outline">View All Supported Networks</a>
-          </div>
-        </div>
-      </section>
-
       <section class="token-section">
         <div class="container">
           <div class="token-content">
@@ -515,7 +409,7 @@
         </div>
       </section>
 
-      <!-- Recently Updated Section -->
+      <!-- New Recently Updated Section -->
       <section class="features" id="recent-updates">
         <div class="container">
           <h2>Recently Updated</h2>
@@ -535,13 +429,13 @@
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                 </svg>
               </div>
-              <h3>Mobile Experience</h3>
+              <h3>Platform Performance</h3>
               <p>
-                Fully responsive design with touch optimizations and offline access capabilities via
-                Service Worker.
+                Enhanced loading speed by 43% and reduced bandwidth consumption through adaptive
+                streaming algorithms.
               </p>
               <div style="margin-top: 10px; font-size: 0.8em; color: var(--color-text-alt)">
-                Updated: April 26, 2025
+                Updated: April 23, 2025
               </div>
             </div>
 
@@ -585,13 +479,13 @@
                   <path d="M2 12l10 5 10-5"></path>
                 </svg>
               </div>
-              <h3>Multi-chain Support</h3>
+              <h3>RED X Gateway</h3>
               <p>
-                Added support for Ethereum, Polygon, BNB Chain and Solana with visual transaction
-                flow monitoring and improved error handling.
+                Added multi-chain support to RED X Gateway with visual transaction flow monitoring
+                and improved error handling.
               </p>
               <div style="margin-top: 10px; font-size: 0.8em; color: var(--color-text-alt)">
-                Updated: April 26, 2025
+                Updated: April 20, 2025
               </div>
             </div>
           </div>
@@ -664,9 +558,6 @@
     </footer>
 
     <!-- Scripts -->
-    <!-- Performance script first to optimize page load -->
-    <script src="./assets/js/performance.js"></script>
-
     <script>
       // Dark mode toggle functionality
       const darkModeToggle = document.querySelector('.dark-mode-toggle');
@@ -681,28 +572,7 @@
         document.body.classList.toggle('dark-theme');
         sunIcon.classList.toggle('hidden');
         moonIcon.classList.toggle('hidden');
-
-        // Store preference in localStorage
-        if (document.body.classList.contains('dark-theme')) {
-          localStorage.setItem('theme', 'dark');
-        } else {
-          localStorage.setItem('theme', 'light');
-        }
       });
-
-      // Check for theme preference in localStorage
-      const storedTheme = localStorage.getItem('theme');
-      if (storedTheme) {
-        if (storedTheme === 'dark') {
-          document.body.classList.add('dark-theme');
-          sunIcon.classList.add('hidden');
-          moonIcon.classList.remove('hidden');
-        } else {
-          document.body.classList.remove('dark-theme');
-          sunIcon.classList.remove('hidden');
-          moonIcon.classList.add('hidden');
-        }
-      }
 
       // Connect wallet functionality
       const connectWalletBtn = document.querySelector('.connect-wallet-btn');
@@ -721,7 +591,6 @@
 
       // Animate progress bars on page load
       document.addEventListener('DOMContentLoaded', () => {
-        // Initialize progress bars with animation
         const progressBars = document.querySelectorAll('.progress-bar');
         setTimeout(() => {
           progressBars.forEach(bar => {
@@ -732,20 +601,6 @@
             }, 100);
           });
         }, 500);
-
-        // Register service worker for offline capabilities
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', function () {
-            navigator.serviceWorker
-              .register('/service-worker.js')
-              .then(function (registration) {
-                console.log('Service Worker registered with scope:', registration.scope);
-              })
-              .catch(function (error) {
-                console.error('Service Worker registration failed:', error);
-              });
-          });
-        }
       });
     </script>
   </body>

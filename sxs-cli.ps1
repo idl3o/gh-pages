@@ -5,7 +5,7 @@
 param (
     [Parameter(Mandatory = $false)]
     [switch]$NoLogo = $false,
-    
+
     [Parameter(Mandatory = $false)]
     [string]$Command = $null,
 
@@ -190,13 +190,13 @@ function Invoke-TaskRunner {
                 { Write-Host "Step 3: Processing file..." -ForegroundColor Yellow; $true },
                 { Write-Host "Step 4: Clean up..." -ForegroundColor Yellow; $true }
             )
-            
+
             if ($result) {
                 Write-Host "✅ All commands in chain executed successfully!" -ForegroundColor Green
             } else {
                 Write-Host "❌ Command chain execution stopped due to an error." -ForegroundColor Red
             }
-            
+
             # Demonstrate error in chain
             Write-Host "`nTrying a command chain with an error:" -ForegroundColor Cyan
             $result = Invoke-CommandChain @(
@@ -204,7 +204,7 @@ function Invoke-TaskRunner {
                 { Write-Host "Step 2: This will fail" -ForegroundColor Yellow; $false },
                 { Write-Host "Step 3: This will never execute" -ForegroundColor Yellow; $true }
             )
-            
+
             if (-not $result) {
                 Write-Host "As expected, command chain stopped at the failing command." -ForegroundColor Yellow
             }
@@ -223,7 +223,7 @@ function Invoke-VSCodeTask {
         [string]$TaskName
     )
 
-    # Get the workspace folder path 
+    # Get the workspace folder path
     $workspaceFolder = $script:workspaceRoot
 
     # Map task IDs to their implementations with improved error handling
@@ -238,7 +238,7 @@ function Invoke-VSCodeTask {
                     { & make web; $LASTEXITCODE -eq 0 },
                     { Pop-Location; $true }
                 )
-                
+
                 if ($result) {
                     Write-Host "✅ Web build completed successfully!" -ForegroundColor Green
                 } else {
@@ -292,7 +292,7 @@ function Invoke-VSCodeTask {
             $result = Invoke-CommandChain @(
                 { & powershell -ExecutionPolicy Bypass -File "$workspaceFolder/setup-emsdk.ps1"; $LASTEXITCODE -eq 0 }
             )
-            
+
             if (-not $result) {
                 Write-Host "❌ Emscripten SDK setup failed." -ForegroundColor Red
                 return $false
@@ -473,18 +473,18 @@ function Invoke-SafeCommit {
     param (
         [string]$Message
     )
-    
+
     if (-not $Message) {
         Write-Host "Error: Commit message is required." -ForegroundColor Red
         return $false
     }
-    
+
     # Use command chaining for git operations
     $result = Invoke-CommandChain @(
         { git add .; $LASTEXITCODE -eq 0 },
         { git commit --no-verify -m $Message; $LASTEXITCODE -eq 0 }
     )
-    
+
     if ($result) {
         Write-Host "Changes committed successfully!" -ForegroundColor Green
         return $true

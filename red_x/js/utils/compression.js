@@ -185,12 +185,254 @@ class Compressor {
    * WebAssembly-specific pre-optimization
    * @private
    */
-  static async _preOptimizeWasm(buffer, options) {
-    // In a full implementation, this would parse and optimize WebAssembly
-    // structures like removing unused sections, optimizing names, etc.
+  static async _preOptimizeWasm(buffer, options = {}) {
+    // Enhanced WebAssembly optimization implementation
 
-    // For now, return unmodified buffer
+    const {
+      stripCustomSections = true,  // Remove custom sections to reduce size
+      stripNames = true,          // Remove debug names
+      optimizeSize = true,        // Optimize for size over speed
+      level = 2                   // Optimization level (1-3)
+    } = options;
+
+    // For browser environments, use the WebAssembly API if available
+    if (typeof WebAssembly !== 'undefined' && WebAssembly.Module && WebAssembly.compile) {
+      try {
+        // First, validate the WASM binary
+        const valid = WebAssembly.validate(buffer);
+        if (!valid) {
+          console.warn('Invalid WebAssembly module provided for optimization');
+          return buffer;
+        }
+
+        // Simple header validation
+        const headerView = new Uint8Array(buffer, 0, 8);
+        // Magic number (0x00 0x61 0x73 0x6D) + version (0x01 0x00 0x00 0x00)
+        const validHeader = headerView[0] === 0x00 &&
+                            headerView[1] === 0x61 &&
+                            headerView[2] === 0x73 &&
+                            headerView[3] === 0x6D;
+
+        if (!validHeader) {
+          console.warn('WebAssembly binary has invalid header');
+          return buffer;
+        }
+
+        // In browser environments without WASM tools, we could perform some basic optimizations
+        // but for advanced optimization, we'd need a library or Node.js environment
+
+        if (typeof WebAssembly.optimize === 'function') {
+          // This is a hypothetical future API, not yet available
+          return WebAssembly.optimize(buffer, {
+            stripDebugInfo: stripNames,
+            optimizeSize: optimizeSize
+          });
+        }
+
+        // For now, we'll implement a basic section filter to remove custom sections if needed
+        if (stripCustomSections) {
+          return this._stripCustomSections(buffer);
+        }
+
+        return buffer;
+      } catch (error) {
+        console.error('Error during WebAssembly pre-optimization:', error);
+        return buffer; // Return original on error
+      }
+    }
+
+    // Node.js environment with WASM optimization tools
+    if (typeof require !== 'undefined') {
+      try {
+        // Check if wasm-opt is available (via a wrapper library)
+        const hasWasmOpt = this._checkForWasmOpt();
+
+        if (hasWasmOpt) {
+          return this._optimizeWithWasmOpt(buffer, {
+            stripCustomSections,
+            stripNames,
+            optimizeSize,
+            level
+          });
+        }
+      } catch (error) {
+        console.error('Error using Node.js WebAssembly tools:', error);
+      }
+    }
+
+    // Fallback: return unmodified buffer
     return buffer;
+  }
+
+  /**
+   * Strip custom sections from WebAssembly binary to reduce size
+   * @private
+   */
+  static _stripCustomSections(buffer) {
+    // Simple implementation to strip custom sections
+    // WASM binary format: https://webassembly.github.io/spec/core/binary/modules.html
+
+    const bytes = new Uint8Array(buffer);
+    const sections = [];
+
+    // Parse sections (skipping 8-byte header)
+    let offset = 8;
+    while (offset < bytes.length) {
+      const sectionId = bytes[offset++];
+
+      // Read section size (LEB128 encoding)
+      let size = 0;
+      let shift = 0;
+      let byte;
+      do {
+        byte = bytes[offset++];
+        size |= (byte & 0x7F) << shift;
+        shift += 7;
+      } while (byte & 0x80);
+
+      // Section 0 is custom section, which we might want to strip
+      if (sectionId !== 0 || !stripCustomSections) {
+        sections.push({
+          id: sectionId,
+          offset: offset,
+          size: size
+        });
+      }
+
+      // Move to next section
+      offset += size;
+    }
+
+    // If no custom sections found or not stripping, return original
+    if (sections.length === (bytes.length - 8) / 5) { // Rough estimate
+      return buffer;
+    }
+
+    // Rebuild binary without custom sections
+    const newSize = sections.reduce((size, section) => size + 5 + section.size, 8);
+    const result = new Uint8Array(newSize);
+
+    // Copy header
+    result.set(bytes.slice(0, 8), 0);
+
+    // Copy each non-custom section
+    let newOffset = 8;
+    for (const section of sections) {
+      result[newOffset++] = section.id;
+
+      // Write size (LEB128 encoding)
+      let size = section.size;
+      do {
+        let byte = size & 0x7F;
+        size >>= 7;
+        if (size !== 0) {
+          byte |= 0x80;
+        }
+        result[newOffset++] = byte;
+      } while (size !== 0);
+
+      // Copy section content
+      result.set(bytes.slice(section.offset, section.offset + section.size), newOffset);
+      newOffset += section.size;
+    }
+
+    return result.buffer;
+  }
+
+  /**
+   * Check if wasm-opt tool is available in Node.js environment
+   * @private
+   */
+  static _checkForWasmOpt() {
+    if (typeof require === 'undefined') return false;
+
+    try {
+      // Try to find wasm-opt or equivalent library
+      const child_process = require('child_process');
+      const result = child_process.spawnSync('wasm-opt', ['--version'], {
+        stdio: 'pipe',
+        encoding: 'utf-8'
+      });
+
+      return result.status === 0;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Optimize WebAssembly using wasm-opt in Node.js environment
+   * @private
+   */
+  static _optimizeWithWasmOpt(buffer, options) {
+    if (typeof require === 'undefined') return buffer;
+
+    const fs = require('fs');
+    const path = require('path');
+    const child_process = require('child_process');
+    const os = require('os');
+
+    // Create temporary files
+    const tmpDir = os.tmpdir();
+    const inputFile = path.join(tmpDir, `wasm-in-${Date.now()}.wasm`);
+    const outputFile = path.join(tmpDir, `wasm-out-${Date.now()}.wasm`);
+
+    try {
+      // Write buffer to input file
+      fs.writeFileSync(inputFile, Buffer.from(buffer));
+
+      // Build optimization arguments
+      const args = [inputFile, '-o', outputFile];
+
+      if (options.optimizeSize) {
+        args.push('-Os'); // Optimize for size
+      } else {
+        args.push('-O'); // Regular optimization
+      }
+
+      // Add optimization level
+      args.push(`-O${options.level}`);
+
+      if (options.stripNames) {
+        args.push('--strip-debug');
+      }
+
+      if (options.stripCustomSections) {
+        args.push('--strip-producers');
+      }
+
+      // Run wasm-opt
+      const result = child_process.spawnSync('wasm-opt', args, {
+        stdio: 'pipe',
+        encoding: 'utf-8'
+      });
+
+      if (result.status !== 0) {
+        throw new Error(`wasm-opt failed: ${result.stderr}`);
+      }
+
+      // Read optimized WASM
+      const optimized = fs.readFileSync(outputFile);
+
+      // Clean up temp files
+      fs.unlinkSync(inputFile);
+      fs.unlinkSync(outputFile);
+
+      return optimized.buffer;
+    } catch (error) {
+      console.error('Error optimizing with wasm-opt:', error);
+
+      // Clean up temp files
+      try {
+        if (fs.existsSync(inputFile)) fs.unlinkSync(inputFile);
+        if (fs.existsSync(outputFile)) fs.unlinkSync(outputFile);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+
+      // Return original on error
+      return buffer;
+    }
   }
 
   /**
