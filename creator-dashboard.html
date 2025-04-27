@@ -7,6 +7,7 @@
     <meta name="description" content="Manage your AI-assisted educational content" />
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/dashboard.css" />
+    <link rel="stylesheet" href="./dashboard-batch-upload.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
       rel="stylesheet"
@@ -745,6 +746,14 @@
               <p>Text-based guides with code examples</p>
             </div>
 
+            <div class="content-type-card" data-type="batch-upload">
+              <div class="card-icon">
+                <i class="ri-upload-cloud-2-line"></i>
+              </div>
+              <h4>Batch Upload</h4>
+              <p>Upload multiple content items at once</p>
+            </div>
+
             <div class="content-type-card" data-type="interactive">
               <div class="card-icon">
                 <i class="ri-code-box-line"></i>
@@ -770,104 +779,291 @@
 
         <!-- Step 2: Content Details -->
         <div class="modal-body step-content" id="uploadStep2">
-          <div class="form-group">
-            <label>Title<span class="required">*</span></label>
-            <input
-              type="text"
-              id="contentTitle"
-              placeholder="Enter content title"
-              maxlength="100"
-            />
-            <span class="character-counter" id="titleCounter">0/100</span>
-          </div>
+          <!-- Regular content upload form (default) -->
+          <div id="regularContentForm">
+            <div class="form-group">
+              <label>Title<span class="required">*</span></label>
+              <input
+                type="text"
+                id="contentTitle"
+                placeholder="Enter content title"
+                maxlength="100"
+              />
+              <span class="character-counter" id="titleCounter">0/100</span>
+            </div>
 
-          <div class="form-group">
-            <label>Description</label>
-            <textarea
-              id="contentDescription"
-              placeholder="Enter content description"
-              maxlength="5000"
-            ></textarea>
-            <span class="character-counter" id="descCounter">0/5000</span>
-          </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                id="contentDescription"
+                placeholder="Enter content description"
+                maxlength="5000"
+              ></textarea>
+              <span class="character-counter" id="descCounter">0/5000</span>
+            </div>
 
-          <div class="thumbnail-section">
-            <label>Thumbnail</label>
-            <div class="thumbnail-options">
-              <div class="thumbnail-preview" id="thumbnailPreview">
-                <div class="placeholder">
-                  <i class="ri-image-line"></i>
-                  <span>No thumbnail selected</span>
+            <div class="thumbnail-section">
+              <label>Thumbnail</label>
+              <div class="thumbnail-options">
+                <div class="thumbnail-preview" id="thumbnailPreview">
+                  <div class="placeholder">
+                    <i class="ri-image-line"></i>
+                    <span>No thumbnail selected</span>
+                  </div>
+                </div>
+                <div class="thumbnail-actions">
+                  <button class="btn-secondary" id="uploadThumbBtn">
+                    <i class="ri-upload-2-line"></i>
+                    Upload Image
+                  </button>
+                  <button class="btn-secondary" id="generateThumbBtn">
+                    <i class="ri-robot-line"></i>
+                    Generate with AI
+                  </button>
                 </div>
               </div>
-              <div class="thumbnail-actions">
-                <button class="btn-secondary" id="uploadThumbBtn">
-                  <i class="ri-upload-2-line"></i>
-                  Upload Image
-                </button>
-                <button class="btn-secondary" id="generateThumbBtn">
-                  <i class="ri-robot-line"></i>
-                  Generate with AI
-                </button>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group half">
+                <label>Category<span class="required">*</span></label>
+                <select id="contentCategory">
+                  <option value="">Select category</option>
+                  <option value="blockchain-basics">Blockchain Basics</option>
+                  <option value="smart-contracts">Smart Contracts</option>
+                  <option value="defi">Decentralized Finance</option>
+                  <option value="nft">NFTs & Digital Assets</option>
+                  <option value="web3-dev">Web3 Development</option>
+                  <option value="crypto-economics">Tokenomics</option>
+                  <option value="security">Security & Best Practices</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group half">
+                <label>Difficulty Level</label>
+                <select id="contentDifficulty">
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                  <option value="expert">Expert</option>
+                </select>
               </div>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group half">
-              <label>Category<span class="required">*</span></label>
-              <select id="contentCategory">
-                <option value="">Select category</option>
-                <option value="blockchain-basics">Blockchain Basics</option>
-                <option value="smart-contracts">Smart Contracts</option>
-                <option value="defi">Decentralized Finance</option>
-                <option value="nft">NFTs & Digital Assets</option>
-                <option value="web3-dev">Web3 Development</option>
-                <option value="crypto-economics">Tokenomics</option>
-                <option value="security">Security & Best Practices</option>
-                <option value="other">Other</option>
-              </select>
+            <div class="form-row">
+              <div class="form-group half">
+                <label>Estimated Duration</label>
+                <input type="text" id="contentDuration" placeholder="e.g. 15 min, 1.5 hours" />
+              </div>
+
+              <div class="form-group half">
+                <label>Language</label>
+                <select id="contentLanguage">
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="fr">French</option>
+                  <option value="de">German</option>
+                  <option value="ja">Japanese</option>
+                  <option value="zh">Chinese</option>
+                  <option value="ko">Korean</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
             </div>
 
-            <div class="form-group half">
-              <label>Difficulty Level</label>
-              <select id="contentDifficulty">
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-                <option value="expert">Expert</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group half">
-              <label>Estimated Duration</label>
-              <input type="text" id="contentDuration" placeholder="e.g. 15 min, 1.5 hours" />
-            </div>
-
-            <div class="form-group half">
-              <label>Language</label>
-              <select id="contentLanguage">
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                <option value="fr">French</option>
-                <option value="de">German</option>
-                <option value="ja">Japanese</option>
-                <option value="zh">Chinese</option>
-                <option value="ko">Korean</option>
-                <option value="other">Other</option>
-              </select>
+            <div class="form-group">
+              <label>Tags</label>
+              <div class="tags-input-container">
+                <div class="tags-container" id="tagsContainer"></div>
+                <input type="text" id="tagInput" placeholder="Type tag and press Enter" />
+              </div>
+              <span class="helper-text"
+                >Add up to 10 tags to help viewers discover your content</span
+              >
             </div>
           </div>
 
-          <div class="form-group">
-            <label>Tags</label>
-            <div class="tags-input-container">
-              <div class="tags-container" id="tagsContainer"></div>
-              <input type="text" id="tagInput" placeholder="Type tag and press Enter" />
+          <!-- Batch upload form (hidden by default) -->
+          <div id="batchUploadForm" style="display: none">
+            <h3>Batch Upload</h3>
+            <p class="section-intro">Upload multiple educational content files at once</p>
+
+            <!-- Batch upload type selector -->
+            <div class="batch-type-selector">
+              <div class="batch-type-option selected" data-batch-type="files">
+                <i class="ri-file-upload-line"></i>
+                <h3>Upload Files</h3>
+                <p>Upload content files directly</p>
+              </div>
+
+              <div class="batch-type-option" data-batch-type="csv">
+                <i class="ri-file-excel-line"></i>
+                <h3>CSV Import</h3>
+                <p>Import content with metadata from CSV</p>
+              </div>
             </div>
-            <span class="helper-text">Add up to 10 tags to help viewers discover your content</span>
+
+            <!-- CSV Template Section (hidden by default) -->
+            <div id="csvTemplateSection" class="csv-template-download" style="display: none">
+              <i class="ri-file-download-line"></i>
+              <div>
+                <h4>Download CSV Template</h4>
+                <p>Use our template to prepare your batch content import</p>
+              </div>
+              <button id="downloadCsvTemplate">
+                <i class="ri-download-cloud-line"></i>
+                Download Template
+              </button>
+            </div>
+
+            <!-- File Dropzone -->
+            <div class="batch-dropzone" id="batchDropzone">
+              <i class="ri-upload-cloud-2-line"></i>
+              <h3>Drag and Drop Files</h3>
+              <p>or click to browse files</p>
+              <input type="file" id="batchFileInput" multiple style="display: none" />
+              <button class="btn-primary" id="browseBatchFilesBtn">Browse Files</button>
+              <p class="upload-formats">
+                Supported formats: MP4, WEBM, PDF, MD, DOC, DOCX, JPG, PNG
+              </p>
+            </div>
+
+            <!-- Batch Items Container -->
+            <div class="batch-items" id="batchItemsContainer"></div>
+
+            <!-- Batch Upload Controls -->
+            <div class="batch-upload-controls">
+              <button class="btn-secondary" id="clearBatchBtn" disabled>
+                <i class="ri-delete-bin-line"></i>
+                Clear All
+              </button>
+
+              <div class="batch-upload-progress" id="batchUploadProgress" style="display: none">
+                <div class="batch-progress-bar">
+                  <div class="batch-progress-fill" id="batchProgressFill"></div>
+                </div>
+                <div class="batch-progress-stats">
+                  <span id="batchProgressCount">0/0 files processed</span>
+                  <span id="batchProgressPercent">0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Common Settings For All Files -->
+            <div class="common-settings">
+              <div class="common-settings-toggle">
+                <label class="toggle-label">
+                  <input type="checkbox" id="useCommonSettings" checked />
+                  <span class="toggle-switch"></span>
+                  Apply common settings to all items
+                </label>
+              </div>
+
+              <div id="commonSettingsForm">
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label>Category</label>
+                    <select id="batchCategory">
+                      <option value="">Select category</option>
+                      <option value="blockchain-basics">Blockchain Basics</option>
+                      <option value="smart-contracts">Smart Contracts</option>
+                      <option value="defi">Decentralized Finance</option>
+                      <option value="nft">NFTs & Digital Assets</option>
+                      <option value="web3-dev">Web3 Development</option>
+                      <option value="crypto-economics">Tokenomics</option>
+                      <option value="security">Security & Best Practices</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group half">
+                    <label>Difficulty Level</label>
+                    <select id="batchDifficulty">
+                      <option value="beginner">Beginner</option>
+                      <option value="intermediate">Intermediate</option>
+                      <option value="advanced">Advanced</option>
+                      <option value="expert">Expert</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label>Language</label>
+                    <select id="batchLanguage">
+                      <option value="en">English</option>
+                      <option value="es">Spanish</option>
+                      <option value="fr">French</option>
+                      <option value="de">German</option>
+                      <option value="ja">Japanese</option>
+                      <option value="zh">Chinese</option>
+                      <option value="ko">Korean</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group half">
+                    <label>License</label>
+                    <select id="batchLicense">
+                      <option value="cc-by">Creative Commons - Attribution</option>
+                      <option value="cc-by-sa">CC - Attribution-ShareAlike</option>
+                      <option value="cc-by-nc">CC - Attribution-NonCommercial</option>
+                      <option value="copyright">All Rights Reserved</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Common Tags</label>
+                  <div class="tags-input-container">
+                    <div class="tags-container" id="batchTagsContainer"></div>
+                    <input type="text" id="batchTagInput" placeholder="Type tag and press Enter" />
+                  </div>
+                  <span class="helper-text"
+                    >These tags will be applied to all files in this batch</span
+                  >
+                </div>
+
+                <!-- NFT Settings -->
+                <div class="nft-settings">
+                  <label class="toggle-label">
+                    <input type="checkbox" id="enableBatchNft" />
+                    <span class="toggle-switch"></span>
+                    Enable NFT Features
+                  </label>
+
+                  <div class="nft-options" id="batchNftOptions" style="display: none">
+                    <div class="form-row">
+                      <div class="form-group half">
+                        <label>Royalty Percentage</label>
+                        <div class="input-with-icon">
+                          <input
+                            type="number"
+                            id="batchRoyaltyPercentage"
+                            min="0"
+                            max="50"
+                            value="10"
+                          />
+                          <i>%</i>
+                        </div>
+                      </div>
+
+                      <div class="form-group half">
+                        <label>Edition Size</label>
+                        <select id="batchEditionSize">
+                          <option value="1">Single Edition (1)</option>
+                          <option value="10">Limited (10)</option>
+                          <option value="100">Standard (100)</option>
+                          <option value="1000">Extended (1000)</option>
+                          <option value="unlimited">Unlimited</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="modal-actions">
@@ -1063,6 +1259,7 @@
     </div>
 
     <script src="./assets/js/content-safety.js"></script>
+    <script src="./assets/js/batch-upload.js"></script>
     <script src="./assets/js/upload-modal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

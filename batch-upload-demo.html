@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Batch Upload IPFS Demo</title>
+    <link rel="stylesheet" href="dashboard-batch-upload.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #3861fb;
+        --primary-hover: #2a4cd7;
+        --secondary-color: #6c757d;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --info-color: #17a2b8;
+        --light-color: #f8f9fa;
+        --dark-color: #343a40;
+        --border-color: #dee2e6;
+        --border-radius: 5px;
+        --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.5;
+        color: #212529;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .batch-upload-container {
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+      }
+
+      h2 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: var(--dark-color);
+      }
+
+      /* Batch upload styles */
+      #batchDropzone {
+        border: 2px dashed var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-bottom: 1rem;
+      }
+
+      #batchDropzone.drag-over {
+        border-color: var(--primary-color);
+        background-color: rgba(56, 97, 251, 0.05);
+      }
+
+      #batchDropzone i {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+      }
+
+      .upload-message {
+        font-size: 1.2rem;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .supported-formats {
+        font-size: 0.85rem;
+        color: var(--secondary-color);
+      }
+
+      #batchFileInput {
+        display: none;
+      }
+
+      .batch-controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .batch-type-options {
+        display: flex;
+        gap: 10px;
+      }
+
+      .batch-type-option {
+        padding: 0.5rem 1rem;
+        background-color: var(--light-color);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .batch-type-option.active {
+        background-color: var(--primary-color);
+        color: #fff;
+        border-color: var(--primary-color);
+      }
+
+      .batch-action-btns {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border-radius: var(--border-radius);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+      }
+
+      .btn-secondary {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: #fff;
+      }
+
+      .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
+
+      .btn-danger {
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
+        color: #fff;
+      }
+
+      .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+      }
+
+      .btn:disabled {
+        opacity: 0.65;
+        pointer-events: none;
+      }
+
+      #batchItemsContainer {
+        margin-top: 1.5rem;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+      }
+
+      .batch-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .batch-item:last-child {
+        border-bottom: none;
+      }
+
+      .batch-item-preview {
+        width: 60px;
+        height: 60px;
+        background-color: #f5f5f5;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .batch-item-preview img,
+      .batch-item-preview video {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .batch-item-preview i {
+        font-size: 1.5rem;
+        color: var(--secondary-color);
+      }
+
+      .batch-item-info {
+        flex: 1;
+        margin-left: 1rem;
+        overflow: hidden;
+      }
+
+      .batch-item-name {
+        font-weight: 500;
+        color: var(--dark-color);
+        margin-bottom: 0.25rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .batch-item-meta {
+        font-size: 0.85rem;
+        color: var(--secondary-color);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .batch-remove-item,
+      .batch-item-edit {
+        background: none;
+        border: none;
+        color: var(--secondary-color);
+        cursor: pointer;
+        padding: 0.25rem;
+        margin-left: 0.5rem;
+        border-radius: var(--border-radius);
+      }
+
+      .batch-remove-item:hover {
+        color: var(--danger-color);
+      }
+
+      .batch-item-edit:hover {
+        color: var(--primary-color);
+      }
+
+      #batchUploadProgress {
+        margin-top: 1.5rem;
+        display: none;
+      }
+
+      .progress-container {
+        background-color: var(--light-color);
+        border-radius: var(--border-radius);
+        height: 0.75rem;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+      }
+
+      .progress-fill {
+        height: 100%;
+        width: 0;
+        background-color: var(--primary-color);
+        transition: width 0.5s ease;
+      }
+
+      .progress-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: var(--secondary-color);
+      }
+
+      #csvTemplateSection {
+        display: none;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: var(--light-color);
+        border-radius: var(--border-radius);
+      }
+
+      #csvTemplateSection i {
+        font-size: 1.2rem;
+        color: var(--info-color);
+        margin-right: 0.5rem;
+      }
+
+      .csv-template-text {
+        flex: 1;
+        font-size: 0.9rem;
+      }
+
+      .tag {
+        background-color: var(--light-color);
+        padding: 2px 8px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .tag i {
+        margin-left: 3px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Batch Upload to IPFS Demo</h1>
+        <p>Test the batch upload functionality with IPFS integration</p>
+      </div>
+
+      <div class="batch-upload-container">
+        <h2>Upload Files to IPFS</h2>
+
+        <div class="batch-controls">
+          <div class="batch-type-options">
+            <div class="batch-type-option active" data-batch-type="files">
+              <i class="ri-file-list-3-line"></i> Files
+            </div>
+            <div class="batch-type-option" data-batch-type="csv">
+              <i class="ri-file-excel-line"></i> CSV Import
+            </div>
+          </div>
+          <div class="batch-action-btns">
+            <button id="clearBatchBtn" class="btn btn-danger" disabled>
+              <i class="ri-delete-bin-line"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <div id="csvTemplateSection">
+          <i class="ri-information-line"></i>
+          <div class="csv-template-text">
+            CSV file should contain structured data for batch import. Download the template to get
+            started.
+          </div>
+          <a href="#" id="downloadCsvTemplate" class="btn btn-secondary">
+            <i class="ri-download-line"></i> Download Template
+          </a>
+        </div>
+
+        <div id="batchDropzone">
+          <i class="ri-upload-cloud-2-line"></i>
+          <div class="upload-message">Drag & drop files here, or click to browse</div>
+          <div class="supported-formats">
+            Supported formats: MP4, WebM, PDF, MD, DOC, DOCX, JPG, PNG
+          </div>
+          <button id="browseBatchFilesBtn" class="btn btn-primary">
+            <i class="ri-folder-open-line"></i> Browse Files
+          </button>
+          <input type="file" id="batchFileInput" multiple />
+        </div>
+
+        <div id="batchItemsContainer" class="empty-batch">
+          <!-- Batch items will be added here dynamically -->
+        </div>
+
+        <div id="batchUploadProgress">
+          <div class="progress-container">
+            <div id="batchProgressFill" class="progress-fill"></div>
+          </div>
+          <div class="progress-info">
+            <div id="batchProgressCount">0/0 files processed</div>
+            <div id="batchProgressPercent">0%</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; justify-content: space-between">
+          <button id="resumeFailedBtn" class="btn btn-secondary" style="display: none">
+            <i class="ri-restart-line"></i> Resume Failed Uploads
+          </button>
+          <button id="startUploadBtn" class="btn btn-primary">
+            <i class="ri-upload-cloud-2-line"></i> Start Batch Upload to IPFS
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import the IPFS scripts -->
+    <script type="module" src="js/services/batch-ipfs-service.js"></script>
+    <script type="module" src="assets/js/batch-upload.js"></script>
+    <script type="module">
+      import batchIpfsService from './js/services/batch-ipfs-service.js';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // Initialize the IPFS service as soon as page loads
+        batchIpfsService
+          .initialize({
+            pinning: true,
+            chunkSize: 2 * 1024 * 1024 // 2MB chunks
+          })
+          .catch(error => {
+            console.error('Failed to initialize IPFS service:', error);
+          });
+
+        // Start upload button functionality
+        document.getElementById('startUploadBtn').addEventListener('click', () => {
+          if (!window.redx || !window.redx.batchUpload) {
+            console.error('Batch upload functionality not initialized');
+            return;
+          }
+
+          // Use the batch upload functionality defined in batch-upload.js
+          window.redx.batchUpload.processUpload(
+            // Progress callback
+            progress => {
+              console.log('Upload progress:', progress);
+            },
+            // Complete callback
+            result => {
+              console.log('Upload complete:', result);
+            },
+            // Error callback
+            error => {
+              console.error('Upload error:', error);
+            }
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

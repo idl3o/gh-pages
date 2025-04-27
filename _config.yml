@@ -1,28 +1,77 @@
-# Site settings
-title: StreamChain
-description: A decentralized Web3 streaming platform powered by blockchain technology
-baseurl: '' # the subpath of your site, e.g. /blog
-url: '' # the base hostname & protocol for your site, e.g. http://example.com
+# Project RED X - Jekyll Configuration
+title: Project RED X
+description: A WebAssembly-based application with GitHub Pages support
+baseurl: "/gh-pages"
+url: "https://modsias.github.io"
+author: Project RED X Team
+lang: en-US
+timezone: UTC
 
 # Build settings
 markdown: kramdown
-theme: minima
+highlighter: rouge
+permalink: /:title/
+encoding: utf-8
+incremental: false
+future: true
+
+# Plugin settings
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-remote-theme
 
-# Exclude these files from production site
+# Theme settings
+theme: minima
+
+# Default layouts for different content types
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+  - scope:
+      path: "docs"
+    values:
+      layout: "doc"
+      sidebar: true
+  - scope:
+      path: "_posts"
+    values:
+      layout: "post"
+      author: "Project RED X Team"
+
+# Performance optimization
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: all
+  ignore:
+    envs: [development]
+  blanklines: false
+  profile: false
+  startings: [html, head, body]
+
+# Exclude from processing
 exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
   - vendor
-  - .bundle
+  - README.md
   - package.json
   - package-lock.json
-  - README.md
-  - CNAME
-  - .git
+  - .gitignore
   - .github
-  - server.js
+  - scripts
+  - tests
+  - vite.config.js
+  - run-*.cmd
+  - app.js
+  - red_x
+
+# Include specific files
+include:
+  - .nojekyll
+  - .well-known

@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          submodules: recursive  # Add this line to checkout submodules
+          submodules: recursive # Add this line to checkout submodules
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
