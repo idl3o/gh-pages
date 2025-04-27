@@ -5,17 +5,14 @@
       "label": "make_web",
       "type": "shell",
       "command": "powershell",
-      "args": [
-        "-Command",
-        "& {$emsdkDir = Join-Path -Path '${workspaceFolder}' -ChildPath 'emsdk'; if (Test-Path -Path $emsdkDir) { & \"$emsdkDir\\emsdk_env.bat\" | Out-Null; Push-Location '${workspaceFolder}/red_x'; make web } else { Write-Host 'emsdk not found. Please run the setup_emsdk task first.' -ForegroundColor Red }}"
-      ],
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/red_x/build-web.ps1"],
       "group": {
         "kind": "build",
         "isDefault": true
       },
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "shared"
       },
       "problemMatcher": []
     },
