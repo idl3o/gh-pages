@@ -408,7 +408,7 @@ const ERC1155_ABI = [
 
 async function getTokenInfo() {
   try {
-    const provider = new ethers.providers.JsonRpcProvider('${rpcUrl}');
+    const provider = new ethers.JsonRpcProvider('${rpcUrl}');
     const address = '${address}';
     let tokenInfo = {
       address,
@@ -432,7 +432,7 @@ async function getTokenInfo() {
         name,
         symbol,
         decimals: decimals.toString(),
-        totalSupply: ethers.utils.formatUnits(totalSupply, decimals)
+        totalSupply: ethers.formatUnits(totalSupply, decimals)
       };
 
       console.log(JSON.stringify(tokenInfo, null, 2));

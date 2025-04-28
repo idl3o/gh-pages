@@ -1,8 +1,6 @@
 - --
 layout: default
-title: Introduction to Web3 Crypto Streaming Service
-description: How to properly configure Git when contributing to the Web3 Crypto Streaming Service project
-permalink: /docs/introduction/
+title: Introduction | Web3 Crypto Streaming Service
 - --
 
 # Introduction to Web3 Crypto Streaming Service
@@ -11,14 +9,13 @@ The Web3 Crypto Streaming Service is a decentralized platform that revolutionize
 
 ## What Makes Us Different
 
-Our platform addresses key shortcomings of traditional streaming services:
+Traditional streaming platforms operate on centralized infrastructure with business models that favor the platform over creators and consumers. Our decentralized approach changes this dynamic by:
 
-1. **Creator Economics**: 90% of revenue goes directly to creators (vs. 30-50% on traditional platforms)
-2. **True Ownership**: Content is cryptographically secured and owned by creators
-3. **Censorship Resistance**: Decentralized storage prevents arbitrary content removal
-4. **Privacy Focused**: Minimal data collection and user control over personal information
-5. **Global Access**: No geographic restrictions or regional limitations
-6. **Transparent Governance**: Community-driven decision making through our DAO
+- **Returning power to creators**: Content creators receive up to 90% of revenue generated
+- **Eliminating intermediaries**: Smart contracts enable direct creator-to-viewer relationships
+- **Ensuring content permanence**: Decentralized storage prevents censorship and removal
+- **Creating transparent economics**: All transactions and fee structures are visible on-chain
+- **Enabling community governance**: Token holders participate in platform decision-making
 
 ## Core Components
 
@@ -82,9 +79,14 @@ Despite the underlying complexity, we provide intuitive interfaces for:
 
 ## Next Steps
 
-Ready to get started with Web3 Crypto Streaming Service?
+- Continue to our [Quick Start Guide](../root/quickstart)
+- Explore [Core Concepts](../root/concepts) in depth
+- Review the complete [Technical Architecture](../tech.architecture)
+- Read our comprehensive [Whitepaper](/whitepaper/web3-streaming-service-whitepaper)
 
-- **For Creators**: Check out our [Creator Onboarding Guide](/docs/creator-onboarding)
-- **For Viewers**: Learn how to [Set Up Your Wallet](/docs/wallet-setup) and start watching
-- **For Developers**: Explore our [API Reference](/docs/api-reference) and integration options
+- --
+
+<div style="text-align: center; margin-top: 2rem;">
+  <a href="../root/quickstart" style="display: inline-block; background: #4361ee; color: white; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: bold;">Get Started →</a>
+</div>
 

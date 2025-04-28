@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Not Found - Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="Page not found - Web3 Crypto Streaming Service" />
+    <style>
+      .error-container {
+        text-align: center;
+        padding: 4rem 1rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .error-code {
+        font-size: 8rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        margin: 0;
+        line-height: 1;
+        text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+      }
+
+      .error-message {
+        font-size: 2rem;
+        margin: 1rem 0 2rem 0;
+        color: var(--secondary-color);
+      }
+
+      .error-details {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: var(--light-text);
+      }
+
+      .back-home {
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+      }
+
+      .back-home:hover {
+        background-color: #3651d4;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(67, 97, 238, 0.4);
+        text-decoration: none;
+      }
+
+      /* Replacing the 3D orbit with a simpler, low-RAM SVG animation */
+      .svg-animation-container {
+        width: 180px;
+        height: 180px;
+        margin: 2rem auto;
+        position: relative;
+      }
+
+      .circle-pulse {
+        stroke-dasharray: 283;
+        animation: circle-pulse 3s ease-in-out infinite;
+      }
+
+      @keyframes circle-pulse {
+        0% {
+          stroke-dashoffset: 283;
+        }
+        50% {
+          stroke-dashoffset: 0;
+        }
+        100% {
+          stroke-dashoffset: -283;
+        }
+      }
+
+      .planet {
+        animation: planet-glow 4s ease-in-out infinite;
+      }
+
+      @keyframes planet-glow {
+        0% {
+          filter: drop-shadow(0 0 5px rgba(67, 97, 238, 0.7));
+        }
+        50% {
+          filter: drop-shadow(0 0 15px rgba(67, 97, 238, 0.9));
+        }
+        100% {
+          filter: drop-shadow(0 0 5px rgba(67, 97, 238, 0.7));
+        }
+      }
+
+      .satellite {
+        animation: satellite-orbit 8s linear infinite;
+        transform-origin: center;
+      }
+
+      @keyframes satellite-orbit {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <!-- Base URL resolution -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Get the correct base URL
+        const getBaseUrl = () => {
+          const pathSegments = window.location.pathname.split('/');
+          // Remove the file part (404.html)
+          pathSegments.pop();
+          // For GitHub Pages, we need to handle repository name in the path
+          const baseUrl = pathSegments.join('/') || '/';
+          return baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+        };
+
+        const baseUrl = getBaseUrl();
+
+        // Fix all relative links
+        document.querySelectorAll('a').forEach(link => {
+          const href = link.getAttribute('href');
+          // Only fix links starting with / (absolute path from site root)
+          if (href && href.startsWith('/') && !href.startsWith('//')) {
+            // Remove the leading slash and add baseUrl
+            link.setAttribute('href', baseUrl + href.substring(1));
+          }
+        });
+
+        // Make sure the back home button works with the correct base URL
+        document.getElementById('back-home-button').setAttribute('href', baseUrl);
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="container nav-container">
+        <a href="/" class="logo">Web3 Crypto Streaming</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="/#features">Features</a></li>
+            <li><a href="/#architecture">Architecture</a></li>
+            <li><a href="/#tech">Tech Stack</a></li>
+            <li><a href="/#token">Token</a></li>
+            <li><a href="/java/">Java API</a></li>
+            <li><a href="/docs/">Docs</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- 404 Content -->
+    <div class="container">
+      <div class="error-container">
+        <!-- Replacing the high-RAM animation with an efficient SVG animation -->
+        <div class="svg-animation-container">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Pulsing orbit -->
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke="rgba(67, 97, 238, 0.2)"
+              stroke-width="1"
+              class="circle-pulse"
+            />
+
+            <!-- Planet -->
+            <circle cx="50" cy="50" r="20" fill="url(#planet-gradient)" class="planet" />
+
+            <!-- Satellite orbit path -->
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              fill="none"
+              stroke="rgba(67, 97, 238, 0.1)"
+              stroke-width="1"
+              stroke-dasharray="4 2"
+            />
+
+            <!-- Satellite -->
+            <g class="satellite">
+              <circle cx="90" cy="50" r="5" fill="#2c3e50" />
+            </g>
+
+            <!-- Gradient definition for planet -->
+            <defs>
+              <linearGradient id="planet-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4361ee" />
+                <stop offset="100%" stop-color="#3a0ca3" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <h1 class="error-code">404</h1>
+        <p class="error-message">Page Not Found</p>
+        <p class="error-details">
+          The page you're looking for seems to have drifted into another blockchain. Don't worry,
+          our network is still intact!
+        </p>
+
+        <a href="/" id="back-home-button" class="back-home">Back to Home</a>
+
+        <p style="margin-top: 3rem">
+          If you believe this is an error with our site, please
+          <a
+            href="https://github.com/idl3o/gh-pages/issues/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            >report it on GitHub</a
+          >.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Crypto Streaming Service</h3>
+            <p>Revolutionizing content distribution through blockchain technology.</p>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="/docs/whitepaper.html">Whitepaper</a></li>
+              <li><a href="/docs/">Documentation</a></li>
+              <li><a href="/blog/">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://twitter.com/modsias">Twitter</a></li>
+              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="/legal/terms.html">Terms of Service</a></li>
+              <li><a href="/legal/privacy.html">Privacy Policy</a></li>
+              <li><a href="/legal/token-disclaimer.html">Token Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2024 Team MODSIAS | <a href="/sitemap.html">Sitemap</a></p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

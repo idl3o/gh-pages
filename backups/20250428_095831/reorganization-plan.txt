@@ -1,0 +1,1326 @@
+Repository Reorganization Plan - 20250428_095831
+
+Move to "scripts":
+  - branch-manager.ps1
+  - Check-PowerShellParameters.ps1
+  - Convert-BashScripts.ps1
+  - create-test-video.ps1
+  - create-web3-demo-video.ps1
+  - deploy-gh-pages.ps1
+  - fix-bin-bin.ps1
+  - fix-binaryen.ps1
+  - Fix-HtmlCssErrors.ps1
+  - Fix-MarkdownLint.ps1
+  - Format-And-Lint.ps1
+  - Launch-RedX.ps1
+  - Reorganize-Repository.ps1
+  - Repair-Project.ps1
+  - run-ubuntu.ps1
+  - setup-emsdk.ps1
+  - setup-ruby.ps1
+  - sxs-cli.ps1
+  - test-jekyll.ps1
+  - Test-Local.ps1
+  - update-bundler.ps1
+  - Validate-PowerShell.ps1
+  - emsdk\emsdk.ps1
+  - emsdk\emsdk_env.ps1
+  - emsdk\python\3.9.2-nuget_64bit\Lib\venv\scripts\common\Activate.ps1
+  - emsdk\test\test_activation.ps1
+  - emsdk\test\test_bazel.ps1
+  - emsdk\test\test_path_preservation.ps1
+  - red_x\build-web.ps1
+  - red_x\Develop-Native.ps1
+  - red_x\fix-clang-manually.ps1
+  - red_x\fix-emscripten-llvm.ps1
+  - red_x\fix-emscripten.ps1
+  - red_x\fix-node-detection.ps1
+  - red_x\Invoke-RedX.ps1
+  - red_x\run-emcc.ps1
+  - red_x\Run-RedX.ps1
+  - red_x\Setup-Dependencies.ps1
+  - red_x\Start-RedX-Build.ps1
+  - red_x\sxs-build-web.ps1
+  - red_x\sxs-start-server.ps1
+  - red_x\sxs.ps1
+  - red_x\Test-RedXSyntax.ps1
+  - scripts\cleanup-workflows.ps1
+  - scripts\ps-backup.ps1
+  - scripts\ps-build.ps1
+  - scripts\ps-deploy.ps1
+  - scripts\ps-restore.ps1
+  - scripts\run-native-build.ps1
+  - branch-manager.cmd
+  - check-status.cmd
+  - create-test-video.cmd
+  - create-web3-demo-video.cmd
+  - deploy-gh-pages.cmd
+  - launch-branch-manager.cmd
+  - open-launcher.cmd
+  - open-ubuntu-prx.cmd
+  - RedX-Build.cmd
+  - run-app.cmd
+  - run-build 2.cmd
+  - run-build.cmd
+  - run-cfig.cmd
+  - run-fix-deploy.cmd
+  - run-launcher.cmd
+  - run-ranking-page.cmd
+  - run-script.cmd
+  - run-security.cmd
+  - run-status.cmd
+  - run-tests.cmd
+  - switch-branch.cmd
+  - sxs-cli.cmd
+  - main_backup_20250415_110245\check-status.cmd
+  - main_backup_20250415_110245\open-launcher.cmd
+  - main_backup_20250415_110245\run-app.cmd
+  - main_backup_20250415_110245\run-build 2.cmd
+  - main_backup_20250415_110245\run-build.cmd
+  - main_backup_20250415_110245\run-cfig.cmd
+  - main_backup_20250415_110245\run-fix-deploy.cmd
+  - main_backup_20250415_110245\run-launcher.cmd
+  - main_backup_20250415_110245\run-ranking-page.cmd
+  - main_backup_20250415_110245\run-script.cmd
+  - main_backup_20250415_110245\run-security.cmd
+  - main_backup_20250415_110245\run-status 2.cmd
+  - main_backup_20250415_110245\run-status.cmd
+  - main_backup_20250415_110245\run-tests.cmd
+  - main_backup_20250415_110245\scripts\download-assets.cmd
+  - main_backup_20250415_110245\scripts\run-ruby-generator.cmd
+  - scripts\download-assets.cmd
+  - scripts\run-ruby-generator.cmd
+  - scripts\run-task.cmd
+  - BuildRedX.bat
+  - setup-env 2.bat
+  - setup-env.bat
+  - start-sxs.bat
+  - emsdk\emcmdprompt.bat
+  - emsdk\emsdk.bat
+  - emsdk\emsdk_env.bat
+  - emsdk\bazel\emscripten_toolchain\emar.bat
+  - emsdk\bazel\emscripten_toolchain\emcc.bat
+  - emsdk\bazel\emscripten_toolchain\emcc_link.bat
+  - emsdk\bazel\emscripten_toolchain\env.bat
+  - emsdk\python\3.9.2-nuget_64bit\Lib\ctypes\macholib\fetch_macholib.bat
+  - emsdk\python\3.9.2-nuget_64bit\Lib\venv\scripts\nt\activate.bat
+  - emsdk\python\3.9.2-nuget_64bit\Lib\venv\scripts\nt\deactivate.bat
+  - emsdk\test\test.bat
+  - emsdk\upstream\emscripten\bootstrap.bat
+  - emsdk\upstream\emscripten\em++.bat
+  - emsdk\upstream\emscripten\em-config.bat
+  - emsdk\upstream\emscripten\emar.bat
+  - emsdk\upstream\emscripten\embuilder.bat
+  - emsdk\upstream\emscripten\emcc.bat
+  - emsdk\upstream\emscripten\emcmake.bat
+  - emsdk\upstream\emscripten\emconfigure.bat
+  - emsdk\upstream\emscripten\emdump.bat
+  - emsdk\upstream\emscripten\emdwp.bat
+  - emsdk\upstream\emscripten\emmake.bat
+  - emsdk\upstream\emscripten\emnm.bat
+  - emsdk\upstream\emscripten\emprofile.bat
+  - emsdk\upstream\emscripten\emranlib.bat
+  - emsdk\upstream\emscripten\emrun.bat
+  - emsdk\upstream\emscripten\emscan-deps.bat
+  - emsdk\upstream\emscripten\emscons.bat
+  - emsdk\upstream\emscripten\emsize.bat
+  - emsdk\upstream\emscripten\emstrip.bat
+  - emsdk\upstream\emscripten\emsymbolizer.bat
+  - emsdk\upstream\emscripten\cache\sysroot\bin\sdl-config.bat
+  - emsdk\upstream\emscripten\cache\sysroot\bin\sdl2-config.bat
+  - emsdk\upstream\emscripten\system\bin\sdl-config.bat
+  - emsdk\upstream\emscripten\system\bin\sdl2-config.bat
+  - emsdk\upstream\emscripten\test\runner.bat
+  - emsdk\upstream\emscripten\tools\file_packager.bat
+  - emsdk\upstream\emscripten\tools\webidl_binder.bat
+  - main_backup_20250415_110245\setup-env 2.bat
+  - main_backup_20250415_110245\setup-env 3.bat
+  - main_backup_20250415_110245\setup-env.bat
+  - red_x\red_x.bat
+  - vendor\bundle\ruby\3.3.0\bin\bundle.bat
+  - vendor\bundle\ruby\3.3.0\bin\bundler.bat
+  - safe-commit.sh
+  - sxs-cli.sh
+  - emsdk\upstream\emscripten\system\lib\libcxxabi\src\demangle\cp-to-llvm.sh
+  - emsdk\upstream\emscripten\third_party\ply\example\cleanup.sh
+  - emsdk\upstream\emscripten\third_party\ply\test\cleanup.sh
+  - red_x\build-ubuntu.sh
+  - red_x\deploy-to-ubuntu.sh
+  - red_x\run-redx.sh
+
+Move to "src/pages":
+  - main_backup_20250415_110245\scripts\deploy-gh-pages.js
+  - main_backup_20250415_110245\src\components\Login\LoginPage.js
+  - scripts\deploy-gh-pages.js
+  - scripts\diagnose-gh-pages.js
+  - src\components\Login\LoginPage.js
+
+Move to "config":
+  - .branch-config.json
+  - .eslintrc.json
+  - .markdownlint.json
+  - launch.json
+  - nodemon.json
+  - package 2.json
+  - package-lock.json
+  - package.json
+  - tasks 2.json
+  - tasks.json
+  - .dependency-backups\backups.json
+  - .github\workflows\lighthouse-config.json
+  - .sonarlint\sonarlint 2.json
+  - .sonarlint\sonarlint.json
+  - .vscode\extensions.json
+  - .vscode\launch.json
+  - .vscode\settings.json
+  - .vscode\tasks.json
+  - build\package.json
+  - build\.cmake\api\v1\query\client-vscode\query.json
+  - build\.cmake\api\v1\reply\cache-v2-7434f39ec3af327bc434.json
+  - build\.cmake\api\v1\reply\cmakeFiles-v1-7b84363198b1da679575.json
+  - build\.cmake\api\v1\reply\codemodel-v2-fdf9c42dd4bcdab71306.json
+  - build\.cmake\api\v1\reply\index-2025-04-28T04-32-32-0916.json
+  - build\.cmake\api\v1\reply\target-ALL_BUILD-Debug-69ec12e2a2c5969eef29.json
+  - build\.cmake\api\v1\reply\target-ALL_BUILD-MinSizeRel-69ec12e2a2c5969eef29.json
+  - build\.cmake\api\v1\reply\target-ALL_BUILD-Release-69ec12e2a2c5969eef29.json
+  - build\.cmake\api\v1\reply\target-ALL_BUILD-RelWithDebInfo-69ec12e2a2c5969eef29.json
+  - build\.cmake\api\v1\reply\target-helloworld-Debug-7ae65212b66f16cf4d8a.json
+  - build\.cmake\api\v1\reply\target-helloworld-MinSizeRel-c062963de7c6f1c965d4.json
+  - build\.cmake\api\v1\reply\target-helloworld-Release-1865329e7c750e8c0f90.json
+  - build\.cmake\api\v1\reply\target-helloworld-RelWithDebInfo-f227c9d1932f27085ddd.json
+  - build\.cmake\api\v1\reply\target-ZERO_CHECK-Debug-fbfcd449e8ac8ae64be6.json
+  - build\.cmake\api\v1\reply\target-ZERO_CHECK-MinSizeRel-fbfcd449e8ac8ae64be6.json
+  - build\.cmake\api\v1\reply\target-ZERO_CHECK-Release-fbfcd449e8ac8ae64be6.json
+  - build\.cmake\api\v1\reply\target-ZERO_CHECK-RelWithDebInfo-fbfcd449e8ac8ae64be6.json
+  - build\.cmake\api\v1\reply\toolchains-v1-d4e45aededf8e2a12165.json
+  - config\cfig.json
+  - config\ranking-schema.json
+  - emsdk\emscripten-releases-tags.json
+  - emsdk\emsdk_manifest.json
+  - emsdk\upstream\emscripten\package-lock.json
+  - emsdk\upstream\emscripten\package.json
+  - emsdk\upstream\emscripten\src\struct_info.json
+  - emsdk\upstream\emscripten\src\struct_info_cxx.json
+  - emsdk\upstream\emscripten\src\struct_info_generated.json
+  - emsdk\upstream\emscripten\src\struct_info_generated_wasm64.json
+  - emsdk\upstream\emscripten\src\struct_info_internal.json
+  - emsdk\upstream\emscripten\src\struct_info_webgpu.json
+  - emsdk\upstream\emscripten\test\code_size\embind_hello_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\embind_val_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\hello_wasm_worker_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\hello_webgl2_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\hello_webgl2_wasm2js.json
+  - emsdk\upstream\emscripten\test\code_size\hello_webgl_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\hello_webgl_wasm2js.json
+  - emsdk\upstream\emscripten\test\code_size\hello_world_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\hello_world_wasm2js.json
+  - emsdk\upstream\emscripten\test\code_size\math_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\random_printf_wasm.json
+  - emsdk\upstream\emscripten\test\code_size\random_printf_wasm2js.json
+  - emsdk\upstream\emscripten\test\other\embind_tsgen_package.json
+  - emsdk\upstream\emscripten\test\other\test_extra_struct_info.json
+  - main_backup_20250415_110245\launch.json
+  - main_backup_20250415_110245\nodemon.json
+  - main_backup_20250415_110245\package 2.json
+  - main_backup_20250415_110245\package.json
+  - main_backup_20250415_110245\tasks 2.json
+  - main_backup_20250415_110245\tasks 3.json
+  - main_backup_20250415_110245\tasks.json
+  - main_backup_20250415_110245\.sonarlint\sonarlint 2.json
+  - main_backup_20250415_110245\.sonarlint\sonarlint.json
+  - main_backup_20250415_110245\.vscode\extensions.json
+  - main_backup_20250415_110245\.vscode\launch.json
+  - main_backup_20250415_110245\.vscode\settings.json
+  - main_backup_20250415_110245\.vscode\tasks.json
+  - main_backup_20250415_110245\config\cfig 2.json
+  - main_backup_20250415_110245\config\cfig.json
+  - main_backup_20250415_110245\config\ranking-schema 2.json
+  - main_backup_20250415_110245\config\ranking-schema.json
+  - main_backup_20250415_110245\red_x\package.json
+  - main_backup_20250415_110245\red_x\tsconfig.json
+  - main_backup_20250415_110245\tests\asset-generator\test-files.json
+  - main_backup_20250415_110245\ts\package.json
+  - main_backup_20250415_110245\ts\tsconfig.json
+  - mcp-schemas\blockchainConfig.schema.json
+  - mcp-schemas\conversationManager.schema.json
+  - mcp-schemas\index.schema.json
+  - mcp-schemas\poebcController.schema.json
+  - red_x\package-lock.json
+  - red_x\package.json
+  - red_x\sxs-config.json
+  - red_x\sxs-package.json
+  - red_x\tsconfig.json
+  - red_x\sxs-core\nlp-config.json
+  - red_x\sxs-metrics\metrics.json
+  - tests\asset-generator\test-files.json
+  - ts\package.json
+  - ts\tsconfig.json
+  - _site\package.json
+  - docker-compose 2.yml
+  - docker-compose.yml
+  - _config.yml
+  - .github\codeql-config.yml
+  - .github\dependabot.yml
+  - .github\workflows\build-and-test.yml
+  - .github\workflows\build-deploy.yml
+  - .github\workflows\build-test.yml
+  - .github\workflows\code-quality.yml
+  - .github\workflows\codeql-analysis.yml
+  - .github\workflows\contract-docs-deploy.yml
+  - .github\workflows\deploy-pages.yml
+  - .github\workflows\deploy.yml
+  - .github\workflows\deployment.yml
+  - .github\workflows\gh-pages-deploy.yml
+  - .github\workflows\gh-pages.yml
+  - .github\workflows\github-compatibility.yml
+  - .github\workflows\github-pages.yml
+  - .github\workflows\jekyll-build.yml
+  - .github\workflows\lighthouse.yml
+  - .github\workflows\main.yml
+  - .github\workflows\pages-build-deployment.yml
+  - .github\workflows\powershell-validation.yml
+  - .github\workflows\pull-request.yml
+  - .github\workflows\ruby-ci.yml
+  - .github\workflows\test.yml
+  - .github\workflows\unified-deploy.yml
+  - .github\workflows\unified-testing.yml
+  - .github\workflows\url-check.yml
+  - .github\workflows\validate-powershell.yml
+  - build\_config.yml
+  - config\design-config.yml
+  - emsdk\.circleci\config.yml
+  - emsdk\.github\stale.yml
+  - emsdk\.github\workflows\create-release.yml
+  - emsdk\.github\workflows\tag-release.yml
+  - emsdk\upstream\emscripten\.circleci\config.yml
+  - emsdk\upstream\emscripten\.github\dependabot.yml
+  - emsdk\upstream\emscripten\.github\stale.yml
+  - emsdk\upstream\emscripten\.github\workflows\ci.yml
+  - emsdk\upstream\emscripten\.github\workflows\rebaseline-tests.yml
+  - emsdk\upstream\emscripten\.github\workflows\scorecards.yml
+  - emsdk\upstream\emscripten\.github\workflows\tag-release.yml
+  - main_backup_20250415_110245\docker-compose 2.yml
+  - main_backup_20250415_110245\docker-compose.yml
+  - main_backup_20250415_110245\_config 2.yml
+  - main_backup_20250415_110245\_config.yml
+  - main_backup_20250415_110245\.github\dependabot.yml
+  - main_backup_20250415_110245\.github\workflows\0-welcome.yml
+  - main_backup_20250415_110245\.github\workflows\1-enable-github-pages.yml
+  - main_backup_20250415_110245\.github\workflows\2-configure-your-site.yml
+  - main_backup_20250415_110245\.github\workflows\3-customize-your-homepage.yml
+  - main_backup_20250415_110245\.github\workflows\4-create-a-blog-post.yml
+  - main_backup_20250415_110245\.github\workflows\5-merge-your-pull-request.yml
+  - main_backup_20250415_110245\.github\workflows\build-test.yml
+  - main_backup_20250415_110245\.github\workflows\deploy.yml
+  - main_backup_20250415_110245\.github\workflows\gh-pages.yml
+  - main_backup_20250415_110245\.github\workflows\github-pages.yml
+  - main_backup_20250415_110245\config\design-config 2.yml
+  - main_backup_20250415_110245\config\design-config.yml
+  - _site\_config.yml
+  - java\serverless-function\template.yaml
+
+Move to "src/utils":
+  - assets\js\utils.js
+  - build\assets\js\utils.js
+  - emsdk\upstream\emscripten\third_party\closure-compiler\node-externs\util.js
+  - main_backup_20250415_110245\assets\js\utils.js
+  - main_backup_20250415_110245\tests\utils.test 2.js
+  - main_backup_20250415_110245\tests\utils.test.js
+  - tests\utils.test.js
+  - _site\assets\js\utils.js
+  - cli\utils\ui-helpers.js
+  - scripts\ci-helper.js
+  - scripts\deploy-helper.js
+
+Move to "src/contracts":
+  - ProofOfExistence (1).sol
+  - ProofOfExistence 2.sol
+  - ProofOfExistence.sol
+  - StreamAccessContract.sol
+  - Streaming.sol
+  - StreamPayment.sol
+  - StreamToken.sol
+  - build\StreamAccessContract.sol
+  - build\Streaming.sol
+  - build\StreamPayment.sol
+  - build\StreamToken.sol
+  - contracts\ContentRegistry.sol
+  - contracts\EmergencyResponse.sol
+  - contracts\EnhancedReentrancyGuard.sol
+  - contracts\LazyContentMinter.sol
+  - contracts\ProofOfExistence.sol
+  - contracts\StandardErrors.sol
+  - contracts\StreamAccessContract.sol
+  - contracts\StreamAccessProxy.sol
+  - contracts\StreamAMM.sol
+  - contracts\StreamingToken.sol
+  - contracts\ValidationUtils.sol
+  - docs\token\contracts\StreamEcosystem.sol
+  - docs\token\contracts\StreamGovernance.sol
+  - docs\token\contracts\StreamMetricsOracle.sol
+  - docs\token\contracts\StreamToken.sol
+  - main_backup_20250415_110245\ProofOfExistence (1).sol
+  - main_backup_20250415_110245\ProofOfExistence 2.sol
+  - main_backup_20250415_110245\ProofOfExistence 4.sol
+  - main_backup_20250415_110245\ProofOfExistence.sol
+  - main_backup_20250415_110245\StreamAccessContract.sol
+  - main_backup_20250415_110245\Streaming.sol
+  - main_backup_20250415_110245\StreamPayment 2.sol
+  - main_backup_20250415_110245\StreamPayment.sol
+  - main_backup_20250415_110245\StreamToken.sol
+  - main_backup_20250415_110245\contracts\ProofOfExistence 2.sol
+  - main_backup_20250415_110245\contracts\ProofOfExistence.sol
+  - main_backup_20250415_110245\contracts\StreamAccessContract 2.sol
+  - main_backup_20250415_110245\contracts\StreamAccessContract.sol
+  - _site\StreamAccessContract.sol
+  - _site\Streaming.sol
+  - _site\StreamPayment.sol
+  - _site\StreamToken.sol
+
+Move to "src/styles":
+  - dashboard-batch-upload.css
+  - main 2.css
+  - main.css
+  - styles.css
+  - assets\css\ai-companion.css
+  - assets\css\animations.css
+  - assets\css\aws-jobs 2.css
+  - assets\css\aws-jobs.css
+  - assets\css\blockchain-game.css
+  - assets\css\blog 2.css
+  - assets\css\blog.css
+  - assets\css\browser-compatibility.css
+  - assets\css\chat.css
+  - assets\css\components 2.css
+  - assets\css\components.css
+  - assets\css\content-studio.css
+  - assets\css\content-viewer.css
+  - assets\css\contrast-fixes.css
+  - assets\css\cross-browser.css
+  - assets\css\dashboard.css
+  - assets\css\definitive.css
+  - assets\css\flymode.css
+  - assets\css\freebase.css
+  - assets\css\legal.css
+  - assets\css\main.css
+  - assets\css\mobile.css
+  - assets\css\moderation 2.css
+  - assets\css\moderation.css
+  - assets\css\registration.css
+  - assets\css\style.css
+  - assets\css\telos.css
+  - assets\css\theme.css
+  - assets\css\westoast 2.css
+  - assets\css\westoast.css
+  - build\assets\css\ai-companion.css
+  - build\assets\css\animations.css
+  - build\assets\css\aws-jobs 2.css
+  - build\assets\css\aws-jobs.css
+  - build\assets\css\blockchain-game.css
+  - build\assets\css\blog 2.css
+  - build\assets\css\blog.css
+  - build\assets\css\browser-compatibility.css
+  - build\assets\css\chat.css
+  - build\assets\css\components 2.css
+  - build\assets\css\components.css
+  - build\assets\css\content-studio.css
+  - build\assets\css\content-viewer.css
+  - build\assets\css\contrast-fixes.css
+  - build\assets\css\cross-browser.css
+  - build\assets\css\dashboard.css
+  - build\assets\css\definitive.css
+  - build\assets\css\flymode.css
+  - build\assets\css\freebase.css
+  - build\assets\css\legal.css
+  - build\assets\css\main.css
+  - build\assets\css\moderation 2.css
+  - build\assets\css\moderation.css
+  - build\assets\css\registration.css
+  - build\assets\css\style.css
+  - build\assets\css\telos.css
+  - build\assets\css\theme.css
+  - build\assets\css\westoast 2.css
+  - build\assets\css\westoast.css
+  - css\dashboard-batch-upload.css
+  - css\dashboard-upload.css
+  - css\dashboard.css
+  - css\ipfs-upload.css
+  - css\responsive-framework.css
+  - emsdk\python\3.9.2-nuget_64bit\Lib\pydoc_data\_pydoc.css
+  - emsdk\upstream\emscripten\src\shell.css
+  - gh pages actions workspace\streamchain-website\assets\css\animations.css
+  - gh pages actions workspace\streamchain-website\assets\css\definitive.css
+  - gh pages actions workspace\streamchain-website\assets\css\main.css
+  - main_backup_20250415_110245\main 2.css
+  - main_backup_20250415_110245\main.css
+  - main_backup_20250415_110245\styles.css
+  - main_backup_20250415_110245\assets\css\ai-companion.css
+  - main_backup_20250415_110245\assets\css\animations.css
+  - main_backup_20250415_110245\assets\css\aws-jobs 2.css
+  - main_backup_20250415_110245\assets\css\aws-jobs.css
+  - main_backup_20250415_110245\assets\css\blockchain-game.css
+  - main_backup_20250415_110245\assets\css\blog 2.css
+  - main_backup_20250415_110245\assets\css\blog.css
+  - main_backup_20250415_110245\assets\css\components 2.css
+  - main_backup_20250415_110245\assets\css\components.css
+  - main_backup_20250415_110245\assets\css\content-viewer.css
+  - main_backup_20250415_110245\assets\css\contrast-fixes.css
+  - main_backup_20250415_110245\assets\css\flymode.css
+  - main_backup_20250415_110245\assets\css\freebase.css
+  - main_backup_20250415_110245\assets\css\legal.css
+  - main_backup_20250415_110245\assets\css\main.css
+  - main_backup_20250415_110245\assets\css\moderation 2.css
+  - main_backup_20250415_110245\assets\css\moderation.css
+  - main_backup_20250415_110245\assets\css\registration.css
+  - main_backup_20250415_110245\assets\css\style.css
+  - main_backup_20250415_110245\assets\css\telos.css
+  - main_backup_20250415_110245\assets\css\theme.css
+  - main_backup_20250415_110245\assets\css\westoast 2.css
+  - main_backup_20250415_110245\assets\css\westoast.css
+  - main_backup_20250415_110245\css\responsive-framework.css
+  - _site\assets\css\ai-companion.css
+  - _site\assets\css\animations.css
+  - _site\assets\css\aws-jobs 2.css
+  - _site\assets\css\aws-jobs.css
+  - _site\assets\css\blockchain-game.css
+  - _site\assets\css\blog 2.css
+  - _site\assets\css\blog.css
+  - _site\assets\css\browser-compatibility.css
+  - _site\assets\css\chat.css
+  - _site\assets\css\components 2.css
+  - _site\assets\css\components.css
+  - _site\assets\css\content-studio.css
+  - _site\assets\css\content-viewer.css
+  - _site\assets\css\contrast-fixes.css
+  - _site\assets\css\cross-browser.css
+  - _site\assets\css\dashboard.css
+  - _site\assets\css\definitive.css
+  - _site\assets\css\flymode.css
+  - _site\assets\css\freebase.css
+  - _site\assets\css\legal.css
+  - _site\assets\css\main.css
+  - _site\assets\css\mobile.css
+  - _site\assets\css\moderation 2.css
+  - _site\assets\css\moderation.css
+  - _site\assets\css\registration.css
+  - _site\assets\css\style.css
+  - _site\assets\css\telos.css
+  - _site\assets\css\theme.css
+  - _site\assets\css\westoast 2.css
+  - _site\assets\css\westoast.css
+  - assets\css\style.scss
+  - build\assets\css\style.scss
+  - main_backup_20250415_110245\assets\css\style.scss
+  - _site\assets\css\style.scss
+
+Move to "assets/images":
+  - emsdk\upstream\emscripten\docs\graph.png
+  - emsdk\upstream\emscripten\media\logo.png
+  - emsdk\upstream\emscripten\media\powered_by_logo.png
+  - emsdk\upstream\emscripten\media\powered_by_logo_shell.png
+  - emsdk\upstream\emscripten\media\switch_logo.png
+  - emsdk\upstream\emscripten\test\cocos2d_hello.png
+  - emsdk\upstream\emscripten\test\cube_explosion.png
+  - emsdk\upstream\emscripten\test\float_tex.png
+  - emsdk\upstream\emscripten\test\gears.png
+  - emsdk\upstream\emscripten\test\glbegin_points.png
+  - emsdk\upstream\emscripten\test\gl_ps.png
+  - emsdk\upstream\emscripten\test\gl_ps_strides.png
+  - emsdk\upstream\emscripten\test\gl_renderers.png
+  - emsdk\upstream\emscripten\test\gl_stride.png
+  - emsdk\upstream\emscripten\test\gl_triangle.png
+  - emsdk\upstream\emscripten\test\gl_vertex_buffer.png
+  - emsdk\upstream\emscripten\test\gl_vertex_buffer_pre.png
+  - emsdk\upstream\emscripten\test\htmltest.png
+  - emsdk\upstream\emscripten\test\perspective.png
+  - emsdk\upstream\emscripten\test\s3tc.png
+  - emsdk\upstream\emscripten\test\s3tc_crunch.png
+  - emsdk\upstream\emscripten\test\screenshot-fog-density.png
+  - emsdk\upstream\emscripten\test\screenshot-fog-exp2.png
+  - emsdk\upstream\emscripten\test\screenshot-fog-linear.png
+  - emsdk\upstream\emscripten\test\screenshot-fog-negative.png
+  - emsdk\upstream\emscripten\test\screenshot-fog-simple.png
+  - emsdk\upstream\emscripten\test\screenshot-gray-purple.png
+  - emsdk\upstream\emscripten\test\screenshot-gray.png
+  - emsdk\upstream\emscripten\test\screenshot.png
+  - emsdk\upstream\emscripten\test\tex_nonbyte.png
+  - emsdk\upstream\emscripten\test\browser\test_anisotropic.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp1.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp2.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp3.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp4.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_canvas.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_gfx.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_glalphatest.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_glclipplane_gllighting.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_gldrawelements.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_glmatrixmode_texture.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_gl_frames_swap.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_ttf.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl2_ttf_rtl.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_alpha.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_alpha_flag_0.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_blank.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette_b.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette_g.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette_r.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_proxy.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_twice.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_create_rgb_surface_from.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_gfx_primitives.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_glshader.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_maprgba.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_rotozoom.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_set_clip_rect.png
+  - emsdk\upstream\emscripten\test\browser\test_sdl_ttf_render_text_solid.png
+  - emsdk\upstream\emscripten\test\browser\webgl_array_of_structs_uniform.png
+  - emsdk\upstream\emscripten\test\browser\webgl_draw_instanced_base_vertex_base_instance.png
+  - emsdk\upstream\emscripten\test\browser\webgl_multi_draw.png
+  - emsdk\upstream\emscripten\test\minimal_webgl\moon.png
+  - emsdk\upstream\emscripten\test\screenshot.jpg
+  - emsdk\upstream\emscripten\test\screenshot.webp
+
+Move to "public":
+  - 404.html
+  - about.html
+  - admin.html
+  - ai-companion.html
+  - audience-engagement.html
+  - batch-upload-demo.html
+  - branch-manager.html
+  - creator-dashboard.html
+  - docs.html
+  - governance-visualization.html
+  - index.html
+  - instructor.html
+  - launch.html
+  - monetization.html
+  - offline.html
+  - ranking-power.html
+  - redirect.html
+  - security.html
+  - sitemap.html
+  - status-onboarding.html
+  - status.html
+  - streaming.html
+  - team.html
+  - token-explorer.html
+  - token.html
+  - url-launcher.html
+  - aws-integration\aws-jobs.html
+  - backup_community_model\creator-dashboard.html
+  - backup_community_model\homepage.html
+  - blog\index.html
+  - build\404.html
+  - build\ai-companion.html
+  - build\creator-dashboard.html
+  - build\governance-visualization.html
+  - build\index.html
+  - build\ranking-power.html
+  - build\status.html
+  - build\streaming.html
+  - build\team.html
+  - build\url-launcher.html
+  - build\red_x\afk-downloader.html
+  - build\red_x\deployment_test.html
+  - build\red_x\index.html
+  - build\red_x\template.html
+  - docs\contracts.html
+  - docs\index.html
+  - docs\token.html
+  - docs\_includes\sidebar.html
+  - docs\_layouts\default.html
+  - email-templates\beta-signup.html
+  - email-templates\confirmation.html
+  - email-templates\job-application.html
+  - email-templates\newsletter.html
+  - email-templates\welcome.html
+  - emsdk\upstream\emscripten\src\shell.html
+  - emsdk\upstream\emscripten\src\shell_minimal.html
+  - emsdk\upstream\emscripten\src\shell_minimal_runtime.html
+  - emsdk\upstream\emscripten\test\browser_harness.html
+  - emsdk\upstream\emscripten\test\canvas_animate_resize_shell.html
+  - emsdk\upstream\emscripten\test\canvas_style_proxy_shell.html
+  - emsdk\upstream\emscripten\test\custom_messages_proxy_shell.html
+  - emsdk\upstream\emscripten\test\hello_world_gles_shell.html
+  - emsdk\upstream\emscripten\test\shell_that_launches_modularize.html
+  - emsdk\upstream\emscripten\test\test_fflush.html
+  - emsdk\upstream\emscripten\test\test_html5_fullscreen.html
+  - emsdk\upstream\emscripten\test\test_manual_wasm_instantiate.html
+  - emsdk\upstream\emscripten\test\test_preallocated_heap_shell.html
+  - emsdk\upstream\emscripten\test\test_preinitialized_webgl_context.html
+  - emsdk\upstream\emscripten\test\browser\test_em_asm_blocking.html
+  - emsdk\upstream\emscripten\test\browser\test_manual_download_data.html
+  - emsdk\upstream\emscripten\test\browser\test_sdl_canvas_size.html
+  - emsdk\upstream\emscripten\test\browser\webgl_destroy_context_shell.html
+  - emsdk\upstream\emscripten\test\embind\shell.html
+  - emsdk\upstream\emscripten\test\module\test_html_preprocess.html
+  - emsdk\upstream\emscripten\test\module\test_html_preprocess1.html
+  - emsdk\upstream\emscripten\test\pthread\main_js_with_loader.html
+  - emsdk\upstream\emscripten\test\pthread\test_pthread_mandelbrot_shell.html
+  - emsdk\upstream\emscripten\test\rollup\index.html
+  - emsdk\upstream\emscripten\test\vite\index.html
+  - emsdk\upstream\emscripten\test\webpack\dist\index.html
+  - emsdk\upstream\emscripten\test\webpack_es6\dist\index.html
+  - emsdk\upstream\emscripten\third_party\ply\doc\internal.html
+  - emsdk\upstream\emscripten\third_party\ply\doc\ply.html
+  - emsdk\upstream\emscripten\tools\toolchain_profiler.results_template.html
+  - examples\batch-upload-example.html
+  - gh pages actions workspace\streamchain-website\index.html
+  - gh pages actions workspace\streamchain-website\pages\about.html
+  - gh pages actions workspace\streamchain-website\pages\admin.html
+  - gh pages actions workspace\streamchain-website\pages\contact.html
+  - gh pages actions workspace\streamchain-website\pages\creator-dashboard.html
+  - gh pages actions workspace\streamchain-website\pages\docs.html
+  - gh pages actions workspace\streamchain-website\pages\faq.html
+  - gh pages actions workspace\streamchain-website\pages\governance-visualization.html
+  - gh pages actions workspace\streamchain-website\pages\privacy.html
+  - gh pages actions workspace\streamchain-website\pages\security.html
+  - gh pages actions workspace\streamchain-website\pages\sitemap.html
+  - gh pages actions workspace\streamchain-website\pages\streaming.html
+  - gh pages actions workspace\streamchain-website\pages\team.html
+  - gh pages actions workspace\streamchain-website\pages\terms-of-service.html
+  - gh pages actions workspace\streamchain-website\pages\token-disclaimer.html
+  - gh pages actions workspace\streamchain-website\pages\token.html
+  - gh pages b0\homepage.html
+  - gh-pages-build\index.html
+  - java\index.html
+  - legal\terms.html
+  - main_backup_20250415_110245\404 2.html
+  - main_backup_20250415_110245\404.html
+  - main_backup_20250415_110245\ai-companion 2.html
+  - main_backup_20250415_110245\ai-companion.html
+  - main_backup_20250415_110245\governance-visualization.html
+  - main_backup_20250415_110245\index 2.html
+  - main_backup_20250415_110245\index.html
+  - main_backup_20250415_110245\launch.html
+  - main_backup_20250415_110245\ranking-power.html
+  - main_backup_20250415_110245\security.html
+  - main_backup_20250415_110245\status-onboarding.html
+  - main_backup_20250415_110245\status.html
+  - main_backup_20250415_110245\team.html
+  - main_backup_20250415_110245\url-launcher 2.html
+  - main_backup_20250415_110245\url-launcher.html
+  - main_backup_20250415_110245\aws-integration\aws-jobs 2.html
+  - main_backup_20250415_110245\aws-integration\aws-jobs.html
+  - main_backup_20250415_110245\blog\index.html
+  - main_backup_20250415_110245\docs\_includes\sidebar.html
+  - main_backup_20250415_110245\docs\_layouts\default.html
+  - main_backup_20250415_110245\gh pages b0\homepage 2.html
+  - main_backup_20250415_110245\gh pages b0\homepage.html
+  - main_backup_20250415_110245\legal\terms 2.html
+  - main_backup_20250415_110245\legal\terms.html
+  - main_backup_20250415_110245\pages\digital-assets.html
+  - main_backup_20250415_110245\pages\education-platform.html
+  - main_backup_20250415_110245\probability\monty-hall.html
+  - main_backup_20250415_110245\register\index.html
+  - main_backup_20250415_110245\_includes\animation-demo 2.html
+  - main_backup_20250415_110245\_includes\animation-demo 3.html
+  - main_backup_20250415_110245\_includes\animation-demo 4.html
+  - main_backup_20250415_110245\_includes\animation-demo.html
+  - main_backup_20250415_110245\_includes\beta-signup-form 2.html
+  - main_backup_20250415_110245\_includes\beta-signup-form.html
+  - main_backup_20250415_110245\_includes\comments 2.html
+  - main_backup_20250415_110245\_includes\comments.html
+  - main_backup_20250415_110245\_includes\contact-info 2.html
+  - main_backup_20250415_110245\_includes\contact-info 3.html
+  - main_backup_20250415_110245\_includes\contact-info 4.html
+  - main_backup_20250415_110245\_includes\contact-info.html
+  - main_backup_20250415_110245\_includes\cta-buttons 2.html
+  - main_backup_20250415_110245\_includes\cta-buttons 3.html
+  - main_backup_20250415_110245\_includes\cta-buttons 4.html
+  - main_backup_20250415_110245\_includes\cta-buttons.html
+  - main_backup_20250415_110245\_includes\footer 2.html
+  - main_backup_20250415_110245\_includes\footer.html
+  - main_backup_20250415_110245\_includes\head 2.html
+  - main_backup_20250415_110245\_includes\head.html
+  - main_backup_20250415_110245\_includes\header 2.html
+  - main_backup_20250415_110245\_includes\header.html
+  - main_backup_20250415_110245\_includes\homepage 2.html
+  - main_backup_20250415_110245\_includes\homepage.html
+  - main_backup_20250415_110245\_includes\legal-scripts 2.html
+  - main_backup_20250415_110245\_includes\legal-scripts.html
+  - main_backup_20250415_110245\_includes\navigation 2.html
+  - main_backup_20250415_110245\_includes\navigation.html
+  - main_backup_20250415_110245\_includes\partners-carousel 2.html
+  - main_backup_20250415_110245\_includes\partners-carousel.html
+  - main_backup_20250415_110245\_includes\playground-asset-links 2.html
+  - main_backup_20250415_110245\_includes\playground-asset-links.html
+  - main_backup_20250415_110245\_includes\post-footer 2.html
+  - main_backup_20250415_110245\_includes\post-footer.html
+  - main_backup_20250415_110245\_includes\post-header 2.html
+  - main_backup_20250415_110245\_includes\post-header 3.html
+  - main_backup_20250415_110245\_includes\post-header 4.html
+  - main_backup_20250415_110245\_includes\post-header.html
+  - main_backup_20250415_110245\_includes\roadmap-timeline 2.html
+  - main_backup_20250415_110245\_includes\roadmap-timeline.html
+  - main_backup_20250415_110245\_includes\team-section 2.html
+  - main_backup_20250415_110245\_includes\team-section.html
+  - main_backup_20250415_110245\_includes\tech-overview 2.html
+  - main_backup_20250415_110245\_includes\tech-overview.html
+  - main_backup_20250415_110245\_includes\technology-diagram 2.html
+  - main_backup_20250415_110245\_includes\technology-diagram.html
+  - main_backup_20250415_110245\_layouts\default.html
+  - main_backup_20250415_110245\_layouts\doc.html
+  - main_backup_20250415_110245\_layouts\post.html
+  - pages\digital-assets.html
+  - pages\education-platform.html
+  - probability\monty-hall.html
+  - red_x\afk-downloader.html
+  - red_x\deployment_test.html
+  - red_x\index.html
+  - red_x\template.html
+  - register\index.html
+  - whitepaper\web3-streaming-service-whitepaper.html
+  - _includes\animation-demo 2.html
+  - _includes\animation-demo.html
+  - _includes\beta-signup-form.html
+  - _includes\comments.html
+  - _includes\contact-info 2.html
+  - _includes\contact-info.html
+  - _includes\cta-buttons 2.html
+  - _includes\cta-buttons.html
+  - _includes\footer.html
+  - _includes\head.html
+  - _includes\header.html
+  - _includes\homepage.html
+  - _includes\legal-scripts.html
+  - _includes\navigation.html
+  - _includes\partners-carousel.html
+  - _includes\playground-asset-links.html
+  - _includes\post-footer.html
+  - _includes\post-header 2.html
+  - _includes\post-header.html
+  - _includes\roadmap-timeline.html
+  - _includes\team-section.html
+  - _includes\team-socials.html
+  - _includes\tech-overview.html
+  - _includes\technology-diagram.html
+  - _layouts\default.html
+  - _layouts\doc.html
+  - _layouts\post.html
+  - _site\404.html
+  - _site\ai-companion.html
+  - _site\creator-dashboard.html
+  - _site\governance-visualization.html
+  - _site\index.html
+  - _site\ranking-power.html
+  - _site\status.html
+  - _site\streaming.html
+  - _site\team.html
+  - _site\url-launcher.html
+  - gh pages actions workspace\streamchain-website\assets\images\favicon.ico
+
+Move to "docs":
+  - about.md
+  - animations.md
+  - calculator.md
+  - CONSOLIDATION.md
+  - CONTRIBUTING.md
+  - creators.md
+  - DEFINITIONS.md
+  - deploy-urls.md
+  - DEPLOYMENT_NOTE.md
+  - faq.md
+  - game.md
+  - GAS_OPTIMIZATION.md
+  - GITHUB_ACTIONS_TROUBLESHOOTING.md
+  - INCLUSIONS.md
+  - index.md
+  - installation.md
+  - mobile-testing-guide.md
+  - npm-install-instructions.md
+  - playground.md
+  - powershell-coding-standards.md
+  - privacy.md
+  - rate-contract-detail-print 2.md
+  - rate-contract-detail-print.md
+  - README.md
+  - README_GITHUB_PAGES.md
+  - RECOMMENDATIONS.md
+  - REFERENCES.md
+  - REPOSITORY_MERGE_GUIDE.md
+  - ruby-setup.md
+  - SECURITY.md
+  - SECURITY_BEST_PRACTICES.md
+  - session-review-april-24.md
+  - SXS-CLI-README.md
+  - telos 2.md
+  - telos.md
+  - terms.md
+  - ultimate-use-case.md
+  - viewer.md
+  - web3-streaming-service-whitepaper.md
+  - whitepaper.md
+  - windows-nvm-setup.md
+  - .github\pull_request_template.md
+  - .github\WORKFLOW-README.md
+  - .github\steps\0-welcome.md
+  - .github\steps\1-enable-github-pages.md
+  - .github\steps\2-configure-your-site.md
+  - .github\steps\3-customize-your-homepage.md
+  - .github\steps\4-create-a-blog-post.md
+  - .github\steps\5-merge-your-pull-request.md
+  - .github\steps\X-finish.md
+  - .github\workflows\.disabled-workflows\README.md
+  - backup_community_model\README.md
+  - blog\index.md
+  - build\about.md
+  - build\animations.md
+  - build\calculator.md
+  - build\CONSOLIDATION.md
+  - build\CONTRIBUTING.md
+  - build\creators.md
+  - build\DEFINITIONS.md
+  - build\deploy-urls.md
+  - build\DEPLOYMENT_NOTE.md
+  - build\faq.md
+  - build\game.md
+  - build\GITHUB_ACTIONS_TROUBLESHOOTING.md
+  - build\INCLUSIONS.md
+  - build\index.md
+  - build\installation.md
+  - build\npm-install-instructions.md
+  - build\playground.md
+  - build\privacy.md
+  - build\rate-contract-detail-print 2.md
+  - build\rate-contract-detail-print.md
+  - build\README.md
+  - build\README_GITHUB_PAGES.md
+  - build\RECOMMENDATIONS.md
+  - build\REFERENCES.md
+  - build\REPOSITORY_MERGE_GUIDE.md
+  - build\SECURITY.md
+  - build\SECURITY_BEST_PRACTICES.md
+  - build\session-review-april-24.md
+  - build\SXS-CLI-README.md
+  - build\telos 2.md
+  - build\telos.md
+  - build\terms.md
+  - build\ultimate-use-case.md
+  - build\viewer.md
+  - build\web3-streaming-service-whitepaper.md
+  - build\whitepaper.md
+  - build\windows-nvm-setup.md
+  - career\cv_engineering_manager.md
+  - career\index.md
+  - career\reference_letter.md
+  - career\sam-lavi-web3-cover-letter.md
+  - career\sam-lavi-web3-cv.md
+  - career\sam-lavi-web3-resume.md
+  - career\web3-application-tips.md
+  - docker\mcr-dotnet-images.md
+  - docs\api 2.md
+  - docs\api.md
+  - docs\architecture-overview 2.md
+  - docs\architecture-overview.md
+  - docs\beta-deployment-guide 2.md
+  - docs\beta-deployment-guide.md
+  - docs\build-os-recommendations 2.md
+  - docs\build-os-recommendations.md
+  - docs\creator-payments 2.md
+  - docs\creator-payments.md
+  - docs\cross-platform-build-guide 2.md
+  - docs\cross-platform-build-guide.md
+  - docs\emergency-protocol 2.md
+  - docs\emergency-protocol.md
+  - docs\git-setup-guide 2.md
+  - docs\git-setup-guide.md
+  - docs\github-actions-guide.md
+  - docs\github-web3-integration 2.md
+  - docs\github-web3-integration.md
+  - docs\github-workflow-guide.md
+  - docs\governance-framework.md
+  - docs\governance-specs.md
+  - docs\index 2.md
+  - docs\index.md
+  - docs\introduction.md
+  - docs\poebc-simulator 2.md
+  - docs\poebc-simulator.md
+  - docs\sam-lavi-resume 2.md
+  - docs\sam-lavi-resume.md
+  - docs\status-guide.md
+  - docs\tech.contract-list 2.md
+  - docs\tech.contract-list.md
+  - docs\tech.contracts 2.md
+  - docs\tech.contracts.md
+  - docs\tech.solidity-review 2.md
+  - docs\tech.solidity-review.md
+  - docs\tech.token 2.md
+  - docs\tech.token.md
+  - docs\viewer-rewards 2.md
+  - docs\viewer-rewards.md
+  - docs\web-platform-build-guide.md
+  - docs\analysis\project-analysis.md
+  - docs\analysis\technical-recommendations.md
+  - docs\components\batch-uploader.md
+  - docs\components\index.md
+  - docs\concepts\bubbleheal.md
+  - docs\concepts\diagsys.md
+  - docs\concepts\hyperstitial.md
+  - docs\concepts\warp.md
+  - docs\contracts\proof-of-existence.md
+  - docs\contracts\stream-access.md
+  - docs\features\batch-upload.md
+  - docs\resources\external-links.md
+  - docs\resources\google-docs.md
+  - docs\roadmap\enhanced-roadmap.md
+  - docs\roadmap\review-approach.md
+  - docs\root\introduction.md
+  - docs\tech-features\amm-lazy-minting.md
+  - docs\token\ecosystem-design.md
+  - docs\token\tokenomics-scalability.md
+  - docs\use-cases\smart-contract-applications.md
+  - dotnet\README 2.md
+  - dotnet\README.md
+  - emsdk\README.md
+  - emsdk\SECURITY.md
+  - emsdk\bazel\README.md
+  - emsdk\docker\README.md
+  - emsdk\node\20.18.0_64bit\CHANGELOG.md
+  - emsdk\node\20.18.0_64bit\README.md
+  - emsdk\upstream\emscripten\ChangeLog.md
+  - emsdk\upstream\emscripten\CONTRIBUTING.md
+  - emsdk\upstream\emscripten\README.md
+  - emsdk\upstream\emscripten\SECURITY.md
+  - emsdk\upstream\emscripten\.github\ISSUE_TEMPLATE\bug_report.md
+  - emsdk\upstream\emscripten\cache\sysroot\include\webgpu\README.md
+  - emsdk\upstream\emscripten\docs\packaging.md
+  - emsdk\upstream\emscripten\docs\process.md
+  - emsdk\upstream\emscripten\system\include\webgpu\README.md
+  - emsdk\upstream\emscripten\system\lib\README.md
+  - emsdk\upstream\emscripten\system\lib\libc\README.md
+  - emsdk\upstream\emscripten\system\lib\mimalloc\readme.md
+  - emsdk\upstream\emscripten\system\lib\mimalloc\src\prim\readme.md
+  - emsdk\upstream\emscripten\system\lib\mimalloc\src\prim\windows\readme.md
+  - emsdk\upstream\emscripten\system\lib\webgpu\README.md
+  - emsdk\upstream\emscripten\test\webaudio\audio_files\README.md
+  - emsdk\upstream\emscripten\third_party\closure-compiler\node-externs\README.md
+  - emsdk\upstream\emscripten\third_party\leb128\README.md
+  - emsdk\upstream\emscripten\third_party\terser\README.md
+  - emsdk\upstream\emscripten\tools\ports\contrib\README.md
+  - gh pages actions workspace\streamchain-website\README.md
+  - java\README.md
+  - main_backup_20250415_110245\about.md
+  - main_backup_20250415_110245\animations 2.md
+  - main_backup_20250415_110245\animations.md
+  - main_backup_20250415_110245\calculator.md
+  - main_backup_20250415_110245\CONSOLIDATION.md
+  - main_backup_20250415_110245\creators.md
+  - main_backup_20250415_110245\DEFINITIONS.md
+  - main_backup_20250415_110245\deploy-urls.md
+  - main_backup_20250415_110245\faq.md
+  - main_backup_20250415_110245\game 2.md
+  - main_backup_20250415_110245\game.md
+  - main_backup_20250415_110245\INCLUSIONS.md
+  - main_backup_20250415_110245\index 2.md
+  - main_backup_20250415_110245\index.md
+  - main_backup_20250415_110245\installation.md
+  - main_backup_20250415_110245\npm-install-instructions.md
+  - main_backup_20250415_110245\playground.md
+  - main_backup_20250415_110245\privacy.md
+  - main_backup_20250415_110245\rate-contract-detail-print 2.md
+  - main_backup_20250415_110245\rate-contract-detail-print.md
+  - main_backup_20250415_110245\README.md
+  - main_backup_20250415_110245\README_GITHUB_PAGES.md
+  - main_backup_20250415_110245\RECOMMENDATIONS.md
+  - main_backup_20250415_110245\REFERENCES.md
+  - main_backup_20250415_110245\REPOSITORY_MERGE_GUIDE.md
+  - main_backup_20250415_110245\telos 2.md
+  - main_backup_20250415_110245\telos.md
+  - main_backup_20250415_110245\terms.md
+  - main_backup_20250415_110245\ultimate-use-case.md
+  - main_backup_20250415_110245\viewer.md
+  - main_backup_20250415_110245\web3-streaming-service-whitepaper.md
+  - main_backup_20250415_110245\whitepaper.md
+  - main_backup_20250415_110245\windows-nvm-setup.md
+  - main_backup_20250415_110245\.github\steps\0-welcome.md
+  - main_backup_20250415_110245\.github\steps\1-enable-github-pages.md
+  - main_backup_20250415_110245\.github\steps\2-configure-your-site.md
+  - main_backup_20250415_110245\.github\steps\3-customize-your-homepage.md
+  - main_backup_20250415_110245\.github\steps\4-create-a-blog-post.md
+  - main_backup_20250415_110245\.github\steps\5-merge-your-pull-request.md
+  - main_backup_20250415_110245\.github\steps\X-finish.md
+  - main_backup_20250415_110245\blog\index.md
+  - main_backup_20250415_110245\career\cv_engineering_manager 2.md
+  - main_backup_20250415_110245\career\cv_engineering_manager.md
+  - main_backup_20250415_110245\career\index 2.md
+  - main_backup_20250415_110245\career\index.md
+  - main_backup_20250415_110245\career\reference_letter 2.md
+  - main_backup_20250415_110245\career\reference_letter.md
+  - main_backup_20250415_110245\career\sam-lavi-web3-cover-letter 2.md
+  - main_backup_20250415_110245\career\sam-lavi-web3-cover-letter.md
+  - main_backup_20250415_110245\career\sam-lavi-web3-cv 2.md
+  - main_backup_20250415_110245\career\sam-lavi-web3-cv.md
+  - main_backup_20250415_110245\career\sam-lavi-web3-resume 2.md
+  - main_backup_20250415_110245\career\sam-lavi-web3-resume.md
+  - main_backup_20250415_110245\career\web3-application-tips 2.md
+  - main_backup_20250415_110245\career\web3-application-tips.md
+  - main_backup_20250415_110245\docker\mcr-dotnet-images 2.md
+  - main_backup_20250415_110245\docker\mcr-dotnet-images.md
+  - main_backup_20250415_110245\docs\api 2.md
+  - main_backup_20250415_110245\docs\api 3.md
+  - main_backup_20250415_110245\docs\api 4.md
+  - main_backup_20250415_110245\docs\api.md
+  - main_backup_20250415_110245\docs\architecture-overview 2.md
+  - main_backup_20250415_110245\docs\architecture-overview 3.md
+  - main_backup_20250415_110245\docs\architecture-overview 4.md
+  - main_backup_20250415_110245\docs\architecture-overview.md
+  - main_backup_20250415_110245\docs\beta-deployment-guide 2.md
+  - main_backup_20250415_110245\docs\beta-deployment-guide 3.md
+  - main_backup_20250415_110245\docs\beta-deployment-guide 4.md
+  - main_backup_20250415_110245\docs\beta-deployment-guide.md
+  - main_backup_20250415_110245\docs\build-os-recommendations 2.md
+  - main_backup_20250415_110245\docs\build-os-recommendations 3.md
+  - main_backup_20250415_110245\docs\build-os-recommendations 4.md
+  - main_backup_20250415_110245\docs\build-os-recommendations.md
+  - main_backup_20250415_110245\docs\creator-payments 2.md
+  - main_backup_20250415_110245\docs\creator-payments 3.md
+  - main_backup_20250415_110245\docs\creator-payments 4.md
+  - main_backup_20250415_110245\docs\creator-payments.md
+  - main_backup_20250415_110245\docs\cross-platform-build-guide 2.md
+  - main_backup_20250415_110245\docs\cross-platform-build-guide 3.md
+  - main_backup_20250415_110245\docs\cross-platform-build-guide 4.md
+  - main_backup_20250415_110245\docs\cross-platform-build-guide.md
+  - main_backup_20250415_110245\docs\emergency-protocol 2.md
+  - main_backup_20250415_110245\docs\emergency-protocol 3.md
+  - main_backup_20250415_110245\docs\emergency-protocol 4.md
+  - main_backup_20250415_110245\docs\emergency-protocol.md
+  - main_backup_20250415_110245\docs\git-setup-guide 2.md
+  - main_backup_20250415_110245\docs\git-setup-guide 3.md
+  - main_backup_20250415_110245\docs\git-setup-guide 4.md
+  - main_backup_20250415_110245\docs\git-setup-guide.md
+  - main_backup_20250415_110245\docs\github-web3-integration 2.md
+  - main_backup_20250415_110245\docs\github-web3-integration 3.md
+  - main_backup_20250415_110245\docs\github-web3-integration 4.md
+  - main_backup_20250415_110245\docs\github-web3-integration.md
+  - main_backup_20250415_110245\docs\governance-framework 2.md
+  - main_backup_20250415_110245\docs\governance-framework.md
+  - main_backup_20250415_110245\docs\governance-specs 2.md
+  - main_backup_20250415_110245\docs\governance-specs.md
+  - main_backup_20250415_110245\docs\index 2.md
+  - main_backup_20250415_110245\docs\index 3.md
+  - main_backup_20250415_110245\docs\index 4.md
+  - main_backup_20250415_110245\docs\index.md
+  - main_backup_20250415_110245\docs\poebc-simulator 2.md
+  - main_backup_20250415_110245\docs\poebc-simulator 3.md
+  - main_backup_20250415_110245\docs\poebc-simulator 4.md
+  - main_backup_20250415_110245\docs\poebc-simulator.md
+  - main_backup_20250415_110245\docs\sam-lavi-resume 2.md
+  - main_backup_20250415_110245\docs\sam-lavi-resume 3.md
+  - main_backup_20250415_110245\docs\sam-lavi-resume 4.md
+  - main_backup_20250415_110245\docs\sam-lavi-resume.md
+  - main_backup_20250415_110245\docs\status-guide 2.md
+  - main_backup_20250415_110245\docs\status-guide.md
+  - main_backup_20250415_110245\docs\tech.contract-list 2.md
+  - main_backup_20250415_110245\docs\tech.contract-list 3.md
+  - main_backup_20250415_110245\docs\tech.contract-list 4.md
+  - main_backup_20250415_110245\docs\tech.contract-list.md
+  - main_backup_20250415_110245\docs\tech.contracts 2.md
+  - main_backup_20250415_110245\docs\tech.contracts 3.md
+  - main_backup_20250415_110245\docs\tech.contracts 4.md
+  - main_backup_20250415_110245\docs\tech.contracts.md
+  - main_backup_20250415_110245\docs\tech.solidity-review 2.md
+  - main_backup_20250415_110245\docs\tech.solidity-review 3.md
+  - main_backup_20250415_110245\docs\tech.solidity-review 4.md
+  - main_backup_20250415_110245\docs\tech.solidity-review.md
+  - main_backup_20250415_110245\docs\tech.token 2.md
+  - main_backup_20250415_110245\docs\tech.token 3.md
+  - main_backup_20250415_110245\docs\tech.token 4.md
+  - main_backup_20250415_110245\docs\tech.token.md
+  - main_backup_20250415_110245\docs\viewer-rewards 2.md
+  - main_backup_20250415_110245\docs\viewer-rewards 3.md
+  - main_backup_20250415_110245\docs\viewer-rewards 4.md
+  - main_backup_20250415_110245\docs\viewer-rewards.md
+  - main_backup_20250415_110245\docs\analysis\project-analysis.md
+  - main_backup_20250415_110245\docs\analysis\technical-recommendations.md
+  - main_backup_20250415_110245\docs\contracts\proof-of-existence.md
+  - main_backup_20250415_110245\docs\contracts\stream-access.md
+  - main_backup_20250415_110245\docs\resources\external-links.md
+  - main_backup_20250415_110245\docs\resources\google-docs.md
+  - main_backup_20250415_110245\docs\roadmap\enhanced-roadmap.md
+  - main_backup_20250415_110245\docs\roadmap\review-approach.md
+  - main_backup_20250415_110245\docs\root\introduction.md
+  - main_backup_20250415_110245\docs\use-cases\smart-contract-applications.md
+  - main_backup_20250415_110245\dotnet\README 2.md
+  - main_backup_20250415_110245\dotnet\README.md
+  - main_backup_20250415_110245\red_x\README.md
+  - main_backup_20250415_110245\tests\README 2.md
+  - main_backup_20250415_110245\tests\README.md
+  - main_backup_20250415_110245\ts\src\README.md
+  - main_backup_20250415_110245\whitepaper\web3-streaming-service-whitepaper.md
+  - main_backup_20250415_110245\_drafts\first.md
+  - main_backup_20250415_110245\_posts\2023-11-15-welcome-to-web3-streaming 2.md
+  - main_backup_20250415_110245\_posts\2023-11-15-welcome-to-web3-streaming.md
+  - main_backup_20250415_110245\_posts\2025-03-25-first 2.md
+  - main_backup_20250415_110245\_posts\2025-03-25-first.md
+  - red_x\PRX-SXS-GUIDE.md
+  - red_x\README.md
+  - scripts\CLEANUP-README.md
+  - tests\README.md
+  - ts\src\README.md
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\CHANGELOG.md
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\LICENSE.md
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\README.md
+  - whitepaper\web3-streaming-service-whitepaper.md
+  - _drafts\first.md
+  - _posts\2023-11-15-welcome-to-web3-streaming.md
+  - _posts\2025-03-25-first.md
+  - _site\about.md
+  - _site\animations.md
+  - _site\calculator.md
+  - _site\CONSOLIDATION.md
+  - _site\CONTRIBUTING.md
+  - _site\creators.md
+  - _site\DEFINITIONS.md
+  - _site\deploy-urls.md
+  - _site\DEPLOYMENT_NOTE.md
+  - _site\faq.md
+  - _site\game.md
+  - _site\GAS_OPTIMIZATION.md
+  - _site\GITHUB_ACTIONS_TROUBLESHOOTING.md
+  - _site\INCLUSIONS.md
+  - _site\index.md
+  - _site\installation.md
+  - _site\mobile-testing-guide.md
+  - _site\npm-install-instructions.md
+  - _site\playground.md
+  - _site\powershell-coding-standards.md
+  - _site\privacy.md
+  - _site\rate-contract-detail-print 2.md
+  - _site\rate-contract-detail-print.md
+  - _site\README.md
+  - _site\README_GITHUB_PAGES.md
+  - _site\RECOMMENDATIONS.md
+  - _site\REFERENCES.md
+  - _site\REPOSITORY_MERGE_GUIDE.md
+  - _site\ruby-setup.md
+  - _site\SECURITY.md
+  - _site\SECURITY_BEST_PRACTICES.md
+  - _site\session-review-april-24.md
+  - _site\SXS-CLI-README.md
+  - _site\telos 2.md
+  - _site\telos.md
+  - _site\terms.md
+  - _site\ultimate-use-case.md
+  - _site\viewer.md
+  - _site\web3-streaming-service-whitepaper.md
+  - _site\whitepaper.md
+  - _site\windows-nvm-setup.md
+  - wub-links.txt
+  - .github\steps\-step.txt
+  - build\CMakeCache.txt
+  - build\CMakeFiles\TargetDirectories.txt
+  - build\CMakeFiles\3.20.21032501-MSVC_2\VCTargetsPath.txt
+  - emsdk\legacy-binaryen-tags.txt
+  - emsdk\legacy-emscripten-tags.txt
+  - emsdk\llvm-tags-64bit.txt
+  - emsdk\python\3.9.2-nuget_64bit\LICENSE.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\lib2to3\Grammar.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\lib2to3\PatternGrammar.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\README.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip\_vendor\vendor.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip-20.2.3.dist-info\entry_points.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip-20.2.3.dist-info\LICENSE.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip-20.2.3.dist-info\top_level.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\setuptools-49.2.1.dist-info\dependency_links.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\setuptools-49.2.1.dist-info\entry_points.txt
+  - emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\setuptools-49.2.1.dist-info\top_level.txt
+  - emsdk\python\3.9.2-nuget_64bit\Tools\pynche\html40colors.txt
+  - emsdk\python\3.9.2-nuget_64bit\Tools\pynche\namedcolors.txt
+  - emsdk\python\3.9.2-nuget_64bit\Tools\pynche\webcolors.txt
+  - emsdk\python\3.9.2-nuget_64bit\Tools\pynche\websafe.txt
+  - emsdk\upstream\emscripten\emscripten-revision.txt
+  - emsdk\upstream\emscripten\emscripten-version.txt
+  - emsdk\upstream\emscripten\requirements-dev.txt
+  - emsdk\upstream\emscripten\docs\emcc.txt
+  - emsdk\upstream\emscripten\docs\EMSCRIPTEN_explicit_uniform_binding.txt
+  - emsdk\upstream\emscripten\docs\EMSCRIPTEN_explicit_uniform_location.txt
+  - emsdk\upstream\emscripten\system\lib\compiler-rt\CREDITS.TXT
+  - emsdk\upstream\emscripten\system\lib\compiler-rt\LICENSE.TXT
+  - emsdk\upstream\emscripten\system\lib\compiler-rt\readme.txt
+  - emsdk\upstream\emscripten\system\lib\compiler-rt\lib\asan\asan_ignorelist.txt
+  - emsdk\upstream\emscripten\system\lib\libc\compat\readme.txt
+  - emsdk\upstream\emscripten\system\lib\libcxx\CREDITS.TXT
+  - emsdk\upstream\emscripten\system\lib\libcxx\LICENSE.TXT
+  - emsdk\upstream\emscripten\system\lib\libcxx\readme.txt
+  - emsdk\upstream\emscripten\system\lib\libcxx\src\ryu\README.txt
+  - emsdk\upstream\emscripten\system\lib\libcxxabi\CREDITS.TXT
+  - emsdk\upstream\emscripten\system\lib\libcxxabi\LICENSE.TXT
+  - emsdk\upstream\emscripten\system\lib\libcxxabi\readme.txt
+  - emsdk\upstream\emscripten\system\lib\libcxxabi\src\demangle\README.txt
+  - emsdk\upstream\emscripten\system\lib\libunwind\LICENSE.TXT
+  - emsdk\upstream\emscripten\system\lib\libunwind\readme.txt
+  - emsdk\upstream\emscripten\test\ascii_corpus.txt
+  - emsdk\upstream\emscripten\test\hello_world_file.txt
+  - emsdk\upstream\emscripten\test\utf16_corpus.txt
+  - emsdk\upstream\emscripten\test\utf8_corpus.txt
+  - emsdk\upstream\emscripten\test\bullet\output.txt
+  - emsdk\upstream\emscripten\test\bullet\output2.txt
+  - emsdk\upstream\emscripten\test\bullet\output3.txt
+  - emsdk\upstream\emscripten\test\bullet\output4.txt
+  - emsdk\upstream\emscripten\test\cmake\check_type_size\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\cmake_with_emval\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\cpp_lib\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\cxx20\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\cxx20\out.txt
+  - emsdk\upstream\emscripten\test\cmake\emscripten_system_processor\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\emscripten_version\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\find_modules\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\find_package\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\find_pkg_config\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\find_stuff\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\find_stuff\foo.txt
+  - emsdk\upstream\emscripten\test\cmake\install_lib\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\post_build\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\post_build\out.txt
+  - emsdk\upstream\emscripten\test\cmake\static_lib\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\stdproperty\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\stdproperty\out.txt
+  - emsdk\upstream\emscripten\test\cmake\target_html\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\target_js\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\target_js\out.txt
+  - emsdk\upstream\emscripten\test\cmake\target_library\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\threads\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\whole_archive\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\cmake\whole_archive\out.txt
+  - emsdk\upstream\emscripten\test\core\test_cube2md5.txt
+  - emsdk\upstream\emscripten\test\freetype\LiberationSansBoldLICENSE.txt
+  - emsdk\upstream\emscripten\test\freetype\readme.txt
+  - emsdk\upstream\emscripten\test\minimal_webgl\CMakeLists.txt
+  - emsdk\upstream\emscripten\test\other\wasm2c\output-multi.txt
+  - emsdk\upstream\emscripten\test\other\wasm2c\output.txt
+  - emsdk\upstream\emscripten\test\sounds\LICENSE.txt
+  - emsdk\upstream\emscripten\third_party\closure-compiler\node-externs\readme.txt
+  - emsdk\upstream\emscripten\tools\websocket_to_posix_proxy\CMakeLists.txt
+  - main_backup_20250415_110245\wub-links.txt
+  - main_backup_20250415_110245\.github\steps\-step.txt
+  - red_x\build_log.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-add.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-binstubs.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-check.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-clean.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-config.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-doctor.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-exec.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-gem.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-info.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-init.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-inject.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-install.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-list.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-lock.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-open.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-outdated.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-package.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-platform.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-pristine.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-remove.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-show.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-update.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-viz.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle.1.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\gemfile.5.txt
+  - vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\index.txt
+

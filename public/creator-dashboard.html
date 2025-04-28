@@ -1,0 +1,1367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Management Dashboard | Web3 Educational Platform</title>
+    <meta name="description" content="Manage your AI-assisted educational content" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/dashboard.css" />
+    <link rel="stylesheet" href="./dashboard-batch-upload.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header with navigation -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img src="./assets/images/logo.svg" alt="Web3 Educational Platform" />
+            </a>
+          </div>
+          <nav class="main-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="streaming.html">Learn</a></li>
+              <li><a href="token.html">Token</a></li>
+              <li><a href="docs/index.html">Documentation</a></li>
+              <li class="active"><a href="creator-dashboard.html">Dashboard</a></li>
+            </ul>
+          </nav>
+          <div class="account-section">
+            <span class="account-balance">
+              <i class="ri-coin-line"></i>
+              <span id="tokenBalance">2,450</span>
+            </span>
+            <button class="wallet-btn">
+              <i class="ri-wallet-3-line"></i>
+              <span class="address-display">0x1a2...3b4c</span>
+            </button>
+          </div>
+          <button class="mobile-menu-btn" aria-label="Toggle menu">
+            <i class="ri-menu-line"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Main Content -->
+    <div class="dashboard">
+      <div class="container dashboard-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+          <h1>Content Management Dashboard</h1>
+          <div class="dashboard-actions">
+            <button id="uploadBtn" class="btn-primary">
+              <i class="ri-add-line"></i>
+              Create New Content
+            </button>
+          </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <!-- Main Content Area -->
+          <main class="main-content">
+            <div class="content-overview">
+              <h2>Overview</h2>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-file-text-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">24</span>
+                    <span class="stat-label">Published Content</span>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-eye-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">18,547</span>
+                    <span class="stat-label">Total Views</span>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-user-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">847</span>
+                    <span class="stat-label">Active Learners</span>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="ri-coin-line"></i>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-value">9,820</span>
+                    <span class="stat-label">Tokens Earned</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-management">
+              <div class="section-header">
+                <h2>Your Content</h2>
+                <div class="section-actions">
+                  <div class="search-box">
+                    <i class="ri-search-line"></i>
+                    <input type="text" placeholder="Search content..." />
+                  </div>
+                  <div class="filter-dropdown">
+                    <button class="btn-secondary">
+                      <i class="ri-filter-3-line"></i>
+                      Filter
+                    </button>
+                  </div>
+                  <div class="sort-dropdown">
+                    <button class="btn-secondary">
+                      <i class="ri-sort-desc"></i>
+                      Sort
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="content-list">
+                <!-- Content Item -->
+                <div class="content-item">
+                  <div class="thumbnail">
+                    <img
+                      src="./assets/images/thumbnails/blockchain-basics.jpg"
+                      alt="Blockchain Basics"
+                    />
+                    <span class="duration">24:38</span>
+                  </div>
+                  <div class="content-details">
+                    <h3>Blockchain Fundamentals: Consensus Mechanisms</h3>
+                    <div class="meta">
+                      <span class="category">Course</span>
+                      <span class="publish-date">Published Apr 20, 2025</span>
+                    </div>
+                    <p class="description">
+                      Learn about different blockchain consensus mechanisms including Proof of Work,
+                      Proof of Stake, and more.
+                    </p>
+                  </div>
+                  <div class="content-stats">
+                    <div class="stat">
+                      <i class="ri-eye-line"></i>
+                      <span>1,256</span>
+                    </div>
+                    <div class="stat">
+                      <i class="ri-heart-line"></i>
+                      <span>98</span>
+                    </div>
+                    <div class="stat">
+                      <i class="ri-message-2-line"></i>
+                      <span>42</span>
+                    </div>
+                  </div>
+                  <div class="content-actions">
+                    <button class="btn-icon" aria-label="Edit">
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <button class="btn-icon" aria-label="Analytics">
+                      <i class="ri-bar-chart-box-line"></i>
+                    </button>
+                    <button class="btn-icon" aria-label="More actions">
+                      <i class="ri-more-2-fill"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Content Item -->
+                <div class="content-item">
+                  <div class="thumbnail">
+                    <img
+                      src="./assets/images/thumbnails/smart-contracts.jpg"
+                      alt="Smart Contracts"
+                    />
+                    <span class="duration">18:15</span>
+                  </div>
+                  <div class="content-details">
+                    <h3>Smart Contracts: Beyond the Basics</h3>
+                    <div class="meta">
+                      <span class="category">Tutorial</span>
+                      <span class="publish-date">Published Apr 15, 2025</span>
+                    </div>
+                    <p class="description">
+                      Advanced patterns and security considerations for developing robust smart
+                      contracts.
+                    </p>
+                  </div>
+                  <div class="content-stats">
+                    <div class="stat">
+                      <i class="ri-eye-line"></i>
+                      <span>876</span>
+                    </div>
+                    <div class="stat">
+                      <i class="ri-heart-line"></i>
+                      <span>64</span>
+                    </div>
+                    <div class="stat">
+                      <i class="ri-message-2-line"></i>
+                      <span>28</span>
+                    </div>
+                  </div>
+                  <div class="content-actions">
+                    <button class="btn-icon" aria-label="Edit">
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <button class="btn-icon" aria-label="Analytics">
+                      <i class="ri-bar-chart-box-line"></i>
+                    </button>
+                    <button class="btn-icon" aria-label="More actions">
+                      <i class="ri-more-2-fill"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Content Item -->
+                <div class="content-item">
+                  <div class="thumbnail">
+                    <img src="./assets/images/thumbnails/defi-intro.jpg" alt="DeFi Introduction" />
+                    <span class="duration">32:47</span>
+                  </div>
+                  <div class="content-details">
+                    <h3>Introduction to Decentralized Finance</h3>
+                    <div class="meta">
+                      <span class="category">Course</span>
+                      <span class="publish-date">Published Apr 10, 2025</span>
+                    </div>
+                    <p class="description">
+                      Explore the fundamentals of DeFi, including lending protocols, decentralized
+                      exchanges, and yield farming.
+                    </p>
+                  </div>
+                  <div class="content-stats">
+                    <div class="stat">
+                      <i class="ri-eye-line"></i>
+                      <span>2,148</span>
+                    </div>
+                    <div class="stat">
+                      <i class="ri-heart-line"></i>
+                      <span>187</span>
+                    </div>
+                    <div class="stat">
+                      <i class="ri-message-2-line"></i>
+                      <span>76</span>
+                    </div>
+                  </div>
+                  <div class="content-actions">
+                    <button class="btn-icon" aria-label="Edit">
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <button class="btn-icon" aria-label="Analytics">
+                      <i class="ri-bar-chart-box-line"></i>
+                    </button>
+                    <button class="btn-icon" aria-label="More actions">
+                      <i class="ri-more-2-fill"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- More content items would be here -->
+              </div>
+
+              <!-- Pagination -->
+              <div class="pagination">
+                <button class="pagination-btn" disabled>
+                  <i class="ri-arrow-left-s-line"></i>
+                </button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <span class="pagination-ellipsis">...</span>
+                <button class="pagination-btn">8</button>
+                <button class="pagination-btn">
+                  <i class="ri-arrow-right-s-line"></i>
+                </button>
+              </div>
+            </div>
+          </main>
+
+          <!-- Sidebar -->
+          <aside class="sidebar">
+            <!-- Monetization Widget - NEW -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-money-dollar-circle-line"></i>
+                  Monetization
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="analytics-list">
+                  <li>
+                    <span class="analytics-label">Active Methods:</span>
+                    <span class="analytics-value">3 of 6</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">Top Earning Method:</span>
+                    <span class="analytics-value">Premium Subscriptions</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">This Month:</span>
+                    <span class="analytics-value positive">1,245 STREAM</span>
+                  </li>
+                </div>
+                <div style="margin-top: 1rem">
+                  <a
+                    href="monetization.html"
+                    class="btn-primary"
+                    style="display: block; text-align: center"
+                  >
+                    <i class="ri-settings-3-line"></i>
+                    Manage Monetization
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Content Assistant -->
+            <div class="sidebar-widget ai-assistant">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-robot-line"></i>
+                  AI Content Assistant
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="ai-status online">
+                  <span class="status-indicator"></span>
+                  <span class="status-text">Ready to assist</span>
+                </div>
+                <div class="ai-actions">
+                  <button class="btn-secondary">
+                    <i class="ri-magic-line"></i>
+                    Generate Topic Ideas
+                  </button>
+                  <button class="btn-secondary">
+                    <i class="ri-file-text-line"></i>
+                    Draft Content
+                  </button>
+                  <button class="btn-secondary">
+                    <i class="ri-edit-2-line"></i>
+                    Improve Existing Content
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Calendar -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-calendar-event-line"></i>
+                  Content Calendar
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="mini-calendar">
+                  <div class="calendar-header">
+                    <span>April 2025</span>
+                    <div>
+                      <button class="calendar-nav">
+                        <i class="ri-arrow-left-s-line"></i>
+                      </button>
+                      <button class="calendar-nav">
+                        <i class="ri-arrow-right-s-line"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="calendar-grid">
+                    <!-- Calendar grid contents would be here -->
+                  </div>
+                </div>
+                <div class="upcoming-content">
+                  <h4>Upcoming Content</h4>
+                  <ul class="schedule-list">
+                    <li class="schedule-item">
+                      <div class="schedule-date">Apr 28</div>
+                      <div class="schedule-content">
+                        <span class="schedule-title">NFT Development Workshop</span>
+                        <span class="schedule-status draft">Draft</span>
+                      </div>
+                    </li>
+                    <li class="schedule-item">
+                      <div class="schedule-date">May 03</div>
+                      <div class="schedule-content">
+                        <span class="schedule-title">Security Best Practices for DApps</span>
+                        <span class="schedule-status planned">Planned</span>
+                      </div>
+                    </li>
+                    <li class="schedule-item">
+                      <div class="schedule-date">May 10</div>
+                      <div class="schedule-content">
+                        <span class="schedule-title">Layer 2 Scaling Solutions</span>
+                        <span class="schedule-status idea">Idea</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analytics Summary -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-line-chart-line"></i>
+                  Analytics Summary
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="mini-chart">
+                  <canvas id="viewsChart"></canvas>
+                </div>
+                <ul class="analytics-list">
+                  <li>
+                    <span class="analytics-label">Top Performing Content:</span>
+                    <span class="analytics-value">Introduction to DeFi</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">Most Engaged Viewers:</span>
+                    <span class="analytics-value">847 active learners</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">Avg. Completion Rate:</span>
+                    <span class="analytics-value">78%</span>
+                  </li>
+                  <li>
+                    <span class="analytics-label">Growth (This Month):</span>
+                    <span class="analytics-value positive">+12%</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Task Checklist -->
+            <div class="sidebar-widget">
+              <div class="widget-header">
+                <h3>
+                  <i class="ri-checkbox-line"></i>
+                  Task Checklist
+                </h3>
+              </div>
+              <div class="widget-content">
+                <div class="checklist">
+                  <label class="task-item completed">
+                    <input type="checkbox" checked />
+                    <span>Complete NFT course outline</span>
+                  </label>
+                  <label class="task-item">
+                    <input type="checkbox" />
+                    <span>Review AI-generated DeFi content</span>
+                  </label>
+                  <label class="task-item completed">
+                    <input type="checkbox" checked />
+                    <span>Record smart contract tutorial</span>
+                  </label>
+                  <label class="task-item">
+                    <input type="checkbox" />
+                    <span>Create Web3 quiz questions</span>
+                  </label>
+                  <label class="task-item">
+                    <input type="checkbox" />
+                    <span>Prepare next month's content plan</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Showcase -->
+    <div class="ai-content-studio">
+      <div class="content-header">
+        <h2>AI Content Studio</h2>
+        <p>Create and refine educational content with AI assistance</p>
+        <div class="studio-actions">
+          <button class="btn-primary" id="new-ai-project">
+            <i class="ri-add-line"></i>
+            New AI Project
+          </button>
+        </div>
+      </div>
+
+      <div class="studio-interface">
+        <div class="studio-sidebar">
+          <div class="studio-section">
+            <h3>Project Templates</h3>
+            <ul class="template-list">
+              <li class="template-item" data-template="tutorial">
+                <i class="ri-article-line"></i>
+                <span>Tutorial</span>
+              </li>
+              <li class="template-item" data-template="course">
+                <i class="ri-book-open-line"></i>
+                <span>Course Module</span>
+              </li>
+              <li class="template-item" data-template="quiz">
+                <i class="ri-question-line"></i>
+                <span>Assessment</span>
+              </li>
+              <li class="template-item" data-template="glossary">
+                <i class="ri-list-check-2"></i>
+                <span>Glossary</span>
+              </li>
+              <li class="template-item" data-template="code-example">
+                <i class="ri-code-box-line"></i>
+                <span>Code Example</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="studio-section">
+            <h3>Recent Projects</h3>
+            <ul class="project-list">
+              <li class="project-item">
+                <span class="project-title">Smart Contract Security</span>
+                <span class="project-date">Apr 24, 2025</span>
+              </li>
+              <li class="project-item">
+                <span class="project-title">DeFi Fundamentals</span>
+                <span class="project-date">Apr 22, 2025</span>
+              </li>
+              <li class="project-item">
+                <span class="project-title">NFT Creation Guide</span>
+                <span class="project-date">Apr 19, 2025</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="studio-workspace">
+          <div class="workspace-header">
+            <div class="project-info">
+              <h3 id="project-title">Create New AI-Assisted Content</h3>
+              <div class="project-meta">
+                <span class="meta-item">
+                  <i class="ri-time-line"></i>
+                  <span id="project-date">Apr 25, 2025</span>
+                </span>
+                <span class="meta-item">
+                  <i class="ri-file-list-3-line"></i>
+                  <span id="project-type">No template selected</span>
+                </span>
+              </div>
+            </div>
+            <div class="workspace-actions">
+              <button class="btn-icon workspace-action" title="Save draft">
+                <i class="ri-save-line"></i>
+              </button>
+              <button class="btn-icon workspace-action" title="Export content">
+                <i class="ri-download-2-line"></i>
+              </button>
+              <button class="btn-icon workspace-action" title="Preview content">
+                <i class="ri-eye-line"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="workspace-content">
+            <div class="prompt-section">
+              <h4>Prompt Editor</h4>
+              <p class="helper-text">Describe what educational content you want to generate</p>
+              <div class="editor-container">
+                <textarea
+                  id="prompt-editor"
+                  placeholder="E.g., Create a beginner-friendly tutorial about Ethereum smart contracts with code examples and explanations of core concepts..."
+                ></textarea>
+              </div>
+              <div class="prompt-actions">
+                <button class="btn-secondary btn-sm">
+                  <i class="ri-history-line"></i>
+                  Load Saved Prompt
+                </button>
+                <button class="btn-primary" id="generate-content-btn">
+                  <i class="ri-robot-line"></i>
+                  Generate Content
+                </button>
+              </div>
+            </div>
+
+            <div class="output-section">
+              <div class="output-header">
+                <h4>Generated Content</h4>
+                <div class="output-tools">
+                  <button class="btn-icon tool-btn" title="Edit content">
+                    <i class="ri-edit-line"></i>
+                  </button>
+                  <button class="btn-icon tool-btn" title="Format content">
+                    <i class="ri-layout-line"></i>
+                  </button>
+                  <button class="btn-icon tool-btn" title="Check content">
+                    <i class="ri-error-warning-line"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="output-display" id="ai-output">
+                <div class="placeholder-content">
+                  <div class="placeholder-icon">
+                    <i class="ri-robot-line"></i>
+                  </div>
+                  <p>Your AI-generated content will appear here.</p>
+                  <p>Select a template and enter a prompt to begin.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Token Section -->
+    <div class="token-section">
+      <div class="container">
+        <div class="token-header">
+          <h2>Token Information</h2>
+          <div class="token-actions">
+            <button class="btn-secondary">
+              <i class="ri-refresh-line"></i>
+              Refresh Balance
+            </button>
+            <button class="btn-secondary">
+              <i class="ri-exchange-line"></i>
+              Swap Tokens
+            </button>
+          </div>
+        </div>
+        <div class="token-balance">
+          <h3>Your Token Balance</h3>
+          <p class="balance-amount" id="tokenAmount">1,250.00</p>
+          <p class="balance-description">Estimated Value: $12,500.00</p>
+        </div>
+        <div class="token-history">
+          <h3>Transaction History</h3>
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Transaction</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Apr 20, 2025</td>
+                <td>Content Creation Reward</td>
+                <td>+500.00</td>
+                <td>Completed</td>
+              </tr>
+              <tr>
+                <td>Apr 18, 2025</td>
+                <td>Token Swap</td>
+                <td>-200.00</td>
+                <td>Completed</td>
+              </tr>
+              <tr>
+                <td>Apr 15, 2025</td>
+                <td>Content Promotion</td>
+                <td>+300.00</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Apr 10, 2025</td>
+                <td>Token Purchase</td>
+                <td>+1,000.00</td>
+                <td>Completed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+      <div class="modal-content upload-workflow">
+        <div class="modal-header">
+          <h2>Create New Educational Content</h2>
+          <div class="upload-progress-indicator">
+            <div class="progress-step active" data-step="1">
+              <span class="step-number">1</span>
+              <span class="step-label">Select</span>
+            </div>
+            <div class="progress-step" data-step="2">
+              <span class="step-number">2</span>
+              <span class="step-label">Details</span>
+            </div>
+            <div class="progress-step" data-step="3">
+              <span class="step-number">3</span>
+              <span class="step-label">AI Assist</span>
+            </div>
+            <div class="progress-step" data-step="4">
+              <span class="step-number">4</span>
+              <span class="step-label">Finalize</span>
+            </div>
+          </div>
+          <button class="modal-close" aria-label="Close">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+
+        <!-- Step 1: Select Content Type -->
+        <div class="modal-body step-content active" id="uploadStep1">
+          <h3>Select Content Type</h3>
+          <div class="content-type-selector">
+            <div class="content-type-card" data-type="video">
+              <div class="card-icon">
+                <i class="ri-video-line"></i>
+              </div>
+              <h4>Educational Video</h4>
+              <p>Upload a full tutorial video or lecture</p>
+            </div>
+
+            <div class="content-type-card" data-type="course">
+              <div class="card-icon">
+                <i class="ri-book-open-line"></i>
+              </div>
+              <h4>Course Module</h4>
+              <p>Multi-part structured learning series</p>
+            </div>
+
+            <div class="content-type-card" data-type="article">
+              <div class="card-icon">
+                <i class="ri-article-line"></i>
+              </div>
+              <h4>Written Tutorial</h4>
+              <p>Text-based guides with code examples</p>
+            </div>
+
+            <div class="content-type-card" data-type="batch-upload">
+              <div class="card-icon">
+                <i class="ri-upload-cloud-2-line"></i>
+              </div>
+              <h4>Batch Upload</h4>
+              <p>Upload multiple content items at once</p>
+            </div>
+
+            <div class="content-type-card" data-type="interactive">
+              <div class="card-icon">
+                <i class="ri-code-box-line"></i>
+              </div>
+              <h4>Interactive Demo</h4>
+              <p>Hands-on coding exercises and demos</p>
+            </div>
+
+            <div class="content-type-card" data-type="ai-generated">
+              <div class="card-icon">
+                <i class="ri-robot-line"></i>
+              </div>
+              <h4>AI-Generated Content</h4>
+              <p>Create content with AI assistance</p>
+            </div>
+          </div>
+
+          <div class="modal-actions right-aligned">
+            <button class="btn-secondary modal-cancel">Cancel</button>
+            <button class="btn-primary step-forward" data-goto="2">Next Step</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Content Details -->
+        <div class="modal-body step-content" id="uploadStep2">
+          <!-- Regular content upload form (default) -->
+          <div id="regularContentForm">
+            <div class="form-group">
+              <label>Title<span class="required">*</span></label>
+              <input
+                type="text"
+                id="contentTitle"
+                placeholder="Enter content title"
+                maxlength="100"
+              />
+              <span class="character-counter" id="titleCounter">0/100</span>
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                id="contentDescription"
+                placeholder="Enter content description"
+                maxlength="5000"
+              ></textarea>
+              <span class="character-counter" id="descCounter">0/5000</span>
+            </div>
+
+            <div class="thumbnail-section">
+              <label>Thumbnail</label>
+              <div class="thumbnail-options">
+                <div class="thumbnail-preview" id="thumbnailPreview">
+                  <div class="placeholder">
+                    <i class="ri-image-line"></i>
+                    <span>No thumbnail selected</span>
+                  </div>
+                </div>
+                <div class="thumbnail-actions">
+                  <button class="btn-secondary" id="uploadThumbBtn">
+                    <i class="ri-upload-2-line"></i>
+                    Upload Image
+                  </button>
+                  <button class="btn-secondary" id="generateThumbBtn">
+                    <i class="ri-robot-line"></i>
+                    Generate with AI
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group half">
+                <label>Category<span class="required">*</span></label>
+                <select id="contentCategory">
+                  <option value="">Select category</option>
+                  <option value="blockchain-basics">Blockchain Basics</option>
+                  <option value="smart-contracts">Smart Contracts</option>
+                  <option value="defi">Decentralized Finance</option>
+                  <option value="nft">NFTs & Digital Assets</option>
+                  <option value="web3-dev">Web3 Development</option>
+                  <option value="crypto-economics">Tokenomics</option>
+                  <option value="security">Security & Best Practices</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group half">
+                <label>Difficulty Level</label>
+                <select id="contentDifficulty">
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                  <option value="expert">Expert</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group half">
+                <label>Estimated Duration</label>
+                <input type="text" id="contentDuration" placeholder="e.g. 15 min, 1.5 hours" />
+              </div>
+
+              <div class="form-group half">
+                <label>Language</label>
+                <select id="contentLanguage">
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="fr">French</option>
+                  <option value="de">German</option>
+                  <option value="ja">Japanese</option>
+                  <option value="zh">Chinese</option>
+                  <option value="ko">Korean</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Tags</label>
+              <div class="tags-input-container">
+                <div class="tags-container" id="tagsContainer"></div>
+                <input type="text" id="tagInput" placeholder="Type tag and press Enter" />
+              </div>
+              <span class="helper-text"
+                >Add up to 10 tags to help viewers discover your content</span
+              >
+            </div>
+          </div>
+
+          <!-- Batch upload form (hidden by default) -->
+          <div id="batchUploadForm" style="display: none">
+            <h3>Batch Upload</h3>
+            <p class="section-intro">Upload multiple educational content files at once</p>
+
+            <!-- Batch upload type selector -->
+            <div class="batch-type-selector">
+              <div class="batch-type-option selected" data-batch-type="files">
+                <i class="ri-file-upload-line"></i>
+                <h3>Upload Files</h3>
+                <p>Upload content files directly</p>
+              </div>
+
+              <div class="batch-type-option" data-batch-type="csv">
+                <i class="ri-file-excel-line"></i>
+                <h3>CSV Import</h3>
+                <p>Import content with metadata from CSV</p>
+              </div>
+            </div>
+
+            <!-- CSV Template Section (hidden by default) -->
+            <div id="csvTemplateSection" class="csv-template-download" style="display: none">
+              <i class="ri-file-download-line"></i>
+              <div>
+                <h4>Download CSV Template</h4>
+                <p>Use our template to prepare your batch content import</p>
+              </div>
+              <button id="downloadCsvTemplate">
+                <i class="ri-download-cloud-line"></i>
+                Download Template
+              </button>
+            </div>
+
+            <!-- File Dropzone -->
+            <div class="batch-dropzone" id="batchDropzone">
+              <i class="ri-upload-cloud-2-line"></i>
+              <h3>Drag and Drop Files</h3>
+              <p>or click to browse files</p>
+              <input type="file" id="batchFileInput" multiple style="display: none" />
+              <button class="btn-primary" id="browseBatchFilesBtn">Browse Files</button>
+              <p class="upload-formats">
+                Supported formats: MP4, WEBM, PDF, MD, DOC, DOCX, JPG, PNG
+              </p>
+            </div>
+
+            <!-- Batch Items Container -->
+            <div class="batch-items" id="batchItemsContainer"></div>
+
+            <!-- Batch Upload Controls -->
+            <div class="batch-upload-controls">
+              <button class="btn-secondary" id="clearBatchBtn" disabled>
+                <i class="ri-delete-bin-line"></i>
+                Clear All
+              </button>
+
+              <div class="batch-upload-progress" id="batchUploadProgress" style="display: none">
+                <div class="batch-progress-bar">
+                  <div class="batch-progress-fill" id="batchProgressFill"></div>
+                </div>
+                <div class="batch-progress-stats">
+                  <span id="batchProgressCount">0/0 files processed</span>
+                  <span id="batchProgressPercent">0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Common Settings For All Files -->
+            <div class="common-settings">
+              <div class="common-settings-toggle">
+                <label class="toggle-label">
+                  <input type="checkbox" id="useCommonSettings" checked />
+                  <span class="toggle-switch"></span>
+                  Apply common settings to all items
+                </label>
+              </div>
+
+              <div id="commonSettingsForm">
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label>Category</label>
+                    <select id="batchCategory">
+                      <option value="">Select category</option>
+                      <option value="blockchain-basics">Blockchain Basics</option>
+                      <option value="smart-contracts">Smart Contracts</option>
+                      <option value="defi">Decentralized Finance</option>
+                      <option value="nft">NFTs & Digital Assets</option>
+                      <option value="web3-dev">Web3 Development</option>
+                      <option value="crypto-economics">Tokenomics</option>
+                      <option value="security">Security & Best Practices</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group half">
+                    <label>Difficulty Level</label>
+                    <select id="batchDifficulty">
+                      <option value="beginner">Beginner</option>
+                      <option value="intermediate">Intermediate</option>
+                      <option value="advanced">Advanced</option>
+                      <option value="expert">Expert</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label>Language</label>
+                    <select id="batchLanguage">
+                      <option value="en">English</option>
+                      <option value="es">Spanish</option>
+                      <option value="fr">French</option>
+                      <option value="de">German</option>
+                      <option value="ja">Japanese</option>
+                      <option value="zh">Chinese</option>
+                      <option value="ko">Korean</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group half">
+                    <label>License</label>
+                    <select id="batchLicense">
+                      <option value="cc-by">Creative Commons - Attribution</option>
+                      <option value="cc-by-sa">CC - Attribution-ShareAlike</option>
+                      <option value="cc-by-nc">CC - Attribution-NonCommercial</option>
+                      <option value="copyright">All Rights Reserved</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Common Tags</label>
+                  <div class="tags-input-container">
+                    <div class="tags-container" id="batchTagsContainer"></div>
+                    <input type="text" id="batchTagInput" placeholder="Type tag and press Enter" />
+                  </div>
+                  <span class="helper-text"
+                    >These tags will be applied to all files in this batch</span
+                  >
+                </div>
+
+                <!-- NFT Settings -->
+                <div class="nft-settings">
+                  <label class="toggle-label">
+                    <input type="checkbox" id="enableBatchNft" />
+                    <span class="toggle-switch"></span>
+                    Enable NFT Features
+                  </label>
+
+                  <div class="nft-options" id="batchNftOptions" style="display: none">
+                    <div class="form-row">
+                      <div class="form-group half">
+                        <label>Royalty Percentage</label>
+                        <div class="input-with-icon">
+                          <input
+                            type="number"
+                            id="batchRoyaltyPercentage"
+                            min="0"
+                            max="50"
+                            value="10"
+                          />
+                          <i>%</i>
+                        </div>
+                      </div>
+
+                      <div class="form-group half">
+                        <label>Edition Size</label>
+                        <select id="batchEditionSize">
+                          <option value="1">Single Edition (1)</option>
+                          <option value="10">Limited (10)</option>
+                          <option value="100">Standard (100)</option>
+                          <option value="1000">Extended (1000)</option>
+                          <option value="unlimited">Unlimited</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-text step-back" data-goto="1">
+              <i class="ri-arrow-left-line"></i>
+              Back
+            </button>
+            <div>
+              <button class="btn-secondary modal-cancel">Cancel</button>
+              <button class="btn-primary step-forward" data-goto="3">Next Step</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: AI Assistance -->
+        <div class="modal-body step-content" id="uploadStep3">
+          <h3>AI Content Assistance</h3>
+          <p class="section-intro">
+            Use our AI to help you create or enhance your educational content
+          </p>
+
+          <div class="ai-assistance-options">
+            <div class="ai-option">
+              <h4>Generate Content Outline</h4>
+              <p>
+                Create a structured outline for your educational content based on your title and
+                description
+              </p>
+              <button class="btn-secondary">
+                <i class="ri-list-ordered"></i>
+                Generate Outline
+              </button>
+            </div>
+
+            <div class="ai-option">
+              <h4>Create Draft Content</h4>
+              <p>
+                Generate a complete first draft of educational materials including explanations and
+                examples
+              </p>
+              <button class="btn-secondary">
+                <i class="ri-draft-line"></i>
+                Create Draft
+              </button>
+            </div>
+
+            <div class="ai-option">
+              <h4>Generate Quiz Questions</h4>
+              <p>Create assessment questions to test learner understanding of the material</p>
+              <button class="btn-secondary">
+                <i class="ri-question-line"></i>
+                Generate Questions
+              </button>
+            </div>
+
+            <div class="ai-option">
+              <h4>Enhance Existing Content</h4>
+              <p>
+                Upload your draft content and use AI to improve clarity, add examples, or simplify
+                complex concepts
+              </p>
+              <button class="btn-secondary">
+                <i class="ri-file-upload-line"></i>
+                Upload & Enhance
+              </button>
+            </div>
+          </div>
+
+          <div class="ai-workspace">
+            <div class="workspace-header">
+              <h4>AI Workspace</h4>
+              <div class="workspace-controls">
+                <button class="btn-icon" aria-label="Copy">
+                  <i class="ri-file-copy-line"></i>
+                </button>
+                <button class="btn-icon" aria-label="Download">
+                  <i class="ri-download-line"></i>
+                </button>
+                <button class="btn-icon" aria-label="Clear">
+                  <i class="ri-delete-bin-line"></i>
+                </button>
+              </div>
+            </div>
+            <div class="workspace-content">
+              <textarea
+                id="aiWorkspaceEditor"
+                placeholder="AI-generated content will appear here. You can edit it before finalizing."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-text step-back" data-goto="2">
+              <i class="ri-arrow-left-line"></i>
+              Back
+            </button>
+            <div>
+              <button class="btn-secondary modal-cancel">Cancel</button>
+              <button class="btn-primary step-forward" data-goto="4">Next Step</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Finalize -->
+        <div class="modal-body step-content" id="uploadStep4">
+          <h3>Finalize Content</h3>
+
+          <div class="publish-options">
+            <div class="form-group">
+              <label>Publication Status</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="publishStatus" value="publish" checked />
+                  <span class="radio-label">Publish immediately</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="publishStatus" value="schedule" />
+                  <span class="radio-label">Schedule for later</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="publishStatus" value="draft" />
+                  <span class="radio-label">Save as draft</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group schedule-group hidden">
+              <label>Schedule Publication</label>
+              <div class="form-row">
+                <input type="date" id="scheduleDate" />
+                <input type="time" id="scheduleTime" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Content Review</label>
+            <div class="content-summary">
+              <div class="summary-item">
+                <span class="summary-label">Content Type:</span>
+                <span class="summary-value" id="summaryType">Educational Video</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Title:</span>
+                <span class="summary-value" id="summaryTitle">Introduction to Smart Contracts</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Category:</span>
+                <span class="summary-value" id="summaryCategory">Smart Contracts</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Difficulty:</span>
+                <span class="summary-value" id="summaryDifficulty">Beginner</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="legal-section">
+            <div class="form-group">
+              <label class="checkbox-container">
+                <input type="checkbox" id="contentOwnership" />
+                <span class="checkmark"></span>
+                <span>
+                  I confirm that I own or have the rights to publish this content, including any
+                  AI-generated portions that I have reviewed.
+                </span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-container">
+                <input type="checkbox" id="contentGuidelines" />
+                <span class="checkmark"></span>
+                <span>
+                  I confirm that this content follows the platform's educational content guidelines.
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-text step-back" data-goto="3">
+              <i class="ri-arrow-left-line"></i>
+              Back
+            </button>
+            <div>
+              <button class="btn-secondary modal-cancel">Cancel</button>
+              <button class="btn-primary" id="finalizeContentBtn">Publish Content</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./assets/js/content-safety.js"></script>
+    <script src="./assets/js/batch-upload.js"></script>
+    <script src="./assets/js/upload-modal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Initialize dashboard functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        // Show upload modal
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalCancel = document.querySelectorAll('.modal-cancel');
+
+        uploadBtn.addEventListener('click', () => {
+          uploadModal.classList.add('visible');
+        });
+
+        modalClose.addEventListener('click', () => {
+          uploadModal.classList.remove('visible');
+        });
+
+        modalCancel.forEach(button => {
+          button.addEventListener('click', () => {
+            uploadModal.classList.remove('visible');
+          });
+        });
+
+        // Step navigation
+        const stepForward = document.querySelectorAll('.step-forward');
+        const stepBack = document.querySelectorAll('.step-back');
+
+        stepForward.forEach(button => {
+          button.addEventListener('click', () => {
+            const nextStep = button.getAttribute('data-goto');
+            changeStep(nextStep);
+          });
+        });
+
+        stepBack.forEach(button => {
+          button.addEventListener('click', () => {
+            const prevStep = button.getAttribute('data-goto');
+            changeStep(prevStep);
+          });
+        });
+
+        function changeStep(step) {
+          // Hide all steps
+          document.querySelectorAll('.step-content').forEach(content => {
+            content.classList.remove('active');
+          });
+
+          // Show selected step
+          document.getElementById(`uploadStep${step}`).classList.add('active');
+
+          // Update progress indicator
+          document.querySelectorAll('.progress-step').forEach(indicator => {
+            indicator.classList.remove('active');
+            if (indicator.getAttribute('data-step') <= step) {
+              indicator.classList.add('active');
+            }
+          });
+        }
+
+        // Initialize chart
+        const ctx = document.getElementById('viewsChart').getContext('2d');
+        const chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [
+              {
+                label: 'Views',
+                data: [1245, 1586, 1892, 2148],
+                borderColor: '#4361ee',
+                backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                tension: 0.3,
+                fill: true
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  display: false
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                }
+              }
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

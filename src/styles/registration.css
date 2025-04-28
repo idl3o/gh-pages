@@ -1,0 +1,344 @@
+/* Registration page styles for Web3 Crypto Streaming Service™ */
+
+.register-hero {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  padding: 5rem 0 3rem;
+  text-align: center;
+}
+
+.register-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.register-hero .subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.register-main {
+  padding: 4rem 0;
+}
+
+.register-grid {
+  display: grid;
+  grid-template-columns: 6fr 4fr;
+  gap: 3rem;
+}
+
+.register-form-container {
+  background-color: var(--card-bg);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
+.register-form-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.register-form-container p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.registration-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.registration-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form select,
+.registration-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.registration-form input:focus,
+.registration-form select:focus,
+.registration-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(110, 69, 226, 0.2);
+}
+
+.registration-form .form-hint {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+.file-upload {
+  position: relative;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.file-upload-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.file-name {
+  flex-grow: 1;
+  color: var(--text-secondary);
+}
+
+.file-select-button {
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.file-select-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.wallet-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #ff9500, #ff5e3a);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.wallet-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 94, 58, 0.3);
+}
+
+.wallet-button.connected {
+  background: linear-gradient(135deg, #4ade80, #3b82f6);
+}
+
+.wallet-status {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.wallet-not-connected {
+  color: var(--text-secondary);
+}
+
+.wallet-connected {
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wallet-error {
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-top: 0.25rem;
+}
+
+.checkbox-group label {
+  margin-bottom: 0;
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+.checkbox-group label a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.checkbox-group label a:hover {
+  text-decoration: underline;
+}
+
+.form-submit {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.form-submit button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+}
+
+/* Registration success/error messages */
+.registration-message {
+  text-align: center;
+  padding: 2rem;
+}
+
+.registration-message i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.registration-message.success i {
+  color: #4ade80;
+}
+
+.registration-message.error i {
+  color: #f87171;
+}
+
+.registration-message h3 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.registration-message p {
+  margin-bottom: 1rem;
+}
+
+#profile-cid {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius);
+  font-family: monospace;
+  margin: 1rem 0;
+  word-break: break-all;
+}
+
+/* Benefits section */
+.register-benefits {
+  color: var(--text-color);
+}
+
+.register-benefits h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.benefits-list i {
+  font-size: 1.25rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.benefits-list h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.benefits-list p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.trademark-notice {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--primary-color);
+  padding: 1.5rem;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  margin-top: 2rem;
+}
+
+.trademark-notice p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.trademark-notice p:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .register-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .register-benefits {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .register-hero {
+    padding: 4rem 0 2rem;
+  }
+  
+  .register-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .register-form-container {
+    padding: 2rem 1.5rem;
+  }
+}
+;;;

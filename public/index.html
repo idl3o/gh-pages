@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Web3 Streaming Platform</title>
+    <!-- Added theme-color for mobile browsers -->
+    <meta name="theme-color" content="#121212" />
+    <!-- Added manifest for PWA support -->
+    <link rel="manifest" href="manifest.json" />
+    <!-- Added apple touch icon for iOS devices -->
+    <link rel="apple-touch-icon" href="./assets/images/icon-192x192.png" />
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/animations.css" />
+    <link rel="stylesheet" href="./assets/css/definitive.css" />
+    <!-- Added mobile optimizations CSS -->
+    <link rel="stylesheet" href="./assets/css/mobile.css" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon" />
+    <meta
+      name="description"
+      content="Web3 powered content streaming platform with direct creator compensation, transparent revenue sharing, and decentralized governance"
+    />
+    <!-- Added Open Graph tags for better social media sharing -->
+    <meta property="og:title" content="Web3 Streaming Platform" />
+    <meta
+      property="og:description"
+      content="Using blockchain technology to create direct connections between creators and audiences."
+    />
+    <meta property="og:image" content="https://your-domain.com/assets/images/og-image.jpg" />
+    <meta property="og:url" content="https://your-domain.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+      .progress-container {
+        margin: 20px 0;
+        background-color: var(--color-bg-secondary);
+        border-radius: 5px;
+      }
+      .progress-bar {
+        height: 28px;
+        border-radius: 5px;
+        background-color: var(--color-primary);
+        text-align: center;
+        line-height: 28px;
+        color: white;
+        font-weight: bold;
+        transition: width 1s ease-in-out;
+      }
+      .status-tag {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-left: 10px;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+      .status-completed {
+        background-color: #10b981;
+        color: white;
+      }
+      .status-in-progress {
+        background-color: #f59e0b;
+        color: white;
+      }
+      .status-planned {
+        background-color: #6b7280;
+        color: white;
+      }
+      .completion-section {
+        padding: 2rem 0;
+        background-color: var(--color-bg-alt);
+      }
+      .completion-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .completion-card {
+        background-color: var(--color-bg-secondary);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .version-tag {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background-color: var(--color-primary);
+        color: white;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+      /* Critical CSS inline for fastest rendering */
+      .header.scrolled {
+        background-color: rgba(18, 18, 18, 0.95);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        transition:
+          background-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="svg-pulse"
+          >
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+            ></polygon>
+          </svg>
+          Web3 Streaming Platform
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="creators.md">Creators</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="streaming.html">Stream</a></li>
+            <li><a href="red_x/index.html">RED X Gateway</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button class="connect-wallet-btn hover-lift">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <circle cx="12" cy="12" r="2"></circle>
+              <path d="M6 12h.01M18 12h.01"></path>
+            </svg>
+            <span>Connect Wallet</span>
+          </button>
+          <button class="dark-mode-toggle">
+            <svg
+              class="sun"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              class="moon hidden"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button class="mobile-menu-toggle">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content fade-in">
+            <h1>Welcome to the Future of Content Streaming</h1>
+            <p>
+              Using blockchain technology to create direct connections between creators and
+              audiences.
+            </p>
+            <div class="hero-buttons">
+              <a href="streaming.html" class="btn btn-primary hover-lift">Start Watching</a>
+              <a href="creator-dashboard.html" class="btn btn-secondary hover-lift"
+                >Creator Portal</a
+              >
+            </div>
+            <!-- Version tag -->
+            <div style="margin-top: 20px">
+              <span class="version-tag">Alpha v0.5.3</span>
+              <span style="margin-left: 10px; font-style: italic"
+                >Last updated: April 26, 2025</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Project Completion Status Section -->
+      <section class="completion-section">
+        <div class="container">
+          <h2>
+            Project Completion Status
+            <span class="status-tag status-in-progress">In Development</span>
+          </h2>
+          <p>Track our progress as we build the future of decentralized content streaming.</p>
+
+          <div class="completion-grid">
+            <div class="completion-card">
+              <h3>Core Platform <span class="status-tag status-in-progress">75%</span></h3>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 75%">75%</div>
+              </div>
+              <ul style="margin-top: 15px">
+                <li>✅ Interface Design</li>
+                <li>✅ Authentication System</li>
+                <li>✅ RED X Gateway Integration</li>
+                <li>✅ Mobile Optimization</li>
+                <li>✅ Performance Enhancements</li>
+              </ul>
+            </div>
+
+            <div class="completion-card">
+              <h3>Blockchain Integration <span class="status-tag status-in-progress">72%</span></h3>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 72%">72%</div>
+              </div>
+              <ul style="margin-top: 15px">
+                <li>✅ Smart Contract Development</li>
+                <li>✅ Wallet Connection</li>
+                <li>✅ Transaction Processing</li>
+                <li>⏳ Multi-chain Support</li>
+                <li>✅ Gas Optimization</li>
+              </ul>
+            </div>
+
+            <div class="completion-card">
+              <h3>Creator Tools <span class="status-tag status-in-progress">65%</span></h3>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 65%">65%</div>
+              </div>
+              <ul style="margin-top: 15px">
+                <li>✅ Content Uploading</li>
+                <li>✅ Analytics Dashboard</li>
+                <li>✅ Monetization Options</li>
+                <li>⏳ Audience Engagement Tools</li>
+                <li>⏳ Creator Community Features</li>
+              </ul>
+            </div>
+
+            <div class="completion-card">
+              <h3>Viewer Experience <span class="status-tag status-in-progress">75%</span></h3>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 75%">75%</div>
+              </div>
+              <ul style="margin-top: 15px">
+                <li>✅ Content Discovery</li>
+                <li>✅ HD Video Playback</li>
+                <li>✅ User Preferences</li>
+                <li>✅ Personalized Recommendations</li>
+                <li>⏳ Social Sharing Features</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 2rem">
+            <p>Overall Project Completion:</p>
+            <div class="progress-container" style="max-width: 600px; margin: 0 auto">
+              <div class="progress-bar" style="width: 75%">75%</div>
+            </div>
+            <p style="margin-top: 15px">
+              <a href="docs.html" class="btn btn-outline">View Development Roadmap</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" id="features">
+        <div class="container">
+          <h2>Platform Features</h2>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="M2 17l10 5 10-5"></path>
+                  <path d="M2 12l10 5 10-5"></path>
+                </svg>
+              </div>
+              <h3>Direct Creator Support <span class="status-tag status-completed">Live</span></h3>
+              <p>
+                Support your favorite creators directly without middlemen taking large cuts. Smart
+                contracts ensure transparent revenue distribution and instant payments.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+              </div>
+              <h3>Transparent Revenue <span class="status-tag status-completed">Live</span></h3>
+              <p>
+                Blockchain-based payment system ensures transparent and fair revenue distribution
+                with real-time tracking of streams and earnings through the RED X Gateway interface.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+                  <line x1="16" y1="8" x2="2" y2="22"></line>
+                  <line x1="17.5" y1="15" x2="9" y2="15"></line>
+                </svg>
+              </div>
+              <h3>Content Ownership <span class="status-tag status-in-progress">Beta</span></h3>
+              <p>
+                Creators maintain ownership of their content through NFT-based licensing with
+                customizable royalty structures and verifiable on-chain provenance.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <h3>Community Governance <span class="status-tag status-in-progress">Beta</span></h3>
+              <p>
+                Platform decisions are made through decentralized governance voting, with active
+                proposals visible on the governance visualization dashboard.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-content">
+            <h2>New: RED X Gateway Access <span class="status-tag status-completed">Live</span></h2>
+            <p>
+              Try our experimental RED X gateway for direct blockchain node access through our
+              innovative visual interface. Now with improved performance and multi-chain support.
+            </p>
+            <div class="cta-buttons">
+              <a href="red_x/index.html" class="btn btn-primary hover-lift">Launch RED X Gateway</a>
+              <a href="red_x/deployment_test.html" class="btn btn-secondary hover-lift"
+                >Deployment Test Page</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Multi-chain Support Showcase Section -->
+      <section class="features" id="multi-chain">
+        <div class="container">
+          <h2>New: Multi-chain Support <span class="status-tag status-completed">Live</span></h2>
+          <p>
+            Connect and interact with multiple blockchain networks through our unified interface
+          </p>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <!-- Using lazy loading for images -->
+              <img
+                class="lazy-load"
+                data-src="assets/images/ethereum.svg"
+                alt="Ethereum"
+                width="60"
+                height="60"
+                src="assets/images/placeholder.svg"
+              />
+              <h3>Ethereum Mainnet</h3>
+              <p>
+                Full support for Ethereum mainnet transactions, smart contracts, and dApps
+                integration.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <img
+                class="lazy-load"
+                data-src="assets/images/polygon.svg"
+                alt="Polygon"
+                width="60"
+                height="60"
+                src="assets/images/placeholder.svg"
+              />
+              <h3>Polygon Network</h3>
+              <p>
+                Lower fees and faster transactions while maintaining Ethereum compatibility and
+                security.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <img
+                class="lazy-load"
+                data-src="assets/images/bsc.svg"
+                alt="Binance Smart Chain"
+                width="60"
+                height="60"
+                src="assets/images/placeholder.svg"
+              />
+              <h3>BNB Chain</h3>
+              <p>
+                Access to BNB Chain ecosystem for cross-chain asset transfers and DeFi applications.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <img
+                class="lazy-load"
+                data-src="assets/images/solana.svg"
+                alt="Solana"
+                width="60"
+                height="60"
+                src="assets/images/placeholder.svg"
+              />
+              <h3>Solana</h3>
+              <p>High-throughput blockchain support for scalable apps and microsecond finality.</p>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 2rem">
+            <a href="chains.html" class="btn btn-outline">View All Supported Networks</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="token-section">
+        <div class="container">
+          <div class="token-content">
+            <h2>STREAM Token <span class="status-tag status-in-progress">Beta</span></h2>
+            <p>
+              The STREAM token powers the entire ecosystem, providing utility for transactions,
+              governance, and creator incentives. Currently in beta testing with active liquidity
+              pools.
+            </p>
+            <div style="margin-top: 15px">
+              <span style="font-weight: bold">Current Token Price:</span> $0.0735
+              <span style="color: #10b981; margin-left: 5px">▲ 3.25%</span>
+            </div>
+            <div style="margin-top: 10px; margin-bottom: 20px">
+              <span style="font-weight: bold">Market Cap:</span> $7.35M |
+              <span style="font-weight: bold">24h Volume:</span> $1.2M
+            </div>
+            <a href="token.html" class="btn btn-outline hover-lift">Token Details</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recently Updated Section -->
+      <section class="features" id="recent-updates">
+        <div class="container">
+          <h2>Recently Updated</h2>
+          <p>Check out our latest improvements and additions to the platform</p>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+              </div>
+              <h3>Mobile Experience</h3>
+              <p>
+                Fully responsive design with touch optimizations and offline access capabilities via
+                Service Worker.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.8em; color: var(--color-text-alt)">
+                Updated: April 26, 2025
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+              </div>
+              <h3>SXS CLI Tool</h3>
+              <p>
+                Unified command-line interface that combines bash and PowerShell functionality for
+                streamlined project management.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.8em; color: var(--color-text-alt)">
+                Updated: April 26, 2025
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="M2 17l10 5 10-5"></path>
+                  <path d="M2 12l10 5 10-5"></path>
+                </svg>
+              </div>
+              <h3>Multi-chain Support</h3>
+              <p>
+                Added support for Ethereum, Polygon, BNB Chain and Solana with visual transaction
+                flow monitoring and improved error handling.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.8em; color: var(--color-text-alt)">
+                Updated: April 26, 2025
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Streaming Platform</h3>
+            <p>The future of decentralized content creation and consumption.</p>
+            <div class="social-icons">
+              <a href="https://twitter.com/web3stream" aria-label="Twitter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 9.785 9.785 0 01-3.127 1.195 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="https://discord.gg/web3stream" aria-label="Discord">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="https://github.com/web3stream" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3>Platform</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="streaming.html">Stream</a></li>
+              <li><a href="creators.md">Creators</a></li>
+              <li><a href="token.html">Token</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="docs.html">Documentation</a></li>
+              <li><a href="faq.md">FAQ</a></li>
+              <li><a href="tutorials.html">Tutorials</a></li>
+              <li><a href="red_x/index.html">RED X Gateway</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="privacy.md">Privacy Policy</a></li>
+              <li><a href="terms.html">Terms of Service</a></li>
+              <li><a href="SECURITY.md">Security</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Web3 Streaming Platform. All rights reserved.</p>
+          <a href="sitemap.html">Sitemap</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Performance script first to optimize page load -->
+    <script src="./assets/js/performance.js"></script>
+
+    <script>
+      // Dark mode toggle functionality
+      const darkModeToggle = document.querySelector('.dark-mode-toggle');
+      const sunIcon = document.querySelector('.sun');
+      const moonIcon = document.querySelector('.moon');
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-theme');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+      darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        sunIcon.classList.toggle('hidden');
+        moonIcon.classList.toggle('hidden');
+
+        // Store preference in localStorage
+        if (document.body.classList.contains('dark-theme')) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+
+      // Check for theme preference in localStorage
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme) {
+        if (storedTheme === 'dark') {
+          document.body.classList.add('dark-theme');
+          sunIcon.classList.add('hidden');
+          moonIcon.classList.remove('hidden');
+        } else {
+          document.body.classList.remove('dark-theme');
+          sunIcon.classList.remove('hidden');
+          moonIcon.classList.add('hidden');
+        }
+      }
+
+      // Connect wallet functionality
+      const connectWalletBtn = document.querySelector('.connect-wallet-btn');
+      connectWalletBtn.addEventListener('click', () => {
+        alert(
+          'Wallet connection functionality will be implemented in the future. For now, please enjoy the static demo.'
+        );
+      });
+
+      // Mobile menu toggle
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      const mainNav = document.querySelector('.main-nav');
+      mobileMenuToggle.addEventListener('click', () => {
+        mainNav.classList.toggle('active');
+      });
+
+      // Animate progress bars on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        // Initialize progress bars with animation
+        const progressBars = document.querySelectorAll('.progress-bar');
+        setTimeout(() => {
+          progressBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0%';
+            setTimeout(() => {
+              bar.style.width = width;
+            }, 100);
+          });
+        }, 500);
+
+        // Register service worker for offline capabilities
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function () {
+            navigator.serviceWorker
+              .register('/service-worker.js')
+              .then(function (registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+              })
+              .catch(function (error) {
+                console.error('Service Worker registration failed:', error);
+              });
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

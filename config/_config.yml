@@ -1,0 +1,81 @@
+# Project RED X - Jekyll Configuration
+title: Project RED X
+description: A WebAssembly-based application with GitHub Pages support
+baseurl: '/gh-pages'
+url: 'https://idl3o.github.io'
+author: Project RED X Team
+lang: en-US
+timezone: UTC
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+encoding: utf-8
+incremental: false
+future: true
+
+# Plugin settings
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-remote-theme
+
+# Theme settings
+theme: minima
+
+# Default layouts for different content types
+defaults:
+  - scope:
+      path: ''
+    values:
+      layout: 'default'
+  - scope:
+      path: 'docs'
+    values:
+      layout: 'doc'
+      sidebar: true
+  - scope:
+      path: '_posts'
+    values:
+      layout: 'post'
+      author: 'Project RED X Team'
+
+# Performance optimization
+compress_html:
+  clippings: all
+  comments: ['<!-- ', ' -->']
+  endings: all
+  ignore:
+    envs: [development]
+  blanklines: false
+  profile: false
+  startings: [html, head, body]
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
+  - package.json
+  - package-lock.json
+  - .gitignore
+  - .github
+  - scripts
+  - tests
+  - vite.config.js
+  - run-*.cmd
+  - app.js
+
+# Include specific files
+include:
+  - .nojekyll
+  - .well-known
+  - red_x/**/*.html
+  - red_x/**/*.js
+  - red_x/**/*.wasm
+  - red_x/**/*.css
+  - red_x/**/*.data

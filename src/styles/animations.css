@@ -1,0 +1,340 @@
+/*
+ * Low RAM SVG Animations and Patterns
+ * For GitHub Pages - Optimized for performance on lower-end devices
+ */
+
+/* Basic fade-in animation that works well on all devices */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Staggered fade-in for multiple elements */
+.fade-in-1 {
+  animation-delay: 0.1s;
+}
+.fade-in-2 {
+  animation-delay: 0.3s;
+}
+.fade-in-3 {
+  animation-delay: 0.5s;
+}
+.fade-in-4 {
+  animation-delay: 0.7s;
+}
+
+/* SVG-based pulse animation (used for buttons/highlights) */
+.svg-pulse {
+  position: relative;
+  z-index: 1;
+}
+
+.svg-pulse::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  animation: svgPulse 2s infinite;
+}
+
+@keyframes svgPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+/* Lightweight loading spinner */
+.svg-spinner {
+  animation: spin 1.2s linear infinite;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Optimized wave animation for hero section backgrounds */
+.svg-wave {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: waveMove 12s linear infinite;
+  animation-delay: -2s;
+}
+
+.svg-wave.second {
+  opacity: 0.5;
+  animation-delay: -5s;
+  bottom: 10px;
+}
+
+@keyframes waveMove {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.8);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+/* Animated count-up numbers */
+.counter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: countUp 2s forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes countUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth stat number transition */
+.stat-counter {
+  transition: all 2s;
+}
+
+/* Token distribution chart animation */
+.token-chart-segment {
+  transition: all 0.8s;
+  transform-origin: center;
+}
+
+.token-chart-segment:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Button & Link hover animations */
+.hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Lightweight shimmer effect for loading content */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Button click effect */
+.btn-press {
+  transition: transform 0.1s;
+}
+
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* SVG Icon patterns for use in various components */
+.svg-icon-pattern {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(99, 102, 241, 0.1);
+  mask-size: 24px;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+
+/* Accessible lowered motion option */
+@media (prefers-reduced-motion) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* SVG Background patterns */
+.svg-bg-grid {
+  background-color: var(--bg-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v1H0V0zm2 2h1v1H2V2zm2 0h1v1H4V2zm2 0h1v1H6V2zm2 0h1v1H8V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zm2 0h1v1h-1V2zM0 4h1v1H0V4zm14 0h1v1h-1V4zM0 6h1v1H0V6zm14 0h1v1h-1V6zM0 8h1v1H0V8zm14 0h1v1h-1V8zM0 10h1v1H0v-1zm14 0h1v1h-1v-1zM0 12h1v1H0v-1zm14 0h1v1h-1v-1zM0 14h1v1H0v-1zm14 0h1v1h-1v-1zM0 16h1v1H0v-1zm14 0h1v1h-1v-1zM0 18h1v1H0v-1zm14 0h1v1h-1v-1z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.svg-bg-circuit {
+  background-color: var(--bg-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Cpath d='M10 0h12v6h-2v2h-2v2h-2v2h-2v4h2v2h2v2h2v2h2v6H10v-6h2v-2h2v-2h2v-2h2v-4h-2v-2h-2v-2h-2V8h-2V0z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.svg-bg-dots {
+  background-color: var(--bg-color);
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%236366f1' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='12' cy='12' r='1.5'/%3E%3Ccircle cx='12' cy='5' r='1.5'/%3E%3Ccircle cx='12' cy='19' r='1.5'/%3E%3Ccircle cx='5' cy='12' r='1.5'/%3E%3Ccircle cx='19' cy='12' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* SVG animations for technical concept visualization */
+.svg-hyperstitial .node {
+  fill: var(--primary-color, #6366f1);
+}
+
+.svg-hyperstitial .connection {
+  stroke: var(--primary-color, #6366f1);
+  stroke-width: 2;
+}
+
+.svg-hyperstitial .pulse {
+  stroke: rgba(99, 102, 241, 0.6);
+  stroke-width: 1;
+  fill: none;
+  animation: svgPulseCircle 2s infinite;
+}
+
+@keyframes svgPulseCircle {
+  0% {
+    r: 10;
+    opacity: 1;
+  }
+  100% {
+    r: 30;
+    opacity: 0;
+  }
+}
+
+.svg-hyperstitial .data {
+  fill: var(--accent-color, #f59e0b);
+  animation: dataMove 3s infinite;
+}
+
+@keyframes dataMove {
+  0% {
+    transform: translateX(-60px);
+  }
+  50% {
+    transform: translateX(60px);
+  }
+  100% {
+    transform: translateX(-60px);
+  }
+}
+
+/* Warp animation */
+.svg-warp .warp-line {
+  stroke: #8b5cf6;
+  stroke-width: 2;
+  stroke-dasharray: 10 5;
+  animation: dashMove 1s linear infinite;
+}
+
+@keyframes dashMove {
+  to {
+    stroke-dashoffset: -15;
+  }
+}
+
+.svg-warp .packet {
+  fill: #10b981;
+  animation: warpSpeed 2s ease-in infinite;
+}
+
+@keyframes warpSpeed {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(140px) scale(0.5);
+    opacity: 0.7;
+  }
+  61% {
+    transform: translateX(-140px) scale(0.5);
+    opacity: 0;
+  }
+  62% {
+    transform: translateX(-140px) scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Creator stats animation */
+.creator-chart {
+  height: 30px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(99, 102, 241, 0.1) 0%,
+    rgba(16, 185, 129, 0.1) 50%,
+    rgba(99, 102, 241, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: chartGradient 3s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes chartGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+;;;
