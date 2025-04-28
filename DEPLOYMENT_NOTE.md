@@ -6,6 +6,14 @@ This document describes the deployment configuration for the Web3 Crypto Streami
 
 The site is automatically deployed to GitHub Pages using GitHub Actions workflows whenever changes are pushed to the `main` branch.
 
+### Domain Configuration
+
+The site is configured to be deployed at:
+- **URL:** https://idl3o.github.io
+- **Base Path:** /gh-pages
+
+A CNAME file has been added to the repository root to ensure proper domain configuration. This file is automatically copied to the build directory during deployment.
+
 ### Unified Deployment Workflow
 
 The main deployment process is handled by the `.github/workflows/unified-deploy.yml` workflow, which:
@@ -14,7 +22,8 @@ The main deployment process is handled by the `.github/workflows/unified-deploy.
 2. Sets up the Node.js environment
 3. Installs dependencies
 4. Validates all URLs in HTML files
-5. Deploys the site to the `gh-pages` branch
+5. Properly configures domain settings
+6. Deploys the site to the `gh-pages` branch
 
 ### Manual Deployment
 

@@ -329,20 +329,29 @@ deploy_to_github_pages() {
     # Remove existing files
     git rm -rf . > /dev/null 2>&1 || true
 
-    # Copy build files
+    # Copy build files - always use _site as the standardized build directory
     BUILD_DIR="_site"
     if [ ! -d "$BUILD_DIR" ]; then
-      # Try to find the build directory
+      # Create the _site directory if it doesn't exist
+      mkdir -p "$BUILD_DIR"
+      echo -e "${YELLOW}Created $_site directory${RESET}"
+
+      # Copy necessary files to _site if present in other common build directories
       if [ -d "dist" ]; then
-        BUILD_DIR="dist"
+        cp -r dist/* "$BUILD_DIR/"
+        echo -e "${YELLOW}Copied files from dist to _site${RESET}"
       elif [ -d "build" ]; then
-        BUILD_DIR="build"
+        cp -r build/* "$BUILD_DIR/"
+        echo -e "${YELLOW}Copied files from build to _site${RESET}"
       elif [ -d "public" ]; then
-        BUILD_DIR="public"
-      else
-        echo -e "${RED}Error: Could not find build directory${RESET}"
-        return 1
+        cp -r public/* "$BUILD_DIR/"
+        echo -e "${YELLOW}Copied files from public to _site${RESET}"
       fi
+    fi
+
+    if [ ! "$(ls -A $BUILD_DIR 2>/dev/null)" ]; then
+      echo -e "${RED}Error: _site directory is empty or does not exist${RESET}"
+      return 1
     fi
 
     cp -r $BUILD_DIR/* .

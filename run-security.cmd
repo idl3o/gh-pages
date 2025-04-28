@@ -1,15 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
-title Web3 Crypto Streaming Service - Security Status
-echo Opening Security Status page...
-
-REM Check if the server is already running
-netstat -ano | findstr ":%PORT%" > nul
-if !errorlevel! equ 0 (
-  echo [INFO] Server already running. Opening security page...
-  start "" http://localhost:3000/security.html
-  exit /b 0
-)
+title Web3 Crypto Streaming Service - Security Analysis
+echo Opening Security Analysis...
 
 REM Check if http-server is installed
 where http-server >nul 2>nul
@@ -38,7 +30,7 @@ goto end
 
 :use_alternative
 echo [INFO] Opening security page using Node.js...
-if not exist "dist" (
+if not exist "_site" (
   echo [WARNING] Build directory not found. Building project...
   call npm run build
 )

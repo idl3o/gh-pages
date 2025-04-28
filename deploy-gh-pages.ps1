@@ -9,7 +9,7 @@ Write-Host "Building static version for GitHub Pages..." -ForegroundColor Cyan
 Set-Location -Path $PSScriptRoot
 
 # Create static build directory
-$BUILD_DIR = "./build"
+$BUILD_DIR = "./_site"
 if (-not (Test-Path -Path $BUILD_DIR)) {
     New-Item -ItemType Directory -Path $BUILD_DIR | Out-Null
 }
@@ -161,31 +161,31 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Create static version directory
-New-Item -ItemType Directory -Path "../build/red_x" -Force | Out-Null
+New-Item -ItemType Directory -Path "../_site/red_x" -Force | Out-Null
 
 # Copy necessary files
-Copy-Item -Path "index.html" -Destination "../build/red_x/"
-Copy-Item -Path "index.js" -Destination "../build/red_x/"
-Copy-Item -Path "index.wasm" -Destination "../build/red_x/"
+Copy-Item -Path "index.html" -Destination "../_site/red_x/"
+Copy-Item -Path "index.js" -Destination "../_site/red_x/"
+Copy-Item -Path "index.wasm" -Destination "../_site/red_x/"
 
 # Copy test deployment file if it exists
 if (Test-Path -Path "deployment_test.html") {
     Write-Host "Copying deployment test file..." -ForegroundColor Cyan
-    Copy-Item -Path "deployment_test.html" -Destination "../build/red_x/"
+    Copy-Item -Path "deployment_test.html" -Destination "../_site/red_x/"
 }
 
 # Copy copyright information in machine language
-New-Item -ItemType Directory -Path "../build/red_x/legal" -Force | Out-Null
-Copy-Item -Path "COPYRIGHT.*" -Destination "../build/red_x/legal/" -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Path "../_site/red_x/legal" -Force | Out-Null
+Copy-Item -Path "COPYRIGHT.*" -Destination "../_site/red_x/legal/" -ErrorAction SilentlyContinue
 
 # Make sure the js directory exists before copying
 if (Test-Path -Path "js") {
-    New-Item -ItemType Directory -Path "../build/red_x/js" -Force | Out-Null
-    Copy-Item -Path "js/*" -Destination "../build/red_x/js/" -Recurse
+    New-Item -ItemType Directory -Path "../_site/red_x/js" -Force | Out-Null
+    Copy-Item -Path "js/*" -Destination "../_site/red_x/js/" -Recurse
 } else {
-    New-Item -ItemType Directory -Path "../build/red_x/js" -Force | Out-Null
+    New-Item -ItemType Directory -Path "../_site/red_x/js" -Force | Out-Null
     # Create minimal required JS files
-    "// Fallback file created by deployment script" | Out-File -FilePath "../build/red_x/js/link-extractor.js" -Encoding utf8
+    "// Fallback file created by deployment script" | Out-File -FilePath "../_site/red_x/js/link-extractor.js" -Encoding utf8
 
     # Create a simple link extractor
 @'
@@ -226,12 +226,12 @@ class LinkExtractor {
   }
 }
 if (typeof window !== 'undefined') { window.LinkExtractor = LinkExtractor; }
-'@ | Out-File -FilePath "../build/red_x/js/link-extractor.js" -Encoding utf8
+'@ | Out-File -FilePath "../_site/red_x/js/link-extractor.js" -Encoding utf8
 }
 
 # Copy links file if it exists
 if (Test-Path -Path "../wub-links.txt") {
-    Copy-Item -Path "../wub-links.txt" -Destination "../build/"
+    Copy-Item -Path "../wub-links.txt" -Destination "../_site/"
 } else {
     # Create a simple fallback file
 @'
@@ -239,11 +239,11 @@ if (Test-Path -Path "../wub-links.txt") {
 
 ## Resources
 <a href="https://developer.mozilla.org/en-US/docs/WebAssembly">WebAssembly Documentation</a>
-'@ | Out-File -FilePath "../build/wub-links.txt" -Encoding utf8
+'@ | Out-File -FilePath "../_site/wub-links.txt" -Encoding utf8
 }
 
 # Create .nojekyll file to prevent Jekyll processing
-"" | Out-File -FilePath "../build/.nojekyll" -Encoding utf8 -NoNewline
+"" | Out-File -FilePath "../_site/.nojekyll" -Encoding utf8 -NoNewline
 
 # Create _headers file for Cloudflare/Netlify edge caching
 @'
@@ -263,16 +263,16 @@ if (Test-Path -Path "../wub-links.txt") {
 # API responses should not be cached
 /api/*
   Cache-Control: no-cache
-'@ | Out-File -FilePath "../build/_headers" -Encoding utf8
+'@ | Out-File -FilePath "../_site/_headers" -Encoding utf8
 
 # Write edge functions redirects file for Netlify/Vercel
 @'
 # Netlify/Vercel Edge Functions redirects
 /api/*  /.netlify/functions/api-handler  200
-'@ | Out-File -FilePath "../build/_redirects" -Encoding utf8
+'@ | Out-File -FilePath "../_site/_redirects" -Encoding utf8
 
 # Create a CNAME file if needed (customize domain here)
-"www.web3streaming.example" | Out-File -FilePath "../build/CNAME" -Encoding utf8 -NoNewline
+"idl3o.github.io" | Out-File -FilePath "../_site/CNAME" -Encoding utf8 -NoNewline
 
 # Automated GitHub Pages deployment
 Write-Host "Deploying to GitHub Pages..." -ForegroundColor Cyan
@@ -303,7 +303,7 @@ if ($gitAvailable) {
         # Remove all files in gh-pages but keep .git
         Get-ChildItem -Path "gh-pages" -Exclude .git | Remove-Item -Recurse -Force
         # Copy build files to gh-pages
-        Copy-Item -Path "build/*" -Destination "gh-pages/" -Recurse -Force
+        Copy-Item -Path "_site/*" -Destination "gh-pages/" -Recurse -Force
 
         Push-Location "gh-pages"
         git add --all
@@ -317,7 +317,7 @@ if ($gitAvailable) {
     }
 } else {
     Write-Host "Git not available, skipping automatic deployment." -ForegroundColor Yellow
-    Write-Host "Static build complete! Files are in the ./build directory." -ForegroundColor Green
+    Write-Host "Static build complete! Files are in the ./_site directory." -ForegroundColor Green
 }
 
 Pop-Location
@@ -325,7 +325,7 @@ Pop-Location
 Write-Host ""
 Write-Host "To manually deploy to GitHub Pages:" -ForegroundColor Cyan
 Write-Host "1. Create a gh-pages branch (if not already created)"
-Write-Host "2. Copy the contents of the build directory to the gh-pages branch"
+Write-Host "2. Copy the contents of the _site directory to the gh-pages branch"
 Write-Host "3. Push the gh-pages branch to GitHub"
 Write-Host ""
-Write-Host "Or use gh-pages npm package with: npm install -g gh-pages && gh-pages -d build"
+Write-Host "Or use gh-pages npm package with: npm install -g gh-pages && gh-pages -d _site"

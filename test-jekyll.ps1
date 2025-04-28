@@ -1,8 +1,7 @@
-# Project RED X - Jekyll Testing Script
+﻿# Project RED X - Jekyll Testing Script
 # This script tests Jekyll functionality and checks for common issues
 
-param (
-    [switch]$Verbose
+param$VerboseParam
 )
 
 $ErrorActionPreference = "Stop"
@@ -40,14 +39,14 @@ function Test-Command {
             $output = Invoke-Expression -Command $Command 2>&1
         }
 
-        Write-ColorOutput "✓ Success: $Description" "Green"
+        Write-ColorOutput "âœ“ Success: $Description" "Green"
         return @{
             Success = $true
             Output  = $output
         }
     }
     catch {
-        Write-ColorOutput "✗ Failed: $Description" "Red"
+        Write-ColorOutput "âœ— Failed: $Description" "Red"
         Write-ColorOutput "$($_.Exception.Message)" "Yellow"
         return @{
             Success = $false
@@ -68,7 +67,7 @@ function Test-JekyllProject {
     # Test 1: Check if _config.yml exists
     $configYml = Join-Path $ProjectRoot "_config.yml"
     if (Test-Path $configYml) {
-        Write-ColorOutput "✓ _config.yml found" "Green"
+        Write-ColorOutput "âœ“ _config.yml found" "Green"
         $tests += @{
             Name    = "Config File"
             Success = $true
@@ -76,7 +75,7 @@ function Test-JekyllProject {
         }
     }
     else {
-        Write-ColorOutput "✗ _config.yml not found" "Red"
+        Write-ColorOutput "âœ— _config.yml not found" "Red"
         $tests += @{
             Name    = "Config File"
             Success = $false
@@ -87,7 +86,7 @@ function Test-JekyllProject {
     # Test 2: Check if Gemfile exists
     $gemfile = Join-Path $ProjectRoot "Gemfile"
     if (Test-Path $gemfile) {
-        Write-ColorOutput "✓ Gemfile found" "Green"
+        Write-ColorOutput "âœ“ Gemfile found" "Green"
         $tests += @{
             Name    = "Gemfile"
             Success = $true
@@ -95,7 +94,7 @@ function Test-JekyllProject {
         }
     }
     else {
-        Write-ColorOutput "✗ Gemfile not found" "Red"
+        Write-ColorOutput "âœ— Gemfile not found" "Red"
         $tests += @{
             Name    = "Gemfile"
             Success = $false
@@ -117,7 +116,7 @@ function Test-JekyllProject {
     $missingDirs = $projectStructure.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object { $_.Key }
 
     if ($missingDirs.Count -eq 0) {
-        Write-ColorOutput "✓ Basic Jekyll directory structure found" "Green"
+        Write-ColorOutput "âœ“ Basic Jekyll directory structure found" "Green"
         $tests += @{
             Name    = "Directory Structure"
             Success = $true
@@ -125,7 +124,7 @@ function Test-JekyllProject {
         }
     }
     else {
-        Write-ColorOutput "⚠ Some recommended Jekyll directories are missing: $($missingDirs -join ', ')" "Yellow"
+        Write-ColorOutput "âš  Some recommended Jekyll directories are missing: $($missingDirs -join ', ')" "Yellow"
         $tests += @{
             Name    = "Directory Structure"
             Success = $true # Not critical, just a warning
@@ -215,21 +214,21 @@ Write-ColorOutput "===========" "Cyan"
 
 foreach ($test in $projectTests.Tests) {
     if ($test.Success -and -not $test.Warning) {
-        Write-ColorOutput "✓ $($test.Name): $($test.Message)" "Green"
+        Write-ColorOutput "âœ“ $($test.Name): $($test.Message)" "Green"
     }
     elseif ($test.Warning) {
-        Write-ColorOutput "⚠ $($test.Name): $($test.Message)" "Yellow"
+        Write-ColorOutput "âš  $($test.Name): $($test.Message)" "Yellow"
     }
     else {
-        Write-ColorOutput "✗ $($test.Name): $($test.Message)" "Red"
+        Write-ColorOutput "âœ— $($test.Name): $($test.Message)" "Red"
     }
 }
 
 if ($buildTest.Success) {
-    Write-ColorOutput "✓ Jekyll Build: Success" "Green"
+    Write-ColorOutput "âœ“ Jekyll Build: Success" "Green"
 }
 else {
-    Write-ColorOutput "✗ Jekyll Build: Failed" "Red"
+    Write-ColorOutput "âœ— Jekyll Build: Failed" "Red"
 }
 
 # Final result
@@ -245,3 +244,4 @@ else {
     Write-ColorOutput "`nSETUP ISSUES DETECTED. Please address the issues above." "Red"
     exit 1
 }
+

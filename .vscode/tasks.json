@@ -9,12 +9,7 @@
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
+      }
     },
     {
       "label": "make_native",
@@ -28,48 +23,43 @@
         "-c",
         "cd '${workspaceFolder}/red_x'; make"
       ],
+      "group": "build"
+    },
+    {
+      "label": "make_ubuntu",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd '${workspaceFolder}/red_x' && chmod +x build-ubuntu.sh && ./build-ubuntu.sh"
+      ],
       "group": "build",
       "presentation": {
         "reveal": "always",
         "panel": "new"
       },
-      "problemMatcher": "$gcc"
+      "problemMatcher": []
     },
     {
       "label": "start_server",
       "type": "shell",
       "command": "powershell",
       "args": ["-Command", "Set-Location -Path '${workspaceFolder}/red_x'; node server.js"],
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "clean",
       "type": "shell",
       "command": "powershell",
       "args": ["-Command", "Set-Location -Path '${workspaceFolder}/red_x'; make clean"],
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "deploy",
       "type": "shell",
       "command": "powershell",
       "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/deploy-gh-pages.ps1"],
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "generate_contract_docs",
@@ -79,60 +69,31 @@
         "-Command",
         "git checkout temp-check-actions; Clear-Host; Write-Host 'Installing solidity-docgen...' -ForegroundColor Cyan; npm install -g solidity-docgen; Write-Host 'Generating documentation...' -ForegroundColor Green; solidity-docgen --solc-module solc --solc-settings 'optimizer.enabled=true,optimizer.runs=200' --output-dir ./docs/contracts"
       ],
-      "group": "build",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
+      "group": "build"
     },
     {
       "label": "branch_info",
       "type": "shell",
       "command": "${workspaceFolder}/branch-manager.cmd info",
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "switch_to_main",
       "type": "shell",
       "command": "${workspaceFolder}/branch-manager.cmd switch 001",
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "switch_to_docs",
       "type": "shell",
       "command": "${workspaceFolder}/branch-manager.cmd switch temp-check-actions",
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "sync_branches",
       "type": "shell",
       "command": "${workspaceFolder}/branch-manager.cmd sync",
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "make_native_bypass",
@@ -142,25 +103,14 @@
         "-Command",
         "if (!(Test-Path '${workspaceFolder}/red_x/red_x.exe') -and !(Test-Path '${workspaceFolder}/red_x/red_x')) { echo 'Creating placeholder file for red_x' > '${workspaceFolder}/red_x/red_x.placeholder' }"
       ],
-      "group": "build",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
+      "group": "build"
     },
     {
       "label": "setup_emsdk",
       "type": "shell",
       "command": "powershell",
       "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/setup-emsdk.ps1"],
-      "group": "build",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new",
-        "clear": true
-      },
-      "problemMatcher": []
+      "group": "build"
     },
     {
       "label": "jekyll_build",
@@ -172,12 +122,7 @@
         "-Command",
         "& {cd '${workspaceFolder}'; bundle exec jekyll build}"
       ],
-      "group": "build",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
+      "group": "build"
     },
     {
       "label": "jekyll_serve",
@@ -189,12 +134,7 @@
         "-Command",
         "& {cd '${workspaceFolder}'; bundle exec jekyll serve --livereload}"
       ],
-      "group": "none",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
+      "group": "none"
     },
     {
       "label": "setup_ruby",
@@ -207,10 +147,154 @@
         "${workspaceFolder}/setup-ruby.ps1",
         "-Install"
       ],
-      "group": "none",
+      "group": "none"
+    },
+    // RED X Native Development Tasks
+    {
+      "label": "RED X: Build Native",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/red_x/Develop-Native.ps1",
+        "-Build"
+      ],
+      "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "RED X: Run Native",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/red_x/Develop-Native.ps1",
+        "-Run"
+      ],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "RED X: Build & Run Native",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/red_x/Develop-Native.ps1",
+        "-BuildAndRun"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "RED X: Debug Native",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/red_x/Develop-Native.ps1",
+        "-DebugMode"
+      ],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "RED X: Clean Native",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/red_x/Develop-Native.ps1",
+        "-Clean"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "RED X: Setup Dependencies",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/red_x/Setup-Dependencies.ps1"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "validate_powershell",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/Validate-PowerShell.ps1"],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "validate_powershell_fix",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/Validate-PowerShell.ps1",
+        "-Fix"
+      ],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
       },
       "problemMatcher": []
     }

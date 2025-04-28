@@ -1,10 +1,7 @@
-# Project RED X - Ruby Setup Script
+﻿# Project RED X - Ruby Setup Script
 # This script checks for and installs Ruby and required gems for Jekyll processing
 
-param (
-    [switch]$Install,
-    [switch]$SkipGemInstall,
-    [switch]$Verbose
+param$VerboseParam
 )
 
 $ErrorActionPreference = "Stop"
@@ -265,3 +262,4 @@ if (-not $bundleInstalled) {
 }
 
 Write-ColorOutput "Ruby setup completed successfully!" "Green"
+

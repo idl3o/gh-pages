@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Blockchain Config",
+  "description": "Schema definition for blockchainConfig",
+  "type": "object",
+  "properties": {
+    "networks": {
+      "type": "array"
+    },
+    "contracts": {
+      "type": "object"
+    },
+    "deployments": {
+      "type": "object"
+    }
+  }
+}

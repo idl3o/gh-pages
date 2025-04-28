@@ -1,0 +1,38 @@
+name: Validate PowerShell
+
+on:
+  pull_request:
+    paths:
+      - '**.ps1'
+      - '**.psm1'
+      - '**.psd1'
+      - '.github/workflows/validate-powershell.yml'
+  push:
+    branches: [main]
+    paths:
+      - '**.ps1'
+      - '**.psm1'
+      - '**.psd1'
+      - '.github/workflows/validate-powershell.yml'
+
+jobs:
+  validate:
+    name: Validate PowerShell Scripts
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+
+      - name: Run PowerShell Validation
+        shell: pwsh
+        run: |
+          .\Validate-PowerShell.ps1
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "PowerShell validation failed. Please check the logs for details."
+            exit 1
+          }

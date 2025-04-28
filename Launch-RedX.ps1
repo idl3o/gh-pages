@@ -1,4 +1,4 @@
-# Launch-RedX.ps1
+﻿# Launch-RedX.ps1
 # Easy launcher script for Project RED X
 # Created: April 25, 2025
 
@@ -26,10 +26,7 @@ function Show-Menu {
 }
 
 function Start-RedXRunner {
-    param (
-        [string]$Mode,
-        [int]$Port = 8080,
-        [switch]$Verbose = $false
+    param$VerboseParam = $false
     )
 
     $runnerPath = Join-Path -Path $redXDir -ChildPath "Run-RedX.ps1"
@@ -117,3 +114,4 @@ do {
         }
     }
 } while ($true)
+

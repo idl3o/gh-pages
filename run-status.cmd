@@ -30,7 +30,7 @@ goto end
 
 :use_alternative
 echo [INFO] Opening status page using Node.js...
-if not exist "dist" (
+if not exist "_site" (
   echo [WARNING] Build directory not found. Building project...
   call npm run build
 )

@@ -1,4 +1,4 @@
-# SxS CLI PowerShell Launcher
+﻿# SxS CLI PowerShell Launcher
 # Cross-platform script that launches the appropriate RED X runtime
 # Created: April 26, 2025
 
@@ -14,7 +14,7 @@ param (
     [int]$Port = 8080,
 
     [Parameter(Mandatory = $false)]
-    [switch]$Verbose = $false,
+    [switch] $VerboseParam = $false,
 
     [Parameter(Mandatory = $false)]
     [switch]$Help = $false
@@ -75,3 +75,4 @@ else {
     Write-Host "Error: Could not find Run-RedX.ps1 in $scriptDir" -ForegroundColor Red
     exit 1
 }
+

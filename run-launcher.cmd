@@ -1,15 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 title Web3 Crypto Streaming Service - URL Launcher
-echo Opening URL Launcher page...
-
-REM Check if the server is already running
-netstat -ano | findstr ":%PORT%" > nul
-if !errorlevel! equ 0 (
-  echo [INFO] Server already running. Opening URL launcher...
-  start "" http://localhost:3000/url-launcher.html
-  exit /b 0
-)
+echo Opening URL Launcher...
 
 REM Check if http-server is installed
 where http-server >nul 2>nul
@@ -32,13 +24,13 @@ if !errorlevel! neq 0 (
 
 :start_server
 echo [INFO] Starting local server...
-start "" http://localhost:5500/url-launcher.html
+start "" http://127.0.0.1:5500/url-launcher.html
 http-server -p 5500 --cors
 goto end
 
 :use_alternative
-echo [INFO] Opening URL launcher using Node.js...
-if not exist "dist" (
+echo [INFO] Opening launcher using Node.js...
+if not exist "_site" (
   echo [WARNING] Build directory not found. Building project...
   call npm run build
 )

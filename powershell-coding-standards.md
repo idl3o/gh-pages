@@ -1,24 +1,60 @@
-# PowerShell Coding Standards for SxS CLI
+# PowerShell Coding Standards
 
-## Command Chaining in PowerShell
+## Parameter Naming
 
-When working with PowerShell scripts for the SxS CLI, remember that PowerShell uses different syntax for command chaining than Bash/Unix shells:
+### Avoid PowerShell Reserved Parameter Names
 
-### ❌ Don't use Bash-style command chaining in PowerShell:
+Never use these PowerShell common parameter names in your scripts as they can cause conflicts:
+
+- `Debug` - Use `DebugMode` or `DebugParam` instead
+- `ErrorAction` - Use `ErrorActionPreference` instead
+- `ErrorVariable` - Use `ErrorVar` instead
+- `InformationAction` - Use `InfoAction` instead
+- `InformationVariable` - Use `InfoVar` instead
+- `OutBuffer` - Use `OutputBuffer` instead
+- `OutVariable` - Use `OutputVar` instead
+- `PipelineVariable` - Use `PipelineVar` instead
+- `Verbose` - Use `VerboseMode` or `VerboseParam` instead
+- `WarningAction` - Use `WarningActionPreference` instead
+- `WarningVariable` - Use `WarningVar` instead
+- `WhatIf` - Use `WhatIfMode` instead
+- `Confirm` - Use `ConfirmMode` instead
+
+These parameter names are automatically added by PowerShell to all cmdlets and advanced functions, so reusing them can cause unexpected behavior.
+
+### Automated Checking
+
+Run the `Check-PowerShellParameters.ps1` script to automatically detect and fix parameter naming conflicts.
+
+```powershell
+# Check for naming conflicts
+.\Check-PowerShellParameters.ps1
+
+# Automatically fix naming conflicts
+.\Check-PowerShellParameters.ps1 -Fix
+```
+
+## General Style Guidelines
+
+### Command Chaining in PowerShell
+
+When working with PowerShell scripts, remember that PowerShell uses different syntax for command chaining than Bash/Unix shells:
+
+#### ❌ Don't use Bash-style command chaining in PowerShell:
 
 ```powershell
 # This is INCORRECT in PowerShell
 npm install && npm start
 ```
 
-### ✅ Instead, use PowerShell semicolons for sequential execution:
+#### ✅ Instead, use PowerShell semicolons for sequential execution:
 
 ```powershell
 # This is CORRECT in PowerShell
 npm install; npm start
 ```
 
-### ✅ Or use separate lines for better readability:
+#### ✅ Or use separate lines for better readability:
 
 ```powershell
 # This is also CORRECT in PowerShell
@@ -26,7 +62,7 @@ npm install
 npm start
 ```
 
-### ✅ For conditional execution, use PowerShell's operators:
+#### ✅ For conditional execution, use PowerShell's operators:
 
 ```powershell
 # Conditional execution in PowerShell (only run second command if first succeeds)
@@ -34,51 +70,66 @@ $result = npm install
 if ($LASTEXITCODE -eq 0) { npm start }
 ```
 
-## Setting Up SxS CLI in PowerShell
+## Function Design
 
-To set up the SxS CLI using PowerShell:
+### Verb-Noun Order
 
-1. Navigate to the red_x directory:
+Use a `Verb-Noun` format for function names to clearly indicate the action and the target. This is a standard PowerShell practice that improves readability and discoverability of functions.
 
-```powershell
-Set-Location -Path "c:\Users\Sam\Documents\GitHub\gh-pages\red_x"
-```
-
-2. Copy the package.json file:
+#### ✅ Good Examples:
 
 ```powershell
-Copy-Item -Path "sxs-package.json" -Destination "package.json"
+Get-Process
+Set-Location
+New-Item
 ```
 
-3. Install the dependencies:
+#### ❌ Avoid using other naming conventions:
 
 ```powershell
-npm install
+# Bad Examples:
+ProcessGet
+LocationSet
+Item-New
 ```
 
-4. Make the CLI globally accessible (optional):
+### Use of CmdletBinding
+
+For advanced functions, use the `CmdletBinding` attribute to enable cmdlet features such as common parameters, and to specify the function as an advanced function.
 
 ```powershell
-npm run install-global
+function Get-Something {
+    [CmdletBinding()]
+    param (
+        [string]$Name
+    )
+    # Function code here
+}
 ```
 
-5. Run the SxS CLI:
+### Comment-Based Help
+
+Include comment-based help in your functions to provide users with information about the function's purpose, parameters, and usage examples. This help can be accessed through the `Get-Help` cmdlet.
 
 ```powershell
-node ./sxs-cli.js help
+function Get-Something {
+    <#
+    .SYNOPSIS
+    Short description of the function
+
+    .DESCRIPTION
+    A longer description of the function
+
+    .PARAMETER Name
+    Description of the Name parameter
+
+    .EXAMPLE
+    Get-Something -Name 'Value'
+    #>
+    [CmdletBinding()]
+    param (
+        [string]$Name
+    )
+    # Function code here
+}
 ```
-
-## Cross-Platform Development
-
-Remember that the SxS CLI is designed to work across platforms, so when contributing code:
-
-1. Use the correct command syntax for each platform
-2. Test your changes in both PowerShell and Bash environments when possible
-3. Leverage the cross-platform abstractions provided by the SxS CLI system
-
-## Additional Resources
-
-For more information on PowerShell best practices:
-
-- [PowerShell Documentation](https://docs.microsoft.com/en-us/powershell/)
-- [PowerShell GitHub Style Guide](https://github.com/PowerShell/PowerShell/blob/master/docs/dev-process/coding-guidelines.md)
