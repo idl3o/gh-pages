@@ -10,6 +10,9 @@ import "./SimpleTokenChain.sol";
  * - Content linking between tokens
  * - Token-gated content access control
  * - Governance mechanism with proposals and voting
+ * - Token minting quotas and rate limiting
+ * - Content verification mechanism
+ * - Transaction fee model and revenue distribution
  */
 contract PRXTokenChain is SimpleTokenChain {
     // Token metadata structure (extends the base token)
@@ -20,6 +23,9 @@ contract PRXTokenChain is SimpleTokenChain {
         uint256 creationBlock;    // Block number when the token was created
         bool isPrivate;           // Whether the content is private (token-gated)
         uint256[] linkedTokens;   // IDs of tokens linked to this token
+        bytes32 contentHash;      // Hash of the content for verification
+        address[] verifiers;      // Addresses that have verified this content
+        mapping(address => bool) hasVerified; // Track if address has verified content
     }
     
     // Governance proposal structure
@@ -37,6 +43,37 @@ contract PRXTokenChain is SimpleTokenChain {
         mapping(address => bool) hasVoted; // Tracks whether an address has already voted
     }
     
+    // Rate limiting structures
+    struct MintingQuota {
+        uint256 dailyLimit;       // Maximum tokens an address can mint per day
+        uint256 timeWindow;       // Time window in seconds for rate limiting
+        uint256 windowLimit;      // Maximum tokens an address can mint within the time window
+    }
+    
+    struct UserMintingStats {
+        uint256 dailyMintCount;   // Number of tokens minted by user in current day
+        uint256 dailyResetTime;   // Timestamp when daily count resets
+        uint256 windowMintCount;  // Number of tokens minted in current time window
+        uint256 lastMintTime;     // Timestamp of last mint
+    }
+    
+    // Transaction fee structure
+    struct FeeModel {
+        uint256 transferFee;       // Fee for token transfers (in basis points, e.g., 50 = 0.5%)
+        uint256 mintFee;           // Additional fee for minting (on top of mint price, in basis points)
+        uint256 contentFee;        // Fee for accessing private content (flat fee in wei)
+        uint256 platformShare;     // Percentage of fees that go to platform (in basis points)
+        uint256 creatorShare;      // Percentage of fees that go to content creator (in basis points)
+        uint256 stakeholderShare;  // Percentage of fees distributed to token holders (in basis points)
+    }
+    
+    // Fee state variables
+    FeeModel public fees;
+    uint256 public accumulatedFees;       // Total fees accumulated for distribution
+    uint256 public platformFeeBalance;     // Fees allocated to platform
+    uint256 public lastFeeDistribution;    // Block when fees were last distributed
+    uint256 public feeDistributionInterval; // Blocks between fee distributions
+    
     // Mapping from token ID to PRX metadata
     mapping(uint256 => PRXMetadata) private _prxMetadata;
     
@@ -47,11 +84,51 @@ contract PRXTokenChain is SimpleTokenChain {
     uint256 public minimumVotesRequired;
     uint256 public governanceThreshold = 51; // 51% majority
     
+    // Rate limiting state
+    MintingQuota public mintingQuota;
+    mapping(address => UserMintingStats) public userMintingStats;
+    bool public quotaEnabled = true;
+    mapping(address => bool) public isExemptFromQuota;
+    
+    // Content verification state
+    uint256 public requiredVerificationsCount = 3; // Minimum verifications needed
+    mapping(address => uint256) public verifierTrustScore; // Trust score for verifiers
+    mapping(address => bool) public authorizedVerifiers; // Addresses authorized as official verifiers
+    
+    // Addresses for fee distribution
+    address public platformWallet;        // Address to receive platform fees
+    address public communityTreasury;     // Address for community-controlled funds
+    
+    // Delegation mapping - tracks who a token holder has delegated their voting power to
+    mapping(address => address) public delegates;
+    
+    // Delegated voting power - tracks the total voting power an address has (own tokens + delegated tokens)
+    mapping(address => uint256) public delegatedVotingPower;
+    
+    // Events for delegation
+    event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate);
+    event DelegatedVotingPowerChanged(address indexed delegate, uint256 previousBalance, uint256 newBalance);
+    
     // Events for PRX-specific actions
     event ContentLinked(uint256 indexed tokenId, uint256 indexed linkedTokenId);
     event ProposalCreated(uint256 indexed proposalId, address indexed proposer, string description, uint256 startTime, uint256 endTime);
     event Voted(uint256 indexed proposalId, address indexed voter, bool support, uint256 weight);
     event ProposalExecuted(uint256 indexed proposalId, bool passed);
+    event QuotaUpdated(uint256 dailyLimit, uint256 timeWindow, uint256 windowLimit);
+    event QuotaExemptionChanged(address indexed user, bool exempted);
+    // New events for content verification
+    event ContentHashUpdated(uint256 indexed tokenId, bytes32 contentHash);
+    event ContentVerified(uint256 indexed tokenId, address indexed verifier);
+    event VerifierStatusChanged(address indexed verifier, bool authorized);
+    event VerifierTrustScoreChanged(address indexed verifier, uint256 trustScore);
+    event MinimumVerificationsChanged(uint256 oldValue, uint256 newValue);
+    // New events for fee management
+    event FeeModelUpdated(uint256 transferFee, uint256 mintFee, uint256 contentFee, 
+        uint256 platformShare, uint256 creatorShare, uint256 stakeholderShare);
+    event FeesDistributed(uint256 totalDistributed, uint256 platformAmount, uint256 stakeholderAmount);
+    event ContentAccessFee(uint256 indexed tokenId, address indexed user, uint256 amount);
+    event PlatformWalletUpdated(address indexed newWallet);
+    event CommunityTreasuryUpdated(address indexed newTreasury);
     
     /**
      * @dev Constructor initializes with token name, symbol, and mint price
@@ -60,36 +137,463 @@ contract PRXTokenChain is SimpleTokenChain {
         SimpleTokenChain(_name, _symbol, _mintPrice) {
         // Initialize governance parameters
         minimumVotesRequired = 3; // Start with minimum of 3 votes required
+        
+        // Initialize default minting quota
+        mintingQuota = MintingQuota({
+            dailyLimit: 10,        // 10 tokens per day
+            timeWindow: 1 hours,   // 1 hour time window
+            windowLimit: 3         // 3 tokens per hour
+        });
+        
+        // Initialize fee model
+        fees = FeeModel({
+            transferFee: 25,       // 0.25% transfer fee
+            mintFee: 100,          // 1% additional minting fee
+            contentFee: 0.001 ether, // 0.001 ETH for accessing private content
+            platformShare: 4000,    // 40% to platform
+            creatorShare: 4000,     // 40% to creator
+            stakeholderShare: 2000  // 20% to token holders
+        });
+        
+        // Set fee distribution interval to ~1 day (assuming ~15 second blocks)
+        feeDistributionInterval = 5760;
+        
+        // Contract owner is exempt from quota
+        isExemptFromQuota[msg.sender] = true;
+        
+        // Contract owner is an authorized verifier
+        authorizedVerifiers[msg.sender] = true;
+        verifierTrustScore[msg.sender] = 100; // Maximum trust score
+        
+        // Set platform wallet to contract owner initially
+        platformWallet = msg.sender;
+        communityTreasury = msg.sender;
     }
     
     /**
-     * @dev Enhanced mint function that includes content metadata
+     * @dev Modifier to check if minting is allowed based on quotas and rate limits
+     */
+    modifier checkMintingQuota() {
+        if (quotaEnabled && !isExemptFromQuota[msg.sender]) {
+            // Get user's current stats
+            UserMintingStats storage stats = userMintingStats[msg.sender];
+            
+            // Check and reset daily quota if necessary
+            if (block.timestamp >= stats.dailyResetTime) {
+                stats.dailyMintCount = 0;
+                stats.dailyResetTime = block.timestamp + 1 days;
+            }
+            
+            // Check daily limit
+            require(stats.dailyMintCount < mintingQuota.dailyLimit, "PRXTokenChain: Daily minting limit reached");
+            
+            // Check time window limit
+            if (block.timestamp > stats.lastMintTime + mintingQuota.timeWindow) {
+                // Reset window count if we're in a new time window
+                stats.windowMintCount = 0;
+            } else {
+                // We're still in the same time window, check the limit
+                require(stats.windowMintCount < mintingQuota.windowLimit, 
+                    "PRXTokenChain: Rate limit reached, try again later");
+            }
+        }
+        _;
+        
+        // Update user's stats after minting
+        if (quotaEnabled && !isExemptFromQuota[msg.sender]) {
+            UserMintingStats storage stats = userMintingStats[msg.sender];
+            stats.dailyMintCount++;
+            stats.windowMintCount++;
+            stats.lastMintTime = block.timestamp;
+            
+            // Initialize daily reset time if this is user's first mint
+            if (stats.dailyResetTime == 0) {
+                stats.dailyResetTime = block.timestamp + 1 days;
+            }
+        }
+    }
+    
+    /**
+     * @dev Enhanced mint function that includes content metadata and verification
      * @param metadata Basic token metadata
      * @param contentURI URI pointing to the content
      * @param contentType Type of content
      * @param isPrivate Whether content is token-gated
+     * @param contentHash Hash of the actual content for verification
      */
     function mintWithContent(
         string memory metadata, 
         string memory contentURI, 
         string memory contentType, 
-        bool isPrivate
-    ) public payable returns (uint256) {
+        bool isPrivate,
+        bytes32 contentHash
+    ) public payable checkMintingQuota returns (uint256) {
         // Mint the base token
         uint256 tokenId = mint(metadata);
         
+        // Create empty array for verifiers
+        address[] memory emptyVerifiers = new address[](0);
+        
         // Store additional PRX metadata
-        _prxMetadata[tokenId] = PRXMetadata({
-            contentURI: contentURI,
-            contentType: contentType,
-            creator: msg.sender,
-            creationBlock: block.number,
-            isPrivate: isPrivate,
-            linkedTokens: new uint256[](0)
-        });
+        PRXMetadata storage newMetadata = _prxMetadata[tokenId];
+        newMetadata.contentURI = contentURI;
+        newMetadata.contentType = contentType;
+        newMetadata.creator = msg.sender;
+        newMetadata.creationBlock = block.number;
+        newMetadata.isPrivate = isPrivate;
+        newMetadata.linkedTokens = new uint256[](0);
+        newMetadata.contentHash = contentHash;
+        newMetadata.verifiers = emptyVerifiers;
+        
+        emit ContentHashUpdated(tokenId, contentHash);
         
         return tokenId;
     }
+    
+    /**
+     * @dev Override the mint function to apply rate limiting and fees
+     * @param metadata Basic token metadata
+     */
+    function mint(string memory metadata) public payable checkMintingQuota returns (uint256) {
+        // Calculate mint fee (base price + percentage fee)
+        uint256 baseMintPrice = mintPrice;
+        uint256 additionalFee = (baseMintPrice * fees.mintFee) / 10000;
+        uint256 totalMintPrice = baseMintPrice + additionalFee;
+        
+        // Ensure correct payment sent
+        require(msg.value >= totalMintPrice, "PRXTokenChain: Insufficient ETH sent for minting");
+        
+        // Add the fee to accumulated fees
+        accumulatedFees += additionalFee;
+        
+        // Call parent mint function
+        uint256 tokenId = super.mint(metadata);
+        
+        // Add the newly minted token to user's quota usage if applicable
+        if (!isExemptFromQuota[msg.sender]) {
+            _quotaUsage[msg.sender].count++;
+            _quotaUsage[msg.sender].lastMintTime = block.timestamp;
+            
+            // Reset daily counter if new day
+            if (block.timestamp - _quotaUsage[msg.sender].dailyStartTime > 1 days) {
+                _quotaUsage[msg.sender].dailyCount = 1;
+                _quotaUsage[msg.sender].dailyStartTime = block.timestamp;
+            } else {
+                _quotaUsage[msg.sender].dailyCount++;
+            }
+        }
+        
+        // Return any excess ETH
+        uint256 excess = msg.value - totalMintPrice;
+        if (excess > 0) {
+            (bool success, ) = payable(msg.sender).call{value: excess}("");
+            require(success, "PRXTokenChain: Failed to return excess ETH");
+        }
+        
+        return tokenId;
+    }
+    
+    /**
+     * @dev Override token transfer to apply transfer fee
+     * @param from Address sending tokens
+     * @param to Address receiving tokens
+     * @param tokenId The token being transferred
+     */
+    function transferFrom(address from, address to, uint256 tokenId) public override {
+        // First determine if a fee should be applied
+        bool applyFee = from != address(0) &&  // Not a mint
+                       !isExemptFromQuota[from]; // Not exempt from quotas/fees
+        
+        if (applyFee) {
+            uint256 transferFeeAmount = (mintPrice * fees.transferFee) / 10000;
+            
+            // Collect fee from sender if not operator/owner
+            if (msg.sender != from && msg.sender != ownerOf(tokenId)) {
+                require(msg.value >= transferFeeAmount, "PRXTokenChain: Transfer fee required");
+                accumulatedFees += transferFeeAmount;
+                
+                // Return any excess
+                uint256 excess = msg.value - transferFeeAmount;
+                if (excess > 0) {
+                    (bool success, ) = payable(msg.sender).call{value: excess}("");
+                    require(success, "PRXTokenChain: Failed to return excess ETH");
+                }
+            }
+            // Collect fee from tx.origin if sender is token owner/operator
+            else {
+                require(msg.value >= transferFeeAmount, "PRXTokenChain: Transfer fee required");
+                accumulatedFees += transferFeeAmount;
+                
+                // Return any excess
+                uint256 excess = msg.value - transferFeeAmount;
+                if (excess > 0) {
+                    (bool success, ) = payable(msg.sender).call{value: excess}("");
+                    require(success, "PRXTokenChain: Failed to return excess ETH");
+                }
+            }
+        }
+        
+        // Call parent transferFrom
+        super.transferFrom(from, to, tokenId);
+    }
+    
+    /**
+     * @dev Access private content by paying a fee
+     * @param tokenId The token with private content to access
+     * @return contentURI The URI of the content
+     */
+    function accessPrivateContent(uint256 tokenId) public payable returns (string memory contentURI) {
+        require(_exists(tokenId), "PRXTokenChain: Query for nonexistent token");
+        require(_prxMetadata[tokenId].isPrivate, "PRXTokenChain: Content is already public");
+        
+        // Token owner can access for free
+        if (ownerOf(tokenId) != msg.sender) {
+            // Check if enough ETH sent
+            require(msg.value >= fees.contentFee, "PRXTokenChain: Insufficient fee for content access");
+            
+            // Distribute content fee immediately
+            uint256 creatorAmount = (fees.contentFee * fees.creatorShare) / 10000;
+            uint256 platformAmount = (fees.contentFee * fees.platformShare) / 10000;
+            uint256 stakeholderAmount = fees.contentFee - creatorAmount - platformAmount;
+            
+            // Send to creator
+            (bool successCreator, ) = payable(_prxMetadata[tokenId].creator).call{value: creatorAmount}("");
+            require(successCreator, "PRXTokenChain: Failed to send creator fee");
+            
+            // Add platform share to platform fee balance
+            platformFeeBalance += platformAmount;
+            
+            // Add stakeholder share to accumulated fees for distribution
+            accumulatedFees += stakeholderAmount;
+            
+            // Return any excess ETH
+            uint256 excess = msg.value - fees.contentFee;
+            if (excess > 0) {
+                (bool success, ) = payable(msg.sender).call{value: excess}("");
+                require(success, "PRXTokenChain: Failed to return excess ETH");
+            }
+            
+            emit ContentAccessFee(tokenId, msg.sender, fees.contentFee);
+        }
+        
+        return _prxMetadata[tokenId].contentURI;
+    }
+    
+    /**
+     * @dev Distribute accumulated fees to stakeholders
+     * @return success Whether the distribution was successful
+     */
+    function distributeFees() public returns (bool success) {
+        // Check if it's time for distribution
+        require(block.number >= lastFeeDistribution + feeDistributionInterval || 
+                msg.sender == platformWallet, // Platform wallet can force distribution
+                "PRXTokenChain: Not yet time for fee distribution");
+                
+        // Check if there are fees to distribute
+        require(accumulatedFees > 0, "PRXTokenChain: No fees to distribute");
+        
+        // Calculate shares
+        uint256 totalFees = accumulatedFees;
+        uint256 platformAmount = (totalFees * fees.platformShare) / 10000;
+        uint256 stakeholderAmount = totalFees - platformAmount;
+        
+        // Reset fee tracking
+        accumulatedFees = 0;
+        lastFeeDistribution = block.number;
+        
+        // Add platform share to platform fee balance
+        platformFeeBalance += platformAmount;
+        
+        // Transfer platform fees if above threshold
+        if (platformFeeBalance > 0.01 ether) {
+            uint256 platformTransfer = platformFeeBalance;
+            platformFeeBalance = 0;
+            
+            // Send to platform wallet
+            (bool platformSuccess, ) = payable(platformWallet).call{value: platformTransfer}("");
+            require(platformSuccess, "PRXTokenChain: Failed to send platform fees");
+        }
+        
+        // Send stakeholder amount to community treasury for distribution
+        if (stakeholderAmount > 0) {
+            (bool stakeholderSuccess, ) = payable(communityTreasury).call{value: stakeholderAmount}("");
+            require(stakeholderSuccess, "PRXTokenChain: Failed to send stakeholder fees");
+        }
+        
+        emit FeesDistributed(totalFees, platformAmount, stakeholderAmount);
+        return true;
+    }
+    
+    /**
+     * @dev Update fee model parameters (governance function)
+     */
+    function updateFeeModel(
+        uint256 _transferFee,
+        uint256 _mintFee,
+        uint256 _contentFee,
+        uint256 _platformShare,
+        uint256 _creatorShare,
+        uint256 _stakeholderShare
+    ) public {
+        // Only token holders with significant stake (20% of supply) can update fee model
+        require(balanceOf(msg.sender) >= totalSupply() * 20 / 100, 
+            "PRXTokenChain: Insufficient tokens to update fee model");
+        
+        // Validate fee percentages
+        require(_transferFee <= 500, "PRXTokenChain: Transfer fee cannot exceed 5%");
+        require(_mintFee <= 1000, "PRXTokenChain: Mint fee cannot exceed 10%");
+        require(_platformShare + _creatorShare + _stakeholderShare == 10000, 
+            "PRXTokenChain: Fee shares must sum to 100%");
+        
+        fees.transferFee = _transferFee;
+        fees.mintFee = _mintFee;
+        fees.contentFee = _contentFee;
+        fees.platformShare = _platformShare;
+        fees.creatorShare = _creatorShare;
+        fees.stakeholderShare = _stakeholderShare;
+        
+        emit FeeModelUpdated(
+            _transferFee,
+            _mintFee,
+            _contentFee, 
+            _platformShare,
+            _creatorShare,
+            _stakeholderShare
+        );
+    }
+    
+    /**
+     * @dev Update platform wallet address
+     * @param newWallet Address of new platform wallet
+     */
+    function updatePlatformWallet(address newWallet) public {
+        // Only current platform wallet can update
+        require(msg.sender == platformWallet, "PRXTokenChain: Only platform wallet can update");
+        require(newWallet != address(0), "PRXTokenChain: Cannot set zero address");
+        
+        platformWallet = newWallet;
+        emit PlatformWalletUpdated(newWallet);
+    }
+    
+    /**
+     * @dev Update community treasury address
+     * @param newTreasury Address of new community treasury
+     */
+    function updateCommunityTreasury(address newTreasury) public {
+        // Require governance vote or ownership
+        require(msg.sender == owner() || balanceOf(msg.sender) >= totalSupply() * 30 / 100, 
+            "PRXTokenChain: Insufficient authority to update treasury");
+        require(newTreasury != address(0), "PRXTokenChain: Cannot set zero address");
+        
+        communityTreasury = newTreasury;
+        emit CommunityTreasuryUpdated(newTreasury);
+    }
+    
+    /**
+     * @dev Get list of verifiers for a token
+     * @param tokenId The token ID
+     * @return List of verifier addresses
+     */
+    function getVerifiers(uint256 tokenId) public view returns (address[] memory) {
+        require(_exists(tokenId), "PRXTokenChain: Query for nonexistent token");
+        return _prxMetadata[tokenId].verifiers;
+    }
+    
+    /**
+     * @dev Update the minting quota settings (governance function)
+     * @param dailyLimit New daily minting limit
+     * @param timeWindow New time window in seconds
+     * @param windowLimit New window minting limit
+     */
+    function updateMintingQuota(
+        uint256 dailyLimit,
+        uint256 timeWindow,
+        uint256 windowLimit
+    ) public {
+        // Only token holders with significant stake (5% of supply) can update quotas
+        require(balanceOf(msg.sender) >= totalSupply() * 5 / 100, 
+            "PRXTokenChain: Insufficient tokens to update quota");
+            
+        mintingQuota.dailyLimit = dailyLimit;
+        mintingQuota.timeWindow = timeWindow;
+        mintingQuota.windowLimit = windowLimit;
+        
+        emit QuotaUpdated(dailyLimit, timeWindow, windowLimit);
+    }
+    
+    /**
+     * @dev Enable or disable quota enforcement
+     * @param enabled Whether quota should be enabled
+     */
+    function setQuotaEnabled(bool enabled) public {
+        // Only token holders with significant stake (5% of supply) can toggle quota
+        require(balanceOf(msg.sender) >= totalSupply() * 5 / 100, 
+            "PRXTokenChain: Insufficient tokens to update quota status");
+            
+        quotaEnabled = enabled;
+    }
+    
+    /**
+     * @dev Set whether an address is exempt from quota
+     * @param user Address to update
+     * @param exempted Whether user should be exempt
+     */
+    function setQuotaExemption(address user, bool exempted) public {
+        // Only token holders with significant stake (5% of supply) can set exemptions
+        require(balanceOf(msg.sender) >= totalSupply() * 5 / 100, 
+            "PRXTokenChain: Insufficient tokens to update quota exemptions");
+            
+        isExemptFromQuota[user] = exempted;
+        
+        emit QuotaExemptionChanged(user, exempted);
+    }
+    
+    /**
+     * @dev Get time remaining until user can mint again
+     * @param user Address to check
+     * @return dailyQuotaRemaining Remaining tokens for the day
+     * @return windowQuotaRemaining Remaining tokens for the current time window
+     * @return timeUntilWindowReset Seconds until window resets
+     */
+    function getMintingStatus(address user) public view returns (
+        uint256 dailyQuotaRemaining, 
+        uint256 windowQuotaRemaining,
+        uint256 timeUntilWindowReset
+    ) {
+        if (!quotaEnabled || isExemptFromQuota[user]) {
+            return (type(uint256).max, type(uint256).max, 0);
+        }
+        
+        UserMintingStats storage stats = userMintingStats[user];
+        
+        // Calculate daily quota
+        if (block.timestamp >= stats.dailyResetTime) {
+            // If daily reset time has passed, full quota is available
+            dailyQuotaRemaining = mintingQuota.dailyLimit;
+        } else {
+            // Otherwise calculate remaining tokens
+            dailyQuotaRemaining = mintingQuota.dailyLimit > stats.dailyMintCount ?
+                mintingQuota.dailyLimit - stats.dailyMintCount : 0;
+        }
+        
+        // Calculate window quota
+        if (stats.lastMintTime == 0 || block.timestamp > stats.lastMintTime + mintingQuota.timeWindow) {
+            // If never minted or window has passed, full window quota is available
+            windowQuotaRemaining = mintingQuota.windowLimit;
+            timeUntilWindowReset = 0;
+        } else {
+            // Calculate remaining tokens in current window
+            windowQuotaRemaining = mintingQuota.windowLimit > stats.windowMintCount ?
+                mintingQuota.windowLimit - stats.windowMintCount : 0;
+            
+            // Calculate time until window resets
+            timeUntilWindowReset = stats.lastMintTime + mintingQuota.timeWindow - block.timestamp;
+        }
+        
+        return (dailyQuotaRemaining, windowQuotaRemaining, timeUntilWindowReset);
+    }
+    
+    // Content verification functions
     
     /**
      * @dev Get PRX metadata for a token
@@ -101,7 +605,8 @@ contract PRXTokenChain is SimpleTokenChain {
         address creator,
         uint256 creationBlock,
         bool isPrivate,
-        uint256[] memory linkedTokens
+        uint256[] memory linkedTokens,
+        bytes32 contentHash
     ) {
         require(_exists(tokenId), "PRXTokenChain: Query for nonexistent token");
         
@@ -112,7 +617,8 @@ contract PRXTokenChain is SimpleTokenChain {
             metadata.creator,
             metadata.creationBlock,
             metadata.isPrivate,
-            metadata.linkedTokens
+            metadata.linkedTokens,
+            metadata.contentHash
         );
     }
     
@@ -277,5 +783,86 @@ contract PRXTokenChain is SimpleTokenChain {
         
         // Additional logic could be added here to handle governance implications
         // For example, removing votes from active proposals when tokens are transferred
+    }
+    
+    /**
+     * @dev Get the address delegated to by `delegator`
+     * @param delegator The address to get the delegate of
+     * @return The delegate address
+     */
+    function getDelegate(address delegator) public view returns (address) {
+        return delegates[delegator];
+    }
+
+    /**
+     * @dev Get the total voting power of an address (own tokens + delegated tokens)
+     * @param delegatee The address to get the voting power of
+     * @return The total voting power
+     */
+    function getVotingPower(address delegatee) public view returns (uint256) {
+        return balanceOf(delegatee) + delegatedVotingPower[delegatee];
+    }
+
+    /**
+     * @dev Delegate voting power to another address
+     * @param delegatee The address to delegate to
+     */
+    function delegate(address delegatee) public {
+        address delegator = msg.sender;
+        address currentDelegate = delegates[delegator];
+        
+        // Don't allow delegation to zero address
+        require(delegatee != address(0), "PRXTokenChain: Cannot delegate to zero address");
+        
+        // Don't allow circular delegation
+        require(delegates[delegatee] != delegator, "PRXTokenChain: Cannot create delegation cycle");
+        
+        // Update delegated voting power
+        uint256 delegatorBalance = balanceOf(delegator);
+        
+        // Remove delegation from current delegate if exists
+        if (currentDelegate != address(0)) {
+            uint256 previousDelegatedPower = delegatedVotingPower[currentDelegate];
+            delegatedVotingPower[currentDelegate] = previousDelegatedPower > delegatorBalance ? 
+                previousDelegatedPower - delegatorBalance : 0;
+            
+            emit DelegatedVotingPowerChanged(
+                currentDelegate,
+                previousDelegatedPower,
+                delegatedVotingPower[currentDelegate]
+            );
+        }
+        
+        // Add delegation to new delegate
+        if (delegatee != address(0)) {
+            uint256 previousDelegatedPower = delegatedVotingPower[delegatee];
+            delegatedVotingPower[delegatee] = previousDelegatedPower + delegatorBalance;
+            
+            emit DelegatedVotingPowerChanged(
+                delegatee,
+                previousDelegatedPower,
+                delegatedVotingPower[delegatee]
+            );
+        }
+        
+        // Update delegate mapping
+        delegates[delegator] = delegatee;
+        
+        emit DelegateChanged(delegator, currentDelegate, delegatee);
+    }
+    
+    /**
+     * @dev Remove delegation (equivalent to delegating to zero address)
+     */
+    function undelegate() public {
+        delegate(address(0));
+    }
+    
+    /**
+     * @dev Contract can receive ETH
+     */
+    receive() external payable {
+        // Add to accumulated fees
+        accumulatedFees += msg.value;
     }
 }

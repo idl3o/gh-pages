@@ -14,25 +14,98 @@ if (-not (Test-Path -Path $BUILD_DIR)) {
   New-Item -ItemType Directory -Path $BUILD_DIR | Out-Null
 }
 
-# Create assets directory structure in build
+# Create organized directory structure in build
 New-Item -ItemType Directory -Path "$BUILD_DIR/assets/css" -Force | Out-Null
 New-Item -ItemType Directory -Path "$BUILD_DIR/assets/js" -Force | Out-Null
 New-Item -ItemType Directory -Path "$BUILD_DIR/assets/images" -Force | Out-Null
+New-Item -ItemType Directory -Path "$BUILD_DIR/components" -Force | Out-Null
+New-Item -ItemType Directory -Path "$BUILD_DIR/pages" -Force | Out-Null
+New-Item -ItemType Directory -Path "$BUILD_DIR/pages/team" -Force | Out-Null
+New-Item -ItemType Directory -Path "$BUILD_DIR/pages/blockchain" -Force | Out-Null
+New-Item -ItemType Directory -Path "$BUILD_DIR/pages/streaming" -Force | Out-Null
 
 # Copy root HTML files
 Copy-Item -Path "index.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
 Copy-Item -Path "404.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "url-launcher.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "team.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "status.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "streaming.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "creator-dashboard.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "governance-visualization.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "ranking-power.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
-Copy-Item -Path "ai-companion.html" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
 
-# Copy Markdown files (for Jekyll processing)
-Copy-Item -Path "*.md" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
+# Copy components
+if (Test-Path -Path "components") {
+  Copy-Item -Path "components/*" -Destination "$BUILD_DIR/components/" -Recurse -ErrorAction SilentlyContinue
+}
+
+# Copy organized content pages from public directory
+if (Test-Path -Path "public") {
+  # Main pages
+  if (Test-Path -Path "public/url-launcher.html") {
+    Copy-Item -Path "public/url-launcher.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+  }
+  if (Test-Path -Path "public/status.html") {
+    Copy-Item -Path "public/status.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+  }
+  if (Test-Path -Path "public/ai-companion.html") {
+    Copy-Item -Path "public/ai-companion.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+  }
+  if (Test-Path -Path "public/creator-dashboard.html") {
+    Copy-Item -Path "public/creator-dashboard.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+  }
+  if (Test-Path -Path "public/governance-visualization.html") {
+    Copy-Item -Path "public/governance-visualization.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+  }
+  if (Test-Path -Path "public/ranking-power.html") {
+    Copy-Item -Path "public/ranking-power.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+  }
+  
+  # Team pages
+  if (Test-Path -Path "public/team.html") {
+    Copy-Item -Path "public/team.html" -Destination "$BUILD_DIR/pages/team/" -ErrorAction SilentlyContinue
+  }
+  
+  # Blockchain pages
+  if (Test-Path -Path "public/token.html") {
+    Copy-Item -Path "public/token.html" -Destination "$BUILD_DIR/pages/blockchain/" -ErrorAction SilentlyContinue
+  }
+  if (Test-Path -Path "public/token-explorer.html") {
+    Copy-Item -Path "public/token-explorer.html" -Destination "$BUILD_DIR/pages/blockchain/" -ErrorAction SilentlyContinue
+  }
+  if (Test-Path -Path "prx-blockchain.html") {
+    Copy-Item -Path "prx-blockchain.html" -Destination "$BUILD_DIR/pages/blockchain/" -ErrorAction SilentlyContinue
+  }
+  
+  # Streaming pages
+  if (Test-Path -Path "public/streaming.html") {
+    Copy-Item -Path "public/streaming.html" -Destination "$BUILD_DIR/pages/streaming/" -ErrorAction SilentlyContinue
+  }
+}
+
+# Also check root directory for any HTML files that should be moved to pages
+if (Test-Path -Path "team.html") {
+  Copy-Item -Path "team.html" -Destination "$BUILD_DIR/pages/team/" -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "status.html") {
+  Copy-Item -Path "status.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "streaming.html") {
+  Copy-Item -Path "streaming.html" -Destination "$BUILD_DIR/pages/streaming/" -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "creator-dashboard.html") {
+  Copy-Item -Path "creator-dashboard.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "governance-visualization.html") {
+  Copy-Item -Path "governance-visualization.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "ranking-power.html") {
+  Copy-Item -Path "ranking-power.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "ai-companion.html") {
+  Copy-Item -Path "ai-companion.html" -Destination "$BUILD_DIR/pages/" -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "prx-blockchain.html") {
+  Copy-Item -Path "prx-blockchain.html" -Destination "$BUILD_DIR/pages/blockchain/" -ErrorAction SilentlyContinue
+}
+
+# Copy Markdown files (for docs)
+New-Item -ItemType Directory -Path "$BUILD_DIR/docs" -Force | Out-Null
+Copy-Item -Path "docs/*.md" -Destination "$BUILD_DIR/docs/" -ErrorAction SilentlyContinue
 
 # Copy Jekyll config
 Copy-Item -Path "_config.yml" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
@@ -47,17 +120,29 @@ if (Test-Path -Path "assets/js") {
 if (Test-Path -Path "assets/images") {
   Copy-Item -Path "assets/images/*" -Destination "$BUILD_DIR/assets/images/" -Recurse -ErrorAction SilentlyContinue
 }
+if (Test-Path -Path "assets/fonts") {
+  New-Item -ItemType Directory -Path "$BUILD_DIR/assets/fonts" -Force | Out-Null
+  Copy-Item -Path "assets/fonts/*" -Destination "$BUILD_DIR/assets/fonts/" -Recurse -ErrorAction SilentlyContinue
+}
+if (Test-Path -Path "assets/videos") {
+  New-Item -ItemType Directory -Path "$BUILD_DIR/assets/videos" -Force | Out-Null
+  Copy-Item -Path "assets/videos/*" -Destination "$BUILD_DIR/assets/videos/" -Recurse -ErrorAction SilentlyContinue
+}
 
-# Copy any smart contracts
-Copy-Item -Path "Streaming.sol" -Destination "$BUILD_DIR/" -ErrorAction SilentlyContinue
+# Copy any smart contracts to a specific location in blockchain pages
+New-Item -ItemType Directory -Path "$BUILD_DIR/pages/blockchain/contracts" -Force | Out-Null
+Copy-Item -Path "Streaming.sol" -Destination "$BUILD_DIR/pages/blockchain/contracts/" -ErrorAction SilentlyContinue
 if (Test-Path -Path "StreamToken.sol") {
-  Copy-Item -Path "StreamToken.sol" -Destination "$BUILD_DIR/"
+  Copy-Item -Path "StreamToken.sol" -Destination "$BUILD_DIR/pages/blockchain/contracts/"
 }
 if (Test-Path -Path "StreamPayment.sol") {
-  Copy-Item -Path "StreamPayment.sol" -Destination "$BUILD_DIR/"
+  Copy-Item -Path "StreamPayment.sol" -Destination "$BUILD_DIR/pages/blockchain/contracts/"
 }
 if (Test-Path -Path "StreamAccessContract.sol") {
-  Copy-Item -Path "StreamAccessContract.sol" -Destination "$BUILD_DIR/"
+  Copy-Item -Path "StreamAccessContract.sol" -Destination "$BUILD_DIR/pages/blockchain/contracts/"
+}
+if (Test-Path -Path "contracts") {
+  Copy-Item -Path "contracts/*" -Destination "$BUILD_DIR/pages/blockchain/contracts/" -Recurse -ErrorAction SilentlyContinue
 }
 
 # Check if npm is available

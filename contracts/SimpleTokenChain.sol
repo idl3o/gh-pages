@@ -1,175 +1,161 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.0;
 
 /**
  * @title SimpleTokenChain
- * @dev A blockchain implementation where each token mint adds a new block to the chain
+ * @dev A simplified blockchain implementation with token functionality.
+ * Each token represents a block in the chain, with a hash that depends on the previous block.
  */
 contract SimpleTokenChain {
     // Block structure
     struct Block {
-        uint256 blockNumber;
-        uint256 timestamp;
-        address minter;
-        bytes32 previousBlockHash;
-        bytes32 blockHash;
-        string tokenMetadata;
+        uint256 blockNumber;     // Block number (same as token ID)
+        uint256 timestamp;       // Block timestamp
+        address minter;          // Address that minted the block
+        bytes32 previousBlockHash; // Hash of the previous block
+        bytes32 blockHash;       // Hash of the current block
+        string tokenMetadata;    // Metadata associated with the block/token
     }
-
-    // Token structure
-    struct Token {
-        uint256 tokenId;
-        address owner;
-        uint256 blockNumber;
-        string metadata;
-    }
-
-    // State variables
-    string public name;
-    string public symbol;
-    address public owner;
-    uint256 public totalSupply;
-    uint256 public blockCount;
-    uint256 public mintPrice;
-    bool public mintingEnabled;
-
-    // Mapping of token IDs to their owners
-    mapping(uint256 => address) public tokenOwner;
-    // Mapping of token IDs to their metadata
-    mapping(uint256 => string) public tokenMetadata;
-    // Mapping of address to their token count
-    mapping(address => uint256) public balanceOf;
-    // Mapping of block number to Block
-    mapping(uint256 => Block) public blocks;
-    // Genesis block hash
-    bytes32 public genesisBlockHash;
-
+    
+    // Token data
+    string private _name;
+    string private _symbol;
+    uint256 private _totalSupply;
+    uint256 private _blockCount;
+    uint256 private _mintPrice;
+    
+    // Mappings
+    mapping(uint256 => Block) private _blocks;
+    mapping(uint256 => address) private _tokenOwner;
+    mapping(address => uint256) private _balances;
+    
     // Events
     event BlockMined(uint256 indexed blockNumber, bytes32 blockHash);
     event TokenMinted(uint256 indexed tokenId, address indexed owner, uint256 blockNumber);
     event TokenTransferred(address indexed from, address indexed to, uint256 indexed tokenId);
-
-    // Modifiers
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can call this function");
-        _;
-    }
-
-    modifier mintingIsEnabled() {
-        require(mintingEnabled, "Minting is currently disabled");
-        _;
-    }
-
+    
     /**
-     * @dev Constructor initializes the contract with name and symbol
+     * @dev Constructor
+     * @param tokenName Name of the token
+     * @param tokenSymbol Symbol of the token
+     * @param mintPrice Price to mint a new token/block
      */
-    constructor(string memory _name, string memory _symbol, uint256 _mintPrice) {
-        name = _name;
-        symbol = _symbol;
-        owner = msg.sender;
-        mintingEnabled = true;
-        mintPrice = _mintPrice;
+    constructor(string memory tokenName, string memory tokenSymbol, uint256 mintPrice) {
+        _name = tokenName;
+        _symbol = tokenSymbol;
+        _mintPrice = mintPrice;
         
         // Create genesis block
-        bytes32 genesisHash = keccak256(abi.encodePacked(block.timestamp, address(0), bytes32(0), "Genesis Block"));
-        blocks[0] = Block(
-            0,
-            block.timestamp,
-            address(0),
-            bytes32(0),
-            genesisHash,
-            "Genesis Block"
-        );
-        genesisBlockHash = genesisHash;
-        blockCount = 1;
-
-        emit BlockMined(0, genesisHash);
-    }
-
-    /**
-     * @dev Mint a new token and create a new block in the chain
-     * @param _metadata Metadata for the token
-     */
-    function mint(string memory _metadata) public payable mintingIsEnabled {
-        require(msg.value >= mintPrice, "Insufficient payment");
-        
-        uint256 tokenId = totalSupply;
-        address tokenMinter = msg.sender;
-        
-        // Create a new block
-        bytes32 previousHash = blocks[blockCount - 1].blockHash;
-        bytes32 newBlockHash = keccak256(abi.encodePacked(block.timestamp, tokenMinter, previousHash, _metadata));
-        
-        blocks[blockCount] = Block(
-            blockCount,
-            block.timestamp,
-            tokenMinter,
-            previousHash,
-            newBlockHash,
-            _metadata
-        );
-
-        // Mint the token
-        tokenOwner[tokenId] = tokenMinter;
-        tokenMetadata[tokenId] = _metadata;
-        balanceOf[tokenMinter]++;
-        
-        totalSupply++;
-        blockCount++;
-
-        emit BlockMined(blockCount - 1, newBlockHash);
-        emit TokenMinted(tokenId, tokenMinter, blockCount - 1);
-    }
-
-    /**
-     * @dev Transfer a token to another address
-     * @param _to Address to transfer to
-     * @param _tokenId ID of the token
-     */
-    function transfer(address _to, uint256 _tokenId) public {
-        require(tokenOwner[_tokenId] == msg.sender, "You don't own this token");
-        require(_to != address(0), "Cannot transfer to zero address");
-        
-        tokenOwner[_tokenId] = _to;
-        balanceOf[msg.sender]--;
-        balanceOf[_to]++;
-        
-        emit TokenTransferred(msg.sender, _to, _tokenId);
-    }
-
-    /**
-     * @dev Get a block by its number
-     * @param _blockNumber Block number
-     * @return Block structure
-     */
-    function getBlock(uint256 _blockNumber) public view returns (Block memory) {
-        require(_blockNumber < blockCount, "Block does not exist");
-        return blocks[_blockNumber];
-    }
-
-    /**
-     * @dev Get token information
-     * @param _tokenId Token ID
-     * @return Owner address and metadata
-     */
-    function getToken(uint256 _tokenId) public view returns (address, string memory) {
-        require(_tokenId < totalSupply, "Token does not exist");
-        return (tokenOwner[_tokenId], tokenMetadata[_tokenId]);
+        _createGenesisBlock();
     }
     
     /**
-     * @dev Verify the integrity of the blockchain
-     * @return bool True if the chain is valid
+     * @dev Create the genesis block (block 0)
+     */
+    function _createGenesisBlock() private {
+        Block memory genesisBlock = Block({
+            blockNumber: 0,
+            timestamp: block.timestamp,
+            minter: msg.sender,
+            previousBlockHash: bytes32(0),
+            blockHash: keccak256(abi.encodePacked(block.timestamp, msg.sender, bytes32(0), "Genesis Block")),
+            tokenMetadata: "Genesis Block"
+        });
+        
+        _blocks[0] = genesisBlock;
+        _tokenOwner[0] = msg.sender;
+        _balances[msg.sender] = 1;
+        _blockCount = 1;
+        _totalSupply = 1;
+        
+        emit BlockMined(0, genesisBlock.blockHash);
+        emit TokenMinted(0, msg.sender, 0);
+    }
+    
+    /**
+     * @dev Mint a new token and create a new block
+     * @param metadata Metadata to associate with the token
+     * @return tokenId ID of the minted token
+     */
+    function mint(string memory metadata) public payable returns (uint256) {
+        require(msg.value >= _mintPrice, "SimpleTokenChain: Insufficient ether sent");
+        
+        uint256 tokenId = _totalSupply;
+        uint256 blockNumber = _blockCount;
+        
+        // Get previous block hash
+        bytes32 previousHash = _blocks[blockNumber - 1].blockHash;
+        
+        // Create new block
+        bytes32 newBlockHash = keccak256(abi.encodePacked(block.timestamp, msg.sender, previousHash, metadata));
+        Block memory newBlock = Block({
+            blockNumber: blockNumber,
+            timestamp: block.timestamp,
+            minter: msg.sender,
+            previousBlockHash: previousHash,
+            blockHash: newBlockHash,
+            tokenMetadata: metadata
+        });
+        
+        // Update state
+        _blocks[blockNumber] = newBlock;
+        _tokenOwner[tokenId] = msg.sender;
+        _balances[msg.sender]++;
+        _blockCount++;
+        _totalSupply++;
+        
+        emit BlockMined(blockNumber, newBlockHash);
+        emit TokenMinted(tokenId, msg.sender, blockNumber);
+        
+        return tokenId;
+    }
+    
+    /**
+     * @dev Transfer a token to another address
+     * @param to Address to transfer to
+     * @param tokenId ID of the token to transfer
+     */
+    function transfer(address to, uint256 tokenId) public virtual {
+        require(to != address(0), "SimpleTokenChain: Transfer to zero address");
+        require(_tokenOwner[tokenId] == msg.sender, "SimpleTokenChain: Not token owner");
+        
+        _balances[msg.sender]--;
+        _balances[to]++;
+        _tokenOwner[tokenId] = to;
+        
+        emit TokenTransferred(msg.sender, to, tokenId);
+    }
+    
+    /**
+     * @dev Get a block by its number
+     * @param blockNumber The block number
+     */
+    function getBlock(uint256 blockNumber) public view returns (Block memory) {
+        require(blockNumber < _blockCount, "SimpleTokenChain: Invalid block number");
+        return _blocks[blockNumber];
+    }
+    
+    /**
+     * @dev Get token owner and metadata
+     * @param tokenId The token ID
+     */
+    function getToken(uint256 tokenId) public view returns (address, string memory) {
+        require(tokenId < _totalSupply, "SimpleTokenChain: Invalid token ID");
+        return (_tokenOwner[tokenId], _blocks[tokenId].tokenMetadata);
+    }
+    
+    /**
+     * @dev Check if the chain is valid by verifying all block hashes
      */
     function verifyChain() public view returns (bool) {
-        if (blockCount <= 1) return true;
-        
-        for (uint256 i = 1; i < blockCount; i++) {
-            Block memory currentBlock = blocks[i];
-            Block memory previousBlock = blocks[i-1];
+        for (uint256 i = 1; i < _blockCount; i++) {
+            Block memory currentBlock = _blocks[i];
+            Block memory previousBlock = _blocks[i - 1];
             
             // Verify previous hash reference
-            if (currentBlock.previousBlockHash != previousBlock.blockHash) return false;
+            if (currentBlock.previousBlockHash != previousBlock.blockHash) {
+                return false;
+            }
             
             // Verify block hash calculation
             bytes32 calculatedHash = keccak256(abi.encodePacked(
@@ -179,30 +165,49 @@ contract SimpleTokenChain {
                 currentBlock.tokenMetadata
             ));
             
-            if (calculatedHash != currentBlock.blockHash) return false;
+            if (calculatedHash != currentBlock.blockHash) {
+                return false;
+            }
         }
         
         return true;
     }
     
     /**
-     * @dev Toggle minting state
+     * @dev Check if a token exists
+     * @param tokenId Token ID to check
      */
-    function toggleMinting() public onlyOwner {
-        mintingEnabled = !mintingEnabled;
+    function _exists(uint256 tokenId) internal view returns (bool) {
+        return tokenId < _totalSupply;
     }
     
-    /**
-     * @dev Update mint price
-     */
-    function setMintPrice(uint256 _mintPrice) public onlyOwner {
-        mintPrice = _mintPrice;
+    // View functions for token data
+    function name() public view returns (string memory) {
+        return _name;
     }
     
-    /**
-     * @dev Withdraw funds from contract
-     */
-    function withdraw() public onlyOwner {
-        payable(owner).transfer(address(this).balance);
+    function symbol() public view returns (string memory) {
+        return _symbol;
+    }
+    
+    function totalSupply() public view returns (uint256) {
+        return _totalSupply;
+    }
+    
+    function blockCount() public view returns (uint256) {
+        return _blockCount;
+    }
+    
+    function mintPrice() public view returns (uint256) {
+        return _mintPrice;
+    }
+    
+    function balanceOf(address owner) public view returns (uint256) {
+        return _balances[owner];
+    }
+    
+    function tokenOwner(uint256 tokenId) public view returns (address) {
+        require(_exists(tokenId), "SimpleTokenChain: Query for nonexistent token");
+        return _tokenOwner[tokenId];
     }
 }

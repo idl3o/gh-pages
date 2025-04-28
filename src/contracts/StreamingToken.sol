@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 /**
  * @title StreamingToken
  * @dev ERC20 token for the Web3 streaming platform with built-in streaming access control
+ * and token delegation for governance
  */
 contract StreamingToken is ERC20, Ownable, ReentrancyGuard {
     // Credits per ETH when purchasing
@@ -31,11 +32,18 @@ contract StreamingToken is ERC20, Ownable, ReentrancyGuard {
     // Mapping from content ID to creator address
     mapping(string => address) public contentCreators;
 
+    // Delegation mappings
+    mapping(address => address) public delegates;
+    mapping(address => uint256) public delegatedVotingPower;
+    mapping(address => mapping(address => uint256)) public delegatedAmountFrom;
+
     // Events
     event StreamStarted(address indexed user, string contentId, uint256 expiryTime);
     event CreditsPurchased(address indexed user, uint256 amount, uint256 ethValue);
     event CreatorRewarded(address indexed creator, string contentId, uint256 amount);
     event ContentRegistered(string contentId, address indexed creator);
+    event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate);
+    event DelegatedVotingPowerChanged(address indexed delegate, uint256 previousBalance, uint256 newBalance);
 
     /**
      * @dev Constructor that initializes the token with name and symbol
@@ -140,5 +148,105 @@ contract StreamingToken is ERC20, Ownable, ReentrancyGuard {
     function setTreasuryAddress(address _newTreasuryAddress) public onlyOwner {
         require(_newTreasuryAddress != address(0), "Treasury address cannot be zero address");
         treasuryAddress = _newTreasuryAddress;
+    }
+
+    /**
+     * @dev Delegate voting power to another address
+     * @param delegatee Address to which voting power is delegated
+     */
+    function delegate(address delegatee) public {
+        address currentDelegate = delegates[msg.sender];
+        uint256 senderBalance = balanceOf(msg.sender);
+        delegates[msg.sender] = delegatee;
+
+        emit DelegateChanged(msg.sender, currentDelegate, delegatee);
+
+        // Update delegated voting power values
+        _moveDelegatedVotingPower(currentDelegate, delegatee, senderBalance);
+    }
+
+    /**
+     * @dev Get the address to which a user has delegated their voting power
+     * @param delegator Address of the delegator
+     * @return Address of the delegate
+     */
+    function getDelegate(address delegator) public view returns (address) {
+        return delegates[delegator];
+    }
+
+    /**
+     * @dev Get the voting power of an account, including delegated power
+     * @param account Address to check voting power
+     * @return Total voting power (own balance + delegated)
+     */
+    function getVotingPower(address account) public view returns (uint256) {
+        return balanceOf(account) + delegatedVotingPower[account];
+    }
+
+    /**
+     * @dev Move delegated voting power between delegates when delegation changes
+     * @param fromDelegate Previous delegate
+     * @param toDelegate New delegate
+     * @param amount Amount of voting power to move
+     */
+    function _moveDelegatedVotingPower(address fromDelegate, address toDelegate, uint256 amount) internal {
+        if (fromDelegate != toDelegate && amount > 0) {
+            if (fromDelegate != address(0)) {
+                uint256 oldFromDelegateVotingPower = delegatedVotingPower[fromDelegate];
+                uint256 newFromDelegateVotingPower = oldFromDelegateVotingPower - amount;
+                delegatedVotingPower[fromDelegate] = newFromDelegateVotingPower;
+                delegatedAmountFrom[fromDelegate][msg.sender] = 0;
+                
+                emit DelegatedVotingPowerChanged(fromDelegate, oldFromDelegateVotingPower, newFromDelegateVotingPower);
+            }
+            
+            if (toDelegate != address(0)) {
+                uint256 oldToDelegateVotingPower = delegatedVotingPower[toDelegate];
+                uint256 newToDelegateVotingPower = oldToDelegateVotingPower + amount;
+                delegatedVotingPower[toDelegate] = newToDelegateVotingPower;
+                delegatedAmountFrom[toDelegate][msg.sender] = amount;
+                
+                emit DelegatedVotingPowerChanged(toDelegate, oldToDelegateVotingPower, newToDelegateVotingPower);
+            }
+        }
+    }
+
+    /**
+     * @dev Override _beforeTokenTransfer to update delegated voting power
+     * @param from Address sending tokens
+     * @param to Address receiving tokens
+     * @param amount Amount of tokens transferred
+     */
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override {
+        super._beforeTokenTransfer(from, to, amount);
+
+        // Update delegation if this is a transfer (not mint/burn)
+        if (from != address(0) && to != address(0)) {
+            address fromDelegate = delegates[from];
+            address toDelegate = delegates[to];
+
+            // Update delegated amounts
+            if (fromDelegate != address(0)) {
+                uint256 oldFromDelegateVotingPower = delegatedVotingPower[fromDelegate];
+                uint256 newFromDelegateVotingPower = oldFromDelegateVotingPower - amount;
+                delegatedVotingPower[fromDelegate] = newFromDelegateVotingPower;
+                delegatedAmountFrom[fromDelegate][from] -= amount;
+                
+                emit DelegatedVotingPowerChanged(fromDelegate, oldFromDelegateVotingPower, newFromDelegateVotingPower);
+            }
+            
+            if (toDelegate != address(0)) {
+                uint256 oldToDelegateVotingPower = delegatedVotingPower[toDelegate];
+                uint256 newToDelegateVotingPower = oldToDelegateVotingPower + amount;
+                delegatedVotingPower[toDelegate] = newToDelegateVotingPower;
+                delegatedAmountFrom[toDelegate][to] += amount;
+                
+                emit DelegatedVotingPowerChanged(toDelegate, oldToDelegateVotingPower, newToDelegateVotingPower);
+            }
+        }
     }
 }
