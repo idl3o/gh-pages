@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleTokenChain - Minimal Blockchain</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+        }
+        #blockchainInfo, #blockList, #tokenList {
+            margin-top: 30px;
+        }
+        .section {
+            margin-top: 40px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SimpleTokenChain</h1>
+        <p>A blockchain where each token minted creates a new block in the chain.</p>
+        
+        <div class="card">
+            <div id="connection-status">Connect your wallet to interact with the blockchain</div>
+            <button id="connect-button">Connect Wallet</button>
+        </div>
+        
+        <div class="section">
+            <h2>Mint a New Token</h2>
+            <p>Minting a token will add a new block to the blockchain.</p>
+            <input type="text" id="token-metadata" placeholder="Enter token metadata (description, attributes, etc)">
+            <p id="mint-price">Mint Price: Loading...</p>
+            <button id="mint-button" disabled>Mint Token</button>
+        </div>
+        
+        <div class="section" id="blockchainInfo">
+            <h2>Blockchain Statistics</h2>
+            <div class="card">
+                <div class="info-row">
+                    <span>Token Name:</span>
+                    <span id="token-name">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span>Token Symbol:</span>
+                    <span id="token-symbol">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span>Total Supply:</span>
+                    <span id="total-supply">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span>Block Count:</span>
+                    <span id="block-count">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span>Chain Validity:</span>
+                    <span id="chain-validity">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="yourTokens">
+            <h2>Your Tokens</h2>
+            <div id="tokenList">
+                <p>Connect wallet to view your tokens</p>
+            </div>
+        </div>
+        
+        <div class="section" id="recentBlocks">
+            <h2>Recent Blocks</h2>
+            <div id="blockList">
+                <p>Connect wallet to view recent blocks</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js" type="text/javascript"></script>
+    <script src="./assets/js/blockchain-interface.js"></script>
+</body>
+</html>
