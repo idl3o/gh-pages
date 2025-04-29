@@ -1,53 +1,58 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const port = 8080;
 
-const mimeTypes = {
+const PORT = 8080;
+const MIME_TYPES = {
   '.html': 'text/html',
-  '.js': 'text/javascript',
+  '.js': 'application/javascript',
+  '.wasm': 'application/wasm',
   '.css': 'text/css',
   '.json': 'application/json',
   '.png': 'image/png',
-  '.jpg': 'image/jpg',
+  '.jpg': 'image/jpeg',
   '.gif': 'image/gif',
-  '.svg': 'image/svg+xml',
-  '.wasm': 'application/wasm',
-  '.ico': 'image/x-icon'
+  '.svg': 'image/svg+xml',     // For SVG visualizations
+  '.abi': 'application/json',  // For contract ABIs
+  '.bin': 'application/octet-stream', // For binary contract data
+  '.hex': 'text/plain',        // For hex-encoded data
 };
 
-http
-  .createServer((req, res) => {
-    // Make the URL path relative
-    let filePath = '.' + req.url;
-    if (filePath === './') {
-      filePath = './index.html';
-    }
-
-    const extname = path.extname(filePath);
-    let contentType = mimeTypes[extname] || 'application/octet-stream';
-
-    fs.readFile(filePath, (err, content) => {
-      if (err) {
-        if (err.code === 'ENOENT') {
-          // Page not found
-          fs.readFile('./404.html', (err, content) => {
-            res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end(content, 'utf-8');
-          });
-        } else {
-          // Server error
-          res.writeHead(500);
-          res.end(`Server Error: ${err.code}`);
-        }
+const server = http.createServer((req, res) => {
+  console.log(`Request for ${req.url}`);
+  
+  // Normalize the URL
+  let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+  
+  // Get the file extension
+  const ext = path.extname(filePath);
+  
+  // Set content type header based on file extension
+  const contentType = MIME_TYPES[ext] || 'text/plain';
+  
+  // Read the file
+  fs.readFile(filePath, (err, content) => {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        // Page not found
+        fs.readFile(path.join(__dirname, '404.html'), (err, content) => {
+          res.writeHead(404, { 'Content-Type': 'text/html' });
+          res.end(content || 'File not found', 'utf-8');
+        });
       } else {
-        // Success
-        res.writeHead(200, { 'Content-Type': contentType });
-        res.end(content, 'utf-8');
+        // Server error
+        res.writeHead(500);
+        res.end(`Server Error: ${err.code}`);
       }
-    });
-  })
-  .listen(port);
+    } else {
+      // Success
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf-8');
+    }
+  });
+});
 
-console.log(`Server running at http://localhost:${port}/`);
-console.log('Press Ctrl+C to stop the server.');
+server.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
+  console.log(`WebAssembly demo available at http://localhost:${PORT}/index.html`);
+});

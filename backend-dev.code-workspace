@@ -125,7 +125,8 @@
       "statusBar.foreground": "#e7e7e7"
     },
     "peacock.color": "#0e2636",
-    "sarif-viewer.connectToGithubCodeScanning": "off"
+    "sarif-viewer.connectToGithubCodeScanning": "off",
+    "powershell.cwd": "Project Root"
   },
   "extensions": {
     "recommendations": [
