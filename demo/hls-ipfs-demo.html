@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HLS Service with IPFS Integration Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    body {
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 800px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0d6efd;
+    }
+    .card {
+      margin-bottom: 20px;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      background-color: #e7f1ff;
+      font-weight: bold;
+    }
+    .player-container {
+      background-color: black;
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      margin-bottom: 20px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .progress {
+      height: 20px;
+      margin-bottom: 20px;
+    }
+    .status-text {
+      font-family: monospace;
+      white-space: pre-wrap;
+      max-height: 100px;
+      overflow-y: auto;
+      background-color: #f8f9fa;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #dee2e6;
+      margin-top: 10px;
+    }
+    .form-label {
+      font-weight: 600;
+    }
+    .video-qualities {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .btn-quality {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+    .quality-active {
+      background-color: #0d6efd;
+      color: white;
+    }
+    .stream-list {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+    }
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">HLS Service with IPFS Integration Demo</h1>
+
+    <div class="card">
+      <div class="card-header">Video Player</div>
+      <div class="card-body">
+        <div class="player-container">
+          <video id="video-player" controls></video>
+        </div>
+        <div class="video-qualities" id="video-qualities">
+          <!-- Quality buttons will be added here dynamically -->
+        </div>
+        <div>
+          <strong>Current Source:</strong> <span id="current-source">None</span>
+        </div>
+        <div>
+          <strong>IPFS CID:</strong> <span id="ipfs-cid">None</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">File Conversion to HLS</div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="file-input" class="form-label">Select Video File</label>
+          <input class="form-control" type="file" id="file-input" accept="video/*">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Select Quality Variants</label>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="720p" id="quality-720p" checked>
+            <label class="form-check-label" for="quality-720p">
+              720p
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="480p" id="quality-480p" checked>
+            <label class="form-check-label" for="quality-480p">
+              480p
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="360p" id="quality-360p" checked>
+            <label class="form-check-label" for="quality-360p">
+              360p
+            </label>
+          </div>
+        </div>
+        <div class="progress" style="display: none;" id="conversion-progress-container">
+          <div class="progress-bar" id="conversion-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+        <div class="status-text" id="conversion-status" style="display: none;"></div>
+        <button class="btn btn-primary" id="convert-button">Convert to HLS</button>
+        <button class="btn btn-success" id="play-converted-button" style="display: none;">Play Converted Video</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Live Streaming</div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="stream-name" class="form-label">Stream Name</label>
+          <input type="text" class="form-control" id="stream-name" value="Demo Stream">
+        </div>
+        <div class="mb-3">
+          <label for="stream-description" class="form-label">Description</label>
+          <textarea class="form-control" id="stream-description">A test live stream with HLS and IPFS integration</textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Stream Qualities</label>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="720p" id="live-quality-720p" checked>
+            <label class="form-check-label" for="live-quality-720p">
+              720p
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="480p" id="live-quality-480p" checked>
+            <label class="form-check-label" for="live-quality-480p">
+              480p
+            </label>
+          </div>
+        </div>
+        <div class="d-flex gap-2 mb-3">
+          <button class="btn btn-primary" id="create-stream-button">Create Stream</button>
+          <button class="btn btn-success" id="start-stream-button" disabled>Start Stream</button>
+          <button class="btn btn-danger" id="stop-stream-button" disabled>Stop Stream</button>
+          <button class="btn btn-info" id="generate-segments-button" disabled>Generate Test Segments</button>
+        </div>
+        <div class="status-text" id="stream-status" style="display: none;"></div>
+        <div class="mb-3">
+          <label class="form-label">Available Streams</label>
+          <div class="stream-list" id="stream-list">
+            <p class="text-muted">No streams created yet</p>
+          </div>
+        </div>
+        <button class="btn btn-secondary" id="refresh-streams-button">Refresh Streams</button>
+        <button class="btn btn-success" id="play-stream-button" disabled>Play Selected Stream</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">About HLS with IPFS</div>
+      <div class="card-body">
+        <p>
+          This demo showcases an enhanced HLS (HTTP Live Streaming) service with IPFS (InterPlanetary File System) integration.
+          It demonstrates both video conversion to adaptive bitrate HLS format and live streaming capabilities, with content
+          distributed through the decentralized IPFS network.
+        </p>
+        <h5>Features:</h5>
+        <ul>
+          <li>Video transcoding to multiple quality variants</li>
+          <li>Adaptive bitrate streaming</li>
+          <li>IPFS-based storage and content delivery</li>
+          <li>Live streaming with low-latency options</li>
+          <li>Content-addressed video segments</li>
+        </ul>
+        <div class="alert alert-info">
+          <strong>Note:</strong> This is a demo implementation. In a production environment, server-side transcoding
+          would be required for efficient video processing.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include IPFS and HLS services directly -->
+  <script>
+    // IPFSService implementation
+    const ipfsService = (function() {
+      const service = {
+        isInitialized: false,
+        ipfs: null,
+        gateway: 'https://ipfs.io/ipfs/',
+        fallbackGateways: [
+          'https://cloudflare-ipfs.com/ipfs/',
+          'https://gateway.pinata.cloud/ipfs/',
+          'https://gateway.ipfs.io/ipfs/',
+          'https://dweb.link/ipfs/'
+        ],
+        retryCount: 3,
+        useWeb3Storage: false,
+
+        async initialize(options = {}) {
+          if (this.isInitialized) return true;
+
+          try {
+            // Set options
+            if (options.gateway) {
+              this.gateway = options.gateway;
+            }
+
+            if (options.retryCount) {
+              this.retryCount = options.retryCount;
+            }
+
+            // In browser environment, we'll use HTTP gateways only
+            console.log('IPFS service initialized using gateway:', this.gateway);
+            this.isInitialized = true;
+            return true;
+          } catch (error) {
+            console.error('Failed to initialize IPFS service:', error);
+            return false;
+          }
+        },
+
+        async uploadText(content, filename = 'file.txt', options = {}) {
+          try {
+            // For demo purposes, we'll mock this with a fake CID
+            const fakeCid = 'Qm' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+            console.log(`Mock uploading text to IPFS: ${filename}`);
+
+            // In a real implementation, this would upload to IPFS
+            return {
+              cid: fakeCid,
+              filename: filename,
+              size: content.length,
+              gateway: this.gateway,
+              url: `${this.gateway}${fakeCid}`
+            };
+          } catch (error) {
+            console.error('IPFS text upload error:', error);
+            throw new Error(`Failed to upload text to IPFS: ${error.message}`);
+          }
+        },
+
+        async uploadBlob(blob, filename = 'file.bin', options = {}) {
+          try {
+            // For demo purposes, we'll mock this with a fake CID
+            const fakeCid = 'Qm' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+            console.log(`Mock uploading blob to IPFS: ${filename} (${blob.size} bytes)`);
+
+            // In a real implementation, this would upload to IPFS
+            return {
+              cid: fakeCid,
+              filename: filename,
+              size: blob.size,
+              gateway: this.gateway,
+              url: `${this.gateway}${fakeCid}`
+            };
+          } catch (error) {
+            console.error('IPFS blob upload error:', error);
+            throw new Error(`Failed to upload blob to IPFS: ${error.message}`);
+          }
+        },
+
+        async uploadFile(file, options = {}, progressCallback = null) {
+          if (!this.isInitialized) {
+            await this.initialize();
+          }
+
+          try {
+            // For demo purposes, we'll mock this with a fake CID
+            const fakeCid = 'Qm' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+            // Simulate progress updates
+            if (progressCallback) {
+              setTimeout(() => progressCallback(25), 200);
+              setTimeout(() => progressCallback(50), 500);
+              setTimeout(() => progressCallback(75), 800);
+              setTimeout(() => progressCallback(100), 1000);
+            }
+
+            console.log(`Mock uploading file to IPFS: ${file.name} (${file.size} bytes)`);
+
+            // In a real implementation, this would upload to IPFS
+            return {
+              cid: fakeCid,
+              filename: file.name,
+              size: file.size,
+              gateway: this.gateway,
+              url: `${this.gateway}${fakeCid}`
+            };
+          } catch (error) {
+            console.error('IPFS upload error:', error);
+            throw new Error(`Failed to upload to IPFS: ${error.message}`);
+          }
+        },
+
+        async getFile(cid, options = {}) {
+          if (!this.isInitialized) {
+            await this.initialize();
+          }
+
+          try {
+            // Attempt to fetch from IPFS gateway
+            const response = await fetch(`${this.gateway}${cid}`);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.blob();
+          } catch (error) {
+            console.error('IPFS get error:', error);
+
+            // For demo purposes, return a mock response
+            return new Blob(['Mock IPFS content for ' + cid], { type: 'text/plain' });
+          }
+        },
+
+        getGatewayUrl(cid) {
+          return `${this.gateway}${cid}`;
+        },
+
+        getContentUrl(cid) {
+          return this.getGatewayUrl(cid);
+        }
+      };
+
+      return service;
+    })();
+
+    // HLSService implementation
+    const hlsService = (function() {
+      // Private variables
+      let initialized = false;
+      const eventHandlers = {};
+      let streams = []; // In-memory stream storage for the demo
+
+      // Helper to generate a unique ID
+      const generateId = () => 'id_' + Math.random().toString(36).substr(2, 9);
+
+      // EventEmitter functionality
+      function emit(event, data) {
+        if (eventHandlers[event]) {
+          eventHandlers[event].forEach(handler => handler(data));
+        }
+      }
+
+      const service = {
+        // Public properties and methods
+        segmentDuration: 6, // Default segment duration in seconds
+
+        initialize: async function(options = {}) {
+          if (initialized) return true;
+
+          try {
+            console.log('Initializing HLS service');
+
+            // Apply options
+            if (options.segmentDuration) {
+              this.segmentDuration = options.segmentDuration;
+            }
+
+            initialized = true;
+            return true;
+          } catch (error) {
+            console.error('Failed to initialize HLS service:', error);
+            return false;
+          }
+        },
+
+        on: function(event, handler) {
+          if (!eventHandlers[event]) {
+            eventHandlers[event] = [];
+          }
+          eventHandlers[event].push(handler);
+          return this; // For chaining
+        },
+
+        off: function(event, handler) {
+          if (eventHandlers[event]) {
+            eventHandlers[event] = eventHandlers[event].filter(h => h !== handler);
+          }
+          return this; // For chaining
+        },
+
+        convertToHLS: async function(videoFile, options = {}, progressCallback) {
+          if (!initialized) {
+            await this.initialize();
+          }
+
+          // Default options
+          const convertOptions = {
+            qualities: ['720p', '480p', '360p'],
+            segmentDuration: this.segmentDuration,
+            ...options
+          };
+
+          try {
+            // Report initial progress
+            if (progressCallback) {
+              progressCallback(0, "Starting conversion...");
+            }
+
+            // Simulate conversion process
+            for (let i = 1; i <= 10; i++) {
+              await new Promise(resolve => setTimeout(resolve, 300));
+              if (progressCallback) {
+                progressCallback(i * 10, `Processing video: ${i * 10}% complete`);
+              }
+            }
+
+            // Generate mock HLS files and upload to IPFS
+            // In a real implementation, we'd use FFmpeg to segment the video
+
+            // Mock data for HLS conversion
+            let variantPlaylists = {};
+            let segments = {};
+
+            for (const quality of convertOptions.qualities) {
+              // Create mock segments for each quality
+              segments[quality] = [];
+
+              for (let i = 0; i < 5; i++) {
+                const segmentBlob = new Blob(
+                  [`Mock HLS segment ${i} for ${quality}`],
+                  { type: 'video/mp2t' }
+                );
+
+                const result = await ipfsService.uploadBlob(
+                  segmentBlob,
+                  `segment_${quality}_${i}.ts`
+                );
+
+                segments[quality].push({
+                  index: i,
+                  duration: convertOptions.segmentDuration,
+                  cid: result.cid,
+                  url: result.url
+                });
+              }
+
+              // Create variant playlist for this quality
+              const variantContent = this.createVariantPlaylist(segments[quality], {
+                targetDuration: convertOptions.segmentDuration,
+                playlistType: 'VOD',
+                useGatewayUrls: true
+              });
+
+              const variantResult = await ipfsService.uploadText(
+                variantContent,
+                `${quality}.m3u8`
+              );
+
+              variantPlaylists[quality] = {
+                cid: variantResult.cid,
+                url: variantResult.url
+              };
+            }
+
+            // Create master playlist
+            const masterContent = this.createMasterPlaylist(convertOptions.qualities, variantPlaylists);
+            const masterResult = await ipfsService.uploadText(masterContent, 'index.m3u8');
+
+            // Final progress
+            if (progressCallback) {
+              progressCallback(100, "Conversion complete!");
+            }
+
+            // Emit event
+            emit('conversionCompleted', {
+              masterPlaylistCid: masterResult.cid,
+              masterPlaylistUrl: masterResult.url,
+              qualities: convertOptions.qualities,
+              variantPlaylists
+            });
+
+            // Return conversion result
+            return {
+              masterPlaylistCid: masterResult.cid,
+              masterPlaylistUrl: masterResult.url,
+              qualities: convertOptions.qualities,
+              variantPlaylists
+            };
+          } catch (error) {
+            console.error('HLS conversion error:', error);
+
+            // Emit error event
+            emit('conversionFailed', { error: error.message });
+
+            throw new Error(`HLS conversion failed: ${error.message}`);
+          }
+        },
+
+        createMasterPlaylist: function(qualities, variantPlaylists) {
+          // Create M3U8 master playlist content
+          let content = "#EXTM3U\n";
+          content += "#EXT-X-VERSION:3\n";
+
+          // Define bitrates for different qualities
+          const bitrates = {
+            '1080p': 5000000,
+            '720p': 2500000,
+            '480p': 1000000,
+            '360p': 600000,
+            '240p': 400000
+          };
+
+          // Define resolutions for different qualities
+          const resolutions = {
+            '1080p': '1920x1080',
+            '720p': '1280x720',
+            '480p': '854x480',
+            '360p': '640x360',
+            '240p': '426x240'
+          };
+
+          // Add entries for each quality
+          for (const quality of qualities) {
+            const bitrate = bitrates[quality] || 1000000;
+            const resolution = resolutions[quality] || '1280x720';
+            const variantUrl = variantPlaylists[quality] ? ipfsService.getContentUrl(variantPlaylists[quality].cid) : `${quality}.m3u8`;
+
+            content += `#EXT-X-STREAM-INF:BANDWIDTH=${bitrate},RESOLUTION=${resolution},NAME="${quality}"\n`;
+            content += `${variantUrl}\n`;
+          }
+
+          return content;
+        },
+
+        createVariantPlaylist: function(segments, options = {}) {
+          const {
+            targetDuration = 6,
+            playlistType = 'VOD',
+            useGatewayUrls = true
+          } = options;
+
+          // Create M3U8 variant playlist content
+          let content = "#EXTM3U\n";
+          content += "#EXT-X-VERSION:3\n";
+          content += `#EXT-X-TARGETDURATION:${targetDuration}\n`;
+          content += "#EXT-X-MEDIA-SEQUENCE:0\n";
+
+          if (playlistType === 'VOD') {
+            content += "#EXT-X-PLAYLIST-TYPE:VOD\n";
+          }
+
+          // Add segments
+          for (const segment of segments) {
+            content += `#EXTINF:${segment.duration.toFixed(3)},\n`;
+            content += useGatewayUrls
+              ? ipfsService.getContentUrl(segment.cid)
+              : segment.cid;
+            content += "\n";
+          }
+
+          // End playlist for VOD
+          if (playlistType === 'VOD') {
+            content += "#EXT-X-ENDLIST\n";
+          }
+
+          return content;
+        },
+
+        createLiveStream: async function(options = {}) {
+          if (!initialized) {
+            await this.initialize();
+          }
+
+          try {
+            // Default options
+            const streamOptions = {
+              name: 'Unnamed Stream',
+              description: '',
+              qualities: ['720p', '480p'],
+              persistent: true,
+              ...options
+            };
+
+            // Create a new stream object
+            const stream = {
+              streamId: generateId(),
+              name: streamOptions.name,
+              description: streamOptions.description,
+              status: 'created',
+              qualities: streamOptions.qualities,
+              persistent: streamOptions.persistent,
+              createTime: Date.now(),
+              startTime: null,
+              stopTime: null,
+              duration: 0,
+              masterPlaylistCid: null,
+              segments: {}, // Segments by quality
+              playlists: {}, // Playlist CIDs by quality
+              segmentCount: 0
+            };
+
+            // Initialize segment arrays for each quality
+            for (const quality of stream.qualities) {
+              stream.segments[quality] = [];
+            }
+
+            // Store the stream
+            streams.push(stream);
+
+            // Emit event
+            emit('liveStreamCreated', {
+              streamId: stream.streamId,
+              name: stream.name,
+              status: stream.status,
+              qualities: stream.qualities,
+              createTime: stream.createTime
+            });
+
+            return {
+              streamId: stream.streamId,
+              name: stream.name,
+              description: stream.description,
+              status: stream.status,
+              qualities: stream.qualities,
+              createTime: stream.createTime
+            };
+          } catch (error) {
+            console.error('Create live stream error:', error);
+            throw new Error(`Failed to create live stream: ${error.message}`);
+          }
+        },
+
+        startLiveStream: async function(streamId) {
+          if (!initialized) {
+            await this.initialize();
+          }
+
+          try {
+            // Find the stream
+            const stream = streams.find(s => s.streamId === streamId);
+            if (!stream) {
+              throw new Error(`Stream not found: ${streamId}`);
+            }
+
+            if (stream.status === 'live') {
+              throw new Error('Stream is already live');
+            }
+
+            // Update stream status
+            stream.status = 'live';
+            stream.startTime = Date.now();
+            stream.segmentCount = 0;
+
+            // Create initial playlists
+            for (const quality of stream.qualities) {
+              const playlistContent = this.createVariantPlaylist([], {
+                targetDuration: this.segmentDuration,
+                playlistType: 'EVENT',
+                useGatewayUrls: true
+              });
+
+              const result = await ipfsService.uploadText(
+                playlistContent,
+                `${quality}.m3u8`
+              );
+
+              stream.playlists[quality] = {
+                cid: result.cid,
+                url: result.url
+              };
+            }
+
+            // Create master playlist
+            const masterContent = this.createMasterPlaylist(
+              stream.qualities,
+              stream.playlists
+            );
+
+            const masterResult = await ipfsService.uploadText(
+              masterContent,
+              'index.m3u8'
+            );
+
+            stream.masterPlaylistCid = masterResult.cid;
+
+            // Emit event
+            emit('liveStreamStarted', {
+              streamId: stream.streamId,
+              name: stream.name,
+              status: stream.status,
+              startTime: stream.startTime,
+              masterPlaylistCid: stream.masterPlaylistCid,
+              ingestUrl: 'rtmp://localhost/live/' + stream.streamId // Mock RTMP URL
+            });
+
+            return {
+              streamId: stream.streamId,
+              status: stream.status,
+              startTime: stream.startTime,
+              masterPlaylistCid: stream.masterPlaylistCid,
+              playbackUrl: masterResult.url,
+              ingestUrl: 'rtmp://localhost/live/' + stream.streamId // Mock RTMP URL
+            };
+          } catch (error) {
+            console.error('Start live stream error:', error);
+            throw new Error(`Failed to start live stream: ${error.message}`);
+          }
+        },
+
+        stopLiveStream: async function(streamId) {
+          if (!initialized) {
+            await this.initialize();
+          }
+
+          try {
+            // Find the stream
+            const stream = streams.find(s => s.streamId === streamId);
+            if (!stream) {
+              throw new Error(`Stream not found: ${streamId}`);
+            }
+
+            if (stream.status !== 'live') {
+              throw new Error('Stream is not live');
+            }
+
+            // Update stream status
+            stream.status = 'ended';
+            stream.stopTime = Date.now();
+            stream.duration = (stream.stopTime - stream.startTime) / 1000; // in seconds
+
+            // Finalize playlists as VOD
+            for (const quality of stream.qualities) {
+              if (stream.segments[quality].length > 0) {
+                const playlistContent = this.createVariantPlaylist(
+                  stream.segments[quality],
+                  {
+                    targetDuration: this.segmentDuration,
+                    playlistType: 'VOD',
+                    useGatewayUrls: true
+                  }
+                );
+
+                const result = await ipfsService.uploadText(
+                  playlistContent,
+                  `${quality}.m3u8`
+                );
+
+                stream.playlists[quality] = {
+                  cid: result.cid,
+                  url: result.url
+                };
+              }
+            }
+
+            // Create final master playlist
+            const masterContent = this.createMasterPlaylist(
+              stream.qualities,
+              stream.playlists
+            );
+
+            const masterResult = await ipfsService.uploadText(
+              masterContent,
+              'index.m3u8'
+            );
+
+            stream.masterPlaylistCid = masterResult.cid;
+
+            // Emit event
+            emit('liveStreamStopped', {
+              streamId: stream.streamId,
+              name: stream.name,
+              status: stream.status,
+              duration: stream.duration,
+              masterPlaylistCid: stream.masterPlaylistCid
+            });
+
+            return {
+              streamId: stream.streamId,
+              status: stream.status,
+              duration: stream.duration,
+              masterPlaylistCid: stream.masterPlaylistCid
+            };
+          } catch (error) {
+            console.error('Stop live stream error:', error);
+            throw new Error(`Failed to stop live stream: ${error.message}`);
+          }
+        },
+
+        addLiveSegment: async function(streamId, segmentData, options = {}) {
+          if (!initialized) {
+            await this.initialize();
+          }
+
+          try {
+            // Default options
+            const segmentOptions = {
+              quality: '720p',
+              duration: this.segmentDuration,
+              ...options
+            };
+
+            // Find the stream
+            const stream = streams.find(s => s.streamId === streamId);
+            if (!stream) {
+              throw new Error(`Stream not found: ${streamId}`);
+            }
+
+            if (stream.status !== 'live') {
+              throw new Error('Stream is not live');
+            }
+
+            // Verify quality is supported
+            if (!stream.qualities.includes(segmentOptions.quality)) {
+              throw new Error(`Unsupported quality: ${segmentOptions.quality}`);
+            }
+
+            // Convert segment data to blob if it's not already
+            const segmentBlob = segmentData instanceof Blob
+              ? segmentData
+              : new Blob([segmentData], { type: 'video/mp2t' });
+
+            // Upload segment to IPFS
+            const segmentIndex = stream.segmentCount++; // Using global counter for the demo
+            const segmentFilename = `segment_${segmentOptions.quality}_${segmentIndex}.ts`;
+
+            const uploadResult = await ipfsService.uploadBlob(
+              segmentBlob,
+              segmentFilename
+            );
+
+            // Create segment object
+            const segment = {
+              index: segmentIndex,
+              duration: segmentOptions.duration,
+              cid: uploadResult.cid,
+              url: uploadResult.url
+            };
+
+            // Add to segments array for this quality
+            stream.segments[segmentOptions.quality].push(segment);
+
+            // Keep only the last X segments for sliding window (10 for demo)
+            const maxSegments = 10;
+            if (stream.segments[segmentOptions.quality].length > maxSegments) {
+              stream.segments[segmentOptions.quality] = stream.segments[segmentOptions.quality].slice(-maxSegments);
+            }
+
+            // Update variant playlist
+            const playlistContent = this.createVariantPlaylist(
+              stream.segments[segmentOptions.quality],
+              {
+                targetDuration: this.segmentDuration,
+                playlistType: 'EVENT',
+                useGatewayUrls: true
+              }
+            );
+
+            const playlistResult = await ipfsService.uploadText(
+              playlistContent,
+              `${segmentOptions.quality}.m3u8`
+            );
+
+            stream.playlists[segmentOptions.quality] = {
+              cid: playlistResult.cid,
+              url: playlistResult.url
+            };
+
+            // Update master playlist
+            const masterContent = this.createMasterPlaylist(
+              stream.qualities,
+              stream.playlists
+            );
+
+            const masterResult = await ipfsService.uploadText(
+              masterContent,
+              'index.m3u8'
+            );
+
+            stream.masterPlaylistCid = masterResult.cid;
+
+            // Emit event
+            emit('liveSegmentAdded', {
+              streamId: stream.streamId,
+              quality: segmentOptions.quality,
+              segmentIndex: segment.index,
+              segmentCid: segment.cid,
+              playlistCid: playlistResult.cid,
+              masterPlaylistCid: masterResult.cid
+            });
+
+            return {
+              segmentIndex: segment.index,
+              segmentCid: segment.cid,
+              playlistCid: playlistResult.cid,
+              masterPlaylistCid: masterResult.cid
+            };
+          } catch (error) {
+            console.error('Add live segment error:', error);
+            throw new Error(`Failed to add live segment: ${error.message}`);
+          }
+        },
+
+        getLiveStreamInfo: async function(streamId) {
+          if (!initialized) {
+            await this.initialize();
+          }
+
+          try {
+            // Find the stream
+            const stream = streams.find(s => s.streamId === streamId);
+            if (!stream) {
+              throw new Error(`Stream not found: ${streamId}`);
+            }
+
+            // Calculate metrics
+            const segmentCounts = {};
+            for (const quality of stream.qualities) {
+              segmentCounts[quality] = stream.segments[quality]?.length || 0;
+            }
+
+            // Build playback URL
+            let playbackUrl = null;
+            if (stream.masterPlaylistCid) {
+              playbackUrl = ipfsService.getContentUrl(stream.masterPlaylistCid);
+            }
+
+            return {
+              streamId: stream.streamId,
+              name: stream.name,
+              description: stream.description,
+              status: stream.status,
+              qualities: stream.qualities,
+              createTime: stream.createTime,
+              startTime: stream.startTime,
+              stopTime: stream.stopTime,
+              duration: stream.duration,
+              segmentCounts,
+              masterPlaylistCid: stream.masterPlaylistCid,
+              playbackUrl
+            };
+          } catch (error) {
+            console.error('Get live stream info error:', error);
+            throw new Error(`Failed to get live stream info: ${error.message}`);
+          }
+        },
+
+        getStreams: async function() {
+          if (!initialized) {
+            await this.initialize();
+          }
+
+          try {
+            // Return basic information about all streams
+            return streams.map(stream => ({
+              streamId: stream.streamId,
+              name: stream.name,
+              description: stream.description,
+              status: stream.status,
+              qualities: stream.qualities,
+              createTime: stream.createTime
+            }));
+          } catch (error) {
+            console.error('Get streams error:', error);
+            throw new Error(`Failed to get streams: ${error.message}`);
+          }
+        }
+      };
+
+      return service;
+    })();
+  </script>
+
+  <script>
+    // Main application code
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM elements
+      const videoPlayer = document.getElementById('video-player');
+      const videoQualities = document.getElementById('video-qualities');
+      const currentSource = document.getElementById('current-source');
+      const ipfsCid = document.getElementById('ipfs-cid');
+      const fileInput = document.getElementById('file-input');
+      const convertButton = document.getElementById('convert-button');
+      const playConvertedButton = document.getElementById('play-converted-button');
+      const conversionProgress = document.getElementById('conversion-progress');
+      const conversionProgressContainer = document.getElementById('conversion-progress-container');
+      const conversionStatus = document.getElementById('conversion-status');
+
+      // Live streaming elements
+      const streamNameInput = document.getElementById('stream-name');
+      const streamDescInput = document.getElementById('stream-description');
+      const createStreamButton = document.getElementById('create-stream-button');
+      const startStreamButton = document.getElementById('start-stream-button');
+      const stopStreamButton = document.getElementById('stop-stream-button');
+      const generateSegmentsButton = document.getElementById('generate-segments-button');
+      const streamStatus = document.getElementById('stream-status');
+      const streamList = document.getElementById('stream-list');
+      const refreshStreamsButton = document.getElementById('refresh-streams-button');
+      const playStreamButton = document.getElementById('play-stream-button');
+
+      // HLS.js instance
+      let hls;
+
+      // Current playback info
+      let currentPlayback = {
+        type: null, // 'vod' or 'live'
+        cid: null,
+        url: null,
+        qualities: []
+      };
+
+      // Current active stream
+      let activeStream = {
+        streamId: null,
+        status: null,
+        generatingSegments: false,
+        segmentInterval: null
+      };
+
+      // Initialize HLS.js player
+      function initializePlayer() {
+        if (Hls.isSupported()) {
+          if (hls) {
+            hls.destroy();
+          }
+          hls = new Hls({
+            debug: false,
+            enableWorker: true,
+            lowLatencyMode: true
+          });
+          hls.attachMedia(videoPlayer);
+
+          // Add HLS event listeners
+          hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            videoPlayer.play();
+            updateQualityButtons();
+          });
+
+          hls.on(Hls.Events.ERROR, function(event, data) {
+            if (data.fatal) {
+              switch(data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  logStatus("Network error: " + data.details);
+                  hls.startLoad();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  logStatus("Media error: " + data.details);
+                  hls.recoverMediaError();
+                  break;
+                default:
+                  logStatus("Fatal error: " + data.details);
+                  break;
+              }
+            }
+          });
+        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+          // For Safari and iOS
+          logStatus("Using native HLS support");
+        } else {
+          logStatus("HLS is not supported in this browser");
+        }
+      }
+
+      // Load a video source into the player
+      function loadVideo(url, type = 'vod', cid = null) {
+        // Update current playback info
+        currentPlayback.type = type;
+        currentPlayback.url = url;
+        currentPlayback.cid = cid;
+
+        // Update UI
+        currentSource.textContent = url;
+        ipfsCid.textContent = cid || 'None';
+
+        if (Hls.isSupported()) {
+          hls.loadSource(url);
+        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+          videoPlayer.src = url;
+          videoPlayer.addEventListener('loadedmetadata', function() {
+            videoPlayer.play();
+          });
+        }
+      }
+
+      // Update quality selection buttons
+      function updateQualityButtons() {
+        if (!hls || !hls.levels || !hls.levels.length) return;
+
+        // Clear previous buttons
+        videoQualities.innerHTML = '';
+
+        // Add quality buttons
+        for (let i = 0; i < hls.levels.length; i++) {
+          const level = hls.levels[i];
+          const height = level.height;
+          const width = level.width;
+          const isActive = hls.currentLevel === i;
+
+          const button = document.createElement('button');
+          button.classList.add('btn', 'btn-quality');
+
+          if (isActive) {
+            button.classList.add('quality-active');
+          } else {
+            button.classList.add('btn-outline-primary');
+          }
+
+          button.textContent = `${height}p`;
+          button.dataset.level = i;
+
+          button.addEventListener('click', function() {
+            hls.currentLevel = parseInt(this.dataset.level);
+            updateQualityButtons();
+          });
+
+          videoQualities.appendChild(button);
+        }
+
+        // Add auto quality button
+        const autoButton = document.createElement('button');
+        autoButton.classList.add('btn', 'btn-quality');
+
+        if (hls.currentLevel === -1) {
+          autoButton.classList.add('quality-active');
+        } else {
+          autoButton.classList.add('btn-outline-primary');
+        }
+
+        autoButton.textContent = 'AUTO';
+        autoButton.dataset.level = -1;
+
+        autoButton.addEventListener('click', function() {
+          hls.currentLevel = -1;
+          updateQualityButtons();
+        });
+
+        videoQualities.appendChild(autoButton);
+      }
+
+      // Helper to log status messages
+      function logStatus(message) {
+        const timestamp = new Date().toISOString().slice(11, -1);
+        const logMessage = `[${timestamp}] ${message}`;
+        console.log(logMessage);
+        return logMessage;
+      }
+
+      // Update conversion status
+      function updateConversionStatus(progress, message) {
+        conversionProgressContainer.style.display = 'block';
+        conversionProgress.style.width = `${progress}%`;
+        conversionProgress.textContent = `${Math.round(progress)}%`;
+        conversionProgress.setAttribute('aria-valuenow', progress);
+
+        if (message) {
+          conversionStatus.style.display = 'block';
+          conversionStatus.textContent += logStatus(message) + '\n';
+          conversionStatus.scrollTop = conversionStatus.scrollHeight;
+        }
+      }
+
+      // Convert a file to HLS with our service
+      async function convertToHLS(file) {
+        try {
+          // Reset status
+          conversionStatus.textContent = '';
+          updateConversionStatus(0, "Starting conversion...");
+
+          // Get selected qualities
+          const qualities = [];
+          if (document.getElementById('quality-720p').checked) qualities.push('720p');
+          if (document.getElementById('quality-480p').checked) qualities.push('480p');
+          if (document.getElementById('quality-360p').checked) qualities.push('360p');
+
+          if (qualities.length === 0) {
+            alert("Please select at least one quality variant");
+            return;
+          }
+
+          // Disable convert button during conversion
+          convertButton.disabled = true;
+
+          // Call the HLS service
+          const result = await hlsService.convertToHLS(
+            file,
+            {
+              qualities: qualities,
+              segmentDuration: 6
+            },
+            (progress, status) => {
+              updateConversionStatus(progress, status);
+            }
+          );
+
+          // Update status
+          updateConversionStatus(100, "Conversion complete!");
+
+          // Store the result
+          currentPlayback.type = 'vod';
+          currentPlayback.cid = result.masterPlaylistCid;
+          currentPlayback.url = result.masterPlaylistUrl;
+          currentPlayback.qualities = result.qualities;
+
+          // Show play button
+          playConvertedButton.style.display = 'inline-block';
+
+          return result;
+        } catch (error) {
+          updateConversionStatus(0, `Error: ${error.message}`);
+          convertButton.disabled = false;
+          throw error;
+        } finally {
+          convertButton.disabled = false;
+        }
+      }
+
+      // Create a new live stream
+      async function createStream(name, description, qualities) {
+        try {
+          streamStatus.style.display = 'block';
+          streamStatus.textContent = '';
+
+          const result = await hlsService.createLiveStream({
+            name: name,
+            description: description,
+            qualities: qualities
+          });
+
+          streamStatus.textContent += logStatus(`Stream created: ${result.streamId}`) + '\n';
+
+          // Update active stream
+          activeStream.streamId = result.streamId;
+          activeStream.status = result.status;
+
+          // Enable start button
+          startStreamButton.disabled = false;
+
+          return result;
+        } catch (error) {
+          streamStatus.textContent += logStatus(`Error creating stream: ${error.message}`) + '\n';
+          throw error;
+        }
+      }
+
+      // Start a live stream
+      async function startStream(streamId) {
+        try {
+          const result = await hlsService.startLiveStream(streamId);
+
+          streamStatus.textContent += logStatus(`Stream started: ${result.streamId}`) + '\n';
+
+          // Update active stream
+          activeStream.status = result.status;
+
+          // Update UI
+          startStreamButton.disabled = true;
+          stopStreamButton.disabled = false;
+          generateSegmentsButton.disabled = false;
+
+          return result;
+        } catch (error) {
+          streamStatus.textContent += logStatus(`Error starting stream: ${error.message}`) + '\n';
+          throw error;
+        }
+      }
+
+      // Stop a live stream
+      async function stopStream(streamId) {
+        try {
+          // Stop generating segments if enabled
+          if (activeStream.segmentInterval) {
+            clearInterval(activeStream.segmentInterval);
+            activeStream.segmentInterval = null;
+            activeStream.generatingSegments = false;
+            generateSegmentsButton.textContent = "Generate Test Segments";
+          }
+
+          const result = await hlsService.stopLiveStream(streamId);
+
+          streamStatus.textContent += logStatus(`Stream stopped: ${result.streamId}`) + '\n';
+
+          if (result.masterPlaylistCid) {
+            streamStatus.textContent += logStatus(`VOD available at: ${ipfsService.getContentUrl(result.masterPlaylistCid)}`) + '\n';
+          }
+
+          // Update active stream
+          activeStream.status = result.status;
+
+          // Update UI
+          startStreamButton.disabled = false;
+          stopStreamButton.disabled = true;
+          generateSegmentsButton.disabled = true;
+
+          // Refresh streams to show the stopped state
+          await refreshStreams();
+
+          return result;
+        } catch (error) {
+          streamStatus.textContent += logStatus(`Error stopping stream: ${error.message}`) + '\n';
+          throw error;
+        }
+      }
+
+      // Generate test segments for a live stream
+      async function generateTestSegments(streamId) {
+        if (activeStream.generatingSegments) {
+          // Stop generating segments
+          clearInterval(activeStream.segmentInterval);
+          activeStream.segmentInterval = null;
+          activeStream.generatingSegments = false;
+          generateSegmentsButton.textContent = "Generate Test Segments";
+          streamStatus.textContent += logStatus("Stopped generating test segments") + '\n';
+          return;
+        }
+
+        generateSegmentsButton.textContent = "Stop Test Segments";
+        activeStream.generatingSegments = true;
+
+        // Generate initial segment
+        try {
+          await addTestSegment(streamId);
+        } catch (error) {
+          streamStatus.textContent += logStatus(`Error adding segment: ${error.message}`) + '\n';
+          activeStream.generatingSegments = false;
+          generateSegmentsButton.textContent = "Generate Test Segments";
+          return;
+        }
+
+        // Set interval to generate additional segments
+        activeStream.segmentInterval = setInterval(async () => {
+          try {
+            await addTestSegment(streamId);
+          } catch (error) {
+            streamStatus.textContent += logStatus(`Error adding segment: ${error.message}`) + '\n';
+            clearInterval(activeStream.segmentInterval);
+            activeStream.segmentInterval = null;
+            activeStream.generatingSegments = false;
+            generateSegmentsButton.textContent = "Generate Test Segments";
+          }
+        }, 3000);
+      }
+
+      // Add a test segment to the live stream
+      async function addTestSegment(streamId) {
+        // Create test segment data (10KB of random data)
+        const segmentSize = 10 * 1024;
+        const segmentData = new Uint8Array(segmentSize);
+
+        // Fill with random data
+        for (let i = 0; i < segmentSize; i++) {
+          segmentData[i] = Math.floor(Math.random() * 256);
+        }
+
+        // Add segment to all qualities
+        const qualities = [];
+        if (document.getElementById('live-quality-720p').checked) qualities.push('720p');
+        if (document.getElementById('live-quality-480p').checked) qualities.push('480p');
+
+        let result;
+        for (const quality of qualities) {
+          result = await hlsService.addLiveSegment(streamId, segmentData, {
+            quality: quality,
+            duration: 3 // 3-second segments
+          });
+        }
+
+        // Log last result
+        if (result) {
+          streamStatus.textContent += logStatus(`Added test segment: ${result.segmentCid}`) + '\n';
+
+          // Get stream info to update player URL
+          const streamInfo = await hlsService.getLiveStreamInfo(streamId);
+
+          // Update playback URL if available
+          if (streamInfo.playbackUrl) {
+            currentPlayback.type = 'live';
+            currentPlayback.url = streamInfo.playbackUrl;
+            currentPlayback.cid = streamInfo.masterPlaylistCid;
+
+            // If currently playing this stream, update the source
+            if (currentPlayback.url === videoPlayer.src) {
+              loadVideo(streamInfo.playbackUrl, 'live', streamInfo.masterPlaylistCid);
+            }
+          }
+        }
+
+        return result;
+      }
+
+      // Refresh the list of streams
+      async function refreshStreams() {
+        try {
+          const streams = await hlsService.getStreams();
+
+          // Update stream list
+          streamList.innerHTML = '';
+
+          if (streams.length === 0) {
+            streamList.innerHTML = '<p class="text-muted">No streams created yet</p>';
+            return;
+          }
+
+          for (const stream of streams) {
+            const item = document.createElement('div');
+            item.classList.add('d-flex', 'justify-content-between', 'align-items-center', 'mb-2');
+
+            const info = document.createElement('div');
+            info.innerHTML = `
+              <strong>${stream.name}</strong>
+              <span class="badge ${stream.status === 'live' ? 'bg-success' : 'bg-secondary'} ms-2">${stream.status}</span>
+              <br>
+              <small>${stream.description || ''}</small>
+            `;
+
+            const actions = document.createElement('div');
+
+            const selectBtn = document.createElement('button');
+            selectBtn.classList.add('btn', 'btn-sm', 'btn-primary', 'me-1');
+            selectBtn.textContent = 'Select';
+            selectBtn.addEventListener('click', async () => {
+              // Get full stream info
+              try {
+                const streamInfo = await hlsService.getLiveStreamInfo(stream.streamId);
+
+                // Update active stream
+                activeStream.streamId = stream.streamId;
+                activeStream.status = streamInfo.status;
+
+                // Update UI based on status
+                startStreamButton.disabled = streamInfo.status === 'live';
+                stopStreamButton.disabled = streamInfo.status !== 'live';
+                generateSegmentsButton.disabled = streamInfo.status !== 'live';
+
+                // Highlight selected stream
+                const allItems = streamList.querySelectorAll('div');
+                allItems.forEach(el => el.classList.remove('bg-light'));
+                item.classList.add('bg-light');
+
+                // Enable play button if playback URL available
+                playStreamButton.disabled = !streamInfo.playbackUrl;
+
+                // Update playback info
+                if (streamInfo.playbackUrl) {
+                  currentPlayback.type = 'live';
+                  currentPlayback.url = streamInfo.playbackUrl;
+                  currentPlayback.cid = streamInfo.masterPlaylistCid;
+                }
+
+                // Log selection
+                streamStatus.style.display = 'block';
+                streamStatus.textContent += logStatus(`Selected stream: ${stream.name} (${stream.streamId})`) + '\n';
+
+                if (streamInfo.playbackUrl) {
+                  streamStatus.textContent += logStatus(`Playback URL: ${streamInfo.playbackUrl}`) + '\n';
+                }
+              } catch (error) {
+                streamStatus.textContent += logStatus(`Error: ${error.message}`) + '\n';
+              }
+            });
+
+            const viewBtn = document.createElement('button');
+            viewBtn.classList.add('btn', 'btn-sm', 'btn-info');
+            viewBtn.textContent = 'Info';
+            viewBtn.addEventListener('click', async () => {
+              try {
+                const streamInfo = await hlsService.getLiveStreamInfo(stream.streamId);
+                streamStatus.style.display = 'block';
+                streamStatus.textContent += logStatus(`Stream Info for ${stream.name}:`) + '\n';
+                streamStatus.textContent += JSON.stringify(streamInfo, null, 2) + '\n';
+              } catch (error) {
+                streamStatus.textContent += logStatus(`Error: ${error.message}`) + '\n';
+              }
+            });
+
+            actions.appendChild(selectBtn);
+            actions.appendChild(viewBtn);
+
+            item.appendChild(info);
+            item.appendChild(actions);
+
+            streamList.appendChild(item);
+          }
+
+          // Enable play button
+          playStreamButton.disabled = true; // Require selecting a stream first
+        } catch (error) {
+          streamList.innerHTML = `<p class="text-danger">Error: ${error.message}</p>`;
+        }
+      }
+
+      // EVENT LISTENERS
+
+      // Convert button click handler
+      convertButton.addEventListener('click', async () => {
+        const file = fileInput.files[0];
+        if (!file) {
+          alert("Please select a video file first");
+          return;
+        }
+
+        try {
+          await convertToHLS(file);
+        } catch (error) {
+          console.error("Conversion failed:", error);
+        }
+      });
+
+      // Play converted video button click handler
+      playConvertedButton.addEventListener('click', () => {
+        if (currentPlayback.url) {
+          // Initialize player if needed
+          initializePlayer();
+          // Load the video
+          loadVideo(currentPlayback.url, currentPlayback.type, currentPlayback.cid);
+        }
+      });
+
+      // Create stream button click handler
+      createStreamButton.addEventListener('click', async () => {
+        const name = streamNameInput.value.trim();
+        const description = streamDescInput.value.trim();
+
+        if (!name) {
+          alert("Please enter a stream name");
+          return;
+        }
+
+        // Get selected qualities
+        const qualities = [];
+        if (document.getElementById('live-quality-720p').checked) qualities.push('720p');
+        if (document.getElementById('live-quality-480p').checked) qualities.push('480p');
+
+        if (qualities.length === 0) {
+          alert("Please select at least one quality");
+          return;
+        }
+
+        try {
+          createStreamButton.disabled = true;
+          await createStream(name, description, qualities);
+          await refreshStreams();
+        } catch (error) {
+          console.error("Failed to create stream:", error);
+        } finally {
+          createStreamButton.disabled = false;
+        }
+      });
+
+      // Start stream button click handler
+      startStreamButton.addEventListener('click', async () => {
+        if (!activeStream.streamId) {
+          alert("Please select a stream first");
+          return;
+        }
+
+        try {
+          startStreamButton.disabled = true;
+          await startStream(activeStream.streamId);
+        } catch (error) {
+          console.error("Failed to start stream:", error);
+          startStreamButton.disabled = false;
+        }
+      });
+
+      // Stop stream button click handler
+      stopStreamButton.addEventListener('click', async () => {
+        if (!activeStream.streamId) {
+          alert("No active stream to stop");
+          return;
+        }
+
+        try {
+          stopStreamButton.disabled = true;
+          await stopStream(activeStream.streamId);
+        } catch (error) {
+          console.error("Failed to stop stream:", error);
+          stopStreamButton.disabled = false;
+        }
+      });
+
+      // Generate segments button click handler
+      generateSegmentsButton.addEventListener('click', async () => {
+        if (!activeStream.streamId || activeStream.status !== 'live') {
+          alert("Please select an active live stream first");
+          return;
+        }
+
+        await generateTestSegments(activeStream.streamId);
+      });
+
+      // Refresh streams button click handler
+      refreshStreamsButton.addEventListener('click', async () => {
+        refreshStreamsButton.disabled = true;
+        await refreshStreams();
+        refreshStreamsButton.disabled = false;
+      });
+
+      // Play stream button click handler
+      playStreamButton.addEventListener('click', () => {
+        if (currentPlayback.url && currentPlayback.type === 'live') {
+          // Initialize player if needed
+          initializePlayer();
+          // Load the stream
+          loadVideo(currentPlayback.url, 'live', currentPlayback.cid);
+        } else {
+          alert("No stream available to play");
+        }
+      });
+
+      // On file input change, update file name display
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          logStatus(`Selected file: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+        }
+      });
+
+      // INITIALIZATION
+
+      // Initialize player
+      initializePlayer();
+
+      // Initialize services
+      (async function() {
+        try {
+          await ipfsService.initialize();
+          await hlsService.initialize();
+          logStatus("Services initialized successfully!");
+
+          // Enable UI elements
+          convertButton.disabled = false;
+          createStreamButton.disabled = false;
+          refreshStreamsButton.disabled = false;
+
+          // Load stream list
+          await refreshStreams();
+        } catch (error) {
+          console.error("Initialization failed:", error);
+          logStatus("Error: Failed to initialize services: " + error.message);
+        }
+      })();
+    });
+  </script>
+</body>
+</html>
