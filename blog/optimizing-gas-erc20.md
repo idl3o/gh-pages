@@ -65,10 +65,10 @@ Here's a practical example from our STREAM token:
 function transfer(address recipient, uint256 amount) public override returns (bool) {
     require(recipient != address(0), "ERC20: transfer to zero address");
     require(balanceOf[msg.sender] >= amount, "ERC20: insufficient balance");
-    
+
     balanceOf[msg.sender] -= amount;
     balanceOf[recipient] += amount;
-    
+
     emit Transfer(msg.sender, recipient, amount);
     return true;
 }
@@ -76,15 +76,15 @@ function transfer(address recipient, uint256 amount) public override returns (bo
 // Optimized implementation
 function transfer(address recipient, uint256 amount) public override returns (bool) {
     require(recipient != address(0), "ERC20: transfer to zero address");
-    
+
     uint256 senderBalance = balanceOf[msg.sender];
     require(senderBalance >= amount, "ERC20: insufficient balance");
-    
+
     unchecked {
         balanceOf[msg.sender] = senderBalance - amount;
         balanceOf[recipient] += amount;
     }
-    
+
     emit Transfer(msg.sender, recipient, amount);
     return true;
 }
@@ -115,7 +115,7 @@ function permit(
     bytes32 s
 ) external {
     require(deadline >= block.timestamp, "PERMIT_EXPIRED");
-    
+
     // Recover signer from signature
     bytes32 digest = keccak256(
         abi.encodePacked(
@@ -125,9 +125,9 @@ function permit(
         )
     );
     address recoveredAddress = ecrecover(digest, v, r, s);
-    
+
     require(recoveredAddress != address(0) && recoveredAddress == owner, "INVALID_SIGNATURE");
-    
+
     _approve(owner, spender, value);
 }
 ```
@@ -139,18 +139,18 @@ For distributing tokens to multiple recipients, implementing a batch transfer fu
 ```solidity
 function batchTransfer(address[] calldata recipients, uint256[] calldata amounts) external returns (bool) {
     require(recipients.length == amounts.length, "Arrays must have same length");
-    
+
     uint256 total = 0;
     for (uint i = 0; i < amounts.length; i++) {
         total += amounts[i];
     }
-    
+
     require(balanceOf[msg.sender] >= total, "Insufficient balance for batch transfer");
-    
+
     for (uint i = 0; i < recipients.length; i++) {
         _transfer(msg.sender, recipients[i], amounts[i]);
     }
-    
+
     return true;
 }
 ```
@@ -180,11 +180,11 @@ For tokens that need to be deployed multiple times (like for user-specific token
 ```solidity
 function createToken(string memory name, string memory symbol) external returns (address) {
     TokenImplementation impl = new TokenImplementation(name, symbol);
-    
+
     // Create minimal proxy pointing to implementation
     address proxy;
     bytes20 implAddress = bytes20(address(impl));
-    
+
     assembly {
         let clone := mload(0x40)
         mstore(clone, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)
@@ -192,7 +192,7 @@ function createToken(string memory name, string memory symbol) external returns 
         mstore(add(clone, 0x28), 0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000)
         proxy := create(0, clone, 0x37)
     }
-    
+
     return proxy;
 }
 ```
