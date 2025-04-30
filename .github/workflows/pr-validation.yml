@@ -45,3 +45,32 @@ jobs:
           npm ci
           npm run lint || echo "Linting issues found"
           npm run build
+
+      - name: Install SDL development dependencies
+        if: hashFiles('red_x/main.c') != '' || hashFiles('red_x/Makefile') != ''
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+
+      - name: Validate WebAssembly compilation
+        if: hashFiles('red_x/main.c') != ''
+        run: |
+          echo "Setting up Emscripten for WebAssembly compilation..."
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+          cd ../red_x
+          if [ -f "Makefile" ]; then
+            make
+          elif [ -f "main.c" ]; then
+            # Use emcc with appropriate SDL flags
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+          fi
+
+          # Verify compilation was successful
+          if [ ! -f "index.wasm" ]; then
+            echo "::error::WebAssembly compilation failed - index.wasm not created"
+            exit 1
+          fi

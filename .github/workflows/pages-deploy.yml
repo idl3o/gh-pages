@@ -45,6 +45,11 @@ jobs:
           bundle exec jekyll build
         env:
           JEKYLL_ENV: production
+      
+      - name: Install SDL development dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
           
       - name: Test WebAssembly compilation
         if: hashFiles('red_x/main.c') != ''
@@ -59,6 +64,7 @@ jobs:
           if [ -f "Makefile" ]; then
             make
           elif [ -f "main.c" ]; then
+            # Use emcc with appropriate SDL flags
             emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
           fi
 
@@ -98,6 +104,11 @@ jobs:
         uses: actions/configure-pages@v3
         id: pages
         
+      - name: Install SDL development dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+        
       - name: Setup Emscripten for WebAssembly
         if: hashFiles('red_x/main.c') != ''
         run: |
@@ -110,6 +121,7 @@ jobs:
           if [ -f "Makefile" ]; then
             make
           elif [ -f "main.c" ]; then
+            # Use emcc with appropriate SDL flags
             emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
           fi
           
