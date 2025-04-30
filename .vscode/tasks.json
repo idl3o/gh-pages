@@ -1,0 +1,68 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Jekyll (Ruby 2.7)",
+      "type": "shell",
+      "command": ".\\start-jekyll.ps1",
+      "windows": {
+        "command": "powershell -ExecutionPolicy Bypass -File .\\start-jekyll.ps1"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy to GitHub Pages",
+      "type": "shell",
+      "command": ".\\deploy-gh-pages.ps1",
+      "windows": {
+        "command": "powershell -ExecutionPolicy Bypass -File .\\deploy-gh-pages.ps1"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build TypeScript SDK",
+      "type": "shell",
+      "command": "cd ts && npm run build",
+      "windows": {
+        "command": "cd ts; npm run build"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "Check Ruby Environment",
+      "type": "shell",
+      "command": "$env:PATH = \"C:\\Ruby27-x64\\bin;\" + $env:PATH; ruby -v; bundler -v; jekyll -v",
+      "windows": {
+        "command": "powershell -Command \"$env:PATH = 'C:\\Ruby27-x64\\bin;' + $env:PATH; ruby -v; bundler -v; jekyll -v\""
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

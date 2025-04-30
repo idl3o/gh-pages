@@ -13,12 +13,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-
-#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
-#endif
-
-#include "font_atlas.h"
 
 // Window dimensions
 #define WINDOW_WIDTH 800
@@ -167,6 +162,43 @@ typedef struct
     bool filter_types[10]; // Which node types to show (true) or hide (false)
     bool show_filter_ui;   // Whether to show the filter UI
 } AppState;
+
+// Blockchain visualization data structures
+typedef struct {
+    int block_number;
+    long timestamp;
+    char* miner;
+    int tx_count;
+    float difficulty;
+    int gas_used;
+    int gas_limit;
+} BlockData;
+
+typedef struct {
+    char* hash;
+    char* from;
+    char* to;
+    float value;
+    int gas_used;
+} TransactionData;
+
+// Global state for blockchain visualization
+typedef struct {
+    BlockData* blocks;
+    int block_count;
+    int block_capacity;
+    TransactionData* transactions;
+    int transaction_count;
+    int transaction_capacity;
+    int view_mode; // 0 = blocks, 1 = transactions, 2 = network
+    float animation_time;
+    int selected_block;
+    char* selected_tx_hash;
+    void* json_buffer;
+    int buffer_size;
+} BlockchainVisualizerState;
+
+BlockchainVisualizerState blockchain_state = {0};
 
 // Forward declarations for functions used before they're defined
 void draw_docs_panel(AppState *state);
@@ -1970,25 +2002,3 @@ int create_new_particle(AppState *state, int type, float x, float y)
 void detect_environment(AppState *state)
 {
     // Placeholder implementation
-    state->environment = ENV_BROWSER;
-    strcpy(state->env_display_name, "Web Browser");
-    state->environment_initialized = true;
-}
-
-void update(AppState *state)
-{
-    // Handle pulse effect
-    state->pulse_state += X_PULSE_SPEED;
-    if (state->pulse_state > 2.0f * M_PI)
-    {
-        state->pulse_state -= 2.0f * M_PI;
-    }
-
-    // Calculate delta time in seconds
-    Uint32 current_time = SDL_GetTicks();
-    float delta_time = (current_time - state->last_update_time) / 1000.0f;
-    state->last_update_time = current_time;
-
-    // Update particle positions and interactions
-    apply_particle_interaction(state, delta_time);
-}

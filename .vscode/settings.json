@@ -1,3 +1,59 @@
 {
-    "cmake.sourceDirectory": "C:/Users/Sam/Documents/GitHub/gh-pages/docs"
+  // Ruby settings
+  "ruby.useBundler": true,
+  "ruby.useLanguageServer": true,
+  "ruby.lint": { "rubocop": true },
+  "ruby.format": true,
+  "ruby.intellisense": "rubyLocate",
+  "ruby.codeCompletion": "rcodetools",
+  "rubyLsp.rubyExecutablePath": "C:\\Ruby27-x64\\bin\\ruby.exe",
+
+  // Jekyll settings
+  "jekyll.enableSnippets": true,
+  "emmet.includeLanguages": {
+    "liquid": "html"
+  },
+  "files.associations": {
+    "*.html": "liquid",
+    "*.md": "markdown"
+  },
+
+  // Java settings (overriding global settings)
+  "java.home": null,
+  "java.jdt.ls.java.home": null,
+  "java.configuration.runtimes": [],
+
+  // TypeScript settings
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Solidity settings for smart contracts
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity",
+    "editor.formatOnSave": true
+  },
+  "solidity.compileUsingRemoteVersion": "latest",
+
+  // C/C++ settings for RED X backend
+  "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 2 }",
+  "[c]": {
+    "editor.formatOnSave": true
+  },
+
+  // JavaScript settings
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // General editor settings
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true
 }

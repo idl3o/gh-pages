@@ -1,28 +1,40 @@
 source "https://rubygems.org"
 
-# Jekyll and related dependencies
-gem "jekyll", "~> 4.2.0"
-gem "webrick", "~> 1.7" # Required for Ruby 3.0+
+# Use a version of racc that's compatible with Ruby 2.7.7
+gem "racc", "~> 1.6.0"  # Compatible with Ruby 2.7.x
+
+# Add nokogiri with specific version
+gem "nokogiri", "~> 1.15.5"
+
+# GitHub Pages - this includes Jekyll with the correct version
+gem "github-pages", group: :jekyll_plugins
+
+# Don't specify Jekyll version separately as github-pages manages it
+# gem "jekyll", "~> 3.9.3"
 
 # Jekyll plugins
-group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.12"
-  gem "jekyll-seo-tag", "~> 2.7"
-  gem "jekyll-sitemap", "~> 1.4"
-  gem "jekyll-remote-theme", "~> 0.4.3"
+gem "jekyll-feed"
+gem "jekyll-seo-tag"
+gem "jekyll-sitemap" # Added for better SEO
+
+# Required for Ruby 2.7 (WebRick was removed from stdlib)
+gem "webrick", "~> 1.7"
+
+# Process management - helps with port binding issues
+gem "foreman", "~> 0.87.2"
+
+# Windows and timezone dependencies - explicit requirements to fix issues
+gem "tzinfo", "~> 1.2"
+gem "tzinfo-data"  # Remove platform restriction to ensure it's always installed
+gem "wdm", "~> 0.1.1", platforms: [:mingw, :mswin, :x64_mingw]
+
+# Development dependencies
+group :development do
+  gem "rubocop", "~> 1.50.0"
+  gem "solargraph", "~> 0.45.0" # Version compatible with Ruby 2.7.x
+  gem "rake"
+
+  # Additional gems for better IDE support
+  gem "yard", "~> 0.9.34"
+  gem "ruby-debug-ide"
 end
-
-# Windows and JRuby does not include zoneinfo files
-platforms :mingw, :x64_mingw, :mswin, :jruby do
-  gem "tzinfo", "~> 1.2"
-  gem "tzinfo-data"
-end
-
-# Performance-booster for watching directories on Windows
-gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
-
-# Lock jekyll-sass-converter to 2.x
-gem "jekyll-sass-converter", "~> 2.0"
-
-# Add explicit dependency on sassc
-gem "sassc", "~> 2.4.0"
