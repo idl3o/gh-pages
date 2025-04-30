@@ -3,7 +3,7 @@ name: Build and Deploy GitHub Pages
 on:
   push:
     branches:
-      - main  # Adjust this to your default branch if different
+      - main
     paths-ignore:
       - 'README.md'
       - '.vscode/**'
@@ -11,16 +11,13 @@ on:
   pull_request:
     branches:
       - main
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -50,6 +47,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libsdl2-dev
+          # Verify SDL2 installation
+          find /usr -name "SDL.h" || echo "SDL.h not found"
           
       - name: Test WebAssembly compilation
         if: hashFiles('red_x/main.c') != ''
@@ -60,12 +59,21 @@ jobs:
           ./emsdk install latest
           ./emsdk activate latest
           source ./emsdk_env.sh
+          
+          # Add SDL include path to environment
+          export CPATH=/usr/include/SDL2:$CPATH
+          
+          # Compile RED X
           cd ../red_x
           if [ -f "Makefile" ]; then
+            # Try to modify makefile to include SDL2 directory
+            if grep -q "CFLAGS" Makefile; then
+              sed -i 's/CFLAGS\s*=/CFLAGS = -I\/usr\/include\/SDL2 /' Makefile
+            fi
             make
           elif [ -f "main.c" ]; then
-            # Use emcc with appropriate SDL flags
-            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+            # Use emcc with explicit SDL include path
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
           fi
 
   # Job to build and deploy
@@ -108,6 +116,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libsdl2-dev
+          # Verify SDL2 installation
+          find /usr -name "SDL.h" || echo "SDL.h not found"
         
       - name: Setup Emscripten for WebAssembly
         if: hashFiles('red_x/main.c') != ''
@@ -117,12 +127,25 @@ jobs:
           ./emsdk install latest
           ./emsdk activate latest
           source ./emsdk_env.sh
+          
+          # Debug SDL installation
+          echo "Checking SDL installation..."
+          find /usr -name "SDL.h"
+          
+          # Add include paths if needed
+          export CPATH=/usr/include/SDL2:$CPATH
+          
+          # Compile RED X
           cd ../red_x
           if [ -f "Makefile" ]; then
+            # Try to modify makefile to include SDL2 directory
+            if grep -q "CFLAGS" Makefile; then
+              sed -i 's/CFLAGS\s*=/CFLAGS = -I\/usr\/include\/SDL2 /' Makefile
+            fi
             make
           elif [ -f "main.c" ]; then
-            # Use emcc with appropriate SDL flags
-            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+            # Use emcc with explicit SDL include path
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
           fi
           
       - name: Build with Jekyll

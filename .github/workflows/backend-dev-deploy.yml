@@ -3,12 +3,11 @@ name: Deploy Backend Dev to GitHub Pages
 on:
   push:
     branches:
-      - backend-dev  # This workflow runs only when changes are pushed to backend-dev
-  # Allows you to run this workflow manually from the Actions tab
+      - backend-dev
   workflow_dispatch:
 
 permissions:
-  contents: write  # Needed for pushing to gh-pages-backend-dev branch
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -17,14 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: backend-dev  # Explicitly checkout the backend-dev branch
+          ref: backend-dev
         
+      # Setup Ruby and bundle dependencies
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
           bundler-cache: true
           
+      # Setup Node.js if needed
       - name: Setup Node.js
         if: hashFiles('package.json') != ''
         uses: actions/setup-node@v3
@@ -32,10 +33,12 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
+      # Install Node dependencies if needed
       - name: Install Node dependencies
         if: hashFiles('package.json') != ''
         run: npm ci
         
+      # Build TypeScript SDK if needed
       - name: Build TypeScript SDK
         if: hashFiles('ts/package.json') != ''
         run: |
@@ -43,11 +46,15 @@ jobs:
           npm ci
           npm run build
         
+      # Install SDL development dependencies - critical for WebAssembly compilation
       - name: Install SDL development dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libsdl2-dev
-        
+          # Verify SDL2 installation
+          find /usr -name "SDL.h" || echo "SDL.h not found"
+      
+      # Setup Emscripten with proper SDL path configuration
       - name: Setup Emscripten for WebAssembly
         if: hashFiles('red_x/main.c') != ''
         run: |
@@ -56,17 +63,31 @@ jobs:
           ./emsdk install latest
           ./emsdk activate latest
           source ./emsdk_env.sh
+          
+          # Debug SDL installation
+          echo "Checking SDL installation..."
+          find /usr -name "SDL.h"
+          
+          # Add include paths if needed
+          export CPATH=/usr/include/SDL2:$CPATH
+          
+          # Compile RED X
           cd ../red_x
           if [ -f "Makefile" ]; then
+            # Try to modify makefile to include SDL2 directory
+            if grep -q "CFLAGS" Makefile; then
+              sed -i 's/CFLAGS\s*=/CFLAGS = -I\/usr\/include\/SDL2 /' Makefile
+            fi
             make
           elif [ -f "main.c" ]; then
-            # Use emcc with appropriate SDL flags
-            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+            # Use emcc with explicit SDL include path
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
           fi
           
+      # Jekyll build with environment configuration
       - name: Build with Jekyll
         run: |
-          # Create temporary _config.backend-dev.yml file with modified settings
+          # Create temporary config with backend-dev settings
           cat > _config.backend-dev.yml << EOF
           # Environment-specific settings
           environment: backend-dev
@@ -74,15 +95,15 @@ jobs:
           baseurl: "/gh-pages/backend-dev"
           EOF
           
-          # Build with both config files
           bundle exec jekyll build --config _config.yml,_config.backend-dev.yml
         env:
           JEKYLL_ENV: production
           
+      # Deploy to GitHub Pages
       - name: Deploy to gh-pages-backend-dev branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: _site  # The folder the action should deploy
-          branch: gh-pages-backend-dev  # The branch to deploy to
+          folder: _site
+          branch: gh-pages-backend-dev
           commit-message: "Deploy backend-dev site [skip ci]"
-          clean: true  # Automatically remove deleted files from the deployed branch
+          clean: true

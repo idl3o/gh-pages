@@ -45,13 +45,17 @@ jobs:
           npm ci
           npm run lint || echo "Linting issues found"
           npm run build
-
+          
       - name: Install SDL development dependencies
         if: hashFiles('red_x/main.c') != '' || hashFiles('red_x/Makefile') != ''
         run: |
           sudo apt-get update
           sudo apt-get install -y libsdl2-dev
-
+          # Verify SDL2 installation
+          find /usr -name "SDL.h" || echo "SDL.h not found"
+          echo "SDL installation location:"
+          pkg-config --cflags sdl2
+          
       - name: Validate WebAssembly compilation
         if: hashFiles('red_x/main.c') != ''
         run: |
@@ -61,16 +65,33 @@ jobs:
           ./emsdk install latest
           ./emsdk activate latest
           source ./emsdk_env.sh
+          
+          # Add SDL include path to environment
+          export CPATH=/usr/include/SDL2:$CPATH
+          
+          # Check emcc version and features
+          emcc --version
+          
+          # Compile RED X with extra debugging
           cd ../red_x
           if [ -f "Makefile" ]; then
-            make
+            # Try to modify makefile to include SDL2 directory
+            if grep -q "CFLAGS" Makefile; then
+              sed -i 's/CFLAGS\s*=/CFLAGS = -I\/usr\/include\/SDL2 /' Makefile
+              echo "Modified Makefile to include SDL2 directory"
+            fi
+            echo "Running make with detailed output..."
+            make VERBOSE=1
           elif [ -f "main.c" ]; then
-            # Use emcc with appropriate SDL flags
-            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+            # Use emcc with explicit SDL include path
+            echo "Compiling with explicit SDL include path..."
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
           fi
-
+          
           # Verify compilation was successful
           if [ ! -f "index.wasm" ]; then
             echo "::error::WebAssembly compilation failed - index.wasm not created"
             exit 1
           fi
+          
+          echo "WebAssembly compilation successful - index.wasm file created"
