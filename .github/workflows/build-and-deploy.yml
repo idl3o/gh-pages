@@ -18,7 +18,7 @@ jobs:
       CI_BUILD: true
       EMSCRIPTEN_VERSION: 3.1.41
       NODE_VERSION: 18
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -26,24 +26,29 @@ jobs:
           ref: ${{ github.ref_name }}
           repository: ${{ github.repository }}
           fetch-depth: 0
-          
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 3.1 # Upgrade to a compatible Ruby version
           bundler-cache: true
-          
+
+      - name: Update RubyGems
+        run: |
+          gem update --system # Update RubyGems to the latest version
+          gem install bundler # Install the compatible bundler version
+
       - name: Install required gems
         run: |
           gem install jekyll bundler
           bundle install
-          
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies with fallback
         run: |
           echo "Checking if package-lock.json exists..."
@@ -54,7 +59,7 @@ jobs:
             echo "No package-lock.json found. Using npm install..."
             npm install
           fi
-          
+
       - name: Setup Emscripten
         run: |
           echo "Setting up Emscripten version $EMSCRIPTEN_VERSION"
@@ -65,40 +70,40 @@ jobs:
           source ./emsdk_env.sh
           emcc --version
           cd ..
-          
+
       - name: Check all file existence before compilation
         run: |
           echo "Checking key files..."
-          if [ ! -f "red_x/main.c" ]; then 
+          if [ ! -f "red_x/main.c" ]; then
             echo "Error: main.c not found!"
             exit 1
           fi
-          if [ ! -f "red_x/font_atlas.c" ]; then 
-            echo "Error: font_atlas.c not found!" 
+          if [ ! -f "red_x/font_atlas.c" ]; then
+            echo "Error: font_atlas.c not found!"
             exit 1
           fi
-          if [ ! -f "red_x/font_atlas.h" ]; then 
-            echo "Error: font_atlas.h not found!" 
+          if [ ! -f "red_x/font_atlas.h" ]; then
+            echo "Error: font_atlas.h not found!"
             exit 1
           fi
           echo "All required files found."
-      
+
       - name: Compile WebAssembly components
         run: |
           # Navigate to RED X directory
           cd red_x
-          
+
           # Set emcc environment
           source ../emsdk/emsdk_env.sh
           which emcc
-          
+
           echo "Preparing to compile with Emscripten..."
           # Check for required functions in main.c to verify detect_environment exists
           if ! grep -q "void detect_environment" main.c; then
             echo "Error: detect_environment function not found in main.c!"
             exit 1
           fi
-          
+
           # Build with emcc
           echo "Building WebAssembly with emcc..."
           emcc -v -Wall -Wextra \
@@ -111,17 +116,17 @@ jobs:
             -s ASSERTIONS=1 \
             -O2 \
             main.c font_atlas.c -o index.html -lm
-            
+
           # Verify output
           if [ ! -f "index.html" ] || [ ! -f "index.js" ] || [ ! -f "index.wasm" ]; then
             echo "Error: WebAssembly compilation failed - output files missing!"
             exit 1
           fi
-          
+
           echo "WebAssembly compilation successful."
           ls -la index.html index.js index.wasm
           cd ..
-      
+
       - name: Build TypeScript SDK
         run: |
           if [ -d "ts" ]; then
@@ -136,15 +141,15 @@ jobs:
           else
             echo "No ts directory found, skipping TypeScript SDK build"
           fi
-      
+
       - name: Build static site
         run: |
           # Make the deployment script executable
           chmod +x ./deploy-linux.sh
-          
+
           # Run in non-interactive mode for CI environment
           CI=true SKIP_QUESTIONS=true ./deploy-linux.sh
-          
+
           # Check if the build directory was created
           if [ -d "_site" ]; then
             echo "Build successful!"
@@ -153,32 +158,32 @@ jobs:
             echo "Build failed - _site directory not found!"
             exit 1
           fi
-      
+
       - name: Verify build artifacts
         run: |
           if [ ! -d "_site/red_x" ]; then
             echo "Error: red_x directory missing from build!"
             mkdir -p _site/red_x
-            
+
             # Copy essential files from source as fallback
             cp -f red_x/index.html _site/red_x/ || echo "Failed to copy index.html"
             cp -f red_x/index.js _site/red_x/ || echo "Failed to copy index.js"
             cp -f red_x/index.wasm _site/red_x/ || echo "Failed to copy index.wasm"
           fi
-          
+
           # Always ensure these critical files exist
           if [ ! -f "_site/index.html" ]; then
             echo "Error: index.html missing from build root!"
             echo "<html><head><title>GitHub Pages Build</title></head><body><h1>GitHub Pages Site</h1><p>This is a fallback page.</p></body></html>" > _site/index.html
           fi
-          
+
           if [ ! -f "_site/.nojekyll" ]; then
             echo "Adding .nojekyll file"
             touch _site/.nojekyll
           fi
-          
+
           echo "Build verification complete."
-          
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
@@ -186,4 +191,4 @@ jobs:
           branch: gh-pages
           clean: true
           single-commit: false
-          commit-message: "Deploy to GitHub Pages from workflow [ci skip]"
+          commit-message: 'Deploy to GitHub Pages from workflow [ci skip]'
