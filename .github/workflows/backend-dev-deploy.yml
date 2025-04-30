@@ -59,11 +59,18 @@ jobs:
           # Compile RED X
           cd ../red_x
           if [ -f "Makefile" ]; then
+            # Verify that both files are present
+            if [ -f "main.c" ] && [ -f "font_atlas.c" ] && [ -f "font_atlas.h" ]; then
+              echo "Found all required files for compilation"
+              cat font_atlas.h | head -n 10  # Display first few lines to verify content
+            fi
+
             # Use the web target specifically for WebAssembly build
             make web
           elif [ -f "main.c" ]; then
             # Use emcc directly with Emscripten's built-in SDL2
-            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+            # Compile both main.c and font_atlas.c together
+            emcc -Wall -Wextra -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s 'EXPORTED_RUNTIME_METHODS=["ccall"]' -s 'SDL2_IMAGE_FORMATS=["png"]' main.c font_atlas.c -o index.html -lm
           fi
 
       # Jekyll build with environment configuration
