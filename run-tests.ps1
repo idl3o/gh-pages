@@ -11,7 +11,7 @@ $WarningCount = 0
 
 function Write-Header {
     param([string]$text)
-    
+
     Write-Host "`n====== $text ======" -ForegroundColor Cyan
 }
 
@@ -21,7 +21,7 @@ function Write-Result {
         [string]$successMessage,
         [string]$errorMessage
     )
-    
+
     if ($exitCode -eq 0) {
         Write-Host "✓ $successMessage" -ForegroundColor Green
         return $true
@@ -62,7 +62,7 @@ $env:PATH = 'C:\Ruby27-x64\bin;' + $env:PATH
 # 1. Run Linting if not skipped
 if (-not $SkipLint) {
     Write-Header "Running Code Linting"
-    
+
     # HTML Linting with HTMLProofer (if available)
     if (Get-Command "bundle" -ErrorAction SilentlyContinue) {
         try {
@@ -70,7 +70,7 @@ if (-not $SkipLint) {
                 Write-Host "Building Jekyll site for HTML validation..." -ForegroundColor Yellow
                 bundle exec jekyll build --quiet
             }
-            
+
             Write-Host "Running HTMLProofer to validate HTML..." -ForegroundColor Yellow
             $htmlproofOutput = bundle exec htmlproofer ./_site --disable-external --allow-hash-href --check-html 2>&1
             Write-Result -exitCode $LASTEXITCODE -successMessage "HTML validation passed!" -errorMessage "HTML validation failed!"
@@ -81,11 +81,11 @@ if (-not $SkipLint) {
             $WarningCount++
         }
     }
-    
+
     # JavaScript/TypeScript Linting with ESLint (if available)
     if (Test-Path -Path "package.json") {
         $packageJson = Get-Content -Path "package.json" -Raw | ConvertFrom-Json
-        
+
         if ($packageJson.devDependencies.eslint -or $packageJson.dependencies.eslint) {
             Write-Host "Running ESLint for JavaScript/TypeScript..." -ForegroundColor Yellow
             npm run lint
@@ -96,16 +96,16 @@ if (-not $SkipLint) {
             $WarningCount++
         }
     }
-    
+
     # YAML Linting for _config.yml and workflows (if yamllint is installed)
     if (Get-Command "yamllint" -ErrorAction SilentlyContinue) {
         Write-Host "Running YAML linting..." -ForegroundColor Yellow
-        
+
         $yamlFiles = @(
             "./_config.yml",
             "./.github/workflows/*.yml"
         )
-        
+
         foreach ($yamlPattern in $yamlFiles) {
             if (Test-Path -Path $yamlPattern) {
                 yamllint $yamlPattern
@@ -117,7 +117,7 @@ if (-not $SkipLint) {
         Write-Host "yamllint not found in PATH, skipping YAML validation." -ForegroundColor Yellow
         $WarningCount++
     }
-    
+
     # Markdown Linting (if markdownlint is installed)
     if (Get-Command "markdownlint" -ErrorAction SilentlyContinue) {
         Write-Host "Running Markdown linting..." -ForegroundColor Yellow
@@ -134,11 +134,11 @@ if (-not $SkipLint) {
 # 2. Validate GitHub Workflows
 if (-not $SkipWorkflowValidation) {
     Write-Header "Validating GitHub Workflows"
-    
+
     $workflowsDir = "./.github/workflows"
     if (Test-Path -Path $workflowsDir) {
         $workflowFiles = Get-ChildItem -Path $workflowsDir -Filter "*.yml"
-        
+
         if ($workflowFiles.Count -eq 0) {
             Write-Host "No workflow files found in $workflowsDir" -ForegroundColor Yellow
             $WarningCount++
@@ -153,7 +153,7 @@ if (-not $SkipWorkflowValidation) {
                 Write-Host "actionlint not found in PATH, performing basic YAML validation only." -ForegroundColor Yellow
                 Write-Host "Consider installing actionlint: https://github.com/rhysd/actionlint/releases" -ForegroundColor Yellow
                 $WarningCount++
-                
+
                 # Basic validation by checking if the YAML can be parsed
                 foreach ($file in $workflowFiles) {
                     try {
@@ -178,7 +178,7 @@ if (-not $SkipWorkflowValidation) {
 # 3. Test Jekyll build
 if (-not $SkipBuild) {
     Write-Header "Testing Jekyll Build"
-    
+
     if (Get-Command "bundle" -ErrorAction SilentlyContinue) {
         Write-Host "Building Jekyll site..." -ForegroundColor Yellow
         bundle exec jekyll build --safe
@@ -193,7 +193,7 @@ if (-not $SkipBuild) {
         Write-Host "Bundle not found in PATH, skipping Jekyll build test." -ForegroundColor Yellow
         $WarningCount++
     }
-    
+
     # Test TypeScript build if applicable
     if (Test-Path -Path "ts") {
         Write-Host "Building TypeScript SDK..." -ForegroundColor Yellow

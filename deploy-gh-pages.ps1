@@ -32,10 +32,10 @@ Write-Host "Current branch: $currentBranch" -ForegroundColor Yellow
 # Build the site if not skipping build
 if (-not $SkipBuild) {
     Write-Host "Building Jekyll site..." -ForegroundColor Yellow
-    
+
     # Check Ruby environment
     $env:PATH = 'C:\Ruby27-x64\bin;' + $env:PATH
-    
+
     # Install dependencies if needed
     if (-not (Test-Path -Path "_site")) {
         Write-Host "Installing dependencies..." -ForegroundColor Yellow
@@ -45,7 +45,7 @@ if (-not $SkipBuild) {
             exit 1
         }
     }
-    
+
     # Build the site
     bundle exec jekyll build
     if ($LASTEXITCODE -ne 0) {
@@ -53,7 +53,7 @@ if (-not $SkipBuild) {
         exit 1
     }
     Write-Host "Jekyll build successful!" -ForegroundColor Green
-    
+
     # Build TypeScript SDK if it exists
     if (Test-Path -Path "ts") {
         Write-Host "Building TypeScript SDK..." -ForegroundColor Yellow
@@ -64,7 +64,7 @@ if (-not $SkipBuild) {
             Pop-Location
             exit 1
         }
-        
+
         # Copy TypeScript build to _site if it exists
         if (Test-Path -Path "dist") {
             if (-not (Test-Path -Path "../_site/assets/js/ts-sdk")) {
@@ -73,7 +73,7 @@ if (-not $SkipBuild) {
             Copy-Item -Path "dist/*" -Destination "../_site/assets/js/ts-sdk/" -Recurse -Force
             Write-Host "TypeScript SDK copied to _site/assets/js/ts-sdk/" -ForegroundColor Green
         }
-        
+
         Pop-Location
     }
 }
