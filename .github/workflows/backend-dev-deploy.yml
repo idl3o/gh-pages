@@ -46,15 +46,7 @@ jobs:
           npm ci
           npm run build
 
-      # Install SDL development dependencies - critical for WebAssembly compilation
-      - name: Install SDL development dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libsdl2-dev
-          # Verify SDL2 installation
-          find /usr -name "SDL.h" || echo "SDL.h not found"
-
-      # Setup Emscripten with proper SDL path configuration
+      # Setup Emscripten for WebAssembly compilation
       - name: Setup Emscripten for WebAssembly
         if: hashFiles('red_x/main.c') != ''
         run: |
@@ -64,21 +56,14 @@ jobs:
           ./emsdk activate latest
           source ./emsdk_env.sh
 
-          # Debug SDL installation
-          echo "Checking SDL installation..."
-          find /usr -name "SDL.h"
-
-          # Add include paths if needed
-          export CPATH=/usr/include/SDL2:$CPATH
-
           # Compile RED X
           cd ../red_x
           if [ -f "Makefile" ]; then
             # Use the web target specifically for WebAssembly build
             make web
           elif [ -f "main.c" ]; then
-            # Use emcc directly with explicit SDL include path
-            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
+            # Use emcc directly with Emscripten's built-in SDL2
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
           fi
 
       # Jekyll build with environment configuration
