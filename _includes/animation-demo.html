@@ -1,0 +1,228 @@
+<div class="animation-demo">
+  <div class="animation-container">
+    <canvas id="animationCanvas" width="600" height="400"></canvas>
+  </div>
+
+  <div class="animation-controls">
+    <button id="playBtn" class="control-btn">
+      <span class="icon">▶</span> Play
+    </button>
+    <button id="pauseBtn" class="control-btn">
+      <span class="icon">⏸</span> Pause
+    </button>
+    <button id="resetBtn" class="control-btn">
+      <span class="icon">⟳</span> Reset
+    </button>
+
+    <div class="slider-container">
+      <label for="speedSlider">Speed:</label>
+      <input type="range" id="speedSlider" min="0.5" max="3" step="0.1" value="1">
+      <span id="speedValue">1x</span>
+    </div>
+  </div>
+
+  <div class="animation-options">
+    <select id="animationSelector">
+      <option value="particle">Particle Effect</option>
+      <option value="wave">Wave Animation</option>
+      <option value="blockchain">Blockchain Visualization</option>
+      <option value="tokenflow">Token Flow</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('animationCanvas');
+    const ctx = canvas.getContext('2d');
+    let animationId;
+    let isPlaying = false;
+    let speed = 1;
+    let currentAnimation = 'particle';
+
+    // Animation initialization
+    function initAnimation() {
+      cancelAnimationFrame(animationId);
+      isPlaying = false;
+
+      // Set up animation based on selection
+      switch(currentAnimation) {
+        case 'particle':
+          initParticleAnimation();
+          break;
+        case 'wave':
+          initWaveAnimation();
+          break;
+        case 'blockchain':
+          initBlockchainAnimation();
+          break;
+        case 'tokenflow':
+          initTokenFlowAnimation();
+          break;
+      }
+
+      document.getElementById('playBtn').addEventListener('click', playAnimation);
+      document.getElementById('pauseBtn').addEventListener('click', pauseAnimation);
+      document.getElementById('resetBtn').addEventListener('click', resetAnimation);
+
+      document.getElementById('speedSlider').addEventListener('input', function() {
+        speed = parseFloat(this.value);
+        document.getElementById('speedValue').textContent = speed.toFixed(1) + 'x';
+      });
+
+      document.getElementById('animationSelector').addEventListener('change', function() {
+        currentAnimation = this.value;
+        resetAnimation();
+      });
+    }
+
+    function playAnimation() {
+      if (!isPlaying) {
+        isPlaying = true;
+        animate();
+      }
+    }
+
+    function pauseAnimation() {
+      isPlaying = false;
+      cancelAnimationFrame(animationId);
+    }
+
+    function resetAnimation() {
+      pauseAnimation();
+      initAnimation();
+    }
+
+    // Placeholder for different animation types
+    function initParticleAnimation() {
+      // Particle animation initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#333';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Particle Animation', 20, 30);
+    }
+
+    function initWaveAnimation() {
+      // Wave animation initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#004466';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Wave Animation', 20, 30);
+    }
+
+    function initBlockchainAnimation() {
+      // Blockchain visualization initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#1a1a2e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Blockchain Visualization', 20, 30);
+    }
+
+    function initTokenFlowAnimation() {
+      // Token flow animation initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#2e1a3e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Token Flow Animation', 20, 30);
+    }
+
+    function animate() {
+      if (!isPlaying) return;
+
+      // Run animation frame
+      // This is a placeholder - actual animation would go here
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    // Initialize on load
+    initAnimation();
+  });
+</script>
+
+<style>
+  .animation-demo {
+    margin: 2rem 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+  }
+
+  .animation-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  #animationCanvas {
+    display: block;
+    width: 100%;
+    background-color: #333;
+  }
+
+  .animation-controls {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+
+  .control-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #2a7ae2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+
+  .control-btn:hover {
+    background-color: #1756a9;
+  }
+
+  .icon {
+    margin-right: 5px;
+  }
+
+  .slider-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  #speedSlider {
+    width: 100px;
+  }
+
+  .animation-options {
+    margin-top: 1rem;
+    text-align: right;
+  }
+
+  #animationSelector {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+  }
+</style>

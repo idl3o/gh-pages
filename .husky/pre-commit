@@ -1,5 +1,17 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Use npx to run lint-staged with better path resolution
-npx --no-install lint-staged
+echo "Running pre-commit checks..."
+
+# Run the test script
+powershell -ExecutionPolicy Bypass -File ./run-tests.ps1
+
+# Check for any output files that should not be committed
+if git diff --cached --name-only | grep -E '(_site/|\.jekyll-cache/|vendor/|node_modules/|\.vs/|bin/|obj/)'; then
+  echo "Error: You're trying to commit files that should be ignored."
+  echo "Please remove these files from your commit."
+  exit 1
+fi
+
+# Lint staged files
+npx lint-staged

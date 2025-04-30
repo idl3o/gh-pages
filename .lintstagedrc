@@ -1,0 +1,12 @@
+{
+  "*.{js,ts}": [
+    "prettier --write",
+    "eslint --fix"
+  ],
+  "*.{md,html,css,scss}": [
+    "prettier --write"
+  ],
+  "*.cs": [
+    "dotnet format"
+  ]
+}

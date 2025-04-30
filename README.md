@@ -1,98 +1,100 @@
-# GitHub Pages Multi-Technology Project
+# Web3 Streaming Platform
 
-This repository contains a multi-technology project with GitHub Pages for web content, TypeScript SDK, Smart Contracts, and a RED X backend.
-
-## Environments
-
-The project supports multiple deployment environments:
-
-- **Production**: Deployed from the `main` branch - [https://idl3o.github.io/gh-pages/](https://idl3o.github.io/gh-pages/)
-- **Backend Development**: Deployed from the `backend-dev` branch - [https://idl3o.github.io/gh-pages/backend-dev/](https://idl3o.github.io/gh-pages/backend-dev/)
-
-## Quick Start
-
-### Setting Up Ruby Environment
-
-This project requires Ruby 2.7.x for GitHub Pages compatibility. If you have both Ruby 3.3.x and Ruby 2.7.x installed:
-
-```powershell
-# Use the provided startup script to automatically use Ruby 2.7.x
-.\start-jekyll.ps1
-```
-
-### Manual Setup
-
-```powershell
-# Set Ruby 2.7.x in the path
-$env:PATH = "C:\Ruby27-x64\bin;" + $env:PATH
-
-# Install dependencies
-bundle install
-
-# Start Jekyll server
-bundle exec jekyll serve
-```
+This repository contains the GitHub Pages website, TypeScript SDK, .NET client, WebAssembly components, and smart contracts for the Web3 Streaming Platform.
 
 ## Project Structure
 
-- **GitHub Pages** (`/`) - The root directory contains the Jekyll site
-- **Server APIs** (`/server`) - Backend server code
-- **Smart Contracts** (`/contracts`) - Ethereum smart contracts
-- **Serverless Functions** (`/netlify/functions`) - Netlify serverless functions
-- **RED X Backend** (`/red_x`) - C-based backend with WebAssembly compilation
-- **TypeScript SDK** (`/ts/src`) - TypeScript library
-- **Services** (`/services`) - Shared services
-- **Utils** (`/utils`) - Utility scripts
-- **Config** (`/config`) - Configuration files
+- **Jekyll Site**: Main website hosted on GitHub Pages
+- **TypeScript SDK**: Client-side SDK for interacting with the platform
+- **Serverless Functions**: Netlify functions for API endpoints
+- **RED X Backend**: WebAssembly-based components
+- **.NET Client**: Client library for .NET applications
+- **Smart Contracts**: Solidity contracts for blockchain interactions
 
-## Development Workflows
+## Requirements
 
-### GitHub Pages Development
+- **Ruby 2.7** (for Jekyll)
+- **Node.js 18+** (for TypeScript SDK and serverless functions)
+- **.NET 6.0** (for .NET client)
+- **Emscripten** (optional, for WebAssembly components)
+- **Solidity Compiler** (optional, for smart contracts)
 
-1. Run `.\start-jekyll.ps1` to start the Jekyll server with the correct Ruby version
-2. Visit `http://localhost:4000` in your browser
+## Local Development
 
-### Deploying to GitHub Pages
+### Setting Up
 
-Run the deployment script:
+1. Clone the repository
+   ```
+   git clone https://github.com/yourusername/gh-pages.git
+   cd gh-pages
+   ```
 
-```powershell
-.\deploy-gh-pages.ps1
+2. Install Ruby dependencies
+   ```
+   bundle install
+   ```
+
+3. Install Node.js dependencies
+   ```
+   npm install
+   cd ts
+   npm install
+   cd ../netlify/functions
+   npm install
+   cd ../..
+   ```
+
+4. Set up Git hooks
+   ```
+   npm install husky --save-dev
+   npx husky install
+   ```
+
+### Running Tests
+
+You can run all tests using the provided PowerShell script:
+
+```
+.\run-tests.ps1
 ```
 
-### TypeScript Development
+This will test:
+- Jekyll site build
+- TypeScript SDK build
+- .NET client build
+- WebAssembly components (if Emscripten is installed)
+- Smart contracts (if Solc is installed)
 
-```bash
-cd ts
-npm install
-npm run build
-```
+### Development Tasks
 
-### Smart Contract Development
+VS Code tasks are available for common operations:
 
-```bash
-cd contracts
-# Add commands for your specific workflow
-```
+- **Start Jekyll**: Starts the local Jekyll development server
+- **Deploy to GitHub Pages**: Deploys the site to GitHub Pages
+- **Build TypeScript SDK**: Builds the TypeScript SDK
+- **Check Ruby Environment**: Verifies the Ruby environment is correctly set up
 
-## Troubleshooting
+## Deployment
 
-### Ruby Version Issues
+### GitHub Pages
 
-If you encounter Ruby version compatibility issues:
+The site is automatically deployed to GitHub Pages via GitHub Actions when pushing to the `main` branch.
 
-1. Ensure you have Ruby 2.7.x installed
-2. Use the `start-jekyll.ps1` script to set the correct Ruby in your PATH
-3. If issues persist, check the `utils/fix_racc.bat` or other utility scripts
+### Netlify Functions
 
-### WebAssembly Compilation Issues
+Serverless functions are deployed to Netlify using the configuration in `netlify.toml`.
 
-Ensure you have Emscripten installed and properly configured in your PATH before working with the RED X backend.
+## Documentation
 
-## Contributing
+- **Jekyll Site**: The public website and documentation
+- **TypeScript API**: Available at `/docs/typescript-api`
+- **.NET API**: Available at `/docs/dotnet-api`
+- **WebAssembly API**: Available at `/docs/wasm-api`
+- **Smart Contracts**: Available at `/docs/contract-api`
 
-Please follow the established coding style in each directory, as different parts of the project may use different conventions.
+## Continuous Integration
 
-## License
+GitHub Actions workflows are set up for:
 
-This project is licensed under the terms specified in the project files.
+1. **Testing**: Runs on pull requests to ensure everything builds correctly
+2. **Deployment**: Deploys the site to GitHub Pages when changes are pushed to the main branch

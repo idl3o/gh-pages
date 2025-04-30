@@ -13,8 +13,9 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <ctype.h> // Added for tolower() function
 #include <emscripten.h>
-#include "font_atlas.h" // Add the missing header file
+#include "font_atlas.h"
 
 // Window dimensions
 #define WINDOW_WIDTH 800
@@ -217,6 +218,7 @@ void update(AppState *state);
 void apply_particle_interaction(AppState *state, float delta_time);
 
 // Case insensitive substring search for platforms that may not have strcasestr
+#if !defined(__GLIBC__) && !defined(__EMSCRIPTEN__)
 char *strcasestr(const char *haystack, const char *needle)
 {
     if (!haystack || !needle)
@@ -240,8 +242,10 @@ char *strcasestr(const char *haystack, const char *needle)
 
     return NULL;
 }
+#endif
 
 // Cross-platform case insensitive string comparison
+#if !defined(__GLIBC__) && !defined(__EMSCRIPTEN__)
 int strncasecmp(const char *s1, const char *s2, size_t n)
 {
     if (n == 0)
@@ -259,6 +263,7 @@ int strncasecmp(const char *s1, const char *s2, size_t n)
 
     return 0;
 }
+#endif
 
 // Initialize the application
 void initialize(AppState *state)
@@ -1991,6 +1996,7 @@ int create_new_particle(AppState *state, int type, float x, float y)
         sprintf(p->data, "Identity %d", index);
         break;
     case 9:
+        p->color = (SDL_Color){200, 200```c
         p->color = (SDL_Color){200, 200, 200, 255}; // Light gray
         sprintf(p->data, "Client %d", index);
         break;
@@ -2000,7 +2006,6 @@ int create_new_particle(AppState *state, int type, float x, float y)
     return index;
 }
 
-// Detect runtime environment```c
 // Detect runtime environment for platform-specific features
 void detect_environment(AppState *state)
 {
@@ -2009,27 +2014,27 @@ void detect_environment(AppState *state)
     state->environment_initialized = true;
     strcpy(state->env_display_name, "Browser (WebAssembly)");
 
-    #ifdef __EMSCRIPTEN__
-        // Always Browser environment when running under Emscripten
-        state->environment = ENV_BROWSER;
-    #else
-        // Attempt to detect terminal environment when not in browser
-        #ifdef _WIN32
-            // Check for PowerShell or CMD on Windows
-            char *powershell_var = getenv("PSModulePath");
-            if (powershell_var) {
-                state->environment = ENV_POWERSHELL;
-                strcpy(state->env_display_name, "PowerShell");
-            } else {
-                state->environment = ENV_CMD;
-                strcpy(state->env_display_name, "Windows Command Prompt");
-            }
-        #else
-            // Assume bash on non-Windows platforms
-            state->environment = ENV_BASH;
-            strcpy(state->env_display_name, "Bash");
-        #endif
-    #endif
+#ifdef __EMSCRIPTEN__
+    // Always Browser environment when running under Emscripten
+    state->environment = ENV_BROWSER;
+#else
+    // Attempt to detect terminal environment when not in browser
+#ifdef _WIN32
+        // Check for PowerShell or CMD on Windows
+        char *powershell_var = getenv("PSModulePath");
+        if (powershell_var) {
+            state->environment = ENV_POWERSHELL;
+            strcpy(state->env_display_name, "PowerShell");
+        } else {
+            state->environment = ENV_CMD;
+            strcpy(state->env_display_name, "Windows Command Prompt");
+        }
+#else
+        // Assume bash on non-Windows platforms
+        state->environment = ENV_BASH;
+        strcpy(state->env_display_name, "Bash");
+#endif
+#endif
 
     // Log the detected environment
     printf("Detected environment: %s\n", state->env_display_name);

@@ -3,28 +3,30 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 using Nethereum.Web3;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
+using Nethereum.Signer;
 using Newtonsoft.Json;
 
 namespace WebStreamClient
 {
     /// <summary>
     /// .NET client for interacting with the Web3 Crypto Streaming Service
-    /// 
+    ///
     /// INTERNAL DOCUMENTATION:
     /// This client provides the core integration layer between .NET applications
     /// and the Web3 Streaming platform. It handles authentication, IPFS uploads,
     /// creator registration, and blockchain interactions.
-    /// 
+    ///
     /// SECURITY CONSIDERATIONS:
     /// - Private keys should be handled securely and never stored in plain text
     /// - All HTTP requests are authenticated when required
     /// - Blockchain interactions are abstracted for safety
-    /// 
+    ///
     /// INTEGRATION NOTES:
     /// - Designed for both desktop and server applications
     /// - Maintains compatibility with .NET Standard 2.0+ platforms
@@ -34,13 +36,15 @@ namespace WebStreamClient
     {
         // Core service dependencies
         private readonly HttpClient _httpClient;
-        private readonly Web3 _web3;
+        private Web3 _web3; // Removed readonly to allow reassignment
         private readonly string _apiUrl;
+        private readonly string _ethereumRpcUrl; // Store RPC URL for recreating Web3 instance
         private string? _accessToken;
+        private Nethereum.Web3.Accounts.Account? _account;
 
         /// <summary>
         /// Creates a new instance of the StreamClient
-        /// 
+        ///
         /// INTERNAL: Primary constructor that configures HTTP and Web3 connections
         /// USAGE: Should be instantiated once and reused
         /// </summary>
@@ -49,11 +53,12 @@ namespace WebStreamClient
             _httpClient = new HttpClient();
             _web3 = new Web3(ethereumRpcUrl);
             _apiUrl = apiUrl.TrimEnd('/');
+            _ethereumRpcUrl = ethereumRpcUrl;
         }
 
         /// <summary>
         /// Authenticates with the streaming service using a wallet
-        /// 
+        ///
         /// INTERNAL: Implements challenge-response authentication pattern
         /// SECURITY: Signs a nonce using the private key without exposing it
         /// ERROR HANDLING: Returns false rather than throwing on auth failure
@@ -62,28 +67,33 @@ namespace WebStreamClient
         {
             try
             {
-                var account = new Nethereum.Web3.Accounts.Account(privateKey);
-                _web3.TransactionManager.Account = account;
-                
+                // Create and store account locally
+                _account = new Nethereum.Web3.Accounts.Account(privateKey);
+
+                // Create a new web3 instance with the account
+                _web3 = new Web3(_account, _ethereumRpcUrl);
+
                 // Get nonce for signing
-                var nonce = await GetNonceAsync(account.Address);
-                
-                // Sign message with nonce
-                var signature = account.SignMessage(nonce);
-                
+                var nonce = await GetNonceAsync(_account.Address);
+
+                // Sign message with nonce using EthereumMessageSigner
+                var signer = new EthereumMessageSigner();
+                var encodedMessage = Encoding.UTF8.GetBytes(nonce);
+                var signature = signer.Sign(encodedMessage, new EthECKey(privateKey));
+
                 // Send authentication request
                 var authResponse = await _httpClient.PostAsJsonAsync($"{_apiUrl}/auth", new
                 {
-                    Address = account.Address,
+                    Address = _account.Address,
                     Nonce = nonce,
                     Signature = signature
                 });
-                
+
                 if (authResponse.IsSuccessStatusCode)
                 {
                     var content = await authResponse.Content.ReadAsStringAsync();
                     var response = JsonConvert.DeserializeObject<AuthResponse>(content);
-                    
+
                     if (response?.Token != null)
                     {
                         _accessToken = response.Token;
@@ -91,7 +101,7 @@ namespace WebStreamClient
                         return true;
                     }
                 }
-                
+
                 return false;
             }
             catch (Exception ex)
@@ -100,7 +110,7 @@ namespace WebStreamClient
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Gets user profile data
         /// </summary>
@@ -109,13 +119,13 @@ namespace WebStreamClient
             try
             {
                 var response = await _httpClient.GetAsync($"{_apiUrl}/creators/{walletAddress}");
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<CreatorProfile>(content);
                 }
-                
+
                 return null;
             }
             catch (Exception ex)
@@ -124,10 +134,10 @@ namespace WebStreamClient
                 return null;
             }
         }
-        
+
         /// <summary>
         /// Uploads content to IPFS
-        /// 
+        ///
         /// INTERNAL: Handles multipart form posting of binary content
         /// SECURITY: Requires authentication token
         /// PERFORMANCE: Uses byte arrays for efficient memory management
@@ -140,19 +150,19 @@ namespace WebStreamClient
                 {
                     throw new InvalidOperationException("Not authenticated. Call AuthenticateAsync first.");
                 }
-                
+
                 var content = new MultipartFormDataContent();
                 content.Add(new ByteArrayContent(fileData), "file", fileName);
-                
+
                 var response = await _httpClient.PostAsync($"{_apiUrl}/ipfs/upload", content);
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     var ipfsResponse = JsonConvert.DeserializeObject<IPFSResponse>(result);
                     return ipfsResponse?.Cid;
                 }
-                
+
                 return null;
             }
             catch (Exception ex)
@@ -161,7 +171,7 @@ namespace WebStreamClient
                 return null;
             }
         }
-        
+
         /// <summary>
         /// Registers a creator on the platform with metadata
         /// </summary>
@@ -173,7 +183,7 @@ namespace WebStreamClient
                 {
                     throw new InvalidOperationException("Not authenticated. Call AuthenticateAsync first.");
                 }
-                
+
                 var response = await _httpClient.PostAsJsonAsync($"{_apiUrl}/creators/register", request);
                 return response.IsSuccessStatusCode;
             }
@@ -183,10 +193,10 @@ namespace WebStreamClient
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Gets stream token balance for connected wallet
-        /// 
+        ///
         /// INTERNAL: Direct blockchain query for ERC-20 token balance
         /// INTEGRATION: Returns decimal for easier consumption by .NET apps
         /// CONTRACT INTERACTION: Uses the balanceOf standard ERC-20 function
@@ -195,18 +205,18 @@ namespace WebStreamClient
         {
             try
             {
-                if (_web3.TransactionManager.Account == null)
+                if (_account == null)
                 {
                     throw new InvalidOperationException("Wallet not connected");
                 }
-                
+
                 string contractAddress = "0x123..."; // Replace with actual token contract address
                 string abi = "[ ... ]"; // Token ABI would go here
-                
+
                 var contract = _web3.Eth.GetContract(abi, contractAddress);
                 var balanceFunction = contract.GetFunction("balanceOf");
-                
-                var balance = await balanceFunction.CallAsync<BigInteger>(_web3.TransactionManager.Account.Address);
+
+                var balance = await balanceFunction.CallAsync<BigInteger>(_account.Address);
                 return Web3.Convert.FromWei(balance, 18); // Assuming 18 decimals for the token
             }
             catch (Exception ex)
@@ -215,10 +225,10 @@ namespace WebStreamClient
                 return 0;
             }
         }
-        
+
         /// <summary>
         /// Gets nonce for authentication from the API
-        /// 
+        ///
         /// INTERNAL: Helper method for the authentication flow
         /// SECURITY: Uses HTTPS for nonce transmission
         /// ERROR HANDLING: Throws exception to prevent auth with invalid nonce
@@ -227,31 +237,31 @@ namespace WebStreamClient
         {
             var response = await _httpClient.GetAsync($"{_apiUrl}/auth/nonce?address={address}");
             response.EnsureSuccessStatusCode();
-            
+
             var content = await response.Content.ReadAsStringAsync();
             var nonceResponse = JsonConvert.DeserializeObject<NonceResponse>(content);
             return nonceResponse?.Nonce ?? throw new Exception("Failed to get nonce");
         }
     }
-    
+
     // Data models
     public class NonceResponse
     {
         public string? Nonce { get; set; }
     }
-    
+
     public class AuthResponse
     {
         public string? Token { get; set; }
         public string? UserId { get; set; }
     }
-    
+
     public class IPFSResponse
     {
         public string? Cid { get; set; }
         public string? Url { get; set; }
     }
-    
+
     public class CreatorProfile
     {
         public string? Name { get; set; }
@@ -263,7 +273,7 @@ namespace WebStreamClient
         public string? ProfileImageCid { get; set; }
         public string? ProfileImageUrl { get; set; }
     }
-    
+
     public class CreatorRegistrationRequest
     {
         public string? Name { get; set; }
