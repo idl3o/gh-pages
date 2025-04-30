@@ -14,6 +14,7 @@
 #include <math.h>
 #include <time.h>
 #include <emscripten.h>
+#include "font_atlas.h" // Add the missing header file
 
 // Window dimensions
 #define WINDOW_WIDTH 800
@@ -1998,7 +1999,6 @@ int create_new_particle(AppState *state, int type, float x, float y)
     state->active_particles++;
     return index;
 }
-
 void detect_environment(AppState *state)
 {
     // Placeholder implementation

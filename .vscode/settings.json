@@ -55,5 +55,6 @@
   "editor.insertSpaces": true,
   "editor.detectIndentation": true,
   "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+  "cmake.sourceDirectory": "C:/Users/Sam/Documents/GitHub/gh-pages/docs"
 }
