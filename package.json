@@ -1,5 +1,42 @@
 {
+  "name": "web3-streaming-platform",
+  "version": "1.0.0",
+  "description": "Web3 streaming platform with GitHub Pages deployment",
+  "main": "app.js",
+  "scripts": {
+    "build": "echo \"Running build process\" && node browser-compatibility.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "jekyll build || echo \"Jekyll build skipped\"",
+    "deploy": "node -e \"require('child_process').execSync('deploy-gh-pages.ps1', {stdio: 'inherit'})\"",
+    "wasm-build": "cd red_x && (make web || echo \"WebAssembly build requires Emscripten\")"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modsias/gh-pages.git"
+  },
+  "keywords": [
+    "web3",
+    "streaming",
+    "github-pages"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/modsias/gh-pages/issues"
+  },
+  "homepage": "https://github.com/modsias/gh-pages#readme",
+  "dependencies": {
+    "ethers": "^5.7.2",
+    "socket.io": "^4.6.1",
+    "ws": "^8.13.0"
+  },
   "devDependencies": {
-    "@openzeppelin/contracts": "^5.3.0"
+    "@openzeppelin/contracts": "^5.3.0",
+    "typescript": "^5.0.4",
+    "ts-node": "^10.9.1",
+    "@types/node": "^18.16.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

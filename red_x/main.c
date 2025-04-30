@@ -1999,6 +1999,84 @@ int create_new_particle(AppState *state, int type, float x, float y)
     state->active_particles++;
     return index;
 }
+
+// Detect runtime environment```c
+// Detect runtime environment for platform-specific features
 void detect_environment(AppState *state)
 {
     // Placeholder implementation
+    state->environment = ENV_UNKNOWN;
+    state->environment_initialized = true;
+    strcpy(state->env_display_name, "Browser (WebAssembly)");
+
+    #ifdef __EMSCRIPTEN__
+        // Always Browser environment when running under Emscripten
+        state->environment = ENV_BROWSER;
+    #else
+        // Attempt to detect terminal environment when not in browser
+        #ifdef _WIN32
+            // Check for PowerShell or CMD on Windows
+            char *powershell_var = getenv("PSModulePath");
+            if (powershell_var) {
+                state->environment = ENV_POWERSHELL;
+                strcpy(state->env_display_name, "PowerShell");
+            } else {
+                state->environment = ENV_CMD;
+                strcpy(state->env_display_name, "Windows Command Prompt");
+            }
+        #else
+            // Assume bash on non-Windows platforms
+            state->environment = ENV_BASH;
+            strcpy(state->env_display_name, "Bash");
+        #endif
+    #endif
+
+    // Log the detected environment
+    printf("Detected environment: %s\n", state->env_display_name);
+}
+
+// Update application state
+void update(AppState *state)
+{
+    Uint32 current_time = SDL_GetTicks();
+    float delta_time = (current_time - state->last_update_time) / 1000.0f; // Convert to seconds
+    state->last_update_time = current_time;
+
+    // Update particles
+    apply_particle_interaction(state, delta_time);
+
+    // Update stats if visible
+    if (state->stats_panel_visible)
+    {
+        calculate_network_stats(state, delta_time);
+    }
+
+    // Update cooldowns
+    if (state->creation_cooldown > 0)
+    {
+        state->creation_cooldown -= delta_time;
+    }
+}
+
+// Main loop
+void main_loop(AppState *state)
+{
+    handle_events(state);
+    update(state);
+    render(state);
+}
+
+// Entry point
+int main(int argc, char *argv[])
+{
+    AppState state;
+    initialize(&state);
+    detect_environment(&state);
+
+    // Main loop
+    emscripten_set_main_loop_arg(main_loop, &state, 0, 1);
+
+    cleanup(&state);
+    return 0;
+}
+```
