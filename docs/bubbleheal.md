@@ -18,6 +18,7 @@ BubbleHeal is our self-healing network protocol that automatically detects and r
 ## Technical Specifications
 
 See our [BubbleHeal Technical Specifications](../technical/bubbleheal-specs.md) for implementation details.
+
 # Diagnostic System (DiagSys)
 
 Our AI-powered DiagSys constantly monitors the network health with real-time analytics and predictive failure detection to ensure maximum uptime.
@@ -36,6 +37,7 @@ System administrators can access the DiagSys dashboard at /status.html to view s
 ## Integration
 
 The DiagSys API can be integrated with existing monitoring systems. See our [Integration Guide](../api/diagsys-integration.md) for details.
+
 # Hyperstitial Technology
 
 Hyperstitial is our advanced protocol that creates a seamless connection layer between peer networks, enabling reduced latency and improved data integrity across distributed systems.
@@ -51,6 +53,7 @@ Hyperstitial uses a multi-layered approach to network optimization:
 ## Implementation
 
 Integrating Hyperstitial into your project requires minimal setup. See our [API Documentation](../api/hyperstitial-api.md) for details.
+
 # Warp Speed Technology
 
 Warp is our proprietary data acceleration protocol that minimizes transfer latency using predictive algorithms and quantum-inspired computational models.
@@ -64,7 +67,7 @@ Warp is our proprietary data acceleration protocol that minimizes transfer laten
 ## Performance Metrics
 
 | Network Type | Traditional Latency | Warp-Enabled Latency | Improvement |
-|--------------|---------------------|----------------------|-------------|
+| ------------ | ------------------- | -------------------- | ----------- |
 | Fiber        | 20ms                | 8ms                  | 60%         |
 | 5G           | 35ms                | 12ms                 | 65%         |
 | Satellite    | 120ms               | 45ms                 | 62.5%       |

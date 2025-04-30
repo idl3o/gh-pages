@@ -29,7 +29,7 @@ if ($portInUse) {
     Write-Host "WARNING: Port 4000 is already in use. Jekyll may fail to start." -ForegroundColor Yellow
     Write-Host "You may need to find and stop the process that's using port 4000 first." -ForegroundColor Yellow
     Write-Host "Attempting to kill the process..." -ForegroundColor Yellow
-    
+
     # Kill any processes using port 4000
     $processesUsingPort = netstat -ano | findstr :4000
     if ($processesUsingPort) {
@@ -114,7 +114,7 @@ catch {
     Write-Host $_.Exception.Message -ForegroundColor Red
     Write-Host ""
     Write-Host "Attempting alternative Jekyll command..." -ForegroundColor Yellow
-    
+
     # Try an alternative approach by using the built-in webrick server
     bundle exec jekyll serve --force_polling --no-watch --host=localhost
 }
