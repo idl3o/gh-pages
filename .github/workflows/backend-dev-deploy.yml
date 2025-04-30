@@ -1,0 +1,82 @@
+name: Deploy Backend Dev to GitHub Pages
+
+on:
+  push:
+    branches:
+      - backend-dev  # This workflow runs only when changes are pushed to backend-dev
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Needed for pushing to gh-pages-backend-dev branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: backend-dev  # Explicitly checkout the backend-dev branch
+        
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+          
+      - name: Setup Node.js
+        if: hashFiles('package.json') != ''
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install Node dependencies
+        if: hashFiles('package.json') != ''
+        run: npm ci
+        
+      - name: Build TypeScript SDK
+        if: hashFiles('ts/package.json') != ''
+        run: |
+          cd ts
+          npm ci
+          npm run build
+        
+      - name: Setup Emscripten for WebAssembly
+        if: hashFiles('red_x/main.c') != ''
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+          cd ../red_x
+          if [ -f "Makefile" ]; then
+            make
+          elif [ -f "main.c" ]; then
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+          fi
+          
+      - name: Build with Jekyll
+        run: |
+          # Create temporary _config.backend-dev.yml file with modified settings
+          cat > _config.backend-dev.yml << EOF
+          # Environment-specific settings
+          environment: backend-dev
+          production_url: "https://idl3o.github.io/gh-pages/"
+          baseurl: "/gh-pages/backend-dev"
+          EOF
+          
+          # Build with both config files
+          bundle exec jekyll build --config _config.yml,_config.backend-dev.yml
+        env:
+          JEKYLL_ENV: production
+          
+      - name: Deploy to gh-pages-backend-dev branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _site  # The folder the action should deploy
+          branch: gh-pages-backend-dev  # The branch to deploy to
+          commit-message: "Deploy backend-dev site [skip ci]"
+          clean: true  # Automatically remove deleted files from the deployed branch

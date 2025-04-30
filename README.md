@@ -2,6 +2,13 @@
 
 This repository contains a multi-technology project with GitHub Pages for web content, TypeScript SDK, Smart Contracts, and a RED X backend.
 
+## Environments
+
+The project supports multiple deployment environments:
+
+- **Production**: Deployed from the `main` branch - [https://idl3o.github.io/gh-pages/](https://idl3o.github.io/gh-pages/)
+- **Backend Development**: Deployed from the `backend-dev` branch - [https://idl3o.github.io/gh-pages/backend-dev/](https://idl3o.github.io/gh-pages/backend-dev/)
+
 ## Quick Start
 
 ### Setting Up Ruby Environment

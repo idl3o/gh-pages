@@ -1,0 +1,33 @@
+{% if site.environment == "backend-dev" %}
+<div class="environment-banner backend-dev">
+  <strong>BACKEND DEVELOPMENT ENVIRONMENT</strong>
+  <span class="environment-details">
+    Branch: backend-dev | 
+    <a href="{{ site.production_url }}">View Production Site</a>
+  </span>
+</div>
+<style>
+  .environment-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    text-align: center;
+    z-index: 9999;
+    color: white;
+    font-family: monospace;
+  }
+  .environment-banner.backend-dev {
+    background-color: #0066cc;
+    border-bottom: 2px solid #004080;
+  }
+  .environment-banner a {
+    color: white;
+    text-decoration: underline;
+  }
+  body {
+    padding-top: 40px; /* Add space for the banner */
+  }
+</style>
+{% endif %}
