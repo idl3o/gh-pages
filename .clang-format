@@ -1,0 +1,16 @@
+# .clang-format
+# Configuration file for clang-format
+# Based on Google style, customize as needed.
+
+Language: Cpp
+BasedOnStyle: Google
+# Example customizations (uncomment and modify as desired):
+# IndentWidth: 4
+# TabWidth: 4
+# UseTab: Never
+# ColumnLimit: 100
+# AllowShortFunctionsOnASingleLine: None
+# AllowShortBlocksOnASingleLine: false
+# AllowShortCaseLabelsOnASingleLine: false
+# AllowShortIfStatementsOnASingleLine: false
+# AllowShortLoopsOnASingleLine: false

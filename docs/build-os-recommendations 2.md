@@ -104,14 +104,6 @@ jobs:
         npm run build
 ```
 
-### Azure DevOps Recommendations
-
-For Azure Pipelines, the recommended agents are:
-
-- `ubuntu-latest` for most builds (optimal performance/compatibility)
-- `windows-latest` for Windows-specific builds
-- `macOS-latest` only when macOS-specific building is required
-
 ## Container Base Images
 
 ### .NET Applications
@@ -130,8 +122,6 @@ For Azure Pipelines, the recommended agents are:
 | `nginx:alpine` | Tiny (~20MB) | Production | Recommended for serving static frontend assets |
 | `node:18-alpine` | Small (~120MB) | Build Stage | Use in multi-stage build for compiling React app |
 
-## Production Deployment OS Recommendations
-
 ### Container Orchestration Environments
 
 | Platform | Recommended Host OS | Notes |
@@ -139,7 +129,6 @@ For Azure Pipelines, the recommended agents are:
 | Kubernetes | Ubuntu Server 22.04 LTS | Best driver support and compatibility with k8s |
 | Docker Swarm | Ubuntu Server 22.04 LTS | Simple setup and good performance |
 | AWS ECS | Amazon Linux 2023 | Optimized for AWS infrastructure |
-| Azure AKS | Azure Linux (Ubuntu-based) | Managed by Azure, no OS choice needed |
 
 ### Bare Metal/VM Deployments
 

@@ -129,6 +129,9 @@ contract PRXTokenChain is SimpleTokenChain {
     event ContentAccessFee(uint256 indexed tokenId, address indexed user, uint256 amount);
     event PlatformWalletUpdated(address indexed newWallet);
     event CommunityTreasuryUpdated(address indexed newTreasury);
+    // New events for governance parameter updates
+    event GovernanceThresholdUpdated(uint256 newThreshold);
+    event MinimumVotingPeriodUpdated(uint256 newPeriod);
     
     /**
      * @dev Constructor initializes with token name, symbol, and mint price
@@ -767,10 +770,239 @@ contract PRXTokenChain is SimpleTokenChain {
         proposal.executed = true;
         proposal.passed = passed;
         
-        emit ProposalExecuted(proposalId, passed);
+        if (passed) {
+            // Execute the proposal using the stored execution data
+            // First 4 bytes of the execution data is the function selector
+            require(proposal.executionData.length >= 4, "PRXTokenChain: Invalid execution data");
+            
+            bytes4 selector = bytes4(proposal.executionData[:4]);
+            
+            // Execute the appropriate action based on the function selector
+            bool success = executeAction(selector, proposal.executionData);
+            require(success, "PRXTokenChain: Proposal execution failed");
+        }
         
-        // In the future, we would execute the proposal data if passed
-        // For now, just record the result
+        emit ProposalExecuted(proposalId, passed);
+    }
+    
+    /**
+     * @dev Execute a governance action based on function selector
+     * @param selector The function selector (first 4 bytes of function signature hash)
+     * @param data The complete call data
+     * @return success Whether the execution was successful
+     */
+    function executeAction(bytes4 selector, bytes memory data) internal returns (bool success) {
+        // Define supported governance actions by their function selectors
+        bytes4 updateFeeModelSelector = this.updateFeeModel.selector;
+        bytes4 updateMintingQuotaSelector = this.updateMintingQuota.selector;
+        bytes4 setQuotaEnabledSelector = this.setQuotaEnabled.selector;
+        bytes4 setQuotaExemptionSelector = this.setQuotaExemption.selector;
+        bytes4 updatePlatformWalletSelector = this.updatePlatformWallet.selector;
+        bytes4 updateCommunityTreasurySelector = this.updateCommunityTreasury.selector;
+        bytes4 updateRequiredVerificationsCountSelector = bytes4(keccak256("updateRequiredVerificationsCount(uint256)"));
+        bytes4 updateGovernanceThresholdSelector = bytes4(keccak256("updateGovernanceThreshold(uint256)"));
+        bytes4 updateMinimumVotingPeriodSelector = bytes4(keccak256("updateMinimumVotingPeriod(uint256)"));
+        
+        // Check if the selector matches one of our supported actions
+        if (selector == updateFeeModelSelector) {
+            // Extract parameters from calldata
+            // updateFeeModel(uint256,uint256,uint256,uint256,uint256,uint256)
+            (uint256 transferFee, uint256 mintFee, uint256 contentFee, 
+             uint256 platformShare, uint256 creatorShare, uint256 stakeholderShare) = 
+             abi.decode(data[4:], (uint256, uint256, uint256, uint256, uint256, uint256));
+            
+            // Execute the action with governance authority (bypassing normal restrictions)
+            _updateFeeModelInternal(transferFee, mintFee, contentFee, platformShare, creatorShare, stakeholderShare);
+            return true;
+        }
+        else if (selector == updateMintingQuotaSelector) {
+            // Extract parameters from calldata
+            // updateMintingQuota(uint256,uint256,uint256)
+            (uint256 dailyLimit, uint256 timeWindow, uint256 windowLimit) = 
+                abi.decode(data[4:], (uint256, uint256, uint256));
+            
+            // Execute the action with governance authority
+            _updateMintingQuotaInternal(dailyLimit, timeWindow, windowLimit);
+            return true;
+        }
+        else if (selector == setQuotaEnabledSelector) {
+            // Extract parameters from calldata
+            // setQuotaEnabled(bool)
+            bool enabled = abi.decode(data[4:], (bool));
+            
+            // Execute the action with governance authority
+            quotaEnabled = enabled;
+            return true;
+        }
+        else if (selector == setQuotaExemptionSelector) {
+            // Extract parameters from calldata
+            // setQuotaExemption(address,bool)
+            (address user, bool exempted) = abi.decode(data[4:], (address, bool));
+            
+            // Execute the action with governance authority
+            isExemptFromQuota[user] = exempted;
+            emit QuotaExemptionChanged(user, exempted);
+            return true;
+        }
+        else if (selector == updatePlatformWalletSelector) {
+            // Extract parameters from calldata
+            // updatePlatformWallet(address)
+            address newWallet = abi.decode(data[4:], (address));
+            
+            // Execute the action with governance authority
+            require(newWallet != address(0), "PRXTokenChain: Cannot set zero address");
+            platformWallet = newWallet;
+            emit PlatformWalletUpdated(newWallet);
+            return true;
+        }
+        else if (selector == updateCommunityTreasurySelector) {
+            // Extract parameters from calldata
+            // updateCommunityTreasury(address)
+            address newTreasury = abi.decode(data[4:], (address));
+            
+            // Execute the action with governance authority
+            require(newTreasury != address(0), "PRXTokenChain: Cannot set zero address");
+            communityTreasury = newTreasury;
+            emit CommunityTreasuryUpdated(newTreasury);
+            return true;
+        }
+        else if (selector == updateRequiredVerificationsCountSelector) {
+            // Extract parameters from calldata
+            // updateRequiredVerificationsCount(uint256)
+            uint256 newCount = abi.decode(data[4:], (uint256));
+            
+            // Execute the action with governance authority
+            uint256 oldCount = requiredVerificationsCount;
+            requiredVerificationsCount = newCount;
+            emit MinimumVerificationsChanged(oldCount, newCount);
+            return true;
+        }
+        else if (selector == updateGovernanceThresholdSelector) {
+            // Extract parameters from calldata
+            // updateGovernanceThreshold(uint256)
+            uint256 newThreshold = abi.decode(data[4:], (uint256));
+            
+            // Validate threshold is reasonable (between 51% and 90%)
+            require(newThreshold >= 51 && newThreshold <= 90, "PRXTokenChain: Invalid governance threshold");
+            
+            // Execute the action with governance authority
+            governanceThreshold = newThreshold;
+            emit GovernanceThresholdUpdated(newThreshold);
+            return true;
+        }
+        else if (selector == updateMinimumVotingPeriodSelector) {
+            // Extract parameters from calldata
+            // updateMinimumVotingPeriod(uint256)
+            uint256 newPeriod = abi.decode(data[4:], (uint256));
+            
+            // Validate period is reasonable (between 1 day and 30 days)
+            require(newPeriod >= 1 days && newPeriod <= 30 days, "PRXTokenChain: Invalid voting period");
+            
+            // Execute the action with governance authority
+            minimumVotingPeriod = newPeriod;
+            emit MinimumVotingPeriodUpdated(newPeriod);
+            return true;
+        }
+        
+        // If we reach here, the selector is not recognized
+        return false;
+    }
+    
+    /**
+     * @dev Internal function to update fee model (without restrictions)
+     */
+    function _updateFeeModelInternal(
+        uint256 _transferFee,
+        uint256 _mintFee,
+        uint256 _contentFee,
+        uint256 _platformShare,
+        uint256 _creatorShare,
+        uint256 _stakeholderShare
+    ) internal {
+        // Validate fee percentages
+        require(_transferFee <= 500, "PRXTokenChain: Transfer fee cannot exceed 5%");
+        require(_mintFee <= 1000, "PRXTokenChain: Mint fee cannot exceed 10%");
+        require(_platformShare + _creatorShare + _stakeholderShare == 10000, 
+            "PRXTokenChain: Fee shares must sum to 100%");
+        
+        fees.transferFee = _transferFee;
+        fees.mintFee = _mintFee;
+        fees.contentFee = _contentFee;
+        fees.platformShare = _platformShare;
+        fees.creatorShare = _creatorShare;
+        fees.stakeholderShare = _stakeholderShare;
+        
+        emit FeeModelUpdated(
+            _transferFee,
+            _mintFee,
+            _contentFee, 
+            _platformShare,
+            _creatorShare,
+            _stakeholderShare
+        );
+    }
+    
+    /**
+     * @dev Internal function to update minting quota (without restrictions)
+     */
+    function _updateMintingQuotaInternal(
+        uint256 dailyLimit,
+        uint256 timeWindow,
+        uint256 windowLimit
+    ) internal {
+        mintingQuota.dailyLimit = dailyLimit;
+        mintingQuota.timeWindow = timeWindow;
+        mintingQuota.windowLimit = windowLimit;
+        
+        emit QuotaUpdated(dailyLimit, timeWindow, windowLimit);
+    }
+    
+    // Additional governance parameter update functions
+    
+    /**
+     * @dev Update the minimum required verifications count for content
+     * @param newCount The new minimum verifications count
+     */
+    function updateRequiredVerificationsCount(uint256 newCount) public {
+        // Only governance or significant token holders can update
+        require(msg.sender == owner() || balanceOf(msg.sender) >= totalSupply() * 10 / 100, 
+            "PRXTokenChain: Insufficient authority");
+            
+        uint256 oldCount = requiredVerificationsCount;
+        requiredVerificationsCount = newCount;
+        emit MinimumVerificationsChanged(oldCount, newCount);
+    }
+    
+    /**
+     * @dev Update the governance voting threshold
+     * @param newThreshold The new threshold (in percentage)
+     */
+    function updateGovernanceThreshold(uint256 newThreshold) public {
+        // Only governance or significant token holders can update
+        require(msg.sender == owner() || balanceOf(msg.sender) >= totalSupply() * 20 / 100, 
+            "PRXTokenChain: Insufficient authority");
+            
+        // Validate threshold is reasonable (between 51% and 90%)
+        require(newThreshold >= 51 && newThreshold <= 90, "PRXTokenChain: Invalid governance threshold");
+        
+        governanceThreshold = newThreshold;
+        emit GovernanceThresholdUpdated(newThreshold);
+    }
+    
+    /**
+     * @dev Update the minimum voting period for proposals
+     * @param newPeriod The new minimum voting period in seconds
+     */
+    function updateMinimumVotingPeriod(uint256 newPeriod) public {
+        // Only governance or significant token holders can update
+        require(msg.sender == owner() || balanceOf(msg.sender) >= totalSupply() * 20 / 100, 
+            "PRXTokenChain: Insufficient authority");
+            
+        // Validate period is reasonable (between 1 day and 30 days)
+        require(newPeriod >= 1 days && newPeriod <= 30 days, "PRXTokenChain: Invalid voting period");
+        
+        minimumVotingPeriod = newPeriod;
+        emit MinimumVotingPeriodUpdated(newPeriod);
     }
     
     /**

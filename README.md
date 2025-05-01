@@ -1,100 +1,45 @@
-# Web3 Streaming Platform
+# Project Documentation Hub
 
-This repository contains the GitHub Pages website, TypeScript SDK, .NET client, WebAssembly components, and smart contracts for the Web3 Streaming Platform.
+This repository hosts the central documentation hub for our project, providing a unified interface to access all project components, documentation, and resources.
 
-## Project Structure
+## Components
 
-- **Jekyll Site**: Main website hosted on GitHub Pages
-- **TypeScript SDK**: Client-side SDK for interacting with the platform
-- **Serverless Functions**: Netlify functions for API endpoints
-- **RED X Backend**: WebAssembly-based components
-- **.NET Client**: Client library for .NET applications
-- **Smart Contracts**: Solidity contracts for blockchain interactions
+This project consists of several integrated components:
 
-## Requirements
-
-- **Ruby 2.7** (for Jekyll)
-- **Node.js 18+** (for TypeScript SDK and serverless functions)
-- **.NET 6.0** (for .NET client)
-- **Emscripten** (optional, for WebAssembly components)
-- **Solidity Compiler** (optional, for smart contracts)
-
-## Local Development
-
-### Setting Up
-
-1. Clone the repository
-   ```
-   git clone https://github.com/yourusername/gh-pages.git
-   cd gh-pages
-   ```
-
-2. Install Ruby dependencies
-   ```
-   bundle install
-   ```
-
-3. Install Node.js dependencies
-   ```
-   npm install
-   cd ts
-   npm install
-   cd ../netlify/functions
-   npm install
-   cd ../..
-   ```
-
-4. Set up Git hooks
-   ```
-   npm install husky --save-dev
-   npx husky install
-   ```
-
-### Running Tests
-
-You can run all tests using the provided PowerShell script:
-
-```
-.\run-tests.ps1
-```
-
-This will test:
-- Jekyll site build
-- TypeScript SDK build
-- .NET client build
-- WebAssembly components (if Emscripten is installed)
-- Smart contracts (if Solc is installed)
-
-### Development Tasks
-
-VS Code tasks are available for common operations:
-
-- **Start Jekyll**: Starts the local Jekyll development server
-- **Deploy to GitHub Pages**: Deploys the site to GitHub Pages
-- **Build TypeScript SDK**: Builds the TypeScript SDK
-- **Check Ruby Environment**: Verifies the Ruby environment is correctly set up
-
-## Deployment
-
-### GitHub Pages
-
-The site is automatically deployed to GitHub Pages via GitHub Actions when pushing to the `main` branch.
-
-### Netlify Functions
-
-Serverless functions are deployed to Netlify using the configuration in `netlify.toml`.
+- **TypeScript SDK** - Client library for interacting with the system and blockchain components
+- **Smart Contracts** - Ethereum and other blockchain contract implementations
+- **RED X Backend** - WASM-based backend processing engine
+- **Serverless Functions** - Netlify serverless endpoints
 
 ## Documentation
 
-- **Jekyll Site**: The public website and documentation
-- **TypeScript API**: Available at `/docs/typescript-api`
-- **.NET API**: Available at `/docs/dotnet-api`
-- **WebAssembly API**: Available at `/docs/wasm-api`
-- **Smart Contracts**: Available at `/docs/contract-api`
+All documentation is accessible through the main documentation hub. This includes:
 
-## Continuous Integration
+- API References
+- Tutorials
+- Integration Guides
+- Contributing Guidelines
 
-GitHub Actions workflows are set up for:
+## Local Development
 
-1. **Testing**: Runs on pull requests to ensure everything builds correctly
-2. **Deployment**: Deploys the site to GitHub Pages when changes are pushed to the main branch
+To run this documentation site locally:
+
+1. Make sure you have Ruby and Bundler installed
+2. Clone this repository
+3. Install dependencies:
+   ```
+   bundle install
+   ```
+4. Start the Jekyll server:
+   ```
+   bundle exec jekyll serve
+   ```
+5. Visit `http://localhost:4000` in your browser
+
+## Contributing
+
+Contributions to improve the documentation are welcome. Please see the [Contributing Guidelines](CONTRIBUTING.md) for more information.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
