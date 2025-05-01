@@ -31,7 +31,7 @@ Write-Host "Current branch: $currentBranch" -ForegroundColor Yellow
 
 # Build the site if not skipping build
 if (-not $SkipBuild) {
-    Write-Host "Building Jekyll site..." -ForegroundColor Blue
+    Write-Host "Building Jekyll site..." -ForegroundColor Yellow
 
     # Check Ruby environment
     $env:PATH = 'C:\Ruby27-x64\bin;' + $env:PATH
@@ -84,27 +84,82 @@ if (-not (Test-Path -Path "_site")) {
     exit 1
 }
 
-Write-Host "Deploying to GitHub Pages..." -ForegroundColor Blue
+# Create a temporary directory for the gh-pages branch
+$tempDir = Join-Path -Path $env:TEMP -ChildPath "gh-pages-$(Get-Random)"
+Write-Host "Creating temporary directory: $tempDir" -ForegroundColor Yellow
+New-Item -Path $tempDir -ItemType Directory -Force | Out-Null
 
-# Save current branch name
-$currentBranch = git rev-parse --abbrev-ref HEAD
+# Copy _site contents to temp directory
+Write-Host "Copying _site contents to temporary directory..." -ForegroundColor Yellow
+Copy-Item -Path "_site/*" -Destination $tempDir -Recurse -Force
 
-# Create temporary branch
-git checkout --orphan temp-gh-pages
+# Copy CNAME file if it exists
+if (Test-Path -Path "CNAME") {
+    Write-Host "Copying CNAME file..." -ForegroundColor Yellow
+    Copy-Item -Path "CNAME" -Destination $tempDir -Force
+}
 
-# Add built files
-git add -f _site
+# Initialize git in the temp directory
+Write-Host "Initializing git repository in temporary directory..." -ForegroundColor Yellow
+Push-Location $tempDir
 
-# Commit with timestamp
-git commit -m "Deploy to GitHub Pages: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+git init
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Git initialization failed!" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
 
-# Update the branch (force push)
-git push origin HEAD:gh-pages --force
+git checkout --orphan $Branch
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Git checkout failed!" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
+
+git add .
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Git add failed!" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
+
+# Get remote URL from original repo
+Pop-Location
+$remoteUrl = git config --get remote.origin.url
+Push-Location $tempDir
+
+git remote add origin $remoteUrl
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Adding remote origin failed!" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
+
+# Commit and push
+$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+git commit -m "Deploy to GitHub Pages: $timestamp"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Git commit failed!" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
+
+Write-Host "Pushing to $Branch branch..." -ForegroundColor Yellow
+git push -f origin $Branch
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Git push failed!" -ForegroundColor Red
+    Write-Host "Note: If this is the first push, you may need to set up the gh-pages branch on GitHub." -ForegroundColor Yellow
+    Pop-Location
+    exit 1
+}
+
+Pop-Location
 
 # Clean up
-git checkout $currentBranch
-git branch -D temp-gh-pages
+Write-Host "Cleaning up temporary directory..." -ForegroundColor Yellow
+Remove-Item -Path $tempDir -Recurse -Force
 
-Write-Host "Successfully deployed to GitHub Pages!" -ForegroundColor Green
-Write-Host "Your site should be available at https://yourusername.github.io/your-repo-name/" -ForegroundColor Green
+Write-Host "===== Deployment Completed Successfully! =====" -ForegroundColor Green
+Write-Host "Your site should now be available at: https://$(git config --get remote.origin.url | ForEach-Object { if ($_ -match "github.com[:/]([^/]+)/([^/.]+)") { "$($Matches[1]).github.io/$($Matches[2])" } else { "your-github-pages-url" } })" -ForegroundColor Cyan
 ```
