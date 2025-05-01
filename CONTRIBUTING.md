@@ -1,91 +1,81 @@
-# Contributing to Web3 Crypto Streaming Service
+# Contributing Guidelines
 
-Thank you for your interest in contributing to our project! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to this project! This document provides guidelines for contributing to this repository.
 
 ## Code of Conduct
 
-By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## How to Contribute
 
 ### Reporting Bugs
 
-- Check if the bug has already been reported in our [Issues](https://github.com/yourusername/gh-pages/issues)
-- Use the bug report template when opening a new issue
-- Include detailed steps to reproduce the bug
-- Include screenshots if applicable
-- Describe the expected behavior and what actually happened
+1. Check if the bug has already been reported by searching the [Issues](https://github.com/yourusername/project/issues).
+2. If not already reported, [create a new issue](https://github.com/yourusername/project/issues/new) with detailed information:
+   - Clear title and description
+   - Steps to reproduce
+   - Expected behavior
+   - Actual behavior
+   - Environment details (OS, browser, version, etc.)
+   - Screenshots if applicable
 
 ### Suggesting Features
 
-- Check if the feature has already been suggested in our [Issues](https://github.com/yourusername/gh-pages/issues)
-- Use the feature request template when opening a new issue
-- Explain why this feature would be useful to most users
-- Be as specific as possible in your description
+We welcome feature suggestions! Please provide:
 
-## Development Process
+- Clear description of the feature
+- Rationale for the feature
+- Example use cases
+
+### Pull Requests
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Create a new branch (`git checkout -b feature/your-feature-name`)
 3. Make your changes
-4. Run tests and ensure URL validation passes (`npm run test && node scripts/url-checker.js`)
-5. Run linting (`npm run lint`)
-6. Commit your changes using [Conventional Commits](https://www.conventionalcommits.org/) format
-   ```
-   feat: add new token integration feature
-   ```
-7. Push to your branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request against our main branch
+4. Run tests to ensure everything works
+5. Commit your changes (`git commit -m 'Add some feature'`)
+6. Push to the branch (`git push origin feature/your-feature-name`)
+7. Open a Pull Request
 
-## Pull Request Guidelines
+#### Pull Request Guidelines
 
-- Fill out the PR template completely
-- Link to any relevant issues
-- Include screenshots for UI changes
+- Follow the existing code style
+- Include tests for new features
 - Update documentation as needed
-- Add appropriate tests
-- Ensure all checks pass
-- Keep PRs focused on a single issue or feature
-
-## Coding Standards
-
-- Use consistent indentation (2 spaces)
-- Follow our ESLint configuration
-- Comment complex code sections
-- Write tests for new features and bug fixes
-- Use semantic HTML elements
-- Make components accessible
-
-## Commit Message Guidelines
-
-We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
-
-- `feat:` - A new feature
-- `fix:` - A bug fix
-- `docs:` - Documentation changes
-- `style:` - Code style changes (formatting, etc)
-- `refactor:` - Code changes that neither fix bugs nor add features
-- `test:` - Adding or updating tests
-- `chore:` - Changes to build process or auxiliary tools
+- Keep pull requests focused on a single topic
+- Reference any relevant issues
 
 ## Development Setup
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/gh-pages.git
-cd gh-pages
+See the [Local Development Setup](docs/local-development.md) guide for detailed instructions.
 
-# Install dependencies
-npm install
+## Writing Documentation
 
-# Run development server
-npm start
-```
+Documentation is incredibly important to this project. Please consider the following when writing documentation:
 
-## License
+- Use clear, concise language
+- Include code examples where appropriate
+- Add screenshots or diagrams for complex features
+- Update existing documentation when changing functionality
 
-By contributing to this project, you agree that your contributions will be licensed under the project's [MIT License](LICENSE).
+## Testing
 
-## Questions?
+- Write tests for new features
+- Ensure all tests pass locally before submitting a pull request
+- Add integration tests for complex features
 
-Join our [Discord](https://discord.gg/web3streaming) or open an issue.
+## Commit Guidelines
+
+- Use clear and meaningful commit messages
+- Follow the [Conventional Commits](https://www.conventionalcommits.org/) standard:
+  - `feat:` for new features
+  - `fix:` for bug fixes
+  - `docs:` for documentation changes
+  - `style:` for formatting changes
+  - `refactor:` for code refactoring
+  - `test:` for test-related changes
+  - `chore:` for maintenance tasks
+
+## Licensing
+
+By contributing to this project, you agree that your contributions will be licensed under the same license as the original project.

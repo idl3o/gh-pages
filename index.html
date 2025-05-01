@@ -3,243 +3,1049 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project Root</title>
+    <meta
+      name="description"
+      content="Project documentation hub with TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions"
+    />
+    <meta name="author" content="Project Team" />
+    <title>Project Documentation Hub</title>
     <style>
+      :root {
+        --primary-color: #1f75cb;
+        --secondary-color: #2683e6;
+        --accent-color: #ef7d37;
+        --text-color: #333333;
+        --background-color: #f8f8f8;
+        --card-bg-color: #ffffff;
+        --border-color: #e0e0e0;
+        --success-color: #4caf50;
+        --warning-color: #ffc107;
+        --error-color: #f44336;
+        --code-bg-color: #f0f0f0;
+        --azure-color: #0078d4;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: Consolas, 'Courier New', monospace;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         line-height: 1.6;
-        padding: 2em;
-        background-color: #f8f8f8;
-        color: #333;
-      }
-      h1,
-      h2 {
-        color: #111;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 0.3em;
-      }
-      ul {
-        list-style: none;
         padding: 0;
-      }
-      li {
-        margin-bottom: 0.5em;
-        padding-left: 1.5em;
-        position: relative;
-      }
-      a {
-        color: #005ea5;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-        background-color: #eee;
-      }
-      code {
-        background-color: #e0e0e0;
-        padding: 0.2em 0.4em;
-        border-radius: 3px;
+        margin: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
       }
 
-      /* File Explorer Styles */
-      .file-explorer ul {
-        padding-left: 0; /* Reset padding for the main list */
-      }
-      .file-explorer li::before {
-        content: '\1F4C4'; /* Default: Page icon */
-        position: absolute;
-        left: 0;
-        top: 0.1em;
-        font-size: 0.9em;
-        width: 1.2em; /* Ensure alignment */
-        text-align: center;
-      }
-      .file-explorer li.folder::before {
-        content: '\1F4C1'; /* Folder icon */
-      }
-      .file-explorer li.readme::before {
-        content: '\1F4D6'; /* Book icon for README */
-      }
-      .file-explorer li.code::before {
-        content: '{;}'; /* Code icon */
-        font-weight: bold;
-      }
-      .file-explorer li.config::before {
-        content: '\2699'; /* Gear icon */
-      }
-      .file-explorer li.site::before {
-        content: '\1F310'; /* Globe icon */
+      /* Layout */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
       }
 
-      /* Added styles for search functionality, link verification, and Azure sections */
-      .search-container {
-        margin: 1.5em 0;
-        display: flex;
-        max-width: 500px;
-      }
-      #search-input {
-        flex: 1;
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-family: inherit;
-      }
-      #search-button {
-        padding: 8px 16px;
-        margin-left: 8px;
-        background-color: #005ea5;
+      .header {
+        background-color: var(--primary-color);
         color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       }
-      #search-results {
-        margin-top: 1em;
-        padding: 1em;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header-title {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .nav-desktop {
+        display: flex;
+      }
+
+      .nav-mobile {
         display: none;
       }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .sidebar {
+        background-color: var(--card-bg-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 5rem;
+        align-self: start;
+        max-height: calc(100vh - 6rem);
+        overflow-y: auto;
+      }
+
+      .content {
+        background-color: var(--card-bg-color);
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Navigation */
+      .nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+      }
+
+      .nav-list li {
+        margin: 0 1rem;
+      }
+
+      .nav-list a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      .nav-list a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Mobile navigation */
+      .mobile-menu-button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: none;
+      }
+
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -280px;
+        width: 280px;
+        height: 100%;
+        background-color: var(--card-bg-color);
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+        transition: right 0.3s ease;
+        z-index: 1000;
+        padding: 1.5rem;
+        display: none;
+      }
+
+      .mobile-menu.active {
+        right: 0;
+      }
+
+      .close-menu {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+      }
+
+      .mobile-nav-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 3rem;
+      }
+
+      .mobile-nav-list li {
+        margin: 1rem 0;
+      }
+
+      .mobile-nav-list a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        display: block;
+        padding: 0.5rem;
+      }
+
+      /* Search */
+      .search-container {
+        margin: 1.5rem 0;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        padding-left: 2.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+      }
+
+      .search-results {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 0 0 4px 4px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 10;
+      }
+
+      .search-results ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .search-results li {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .search-results li:last-child {
+        border-bottom: none;
+      }
+
+      .search-results a {
+        text-decoration: none;
+        color: var(--text-color);
+        display: block;
+      }
+
+      .search-results .result-description {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.25rem;
+      }
+
+      /* Category boxes */
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .category-box {
+        background-color: var(--card-bg-color);
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        border-top: 4px solid var(--primary-color);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .category-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .category-box h3 {
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .category-box.ts-sdk {
+        border-top-color: #3178c6;
+      }
+
+      .category-box.contracts {
+        border-top-color: #6e36e7;
+      }
+
+      .category-box.red-x {
+        border-top-color: #e53935;
+      }
+
+      .category-box.serverless {
+        border-top-color: #00c853;
+      }
+
+      .category-box .icon {
+        font-size: 1.25rem;
+      }
+
+      /* Tabs */
+      .tabs {
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .tab-button {
+        background: none;
+        border: none;
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #666;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+      }
+
+      .tab-button.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+      }
+
+      .tab-button:hover:not(.active) {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* File explorer */
+      .file-explorer {
+        margin-bottom: 1.5rem;
+      }
+
+      .file-explorer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .file-explorer li {
+        position: relative;
+        padding: 0.5rem 0 0.5rem 1.5rem;
+      }
+
+      .file-explorer li::before {
+        position: absolute;
+        left: 0;
+        top: 0.6rem;
+        font-size: 1rem;
+      }
+
+      .file-explorer li.folder::before {
+        content: '📁';
+      }
+
+      .file-explorer li.file::before {
+        content: '📄';
+      }
+
+      .file-explorer li.readme::before {
+        content: '📚';
+      }
+
+      .file-explorer li.code::before {
+        content: '💻';
+      }
+
+      .file-explorer a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      .file-explorer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Breadcrumb */
+      .breadcrumb {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem 0;
+        font-size: 0.9rem;
+      }
+
+      .breadcrumb li:not(:last-child)::after {
+        content: '/';
+        margin: 0 0.5rem;
+        color: #999;
+      }
+
+      .breadcrumb a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Link verification */
       .link-status {
         display: inline-block;
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
-        margin-left: 8px;
+        margin-left: 0.5rem;
       }
+
       .link-status.verified {
-        background-color: #4caf50;
+        background-color: var(--success-color);
       }
+
       .link-status.missing {
-        background-color: #f44336;
+        background-color: var(--error-color);
       }
+
       .link-status.checking {
-        background-color: #ffc107;
+        background-color: var(--warning-color);
       }
+
+      /* Azure section */
       .azure-section {
-        border-left: 4px solid #0078d4;
-        padding-left: 15px;
-        margin: 20px 0;
+        border-left: 4px solid var(--azure-color);
         background-color: rgba(0, 120, 212, 0.05);
-        padding: 15px;
-        border-radius: 0 4px 4px 0;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 0 8px 8px 0;
       }
+
       .azure-section h3 {
-        color: #0078d4;
+        color: var(--azure-color);
         margin-top: 0;
+      }
+
+      /* Code styling */
+      code {
+        background-color: var(--code-bg-color);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        font-size: 0.85rem;
+      }
+
+      pre {
+        background-color: var(--code-bg-color);
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+
+      pre code {
+        background-color: transparent;
+        padding: 0;
+      }
+
+      /* Utility classes */
+      .mb-1 {
+        margin-bottom: 0.5rem;
+      }
+      .mb-2 {
+        margin-bottom: 1rem;
+      }
+      .mb-3 {
+        margin-bottom: 1.5rem;
+      }
+      .mb-4 {
+        margin-bottom: 2rem;
+      }
+      .mt-1 {
+        margin-top: 0.5rem;
+      }
+      .mt-2 {
+        margin-top: 1rem;
+      }
+      .mt-3 {
+        margin-top: 1.5rem;
+      }
+      .mt-4 {
+        margin-top: 2rem;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          margin-bottom: 1.5rem;
+        }
+
+        .nav-desktop {
+          display: none;
+        }
+
+        .mobile-menu-button {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .category-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Welcome to the Project Root</h1>
-    <p>This is the main entry point for the project repository.</p>
+    <!-- Header navigation -->
+    <header class="header">
+      <div class="container header-content">
+        <h1 class="header-title">Project Documentation Hub</h1>
 
-    <!-- Added search functionality -->
-    <div class="search-container">
-      <input
-        type="text"
-        id="search-input"
-        placeholder="Search for resources..."
-        aria-label="Search"
-      />
-      <button id="search-button" type="button">Search</button>
-    </div>
-    <div id="search-results"></div>
+        <nav class="nav-desktop">
+          <ul class="nav-list">
+            <li><a href="#components">Components</a></li>
+            <li><a href="#documentation">Documentation</a></li>
+            <li><a href="#tutorials">Tutorials</a></li>
+            <li><a href="#azure">Azure Resources</a></li>
+            <li><a href="#development">Development</a></li>
+          </ul>
+        </nav>
 
-    <h2>Project Components:</h2>
-    <div class="file-explorer">
-      <ul>
-        <li class="site">
-          <a href="/_site/index.html">View Jekyll Site (requires build/serve)</a>
-        </li>
-        <li class="folder">
-          <a href="/ts/">TypeScript SDK</a>
-        </li>
-        <li class="folder">
-          <a href="/contracts/">Smart Contracts</a>
-        </li>
-        <li class="folder">
-          <a href="/red_x/">RED X Backend (WASM)</a>
-        </li>
-        <li class="folder">
-          <a href="/netlify/functions/">Serverless Functions</a>
-        </li>
-        <!-- Add more specific file/folder types if needed -->
+        <button class="mobile-menu-button" aria-label="Open navigation menu">☰</button>
+      </div>
+    </header>
+
+    <!-- Mobile navigation menu -->
+    <div class="mobile-menu">
+      <button class="close-menu" aria-label="Close navigation menu">✕</button>
+      <ul class="mobile-nav-list">
+        <li><a href="#components">Components</a></li>
+        <li><a href="#documentation">Documentation</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#azure">Azure Resources</a></li>
+        <li><a href="#development">Development</a></li>
       </ul>
     </div>
 
-    <h2>Documentation:</h2>
-    <div class="file-explorer">
-      <ul>
-        <li class="readme">
-          <a href="/docs/index.md">Main Documentation</a>
-        </li>
-        <li class="readme">
-          <a href="/docs/getting-started.md">Getting Started Guide</a>
-        </li>
-        <li class="readme">
-          <a href="/docs/local-development.md">Local Development Setup</a>
-        </li>
-        <li class="readme">
-          <a href="/docs/api-reference.md">API Reference</a>
-        </li>
-        <li class="readme">
-          <a href="/CONTRIBUTING.md">Contributing Guidelines</a>
-        </li>
-        <li class="readme">
-          <a href="/CODE_OF_CONDUCT.md">Code of Conduct</a>
-        </li>
+    <div class="container">
+      <!-- Breadcrumb navigation -->
+      <ul class="breadcrumb">
+        <li><a href="./index.html">Home</a></li>
       </ul>
-    </div>
 
-    <!-- Added Azure best practices section -->
-    <div class="azure-section">
-      <h3>Azure Best Practices</h3>
-      <p>Follow these guidelines when working with Azure resources in this project.</p>
-      <ul>
-        <li><a href="/docs/azure/function-best-practices.md">Azure Functions Best Practices</a></li>
-        <li><a href="/docs/tutorials/azure-functions.md">Azure Functions Integration</a></li>
-        <li><a href="/docs/tutorials/azure-storage.md">Working with Azure Storage</a></li>
-        <li><a href="/docs/azure/security-practices.md">Azure Security Best Practices</a></li>
-        <li><a href="/docs/azure/cost-optimization.md">Azure Cost Optimization</a></li>
-      </ul>
-    </div>
+      <!-- Search functionality -->
+      <div class="search-container">
+        <div class="search-icon">🔍</div>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search for resources..."
+          aria-label="Search"
+        />
+        <div class="search-results">
+          <ul id="search-results-list">
+            <!-- Search results will be populated here via JavaScript -->
+          </ul>
+        </div>
+      </div>
 
-    <h2>Development Commands:</h2>
-    <p>
-      Use <code>npm run start</code> or the VS Code task "Start Jekyll (Ruby 2.7)" to serve the
-      Jekyll site locally.
-    </p>
-    <p>
-      Use <code>npm run build</code> to build the Jekyll site into the <code>_site</code> directory.
-    </p>
-    <p>Use <code>npm run spellcheck</code> to check for spelling errors.</p>
+      <!-- Main content area -->
+      <div class="main-content">
+        <!-- Sidebar navigation -->
+        <aside class="sidebar">
+          <h2>Quick Navigation</h2>
+          <div class="file-explorer">
+            <h3>Project Components</h3>
+            <ul>
+              <li class="folder"><a href="./ts/">TypeScript SDK</a></li>
+              <li class="folder"><a href="./contracts/">Smart Contracts</a></li>
+              <li class="folder"><a href="./red_x/">RED X Backend</a></li>
+              <li class="folder"><a href="./netlify/functions/">Serverless Functions</a></li>
+              <li class="folder"><a href="./services/">Services</a></li>
+            </ul>
+
+            <h3>Documentation</h3>
+            <ul>
+              <li class="readme"><a href="./docs/index.md">Main Documentation</a></li>
+              <li class="readme"><a href="./docs/getting-started.md">Getting Started</a></li>
+              <li class="readme"><a href="./docs/local-development.md">Local Development</a></li>
+              <li class="readme"><a href="./docs/api-reference.md">API Reference</a></li>
+            </ul>
+
+            <h3>Resources</h3>
+            <ul>
+              <li class="readme"><a href="./CONTRIBUTING.md">Contributing Guidelines</a></li>
+              <li class="readme"><a href="./CODE_OF_CONDUCT.md">Code of Conduct</a></li>
+              <li class="file"><a href="./_site/index.html">Jekyll Site (requires build)</a></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="content">
+          <h1>Welcome to the Project</h1>
+          <p>This is the central hub for all project components, documentation, and resources.</p>
+
+          <!-- Component categories -->
+          <section id="components" class="mb-4">
+            <h2>Project Components</h2>
+            <div class="category-grid">
+              <div class="category-box ts-sdk">
+                <h3><span class="icon">🔷</span> TypeScript SDK</h3>
+                <p>Client library for interacting with the system and blockchain components.</p>
+                <ul>
+                  <li>TypeScript client implementation</li>
+                  <li>React components</li>
+                  <li>Type definitions</li>
+                </ul>
+                <p><a href="./ts/">Explore TypeScript SDK →</a></p>
+              </div>
+
+              <div class="category-box contracts">
+                <h3><span class="icon">⛓️</span> Smart Contracts</h3>
+                <p>Ethereum and other blockchain contract implementations.</p>
+                <ul>
+                  <li>PRXTokenChain implementation</li>
+                  <li>Contract tests</li>
+                  <li>OpenZeppelin security</li>
+                </ul>
+                <p><a href="./contracts/">Explore Smart Contracts →</a></p>
+              </div>
+
+              <div class="category-box red-x">
+                <h3><span class="icon">🧩</span> RED X Backend</h3>
+                <p>WASM-based backend processing engine.</p>
+                <ul>
+                  <li>WebAssembly implementation</li>
+                  <li>C/C++ native code</li>
+                  <li>Server integration</li>
+                </ul>
+                <p><a href="./red_x/">Explore RED X Backend →</a></p>
+              </div>
+
+              <div class="category-box serverless">
+                <h3><span class="icon">☁️</span> Serverless Functions</h3>
+                <p>Azure and Netlify serverless endpoints.</p>
+                <ul>
+                  <li>API handlers</li>
+                  <li>Serverless deployment</li>
+                  <li>Integration with other components</li>
+                </ul>
+                <p><a href="./netlify/functions/">Explore Serverless Functions →</a></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Documentation section -->
+          <section id="documentation" class="mb-4">
+            <h2>Documentation</h2>
+
+            <div class="tabs">
+              <button class="tab-button active" data-tab="general-docs">General</button>
+              <button class="tab-button" data-tab="api-docs">API Documentation</button>
+              <button class="tab-button" data-tab="contributing">Contributing</button>
+            </div>
+
+            <!-- General docs tab -->
+            <div id="general-docs" class="tab-content active">
+              <div class="file-explorer">
+                <ul>
+                  <li class="readme">
+                    <a href="./docs/index.md">Main Documentation</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="readme">
+                    <a href="./docs/getting-started.md">Getting Started Guide</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="readme">
+                    <a href="./docs/local-development.md">Local Development Setup</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="readme">
+                    <a href="./docs/architecture.md">Architecture Overview</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- API docs tab -->
+            <div id="api-docs" class="tab-content">
+              <div class="file-explorer">
+                <ul>
+                  <li class="code">
+                    <a href="./docs/api/typescript/index.html">TypeScript SDK API Reference</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="code">
+                    <a href="./docs/api/contracts/index.html">Smart Contracts API</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="code">
+                    <a href="./docs/api/red_x/index.html">RED X API</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="code">
+                    <a href="./docs/api/serverless/index.html">Serverless Functions API</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Contributing tab -->
+            <div id="contributing" class="tab-content">
+              <div class="file-explorer">
+                <ul>
+                  <li class="readme">
+                    <a href="./CONTRIBUTING.md">Contributing Guidelines</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="readme">
+                    <a href="./CODE_OF_CONDUCT.md">Code of Conduct</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="readme">
+                    <a href="./docs/development/pull-requests.md">Pull Request Process</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                  <li class="readme">
+                    <a href="./docs/development/testing.md">Testing Guidelines</a>
+                    <span class="link-status checking" title="Checking link status..."></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tutorials section -->
+          <section id="tutorials" class="mb-4">
+            <h2>Tutorials</h2>
+
+            <div class="category-grid">
+              <div class="category-box">
+                <h3><span class="icon">🚀</span> Getting Started</h3>
+                <ul>
+                  <li><a href="./docs/tutorials/quickstart.md">5-Minute Quickstart</a></li>
+                  <li><a href="./docs/tutorials/setup-guide.md">Complete Setup Guide</a></li>
+                </ul>
+              </div>
+
+              <div class="category-box">
+                <h3><span class="icon">🔄</span> Integration Workflows</h3>
+                <ul>
+                  <li>
+                    <a href="./docs/tutorials/ts-contracts.md">TypeScript with Smart Contracts</a>
+                  </li>
+                  <li>
+                    <a href="./docs/tutorials/serverless-backend.md"
+                      >Serverless with RED X Backend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="./docs/tutorials/complete-workflow.md">Complete Project Workflow</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Azure section -->
+          <section id="azure" class="mb-4">
+            <h2>Azure Resources</h2>
+
+            <div class="azure-section">
+              <h3>Azure Best Practices</h3>
+              <p>Follow these guidelines when working with Azure resources in this project.</p>
+            </div>
+
+            <div class="category-grid">
+              <div class="category-box">
+                <h3><span class="icon">⚡</span> Azure Functions</h3>
+                <ul>
+                  <li>
+                    <a href="./docs/azure/function-best-practices.md">Functions Best Practices</a>
+                  </li>
+                  <li><a href="./docs/tutorials/azure-functions.md">Functions Integration</a></li>
+                </ul>
+              </div>
+
+              <div class="category-box">
+                <h3><span class="icon">💾</span> Azure Storage</h3>
+                <ul>
+                  <li>
+                    <a href="./docs/tutorials/azure-storage.md">Working with Azure Storage</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="category-box">
+                <h3><span class="icon">🛡️</span> Security & Operations</h3>
+                <ul>
+                  <li><a href="./docs/azure/security-practices.md">Security Best Practices</a></li>
+                  <li><a href="./docs/azure/cost-optimization.md">Cost Optimization</a></li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Development section -->
+          <section id="development">
+            <h2>Development Commands</h2>
+            <p>Use these commands to develop and maintain the project:</p>
+
+            <div class="mb-2">
+              <code>npm run start</code> or VS Code task "Start Jekyll (Ruby 2.7)" to serve the
+              Jekyll site locally.
+            </div>
+            <div class="mb-2">
+              <code>npm run build</code> to build the Jekyll site into the
+              <code>_site</code> directory.
+            </div>
+            <div class="mb-2"><code>npm run spellcheck</code> to check for spelling errors.</div>
+            <div class="mb-2">
+              <code>npm run docs</code> to generate API documentation using TypeDoc.
+            </div>
+            <div class="mb-2">
+              <code>npm run verify-docs</code> to check for missing documentation files.
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
 
     <script>
-      // Link verification script
-      function verifyLinks() {
-        const links = document.querySelectorAll('a[href^="/"]');
-        console.log(`Verifying ${links.length} documentation links...`);
-        links.forEach(async link => {
-          const status = link.nextElementSibling;
-          if (status && status.classList.contains('link-status')) {
-            try {
-              const href = link.getAttribute('href');
-              const response = await fetch(href, { method: 'HEAD' });
-              status.classList.remove('checking');
-              if (response.ok) {
-                status.classList.add('verified');
-              } else {
-                status.classList.add('missing');
-              }
-            } catch (error) {
-              status.classList.add('missing');
-            }
-          }
+      // Mobile menu toggle
+      document.addEventListener('DOMContentLoaded', function () {
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const closeMenuButton = document.querySelector('.close-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        if (mobileMenuButton && closeMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener('click', function () {
+            mobileMenu.classList.add('active');
+          });
+
+          closeMenuButton.addEventListener('click', function () {
+            mobileMenu.classList.remove('active');
+          });
+
+          // Close menu when clicking on a link
+          document.querySelectorAll('.mobile-nav-list a').forEach(link => {
+            link.addEventListener('click', function () {
+              mobileMenu.classList.remove('active');
+            });
+          });
+        }
+
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        tabButtons.forEach(button => {
+          button.addEventListener('click', function () {
+            // Get tab ID
+            const tabId = this.getAttribute('data-tab');
+
+            // Remove active class from all buttons and tabs
+            document.querySelectorAll('.tab-button').forEach(btn => {
+              btn.classList.remove('active');
+            });
+
+            document.querySelectorAll('.tab-content').forEach(tab => {
+              tab.classList.remove('active');
+            });
+
+            // Add active class to selected button and tab
+            this.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+          });
         });
-      }
-      document.addEventListener('DOMContentLoaded', verifyLinks);
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        const searchResults = document.querySelector('.search-results');
+        const searchResultsList = document.getElementById('search-results-list');
+
+        // Array of searchable items (paths and descriptions)
+        const searchableItems = [
+          {
+            path: './ts/',
+            title: 'TypeScript SDK',
+            description: 'TypeScript SDK for interacting with the system'
+          },
+          {
+            path: './contracts/',
+            title: 'Smart Contracts',
+            description: 'Ethereum and other blockchain contracts'
+          },
+          { path: './red_x/', title: 'RED X Backend', description: 'WASM-based backend services' },
+          {
+            path: './netlify/functions/',
+            title: 'Serverless Functions',
+            description: 'Netlify and Azure serverless functions'
+          },
+          {
+            path: './docs/index.md',
+            title: 'Main Documentation',
+            description: 'Project documentation home'
+          },
+          {
+            path: './docs/getting-started.md',
+            title: 'Getting Started Guide',
+            description: 'Guide for new users'
+          },
+          {
+            path: './docs/local-development.md',
+            title: 'Local Development Setup',
+            description: 'Setting up local environment'
+          },
+          {
+            path: './docs/api-reference.md',
+            title: 'API Reference',
+            description: 'API documentation'
+          },
+          {
+            path: './CONTRIBUTING.md',
+            title: 'Contributing Guidelines',
+            description: 'How to contribute to the project'
+          },
+          {
+            path: './CODE_OF_CONDUCT.md',
+            title: 'Code of Conduct',
+            description: 'Project code of conduct'
+          },
+          {
+            path: './docs/tutorials/quickstart.md',
+            title: '5-Minute Quickstart',
+            description: 'Quick start tutorial'
+          },
+          {
+            path: './docs/tutorials/ts-contracts.md',
+            title: 'TypeScript with Smart Contracts',
+            description: 'Integration tutorial'
+          },
+          {
+            path: './docs/azure/function-best-practices.md',
+            title: 'Azure Functions Best Practices',
+            description: 'Azure Functions recommendations'
+          }
+        ];
+
+        function performSearch() {
+          const query = searchInput.value.toLowerCase().trim();
+
+          if (!query) {
+            searchResults.style.display = 'none';
+            return;
+          }
+
+          const results = searchableItems.filter(
+            item =>
+              item.title.toLowerCase().includes(query) ||
+              item.description.toLowerCase().includes(query)
+          );
+
+          searchResultsList.innerHTML = '';
+
+          if (results.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = 'No results found';
+            searchResultsList.appendChild(li);
+          } else {
+            results.forEach(item => {
+              const li = document.createElement('li');
+              const link = document.createElement('a');
+              link.href = item.path;
+              link.textContent = item.title;
+
+              const description = document.createElement('div');
+              description.className = 'result-description';
+              description.textContent = item.description;
+
+              li.appendChild(link);
+              li.appendChild(description);
+              searchResultsList.appendChild(li);
+            });
+          }
+
+          searchResults.style.display = 'block';
+        }
+
+        if (searchInput) {
+          searchInput.addEventListener('input', performSearch);
+          searchInput.addEventListener('focus', performSearch);
+
+          // Close search results when clicking outside
+          document.addEventListener('click', function (event) {
+            if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+              searchResults.style.display = 'none';
+            }
+          });
+        }
+
+        // Link verification
+        function verifyLinks() {
+          const links = document.querySelectorAll('a');
+          console.log(`Verifying ${links.length} documentation links...`);
+
+          links.forEach(async link => {
+            const status = link.nextElementSibling;
+
+            if (status && status.classList.contains('link-status')) {
+              try {
+                const href = link.getAttribute('href');
+                // Remove the ./ prefix for fetch which is relative to the current page
+                const fetchPath = href.startsWith('./') ? href.substring(2) : href;
+
+                try {
+                  const response = await fetch(fetchPath, { method: 'HEAD' });
+                  status.classList.remove('checking');
+                  if (response.ok) {
+                    status.classList.add('verified');
+                    status.title = 'Link verified';
+                  } else {
+                    status.classList.add('missing');
+                    status.title = 'Link not found';
+                  }
+                } catch (error) {
+                  status.classList.add('missing');
+                  status.title = 'Error checking link';
+                }
+              } catch (error) {
+                console.error('Error verifying link:', error);
+              }
+            }
+          });
+        }
+
+        // Run link verification
+        verifyLinks();
+      });
     </script>
   </body>
 </html>

@@ -1,206 +1,79 @@
-# Getting Started
+# Getting Started Guide
 
-This guide will help you get started with the Web3 Streaming Platform, covering the initial setup, authentication, and basic operations.
+This guide will help you get started with the project quickly. Follow these steps to set up and run your first operations.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-
-- **Node.js** (v18+) and npm/yarn
-- **Ruby 2.7** (for Jekyll site development)
-- **Git** for version control
-- A modern web browser (Chrome, Firefox, Edge, or Safari)
-
-Optional tools for specific components:
-
-- **Solidity** (for smart contract development)
-- **Emscripten** (for WebAssembly development)
-- **.NET SDK** (for .NET client development)
+- Node.js 18.x or higher
+- npm 9.x or higher
+- Git
 
 ## Installation
 
-### Clone the Repository
+1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/gh-pages.git
-cd gh-pages
+git clone https://github.com/yourusername/project.git
+cd project
 ```
 
-### Install Dependencies
-
-1. **Ruby Dependencies**:
-
-   ```bash
-   bundle install
-   ```
-
-2. **Node.js Dependencies**:
-
-   ```bash
-   npm install
-   ```
-
-3. **TypeScript SDK Dependencies**:
-
-   ```bash
-   cd ts
-   npm install
-   cd ..
-   ```
-
-4. **Serverless Function Dependencies**:
-   ```bash
-   cd netlify/functions
-   npm install
-   cd ../..
-   ```
-
-## Configuration
-
-### Environment Setup
-
-Create a `.env` file in the root directory:
-
-```
-# API Keys
-API_KEY=your-api-key
-
-# Blockchain Configuration
-WEB3_PROVIDER_URL=https://mainnet.infura.io/v3/your-project-id
-CONTRACT_ADDRESS=0x1234567890123456789012345678901234567890
-
-# IPFS Configuration
-IPFS_GATEWAY=https://ipfs.io/ipfs/
-```
-
-### Jekyll Configuration
-
-Edit `_config.yml` to configure your Jekyll site:
-
-```yaml
-# Site settings
-title: Your Web3 Streaming Site
-description: Decentralized content streaming platform
-baseurl: ''
-url: 'https://yourusername.github.io'
-
-# Build settings
-markdown: kramdown
-theme: minima
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-```
-
-## Running Locally
-
-### Start the Jekyll Site
+2. Install dependencies:
 
 ```bash
-npm run start
+npm install
 ```
 
-Or use the VS Code task "Start Jekyll (Ruby 2.7)".
-
-This will make the site available at http://localhost:4000.
-
-### Run Serverless Functions Locally
+3. Build the project:
 
 ```bash
-cd netlify
-netlify dev
+npm run build
 ```
 
-This will start the serverless functions at http://localhost:8888/.netlify/functions/.
+## Quick Start Examples
 
-## Basic Usage
+### TypeScript SDK Example
 
-### Connecting to a Blockchain Wallet
+```typescript
+import { Client } from '../ts/src/client';
 
-```javascript
-import { PRXBlockchainClient } from '@web3streaming/sdk';
+async function main() {
+  // Initialize the client
+  const client = new Client({
+    apiKey: process.env.API_KEY,
+    endpoint: 'https://api.example.com'
+  });
 
-const client = new PRXBlockchainClient({
-  apiKey: 'your-api-key',
-  network: 'mainnet'
-});
+  // Make a request
+  const result = await client.getData('resource-id');
+  console.log('Result:', result);
+}
 
-// Connect to wallet
-await client.connect();
-const account = client.getCurrentAccount();
-console.log(`Connected to wallet: ${account}`);
+main().catch(console.error);
 ```
 
-### Accessing Content
+### Smart Contract Integration
 
-```javascript
-// Get content by ID
-const content = await client.getContent('content-id-123');
+```typescript
+import { ethers } from 'ethers';
+import { PRXTokenChain } from '../contracts/build/PRXTokenChain';
 
-// Stream content
-const streamUrl = await client.getStreamUrl('content-id-123', {
-  quality: 'high',
-  format: 'mp4'
-});
+async function interactWithContract() {
+  // Connect to provider
+  const provider = new ethers.providers.JsonRpcProvider('https://rpc.example.com');
+  const signer = provider.getSigner();
 
-// Play the stream (example using HTML5 video)
-const videoElement = document.getElementById('video-player');
-videoElement.src = streamUrl;
-videoElement.play();
-```
+  // Get contract instance
+  const contractAddress = '0x1234...';
+  const contract = new ethers.Contract(contractAddress, PRXTokenChain.abi, signer);
 
-### Creating Content
-
-```javascript
-// Upload content
-const result = await client.uploadContent({
-  title: 'My Web3 Video',
-  description: 'A video about Web3 technologies',
-  file: fileObject, // From file input
-  tags: ['web3', 'blockchain', 'tutorial'],
-  access: 'public' // or 'token-gated'
-});
-
-console.log(`Content uploaded with ID: ${result.contentId}`);
+  // Call contract method
+  const result = await contract.getBalance();
+  console.log('Balance:', ethers.utils.formatEther(result));
+}
 ```
 
 ## Next Steps
 
-Once you have the basic setup working, you can explore these advanced topics:
-
-- [Smart Contract Integration](./contract-integration.md)
-- [Token-Gated Content](./token-gated-content.md)
-- [IPFS Storage Configuration](./ipfs-configuration.md)
-- [WebAssembly Processing](./wasm-processing.md)
-- [Monetization Options](./monetization.md)
-
-## Troubleshooting
-
-### Common Issues
-
-**Jekyll Build Errors**:
-
-- Ensure Ruby 2.7 is installed and in your PATH
-- Run `bundle update` to update dependencies
-- Check for syntax errors in your Markdown files
-
-**Web3 Connection Issues**:
-
-- Confirm your wallet (MetaMask, etc.) is installed and unlocked
-- Verify you're connected to the correct network
-- Check browser console for specific error messages
-
-**IPFS Content Not Loading**:
-
-- Check your IPFS gateway configuration
-- Ensure content is properly pinned
-- Try an alternative gateway if one is unresponsive
-
-### Getting Help
-
-If you encounter issues not covered here:
-
-- Check our [FAQ](./faq.md)
-- Review [GitHub Issues](https://github.com/yourusername/gh-pages/issues)
-- Join our [Discord community](https://discord.gg/web3streaming)
-- Email [support@example.com](mailto:support@example.com)
+- [Local Development Setup](local-development.md) - Set up your local environment
+- [TypeScript SDK API](api/typescript/index.html) - Explore the API reference
+- [Integration Tutorials](tutorials/index.md) - Learn how components work together
