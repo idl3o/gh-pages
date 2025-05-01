@@ -1,0 +1,87 @@
+<div class="docs-sidebar">
+  <h4>Documentation</h4>
+  <ul>
+    <li><a href="/docs/">Overview</a></li>
+    <li>
+      <span>Getting Started</span>
+      <ul>
+        <li><a href="/docs/getting-started.html">Quick Start</a></li>
+        <li><a href="/docs/local-development.html">Development Environment</a></li>
+      </ul>
+    </li>
+    <li>
+      <span>Components</span>
+      <ul>
+        <li><a href="/docs/jekyll-site.html">Jekyll Site</a></li>
+        <li><a href="/ts/">TypeScript SDK</a></li>
+        <li><a href="/contracts/">Smart Contracts</a></li>
+        <li><a href="/red_x/">RED X Backend</a></li>
+        <li><a href="/netlify/functions/">Serverless Functions</a></li>
+      </ul>
+    </li>
+    <li>
+      <span>API References</span>
+      <ul>
+        <li><a href="/docs/api-reference.html">REST API</a></li>
+        <li><a href="/docs/contract-api.html">Contract API</a></li>
+        <li><a href="/ts/#api-reference">TypeScript API</a></li>
+      </ul>
+    </li>
+    <li>
+      <span>Contribution</span>
+      <ul>
+        <li><a href="/CONTRIBUTING.html">Contributing Guidelines</a></li>
+        <li><a href="/CODE_OF_CONDUCT.html">Code of Conduct</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<style>
+  .docs-sidebar {
+    width: 250px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-right: 1px solid #eee;
+    height: 100%;
+  }
+  .docs-sidebar h4 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  .docs-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .docs-sidebar ul ul {
+    padding-left: 15px;
+    margin-bottom: 10px;
+  }
+  .docs-sidebar li {
+    margin-bottom: 5px;
+  }
+  .docs-sidebar span {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin: 10px 0 5px 0;
+  }
+  .docs-sidebar a {
+    color: #005ea5;
+    text-decoration: none;
+    display: block;
+    padding: 3px 0;
+  }
+  .docs-sidebar a:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 768px) {
+    .docs-sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #eee;
+    }
+  }
+</style>

@@ -6,8 +6,24 @@
 
 const fs = require('fs');
 const path = require('path');
-const { spawn, execSync } = require('child_process');
+const { spawn, execSync, exec } = require('child_process'); // Add exec
 const os = require('os');
+const net = require('net'); // Add net for port check
+
+// Helper function to run exec asynchronously
+function execAsync(command, options = {}) {
+  return new Promise((resolve, reject) => {
+    exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        error.stdout = stdout; // Attach stdout/stderr to error object
+        error.stderr = stderr;
+        reject(error);
+      } else {
+        resolve({ stdout, stderr });
+      }
+    });
+  });
+}
 
 class PRXDeveloperPlugin {
   constructor() {
@@ -93,22 +109,24 @@ class PRXDeveloperPlugin {
   }
 
   /**
-   * List recent changes
+   * List recent changes (async)
    */
   async getRecentChanges() {
     try {
-      const cmd = this.isWindows
-        ? `cd "${this.workspaceDir}" && git log -10 --pretty=format:"%h|%an|%ar|%s"`
-        : `cd "${this.workspaceDir}" && git log -10 --pretty=format:"%h|%an|%ar|%s"`;
+      const cmd = `git log -10 --pretty=format:"%h|%an|%ar|%s"`;
+      // Use execAsync instead of execSync
+      const { stdout } = await execAsync(cmd, { cwd: this.workspaceDir });
 
-      const output = execSync(cmd).toString();
-
-      return output.split('\n').map(line => {
-        const [hash, author, time, message] = line.split('|');
-        return { hash, author, time, message };
-      });
+      return stdout
+        .split('\n')
+        .filter(line => line.trim() !== '')
+        .map(line => {
+          const [hash, author, time, message] = line.split('|');
+          return { hash, author, time, message };
+        });
     } catch (error) {
       console.error(`[PRX Developer] Error getting recent changes: ${error.message}`);
+      if (error.stderr) console.error(error.stderr);
       return [];
     }
   }
@@ -202,18 +220,35 @@ class PRXDeveloperPlugin {
   }
 
   /**
-   * Check if PRX server is running
+   * Check if PRX server is running (async, using net.connect)
    */
-  async isPRXServerRunning() {
-    try {
-      // Check if port 8080 is in use
-      const cmd = this.isWindows ? `netstat -ano | findstr :8080` : `lsof -i:8080 | grep LISTEN`;
+  async isPRXServerRunning(port = 8080, host = '127.0.0.1') {
+    return new Promise(resolve => {
+      const socket = new net.Socket();
+      let isRunning = false;
 
-      const output = execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString();
-      return output.trim().length > 0;
-    } catch (error) {
-      return false;
-    }
+      socket.on('connect', () => {
+        isRunning = true;
+        socket.end(); // Close the connection immediately
+      });
+
+      socket.on('timeout', () => {
+        socket.destroy(); // Ensure socket is destroyed on timeout
+        resolve(false);
+      });
+
+      socket.on('error', err => {
+        // Any connection error (like ECONNREFUSED) means the port is likely not open
+        resolve(false);
+      });
+
+      socket.on('close', () => {
+        resolve(isRunning);
+      });
+
+      socket.setTimeout(1000); // Set a timeout for the connection attempt
+      socket.connect(port, host);
+    });
   }
 
   // Plugin commands
@@ -225,7 +260,7 @@ class PRXDeveloperPlugin {
         console.log('\nProject RED X Status');
         console.log('===================\n');
 
-        // Check if server is running
+        // Check if server is running (now async)
         const serverRunning = await this.isPRXServerRunning();
         console.log(`Server: ${serverRunning ? 'RUNNING' : 'STOPPED'} (Port 8080)`);
 
@@ -259,6 +294,7 @@ class PRXDeveloperPlugin {
         console.log('\nRecent Project Changes');
         console.log('====================\n');
 
+        // Now uses async getRecentChanges
         const changes = await this.getRecentChanges();
 
         if (changes.length === 0) {

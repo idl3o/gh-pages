@@ -5,8 +5,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
-const ora = require('ora');
 
 // Core structure patterns for better separation
 const patterns = {
@@ -545,6 +543,10 @@ function generateTemplate(templateType, replacements) {
  * @param {string} directory - Directory to analyze
  */
 async function main(directory) {
+  // Dynamically import chalk and ora
+  const { default: chalk } = await import('chalk');
+  const { default: ora } = await import('ora');
+
   const spinner = ora('Analyzing files for separation of concerns...').start();
 
   try {

@@ -1,62 +1,88 @@
 ---
-layout: default
-title: Technology Documentation Hub
+layout: docs
+title: Web3 Streaming Platform Documentation
 ---
 
-# Technology Documentation Hub
+Welcome to the documentation for the Web3 Streaming Platform. This comprehensive guide covers all components of our platform, including the Jekyll site, TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions.
 
-Welcome to our comprehensive documentation center. This hub provides detailed technical information about all components of our technology stack.
+## Overview
 
-## Documentation Categories
+The Web3 Streaming Platform combines traditional web technologies with blockchain capabilities to create a decentralized streaming service. Our architecture consists of:
 
-### Core Technologies
+- **Jekyll Site**: The main user-facing website
+- **TypeScript SDK**: Client-side libraries for developers to integrate with our platform
+- **Smart Contracts**: Blockchain contracts for token management and transactions
+- **RED X Backend**: WebAssembly-powered processing engine for optimized performance
+- **Serverless Functions**: API endpoints for various platform services
 
-| Category | Description | Documentation Link |
-|----------|-------------|-------------------|
-| [Server Technologies](server-docs/index.html) | Node.js backend, API services, and streaming capabilities | [View Documentation](server-docs/index.html) |
-| [Blockchain Technology](blockchain-docs/index.html) | Smart contracts, PRX Token, and payment streaming | [View Documentation](blockchain-docs/index.html) |
-| [TypeScript SDK](typescript-docs/index.html) | Developer toolkit for platform integration | [View Documentation](typescript-docs/index.html) |
-| [Serverless Functions](serverless-docs/index.html) | Netlify functions and API handlers | [View Documentation](serverless-docs/index.html) |
+## Component Documentation
 
-### Integration & Development
+### Jekyll Site
 
-| Category | Description | Documentation Link |
-|----------|-------------|-------------------|
-| [Integration Services](services-docs/index.html) | Blockchain data, email, HLS, and IPFS services | [View Documentation](services-docs/index.html) |
-| [Development Utilities](utility-docs/index.html) | Development tools, scripts, and helpers | [View Documentation](utility-docs/index.html) |
-| [RED X Backend](../red_x/index.html) | Native integration and WebAssembly components | [View Demo](../red_x/index.html) |
+The Jekyll site is the main web interface for the platform. It is hosted on GitHub Pages and serves as the primary user interface for the streaming service.
 
-## Getting Started
+[Learn more about the Jekyll site structure](./jekyll-site.md)
 
-If you're new to our technology stack, we recommend following this learning path:
+### TypeScript SDK
 
-1. Start with the [Server Technologies](server-docs/index.html) documentation to understand our backend architecture
-2. Explore the [Integration Services](services-docs/index.html) to see how different components interact
-3. Learn about our [Blockchain Technology](blockchain-docs/index.html) for payment streaming and token management
-4. Dive into the [TypeScript SDK](typescript-docs/index.html) to build integrations with our platform
+The TypeScript SDK provides developers with client-side libraries to interact with the Web3 Streaming Platform. It includes APIs for blockchain interactions, content management, and user authentication.
 
-## Latest Updates
+[View TypeScript SDK documentation](/ts/README.md)
 
-- **May 1, 2025**: Comprehensive documentation update
-- **April 15, 2025**: Added payment streaming contract documentation
-- **April 1, 2025**: Updated server API endpoints
-- **March 20, 2025**: New TypeScript SDK examples
+### Smart Contracts
 
-## Developer Resources
+Our platform uses Solidity smart contracts on the Ethereum blockchain to manage tokens, transactions, and content rights.
 
-- [Technology Dashboard](../technologies-overview.html)
-- [GitHub Repository](https://github.com/username/gh-pages)
-- [API Reference](server-docs/api-reference.html)
-- [Smart Contract Reference](blockchain-docs/contracts.html)
+[Explore Smart Contracts documentation](/contracts/README.md)
 
-## Need Help?
+### RED X Backend
 
-If you can't find what you're looking for in the documentation, please reach out through one of these channels:
+The RED X Backend is a high-performance WebAssembly component that handles content processing, encoding, and streaming.
 
-- **Developer Forum**: [community.example.com](https://community.example.com)
-- **GitHub Issues**: [github.com/username/gh-pages/issues](https://github.com/username/gh-pages/issues)
-- **Email Support**: support@example.com
+[RED X Backend documentation](/red_x/README.md)
 
----
+### Serverless Functions
 
-Return to the [Main Site](../index.html) | View [Technology Dashboard](../technologies-overview.html)
+Our API layer is built with serverless functions hosted on Netlify, providing scalable endpoints for various platform services.
+
+[Serverless Functions documentation](/netlify/functions/README.md)
+
+## Developer Guides
+
+- [Getting Started](./getting-started.md)
+- [Local Development Setup](./local-development.md)
+- [Contribution Guidelines](/CONTRIBUTING.md)
+- [Code of Conduct](/CODE_OF_CONDUCT.md)
+- [API Reference](./api-reference.md)
+
+## Platform Architecture
+
+Below is a high-level diagram of how the different components interact:
+
+```
++----------------+       +-----------------+
+| Jekyll Website |------>| TypeScript SDK  |
++----------------+       +-----------------+
+        |                         |
+        v                         v
++----------------+       +-----------------+
+|  Serverless    |<----->|  Smart          |
+|  Functions     |       |  Contracts      |
++----------------+       +-----------------+
+        |                         |
+        v                         v
++----------------+       +-----------------+
+|  RED X         |<----->|  Blockchain     |
+|  Backend       |       |  Network        |
++----------------+       +-----------------+
+```
+
+## Support and Community
+
+- [GitHub Issues](https://github.com/yourusername/gh-pages/issues)
+- [Discord Community](https://discord.gg/web3streaming)
+- [Support Email](mailto:support@example.com)
+
+## License
+
+This project is licensed under the [MIT License](/LICENSE).

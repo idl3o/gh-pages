@@ -7,9 +7,72 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, spawn, exec } = require('child_process'); // Import exec
 const ora = require('ora');
 const { Spinner, ProgressBar } = require('../utils/ui-helpers');
+const http = require('http'); // Import http for server check
+
+// Helper function to run a command asynchronously using spawn
+function runCommandAsync(command, args, options = {}) {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(command, args, { stdio: 'pipe', ...options });
+    let stdout = '';
+    let stderr = '';
+
+    if (proc.stdout) {
+      proc.stdout.on('data', data => {
+        stdout += data.toString();
+      });
+    }
+
+    if (proc.stderr) {
+      proc.stderr.on('data', data => {
+        stderr += data.toString();
+      });
+    }
+
+    proc.on('error', error => {
+      reject(error);
+    });
+
+    proc.on('close', code => {
+      if (code !== 0) {
+        const errorMessage = stderr || `Process exited with code ${code}`;
+        const error = new Error(errorMessage);
+        error.stdout = stdout;
+        error.stderr = stderr;
+        error.code = code;
+        reject(error);
+      } else {
+        resolve({ stdout, stderr });
+      }
+    });
+  });
+}
+
+// Helper function to check if local server is ready
+function checkServerReady(url, retries = 5, delay = 500) {
+  return new Promise((resolve, reject) => {
+    let attempts = 0;
+    const tryConnect = () => {
+      http
+        .get(url, res => {
+          // Any response means the server is up
+          res.resume(); // Consume response data to free up memory
+          resolve(true);
+        })
+        .on('error', err => {
+          attempts++;
+          if (attempts >= retries) {
+            reject(new Error(`Server check failed after ${retries} attempts: ${err.message}`));
+          } else {
+            setTimeout(tryConnect, delay);
+          }
+        });
+    };
+    tryConnect();
+  });
+}
 
 /**
  * Register analyze commands
@@ -25,47 +88,42 @@ function registerAnalyzeCommands(program) {
     .option('-d, --detailed', 'Show detailed analysis')
     .action(async options => {
       const spinner = new Spinner('Preparing performance analysis...').start();
+      let localServer = null;
 
       try {
-        // Check if we have required tools
         let hasLighthouse = false;
 
         try {
           execSync('npx lighthouse --version', { stdio: 'ignore' });
           hasLighthouse = true;
-        } catch (e) {
-          // Lighthouse not available
-        }
+        } catch (e) {}
 
         if (!hasLighthouse) {
           spinner.setText('Installing Lighthouse (one-time)...');
           execSync('npm install -g lighthouse', { stdio: 'ignore' });
         }
 
-        // Check if we should use local server or remote URL
         const url = options.url || 'http://localhost:3000';
-        let localServer = null;
 
         if (!options.url) {
           spinner.setText('Starting local server...');
+          localServer = spawn('npx', ['http-server', '.', '-p', '3000', '-c-1'], {
+            stdio: 'ignore',
+            detached: true
+          });
 
-          // Start local server in background
-          localServer = require('child_process').spawn(
-            'npx',
-            ['http-server', '.', '-p', '3000', '-c-1'],
-            {
-              stdio: 'ignore',
-              detached: true
-            }
-          );
-
-          // Give server time to start
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          spinner.setText('Waiting for local server to be ready...');
+          try {
+            await checkServerReady(url); // Use the new check function
+            spinner.succeed('Local server is ready.');
+          } catch (serverError) {
+            spinner.fail(`Local server failed to start: ${serverError.message}`);
+            throw serverError; // Stop if server doesn't start
+          }
         }
 
         spinner.setText(`Running performance audit on ${url}...`);
 
-        // Create output directory
         const outputDir = path.join(process.cwd(), 'performance-reports');
         if (!fs.existsSync(outputDir)) {
           fs.mkdirSync(outputDir, { recursive: true });
@@ -74,25 +132,34 @@ function registerAnalyzeCommands(program) {
         const timestamp = new Date().toISOString().replace(/:/g, '-');
         const outputPath = path.join(outputDir, `performance-${timestamp}.html`);
 
-        // Run Lighthouse
         try {
-          execSync(`npx lighthouse ${url} --quiet --output html --output-path "${outputPath}"`, {
-            stdio: ['ignore', 'pipe', 'ignore']
-          });
+          spinner.setText(`Running Lighthouse HTML report generation on ${url}...`);
+          await runCommandAsync('npx', [
+            'lighthouse',
+            url,
+            '--quiet',
+            '--output',
+            'html',
+            '--output-path',
+            outputPath
+          ]);
 
           spinner.succeed('Performance analysis complete');
 
-          // Parse the results to show summary in console
           const summaryJson = path.join(outputDir, 'summary.json');
           try {
-            execSync(`npx lighthouse ${url} --quiet --output json --output-path "${summaryJson}"`, {
-              stdio: ['ignore', 'pipe', 'ignore']
-            });
+            spinner.setText(`Running Lighthouse JSON report generation on ${url}...`);
+            const { stdout: jsonOutput } = await runCommandAsync('npx', [
+              'lighthouse',
+              url,
+              '--quiet',
+              '--output',
+              'json'
+            ]);
 
-            if (fs.existsSync(summaryJson)) {
-              const results = JSON.parse(fs.readFileSync(summaryJson, 'utf8'));
+            if (jsonOutput) {
+              const results = JSON.parse(jsonOutput);
 
-              // Display summary results
               console.log('\n' + chalk.cyan('Performance Results:'));
 
               const categories = results.categories;
@@ -106,7 +173,6 @@ function registerAnalyzeCommands(program) {
                 console.log(`${categories[key].title}: ${color(`${score}/100`)}`);
               });
 
-              // Show detailed results if requested
               if (options.detailed && results.audits) {
                 console.log('\n' + chalk.cyan('Key Metrics:'));
 
@@ -126,7 +192,6 @@ function registerAnalyzeCommands(program) {
                   }
                 });
 
-                // Show opportunities for improvement
                 if (results.categories.performance && results.categories.performance.score < 0.9) {
                   console.log('\n' + chalk.cyan('Opportunities for Improvement:'));
 
@@ -148,18 +213,14 @@ function registerAnalyzeCommands(program) {
                   });
                 }
               }
-
-              // Clean up summary file
-              fs.unlinkSync(summaryJson);
             }
           } catch (e) {
-            // Ignore JSON summary error, we still have HTML report
+            spinner.warn(`Could not generate/parse JSON summary: ${e.message || e}`);
           }
 
           console.log(chalk.green(`\nFull report saved to: ${outputPath}`));
           console.log(chalk.gray('Open this file in a browser to see the complete analysis.'));
 
-          // Offer to open the report
           console.log('');
           if (process.platform === 'win32') {
             console.log(`Run: ${chalk.cyan(`start "${outputPath}"`)}`);
@@ -169,19 +230,29 @@ function registerAnalyzeCommands(program) {
             console.log(`Run: ${chalk.cyan(`xdg-open "${outputPath}"`)}`);
           }
         } catch (error) {
-          spinner.fail(`Lighthouse audit failed: ${error.message}`);
-        }
-
-        // Kill local server if we started one
-        if (localServer) {
-          if (process.platform === 'win32') {
-            execSync(`taskkill /pid ${localServer.pid} /f /t`, { stdio: 'ignore' });
-          } else {
-            process.kill(-localServer.pid);
+          spinner.fail(`Lighthouse audit failed: ${error.message || error}`);
+          if (error.stderr) {
+            console.error(chalk.red(error.stderr));
           }
         }
       } catch (error) {
         spinner.fail(`Performance analysis failed: ${error.message}`);
+      } finally {
+        if (localServer) {
+          spinner.setText('Stopping local server...');
+          try {
+            if (process.platform === 'win32') {
+              execSync(`taskkill /pid ${localServer.pid} /f /t`, { stdio: 'ignore' });
+            } else {
+              process.kill(-localServer.pid);
+            }
+            spinner.succeed('Local server stopped.');
+          } catch (killError) {
+            spinner.warn(
+              `Failed to stop local server (PID: ${localServer.pid}): ${killError.message}`
+            );
+          }
+        }
       }
     });
 
@@ -192,9 +263,9 @@ function registerAnalyzeCommands(program) {
     .option('--external', 'Check external links too (slower)', false)
     .action(async options => {
       const spinner = new Spinner('Preparing link checker...').start();
+      let localServer = null; // Define here for finally block access
 
       try {
-        // Check if we have required package
         try {
           execSync('npx broken-link-checker --version', { stdio: 'ignore' });
         } catch (e) {
@@ -202,45 +273,45 @@ function registerAnalyzeCommands(program) {
           execSync('npm install -g broken-link-checker', { stdio: 'ignore' });
         }
 
-        // Start local server if using localhost
-        let localServer = null;
-
         if (options.url.includes('localhost')) {
           spinner.setText('Starting local server...');
+          localServer = spawn('npx', ['http-server', '.', '-p', '3000', '-c-1'], {
+            stdio: 'ignore',
+            detached: true
+          });
 
-          // Start local server in background
-          localServer = require('child_process').spawn(
-            'npx',
-            ['http-server', '.', '-p', '3000', '-c-1'],
-            {
-              stdio: 'ignore',
-              detached: true
-            }
-          );
-
-          // Give server time to start
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          spinner.setText('Waiting for local server to be ready...');
+          try {
+            await checkServerReady(options.url); // Use the new check function
+            spinner.succeed('Local server is ready.');
+          } catch (serverError) {
+            spinner.fail(`Local server failed to start: ${serverError.message}`);
+            throw serverError; // Stop if server doesn't start
+          }
         }
 
         spinner.setText(`Checking links on ${options.url}...`);
 
-        // Run link checker with appropriate flags
         const checkExternalFlag = options.external ? '' : '--exclude-external';
 
         const cmd = `npx broken-link-checker ${options.url} ${checkExternalFlag} --ordered --recursive --verbose`;
 
         let results = { brokenLinks: [], validLinks: [] };
 
-        await new Promise(resolve => {
-          const linkCheck = require('child_process').exec(cmd);
+        await new Promise((resolve, reject) => {
+          const linkCheck = exec(cmd);
+          let stdoutBuffer = '';
 
           linkCheck.stdout.on('data', data => {
-            // Parse output to count links
-            const lines = data.toString().split('\n');
+            stdoutBuffer += data.toString();
+            let lines = stdoutBuffer.split('\n');
+            stdoutBuffer = lines.pop();
 
             lines.forEach(line => {
               spinner.setText(
-                `Checking links... (${results.validLinks.length + results.brokenLinks.length} links found)`
+                `Checking links... (${
+                  results.validLinks.length + results.brokenLinks.length
+                } links found)`
               );
 
               if (line.includes('─BROKEN─')) {
@@ -251,28 +322,23 @@ function registerAnalyzeCommands(program) {
             });
           });
 
-          linkCheck.on('close', resolve);
+          linkCheck.stderr.on('data', data => {
+            console.error(chalk.yellow(`[link-checker stderr] ${data.toString().trim()}`));
+          });
+
+          linkCheck.on('error', error => {
+            reject(error);
+          });
+
+          linkCheck.on('close', code => {
+            resolve();
+          });
         });
-
-        if (localServer) {
-          // Kill local server if we started one
-          if (process.platform === 'win32') {
-            execSync(`taskkill /pid ${localServer.pid} /f /t`, { stdio: 'ignore' });
-          } else {
-            process.kill(-localServer.pid);
-          }
-        }
-
-        // Display results
-        spinner.succeed(
-          `Link check complete: ${results.validLinks.length} valid, ${results.brokenLinks.length} broken`
-        );
 
         if (results.brokenLinks.length > 0) {
           console.log('\n' + chalk.red('Broken links found:'));
 
           results.brokenLinks.forEach(link => {
-            // Extract useful info from the complex log line
             const matches = link.match(/─BROKEN─ (.*?) .*?(\d{3})/) || [];
             if (matches.length >= 3) {
               console.log(`${chalk.gray(matches[1])} - ${chalk.red(`Status ${matches[2]}`)}`);
@@ -293,6 +359,22 @@ function registerAnalyzeCommands(program) {
         }
       } catch (error) {
         spinner.fail(`Link analysis failed: ${error.message}`);
+      } finally {
+        if (localServer) {
+          spinner.setText('Stopping local server...');
+          try {
+            if (process.platform === 'win32') {
+              execSync(`taskkill /pid ${localServer.pid} /f /t`, { stdio: 'ignore' });
+            } else {
+              process.kill(-localServer.pid);
+            }
+            spinner.succeed('Local server stopped.');
+          } catch (killError) {
+            spinner.warn(
+              `Failed to stop local server (PID: ${localServer.pid}): ${killError.message}`
+            );
+          }
+        }
       }
     });
 
@@ -304,7 +386,6 @@ function registerAnalyzeCommands(program) {
       const spinner = new Spinner('Preparing code quality analysis...').start();
 
       try {
-        // Check if we have required tools
         let hasEslint = true;
         let hasHtmlvalidate = true;
 
@@ -320,7 +401,6 @@ function registerAnalyzeCommands(program) {
           hasHtmlvalidate = false;
         }
 
-        // Install missing tools if needed
         if (!hasEslint) {
           spinner.setText('Installing ESLint (one-time)...');
           execSync('npm install -g eslint', { stdio: 'ignore' });
@@ -331,23 +411,21 @@ function registerAnalyzeCommands(program) {
           execSync('npm install -g html-validate', { stdio: 'ignore' });
         }
 
-        // Run JavaScript analysis
-        spinner.setText('Analyzing JavaScript files...');
-
+        spinner.setText('Analyzing JavaScript files (ESLint)...');
         const jsResults = { errors: 0, warnings: 0, files: 0 };
-
         try {
-          const jsOutput = execSync(`npx eslint "${options.dir}" --ext .js,.jsx,.ts,.tsx -f json`, {
-            encoding: 'utf8',
-            stdio: ['ignore', 'pipe', 'ignore']
-          });
-
+          const { stdout: jsOutput } = await runCommandAsync('npx', [
+            'eslint',
+            options.dir,
+            '--ext',
+            '.js,.jsx,.ts,.tsx',
+            '-f',
+            'json'
+          ]);
           const eslintResults = JSON.parse(jsOutput);
-
           eslintResults.forEach(file => {
             if (file.messages.length > 0) {
               jsResults.files++;
-
               file.messages.forEach(msg => {
                 if (msg.severity === 2) jsResults.errors++;
                 else if (msg.severity === 1) jsResults.warnings++;
@@ -355,49 +433,42 @@ function registerAnalyzeCommands(program) {
             }
           });
         } catch (e) {
-          // ESLint exits with error code if it finds issues
-          try {
-            const output = e.stdout;
-            if (output) {
-              const eslintResults = JSON.parse(output);
-
+          if (e.stdout) {
+            try {
+              const eslintResults = JSON.parse(e.stdout);
               eslintResults.forEach(file => {
                 if (file.messages.length > 0) {
                   jsResults.files++;
-
                   file.messages.forEach(msg => {
                     if (msg.severity === 2) jsResults.errors++;
                     else if (msg.severity === 1) jsResults.warnings++;
                   });
                 }
               });
+            } catch (parseError) {
+              spinner.warn(`Could not parse ESLint JSON output after error: ${parseError.message}`);
+              console.error(chalk.red(`ESLint raw output:\n${e.stdout}`));
             }
-          } catch (_) {
-            // Ignore parse errors
+          } else {
+            spinner.warn(`ESLint execution failed without output: ${e.message || e}`);
+            if (e.stderr) console.error(chalk.red(e.stderr));
           }
         }
 
-        // Run HTML analysis
-        spinner.setText('Analyzing HTML files...');
-
+        spinner.setText('Analyzing HTML files (html-validate)...');
         const htmlResults = { errors: 0, warnings: 0, files: 0 };
-
         try {
-          const htmlOutput = execSync(
-            `npx html-validate "${options.dir}/**/*.html" --formatter json`,
-            {
-              encoding: 'utf8',
-              stdio: ['ignore', 'pipe', 'ignore']
-            }
-          );
-
+          const { stdout: htmlOutput } = await runCommandAsync('npx', [
+            'html-validate',
+            `${options.dir}/**/*.html`,
+            '--formatter',
+            'json'
+          ]);
           const htmlValidateResults = JSON.parse(htmlOutput);
-
           Object.keys(htmlValidateResults.results).forEach(file => {
             const fileResults = htmlValidateResults.results[file];
             if (fileResults.messages.length > 0) {
               htmlResults.files++;
-
               fileResults.messages.forEach(msg => {
                 if (msg.severity === 2) htmlResults.errors++;
                 else if (msg.severity === 1) htmlResults.warnings++;
@@ -405,32 +476,33 @@ function registerAnalyzeCommands(program) {
             }
           });
         } catch (e) {
-          // HTML validator might exit with error
-          try {
-            const output = e.stdout;
-            if (output) {
-              const htmlValidateResults = JSON.parse(output);
-
+          if (e.stdout) {
+            try {
+              const htmlValidateResults = JSON.parse(e.stdout);
               Object.keys(htmlValidateResults.results).forEach(file => {
                 const fileResults = htmlValidateResults.results[file];
                 if (fileResults.messages.length > 0) {
                   htmlResults.files++;
-
                   fileResults.messages.forEach(msg => {
                     if (msg.severity === 2) htmlResults.errors++;
                     else if (msg.severity === 1) htmlResults.warnings++;
                   });
                 }
               });
+            } catch (parseError) {
+              spinner.warn(
+                `Could not parse html-validate JSON output after error: ${parseError.message}`
+              );
+              console.error(chalk.red(`html-validate raw output:\n${e.stdout}`));
             }
-          } catch (_) {
-            // Ignore parse errors
+          } else {
+            spinner.warn(`html-validate execution failed without output: ${e.message || e}`);
+            if (e.stderr) console.error(chalk.red(e.stderr));
           }
         }
 
         spinner.succeed('Code quality analysis complete');
 
-        // Display results
         console.log('\n' + chalk.cyan('JavaScript Quality:'));
         if (jsResults.errors > 0) {
           console.log(chalk.red(`✗ ${jsResults.errors} errors`));
@@ -457,7 +529,6 @@ function registerAnalyzeCommands(program) {
           console.log(`- Run ${chalk.cyan('npx html-validate')} to see HTML issues in detail`);
         }
 
-        // Return error code if we found errors
         if (jsResults.errors > 0 || htmlResults.errors > 0) {
           process.exitCode = 1;
         }
@@ -475,14 +546,12 @@ function registerAnalyzeCommands(program) {
       const spinner = new Spinner(`Analyzing file sizes in ${options.dir}...`).start();
 
       try {
-        // Check if directory exists
         if (!fs.existsSync(options.dir)) {
           spinner.fail(`Directory not found: ${options.dir}`);
           console.log(chalk.yellow('Have you built the site? Try running `npm run build` first.'));
           return;
         }
 
-        // Helper function to get all files recursively
         function getAllFiles(dir, fileList = []) {
           const files = fs.readdirSync(dir);
 
@@ -507,10 +576,8 @@ function registerAnalyzeCommands(program) {
         const files = getAllFiles(options.dir);
         spinner.succeed(`Analysis complete: ${files.length} files found`);
 
-        // Calculate total size
         const totalSize = files.reduce((sum, file) => sum + file.size, 0);
 
-        // Group by file type
         const fileTypes = {};
         files.forEach(file => {
           const ext = file.extension || 'unknown';
@@ -527,12 +594,10 @@ function registerAnalyzeCommands(program) {
           fileTypes[ext].files.push(file);
         });
 
-        // Display summary
         console.log('\n' + chalk.cyan('Site Size Analysis:'));
         console.log(chalk.gray(`Total size: ${formatSize(totalSize)}`));
         console.log(chalk.gray(`Total files: ${files.length}`));
 
-        // Display file types by size (descending)
         console.log('\n' + chalk.cyan('Size by File Type:'));
 
         const Table = require('cli-table3');
@@ -554,7 +619,6 @@ function registerAnalyzeCommands(program) {
 
         console.log(table.toString());
 
-        // Find largest files
         console.log('\n' + chalk.cyan('Largest Files:'));
 
         const largestFilesTable = new Table({
@@ -572,14 +636,12 @@ function registerAnalyzeCommands(program) {
 
         console.log(largestFilesTable.toString());
 
-        // Performance suggestions
         console.log('\n' + chalk.cyan('Performance Suggestions:'));
 
-        // Check for large images
         const largeImages = files.filter(
           file =>
             ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(file.extension) &&
-            file.size > 200 * 1024 // 200 KB
+            file.size > 200 * 1024
         );
 
         if (largeImages.length > 0) {
@@ -591,9 +653,8 @@ function registerAnalyzeCommands(program) {
           console.log(`${chalk.green('✓')} No excessively large images found`);
         }
 
-        // Check for large JavaScript
         const largeJs = files.filter(
-          file => ['.js'].includes(file.extension) && file.size > 100 * 1024 // 100 KB
+          file => ['.js'].includes(file.extension) && file.size > 100 * 1024
         );
 
         if (largeJs.length > 0) {
@@ -603,9 +664,8 @@ function registerAnalyzeCommands(program) {
           console.log(`${chalk.green('✓')} JavaScript files are reasonably sized`);
         }
 
-        // Check for large CSS
         const largeCss = files.filter(
-          file => ['.css'].includes(file.extension) && file.size > 50 * 1024 // 50 KB
+          file => ['.css'].includes(file.extension) && file.size > 50 * 1024
         );
 
         if (largeCss.length > 0) {
@@ -615,7 +675,6 @@ function registerAnalyzeCommands(program) {
           console.log(`${chalk.green('✓')} CSS files are reasonably sized`);
         }
 
-        // Check for favicons
         const hasFavicon = files.some(file => path.basename(file.path).includes('favicon'));
 
         if (!hasFavicon) {
@@ -627,7 +686,6 @@ function registerAnalyzeCommands(program) {
         spinner.fail(`Analysis failed: ${error.message}`);
       }
 
-      // Helper function to format file sizes
       function formatSize(bytes) {
         const units = ['B', 'KB', 'MB', 'GB'];
         let size = bytes;
