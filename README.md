@@ -1,44 +1,46 @@
-# Project Documentation Hub
+# Project Web Application
 
-This repository hosts the central documentation hub for our project, providing a unified interface to access all project components, documentation, and resources.
+This repository hosts the source code for our main web application, integrating various backend services and blockchain components.
 
-## Components
+## Application Architecture
 
-This project consists of several integrated components:
+The web application integrates several key components:
 
-- **TypeScript SDK** - Client library for interacting with the system and blockchain components
-- **Smart Contracts** - Ethereum and other blockchain contract implementations
-- **RED X Backend** - WASM-based backend processing engine
-- **Serverless Functions** - Netlify serverless endpoints
+- **Frontend:** (Details to be added - e.g., React, Vue, etc., using the TypeScript SDK)
+- **TypeScript SDK:** Client library for interacting with backend services and blockchain components.
+- **Smart Contracts:** Ethereum and potentially other blockchain contract implementations.
+- **RED X Backend:** WASM-based backend processing engine for specific tasks.
+- **Serverless Functions:** API endpoints and backend logic hosted on serverless platforms (e.g., Netlify, Azure Functions).
 
 ## Documentation
 
-All documentation is accessible through the main documentation hub. This includes:
-
-- API References
-- Tutorials
-- Integration Guides
-- Contributing Guidelines
+Project documentation, including API references, architecture details, and setup guides, can be found in the `/docs` directory or linked within the application where relevant.
 
 ## Local Development
 
-To run this documentation site locally:
+To run this web application locally:
 
-1. Make sure you have Ruby and Bundler installed
-2. Clone this repository
-3. Install dependencies:
-   ```
-   bundle install
-   ```
-4. Start the Jekyll server:
-   ```
-   bundle exec jekyll serve
-   ```
-5. Visit `http://localhost:4000` in your browser
+1.  **Prerequisites:** Ensure you have Node.js (specify version), potentially Docker, and any other required tools installed.
+2.  **Clone Repository:** `git clone <repository-url>`
+3.  **Install Dependencies:**
+    ```bash
+    # Example using npm (adjust if using yarn or other package managers)
+    npm install
+    # Potentially install dependencies for sub-projects (e.g., cd ts && npm install)
+    ```
+4.  **Environment Setup:** Configure necessary environment variables (e.g., API keys, connection strings) - refer to `.env.example` or documentation.
+5.  **Run Development Server:**
+    ```bash
+    # Example using npm (adjust based on actual start script)
+    npm run dev
+    ```
+6.  Access the application, typically at `http://localhost:3000` or a similar address (check terminal output).
+
+*(Note: These instructions are placeholders and should be updated based on the specific frontend framework and build tools chosen.)*
 
 ## Contributing
 
-Contributions to improve the documentation are welcome. Please see the [Contributing Guidelines](CONTRIBUTING.md) for more information.
+Contributions to the web application are welcome. Please see the [Contributing Guidelines](CONTRIBUTING.md) for more information on the development process, coding standards, and pull request procedures.
 
 ## License
 
