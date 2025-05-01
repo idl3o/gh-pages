@@ -15,7 +15,9 @@
 
   <div class="container-lg px-3 my-5 markdown-body">
     {% if site.title and site.title != page.title %}
+    <!-- prettier-ignore-start -->
     <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
+    <!-- prettier-ignore-end -->
     {% endif %}
 
     {{ content }}
