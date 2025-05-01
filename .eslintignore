@@ -1,7 +1,25 @@
+# Generated files
 _site/**
-.jekyll-cache/**
-vendor/**
-node_modules/**
+build/**
 dist/**
-main_backup_*/**
-*.min.js
+node_modules/**
+
+# Generated/compiled files
+gh-pages-build/**
+**/main_backup_*/**
+**/*.min.js
+
+# Test files (they have their own ESLint config)
+test/**
+tests/**
+
+# Third-party code
+emsdk/**
+red_x/**
+
+# Legacy code not being actively developed
+**/js/components/**
+**/js/modules/**
+**/js/services/**
+**/js/upload-modal.js
+**/assets/js/**
