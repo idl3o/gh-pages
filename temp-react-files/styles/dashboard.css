@@ -1,0 +1,298 @@
+/* Dashboard Styles */
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Wallet Connect Component */
+.wallet-connect {
+  display: flex;
+  align-items: center;
+}
+
+.wallet-connect.connected {
+  position: relative;
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  background: var(--background-color-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.wallet-info:hover {
+  background-color: rgba(42, 42, 42, 0.8);
+}
+
+.wallet-address {
+  font-family: monospace;
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+.wallet-status {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--success-color);
+}
+
+.wallet-details {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  z-index: 10;
+  min-width: 250px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.wallet-address-full {
+  font-family: monospace;
+  font-size: 0.8rem;
+  word-break: break-all;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.wallet-address-full span {
+  display: block;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.wallet-disconnect {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.wallet-error {
+  color: var(--error-color);
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Profile Card */
+.profile-card {
+  grid-column: span 2;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1.5rem;
+  background-color: var(--background-color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-info h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.profile-bio {
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.profile-social {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.profile-social h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.social-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.social-list a {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--background-color-secondary);
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.social-list a:hover {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+}
+
+.profile-not-found {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Token Balance Card */
+.token-balance-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.token-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.token-value {
+  display: flex;
+  align-items: baseline;
+  margin: 1rem 0;
+}
+
+.token-amount {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-right: 0.5rem;
+}
+
+.token-symbol {
+  font-size: 1.2rem;
+  color: var(--text-color-secondary);
+}
+
+.token-info {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.token-info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.token-label {
+  color: var(--text-color-secondary);
+}
+
+.token-data {
+  font-weight: 500;
+}
+
+.token-address {
+  font-family: monospace;
+}
+
+/* Activity Card */
+.activity-card {
+  grid-column: span 2;
+}
+
+/* Loading and Error States */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--text-color-secondary);
+}
+
+.error-message {
+  color: var(--error-color);
+  padding: 1rem;
+  background-color: rgba(255, 99, 71, 0.1);
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.placeholder-message {
+  color: var(--text-color-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.connect-prompt {
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Mobile Wallet Connect */
+.mobile-wallet-connect {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.mobile-wallet-connect .wallet-connect {
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .profile-card,
+  .activity-card {
+    grid-column: span 1;
+  }
+
+  .header-actions {
+    display: none;
+  }
+}
