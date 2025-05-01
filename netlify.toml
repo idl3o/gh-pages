@@ -1,0 +1,39 @@
+[build]
+  publish = "_site"
+  command = "npm run build && bundle exec jekyll build"
+  functions = "netlify/functions"
+
+[dev]
+  command = "bundle exec jekyll serve"
+  port = 8888
+  publish = "_site"
+  autoLaunch = true
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["netlify/functions/**/*"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://*.netlify.app;"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[build.environment]
+  NODE_VERSION = "18.17.1"
+  RUBY_VERSION = "2.7.7"
+
+[context.production]
+  environment = { NODE_ENV = "production", JEKYLL_ENV = "production" }
+
+[context.deploy-preview]
+  environment = { NODE_ENV = "development", JEKYLL_ENV = "development" }
+  command = "npm run build && bundle exec jekyll build --drafts --future"

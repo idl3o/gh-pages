@@ -1,0 +1,52 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7'
+        bundler-cache: true
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Build Jekyll site
+      run: bundle exec jekyll build
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+
+    - name: Install Node.js dependencies
+      run: npm ci
+
+    - name: Lint JavaScript files
+      run: npm run lint
+
+    - name: Build TypeScript SDK
+      run: npm run build:ts
+
+    - name: Check for broken links
+      run: npm run test:links
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: site-build
+        path: |
+          _site
+          ts/dist

@@ -22,7 +22,6 @@
 
 # Logs and databases #
 ######################
-*.log
 *.sql
 *.sqlite
 npm-debug.log*
@@ -144,11 +143,22 @@ red_x/index.wasm
 red_x/template.html
 
 # Ruby/Jekyll
-.bundle/
-vendor/
-.sass-cache/
-_site/
-.jekyll-cache/
+_site
+.sass-cache
+.jekyll-cache
 .jekyll-metadata
-Gemfile.lock
-emsdk
+vendor/
+.bundle/
+bin/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

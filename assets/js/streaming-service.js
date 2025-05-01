@@ -3,16 +3,19 @@
  * Handles decentralized content streaming using Web3 technologies
  */
 
+import ipfsService from '../../../services/IPFSService.js';
+import hlsService from '../../../services/HLSService.js';
+
 class StreamingService {
   constructor() {
     this.isInitialized = false;
     this.streamingContract = null;
     this.web3 = null;
-    this.ipfs = null;
     this.currentAccount = null;
     this.contentCatalog = [];
     this.activeStream = null;
     this.streamingEvents = {};
+    this.liveStreams = new Map();
 
     // Contract addresses by network
     this.contractAddresses = {
@@ -24,7 +27,6 @@ class StreamingService {
 
     // ABI for the streaming contract
     this.contractABI = [
-      // Contract functions will go here (simplified for demonstration)
       {
         inputs: [{ name: '_contentId', type: 'string' }],
         name: 'getContentMetadata',
@@ -96,6 +98,9 @@ class StreamingService {
     this.purchaseContentAccess = this.purchaseContentAccess.bind(this);
     this.uploadToIPFS = this.uploadToIPFS.bind(this);
     this.getIPFSContentUrl = this.getIPFSContentUrl.bind(this);
+    this.processVideoForHLS = this.processVideoForHLS.bind(this);
+    this.startLiveStream = this.startLiveStream.bind(this);
+    this.stopLiveStream = this.stopLiveStream.bind(this);
   }
 
   /**
@@ -123,12 +128,31 @@ class StreamingService {
       // Initialize contract
       this.streamingContract = new this.web3.eth.Contract(this.contractABI, contractAddress);
 
-      // Initialize IPFS client
+      // Initialize IPFS service
       try {
-        this.ipfs = await this.initializeIPFS();
+        if (!ipfsService.isInitialized) {
+          await ipfsService.initialize({
+            apiUrl: 'https://ipfs.infura.io:5001',
+            gateway: 'https://ipfs.io/ipfs/'
+          });
+        }
       } catch (error) {
-        console.warn("Couldn't initialize IPFS client:", error);
+        console.warn("Couldn't initialize IPFS service:", error);
         // Continue anyway - we'll use fallback gateway URLs
+      }
+
+      // Initialize HLS service
+      try {
+        if (!hlsService.isInitialized) {
+          await hlsService.initialize({
+            segmentDuration: 6,
+            playlistType: 'vod',
+            defaultQualities: ['360p', '720p']
+          });
+        }
+      } catch (error) {
+        console.warn("Couldn't initialize HLS service:", error);
+        // Continue anyway - we'll use direct streaming as fallback
       }
 
       // Load initial content catalog
@@ -139,33 +163,6 @@ class StreamingService {
     } catch (error) {
       console.error('Failed to initialize streaming service:', error);
       return false;
-    }
-  }
-
-  /**
-   * Initialize IPFS client
-   * @returns {Object} IPFS client
-   */
-  async initializeIPFS() {
-    if (window.Ipfs) {
-      return await window.Ipfs.create();
-    } else {
-      // Load IPFS library dynamically if not available
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://unpkg.com/ipfs-http-client/dist/index.min.js';
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
-
-      // Use HTTP client with public gateway
-      const { create } = window.IpfsHttpClient;
-      return create({
-        host: 'ipfs.infura.io',
-        port: 5001,
-        protocol: 'https'
-      });
     }
   }
 
@@ -285,11 +282,33 @@ class StreamingService {
         throw new Error('Invalid content or missing IPFS hash.');
       }
 
-      // Get content URL
-      const contentUrl = this.getIPFSContentUrl(metadata.ipfsHash);
+      // Check if this content has HLS manifests
+      let contentUrl;
+      let isHLS = false;
+
+      if (metadata.hlsManifest) {
+        // Use HLS manifest if available
+        contentUrl = `${ipfsService.gateway}${metadata.hlsManifest}`;
+        isHLS = true;
+      } else {
+        // Get best available IPFS gateway URL for direct file
+        try {
+          contentUrl = await ipfsService.getBestGatewayUrl(metadata.ipfsHash);
+        } catch (error) {
+          // Fallback to basic URL if gateway testing fails
+          contentUrl = this.getIPFSContentUrl(metadata.ipfsHash);
+        }
+      }
 
       // Set up video player
-      videoElement.src = contentUrl;
+      if (isHLS) {
+        // Set up HLS player
+        await this._setupHLSPlayer(videoElement, contentUrl, metadata);
+      } else {
+        // Set up regular video player
+        videoElement.src = contentUrl;
+      }
+
       videoElement.controls = true;
 
       // Track viewing session
@@ -297,7 +316,9 @@ class StreamingService {
         contentId,
         metadata,
         startTime: Date.now(),
-        videoElement
+        videoElement,
+        contentUrl,
+        isHLS
       };
 
       // Set up event listeners
@@ -335,6 +356,146 @@ class StreamingService {
   }
 
   /**
+   * Set up HLS player with hls.js
+   * @param {HTMLVideoElement} videoElement Video element
+   * @param {string} manifestUrl HLS manifest URL
+   * @param {Object} metadata Content metadata
+   * @returns {Promise<void>}
+   * @private
+   */
+  async _setupHLSPlayer(videoElement, manifestUrl, metadata) {
+    // Check for native HLS support
+    if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+      // Native HLS support (Safari, iOS)
+      videoElement.src = manifestUrl;
+      return;
+    }
+
+    // For other browsers, use hls.js
+    try {
+      // Dynamically import hls.js if not available globally
+      if (!window.Hls) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
+
+        await new Promise((resolve, reject) => {
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      // Create new HLS player
+      const hls = new window.Hls({
+        maxBufferLength: 30,
+        maxMaxBufferLength: 600,
+        maxBufferSize: 60 * 1000 * 1000, // 60 MB
+        maxBufferHole: 0.5,
+        startLevel: -1, // Auto select initial quality
+        debug: false
+      });
+
+      // Attach HLS to video element
+      hls.attachMedia(videoElement);
+      hls.on(window.Hls.Events.MEDIA_ATTACHED, () => {
+        hls.loadSource(manifestUrl);
+
+        hls.on(window.Hls.Events.MANIFEST_PARSED, (event, data) => {
+          // Add quality selection UI if multiple levels
+          if (data.levels.length > 1) {
+            this._addQualitySelector(videoElement, hls, data.levels);
+          }
+        });
+      });
+
+      // Store HLS instance for cleanup
+      videoElement.hlsInstance = hls;
+
+    } catch (error) {
+      console.error('Error setting up HLS player:', error);
+      // Fallback to direct URL
+      videoElement.src = manifestUrl;
+    }
+  }
+
+  /**
+   * Add quality selector UI to video player
+   * @param {HTMLVideoElement} videoElement Video element
+   * @param {Object} hls HLS.js instance
+   * @param {Array} levels Quality levels
+   * @private
+   */
+  _addQualitySelector(videoElement, hls, levels) {
+    // Create quality selector container
+    const container = document.createElement('div');
+    container.className = 'quality-selector';
+    container.style.position = 'absolute';
+    container.style.right = '10px';
+    container.style.top = '10px';
+    container.style.background = 'rgba(0,0,0,0.6)';
+    container.style.color = 'white';
+    container.style.padding = '5px';
+    container.style.borderRadius = '3px';
+    container.style.zIndex = '2';
+    container.style.display = 'none'; // Hide initially
+
+    // Create select element
+    const select = document.createElement('select');
+    select.style.background = 'transparent';
+    select.style.color = 'white';
+    select.style.border = 'none';
+
+    // Create auto option
+    const autoOption = document.createElement('option');
+    autoOption.value = '-1';
+    autoOption.text = 'Auto';
+    autoOption.selected = true;
+    select.appendChild(autoOption);
+
+    // Add options for each quality level
+    levels.forEach((level, index) => {
+      const option = document.createElement('option');
+      const height = level.height;
+      const width = level.width;
+      option.value = index.toString();
+      option.text = `${height}p`;
+      if (width) {
+        option.text += ` (${width}x${height})`;
+      }
+      select.appendChild(option);
+    });
+
+    // Handle quality change
+    select.addEventListener('change', (e) => {
+      const levelIndex = parseInt(e.target.value, 10);
+      if (levelIndex === -1) {
+        hls.currentLevel = -1; // Auto
+      } else {
+        hls.currentLevel = levelIndex;
+      }
+    });
+
+    // Add select to container
+    container.appendChild(select);
+
+    // Add container to video parent
+    if (videoElement.parentNode) {
+      videoElement.parentNode.style.position = 'relative';
+      videoElement.parentNode.appendChild(container);
+
+      // Show quality selector on mouse over
+      videoElement.parentNode.addEventListener('mouseover', () => {
+        container.style.display = 'block';
+      });
+
+      // Hide quality selector on mouse leave
+      videoElement.parentNode.addEventListener('mouseleave', () => {
+        container.style.display = 'none';
+      });
+    }
+  }
+
+  /**
    * Stop currently active stream
    * @returns {Promise<void>}
    */
@@ -342,7 +503,7 @@ class StreamingService {
     if (!this.activeStream) return;
 
     try {
-      const { videoElement, contentId } = this.activeStream;
+      const { videoElement, contentId, isHLS } = this.activeStream;
 
       // Remove event listeners
       if (this.streamingEvents.onEnded) {
@@ -351,6 +512,12 @@ class StreamingService {
 
       if (this.streamingEvents.onTimeUpdate) {
         videoElement.removeEventListener('timeupdate', this.streamingEvents.onTimeUpdate);
+      }
+
+      // Clean up HLS.js if used
+      if (isHLS && videoElement.hlsInstance) {
+        videoElement.hlsInstance.destroy();
+        delete videoElement.hlsInstance;
       }
 
       // Stop video playback
@@ -378,31 +545,14 @@ class StreamingService {
    * @returns {Promise<string>} IPFS content hash (CID)
    */
   async uploadToIPFS(file, progressCallback = null) {
-    if (!this.ipfs) {
-      throw new Error('IPFS client not initialized.');
-    }
-
     try {
-      const reader = new FileReader();
-      const buffer = await new Promise((resolve, reject) => {
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsArrayBuffer(file);
-      });
+      // Use the consolidated IPFS service for uploads
+      const result = await ipfsService.uploadFile(file, {
+        pin: true,
+        wrapWithDirectory: false
+      }, progressCallback);
 
-      // Upload to IPFS with progress tracking
-      let lastProgress = 0;
-      const result = await this.ipfs.add(buffer, {
-        progress: bytesLoaded => {
-          const progress = Math.floor((bytesLoaded / file.size) * 100);
-          if (progress > lastProgress && progressCallback) {
-            progressCallback(progress);
-            lastProgress = progress;
-          }
-        }
-      });
-
-      return result.cid.toString();
+      return result.cid;
     } catch (error) {
       console.error('Error uploading to IPFS:', error);
       throw error;
@@ -415,17 +565,50 @@ class StreamingService {
    * @returns {string} Content URL
    */
   getIPFSContentUrl(ipfsHash) {
-    // Use multiple gateways for reliability
-    const gateways = [
-      'https://ipfs.io/ipfs/',
-      'https://gateway.ipfs.io/ipfs/',
-      'https://cloudflare-ipfs.com/ipfs/',
-      'https://ipfs.infura.io/ipfs/'
-    ];
+    // Use the consolidated IPFS service's gateway URL
+    return ipfsService.getGatewayUrl(ipfsHash);
+  }
 
-    // Use a random gateway to distribute load
-    const gateway = gateways[Math.floor(Math.random() * gateways.length)];
-    return `${gateway}${ipfsHash}`;
+  /**
+   * Process video file for HLS streaming
+   * @param {File} videoFile Video file to process
+   * @param {Object} options HLS processing options
+   * @param {Function} progressCallback Callback for progress updates
+   * @returns {Promise<Object>} HLS processing results with IPFS CIDs
+   */
+  async processVideoForHLS(videoFile, options = {}, progressCallback = null) {
+    if (!hlsService.isInitialized) {
+      throw new Error('HLS service not initialized');
+    }
+
+    try {
+      // Default options
+      const hlsOptions = {
+        qualities: options.qualities || ['360p', '720p'],
+        segmentDuration: options.segmentDuration || 6,
+        playlistType: options.playlistType || 'vod',
+        ...options
+      };
+
+      // Process the video file
+      const result = await hlsService.convertToHLS(
+        videoFile,
+        hlsOptions,
+        progressCallback
+      );
+
+      return {
+        masterPlaylistCid: result.masterPlaylistCid,
+        variantPlaylists: result.variantPlaylists,
+        qualities: result.qualities,
+        originalFileCid: options.originalFileCid || null,
+        ipfsGateway: ipfsService.gateway,
+        hlsReady: true
+      };
+    } catch (error) {
+      console.error('Error processing video for HLS:', error);
+      throw error;
+    }
   }
 
   /**
@@ -440,15 +623,74 @@ class StreamingService {
     }
 
     try {
-      // Upload content to IPFS
-      const ipfsHash = await this.uploadToIPFS(file, contentData.progressCallback);
+      let ipfsHash;
+      let hlsManifest = null;
+
+      // Check if we should process for HLS streaming
+      if (file.type.startsWith('video/') && contentData.processHLS) {
+        // First upload the original file
+        const progressCallback = contentData.progressCallback ?
+          (percent) => contentData.progressCallback(percent * 0.3) : // 30% for initial upload
+          null;
+
+        ipfsHash = await this.uploadToIPFS(file, progressCallback);
+
+        // Then process for HLS
+        const hlsProgressCallback = contentData.progressCallback ?
+          (percent) => contentData.progressCallback(30 + percent * 0.7) : // 70% for HLS processing
+          null;
+
+        const hlsResult = await this.processVideoForHLS(
+          file,
+          {
+            qualities: contentData.qualities || ['360p', '720p'],
+            originalFileCid: ipfsHash
+          },
+          hlsProgressCallback
+        );
+
+        // Use HLS manifest as the primary content source
+        hlsManifest = hlsResult.masterPlaylistCid;
+      } else {
+        // Regular upload for non-video files
+        ipfsHash = await this.uploadToIPFS(file, contentData.progressCallback);
+      }
 
       // Prepare contract call
       const priceWei = this.web3.utils.toWei(contentData.price.toString(), 'ether');
 
-      // Call contract to publish content
+      // Additional metadata to include with content
+      const metadataJson = JSON.stringify({
+        title: contentData.title,
+        description: contentData.description || '',
+        mediaType: file.type,
+        originalFilename: file.name,
+        duration: contentData.duration || 0,
+        hlsManifest: hlsManifest,
+        qualities: contentData.qualities || [],
+        thumbnailCid: contentData.thumbnailCid || null,
+        createdAt: new Date().toISOString()
+      });
+
+      // Upload metadata to IPFS
+      const metadataFile = new File(
+        [metadataJson],
+        'metadata.json',
+        { type: 'application/json' }
+      );
+
+      const metadataCid = await this.uploadToIPFS(metadataFile);
+
+      // Call contract to publish content with both the content hash and metadata hash
       const result = await this.streamingContract.methods
-        .publishContent(contentData.title, ipfsHash, Math.floor(contentData.duration), priceWei)
+        .publishContent(
+          contentData.title,
+          ipfsHash,
+          Math.floor(contentData.duration),
+          priceWei,
+          metadataCid,
+          hlsManifest || '0x0'  // Pass HLS manifest if available
+        )
         .send({ from: this.currentAccount });
 
       // Get content ID from transaction receipt
@@ -465,34 +707,198 @@ class StreamingService {
   }
 
   /**
-   * Purchase access to content
-   * @param {string} contentId Content identifier
-   * @returns {Promise<boolean>} Success status
+   * Create and start a new live stream
+   * @param {Object} streamOptions Live stream options
+   * @returns {Promise<Object>} Live stream information
    */
-  async purchaseContentAccess(contentId) {
+  async startLiveStream(streamOptions = {}) {
+    if (!hlsService.isInitialized) {
+      throw new Error('HLS service not initialized');
+    }
+
+    if (!this.currentAccount) {
+      throw new Error('No wallet connected');
+    }
+
+    try {
+      // Create stream with options
+      const stream = await hlsService.createLiveStream({
+        name: streamOptions.name || 'Untitled Stream',
+        description: streamOptions.description || '',
+        qualities: streamOptions.qualities || ['360p', '720p'],
+        persistent: true // Keep all segments
+      });
+
+      // Start the stream
+      const startResult = await hlsService.startLiveStream(stream.streamId);
+
+      // Store stream info
+      this.liveStreams.set(stream.streamId, {
+        ...stream,
+        ...startResult,
+        creator: this.currentAccount,
+        createTime: Date.now()
+      });
+
+      // Return stream info with playback URL
+      return {
+        streamId: stream.streamId,
+        ingestUrl: startResult.ingestUrl,
+        playbackUrl: startResult.playbackUrl,
+        status: startResult.status
+      };
+    } catch (error) {
+      console.error('Error starting live stream:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Stop a live stream
+   * @param {string} streamId Stream identifier
+   * @returns {Promise<Object>} Stream status
+   */
+  async stopLiveStream(streamId) {
+    if (!hlsService.isInitialized) {
+      throw new Error('HLS service not initialized');
+    }
+
+    if (!this.liveStreams.has(streamId)) {
+      throw new Error(`Stream not found: ${streamId}`);
+    }
+
+    try {
+      // Stop the stream
+      const result = await hlsService.stopLiveStream(streamId);
+
+      // Update local stream state
+      const streamInfo = this.liveStreams.get(streamId);
+      streamInfo.status = 'stopped';
+      streamInfo.endTime = Date.now();
+      this.liveStreams.set(streamId, streamInfo);
+
+      return result;
+    } catch (error) {
+      console.error(`Error stopping stream ${streamId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get live stream info
+   * @param {string} streamId Stream identifier
+   * @returns {Promise<Object>} Stream information
+   */
+  async getLiveStreamInfo(streamId) {
+    if (!hlsService.isInitialized) {
+      throw new Error('HLS service not initialized');
+    }
+
+    if (!this.liveStreams.has(streamId) && !hlsService.liveStreams.has(streamId)) {
+      throw new Error(`Stream not found: ${streamId}`);
+    }
+
+    try {
+      // Get info from HLS service
+      const streamInfo = await hlsService.getLiveStreamInfo(streamId);
+      return streamInfo;
+    } catch (error) {
+      console.error(`Error getting stream info for ${streamId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Add segment to a live stream
+   * @param {string} streamId Stream identifier
+   * @param {File|Blob} segmentData Segment data
+   * @param {Object} metadata Segment metadata
+   * @returns {Promise<Object>} Updated stream info
+   */
+  async addLiveSegment(streamId, segmentData, metadata = {}) {
+    if (!hlsService.isInitialized) {
+      throw new Error('HLS service not initialized');
+    }
+
+    try {
+      const result = await hlsService.addLiveSegment(streamId, segmentData, metadata);
+      return result;
+    } catch (error) {
+      console.error(`Error adding segment to stream ${streamId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Publish a completed live stream as VOD content
+   * @param {string} streamId Stream identifier
+   * @param {Object} contentData Additional content data
+   * @returns {Promise<string>} Content ID of published VOD
+   */
+  async publishLiveStreamAsVOD(streamId, contentData = {}) {
     if (!this.streamingContract || !this.currentAccount) {
       throw new Error('Streaming service not initialized or no wallet connected.');
     }
 
+    if (!this.liveStreams.has(streamId)) {
+      throw new Error(`Stream not found: ${streamId}`);
+    }
+
     try {
-      // Get content metadata for price
-      const metadata = await this.getContentMetadata(contentId);
-      if (!metadata) {
-        throw new Error('Content not found');
+      // Get stream info
+      const streamInfo = await this.getLiveStreamInfo(streamId);
+
+      if (streamInfo.status !== 'stopped') {
+        throw new Error('Cannot publish an active live stream');
       }
 
-      // Convert price to wei
-      const priceWei = this.web3.utils.toWei(metadata.price.toString(), 'ether');
+      // Prepare contract call
+      const priceWei = this.web3.utils.toWei((contentData.price || '0').toString(), 'ether');
 
-      // Purchase access
-      await this.streamingContract.methods.purchaseAccess(contentId).send({
-        from: this.currentAccount,
-        value: priceWei
+      // Additional metadata
+      const metadataJson = JSON.stringify({
+        title: contentData.title || streamInfo.name,
+        description: contentData.description || streamInfo.description,
+        mediaType: 'video/application/x-mpegURL',
+        duration: contentData.duration || 0,
+        hlsManifest: streamInfo.masterPlaylistCid,
+        qualities: streamInfo.qualities,
+        thumbnailCid: contentData.thumbnailCid || null,
+        originalStreamId: streamId,
+        createdAt: new Date().toISOString(),
+        isFromLiveStream: true
       });
 
-      return true;
+      // Upload metadata to IPFS
+      const metadataFile = new File(
+        [metadataJson],
+        'metadata.json',
+        { type: 'application/json' }
+      );
+
+      const metadataCid = await this.uploadToIPFS(metadataFile);
+
+      // Call contract to publish content
+      const result = await this.streamingContract.methods
+        .publishContent(
+          contentData.title || streamInfo.name,
+          metadataCid, // Use metadata CID as the main reference
+          Math.floor(contentData.duration || 0),
+          priceWei,
+          metadataCid,
+          streamInfo.masterPlaylistCid // Pass HLS manifest
+        )
+        .send({ from: this.currentAccount });
+
+      // Get content ID from transaction receipt
+      const contentId = result.events.ContentPublished.returnValues.contentId;
+
+      // Refresh content catalog
+      await this.loadContentCatalog();
+
+      return contentId;
     } catch (error) {
-      console.error(`Error purchasing access to ${contentId}:`, error);
+      console.error('Error publishing live stream as VOD:', error);
       throw error;
     }
   }

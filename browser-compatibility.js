@@ -7,6 +7,23 @@
 (function () {
   'use strict';
 
+  // Check if we're in a browser environment or Node.js
+  const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+  // If we're in Node.js, export a simple module and exit
+  if (!isBrowser) {
+    console.log('Running in Node.js environment - skipping browser compatibility checks');
+    // Export a dummy module for Node.js
+    if (typeof module !== 'undefined' && module.exports) {
+      module.exports = {
+        info: { isNode: true },
+        features: { supportsES6: true }
+      };
+    }
+    return; // Exit early for Node.js
+  }
+
+  // Browser-only code below this point
   // Browser detection (for targeted fixes)
   const browserInfo = {
     isIE: !!document.documentMode,

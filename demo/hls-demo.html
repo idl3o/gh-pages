@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 HLS Streaming Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .card {
+            background-color: #16213e;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card-header {
+            background-color: #0f3460;
+            color: white;
+            font-weight: bold;
+        }
+        .form-control, .form-select {
+            background-color: #252a37;
+            border: 1px solid #374151;
+            color: #e6e6e6;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #2c3142;
+            color: white;
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+        .btn-success {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+        }
+        .btn-warning {
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        .player-container {
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #000;
+            margin: 20px 0;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .progress-container {
+            margin: 20px 0;
+        }
+        #log-container {
+            height: 200px;
+            overflow-y: auto;
+            background-color: #0d1117;
+            color: #8b949e;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .log-entry {
+            margin: 3px 0;
+            padding: 2px 0;
+            border-bottom: 1px solid #252a37;
+        }
+        .info { color: #3498db; }
+        .success { color: #2ecc71; }
+        .warning { color: #f39c12; }
+        .error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Web3 HLS Streaming Demo</h1>
+            <p class="lead">Test HTTP Live Streaming with IPFS Integration</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7">
+                <!-- Video Player -->
+                <div class="card">
+                    <div class="card-header">Video Player</div>
+                    <div class="card-body">
+                        <div class="player-container">
+                            <video id="video-player" controls></video>
+                        </div>
+                        <div class="mt-3">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" class="form-control" id="hls-url" placeholder="HLS Playlist URL (IPFS Gateway URL)" />
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" id="load-hls">Load Stream</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversion Status -->
+                <div class="card">
+                    <div class="card-header">Conversion Status</div>
+                    <div class="card-body">
+                        <div class="progress-container">
+                            <label>Conversion Progress:</label>
+                            <div class="progress" role="progressbar">
+                                <div id="conversion-progress" class="progress-bar" style="width: 0%">0%</div>
+                            </div>
+                        </div>
+                        <div id="conversion-status">Not started</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <!-- Upload Video -->
+                <div class="card">
+                    <div class="card-header">Upload Video for HLS Conversion</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="video-file" class="form-label">Select Video File</label>
+                            <input class="form-control" type="file" id="video-file" accept="video/*">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Select Qualities</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="240p" id="quality-240p">
+                                <label class="form-check-label" for="quality-240p">240p</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="360p" id="quality-360p" checked>
+                                <label class="form-check-label" for="quality-360p">360p</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="480p" id="quality-480p">
+                                <label class="form-check-label" for="quality-480p">480p</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="720p" id="quality-720p" checked>
+                                <label class="form-check-label" for="quality-720p">720p</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1080p" id="quality-1080p">
+                                <label class="form-check-label" for="quality-1080p">1080p</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="segment-duration" class="form-label">Segment Duration (seconds)</label>
+                            <input type="number" class="form-control" id="segment-duration" value="6" min="1" max="10">
+                        </div>
+                        <button id="convert-btn" class="btn btn-success">Convert to HLS</button>
+                    </div>
+                </div>
+
+                <!-- Live Stream Controls -->
+                <div class="card mt-3">
+                    <div class="card-header">Live Stream Controls</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="stream-name" class="form-label">Stream Name</label>
+                            <input type="text" class="form-control" id="stream-name" value="Test Live Stream">
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button id="create-stream-btn" class="btn btn-primary">Create Stream</button>
+                            </div>
+                            <div class="col">
+                                <button id="start-stream-btn" class="btn btn-warning" disabled>Start</button>
+                            </div>
+                            <div class="col">
+                                <button id="stop-stream-btn" class="btn btn-danger" disabled>Stop</button>
+                            </div>
+                        </div>
+                        <div id="stream-info" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Output -->
+        <div class="card mt-3">
+            <div class="card-header">Event Log</div>
+            <div class="card-body">
+                <div id="log-container"></div>
+                <button class="btn btn-sm btn-secondary mt-2" id="clear-log">Clear Log</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import hlsService from '../services/HLSService.js';
+        import ipfsService from '../services/IPFSService.js';
+
+        // Initialize services
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Add log entry
+                logEvent('Initializing services...', 'info');
+
+                // Initialize IPFS service
+                await ipfsService.initialize();
+                logEvent('IPFS service initialized', 'success');
+
+                // Initialize HLS service
+                await hlsService.initialize();
+                logEvent('HLS service initialized', 'success');
+
+                // Subscribe to HLS service events
+                setupHlsEvents();
+
+                // Enable buttons
+                document.getElementById('convert-btn').disabled = false;
+                document.getElementById('create-stream-btn').disabled = false;
+
+            } catch (error) {
+                logEvent(`Initialization error: ${error.message}`, 'error');
+                console.error('Initialization error:', error);
+            }
+        });
+
+        // Set up HLS event listeners
+        function setupHlsEvents() {
+            hlsService.on('conversionCompleted', (data) => {
+                logEvent(`Conversion completed: ${data.qualities.join(', ')}`, 'success');
+                document.getElementById('conversion-status').textContent = 'Conversion completed!';
+
+                // Set the HLS URL input
+                const hlsUrl = `${ipfsService.gateway}${data.masterPlaylistCid}`;
+                document.getElementById('hls-url').value = hlsUrl;
+
+                // Auto-load the stream
+                loadHlsStream(hlsUrl);
+            });
+
+            hlsService.on('conversionFailed', (data) => {
+                logEvent(`Conversion failed: ${data.error}`, 'error');
+                document.getElementById('conversion-status').textContent = 'Conversion failed';
+            });
+
+            hlsService.on('liveStreamCreated', (data) => {
+                logEvent(`Live stream created: ${data.streamId}`, 'success');
+            });
+
+            hlsService.on('liveStreamStarted', (data) => {
+                logEvent(`Live stream started: ${data.streamId}`, 'info');
+            });
+
+            hlsService.on('liveStreamStopped', (data) => {
+                logEvent(`Live stream stopped. Duration: ${data.duration.toFixed(1)}s`, 'warning');
+            });
+
+            hlsService.on('liveSegmentAdded', (data) => {
+                logEvent(`Added segment ${data.segmentIndex} to stream`, 'info');
+            });
+        }
+
+        // Convert video to HLS
+        document.getElementById('convert-btn').addEventListener('click', async () => {
+            const videoFile = document.getElementById('video-file').files[0];
+
+            if (!videoFile) {
+                logEvent('No video file selected', 'error');
+                return;
+            }
+
+            try {
+                // Get selected qualities
+                const qualities = [];
+                document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                    qualities.push(checkbox.value);
+                });
+
+                if (qualities.length === 0) {
+                    logEvent('Please select at least one quality', 'error');
+                    return;
+                }
+
+                // Get segment duration
+                const segmentDuration = parseInt(document.getElementById('segment-duration').value) || 6;
+
+                // Disable button
+                document.getElementById('convert-btn').disabled = true;
+                document.getElementById('conversion-status').textContent = 'Converting...';
+
+                logEvent(`Starting conversion of ${videoFile.name}`, 'info');
+
+                // Start conversion
+                const result = await hlsService.convertToHLS(
+                    videoFile,
+                    {
+                        qualities,
+                        segmentDuration,
+                        playlistType: 'vod',
+                        useGatewayUrls: true
+                    },
+                    (progress, message) => {
+                        // Update progress bar
+                        const progressBar = document.getElementById('conversion-progress');
+                        progressBar.style.width = `${progress}%`;
+                        progressBar.textContent = `${progress}%`;
+
+                        // Update status
+                        document.getElementById('conversion-status').textContent = message;
+
+                        // Log progress milestones
+                        if (progress % 20 === 0 || progress === 100) {
+                            logEvent(`Conversion progress: ${progress}% - ${message}`, 'info');
+                        }
+                    }
+                );
+
+                logEvent(`Conversion successful! Master playlist: ${result.masterPlaylistCid}`, 'success');
+
+            } catch (error) {
+                logEvent(`Conversion error: ${error.message}`, 'error');
+                console.error('Conversion error:', error);
+                document.getElementById('conversion-status').textContent = `Error: ${error.message}`;
+                document.getElementById('convert-btn').disabled = false;
+            }
+        });
+
+        // Live stream functions
+        let currentStreamId = null;
+
+        document.getElementById('create-stream-btn').addEventListener('click', async () => {
+            try {
+                const streamName = document.getElementById('stream-name').value || 'Test Stream';
+
+                logEvent(`Creating stream: ${streamName}`, 'info');
+
+                const stream = await hlsService.createLiveStream({
+                    name: streamName,
+                    description: 'Created from HLS demo page',
+                    qualities: ['360p', '720p'],
+                    persistent: true
+                });
+
+                currentStreamId = stream.streamId;
+
+                document.getElementById('stream-info').innerHTML = `
+                    <div class="alert alert-info">
+                        Stream ID: ${stream.streamId}<br>
+                        Status: ${stream.status}<br>
+                        Created: ${new Date(stream.createTime).toLocaleTimeString()}
+                    </div>
+                `;
+
+                document.getElementById('start-stream-btn').disabled = false;
+                document.getElementById('create-stream-btn').disabled = true;
+
+                logEvent(`Stream created with ID: ${stream.streamId}`, 'success');
+
+            } catch (error) {
+                logEvent(`Stream creation error: ${error.message}`, 'error');
+                console.error('Stream creation error:', error);
+            }
+        });
+
+        document.getElementById('start-stream-btn').addEventListener('click', async () => {
+            if (!currentStreamId) return;
+
+            try {
+                const result = await hlsService.startLiveStream(currentStreamId);
+
+                document.getElementById('stream-info').innerHTML = `
+                    <div class="alert alert-success">
+                        Stream ID: ${result.streamId}<br>
+                        Status: ${result.status}<br>
+                        Started: ${new Date(result.startTime).toLocaleTimeString()}<br>
+                        <small>In a real implementation, you would connect to: ${result.ingestUrl}</small>
+                    </div>
+                `;
+
+                document.getElementById('start-stream-btn').disabled = true;
+                document.getElementById('stop-stream-btn').disabled = false;
+
+                logEvent(`Stream started: ${result.streamId}`, 'success');
+
+                // For demo purposes, simulate adding segments
+                simulateStreamSegments(currentStreamId);
+
+            } catch (error) {
+                logEvent(`Stream start error: ${error.message}`, 'error');
+                console.error('Stream start error:', error);
+            }
+        });
+
+        document.getElementById('stop-stream-btn').addEventListener('click', async () => {
+            if (!currentStreamId) return;
+
+            try {
+                stopSimulation = true;
+                const result = await hlsService.stopLiveStream(currentStreamId);
+
+                document.getElementById('stream-info').innerHTML = `
+                    <div class="alert alert-warning">
+                        Stream ID: ${result.streamId}<br>
+                        Status: ${result.status}<br>
+                        Duration: ${result.duration.toFixed(1)} seconds<br>
+                        ${result.masterPlaylistCid ?
+                            `<a href="${ipfsService.gateway}${result.masterPlaylistCid}" target="_blank">Watch Recording</a>` :
+                            'No recording available'}
+                    </div>
+                `;
+
+                // Set the HLS URL input if recording is available
+                if (result.masterPlaylistCid) {
+                    const hlsUrl = `${ipfsService.gateway}${result.masterPlaylistCid}`;
+                    document.getElementById('hls-url').value = hlsUrl;
+                }
+
+                document.getElementById('stop-stream-btn').disabled = true;
+                document.getElementById('create-stream-btn').disabled = false;
+                currentStreamId = null;
+
+                logEvent(`Stream stopped. Duration: ${result.duration.toFixed(1)}s`, 'warning');
+
+            } catch (error) {
+                logEvent(`Stream stop error: ${error.message}`, 'error');
+                console.error('Stream stop error:', error);
+            }
+        });
+
+        // Simulate adding segments to a live stream (for demo purposes)
+        let stopSimulation = false;
+        async function simulateStreamSegments(streamId) {
+            try {
+                // Simulate adding 5 segments
+                for (let i = 0; i < 10; i++) {
+                    if (stopSimulation) break;
+
+                    // Create a small segment file (mock video data)
+                    const segmentContent = `Mock HLS segment ${i + 1}`;
+                    const segmentBlob = new Blob([segmentContent], { type: 'video/mp2t' });
+
+                    // Add segment to stream
+                    await hlsService.addLiveSegment(streamId, segmentBlob, {
+                        quality: '360p',
+                        duration: 6
+                    });
+
+                    // Update stream info periodically
+                    if (i % 3 === 0) {
+                        const streamInfo = await hlsService.getLiveStreamInfo(streamId);
+
+                        // Update HLS URL if available
+                        if (streamInfo.playbackUrl) {
+                            document.getElementById('hls-url').value = streamInfo.playbackUrl;
+
+                            // Auto-load the stream after a few segments
+                            if (i === 3) {
+                                loadHlsStream(streamInfo.playbackUrl);
+                            }
+                        }
+                    }
+
+                    // Wait 2 seconds between segments
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+
+                if (!stopSimulation) {
+                    logEvent('Simulated stream complete', 'info');
+                }
+
+            } catch (error) {
+                logEvent(`Simulation error: ${error.message}`, 'error');
+                console.error('Simulation error:', error);
+            }
+        }
+
+        // Load and play HLS stream
+        document.getElementById('load-hls').addEventListener('click', () => {
+            const url = document.getElementById('hls-url').value;
+            loadHlsStream(url);
+        });
+
+        function loadHlsStream(url) {
+            if (!url) {
+                logEvent('Please enter an HLS URL', 'error');
+                return;
+            }
+
+            const video = document.getElementById('video-player');
+
+            if (Hls.isSupported()) {
+                const hls = new Hls({
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    backBufferLength: 90
+                });
+
+                hls.loadSource(url);
+                hls.attachMedia(video);
+
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    logEvent(`HLS stream loaded: ${url}`, 'success');
+                    video.play();
+                });
+
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        logEvent(`HLS error: ${data.type} - ${data.details}`, 'error');
+                    }
+                });
+
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                // Native HLS support (Safari)
+                video.src = url;
+                video.addEventListener('loadedmetadata', () => {
+                    logEvent(`HLS stream loaded (native): ${url}`, 'success');
+                    video.play();
+                });
+                video.addEventListener('error', () => {
+                    logEvent('Error loading video', 'error');
+                });
+            } else {
+                logEvent('HLS is not supported in your browser', 'error');
+            }
+        }
+
+        // Event logging
+        function logEvent(message, type = 'info') {
+            const logContainer = document.getElementById('log-container');
+            const entry = document.createElement('div');
+            entry.classList.add('log-entry', type);
+
+            const time = new Date().toLocaleTimeString();
+            entry.innerHTML = `[${time}] ${message}`;
+
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Clear log
+        document.getElementById('clear-log').addEventListener('click', () => {
+            document.getElementById('log-container').innerHTML = '';
+        });
+    </script>
+</body>
+</html>

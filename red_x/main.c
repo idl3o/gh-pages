@@ -13,11 +13,8 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-
-#ifdef __EMSCRIPTEN__
+#include <ctype.h> // Added for tolower() function
 #include <emscripten.h>
-#endif
-
 #include "font_atlas.h"
 
 // Window dimensions
@@ -168,6 +165,43 @@ typedef struct
     bool show_filter_ui;   // Whether to show the filter UI
 } AppState;
 
+// Blockchain visualization data structures
+typedef struct {
+    int block_number;
+    long timestamp;
+    char* miner;
+    int tx_count;
+    float difficulty;
+    int gas_used;
+    int gas_limit;
+} BlockData;
+
+typedef struct {
+    char* hash;
+    char* from;
+    char* to;
+    float value;
+    int gas_used;
+} TransactionData;
+
+// Global state for blockchain visualization
+typedef struct {
+    BlockData* blocks;
+    int block_count;
+    int block_capacity;
+    TransactionData* transactions;
+    int transaction_count;
+    int transaction_capacity;
+    int view_mode; // 0 = blocks, 1 = transactions, 2 = network
+    float animation_time;
+    int selected_block;
+    char* selected_tx_hash;
+    void* json_buffer;
+    int buffer_size;
+} BlockchainVisualizerState;
+
+BlockchainVisualizerState blockchain_state = {0};
+
 // Forward declarations for functions used before they're defined
 void draw_docs_panel(AppState *state);
 void draw_statistics_panel(AppState *state);
@@ -184,6 +218,7 @@ void update(AppState *state);
 void apply_particle_interaction(AppState *state, float delta_time);
 
 // Case insensitive substring search for platforms that may not have strcasestr
+#if !defined(__GLIBC__) && !defined(__EMSCRIPTEN__)
 char *strcasestr(const char *haystack, const char *needle)
 {
     if (!haystack || !needle)
@@ -207,8 +242,10 @@ char *strcasestr(const char *haystack, const char *needle)
 
     return NULL;
 }
+#endif
 
 // Cross-platform case insensitive string comparison
+#if !defined(__GLIBC__) && !defined(__EMSCRIPTEN__)
 int strncasecmp(const char *s1, const char *s2, size_t n)
 {
     if (n == 0)
@@ -226,6 +263,7 @@ int strncasecmp(const char *s1, const char *s2, size_t n)
 
     return 0;
 }
+#endif
 
 // Initialize the application
 void initialize(AppState *state)
@@ -1958,6 +1996,7 @@ int create_new_particle(AppState *state, int type, float x, float y)
         sprintf(p->data, "Identity %d", index);
         break;
     case 9:
+        p->color = (SDL_Color){200, 200```c
         p->color = (SDL_Color){200, 200, 200, 255}; // Light gray
         sprintf(p->data, "Client %d", index);
         break;
@@ -1967,28 +2006,82 @@ int create_new_particle(AppState *state, int type, float x, float y)
     return index;
 }
 
+// Detect runtime environment for platform-specific features
 void detect_environment(AppState *state)
 {
     // Placeholder implementation
-    state->environment = ENV_BROWSER;
-    strcpy(state->env_display_name, "Web Browser");
+    state->environment = ENV_UNKNOWN;
     state->environment_initialized = true;
+    strcpy(state->env_display_name, "Browser (WebAssembly)");
+
+#ifdef __EMSCRIPTEN__
+    // Always Browser environment when running under Emscripten
+    state->environment = ENV_BROWSER;
+#else
+    // Attempt to detect terminal environment when not in browser
+#ifdef _WIN32
+        // Check for PowerShell or CMD on Windows
+        char *powershell_var = getenv("PSModulePath");
+        if (powershell_var) {
+            state->environment = ENV_POWERSHELL;
+            strcpy(state->env_display_name, "PowerShell");
+        } else {
+            state->environment = ENV_CMD;
+            strcpy(state->env_display_name, "Windows Command Prompt");
+        }
+#else
+        // Assume bash on non-Windows platforms
+        state->environment = ENV_BASH;
+        strcpy(state->env_display_name, "Bash");
+#endif
+#endif
+
+    // Log the detected environment
+    printf("Detected environment: %s\n", state->env_display_name);
 }
 
+// Update application state
 void update(AppState *state)
 {
-    // Handle pulse effect
-    state->pulse_state += X_PULSE_SPEED;
-    if (state->pulse_state > 2.0f * M_PI)
-    {
-        state->pulse_state -= 2.0f * M_PI;
-    }
-
-    // Calculate delta time in seconds
     Uint32 current_time = SDL_GetTicks();
-    float delta_time = (current_time - state->last_update_time) / 1000.0f;
+    float delta_time = (current_time - state->last_update_time) / 1000.0f; // Convert to seconds
     state->last_update_time = current_time;
 
-    // Update particle positions and interactions
+    // Update particles
     apply_particle_interaction(state, delta_time);
+
+    // Update stats if visible
+    if (state->stats_panel_visible)
+    {
+        calculate_network_stats(state, delta_time);
+    }
+
+    // Update cooldowns
+    if (state->creation_cooldown > 0)
+    {
+        state->creation_cooldown -= delta_time;
+    }
 }
+
+// Main loop
+void main_loop(AppState *state)
+{
+    handle_events(state);
+    update(state);
+    render(state);
+}
+
+// Entry point
+int main(int argc, char *argv[])
+{
+    AppState state;
+    initialize(&state);
+    detect_environment(&state);
+
+    // Main loop
+    emscripten_set_main_loop_arg(main_loop, &state, 0, 1);
+
+    cleanup(&state);
+    return 0;
+}
+```

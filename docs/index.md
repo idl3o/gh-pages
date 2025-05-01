@@ -1,78 +1,62 @@
-# StreamChain Component Library
+---
+layout: default
+title: Technology Documentation Hub
+---
 
-This documentation provides detailed information about the components used in the StreamChain platform.
+# Technology Documentation Hub
 
-## Available Components
+Welcome to our comprehensive documentation center. This hub provides detailed technical information about all components of our technology stack.
 
-### User Interface Components
+## Documentation Categories
 
-| Component                 | Description                                      | Documentation                                   |
-| ------------------------- | ------------------------------------------------ | ----------------------------------------------- |
-| **BatchUploader**         | Enables multi-file uploads with metadata editing | [View Documentation](batch-uploader.md)         |
-| **ContentViewer**         | Displays media content with playback controls    | [View Documentation](content-viewer.md)         |
-| **WalletConnect**         | Handles wallet connection and authentication     | [View Documentation](wallet-connect.md)         |
-| **TokenGate**             | Controls access to token-gated content           | [View Documentation](token-gate.md)             |
-| **NFTCreator**            | Interface for creating NFTs from content         | [View Documentation](nft-creator.md)            |
-| **ContentRecommendation** | Displays personalized content recommendations    | [View Documentation](content-recommendation.md) |
-| **Analytics**             | Creator analytics dashboard elements             | [View Documentation](analytics.md)              |
-| **RevenueReports**        | Displays creator revenue information             | [View Documentation](revenue-reports.md)        |
+### Core Technologies
 
-### Core Components
+| Category | Description | Documentation Link |
+|----------|-------------|-------------------|
+| [Server Technologies](server-docs/index.html) | Node.js backend, API services, and streaming capabilities | [View Documentation](server-docs/index.html) |
+| [Blockchain Technology](blockchain-docs/index.html) | Smart contracts, PRX Token, and payment streaming | [View Documentation](blockchain-docs/index.html) |
+| [TypeScript SDK](typescript-docs/index.html) | Developer toolkit for platform integration | [View Documentation](typescript-docs/index.html) |
+| [Serverless Functions](serverless-docs/index.html) | Netlify functions and API handlers | [View Documentation](serverless-docs/index.html) |
 
-| Component              | Description                              | Documentation                                |
-| ---------------------- | ---------------------------------------- | -------------------------------------------- |
-| **IPFSProvider**       | Manages interaction with IPFS            | [View Documentation](ipfs-provider.md)       |
-| **BlockchainService**  | Core service for blockchain interactions | [View Documentation](blockchain-service.md)  |
-| **ContentModeration**  | Handles content moderation and safety    | [View Documentation](content-moderation.md)  |
-| **MetadataManager**    | Manages content metadata                 | [View Documentation](metadata-manager.md)    |
-| **FeatureFlags**       | Controls feature availability            | [View Documentation](feature-flags.md)       |
-| **NotificationSystem** | Manages user notifications               | [View Documentation](notification-system.md) |
+### Integration & Development
 
-## Component Implementation Guidelines
+| Category | Description | Documentation Link |
+|----------|-------------|-------------------|
+| [Integration Services](services-docs/index.html) | Blockchain data, email, HLS, and IPFS services | [View Documentation](services-docs/index.html) |
+| [Development Utilities](utility-docs/index.html) | Development tools, scripts, and helpers | [View Documentation](utility-docs/index.html) |
+| [RED X Backend](../red_x/index.html) | Native integration and WebAssembly components | [View Demo](../red_x/index.html) |
 
-When implementing or extending components, follow these guidelines:
+## Getting Started
 
-### Best Practices
+If you're new to our technology stack, we recommend following this learning path:
 
-1. **Modular Design**: Each component should have a single responsibility and be easily reusable
-2. **Event-Based Communication**: Use custom events for inter-component communication
-3. **Progressive Enhancement**: Components should function with minimal JavaScript when possible
-4. **Accessibility**: Follow WCAG 2.1 AA standards for all components
-5. **Responsive Design**: Components should work on all screen sizes
-6. **State Management**: Maintain clear data flow and state management
+1. Start with the [Server Technologies](server-docs/index.html) documentation to understand our backend architecture
+2. Explore the [Integration Services](services-docs/index.html) to see how different components interact
+3. Learn about our [Blockchain Technology](blockchain-docs/index.html) for payment streaming and token management
+4. Dive into the [TypeScript SDK](typescript-docs/index.html) to build integrations with our platform
 
-### Component Structure
+## Latest Updates
 
-```
-ComponentName/
-├── index.js              # Main entry point
-├── ComponentName.js      # Core component logic
-├── ComponentName.css     # Styles (or .scss)
-├── subcomponents/        # Smaller related components
-├── utils/                # Helper functions
-└── tests/                # Component tests
-```
+- **May 1, 2025**: Comprehensive documentation update
+- **April 15, 2025**: Added payment streaming contract documentation
+- **April 1, 2025**: Updated server API endpoints
+- **March 20, 2025**: New TypeScript SDK examples
 
-### Documentation Requirements
+## Developer Resources
 
-Each component should include:
+- [Technology Dashboard](../technologies-overview.html)
+- [GitHub Repository](https://github.com/username/gh-pages)
+- [API Reference](server-docs/api-reference.html)
+- [Smart Contract Reference](blockchain-docs/contracts.html)
 
-1. **Overview**: Brief description of the component's purpose
-2. **Dependencies**: Libraries and other components it depends on
-3. **Props/Configuration**: All available configuration options
-4. **Events**: Events emitted by the component
-5. **Methods**: Public methods that can be called
-6. **Examples**: Usage examples with code snippets
-7. **Accessibility Considerations**: How the component handles accessibility
+## Need Help?
 
-## Adding New Components
+If you can't find what you're looking for in the documentation, please reach out through one of these channels:
 
-1. Create a new component following the structure above
-2. Add comprehensive tests
-3. Document the component using the template
-4. Add the component to the relevant section in this index
-5. Submit a pull request for review
+- **Developer Forum**: [community.example.com](https://community.example.com)
+- **GitHub Issues**: [github.com/username/gh-pages/issues](https://github.com/username/gh-pages/issues)
+- **Email Support**: support@example.com
 
-## Roadmap
+---
 
-See our [Component Roadmap](../roadmap/components.md) for upcoming component development plans.
+Return to the [Main Site](../index.html) | View [Technology Dashboard](../technologies-overview.html)

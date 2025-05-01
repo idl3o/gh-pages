@@ -1,0 +1,165 @@
+name: Build and Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - '.vscode/**'
+      - 'docs/**'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  # Job to test the build process
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Test Build with Jekyll
+        run: |
+          bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Install SDL development dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+          # Verify SDL2 installation
+          find /usr -name "SDL.h" || echo "SDL.h not found"
+
+      - name: Test WebAssembly compilation
+        if: hashFiles('red_x/main.c') != ''
+        run: |
+          echo "Setting up Emscripten for WebAssembly compilation..."
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+
+          # Add include paths for SDL
+          export CPATH=/usr/include/SDL2:$CPATH
+
+          # Compile RED X - Use the web target specifically
+          cd ../red_x
+          if [ -f "Makefile" ]; then
+            # Use the web target specifically for WebAssembly build
+            make web
+          elif [ -f "main.c" ]; then
+            # Use emcc directly
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
+          fi
+
+  # Job to build and deploy
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Setup Node.js
+        if: hashFiles('package.json') != ''
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        if: hashFiles('package.json') != ''
+        run: npm ci
+
+      - name: Build TypeScript SDK
+        if: hashFiles('ts/package.json') != ''
+        run: |
+          cd ts
+          npm ci
+          npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+        id: pages
+
+      - name: Install SDL development dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+          # Verify SDL2 installation
+          find /usr -name "SDL.h" || echo "SDL.h not found"
+
+      - name: Setup Emscripten for WebAssembly
+        if: hashFiles('red_x/main.c') != ''
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+
+          # Debug SDL installation
+          echo "Checking SDL installation..."
+          find /usr -name "SDL.h"
+
+          # Add include paths if needed
+          export CPATH=/usr/include/SDL2:$CPATH
+
+          # Compile RED X - Use the web target specifically
+          cd ../red_x
+          if [ -f "Makefile" ]; then
+            # Use the web target specifically for WebAssembly build
+            make web
+          elif [ -f "main.c" ]; then
+            # Use emcc directly
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
+          fi
+
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '_site'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

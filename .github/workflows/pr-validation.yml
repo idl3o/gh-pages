@@ -1,0 +1,93 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Validate Jekyll build
+        run: bundle exec jekyll build --safe
+        env:
+          JEKYLL_ENV: production
+
+      - name: Check for Jekyll build errors
+        run: |
+          if [ ! -d "_site" ]; then
+            echo "::error::Jekyll build failed - _site directory not created"
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        if: hashFiles('ts/package.json') != ''
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: ts/package-lock.json
+
+      - name: TypeScript Validation
+        if: hashFiles('ts/package.json') != ''
+        run: |
+          cd ts
+          npm ci
+          npm run lint || echo "Linting issues found"
+          npm run build
+
+      - name: Install SDL development dependencies
+        if: hashFiles('red_x/main.c') != '' || hashFiles('red_x/Makefile') != ''
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+          # Verify SDL2 installation
+          find /usr -name "SDL.h" || echo "SDL.h not found"
+          echo "SDL installation location:"
+          pkg-config --cflags sdl2
+
+      - name: Validate WebAssembly compilation
+        if: hashFiles('red_x/main.c') != ''
+        run: |
+          echo "Setting up Emscripten for WebAssembly compilation..."
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+
+          # Add SDL include path to environment
+          export CPATH=/usr/include/SDL2:$CPATH
+
+          # Check emcc version and features
+          emcc --version
+
+          # Compile RED X with extra debugging
+          cd ../red_x
+          if [ -f "Makefile" ]; then
+            # Use the web target specifically for WebAssembly build
+            echo "Running make web with detailed output..."
+            make web VERBOSE=1
+          elif [ -f "main.c" ]; then
+            # Use emcc with explicit SDL include path
+            echo "Compiling with explicit SDL include path..."
+            emcc main.c -o index.html -s USE_SDL=2 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -I/usr/include/SDL2
+          fi
+
+          # Verify compilation was successful
+          if [ ! -f "index.wasm" ]; then
+            echo "::error::WebAssembly compilation failed - index.wasm not created"
+            exit 1
+          fi
+
+          echo "WebAssembly compilation successful - index.wasm file created"

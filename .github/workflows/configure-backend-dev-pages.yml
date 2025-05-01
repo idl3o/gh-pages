@@ -1,0 +1,31 @@
+name: Configure Backend Dev GitHub Pages
+
+on:
+  push:
+    branches:
+      - gh-pages-backend-dev
+
+jobs:
+  configure-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages-backend-dev branch
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages-backend-dev
+
+      - name: Create .nojekyll file
+        run: |
+          touch .nojekyll
+
+      - name: Commit .nojekyll file if needed
+        run: |
+          if git diff --exit-code .nojekyll; then
+            echo "No changes to .nojekyll file"
+          else
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .nojekyll
+            git commit -m "Add .nojekyll file to disable Jekyll processing"
+            git push
+          fi

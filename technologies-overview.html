@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology Consolidation Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --info-color: #1abc9c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--light-color);
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--info-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .datetime {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .card-content {
+            margin-bottom: 15px;
+        }
+
+        .tech-list {
+            list-style: none;
+        }
+
+        .tech-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tech-list li:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .badge.web {
+            background-color: var(--primary-color);
+        }
+
+        .badge.blockchain {
+            background-color: var(--secondary-color);
+        }
+
+        .badge.server {
+            background-color: var(--warning-color);
+        }
+
+        .badge.native {
+            background-color: var(--danger-color);
+        }
+
+        .badge.typescript {
+            background-color: #007acc;
+        }
+
+        .badge.javascript {
+            background-color: #f7df1e;
+            color: black;
+        }
+
+        .feature-list {
+            margin-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .feature-list li {
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .system-info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .system-info h2 {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .system-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .system-info-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .system-info-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Tab System */
+        .tab-container {
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom-color: white;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Search bar */
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .system-info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Technology Consolidation Dashboard</h1>
+        <p>A comprehensive overview of our technologies and projects</p>
+        <div class="datetime" id="datetime">Last Updated: May 1, 2025</div>
+    </header>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search technologies..." id="searchInput">
+    </div>
+
+    <div class="tab-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="all">All Technologies</div>
+            <div class="tab" data-tab="web">Web</div>
+            <div class="tab" data-tab="blockchain">Blockchain</div>
+            <div class="tab" data-tab="server">Server</div>
+            <div class="tab" data-tab="sdk">SDK & Libraries</div>
+        </div>
+
+        <div class="tab-content active" id="all">
+            <div class="container">
+                <!-- Web Technologies -->
+                <div class="card" data-category="web">
+                    <h2>Web Frontend</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>HTML/CSS/JavaScript <span class="badge web">Web</span></li>
+                            <li>Jekyll Static Site <span class="badge web">Web</span></li>
+                            <li>GitHub Pages Integration <span class="badge web">Web</span></li>
+                            <li>TypeScript Components <span class="badge typescript">TypeScript</span></li>
+                        </ul>
+                        <p class="feature-list">Key features include:</p>
+                        <ul class="feature-list">
+                            <li>Responsive design</li>
+                            <li>Jekyll templates</li>
+                            <li>Browser compatibility testing</li>
+                        </ul>
+                    </div>
+                    <a href="index.html" class="btn">View Main Site</a>
+                </div>
+
+                <!-- Blockchain -->
+                <div class="card" data-category="blockchain">
+                    <h2>Blockchain Technology</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>Smart Contracts <span class="badge blockchain">Blockchain</span></li>
+                            <li>PRX Token Chain <span class="badge blockchain">Blockchain</span></li>
+                            <li>Payment Streaming <span class="badge blockchain">Blockchain</span></li>
+                            <li>OpenZeppelin Security <span class="badge blockchain">Blockchain</span></li>
+                        </ul>
+                        <p class="feature-list">Implementation highlights:</p>
+                        <ul class="feature-list">
+                            <li>Secure token transfers</li>
+                            <li>Payment streaming contracts</li>
+                            <li>Gas usage optimization</li>
+                        </ul>
+                    </div>
+                    <a href="docs/blockchain-docs/index.html" class="btn">View Blockchain Docs</a>
+                </div>
+
+                <!-- Server -->
+                <div class="card" data-category="server">
+                    <h2>Server Technologies</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>Node.js Backend <span class="badge server">Server</span></li>
+                            <li>API Services <span class="badge server">Server</span></li>
+                            <li>Streaming Cache <span class="badge server">Server</span></li>
+                            <li>HLS Service <span class="badge server">Server</span></li>
+                        </ul>
+                        <p class="feature-list">Server capabilities:</p>
+                        <ul class="feature-list">
+                            <li>RESTful API endpoints</li>
+                            <li>Stream caching mechanisms</li>
+                            <li>Authentication services</li>
+                        </ul>
+                    </div>
+                    <a href="docs/server-docs/index.html" class="btn">Server Documentation</a>
+                </div>
+
+                <!-- Red X -->
+                <div class="card" data-category="native">
+                    <h2>RED X Backend</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>Native C Integration <span class="badge native">Native</span></li>
+                            <li>WebAssembly Modules <span class="badge web">WASM</span></li>
+                            <li>Font Atlas Renderer <span class="badge native">Native</span></li>
+                            <li>Windows Connector <span class="badge native">Native</span></li>
+                        </ul>
+                        <p class="feature-list">Advanced features:</p>
+                        <ul class="feature-list">
+                            <li>High-performance rendering</li>
+                            <li>Cross-platform compatibility</li>
+                            <li>Native & web integrations</li>
+                        </ul>
+                    </div>
+                    <a href="red_x/index.html" class="btn">RED X Demo</a>
+                </div>
+
+                <!-- TypeScript SDK -->
+                <div class="card" data-category="sdk">
+                    <h2>TypeScript SDK</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>Type Definitions <span class="badge typescript">TypeScript</span></li>
+                            <li>API Integration <span class="badge typescript">TypeScript</span></li>
+                            <li>Developer Tools <span class="badge typescript">TypeScript</span></li>
+                            <li>Web3 Service <span class="badge typescript">TypeScript</span></li>
+                        </ul>
+                        <p class="feature-list">SDK benefits:</p>
+                        <ul class="feature-list">
+                            <li>Strongly typed interfaces</li>
+                            <li>Simplified API interactions</li>
+                            <li>Blockchain connectivity</li>
+                        </ul>
+                    </div>
+                    <a href="docs/typescript-docs/index.html" class="btn">SDK Documentation</a>
+                </div>
+
+                <!-- Serverless Functions -->
+                <div class="card" data-category="server">
+                    <h2>Serverless Functions</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>Netlify Functions <span class="badge server">Serverless</span></li>
+                            <li>API Handlers <span class="badge javascript">JavaScript</span></li>
+                            <li>Authentication <span class="badge server">Serverless</span></li>
+                            <li>Payment Processing <span class="badge server">Serverless</span></li>
+                        </ul>
+                        <p class="feature-list">Serverless architecture:</p>
+                        <ul class="feature-list">
+                            <li>Scalable API endpoints</li>
+                            <li>Low-latency responses</li>
+                            <li>Cost-effective deployment</li>
+                        </ul>
+                    </div>
+                    <a href="docs/serverless-docs/index.html" class="btn">Serverless Documentation</a>
+                </div>
+
+                <!-- Services -->
+                <div class="card" data-category="server">
+                    <h2>Integration Services</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>Blockchain Data Service <span class="badge blockchain">Blockchain</span></li>
+                            <li>Email Service <span class="badge server">Service</span></li>
+                            <li>HLS Service <span class="badge server">Streaming</span></li>
+                            <li>IPFS Service <span class="badge server">Decentralized</span></li>
+                        </ul>
+                        <p class="feature-list">Service integrations:</p>
+                        <ul class="feature-list">
+                            <li>Blockchain data retrieval</li>
+                            <li>Transactional email delivery</li>
+                            <li>Decentralized storage</li>
+                        </ul>
+                    </div>
+                    <a href="docs/services-docs/index.html" class="btn">Services Documentation</a>
+                </div>
+
+                <!-- Utilities -->
+                <div class="card" data-category="sdk">
+                    <h2>Development Utilities</h2>
+                    <div class="card-content">
+                        <ul class="tech-list">
+                            <li>Gas Price Manager <span class="badge blockchain">Blockchain</span></li>
+                            <li>Environment Utilities <span class="badge javascript">JavaScript</span></li>
+                            <li>Ruby Setup Tools <span class="badge server">DevOps</span></li>
+                            <li>Deployment Scripts <span class="badge server">DevOps</span></li>
+                        </ul>
+                        <p class="feature-list">Developer tools:</p>
+                        <ul class="feature-list">
+                            <li>Automated deployment</li>
+                            <li>Environment configuration</li>
+                            <li>Performance optimization</li>
+                        </ul>
+                    </div>
+                    <a href="docs/utility-docs/index.html" class="btn">Utility Documentation</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="web">
+            <!-- Web Content Will Be Filtered By JS -->
+        </div>
+
+        <div class="tab-content" id="blockchain">
+            <!-- Blockchain Content Will Be Filtered By JS -->
+        </div>
+
+        <div class="tab-content" id="server">
+            <!-- Server Content Will Be Filtered By JS -->
+        </div>
+
+        <div class="tab-content" id="sdk">
+            <!-- SDK Content Will Be Filtered By JS -->
+        </div>
+    </div>
+
+    <div class="system-info">
+        <h2>System Information</h2>
+        <div class="system-info-grid">
+            <div class="system-info-item">
+                <div class="system-info-label">Repository</div>
+                <div class="system-info-value">GitHub Pages</div>
+            </div>
+            <div class="system-info-item">
+                <div class="system-info-label">Last Updated</div>
+                <div class="system-info-value" id="lastUpdated">May 1, 2025</div>
+            </div>
+            <div class="system-info-item">
+                <div class="system-info-label">Technologies</div>
+                <div class="system-info-value">8+ Major Systems</div>
+            </div>
+            <div class="system-info-item">
+                <div class="system-info-label">Status</div>
+                <div class="system-info-value">Active Development</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Technology Consolidation Dashboard. All rights reserved.</p>
+        <p>This dashboard was generated to provide a comprehensive overview of all technologies in this project.</p>
+        <p><a href="docs/index.html">View All Documentation</a></p>
+    </footer>
+
+    <script>
+        // Update the current datetime
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('datetime').textContent = 'Last Updated: ' +
+                now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+            document.getElementById('lastUpdated').textContent =
+                now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+        }
+
+        // Initialize with current time
+        updateDateTime();
+
+        // Tab system functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                // Show selected tab content
+                const tabId = tab.getAttribute('data-tab');
+
+                if (tabId === 'all') {
+                    document.getElementById('all').classList.add('active');
+                } else {
+                    // Filter cards based on category for other tabs
+                    document.getElementById(tabId).classList.add('active');
+
+                    // Clone relevant cards into the tab
+                    const tabContent = document.getElementById(tabId);
+                    tabContent.innerHTML = '';
+
+                    const container = document.createElement('div');
+                    container.className = 'container';
+
+                    const cards = document.querySelectorAll(`.card[data-category="${tabId}"]`);
+                    cards.forEach(card => {
+                        container.appendChild(card.cloneNode(true));
+                    });
+
+                    tabContent.appendChild(container);
+                }
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchValue)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
