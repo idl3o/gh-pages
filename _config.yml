@@ -24,6 +24,12 @@ exclude:
   - node_modules
   - vendor
   - .gitignore
+  - frontend/webapp/node_modules
+  - "**/node_modules/**"
+  - "**/.cache/**"
+  - "**/dist/**"
+  - "**/.git/**"
+  - ts/node_modules
 
 # Include specific files
 include:
