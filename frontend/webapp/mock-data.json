@@ -1,0 +1,162 @@
+{
+  "streams": [
+    {
+      "id": "1",
+      "title": "Introduction to Web3 Development",
+      "description": "Learn the basics of Web3 development including smart contracts and dApps",
+      "creator": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "thumbnailUrl": "/assets/thumbnails/intro-web3.jpg",
+      "ipfsHash": "QmV9tSDx9UiPeWExXEeH6aoDvmihvx6jD5eLb4jbTaKGps",
+      "duration": 3600,
+      "createdAt": "2025-04-15T10:30:00Z",
+      "viewCount": 1250,
+      "tags": ["web3", "blockchain", "tutorial"]
+    },
+    {
+      "id": "2",
+      "title": "Advanced Smart Contract Security",
+      "description": "Deep dive into securing your smart contracts against common vulnerabilities",
+      "creator": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "thumbnailUrl": "/assets/thumbnails/smart-contract-security.jpg",
+      "ipfsHash": "QmSgvgwxZGaBLqkGyLcyN7xhALZe4P1kP5tFTrSwsJJdRV",
+      "duration": 4800,
+      "createdAt": "2025-04-20T14:00:00Z",
+      "viewCount": 850,
+      "tags": ["security", "smart contracts", "solidity"]
+    },
+    {
+      "id": "3",
+      "title": "Building Decentralized Applications",
+      "description": "A comprehensive guide to building full-stack dApps with React and Ethereum",
+      "creator": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "thumbnailUrl": "/assets/thumbnails/dapp-development.jpg",
+      "ipfsHash": "QmTbhNNgnSzDnQj8mLELcxqZKwUwbzpnHj2iMeqscjpDEF",
+      "duration": 5400,
+      "createdAt": "2025-04-25T09:15:00Z",
+      "viewCount": 2100,
+      "tags": ["dapp", "react", "ethereum"]
+    }
+  ],
+  "users": [
+    {
+      "id": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "username": "web3_educator",
+      "displayName": "Web3 Educator",
+      "avatar": "/assets/avatars/web3-educator.jpg",
+      "bio": "Teaching blockchain development since 2017. Ethereum enthusiast.",
+      "followers": 12500,
+      "following": 350,
+      "joinedAt": "2022-01-15T00:00:00Z"
+    },
+    {
+      "id": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "username": "security_expert",
+      "displayName": "Blockchain Security Expert",
+      "avatar": "/assets/avatars/security-expert.jpg",
+      "bio": "Smart contract auditor. Making Web3 safer one contract at a time.",
+      "followers": 8700,
+      "following": 215,
+      "joinedAt": "2022-03-22T00:00:00Z"
+    },
+    {
+      "id": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "username": "dapp_builder",
+      "displayName": "DApp Builder",
+      "avatar": "/assets/avatars/dapp-builder.jpg",
+      "bio": "Frontend developer passionate about decentralized applications.",
+      "followers": 5300,
+      "following": 420,
+      "joinedAt": "2023-01-10T00:00:00Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "c1",
+      "streamId": "1",
+      "userId": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "text": "Great introduction! Very clear explanations.",
+      "createdAt": "2025-04-16T08:45:00Z",
+      "likes": 24
+    },
+    {
+      "id": "c2",
+      "streamId": "1",
+      "userId": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "text": "This helped me understand the basics. Looking forward to more advanced content!",
+      "createdAt": "2025-04-16T14:20:00Z",
+      "likes": 18
+    },
+    {
+      "id": "c3",
+      "streamId": "2",
+      "userId": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "text": "Important security concepts everyone should know before deploying smart contracts.",
+      "createdAt": "2025-04-21T10:15:00Z",
+      "likes": 42
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "s1",
+      "userId": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "creatorId": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "startDate": "2025-03-01T00:00:00Z",
+      "endDate": "2025-06-01T00:00:00Z",
+      "status": "active",
+      "tier": "premium"
+    },
+    {
+      "id": "s2",
+      "userId": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "creatorId": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "startDate": "2025-02-15T00:00:00Z",
+      "endDate": "2025-05-15T00:00:00Z",
+      "status": "active",
+      "tier": "basic"
+    },
+    {
+      "id": "s3",
+      "userId": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "creatorId": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "startDate": "2025-01-10T00:00:00Z",
+      "endDate": "2025-07-10T00:00:00Z",
+      "status": "active",
+      "tier": "premium"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx1",
+      "fromAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "toAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "amount": "0.05",
+      "currency": "ETH",
+      "timestamp": "2025-03-01T00:00:00Z",
+      "type": "subscription",
+      "status": "confirmed",
+      "txHash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+    },
+    {
+      "id": "tx2",
+      "fromAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "toAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "amount": "0.02",
+      "currency": "ETH",
+      "timestamp": "2025-02-15T00:00:00Z",
+      "type": "subscription",
+      "status": "confirmed",
+      "txHash": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+    },
+    {
+      "id": "tx3",
+      "fromAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "toAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "amount": "0.08",
+      "currency": "ETH",
+      "timestamp": "2025-01-10T00:00:00Z",
+      "type": "subscription",
+      "status": "confirmed",
+      "txHash": "0x7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456"
+    }
+  ]
+}

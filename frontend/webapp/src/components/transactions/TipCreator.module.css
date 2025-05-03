@@ -1,0 +1,217 @@
+.tipCreator {
+  background-color: var(--bg-light);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.connectWallet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.connectMessage {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.connectButton {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.connectButton:hover {
+  background-color: var(--accent-hover);
+}
+
+.tipForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.walletInfo {
+  background-color: var(--bg-dark);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.addressDisplay {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+.balanceDisplay {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.amountSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.predefinedAmounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.amountButton {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.amountButton:hover {
+  border-color: var(--accent-color);
+}
+
+.amountButton.selected {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.customAmount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  min-width: 110px;
+}
+
+.amountInput {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.amountInput:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.ethLabel {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-left: 4px;
+}
+
+.tipButton {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tipButton:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
+
+.tipButton:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.errorMessage {
+  color: var(--error-color);
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgba(220, 38, 38, 0.1);
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.successMessage {
+  color: var(--success-color);
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgba(16, 185, 129, 0.1);
+  margin-top: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.txLink {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.txLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .walletInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .amountSelector {
+    gap: 8px;
+  }
+  
+  .customAmount {
+    flex-wrap: wrap;
+  }
+  
+  .label {
+    min-width: auto;
+    flex-basis: 100%;
+  }
+  
+  .amountInput {
+    flex: 1;
+  }
+}

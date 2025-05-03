@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "chalk": "^5.4.1",
+    "ethers": "^5.7.2",
     "ora": "^8.2.0"
   }
 }

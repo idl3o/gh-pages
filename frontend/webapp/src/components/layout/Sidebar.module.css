@@ -1,0 +1,116 @@
+.sidebar {
+  width: 250px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  height: 100%;
+  overflow-y: auto;
+  transition: width 0.3s ease, transform 0.3s ease;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 90;
+}
+
+.collapsed {
+  width: 60px;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.toggleButton:hover {
+  background-color: var(--bg-hover);
+}
+
+.sidebarContent {
+  padding: 1rem 0.75rem;
+  padding-top: 3rem;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.collapsed .sectionTitle {
+  display: none;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  margin-bottom: 0.5rem;
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  color: var(--text-light);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.menuLink:hover {
+  background-color: var(--bg-hover);
+}
+
+.menuText {
+  margin-left: 0.75rem;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.collapsed .menuText {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+  }
+  
+  .collapsed {
+    height: 60px;
+  }
+  
+  .toggleButton {
+    top: 15px;
+  }
+  
+  .sidebarContent {
+    padding-top: 1rem;
+  }
+  
+  .collapsed .sidebarContent {
+    display: none;
+  }
+}

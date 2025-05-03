@@ -13,8 +13,8 @@ export default [
     ignores: ['dist/**', 'build/**', 'node_modules/**', '.git/**'],
     linterOptions: {
       reportUnusedDisableDirectives: false, // Don't warn about unused eslint-disable
-      noInlineConfig: false,               // Allow inline eslint comments
-    },
+      noInlineConfig: false // Allow inline eslint comments
+    }
   },
 
   // Base JS config
@@ -26,9 +26,9 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        React: 'readonly',  // Make React globally available
-        ReactDOM: 'readonly', // Make ReactDOM globally available
-      },
+        React: 'readonly', // Make React globally available
+        ReactDOM: 'readonly' // Make ReactDOM globally available
+      }
     },
     rules: {
       // Downgrade errors to warnings or off
@@ -42,8 +42,8 @@ export default [
       'no-prototype-builtins': 'warn',
       'no-cond-assign': 'warn',
       'no-case-declarations': 'warn',
-      'no-useless-catch': 'off',
-    },
+      'no-useless-catch': 'off'
+    }
   },
 
   // React JSX config
@@ -51,32 +51,32 @@ export default [
     files: ['frontend/my-react-app*/src/**/*.js'],
     plugins: {
       react: reactPlugin,
-      'react-hooks': reactHooks,
+      'react-hooks': reactHooks
     },
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
       parserOptions: {
         ecmaFeatures: { jsx: true },
-        jsxPragma: null,
+        jsxPragma: null
       },
       globals: {
         ...globals.browser,
-        JSX: 'readonly',
-      },
+        JSX: 'readonly'
+      }
     },
     settings: {
       react: {
-        version: 'detect',
-      },
+        version: 'detect'
+      }
     },
     rules: {
       ...reactPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'warn',
-      'react/no-deprecated': 'warn',
-    },
+      'react/no-deprecated': 'warn'
+    }
   },
 
   // TypeScript config
@@ -84,13 +84,13 @@ export default [
     ...tseslint.configs.recommended[0],
     files: ['**/*.{ts,tsx}'],
     rules: {
-      '@typescript-eslint/no-unused-vars': 'warn',
-    },
+      '@typescript-eslint/no-unused-vars': 'warn'
+    }
   },
 
   // Ignore specific TypeScript files in webapp that have their own config
   {
     files: ['frontend/frontend/webapp/**/*.{ts,tsx}'],
-    ignores: ['frontend/frontend/webapp/**/*.{ts,tsx}'],
-  },
+    ignores: ['frontend/frontend/webapp/**/*.{ts,tsx}']
+  }
 ];
