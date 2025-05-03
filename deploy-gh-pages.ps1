@@ -1,4 +1,3 @@
-```powershell
 param (
     [switch]$SkipBuild = $false,
     [switch]$Force = $false,
@@ -162,4 +161,3 @@ Remove-Item -Path $tempDir -Recurse -Force
 
 Write-Host "===== Deployment Completed Successfully! =====" -ForegroundColor Green
 Write-Host "Your site should now be available at: https://$(git config --get remote.origin.url | ForEach-Object { if ($_ -match "github.com[:/]([^/]+)/([^/.]+)") { "$($Matches[1]).github.io/$($Matches[2])" } else { "your-github-pages-url" } })" -ForegroundColor Cyan
-```

@@ -1,10 +1,14 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3.2"
+# Comment out the Jekyll version since github-pages will provide its own version
+# gem "jekyll", "~> 4.3.2"
 gem "minima", "~> 2.5"
 
-# If you want to use GitHub Pages, uncomment the following line
+# GitHub Pages gem (this will use Jekyll 3.9.5)
 gem "github-pages", group: :jekyll_plugins
+
+# Specify nokogiri version compatible with Ruby 2.7
+gem "nokogiri", "~> 1.15.0"
 
 # Jekyll plugins
 group :jekyll_plugins do
