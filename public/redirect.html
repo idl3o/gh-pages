@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting... - Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <meta http-equiv="refresh" content="3;url=index.html">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .redirect-container {
+            max-width: 600px;
+            padding: 40px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <h1>Redirecting to main page</h1>
+        <div class="loading"></div>
+        <p>You will be redirected to the main page in a few seconds.</p>
+        <p>If you're not redirected automatically, <a href="index.html">click here</a>.</p>
+    </div>
+
+    <script>
+        // Capture URL parameters to pass them along if needed
+        const currentUrl = new URL(window.location);
+        const params = currentUrl.searchParams;
+
+        // Redirect with appropriate parameters after delay
+        setTimeout(() => {
+            window.location.href = 'index.html' + (params.toString() ? '?' + params.toString() : '');
+        }, 3000);
+    </script>
+</body>
+</html>

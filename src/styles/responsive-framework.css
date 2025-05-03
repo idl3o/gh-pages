@@ -1,0 +1,201 @@
+/**
+ * Web3Design Responsive Framework
+ * A lightweight responsive CSS framework implementing the best practices
+ * from the cross-platform-build-guide.md
+ */
+
+:root {
+  /* Base spacing unit - all spacing should be multiples of this */
+  --spacing-unit: 1rem;
+
+  /* Breakpoints matching those in the design generator */
+  --breakpoint-mobile: 576px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 992px;
+  --breakpoint-large: 1200px;
+
+  /* Fluid typography calculations */
+  /* Scales font size between min and max based on viewport width */
+  --min-font-size: 16px;
+  --max-font-size: 20px;
+}
+
+/* Base reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* This establishes the base for rem units */
+  font-size: 16px;
+
+  /* Fluid typography formula - scales between --min-font-size and --max-font-size */
+  /* 16px + 0.5vw is an example calculation, adjust as needed */
+  font-size: clamp(var(--min-font-size), calc(16px + 0.5vw), var(--max-font-size));
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Container with responsive padding */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-unit);
+  padding-right: var(--spacing-unit);
+}
+
+/* Responsive grid system */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-unit);
+}
+
+/* Responsive columns that adapt at different breakpoints */
+.col {
+  grid-column: span 12; /* Default: full width */
+}
+
+/* Responsive images */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive image container with multiple resolutions */
+.responsive-img {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+}
+
+.responsive-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Media queries for breakpoints */
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .col-sm-1 { grid-column: span 1; }
+  .col-sm-2 { grid-column: span 2; }
+  .col-sm-3 { grid-column: span 3; }
+  .col-sm-4 { grid-column: span 4; }
+  .col-sm-5 { grid-column: span 5; }
+  .col-sm-6 { grid-column: span 6; }
+  .col-sm-7 { grid-column: span 7; }
+  .col-sm-8 { grid-column: span 8; }
+  .col-sm-9 { grid-column: span 9; }
+  .col-sm-10 { grid-column: span 10; }
+  .col-sm-11 { grid-column: span 11; }
+  .col-sm-12 { grid-column: span 12; }
+}
+
+@media (min-width: 768px) {
+  .col-md-1 { grid-column: span 1; }
+  .col-md-2 { grid-column: span 2; }
+  .col-md-3 { grid-column: span 3; }
+  .col-md-4 { grid-column: span 4; }
+  .col-md-5 { grid-column: span 5; }
+  .col-md-6 { grid-column: span 6; }
+  .col-md-7 { grid-column: span 7; }
+  .col-md-8 { grid-column: span 8; }
+  .col-md-9 { grid-column: span 9; }
+  .col-md-10 { grid-column: span 10; }
+  .col-md-11 { grid-column: span 11; }
+  .col-md-12 { grid-column: span 12; }
+
+  .container {
+    padding-left: calc(var(--spacing-unit) * 2);
+    padding-right: calc(var(--spacing-unit) * 2);
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-1 { grid-column: span 1; }
+  .col-lg-2 { grid-column: span 2; }
+  .col-lg-3 { grid-column: span 3; }
+  .col-lg-4 { grid-column: span 4; }
+  .col-lg-5 { grid-column: span 5; }
+  .col-lg-6 { grid-column: span 6; }
+  .col-lg-7 { grid-column: span 7; }
+  .col-lg-8 { grid-column: span 8; }
+  .col-lg-9 { grid-column: span 9; }
+  .col-lg-10 { grid-column: span 10; }
+  .col-lg-11 { grid-column: span 11; }
+  .col-lg-12 { grid-column: span 12; }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-1 { grid-column: span 1; }
+  .col-xl-2 { grid-column: span 2; }
+  .col-xl-3 { grid-column: span 3; }
+  .col-xl-4 { grid-column: span 4; }
+  .col-xl-5 { grid-column: span 5; }
+  .col-xl-6 { grid-column: span 6; }
+  .col-xl-7 { grid-column: span 7; }
+  .col-xl-8 { grid-column: span 8; }
+  .col-xl-9 { grid-column: span 9; }
+  .col-xl-10 { grid-column: span 10; }
+  .col-xl-11 { grid-column: span 11; }
+  .col-xl-12 { grid-column: span 12; }
+}
+
+/* Utility classes for implementing responsive behaviors */
+.hidden-mobile {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .hidden-mobile {
+    display: initial;
+  }
+
+  .hidden-desktop {
+    display: none;
+  }
+}
+
+/* Basic Spacing Utilities */
+/* Example: .mt-1 = margin-top: 1rem; .pb-2 = padding-bottom: 2rem */
+.m-0 { margin: 0 !important; }
+.mt-1 { margin-top: var(--spacing-unit) !important; }
+.mb-1 { margin-bottom: var(--spacing-unit) !important; }
+.ms-1 { margin-left: var(--spacing-unit) !important; } /* Use 's' for start (inline) */
+.me-1 { margin-right: var(--spacing-unit) !important; } /* Use 'e' for end (inline) */
+.mx-1 { margin-left: var(--spacing-unit) !important; margin-right: var(--spacing-unit) !important; }
+.my-1 { margin-top: var(--spacing-unit) !important; margin-bottom: var(--spacing-unit) !important; }
+
+.p-0 { padding: 0 !important; }
+.pt-1 { padding-top: var(--spacing-unit) !important; }
+.pb-1 { padding-bottom: var(--spacing-unit) !important; }
+.ps-1 { padding-left: var(--spacing-unit) !important; } /* Use 's' for start (inline) */
+.pe-1 { padding-right: var(--spacing-unit) !important; } /* Use 'e' for end (inline) */
+.px-1 { padding-left: var(--spacing-unit) !important; padding-right: var(--spacing-unit) !important; }
+.py-1 { padding-top: var(--spacing-unit) !important; padding-bottom: var(--spacing-unit) !important; }
+
+/* Add more levels (e.g., .mt-2, .pb-3) as needed, potentially using calc() */
+.mt-2 { margin-top: calc(var(--spacing-unit) * 2) !important; }
+.pb-2 { padding-bottom: calc(var(--spacing-unit) * 2) !important; }
+
+/* Lazy loading support */
+.lazy-load {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.lazy-load.loaded {
+  opacity: 1;
+}

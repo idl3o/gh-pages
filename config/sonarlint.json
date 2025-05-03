@@ -1,0 +1,39 @@
+{
+  "pathToNodeExecutable": "/usr/local/bin/node",
+  "testFilePattern": "**/__tests__/**",
+  "javascript": {
+    "node": {
+      "enabled": true
+    },
+    "environments": [
+      "browser",
+      "node",
+      "es6"
+    ]
+  },
+  "typescript": {
+    "enabled": true
+  },
+  "version": "1.0",
+  "nodeJs": {
+    "executable": "/usr/local/bin/node"
+  },
+  "rules": {
+    "javascript:S1848": true,
+    "javascript:S1117": true,
+    "typescript:S1848": true
+  },
+  "pathToCompileCommands": "",
+  "includes": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "excludes": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/dist/**",
+    "**/build/**"
+  ]
+}

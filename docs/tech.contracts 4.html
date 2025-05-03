@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/tech.contracts%204.html" />
+<meta property="og:url" content="/docs/tech.contracts%204.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/tech.contracts%204.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: Smart Contracts | Web3 Crypto Streaming Service</p>
+<hr />
+
+<h1 id="smart-contract-architecture">Smart Contract Architecture</h1>
+
+<p>The Web3 Crypto Streaming Service relies on a suite of interconnected smart contracts to enable its decentralized functionality. This document provides technical details about our smart contract architecture.</p>
+
+<h2 id="contract-overview">Contract Overview</h2>
+
+<p>Our smart contracts are developed using Solidity and deployed on an EVM-compatible blockchain. The system uses a modular design with upgradeable components to allow for future improvements while maintaining security.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│                     │     │                     │     │                     │
+│  Content Registry   │────▶│  Access Control     │────▶│  Payment Splitter   │
+│                     │     │                     │     │                     │
+└─────────────────────┘     └─────────────────────┘     └─────────────────────┘
+          ▲                           ▲                           ▲
+          │                           │                           │
+          ▼                           ▼                           ▼
+┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│                     │     │                     │     │                     │
+│  Creator Profiles   │────▶│  Subscription       │────▶│  Treasury           │
+│                     │     │  Manager            │     │                     │
+└─────────────────────┘     └─────────────────────┘     └─────────────────────┘
+          ▲                           ▲                           ▲
+          │                           │                           │
+          └───────────────────────────┼───────────────────────────┘
+                                      │
+                              ┌───────────────────┐
+                              │                   │
+                              │  Governance       │
+                              │                   │
+                              └───────────────────┘
+</code></pre></div></div>
+
+<h2 id="core-contracts">Core Contracts</h2>
+
+<h3 id="contentregistrysol">ContentRegistry.sol</h3>
+
+<p>This contract manages the registration and indexing of all content on the platform.</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ContentRegistry.sol (simplified)
+</span><span class="k">contract</span> <span class="n">ContentRegistry</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">ContentItem</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">creator</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="n">contentHash</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="n">metadataHash</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">timestamp</span><span class="p">;</span>
+        <span class="n">ContentType</span> <span class="n">contentType</span><span class="p">;</span>
+        <span class="n">AccessType</span> <span class="n">accessType</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">enum</span> <span class="n">ContentType</span> <span class="p">{</span> <span class="n">VIDEO</span><span class="p">,</span> <span class="n">AUDIO</span><span class="p">,</span> <span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">OTHER</span> <span class="p">}</span>
+    <span class="k">enum</span> <span class="n">AccessType</span> <span class="p">{</span> <span class="n">FREE</span><span class="p">,</span> <span class="n">ONETIME_PAYMENT</span><span class="p">,</span> <span class="n">SUBSCRIPTION</span> <span class="p">}</span>
+    
+    <span class="k">mapping</span><span class="p">(</span><span class="kt">uint256</span> <span class="o">=&gt;</span> <span class="n">ContentItem</span><span class="p">)</span> <span class="k">public</span> <span class="n">contentItems</span><span class="p">;</span>
+    <span class="kt">uint256</span> <span class="k">public</span> <span class="n">itemCount</span><span class="p">;</span>
+    
+    <span class="c1">// Content registration function
+</span>    <span class="k">function</span> <span class="n">registerContent</span><span class="p">(</span>
+        <span class="kt">string</span> <span class="k">memory</span> <span class="n">_contentHash</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="k">memory</span> <span class="n">_metadataHash</span><span class="p">,</span>
+        <span class="n">ContentType</span> <span class="n">_contentType</span><span class="p">,</span>
+        <span class="n">AccessType</span> <span class="n">_accessType</span>
+    <span class="p">)</span> <span class="k">external</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Implementation details
+</span>    <span class="p">}</span>
+    
+    <span class="c1">// Content query functions
+</span>    <span class="k">function</span> <span class="n">getContentByCreator</span><span class="p">(</span><span class="kt">address</span> <span class="n">_creator</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span><span class="p">[]</span> <span class="k">memory</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">getContentDetails</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">_contentId</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="n">ContentItem</span> <span class="k">memory</span><span class="p">);</span>
+    
+    <span class="c1">// Content management functions
+</span>    <span class="k">function</span> <span class="n">updateContentMetadata</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">_contentId</span><span class="p">,</span> <span class="kt">string</span> <span class="k">memory</span> <span class="n">_newMetadataHash</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">removeContent</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">_contentId</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="subscriptionmanagersol">SubscriptionManager.sol</h3>
+
+<p>Manages recurring payments and subscription access to content.</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SubscriptionManager.sol (simplified)
+</span><span class="k">contract</span> <span class="n">SubscriptionManager</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Subscription</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">subscriber</span><span class="p">;</span>
+        <span class="kt">address</span> <span class="n">creator</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">planId</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">endTime</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">autoRenew</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">struct</span> <span class="n">SubscriptionPlan</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">creator</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="n">name</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">price</span><span class="p">;</span> <span class="c1">// In STREAM tokens
+</span>        <span class="kt">uint256</span> <span class="n">duration</span><span class="p">;</span> <span class="c1">// In seconds
+</span>        <span class="kt">string</span><span class="p">[]</span> <span class="n">benefits</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">mapping</span><span class="p">(</span><span class="kt">uint256</span> <span class="o">=&gt;</span> <span class="n">SubscriptionPlan</span><span class="p">)</span> <span class="k">public</span> <span class="n">subscriptionPlans</span><span class="p">;</span>
+    <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="n">Subscription</span><span class="p">))</span> <span class="k">public</span> <span class="n">subscriptions</span><span class="p">;</span>
+    
+    <span class="c1">// Plan management functions
+</span>    <span class="k">function</span> <span class="n">createPlan</span><span class="p">(</span><span class="kt">string</span> <span class="k">memory</span> <span class="n">_name</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">_price</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">_duration</span><span class="p">)</span> <span class="k">external</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">updatePlan</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">_planId</span><span class="p">,</span> <span class="kt">string</span> <span class="k">memory</span> <span class="n">_name</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">_price</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">_duration</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    
+    <span class="c1">// Subscription functions
+</span>    <span class="k">function</span> <span class="n">subscribe</span><span class="p">(</span><span class="kt">address</span> <span class="n">_creator</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">_planId</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">_autoRenew</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">cancelSubscription</span><span class="p">(</span><span class="kt">address</span> <span class="n">_creator</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">renewSubscription</span><span class="p">(</span><span class="kt">address</span> <span class="n">_subscriber</span><span class="p">,</span> <span class="kt">address</span> <span class="n">_creator</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    
+    <span class="c1">// Query functions
+</span>    <span class="k">function</span> <span class="n">hasActiveSubscription</span><span class="p">(</span><span class="kt">address</span> <span class="n">_subscriber</span><span class="p">,</span> <span class="kt">address</span> <span class="n">_creator</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">getSubscriptionDetails</span><span class="p">(</span><span class="kt">address</span> <span class="n">_subscriber</span><span class="p">,</span> <span class="kt">address</span> <span class="n">_creator</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="n">Subscription</span> <span class="k">memory</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="paymentsplittersol">PaymentSplitter.sol</h3>
+
+<p>Handles the distribution of payments between creators, platform, and other stakeholders.</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// PaymentSplitter.sol (simplified)
+</span><span class="k">contract</span> <span class="n">PaymentSplitter</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">PaymentSplit</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">creator</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">creatorShare</span><span class="p">;</span> <span class="c1">// In basis points (100 = 1%)
+</span>        <span class="kt">uint256</span> <span class="n">platformShare</span><span class="p">;</span> <span class="c1">// In basis points
+</span>        <span class="kt">uint256</span> <span class="n">treasuryShare</span><span class="p">;</span> <span class="c1">// In basis points
+</span>        <span class="kt">address</span><span class="p">[]</span> <span class="n">additionalRecipients</span><span class="p">;</span>
+        <span class="kt">uint256</span><span class="p">[]</span> <span class="n">additionalShares</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="n">PaymentSplit</span><span class="p">)</span> <span class="k">public</span> <span class="n">paymentSplits</span><span class="p">;</span>
+    
+    <span class="c1">// Split configuration functions
+</span>    <span class="k">function</span> <span class="n">setDefaultSplit</span><span class="p">(</span><span class="kt">address</span> <span class="n">_creator</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">setCustomSplit</span><span class="p">(</span>
+        <span class="kt">address</span> <span class="n">_creator</span><span class="p">,</span> 
+        <span class="kt">uint256</span> <span class="n">_creatorShare</span><span class="p">,</span> 
+        <span class="kt">address</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">_additionalRecipients</span><span class="p">,</span> 
+        <span class="kt">uint256</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">_additionalShares</span>
+    <span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    
+    <span class="c1">// Payment functions
+</span>    <span class="k">function</span> <span class="n">processPayment</span><span class="p">(</span><span class="kt">address</span> <span class="n">_creator</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">_amount</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">batchProcessPayments</span><span class="p">(</span><span class="kt">address</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">_creators</span><span class="p">,</span> <span class="kt">uint256</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">_amounts</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    
+    <span class="c1">// Query functions
+</span>    <span class="k">function</span> <span class="n">calculateSplits</span><span class="p">(</span><span class="kt">address</span> <span class="n">_creator</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">_amount</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">address</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">recipients</span><span class="p">,</span> <span class="kt">uint256</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">amounts</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="auxiliary-contracts">Auxiliary Contracts</h2>
+
+<h3 id="creatorprofilessol">CreatorProfiles.sol</h3>
+
+<p>Manages creator identity, verification, and profile information.</p>
+
+<h3 id="accesscontrolsol">AccessControl.sol</h3>
+
+<p>Handles permissions for content access based on payments or subscriptions.</p>
+
+<h3 id="treasurysol">Treasury.sol</h3>
+
+<p>Manages community funds and platform revenue allocation.</p>
+
+<h3 id="governancesol">Governance.sol</h3>
+
+<p>Enables token-based voting on platform parameters and upgrades.</p>
+
+<h2 id="security-features">Security Features</h2>
+
+<p>Our smart contracts implement several security measures:</p>
+
+<ul>
+  <li><strong>Pausable functionality</strong>: Critical functions can be paused in case of emergencies</li>
+  <li><strong>Access control</strong>: Role-based permissions for administrative functions</li>
+  <li><strong>Reentrancy guards</strong>: Protection against reentrancy attacks</li>
+  <li><strong>Integer overflow protection</strong>: Using SafeMath libraries or Solidity 0.8+ built-in overflow checks</li>
+  <li><strong>Upgradeable patterns</strong>: Proxy-based upgradeability for contract improvements</li>
+  <li><strong>Formal verification</strong>: Critical components undergo formal verification</li>
+  <li><strong>Multiple audits</strong>: All contracts are audited by independent security firms</li>
+</ul>
+
+<h2 id="deployments">Deployments</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Contract Name</th>
+      <th>Network</th>
+      <th>Address</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ContentRegistry</td>
+      <td>Mainnet</td>
+      <td>0x1234…</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>SubscriptionManager</td>
+      <td>Mainnet</td>
+      <td>0x2345…</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>PaymentSplitter</td>
+      <td>Mainnet</td>
+      <td>0x3456…</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>CreatorProfiles</td>
+      <td>Mainnet</td>
+      <td>0x4567…</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>AccessControl</td>
+      <td>Mainnet</td>
+      <td>0x5678…</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>Treasury</td>
+      <td>Mainnet</td>
+      <td>0x6789…</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>Governance</td>
+      <td>Mainnet</td>
+      <td>0x7890…</td>
+      <td>v1.0.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="development-guidelines">Development Guidelines</h2>
+
+<p>For developers looking to integrate with our smart contracts:</p>
+
+<ol>
+  <li>Always use the latest deployed versions</li>
+  <li>Interact through our official SDKs when possible</li>
+  <li>Test thoroughly on testnet before mainnet deployment</li>
+  <li>Follow our security best practices guide</li>
+  <li>Submit potential bugs to our bug bounty program</li>
+</ol>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li>View the <a href="https://github.com/web3-streaming/contracts">complete source code</a></li>
+  <li>Read the <a href="guides.developers.html">integration documentation</a></li>
+  <li>Explore the <a href="gov.overview.html">governance mechanism</a></li>
+</ul>
+
+<hr />
+
+<div style="background: #f0f7ff; border-left: 4px solid #4361ee; padding: 1rem; margin-top: 2rem;">
+  <h3 style="margin-top: 0;">Important</h3>
+  <p>
+    This documentation covers the conceptual architecture. For the most up-to-date technical details, 
+    always refer to the official GitHub repository and deployed contract addresses.
+  </p>
+</div>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

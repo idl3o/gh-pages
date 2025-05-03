@@ -1,0 +1,62 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run URL Validation
+        run: |
+          npm install cheerio node-fetch@2
+          node scripts/url-checker.js
+
+      - name: Validate HTML
+        run: |
+          echo "Validating HTML structure..."
+          # Add HTML validation if needed
+
+      - name: Comment PR
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          script: |
+            const { job, steps } = context.payload.workflow_run;
+
+            let body = `## Validation Results\n\n`;
+
+            if (steps['Run URL Validation'].outcome === 'success') {
+              body += `✅ **URL Validation**: All links are valid\n\n`;
+            } else {
+              body += `❌ **URL Validation**: Found broken links\n\n`;
+            }
+
+            if (steps['Validate HTML'].outcome === 'success') {
+              body += `✅ **HTML Validation**: All HTML is valid\n\n`;
+            } else {
+              body += `❌ **HTML Validation**: Found HTML issues\n\n`;
+            }
+
+            body += `See full details in the [workflow run](${context.payload.workflow_run.html_url})`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

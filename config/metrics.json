@@ -1,0 +1,54 @@
+{
+  "builds": [
+    {
+      "mode": "web",
+      "timestamp": "2025-04-26T07:17:31.319Z",
+      "duration": 1363.1100000000001,
+      "success": true
+    },
+    {
+      "mode": "server",
+      "timestamp": "2025-04-26T07:18:26.767Z",
+      "duration": 1323.3098,
+      "success": true
+    },
+    {
+      "mode": "web",
+      "timestamp": "2025-04-26T07:19:32.085Z",
+      "duration": 1402.9133,
+      "success": true
+    },
+    {
+      "mode": "dev",
+      "timestamp": "2025-04-26T07:32:06.998Z",
+      "duration": 1329.8575,
+      "success": true
+    },
+    {
+      "mode": "dev_server",
+      "timestamp": "2025-04-26T07:32:07.060Z",
+      "duration": 0.1634,
+      "success": true
+    },
+    {
+      "mode": "web",
+      "timestamp": "2025-04-26T07:40:30.125Z",
+      "duration": 840.54,
+      "success": true
+    },
+    {
+      "mode": "native",
+      "timestamp": "2025-04-26T07:58:02.148Z",
+      "duration": 1328.8886,
+      "success": true
+    }
+  ],
+  "servers": [],
+  "system": {
+    "platform": "win32",
+    "arch": "x64",
+    "cpus": 12,
+    "totalMemory": 33519038464,
+    "freeMemory": 8795140096
+  }
+}

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="200" height="200">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6e45e2" />
+      <stop offset="100%" stop-color="#88d3ce" />
+    </linearGradient>
+    <circle id="face" cx="12" cy="12" r="10" fill="#121212"/>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="12" cy="12" r="12" fill="url(#gradient)" />
+  
+  <!-- Face -->
+  <use href="#face" />
+  
+  <!-- Digital circuit pattern -->
+  <path d="M5 10h4m1 0h3m-6 4h2m2 0h5m-8-8h3m4 0h2m-9 12h4m2 0h3" 
+        stroke="#6e45e2" stroke-width="0.7" stroke-linecap="round" fill="none" />
+  
+  <!-- Eyes -->
+  <circle cx="8" cy="10" r="1.2" fill="#88d3ce" />
+  <circle cx="16" cy="10" r="1.2" fill="#88d3ce" />
+  
+  <!-- Mouth -->
+  <path d="M8 14c2 1.5 6 1.5 8 0" stroke="#88d3ce" stroke-width="0.7" fill="none" />
+</svg>

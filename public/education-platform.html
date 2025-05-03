@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 Educational Platform | Crypto-Powered Learning</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+
+            --beginner: #10b981;
+            --intermediate: #f59e0b;
+            --advanced: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: #e5e7eb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .course-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .course-card {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+
+        .course-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .difficulty-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .difficulty-badge.beginner {
+            background-color: var(--beginner);
+        }
+
+        .difficulty-badge.intermediate {
+            background-color: var(--intermediate);
+        }
+
+        .difficulty-badge.advanced {
+            background-color: var(--advanced);
+        }
+
+        .course-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-info h3 {
+            margin: 0 0 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        body.dark-mode .course-info h3 {
+            color: #f3f4f6;
+        }
+
+        .course-info p {
+            margin: 0 0 1rem;
+            color: #6b7280;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        body.dark-mode .course-info p {
+            color: #9ca3af;
+        }
+
+        .course-meta {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        body.dark-mode .course-meta {
+            border-color: #374151;
+        }
+
+        .token-reward {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #f59e0b;
+        }
+
+        .token-icon {
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(#f59e0b, #d97706);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .course-time {
+            color: #6b7280;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        body.dark-mode .course-time {
+            color: #9ca3af;
+        }
+
+        .course-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .btn-enroll {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-enroll:hover {
+            background-color: var(--secondary);
+        }
+
+        .prerequisites {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prerequisite-tag {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        body.dark-mode .prerequisite-tag {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        body.dark-mode .section-title {
+            border-color: #374151;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .section-title .icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 6px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+            border: none;
+            font-size: 1.25rem;
+        }
+
+        body.dark-mode .theme-toggle {
+            background-color: #374151;
+            color: #e5e7eb;
+        }
+
+        .gamification-section {
+            margin-top: 4rem;
+        }
+
+        .user-stats {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        body.dark-mode .user-stats {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem;
+            background-color: rgba(99, 102, 241, 0.05);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        body.dark-mode .stat-card {
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .stat-value {
+            color: #818cf8;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        body.dark-mode .stat-label {
+            color: #9ca3af;
+        }
+
+        .leaderboard {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        body.dark-mode .leaderboard {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .leaderboard-item {
+            border-color: #374151;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-rank {
+            width: 30px;
+            height: 30px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        body.dark-mode .leaderboard-rank {
+            background-color: #374151;
+        }
+
+        .leaderboard-rank.top-3 {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .leaderboard-user {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        .leaderboard-score {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        body.dark-mode .leaderboard-score {
+            color: #818cf8;
+        }
+
+        .fun-content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .fun-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid var(--border);
+        }
+
+        .fun-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .fun-card {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+
+        .fun-card-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .fun-card-image {
+            border-color: #374151;
+        }
+
+        .fun-card-content {
+            padding: 1rem;
+        }
+
+        .fun-card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .fun-card-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .fun-card-description {
+            color: #9ca3af;
+        }
+
+        .fun-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+        }
+
+        body.dark-mode .fun-card-footer {
+            border-color: #374151;
+        }
+
+        .fun-card-type {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+
+        body.dark-mode .fun-card-type {
+            background-color: #374151;
+            color: #d1d5db;
+        }
+
+        .fun-card-reward {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-weight: 600;
+            color: #f59e0b;
+            font-size: 0.875rem;
+        }
+
+        .tab-container {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        body.dark-mode .tabs {
+            border-color: #374151;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        body.dark-mode .tab {
+            color: #9ca3af;
+        }
+
+        body.dark-mode .tab.active {
+            color: #818cf8;
+        }
+
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.2s ease;
+        }
+
+        .tab.active::after {
+            transform: scaleX(1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .course-grid, .fun-content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle">🌓</button>
+
+    <div class="container">
+        <header>
+            <h1>Learn &amp; Earn with Web3</h1>
+            <p class="lead">Master blockchain technologies while earning crypto rewards</p>
+        </header>
+
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="courses">Educational Courses</div>
+                <div class="tab" data-tab="fun">Fun &amp; Games</div>
+                <div class="tab" data-tab="rewards">Rewards &amp; Achievements</div>
+            </div>
+
+            <div class="tab-content active" id="courses-content">
+                <div class="section-title">
+                    <div class="icon">📚</div>
+                    <h2>Learning Paths</h2>
+                </div>
+
+                <div class="course-grid">
+                    <div class="course-card">
+                        <img src="/assets/images/blockchain101.jpg" alt="Blockchain Fundamentals" class="course-image" onerror="this.src='/assets/images/placeholders/blockchain101.jpg'">
+                        <span class="difficulty-badge beginner">Beginner</span>
+                        <div class="course-info">
+                            <h3>Blockchain Fundamentals</h3>
+                            <p>Start your Web3 journey with the essential concepts of blockchain technology, cryptocurrency, and decentralized systems.</p>
+
+                            <div class="course-meta">
+                                <div class="token-reward">
+                                    <span class="token-icon">$</span>
+                                    <span>5 tokens</span>
+                                </div>
+                                <div class="course-time">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                    </svg>
+                                    2-3 hours
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="btn-enroll">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <img src="/assets/images/defi.jpg" alt="Decentralized Finance" class="course-image" onerror="this.src='/assets/images/placeholders/defi.jpg'">
+                        <span class="difficulty-badge intermediate">Intermediate</span>
+                        <div class="course-info">
+                            <h3>Decentralized Finance (DeFi)</h3>
+                            <p>Explore the revolutionary world of DeFi protocols, yield farming, lending platforms, and decentralized exchanges.</p>
+
+                            <div class="prerequisites">
+                                <span class="prerequisite-tag">Blockchain Fundamentals</span>
+                            </div>
+
+                            <div class="course-meta">
+                                <div class="token-reward">
+                                    <span class="token-icon">$</span>
+                                    <span>10 tokens</span>
+                                </div>
+                                <div class="course-time">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                    </svg>
+                                    4-5 hours
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="btn-enroll">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <img src="/assets/images/smart-contracts.jpg" alt="Smart Contract Development" class="course-image" onerror="this.src='/assets/images/placeholders/smart-contracts.jpg'">
+                        <span class="difficulty-badge advanced">Advanced</span>
+                        <div class="course-info">
+                            <h3>Smart Contract Development</h3>
+                            <p>Learn to write, test, and deploy secure smart contracts on Ethereum and other blockchain platforms.</p>
+
+                            <div class="prerequisites">
+                                <span class="prerequisite-tag">Blockchain Fundamentals</span>
+                                <span class="prerequisite-tag">DeFi</span>
+                            </div>
+
+                            <div class="course-meta">
+                                <div class="token-reward">
+                                    <span class="token-icon">$</span>
+                                    <span>15 tokens</span>
+                                </div>
+                                <div class="course-time">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                    </svg>
+                                    6-8 hours
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="btn-enroll">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <img src="/assets/images/nft-course.jpg" alt="NFT Creation & Trading" class="course-image" onerror="this.src='/assets/images/placeholders/nft-course.jpg'">
+                        <span class="difficulty-badge intermediate">Intermediate</span>
+                        <div class="course-info">
+                            <h3>NFT Creation & Trading</h3>
+                            <p>Master the creation, minting, and trading of NFTs on various blockchain platforms.</p>
+
+                            <div class="prerequisites">
+                                <span class="prerequisite-tag">Blockchain Fundamentals</span>
+                            </div>
+
+                            <div class="course-meta">
+                                <div class="token-reward">
+                                    <span class="token-icon">$</span>
+                                    <span>12 tokens</span>
+                                </div>
+                                <div class="course-time">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                    </svg>
+                                    4-5 hours
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="btn-enroll">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="fun-content">
+                <div class="section-title">
+                    <div class="icon">🎮</div>
+                    <h2>Fun &amp; Games</h2>
+                </div>
+
+                <p>Learn while having fun! Complete these interactive challenges to earn token rewards and exclusive collectibles.</p>
+
+                <div class="fun-content-grid">
+                    <div class="fun-card">
+                        <img src="/assets/images/blockchain-quiz.jpg" alt="Blockchain Quiz Challenge" class="fun-card-image" onerror="this.src='/assets/images/placeholders/blockchain-quiz.jpg'">
+                        <div class="fun-card-content">
+                            <h3 class="fun-card-title">Blockchain Quiz Challenge</h3>
+                            <p class="fun-card-description">Test your knowledge and earn rewards by answering blockchain-related questions.</p>
+                            <div class="fun-card-footer">
+                                <span class="fun-card-type">Quiz</span>
+                                <span class="fun-card-reward">5 tokens</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fun-card">
+                        <img src="/assets/images/crypto-puzzle.jpg" alt="Crypto Puzzle Challenge" class="fun-card-image" onerror="this.src='/assets/images/placeholders/crypto-puzzle.jpg'">
+                        <div class="fun-card-content">
+                            <h3 class="fun-card-title">Crypto Puzzle Challenge</h3>
+                            <p class="fun-card-description">Solve cryptographic puzzles to unlock special rewards and collectibles.</p>
+                            <div class="fun-card-footer">
+                                <span class="fun-card-type">Challenge</span>
+                                <span class="fun-card-reward">8 tokens</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fun-card">
+                        <img src="/assets/images/trading-game.jpg" alt="Trading Simulator" class="fun-card-image" onerror="this.src='/assets/images/placeholders/trading-game.jpg'">
+                        <div class="fun-card-content">
+                            <h3 class="fun-card-title">Trading Simulator</h3>
+                            <p class="fun-card-description">Practice crypto trading strategies in a risk-free environment with virtual tokens.</p>
+                            <div class="fun-card-footer">
+                                <span class="fun-card-type">Game</span>
+                                <span class="fun-card-reward">10 tokens</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fun-card">
+                        <img src="/assets/images/nft-collectible.jpg" alt="Limited Edition NFT" class="fun-card-image" onerror="this.src='/assets/images/placeholders/nft-collectible.jpg'">
+                        <div class="fun-card-content">
+                            <h3 class="fun-card-title">Limited Edition NFT</h3>
+                            <p class="fun-card-description">Complete a series of challenges to earn this exclusive platform collectible.</p>
+                            <div class="fun-card-footer">
+                                <span class="fun-card-type">Collectible</span>
+                                <span class="fun-card-reward">Special</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="rewards-content">
+                <div class="section-title">
+                    <div class="icon">🏆</div>
+                    <h2>Your Progress &amp; Rewards</h2>
+                </div>
+
+                <div class="user-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">247</div>
+                        <div class="stat-label">Total Tokens Earned</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Courses Completed</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Achievements Unlocked</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <div class="icon">🏅</div>
+                    <h2>Leaderboard</h2>
+                </div>
+
+                <div class="leaderboard">
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank top-3">1</div>
+                        <div class="leaderboard-user">CryptoMaster</div>
+                        <div class="leaderboard-score">1,245 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank top-3">2</div>
+                        <div class="leaderboard-user">BlockchainWizard</div>
+                        <div class="leaderboard-score">1,182 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank top-3">3</div>
+                        <div class="leaderboard-user">ETHfanatic</div>
+                        <div class="leaderboard-score">1,056 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank">4</div>
+                        <div class="leaderboard-user">Web3Developer</div>
+                        <div class="leaderboard-score">987 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank">5</div>
+                        <div class="leaderboard-user">TokenCollector</div>
+                        <div class="leaderboard-score">876 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank">6</div>
+                        <div class="leaderboard-user">SmartContractPro</div>
+                        <div class="leaderboard-score">724 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank">7</div>
+                        <div class="leaderboard-user">NFTartist</div>
+                        <div class="leaderboard-score">685 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank">8</div>
+                        <div class="leaderboard-user">DeFiExplorer</div>
+                        <div class="leaderboard-score">542 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank">9</div>
+                        <div class="leaderboard-user">CryptoInvestor</div>
+                        <div class="leaderboard-score">489 tokens</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank">10</div>
+                        <div class="leaderboard-user">You</div>
+                        <div class="leaderboard-score">247 tokens</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+        if (localStorage.getItem('theme') === 'dark' ||
+            (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                // Add active class to selected tab and content
+                tab.classList.add('active');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+
+        // Simulate course enrollment
+        const enrollButtons = document.querySelectorAll('.btn-enroll');
+        enrollButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const courseName = button.closest('.course-card').querySelector('h3').textContent;
+                alert(`You have successfully enrolled in "${courseName}"! Start learning to earn tokens.`);
+            });
+        });
+    </script>
+</body>
+</html>

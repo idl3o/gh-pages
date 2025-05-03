@@ -1,0 +1,24 @@
+name = "project-red-x"
+type = "webpack"
+account_id = ""  # Fill in your Cloudflare account ID
+workers_dev = true
+route = ""
+zone_id = ""  # Fill in your Cloudflare zone ID if using a custom domain
+compatibility_date = "2023-09-20"
+
+[site]
+bucket = "./build"
+entry-point = "workers-site"
+
+[env.production]
+# Production-specific configuration
+workers_dev = false
+route = "*yourdomain.com/*"  # Replace with your domain
+
+[env.staging]
+name = "project-red-x-staging"
+workers_dev = true
+
+# Enable WebAssembly capability
+[build.upload]
+format = "service-worker"

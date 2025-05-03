@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Development Processes | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Development Processes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/process.html" />
+<meta property="og:url" content="/docs/process.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Development Processes" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Development Processes","url":"/docs/process.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Development Processes</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="development-processes">Development Processes</h1>
+
+<p>More information can be found in the <a href="https://emscripten.org/docs/contributing/contributing.html">Contribution
+section</a> of the
+webside.</p>
+
+<h2 id="landing-prs">Landing PRs</h2>
+
+<ul>
+  <li>Even after the code of a PR is approved, it should only be landed if the
+CI on github is green, or the failures are known intermittent things
+(with very strong reason to think they unrelated to the current PR).</li>
+  <li>If you see an approved PR of someone without commit access (that either
+you or someone else approved), land it for them (after checking CI as
+mentioned earlier).</li>
+  <li>If you approve a PR by someone with commit access, if there is no urgency
+then leave it for them to land. (They may have other PRs to land alongside
+it, etc.)</li>
+  <li>It is strongly recommended to land PRs with github’s “squash” option, which
+turns the PR into a single commit. This makes sense if the PR is small,
+which is also strongly recommended. However, sometimes separate commits may
+make more sense, <em>if and only if</em>:
+    <ul>
+      <li>The PR is not easily separable into a series of small PRs (e.g., review
+must consider all the commits, either because the commits are hard to
+understand by themselves, or because review of a later PR may influence
+an earlier PR’s discussion).</li>
+      <li>The individual commits have value (e.g., they are easier to understand
+one by one).</li>
+      <li>The individual commits are compatible with bisection (i.e., all tests
+should pass after each commit).
+When landing multiple commits in such a scenario, use the “rebase” option,
+to avoid a merge commit.</li>
+    </ul>
+  </li>
+  <li>Add <code class="language-plaintext highlighter-rouge">NFC</code> to the end of the PR title for Non-Functional Changes (i.e.,
+changes that do not add/modify functionality, such as internal refactoring).</li>
+  <li>Add a <code class="language-plaintext highlighter-rouge">[prefix]</code> to start of the PR title to signify the subsystem or area
+that the PR targets. e.g. <code class="language-plaintext highlighter-rouge">[test] Update foo test</code> or <code class="language-plaintext highlighter-rouge">[ports] Fix zlib port</code></li>
+</ul>
+
+<h2 id="coding-style">Coding Style</h2>
+
+<h3 id="cc-code">C/C++ Code</h3>
+
+<p>When writing new C/C++ in emscripten follow the LLVM style (as does binaryen).
+You can use <code class="language-plaintext highlighter-rouge">clang-format</code> to automatically format new code (and <code class="language-plaintext highlighter-rouge">git
+clang-format origin/main</code> to format just the lines you are changing).
+See <a href="https://github.com/emscripten-core/emscripten/blob/main/.clang-format"><code class="language-plaintext highlighter-rouge">.clang-format</code></a> for more details.</p>
+
+<p>When editing third party code such (e.g. musl, libc++) follow the upstream
+conventions.</p>
+
+<h3 id="javascript-code">JavaScript Code</h3>
+
+<p>We use the same LLVM-based style as for C/C++.  Sadly, <code class="language-plaintext highlighter-rouge">clang-format</code> doesn’t
+always work well with our library code since it can use custom macros and
+pre-processor.  See <a href="https://github.com/emscripten-core/emscripten/blob/main/.clang-format"><code class="language-plaintext highlighter-rouge">.clang-format</code></a> for more details.</p>
+
+<h3 id="python-code">Python Code</h3>
+
+<p>We generally follow the pep8 standard with the major exception that we use 2
+spaces for indentation.  <code class="language-plaintext highlighter-rouge">ruff</code> is run on all PRs to ensure that Python code
+conforms to this style.  See <a href="https://github.com/emscripten-core/emscripten/blob/main/pyproject.toml"><code class="language-plaintext highlighter-rouge">pyproject.toml</code></a> for more details.</p>
+
+<h4 id="static-type-checking">Static Type Checking</h4>
+
+<p>We are beginning to use python3’s type annotation syntax, along with the <code class="language-plaintext highlighter-rouge">mypy</code>
+tool to check python types statically.  See <a href="https://github.com/emscripten-core/emscripten/blob/main/.mypy"><code class="language-plaintext highlighter-rouge">.mypy</code></a> for more details.</p>
+
+<p>The goal is to one day check all type by running <code class="language-plaintext highlighter-rouge">mypy</code> with
+<code class="language-plaintext highlighter-rouge">--disallow-untyped-defs</code>, but this is happening incrementally over time.</p>
+
+<h1 id="release-processes">Release Processes</h1>
+
+<h2 id="minor-version-updates-1xy-to-1xy1">Minor version updates (1.X.Y to 1.X.Y+1)</h2>
+
+<p>When:</p>
+
+<ul>
+  <li>Such an update ensures we clear the cache, so it should be done when required
+(for example, a change to libc or libc++).</li>
+  <li>The emsdk compiled versions are based on the version number, so periodically
+we can do this when we want a new precompiled emsdk version to be available.</li>
+</ul>
+
+<p>Requirements:</p>
+
+<ul>
+  <li><a href="https://ci.chromium.org/p/emscripten-releases/g/main/console">emscripten-releases build CI</a> is green on all OSes for the
+desired hash (where the hash is the git hash in the
+<a href="https://chromium.googlesource.com/emscripten-releases">emscripten-releases</a> repo, which then specifies through
+<a href="https://chromium.googlesource.com/emscripten-releases/+/refs/heads/main/DEPS">DEPS</a> exactly which revisions to use in all other repos).</li>
+  <li><a href="https://github.com/emscripten-core/emscripten/branches">GitHub CI</a> is green
+on the <code class="language-plaintext highlighter-rouge">main</code> branch for the emscripten commit referred to in <a href="https://chromium.googlesource.com/emscripten-releases/+/refs/heads/main/DEPS">DEPS</a>.</li>
+</ul>
+
+<p>How:</p>
+
+<ol>
+  <li>Pick a version for a release and make sure it meets the requirements above.
+Let this version SHA be <code class="language-plaintext highlighter-rouge">&lt;non-LTO-sha&gt;</code>.</li>
+  <li>If we want to do an LTO release as well, create a CL that copies <a href="https://chromium.googlesource.com/emscripten-releases/+/refs/heads/main/DEPS">DEPS</a>
+from <non-lto-sha> to [DEPS.tagged-release][DEPS.tagged-release] in
+[emscripten-releases][releases_repo] repo. When this CL is committed, let the
+resulting SHA be `<LTO-sha>`. An example of this CL is
+https://chromium-review.googlesource.com/c/emscripten-releases/+/3781978.
+After landing the CL, wait for a couple hours before proceeding because
+building and archiving for the new commit will take some time. Check
+https://ci.chromium.org/p/emscripten-releases/g/main/console to see if the
+commit has passed "Archive Binaries" phase for all three platforms and
+additionally "Archive Binaries (arm64)" for Mac.</LTO-sha></non-lto-sha></li>
+  <li>Run <a href="https://github.com/emscripten-core/emsdk/blob/main/scripts/create_release.py"><code class="language-plaintext highlighter-rouge">scripts/create_release.py</code></a> in the emsdk
+repository. When we do both an LTO and a non-LTO release, run:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./scripts/create_release.py &lt;LTO-sha&gt; &lt;non-LTO-sha&gt;
+</code></pre></div>    </div>
+    <p>This will make the <code class="language-plaintext highlighter-rouge">&lt;LTO-sha&gt;</code> point to the versioned name release (e.g.
+<code class="language-plaintext highlighter-rouge">3.1.7</code>) and the <code class="language-plaintext highlighter-rouge">&lt;non-LTO-sha&gt;</code> point to the assert build release (e.g.
+<code class="language-plaintext highlighter-rouge">3.1.7-asserts</code>). When we do only a non-LTO release, run:</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./scripts/create_release.py &lt;non-LTO-sha&gt;
+</code></pre></div>    </div>
+    <p>This will make the <code class="language-plaintext highlighter-rouge">&lt;non-LTO-sha&gt;</code> point directly to the versioned name
+release (e.g. <code class="language-plaintext highlighter-rouge">3.1.7</code>) and there will be no assert build release. If we run
+<a href="https://github.com/emscripten-core/emsdk/blob/main/scripts/create_release.py"><code class="language-plaintext highlighter-rouge">scripts/create_release.py</code></a> without any arguments, it
+will automatically pick a tot version from
+<a href="https://chromium.googlesource.com/emscripten-releases">emscripten-releases</a> repo and make it point to the versioned
+name release. Running this
+<a href="https://github.com/emscripten-core/emsdk/blob/main/scripts/create_release.py"><code class="language-plaintext highlighter-rouge">scripts/create_release.py</code></a> script will update
+<a href="https://github.com/emscripten-core/emsdk/blob/main/emscripten-releases-tags.json">emscripten-releases-tags.json</a>, adding a new
+version. The script will create a new local git branch and push it up to
+<code class="language-plaintext highlighter-rouge">origin</code>.  An example of this PR is emscripten-core/emsdk#1071.</p>
+  </li>
+  <li><a href="https://github.com/emscripten-core/emsdk/tags">Tag</a> the <code class="language-plaintext highlighter-rouge">emsdk</code> repo with the new version number, on the commit
+that does the update, after it lands on main.</li>
+  <li><a href="https://github.com/emscripten-core/emscripten/tags">Tag</a> the <code class="language-plaintext highlighter-rouge">emscripten</code> repo with the new version number, on
+the commit referred to in the <a href="https://chromium.googlesource.com/emscripten-releases/+/refs/heads/main/DEPS">DEPS</a> (or DEPS.tagged-release) file
+above.</li>
+  <li>Run the <a href="https://github.com/emscripten-core/emscripten/blob/main/tools/maint/create_release.py"><code class="language-plaintext highlighter-rouge">tools/maint/create_release.py</code></a>
+tool in the emscripten repo to update
+<a href="https://github.com/emscripten-core/emscripten/blob/main/emscripten-version.txt"><code class="language-plaintext highlighter-rouge">emscripten-version.txt</code></a> and
+<a href="https://github.com/emscripten-core/emscripten/blob/main/ChangeLog.md"><code class="language-plaintext highlighter-rouge">ChangeLog.md</code></a>.  An example of such PR is
+emscripten-core/emscripten#17439.</li>
+</ol>
+
+<h2 id="major-version-update-1xy-to-1x10">Major version update (1.X.Y to 1.(X+1).0)</h2>
+
+<p>When:</p>
+
+<ul>
+  <li>We should do such an update when we have a reasonable assurance of stability.</li>
+</ul>
+
+<p>Requirements:</p>
+
+<ul>
+  <li>All the requirements for a minor update.</li>
+  <li>No major change recently landed.</li>
+  <li>No major recent regressions have been filed.</li>
+  <li>All tests pass locally for the person doing the update, including the main
+test suite (no params passed to <code class="language-plaintext highlighter-rouge">runner.py</code>), <code class="language-plaintext highlighter-rouge">other</code>, <code class="language-plaintext highlighter-rouge">browser</code>, <code class="language-plaintext highlighter-rouge">sockets</code>,
+<code class="language-plaintext highlighter-rouge">sanity</code>, <code class="language-plaintext highlighter-rouge">binaryen*</code>. (Not all of those are run on all the bots.)</li>
+  <li>A minor version was recently tagged, no major bugs have been reported on it,
+and nothing major landed since it did. (Bugs are often only found on tagged
+versions, so a big feature should first be in a minor version update before
+it is in a major one.)</li>
+</ul>
+
+<p>How:</p>
+
+<ol>
+  <li>Follow the same steps for a minor version update.</li>
+</ol>
+
+<h2 id="updating-the-emscriptenorg-website">Updating the <code class="language-plaintext highlighter-rouge">emscripten.org</code> Website</h2>
+
+<p>The site is currently hosted in <code class="language-plaintext highlighter-rouge">gh-pages</code> branch of the separate <a href="https://github.com/kripken/emscripten-site">site
+repository</a>. To update the docs, rebuild them and copy them into
+this repository.  There is a script that will perform these steps automatically:
+<a href="https://github.com/emscripten-core/emscripten/blob/main/tools/maint/update_docs.py"><code class="language-plaintext highlighter-rouge">tools/maint/update_docs.py</code></a>.  Just run this script with no
+arguments if the emscripten-site repository is checked out alongside emscripten
+itself, or pass the location of the checkout if not.</p>
+
+<p>You will need the specific sphinx version installed, which you can do using
+<code class="language-plaintext highlighter-rouge">pip3 install -r requirements-dev.txt</code> (depending on your system, you may then
+need to add <code class="language-plaintext highlighter-rouge">~/.local/bin</code> to your path, if pip installs to there).</p>
+
+<h3 id="building-and-viewing-the-website-locally">Building and viewing the Website locally</h3>
+
+<p>To build the site locally for testing purposes you only need a subset of the
+<code class="language-plaintext highlighter-rouge">update_docs.py</code> command just mentioned above. Specifically:</p>
+
+<ol>
+  <li>Run <code class="language-plaintext highlighter-rouge">pip3</code> to install python dependencies, as described above.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">make -C site html</code>.</li>
+  <li>Run a local webserver on the outout of that command, e.g.,
+<code class="language-plaintext highlighter-rouge">python3 -m http.server 8000 -d site/build/html</code>.</li>
+  <li>Browse to <code class="language-plaintext highlighter-rouge">http://localhost:8000/</code> (assuming you use port 8000 as above).</li>
+</ol>
+
+<h2 id="updating-the-emccpy-help-text">Updating the <code class="language-plaintext highlighter-rouge">emcc.py</code> help text</h2>
+
+<p><code class="language-plaintext highlighter-rouge">emcc --help</code> output is generated from the main documentation under <code class="language-plaintext highlighter-rouge">site/</code>,
+so it is the same as shown on the website, but it is rendered to text. After
+updating <code class="language-plaintext highlighter-rouge">emcc.rst</code> in a PR, the following should be done:</p>
+
+<ol>
+  <li>In your emscripten repo checkout, enter <code class="language-plaintext highlighter-rouge">site</code>.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">make clean</code> (without this, it may not emit the right output).</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">make text</code>.</li>
+  <li>Copy the output <code class="language-plaintext highlighter-rouge">build/text/docs/tools_reference/emcc.txt</code> to
+<code class="language-plaintext highlighter-rouge">../docs/emcc.txt</code> (both paths relative to the <code class="language-plaintext highlighter-rouge">site/</code> directory in
+emscripten that you entered in step 1), and add that change to your PR.</li>
+</ol>
+
+<p>See notes above on installing sphinx.</p>
+
+<h2 id="updating-the-llvm-libraries">Updating the LLVM libraries</h2>
+
+<p>We maintain our ports of compiler-rt, libcxx, libcxxabi, and libunwind under
+https://github.com/emscripten-core/emscripten/tree/main/system/lib from
+<a href="https://github.com/llvm/llvm-project">the upstream LLVM repository</a> and periodically update them to a newer
+version when a new LLVM release comes out.</p>
+
+<p>We maintain <a href="https://github.com/emscripten-core/llvm-project">a fork of LLVM</a> for library updates, where we
+create a branch for each new LLVM major release. For example, the branch for
+LLVM 16 is
+https://github.com/emscripten-core/llvm-project/tree/emscripten-libs-16. We
+create a new branch for a major version update and reuse the existing branch for
+a minor version update. We mostly do updates per LLVM major release.</p>
+
+<p>To update our libraries to a newer LLVM release:</p>
+
+<ol>
+  <li>If you are updating an existing branch the first step is to run
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/push_llvm_changes.py"><code class="language-plaintext highlighter-rouge">push_llvm_changes.py</code></a> to make sure the
+current branch is up-to-date with the current emscripten codebase.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./system/lib/push_llvm_changes.py &lt;Emscripten's LLVM fork directory&gt;
+</code></pre></div>    </div>
+    <p>(The existing library branch should be checked out in your Emscripten’s LLVM
+fork directory.)
+An example of such PR is emscripten-core/llvm-project#5.</p>
+
+    <p>If you are creating a new branch, first make sure the previous/existing
+branch is up-to-date using
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/push_llvm_changes.py"><code class="language-plaintext highlighter-rouge">push_llvm_changes.py</code></a>. Then
+create the new branch and cherry-pick all the emscripten-specific changes
+from the old branch, resolving any conflicts that might arise.</p>
+
+    <p>In either case, once that branch is up-to-date use the update scripts to copy
+the llvm branch contents into the emscripten tree. Its important in both
+cases to run <a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/push_llvm_changes.py"><code class="language-plaintext highlighter-rouge">push_llvm_changes.py</code></a> first to
+ensure that no emscripten changes are lost in the process.</p>
+  </li>
+  <li>Create a PR to merge new LLVM release tag in the upstream repo into our new
+library branch. For example, if we want to merge <code class="language-plaintext highlighter-rouge">llvmorg-16.0.6</code> tag into
+our <code class="language-plaintext highlighter-rouge">emscripten-libs-16</code> branch, you can do
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git co emscripten-libs-16
+git remote add upstream git@github.com:llvm/llvm-project.git
+git fetch --tags upstream
+git merge llvmorg-16.0.6
+</code></pre></div>    </div>
+    <p>An example of such PR is emscripten-core/llvm-project#3.</p>
+  </li>
+  <li>Now we have merged all the changes to our LLVM fork branch, pull those
+changes with the new version back into the Emscripten repo. You can use
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/update_compiler_rt.py"><code class="language-plaintext highlighter-rouge">update_compiler_rt.py</code></a>,
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/update_libcxx.py"><code class="language-plaintext highlighter-rouge">update_libcxx.py</code></a>,
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/update_libcxxabi.py"><code class="language-plaintext highlighter-rouge">update_libcxxabi.py</code></a>,
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/update_libunwind.py"><code class="language-plaintext highlighter-rouge">update_libunwind.py</code></a> for that. For example,
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./system/lib/update_comiler_rt.py &lt;Emscripten's LLVM fork directory&gt;
+</code></pre></div>    </div>
+    <p>(The library branch should be checked out in your Emscripten’s LLVM fork
+directory.)
+An example of such PR is emscripten-core/emscripten#19515.</p>
+  </li>
+</ol>
+
+<h2 id="updating-musl">Updating musl</h2>
+
+<p>We maintain our musl in
+https://github.com/emscripten-core/emscripten/tree/main/system/lib/libc/musl.
+We maintain a fork of musl in https://github.com/emscripten-core/musl for
+updates and periodically update it to a newer version.</p>
+
+<p>The process for updating musl is similar to that of updating the LLVM libraries.
+To update our libraries to a newer musl release:</p>
+
+<ol>
+  <li>
+    <p>If you are updating an existing branch the first step is to run
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/push_musl_changes.py"><code class="language-plaintext highlighter-rouge">push_musl_changes.py</code></a> to make sure the
+current branch is up-to-date with the current emscripten codebase.</p>
+
+    <p>If you are creating a new branch, first make sure the previous/existing
+branch is up-to-date using
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/push_musl_changes.py"><code class="language-plaintext highlighter-rouge">push_musl_changes.py</code></a>. Then
+create the new branch and cherry-pick all the emscripten-specific changes
+from the old branch, resolving any conflicts that might arise.</p>
+  </li>
+  <li>Create a PR to merge new mrelease tag in the upstream repo into our new
+library branch. For example, if we want to merge musl’s <code class="language-plaintext highlighter-rouge">v1.2.4</code> tag into our
+<code class="language-plaintext highlighter-rouge">merge-v1.2.4</code> branch, you can do
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git co merge-v1.2.4
+git remote add upstream git://git.musl-libc.org/musl
+git fetch --tags upstream
+git merge v1.2.4
+</code></pre></div>    </div>
+  </li>
+  <li>Now we have merged all the changes to our musl fork branch, pull those
+changes with the new version back into the Emscripten repo. You can use
+<a href="https://github.com/emscripten-core/emscripten/blob/main/system/lib/update_musl.py"><code class="language-plaintext highlighter-rouge">update_musl.py</code></a> for that.</li>
+</ol>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

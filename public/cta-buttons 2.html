@@ -1,0 +1,159 @@
+<div class="cta-buttons-wrapper">
+    <div class="cta-container">
+        {% if include.custom_buttons %}
+        {% for button in include.buttons %}
+        <a href="{{ button.url | relative_url }}"
+            class="button {{ button.type | default: 'primary' }} {% if button.animate %}animate-pulse{% endif %}" {% if
+            button.new_tab %}target="_blank" rel="noopener" {% endif %}>
+            {% if button.icon %}<i class="icon icon-{{ button.icon }}"></i>{% endif %}
+            {{ button.text }}
+        </a>
+        {% endfor %}
+        {% else %}
+        <a href="#beta-signup" class="button primary">Join Beta Program</a>
+        <a href="{{ '/whitepaper' | relative_url }}" class="button secondary">View Whitepaper</a>
+        <a href="#creator-tools" class="button secondary">For Creators</a>
+        <a href="#viewer-features" class="button secondary">For Viewers</a>
+        {% endif %}
+    </div>
+
+    {% if include.show_scroll_indicator %}
+    <div class="scroll-indicator">
+        <span>Scroll to learn more</span>
+        <div class="scroll-arrow">
+            <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
+                <path d="M1 1L10 10L19 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Enhanced button styles for Chrome blue theme */
+    .cta-buttons-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2rem 0;
+    }
+
+    .cta-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.85rem 1.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+    }
+
+    .button.primary {
+        background-color: var(--primary);
+        color: var(--text-on-dark);
+        border: 2px solid var(--primary);
+    }
+
+    .button.secondary {
+        background-color: transparent;
+        color: var(--text-on-dark);
+        border: 2px solid var(--primary);
+    }
+
+    .button.primary:hover,
+    .button.primary:focus {
+        background-color: var(--primary-light);
+        border-color: var(--primary-light);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+    }
+
+    .button.secondary:hover,
+    .button.secondary:focus {
+        background-color: rgba(66, 133, 244, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
+    }
+
+    .button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.4);
+    }
+
+    .button .icon {
+        margin-right: 0.5rem;
+    }
+
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 216, 255, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 216, 255, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 216, 255, 0);
+        }
+    }
+
+    .scroll-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2rem;
+        color: var(--text-muted-on-dark);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    .scroll-arrow {
+        margin-top: 0.5rem;
+        animation: bounce 2s infinite;
+        color: var(--secondary);
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+
+        40% {
+            transform: translateY(-10px);
+        }
+
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .cta-container {
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>

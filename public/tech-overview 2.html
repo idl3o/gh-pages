@@ -1,0 +1,277 @@
+<div class="tech-overview">
+    <div class="tech-overview-grid">
+        <div class="tech-card">
+            <div class="tech-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+            </div>
+            <h3>Blockchain Layer</h3>
+            <p>Built on Ethereum and Polygon for secure, low-fee transactions and smart contract execution.</p>
+        </div>
+
+        <div class="tech-card">
+            <div class="tech-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"></path>
+                    <path d="M7 22V11L3 3"></path>
+                </svg>
+            </div>
+            <h3>Token Economy</h3>
+            <p>ERC-20 token system enabling creator rewards, governance, and platform incentives.</p>
+        </div>
+
+        <div class="tech-card">
+            <div class="tech-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                    </path>
+                </svg>
+            </div>
+            <h3>Decentralized CDN</h3>
+            <p>P2P content delivery network ensuring censorship resistance and high availability.</p>
+        </div>
+
+        <div class="tech-card">
+            <div class="tech-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </div>
+            <h3>Media Processing</h3>
+            <p>Adaptive bitrate streaming up to 4K with advanced codecs H.264, H.265, and AV1.</p>
+        </div>
+    </div>
+
+    <div class="tech-diagram">
+        <div class="diagram-title">System Architecture</div>
+        <div class="diagram-content">
+            <div class="diagram-layer layer-1">
+                <span>User Layer</span>
+                <div class="diagram-box">Creator/Viewer Apps</div>
+                <div class="diagram-box">Web Interface</div>
+                <div class="diagram-box">Mobile Apps</div>
+            </div>
+
+            <div class="diagram-layer layer-2">
+                <span>Protocol Layer</span>
+                <div class="diagram-box">Smart Contracts</div>
+                <div class="diagram-box">Token Economics</div>
+                <div class="diagram-box">Authentication</div>
+            </div>
+
+            <div class="diagram-layer layer-3">
+                <span>Infrastructure Layer</span>
+                <div class="diagram-box">IPFS Storage</div>
+                <div class="diagram-box">P2P Network</div>
+                <div class="diagram-box">Encoding Nodes</div>
+            </div>
+
+            <div class="diagram-layer layer-4">
+                <span>Blockchain Layer</span>
+                <div class="diagram-box">Ethereum</div>
+                <div class="diagram-box">Polygon</div>
+                <div class="diagram-box">Oracle Services</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tech-stats">
+        <div class="stat-item">
+            <div class="stat-number">3s</div>
+            <div class="stat-label">Latency</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">4K</div>
+            <div class="stat-label">Max Resolution</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">60fps</div>
+            <div class="stat-label">Framerate</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">99.9%</div>
+            <div class="stat-label">Uptime</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tech-overview {
+        margin: 4rem 0;
+    }
+
+    .tech-overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .tech-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-top: 3px solid var(--secondary);
+    }
+
+    .tech-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+    }
+
+    .tech-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        color: white;
+    }
+
+    .tech-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .tech-card h3 {
+        margin-bottom: 1rem;
+        color: var(--light);
+    }
+
+    .tech-card p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+
+    .tech-diagram {
+        background-color: rgba(255, 255, 255, 0.03);
+        border-radius: var(--border-radius);
+        padding: 3rem 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .diagram-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2.5rem;
+        color: var(--secondary);
+    }
+
+    .diagram-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .diagram-layer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+        padding-left: 120px;
+    }
+
+    .diagram-layer span {
+        position: absolute;
+        left: 0;
+        width: 110px;
+        text-align: right;
+        color: var(--secondary);
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+
+    .diagram-box {
+        flex: 1;
+        padding: 0.75rem;
+        text-align: center;
+        background-color: rgba(110, 69, 226, 0.2);
+        border: 1px solid rgba(110, 69, 226, 0.3);
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .layer-1 .diagram-box {
+        background-color: rgba(0, 216, 255, 0.2);
+        border-color: rgba(0, 216, 255, 0.3);
+    }
+
+    .layer-2 .diagram-box {
+        background-color: rgba(110, 69, 226, 0.2);
+        border-color: rgba(110, 69, 226, 0.3);
+    }
+
+    .layer-3 .diagram-box {
+        background-color: rgba(255, 87, 34, 0.2);
+        border-color: rgba(255, 87, 34, 0.3);
+    }
+
+    .layer-4 .diagram-box {
+        background-color: rgba(72, 187, 120, 0.2);
+        border-color: rgba(72, 187, 120, 0.3);
+    }
+
+    .tech-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .stat-item {
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius);
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: var(--gradient-secondary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .diagram-layer {
+            flex-direction: column;
+            padding-left: 0;
+            padding-top: 30px;
+        }
+
+        .diagram-layer span {
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .diagram-box {
+            width: 100%;
+        }
+    }
+</style>

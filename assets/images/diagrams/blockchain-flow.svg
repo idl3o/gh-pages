@@ -1,0 +1,60 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="eth-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6e45e2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8464fa;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="polygon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7b4ee0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9e7bfc;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="ipfs-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d8ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5edfff;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="stream-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#68d391;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bg-gradient)" rx="8" ry="8" />
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle" font-weight="bold">Web3 Crypto Streaming Flow</text>
+  
+  <!-- Nodes -->
+  <circle cx="150" cy="150" r="60" fill="url(#eth-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+  <text x="150" y="150" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">Ethereum</text>
+  <text x="150" y="170" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Smart Contracts</text>
+  
+  <circle cx="400" cy="150" r="60" fill="url(#polygon-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+  <text x="400" y="150" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">Polygon</text>
+  <text x="400" y="170" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Layer 2 Scaling</text>
+  
+  <circle cx="650" cy="150" r="60" fill="url(#ipfs-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+  <text x="650" y="150" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">IPFS</text>
+  <text x="650" y="170" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Content Storage</text>
+  
+  <circle cx="400" cy="300" r="60" fill="url(#stream-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+  <text x="400" y="300" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">STREAM</text>
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Token Economy</text>
+  
+  <!-- Connections -->
+  <line x1="200" y1="150" x2="340" y2="150" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+  <line x1="460" y1="150" x2="590" y2="150" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+  <line x1="400" y1="210" x2="400" y2="240" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+  <line x1="192" y1="192" x2="358" y2="258" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+  <line x1="442" y1="258" x2="608" y2="192" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+  
+  <!-- Flow labels -->
+  <text x="270" y="140" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Cross-chain</text>
+  <text x="525" y="140" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Content Addressing</text>
+  <text x="425" y="230" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Utility</text>
+</svg>

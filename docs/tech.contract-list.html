@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/tech.contract-list.html" />
+<meta property="og:url" content="/docs/tech.contract-list.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/tech.contract-list.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: Smart Contract Catalog | Web3 Crypto Streaming Service</p>
+<hr />
+
+<h1 id="smart-contract-catalog">Smart Contract Catalog</h1>
+
+<p>This document provides an overview of all smart contracts used in the Web3 Crypto Streaming Service platform. These contracts form the backbone of our decentralized streaming ecosystem.</p>
+
+<h2 id="core-contracts">Core Contracts</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Contract</th>
+      <th>Description</th>
+      <th>Location</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>StreamAccessContract</td>
+      <td>Manages access control for streaming content</td>
+      <td><a href="https://github.com/idl3o/contracts/blob/main/StreamAccessContract.sol">GitHub</a></td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>ProofOfExistence</td>
+      <td>Verifies and timestamps content authenticity</td>
+      <td><a href="https://github.com/idl3o/contracts/blob/main/ProofOfExistence.sol">GitHub</a></td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>StreamingToken</td>
+      <td>Manages the platform’s utility token</td>
+      <td><a href="https://github.com/idl3o/contracts/blob/main/StreamingToken.sol">GitHub</a></td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>StreamPayment</td>
+      <td>Handles streaming payment models</td>
+      <td><a href="https://github.com/idl3o/contracts/blob/main/StreamPayment.sol">GitHub</a></td>
+      <td>v1.0.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="streamaccesscontract">StreamAccessContract</h2>
+
+<p>This contract manages access control for crypto streaming content, ensuring that only authorized users can access premium content.</p>
+
+<h3 id="key-features">Key Features:</h3>
+<ul>
+  <li>Content registration with customizable access models</li>
+  <li>Pay-per-view and subscription-based access control</li>
+  <li>Royalty and platform fee management</li>
+  <li>Authorization verification</li>
+</ul>
+
+<h3 id="main-functions">Main Functions:</h3>
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">registerContent</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">price</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isPremium</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">royaltyPercent</span><span class="p">,</span> <span class="kt">string</span> <span class="k">memory</span> <span class="n">contentHash</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">purchaseAccess</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">duration</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">hasAccess</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">grantAccess</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">duration</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="implementation-details">Implementation Details:</h3>
+<p>The contract uses a dual-mapping structure to efficiently track both content metadata and user access rights. It implements a flexible monetization system that allows creators to set their own prices and access models.</p>
+
+<p><a href="docs/contracts/stream-access.html">View Full Contract Source →</a></p>
+
+<h2 id="proofofexistence">ProofOfExistence</h2>
+
+<p>This contract provides a mechanism for establishing proof of content ownership and existence at a specific point in time.</p>
+
+<h3 id="key-features-1">Key Features:</h3>
+<ul>
+  <li>Immutable timestamping of content hashes on the blockchain</li>
+  <li>Quantum signature support for enhanced security</li>
+  <li>Confidence level tracking for content verification</li>
+  <li>Efficient verification process</li>
+</ul>
+
+<h3 id="main-functions-1">Main Functions:</h3>
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">registerProof</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">,</span> <span class="kt">bytes32</span> <span class="n">quantumSignature</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">confidence</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">verifyProof</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">getProofDetails</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="implementation-details-1">Implementation Details:</h3>
+<p>Using the blockchain’s immutable ledger, this contract creates tamper-proof records of when specific content was registered, helping to resolve intellectual property disputes and verify content authenticity.</p>
+
+<p><a href="docs/contracts/proof-of-existence.html">View Full Contract Source →</a></p>
+
+<h2 id="streamingtoken">StreamingToken</h2>
+
+<p>Our platform’s native ERC20 utility token that powers the ecosystem.</p>
+
+<h3 id="key-features-2">Key Features:</h3>
+<ul>
+  <li>Credit purchasing system</li>
+  <li>Stream access management</li>
+  <li>Utility functions for the platform economy</li>
+</ul>
+
+<h3 id="main-functions-2">Main Functions:</h3>
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">purchaseCredits</span><span class="p">()</span>
+<span class="k">function</span> <span class="n">startStream</span><span class="p">(</span><span class="kt">string</span> <span class="k">memory</span> <span class="n">contentId</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">canStream</span><span class="p">(</span><span class="kt">address</span> <span class="n">user</span><span class="p">,</span> <span class="kt">string</span> <span class="k">memory</span> <span class="n">contentId</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="implementation-details-2">Implementation Details:</h3>
+<p>This ERC20 token includes specialized functions for the streaming platform, allowing users to convert ETH to streaming credits and use those credits to access content.</p>
+
+<p><a href="docs/contracts/streaming-token.html">View Full Contract Source →</a></p>
+
+<h2 id="streampayment">StreamPayment</h2>
+
+<p>This contract enables continuous payment streams for content consumption, creating a more granular and fair compensation model for creators.</p>
+
+<h3 id="key-features-3">Key Features:</h3>
+<ul>
+  <li>Per-second payment streaming</li>
+  <li>Dynamic fund management</li>
+  <li>Creator-viewer direct payments</li>
+  <li>Adjustable payment rates</li>
+</ul>
+
+<h3 id="main-functions-3">Main Functions:</h3>
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">createStream</span><span class="p">(</span><span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">ratePerSecond</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">addFunds</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">stopStream</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">)</span>
+<span class="k">function</span> <span class="n">withdraw</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="implementation-details-3">Implementation Details:</h3>
+<p>The contract implements a time-based payment channel that allows viewers to stream payments to creators at a specified rate per second, with the ability to pause, resume, and adjust the payment flow.</p>
+
+<p><a href="docs/contracts/stream-payment.html">View Full Contract Source →</a></p>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<p>All platform smart contracts incorporate:</p>
+
+<ul>
+  <li>Comprehensive access controls</li>
+  <li>Re-entrancy protection</li>
+  <li>Integer overflow/underflow protection (using Solidity 0.8+)</li>
+  <li>Event emission for all significant state changes</li>
+  <li>Explicit visibility modifiers</li>
+</ul>
+
+<h2 id="audit-status">Audit Status</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Contract</th>
+      <th>Auditor</th>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>StreamAccessContract</td>
+      <td>Blockchain Security Firm</td>
+      <td>Jan 2025</td>
+      <td>✅ Passed</td>
+    </tr>
+    <tr>
+      <td>ProofOfExistence</td>
+      <td>Blockchain Security Firm</td>
+      <td>Jan 2025</td>
+      <td>✅ Passed</td>
+    </tr>
+    <tr>
+      <td>StreamingToken</td>
+      <td>Blockchain Security Firm</td>
+      <td>Feb 2025</td>
+      <td>✅ Passed</td>
+    </tr>
+    <tr>
+      <td>StreamPayment</td>
+      <td>Blockchain Security Firm</td>
+      <td>Feb 2025</td>
+      <td>✅ Passed</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="development-and-integration">Development and Integration</h2>
+
+<p>For developers looking to integrate with these contracts:</p>
+
+<ol>
+  <li>All contracts are deployed on EVM-compatible networks</li>
+  <li>We provide JavaScript libraries for easy integration</li>
+  <li>Testnet versions are available for development</li>
+  <li>Full documentation is available in our Developer Guide</li>
+</ol>
+
+<p><a href="docs/guides.developers.html">Developer Integration Guide →</a></p>
+
+<h2 id="future-enhancements">Future Enhancements</h2>
+
+<p>Planned improvements to the contract ecosystem:</p>
+
+<ol>
+  <li>Cross-chain interoperability bridges</li>
+  <li>Layer 2 scaling solutions integration</li>
+  <li>Enhanced governance mechanisms</li>
+  <li>Additional tokenomics features</li>
+</ol>
+
+<p>Join our developer community to contribute to the evolution of these smart contracts.</p>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

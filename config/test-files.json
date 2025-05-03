@@ -1,0 +1,246 @@
+{
+  "metaData": {
+    "generatorVersion": "0.9.2",
+    "testSuite": "Transcendental Asset Generator",
+    "description": "Test asset definitions for the transcendental digital asset generation engine",
+    "categories": ["Exotic", "Mythic", "Legendary", "Ultra Rare"],
+    "cachePath": "/assets/transcendental-cache/",
+    "lastUpdated": "2023-11-18T08:30:45Z"
+  },
+  "assets": {
+    "exotic": [
+      {
+        "id": "exotic_001",
+        "name": "Ethereal Whisper",
+        "path": "/assets/exotic/ethereal-whisper.webp",
+        "rarity": "exotic",
+        "dropRate": 0.08,
+        "attributes": {
+          "glow": true,
+          "transparency": 0.65,
+          "color": "#a782ff",
+          "soundEffect": "wind_chimes.mp3"
+        },
+        "metadata": {
+          "description": "A subtle manifestation that appears in dreams and liminal moments",
+          "creator": "DreamWalker",
+          "creationDate": "2023-06-12"
+        },
+        "testCases": [
+          {"scenario": "night_mode", "expectedRendering": "75% opacity"},
+          {"scenario": "daylight_mode", "expectedRendering": "85% opacity"}
+        ]
+      },
+      {
+        "id": "exotic_002",
+        "name": "Hyperdimensional Fragment",
+        "path": "/assets/exotic/hyperdimensional-fragment.webp",
+        "rarity": "exotic",
+        "dropRate": 0.075,
+        "attributes": {
+          "glow": true,
+          "rotation": "continuous",
+          "color": "#00e8ff",
+          "soundEffect": "crystal_hum.mp3"
+        },
+        "metadata": {
+          "description": "A shard from beyond conventional dimensional space",
+          "creator": "GeometryShifter",
+          "creationDate": "2023-07-29"
+        },
+        "testCases": [
+          {"scenario": "low_performance_device", "expectedRendering": "static image"},
+          {"scenario": "high_performance_device", "expectedRendering": "full rotation"}
+        ]
+      }
+    ],
+    "mythic": [
+      {
+        "id": "mythic_001",
+        "name": "Phoenix Rebirth",
+        "path": "/assets/mythic/phoenix-rebirth.webp",
+        "rarity": "mythic",
+        "dropRate": 0.045,
+        "attributes": {
+          "animation": "burning",
+          "particleEffect": "embers",
+          "color": "#ff7700",
+          "soundEffect": "phoenix_call.mp3"
+        },
+        "metadata": {
+          "description": "A mythic essence that grants one revival per battle",
+          "creator": "FireBornArtisan",
+          "creationDate": "2023-04-05"
+        },
+        "testCases": [
+          {"scenario": "activation", "expectedBehavior": "full screen effect"},
+          {"scenario": "cooldown", "expectedBehavior": "dim glow"}
+        ]
+      },
+      {
+        "id": "mythic_002",
+        "name": "Ancestral Guardian",
+        "path": "/assets/mythic/ancestral-guardian.webp",
+        "rarity": "mythic",
+        "dropRate": 0.043,
+        "attributes": {
+          "animation": "hovering",
+          "aura": "protective",
+          "color": "#73c2fb",
+          "soundEffect": "ancient_wisdom.mp3"
+        },
+        "metadata": {
+          "description": "Manifests the wisdom and protection of ancient lineage",
+          "creator": "HeritageKeeper",
+          "creationDate": "2023-02-18"
+        },
+        "testCases": [
+          {"scenario": "damage_incoming", "expectedBehavior": "shield activation"},
+          {"scenario": "idle", "expectedBehavior": "gentle hover"}
+        ]
+      }
+    ],
+    "legendary": [
+      {
+        "id": "legendary_001",
+        "name": "Worldshaper's Prism",
+        "path": "/assets/legendary/worldshapers-prism.webp",
+        "rarity": "legendary",
+        "dropRate": 0.015,
+        "attributes": {
+          "animation": "reality_warp",
+          "environmentEffect": "terrain_modification",
+          "color": "#00ff9f",
+          "soundEffect": "reality_bend.mp3"
+        },
+        "metadata": {
+          "description": "Changes the fabric of reality around the wielder",
+          "creator": "CosmicArchitect",
+          "creationDate": "2023-01-01"
+        },
+        "testCases": [
+          {"scenario": "activation", "expectedBehavior": "environment texture change"},
+          {"scenario": "full_power", "expectedBehavior": "geometry distortion"}
+        ]
+      },
+      {
+        "id": "legendary_002",
+        "name": "Chronomancer's Pendant",
+        "path": "/assets/legendary/chronomancers-pendant.webp",
+        "rarity": "legendary",
+        "dropRate": 0.012,
+        "attributes": {
+          "animation": "time_fluctuation",
+          "effect": "temporal_distortion",
+          "color": "#c0ff33",
+          "soundEffect": "clock_reversal.mp3"
+        },
+        "metadata": {
+          "description": "Grants limited control over local time flow",
+          "creator": "TemporalMage",
+          "creationDate": "2022-12-21"
+        },
+        "testCases": [
+          {"scenario": "slow_time", "expectedBehavior": "60% game speed"},
+          {"scenario": "rewind", "expectedBehavior": "3 second reversal"}
+        ]
+      }
+    ],
+    "ultraRare": [
+      {
+        "id": "ultraRare_001",
+        "name": "Cosmic Nexus",
+        "path": "/assets/ultra-rare/cosmic-nexus.webp",
+        "rarity": "ultraRare",
+        "dropRate": 0.0035,
+        "attributes": {
+          "animation": "galaxy_spiral",
+          "effect": "universal_connection",
+          "color": "gradient:#8B00FF,#00FFFF",
+          "soundEffect": "universal_harmony.mp3"
+        },
+        "metadata": {
+          "description": "A convergence point of cosmic forces that transcends universal boundaries",
+          "creator": "OmniCreator",
+          "creationDate": "2022-12-12"
+        },
+        "testCases": [
+          {"scenario": "activation", "expectedBehavior": "background stars animation"},
+          {"scenario": "full_unlock", "expectedBehavior": "multi-dimension portal"}
+        ]
+      },
+      {
+        "id": "ultraRare_002",
+        "name": "Primordial Essence",
+        "path": "/assets/ultra-rare/primordial-essence.webp",
+        "rarity": "ultraRare",
+        "dropRate": 0.0025,
+        "attributes": {
+          "animation": "creation_pulse",
+          "effect": "genesis_energy",
+          "color": "gradient:#FFDE00,#FF9000",
+          "soundEffect": "big_bang_echo.mp3"
+        },
+        "metadata": {
+          "description": "Contains the raw power of creation from before the universe began",
+          "creator": "FirstLight",
+          "creationDate": "2022-11-11"
+        },
+        "testCases": [
+          {"scenario": "channel_ability", "expectedBehavior": "room illumination"},
+          {"scenario": "maximum_power", "expectedBehavior": "screen whiteout + regeneration"}
+        ]
+      }
+    ]
+  },
+  "testEnvironments": [
+    {
+      "name": "standard",
+      "resolution": "1920x1080",
+      "frameRate": 60,
+      "lighting": "neutral",
+      "backgroundScene": "default"
+    },
+    {
+      "name": "low_end",
+      "resolution": "1280x720",
+      "frameRate": 30,
+      "lighting": "simplified",
+      "backgroundScene": "minimal"
+    },
+    {
+      "name": "high_end",
+      "resolution": "3840x2160",
+      "frameRate": 144,
+      "lighting": "dynamic",
+      "backgroundScene": "detailed"
+    },
+    {
+      "name": "mobile",
+      "resolution": "720x1560",
+      "frameRate": 60,
+      "lighting": "optimized",
+      "backgroundScene": "mobile_optimized"
+    }
+  ],
+  "generationParameters": {
+    "seed": 12345678,
+    "algorithm": "quantum_diffusion_v3",
+    "modelVersion": "transcendental.2023.11",
+    "optimizationLevel": 2,
+    "compressionFormat": "webp",
+    "quality": 95,
+    "maxSize": {
+      "exotic": "2MB",
+      "mythic": "5MB",
+      "legendary": "8MB",
+      "ultraRare": "15MB"
+    }
+  },
+  "cacheControl": {
+    "ttl": 86400,
+    "preload": ["ultraRare_001", "legendary_001"],
+    "persistAcrossVersions": true,
+    "compressionLevel": "optimal"
+  }
+}

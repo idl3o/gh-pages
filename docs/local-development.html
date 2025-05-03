@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Local Development Setup | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Local Development Setup" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/local-development.html" />
+<meta property="og:url" content="/docs/local-development.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Local Development Setup" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Local Development Setup","url":"/docs/local-development.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Local Development Setup</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="local-development-setup">Local Development Setup</h1>
+
+<p>This guide will help you set up your local development environment for working with all components of the project.</p>
+
+<h2 id="system-requirements">System Requirements</h2>
+
+<ul>
+  <li>Windows 10/11, macOS, or Linux</li>
+  <li>Node.js 18.x or higher</li>
+  <li>npm 9.x or higher</li>
+  <li>Ruby 2.7+ (for Jekyll documentation)</li>
+  <li>Git</li>
+</ul>
+
+<h2 id="initial-setup">Initial Setup</h2>
+
+<ol>
+  <li>Clone the repository:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/yourusername/project.git
+<span class="nb">cd </span>project
+</code></pre></div></div>
+
+<ol>
+  <li>Install dependencies:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Install Ruby dependencies for documentation:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install</span>
+</code></pre></div></div>
+
+<h2 id="typescript-sdk-development">TypeScript SDK Development</h2>
+
+<p>The TypeScript SDK is located in the <code class="language-plaintext highlighter-rouge">ts</code> directory:</p>
+
+<ol>
+  <li>Navigate to the directory:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>ts
+</code></pre></div></div>
+
+<ol>
+  <li>Build the TypeScript code:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run build
+</code></pre></div></div>
+
+<ol>
+  <li>Run tests:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<h2 id="smart-contract-development">Smart Contract Development</h2>
+
+<p>Smart contracts are located in the <code class="language-plaintext highlighter-rouge">contracts</code> directory:</p>
+
+<ol>
+  <li>Install development dependencies:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> hardhat
+</code></pre></div></div>
+
+<ol>
+  <li>Navigate to the contracts directory:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>contracts
+</code></pre></div></div>
+
+<ol>
+  <li>Compile contracts:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat compile
+</code></pre></div></div>
+
+<ol>
+  <li>Run contract tests:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat <span class="nb">test</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Deploy to local development network:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat node
+npx hardhat run <span class="nt">--network</span> localhost scripts/deploy.js
+</code></pre></div></div>
+
+<h2 id="red-x-backend-development">RED X Backend Development</h2>
+
+<p>The RED X backend is located in the <code class="language-plaintext highlighter-rouge">red_x</code> directory:</p>
+
+<ol>
+  <li>Set up WASM toolchain:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rustup target add wasm32-unknown-unknown
+cargo <span class="nb">install </span>wasm-pack
+</code></pre></div></div>
+
+<ol>
+  <li>Build the WASM package:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>red_x
+wasm-pack build
+</code></pre></div></div>
+
+<ol>
+  <li>Run tests:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo <span class="nb">test</span>
+</code></pre></div></div>
+
+<h2 id="serverless-functions-development">Serverless Functions Development</h2>
+
+<p>For developing serverless functions locally:</p>
+
+<ol>
+  <li>Navigate to the functions directory:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>netlify/functions
+</code></pre></div></div>
+
+<ol>
+  <li>Install dependencies:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Start the local development server:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev
+</code></pre></div></div>
+
+<h2 id="documentation-development">Documentation Development</h2>
+
+<p>To work on the documentation:</p>
+
+<ol>
+  <li>Make sure you have Jekyll installed:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem <span class="nb">install </span>jekyll bundler
+</code></pre></div></div>
+
+<ol>
+  <li>Start the documentation server:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<ol>
+  <li>Visit <code class="language-plaintext highlighter-rouge">http://localhost:4000</code> in your browser</li>
+</ol>
+
+<h2 id="environment-variables">Environment Variables</h2>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">.env</code> file in the project root with the following variables:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># API Keys
+API_KEY=your_api_key_here
+
+# Contract Configuration
+CONTRACT_ADDRESS=0x...
+
+# Services
+ENDPOINT_URL=https://api.example.com
+</code></pre></div></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<ol>
+  <li><strong>Node.js version issues</strong>: Use nvm to manage Node.js versions</li>
+  <li><strong>WASM build fails</strong>: Ensure you have the correct Rust toolchain installed</li>
+  <li><strong>Jekyll errors</strong>: Check Ruby version compatibility</li>
+</ol>
+
+<p>If you encounter any other issues, please check the <a href="troubleshooting.md">troubleshooting guide</a> or <a href="https://github.com/yourusername/project/issues/new">open an issue</a>.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

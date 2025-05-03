@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Blockchain Technology Documentation | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Blockchain Technology Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/blockchain-docs/" />
+<meta property="og:url" content="/docs/blockchain-docs/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Blockchain Technology Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Blockchain Technology Documentation","url":"/docs/blockchain-docs/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <h1 id="blockchain-technology-documentation">Blockchain Technology Documentation</h1>
+
+<p>This documentation covers our blockchain technologies, focusing on smart contracts, the PRX Token Chain, payment streaming contracts, and security implementations.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Our blockchain technology stack provides the foundation for secure, decentralized token transfers and payment streaming capabilities on Ethereum and compatible networks.</p>
+
+<h2 id="key-components">Key Components</h2>
+
+<h3 id="smart-contracts">Smart Contracts</h3>
+
+<p>Our smart contract ecosystem consists of several interoperating contracts that enable token management, payment streaming, and secure asset transfers.</p>
+
+<h4 id="contract-architecture">Contract Architecture</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PRXTokenChain
+    ├── PRXToken (ERC-20)
+    ├── PaymentStreaming
+    │   ├── StreamController
+    │   ├── StreamRegistry
+    │   └── StreamEscrow
+    └── SecurityModules
+        ├── AccessControl
+        ├── EmergencyPause
+        └── UpgradeProxy
+</code></pre></div></div>
+
+<h3 id="prx-token-chain">PRX Token Chain</h3>
+
+<p>The PRX Token Chain implements an extended ERC-20 token standard with additional features for payment streaming and governance.</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// PRXToken.sol
+// SPDX-License-Identifier: MIT
+</span><span class="k">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="s">"@openzeppelin/contracts/token/ERC20/ERC20.sol"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">"@openzeppelin/contracts/access/Ownable.sol"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">"@openzeppelin/contracts/security/Pausable.sol"</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @title PRX Token
+ * @dev Extended ERC-20 token with streaming payment capabilities
+ */</span>
+<span class="k">contract</span> <span class="n">PRXToken</span> <span class="k">is</span> <span class="n">ERC20</span><span class="p">,</span> <span class="n">Ownable</span><span class="p">,</span> <span class="n">Pausable</span> <span class="p">{</span>
+    <span class="c1">// Stream controller address
+</span>    <span class="kt">address</span> <span class="k">public</span> <span class="n">streamController</span><span class="p">;</span>
+    
+    <span class="c1">// Events
+</span>    <span class="k">event</span> <span class="n">StreamControllerUpdated</span><span class="p">(</span><span class="kt">address</span> <span class="k">indexed</span> <span class="n">oldController</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">newController</span><span class="p">);</span>
+    
+    <span class="cm">/**
+     * @dev Constructor
+     * @param initialSupply The initial supply of tokens
+     */</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">initialSupply</span><span class="p">)</span> <span class="n">ERC20</span><span class="p">(</span><span class="s">"PRX Token"</span><span class="p">,</span> <span class="s">"PRX"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_mint</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">initialSupply</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Set the stream controller address
+     * @param _streamController The address of the stream controller contract
+     */</span>
+    <span class="k">function</span> <span class="n">setStreamController</span><span class="p">(</span><span class="kt">address</span> <span class="n">_streamController</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyOwner</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_streamController</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"PRXToken: zero address"</span><span class="p">);</span>
+        
+        <span class="kt">address</span> <span class="n">oldController</span> <span class="o">=</span> <span class="n">streamController</span><span class="p">;</span>
+        <span class="n">streamController</span> <span class="o">=</span> <span class="n">_streamController</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">StreamControllerUpdated</span><span class="p">(</span><span class="n">oldController</span><span class="p">,</span> <span class="n">_streamController</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Allow the stream controller to transfer tokens for streaming payments
+     * @param from The sender address
+     * @param to The recipient address
+     * @param amount The amount of tokens to transfer
+     */</span>
+    <span class="k">function</span> <span class="n">streamTransfer</span><span class="p">(</span><span class="kt">address</span> <span class="n">from</span><span class="p">,</span> <span class="kt">address</span> <span class="n">to</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="k">external</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span> <span class="o">==</span> <span class="n">streamController</span><span class="p">,</span> <span class="s">"PRXToken: caller is not the stream controller"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">from</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"PRXToken: transfer from the zero address"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">to</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"PRXToken: transfer to the zero address"</span><span class="p">);</span>
+        
+        <span class="n">_transfer</span><span class="p">(</span><span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Pause token transfers
+     */</span>
+    <span class="k">function</span> <span class="n">pause</span><span class="p">()</span> <span class="k">external</span> <span class="n">onlyOwner</span> <span class="p">{</span>
+        <span class="n">_pause</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Unpause token transfers
+     */</span>
+    <span class="k">function</span> <span class="n">unpause</span><span class="p">()</span> <span class="k">external</span> <span class="n">onlyOwner</span> <span class="p">{</span>
+        <span class="n">_unpause</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Hook that is called before any transfer of tokens
+     */</span>
+    <span class="k">function</span> <span class="n">_beforeTokenTransfer</span><span class="p">(</span>
+        <span class="kt">address</span> <span class="n">from</span><span class="p">,</span>
+        <span class="kt">address</span> <span class="n">to</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">amount</span>
+    <span class="p">)</span> <span class="k">internal</span> <span class="k">override</span> <span class="n">whenNotPaused</span> <span class="p">{</span>
+        <span class="nb">super</span><span class="p">.</span><span class="n">_beforeTokenTransfer</span><span class="p">(</span><span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="payment-streaming-contracts">Payment Streaming Contracts</h3>
+
+<p>The core of our platform’s functionality is the payment streaming system, which enables continuous, time-based token transfers between addresses.</p>
+
+<h4 id="streamcontroller-contract">StreamController Contract</h4>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// StreamController.sol
+// SPDX-License-Identifier: MIT
+</span><span class="k">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="s">"@openzeppelin/contracts/access/Ownable.sol"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">"@openzeppelin/contracts/security/ReentrancyGuard.sol"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">"./interfaces/IPRXToken.sol"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">"./StreamRegistry.sol"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">"./StreamEscrow.sol"</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @title Stream Controller
+ * @dev Manages payment streams between senders and recipients
+ */</span>
+<span class="k">contract</span> <span class="n">StreamController</span> <span class="k">is</span> <span class="n">Ownable</span><span class="p">,</span> <span class="n">ReentrancyGuard</span> <span class="p">{</span>
+    <span class="c1">// State variables
+</span>    <span class="n">IPRXToken</span> <span class="k">public</span> <span class="n">token</span><span class="p">;</span>
+    <span class="n">StreamRegistry</span> <span class="k">public</span> <span class="n">registry</span><span class="p">;</span>
+    <span class="n">StreamEscrow</span> <span class="k">public</span> <span class="n">escrow</span><span class="p">;</span>
+    
+    <span class="c1">// Fee configuration
+</span>    <span class="kt">uint256</span> <span class="k">public</span> <span class="n">feePercentage</span><span class="p">;</span> <span class="c1">// 100 = 1%
+</span>    <span class="kt">address</span> <span class="k">public</span> <span class="n">feeCollector</span><span class="p">;</span>
+    
+    <span class="c1">// Events
+</span>    <span class="k">event</span> <span class="n">StreamCreated</span><span class="p">(</span><span class="kt">uint256</span> <span class="k">indexed</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">sender</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">recipient</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">stopTime</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">StreamCancelled</span><span class="p">(</span><span class="kt">uint256</span> <span class="k">indexed</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">sender</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">recipient</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">refundAmount</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">StreamWithdrawn</span><span class="p">(</span><span class="kt">uint256</span> <span class="k">indexed</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">recipient</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">FeeUpdated</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">newFeePercentage</span><span class="p">,</span> <span class="kt">address</span> <span class="n">newFeeCollector</span><span class="p">);</span>
+    
+    <span class="cm">/**
+     * @dev Constructor
+     * @param _token Address of the PRX token contract
+     * @param _registry Address of the stream registry contract
+     * @param _escrow Address of the stream escrow contract
+     */</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="kt">address</span> <span class="n">_token</span><span class="p">,</span> <span class="kt">address</span> <span class="n">_registry</span><span class="p">,</span> <span class="kt">address</span> <span class="n">_escrow</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_token</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamController: token is zero address"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_registry</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamController: registry is zero address"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_escrow</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamController: escrow is zero address"</span><span class="p">);</span>
+        
+        <span class="n">token</span> <span class="o">=</span> <span class="n">IPRXToken</span><span class="p">(</span><span class="n">_token</span><span class="p">);</span>
+        <span class="n">registry</span> <span class="o">=</span> <span class="n">StreamRegistry</span><span class="p">(</span><span class="n">_registry</span><span class="p">);</span>
+        <span class="n">escrow</span> <span class="o">=</span> <span class="n">StreamEscrow</span><span class="p">(</span><span class="n">_escrow</span><span class="p">);</span>
+        
+        <span class="n">feePercentage</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="c1">// 1% default fee
+</span>        <span class="n">feeCollector</span> <span class="o">=</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Create a new payment stream
+     * @param recipient Address of the recipient
+     * @param amount Total amount of tokens to stream
+     * @param duration Duration of the stream in seconds
+     * @return streamId The ID of the newly created stream
+     */</span>
+    <span class="k">function</span> <span class="n">createStream</span><span class="p">(</span>
+        <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">amount</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">duration</span>
+    <span class="p">)</span> <span class="k">external</span> <span class="n">nonReentrant</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">recipient</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamController: recipient is zero address"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">recipient</span> <span class="o">!=</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="s">"StreamController: recipient is sender"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"StreamController: amount is zero"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">duration</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"StreamController: duration is zero"</span><span class="p">);</span>
+        
+        <span class="c1">// Calculate fee
+</span>        <span class="kt">uint256</span> <span class="n">fee</span> <span class="o">=</span> <span class="p">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">feePercentage</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10000</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">amountAfterFee</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">-</span> <span class="n">fee</span><span class="p">;</span>
+        
+        <span class="c1">// Transfer tokens to escrow
+</span>        <span class="nb">require</span><span class="p">(</span>
+            <span class="n">token</span><span class="p">.</span><span class="n">transferFrom</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="kt">address</span><span class="p">(</span><span class="n">escrow</span><span class="p">),</span> <span class="n">amount</span><span class="p">),</span>
+            <span class="s">"StreamController: token transfer failed"</span>
+        <span class="p">);</span>
+        
+        <span class="c1">// Transfer fee to collector
+</span>        <span class="k">if</span> <span class="p">(</span><span class="n">fee</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">escrow</span><span class="p">.</span><span class="n">transferFee</span><span class="p">(</span><span class="n">feeCollector</span><span class="p">,</span> <span class="n">fee</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// Create stream
+</span>        <span class="kt">uint256</span> <span class="n">startTime</span> <span class="o">=</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">stopTime</span> <span class="o">=</span> <span class="n">startTime</span> <span class="o">+</span> <span class="n">duration</span><span class="p">;</span>
+        
+        <span class="n">streamId</span> <span class="o">=</span> <span class="n">registry</span><span class="p">.</span><span class="n">createStream</span><span class="p">(</span>
+            <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span>
+            <span class="n">recipient</span><span class="p">,</span>
+            <span class="n">amountAfterFee</span><span class="p">,</span>
+            <span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span>
+        <span class="p">);</span>
+        
+        <span class="k">emit</span> <span class="n">StreamCreated</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">amountAfterFee</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">streamId</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Cancel an existing stream and refund the remaining tokens
+     * @param streamId The ID of the stream to cancel
+     */</span>
+    <span class="k">function</span> <span class="n">cancelStream</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">external</span> <span class="n">nonReentrant</span> <span class="p">{</span>
+        <span class="p">(</span>
+            <span class="kt">address</span> <span class="n">sender</span><span class="p">,</span>
+            <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">amount</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">stopTime</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">remainingBalance</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">registry</span><span class="p">.</span><span class="n">getStream</span><span class="p">(</span><span class="n">streamId</span><span class="p">);</span>
+        
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span> <span class="o">==</span> <span class="n">sender</span><span class="p">,</span> <span class="s">"StreamController: caller is not the sender"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">&lt;</span> <span class="n">stopTime</span><span class="p">,</span> <span class="s">"StreamController: stream has already finished"</span><span class="p">);</span>
+        
+        <span class="c1">// Calculate refund and already streamed amounts
+</span>        <span class="kt">uint256</span> <span class="n">refundAmount</span> <span class="o">=</span> <span class="n">remainingBalance</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">streamedAmount</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">-</span> <span class="n">refundAmount</span><span class="p">;</span>
+        
+        <span class="c1">// Update the stream
+</span>        <span class="n">registry</span><span class="p">.</span><span class="n">cancelStream</span><span class="p">(</span><span class="n">streamId</span><span class="p">);</span>
+        
+        <span class="c1">// Transfer streamed amount to recipient and refund to sender
+</span>        <span class="n">escrow</span><span class="p">.</span><span class="n">transferAmount</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="n">streamedAmount</span><span class="p">);</span>
+        <span class="n">escrow</span><span class="p">.</span><span class="n">transferAmount</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">refundAmount</span><span class="p">);</span>
+        
+        <span class="k">emit</span> <span class="n">StreamCancelled</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">refundAmount</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Withdraw from an active stream
+     * @param streamId The ID of the stream to withdraw from
+     */</span>
+    <span class="k">function</span> <span class="n">withdrawFromStream</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">external</span> <span class="n">nonReentrant</span> <span class="p">{</span>
+        <span class="p">(</span>
+            <span class="kt">address</span> <span class="n">sender</span><span class="p">,</span>
+            <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">amount</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">stopTime</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">remainingBalance</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">registry</span><span class="p">.</span><span class="n">getStream</span><span class="p">(</span><span class="n">streamId</span><span class="p">);</span>
+        
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span> <span class="o">==</span> <span class="n">recipient</span><span class="p">,</span> <span class="s">"StreamController: caller is not the recipient"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">startTime</span><span class="p">,</span> <span class="s">"StreamController: stream has not started yet"</span><span class="p">);</span>
+        
+        <span class="kt">uint256</span> <span class="n">withdrawableAmount</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">stopTime</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Stream is complete, withdraw all remaining balance
+</span>            <span class="n">withdrawableAmount</span> <span class="o">=</span> <span class="n">remainingBalance</span><span class="p">;</span>
+            <span class="n">registry</span><span class="p">.</span><span class="n">completeStream</span><span class="p">(</span><span class="n">streamId</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Calculate withdrawable amount based on elapsed time
+</span>            <span class="kt">uint256</span> <span class="n">elapsedTime</span> <span class="o">=</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">;</span>
+            <span class="kt">uint256</span> <span class="n">totalTime</span> <span class="o">=</span> <span class="n">stopTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">;</span>
+            <span class="n">withdrawableAmount</span> <span class="o">=</span> <span class="p">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">elapsedTime</span><span class="p">)</span> <span class="o">/</span> <span class="n">totalTime</span> <span class="o">-</span> <span class="p">(</span><span class="n">amount</span> <span class="o">-</span> <span class="n">remainingBalance</span><span class="p">);</span>
+            
+            <span class="n">registry</span><span class="p">.</span><span class="n">updateStreamBalance</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">remainingBalance</span> <span class="o">-</span> <span class="n">withdrawableAmount</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="nb">require</span><span class="p">(</span><span class="n">withdrawableAmount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"StreamController: no funds available for withdrawal"</span><span class="p">);</span>
+        
+        <span class="c1">// Transfer withdrawable amount to recipient
+</span>        <span class="n">escrow</span><span class="p">.</span><span class="n">transferAmount</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="n">withdrawableAmount</span><span class="p">);</span>
+        
+        <span class="k">emit</span> <span class="n">StreamWithdrawn</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">withdrawableAmount</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Get the withdrawable amount from a stream
+     * @param streamId The ID of the stream
+     * @return withdrawableAmount The amount that can be withdrawn
+     */</span>
+    <span class="k">function</span> <span class="n">getWithdrawableAmount</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">public</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span> <span class="n">withdrawableAmount</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">(</span>
+            <span class="kt">address</span> <span class="n">sender</span><span class="p">,</span>
+            <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">amount</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">stopTime</span><span class="p">,</span>
+            <span class="kt">uint256</span> <span class="n">remainingBalance</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">registry</span><span class="p">.</span><span class="n">getStream</span><span class="p">(</span><span class="n">streamId</span><span class="p">);</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">&lt;=</span> <span class="n">startTime</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">stopTime</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">remainingBalance</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="kt">uint256</span> <span class="n">elapsedTime</span> <span class="o">=</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">totalTime</span> <span class="o">=</span> <span class="n">stopTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">;</span>
+        <span class="n">withdrawableAmount</span> <span class="o">=</span> <span class="p">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">elapsedTime</span><span class="p">)</span> <span class="o">/</span> <span class="n">totalTime</span> <span class="o">-</span> <span class="p">(</span><span class="n">amount</span> <span class="o">-</span> <span class="n">remainingBalance</span><span class="p">);</span>
+        
+        <span class="k">return</span> <span class="n">withdrawableAmount</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Update fee configuration
+     * @param _feePercentage New fee percentage (100 = 1%)
+     * @param _feeCollector Address of the fee collector
+     */</span>
+    <span class="k">function</span> <span class="n">updateFee</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">_feePercentage</span><span class="p">,</span> <span class="kt">address</span> <span class="n">_feeCollector</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyOwner</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_feePercentage</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">,</span> <span class="s">"StreamController: fee too high"</span><span class="p">);</span> <span class="c1">// Max 10%
+</span>        <span class="nb">require</span><span class="p">(</span><span class="n">_feeCollector</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamController: fee collector is zero address"</span><span class="p">);</span>
+        
+        <span class="n">feePercentage</span> <span class="o">=</span> <span class="n">_feePercentage</span><span class="p">;</span>
+        <span class="n">feeCollector</span> <span class="o">=</span> <span class="n">_feeCollector</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">FeeUpdated</span><span class="p">(</span><span class="n">_feePercentage</span><span class="p">,</span> <span class="n">_feeCollector</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="streamregistry-contract">StreamRegistry Contract</h4>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// StreamRegistry.sol
+// SPDX-License-Identifier: MIT
+</span><span class="k">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="s">"@openzeppelin/contracts/access/Ownable.sol"</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @title Stream Registry
+ * @dev Manages stream metadata and states
+ */</span>
+<span class="k">contract</span> <span class="n">StreamRegistry</span> <span class="k">is</span> <span class="n">Ownable</span> <span class="p">{</span>
+    <span class="c1">// Stream status
+</span>    <span class="k">enum</span> <span class="n">Status</span> <span class="p">{</span> <span class="n">Active</span><span class="p">,</span> <span class="n">Cancelled</span><span class="p">,</span> <span class="n">Completed</span> <span class="p">}</span>
+    
+    <span class="c1">// Stream structure
+</span>    <span class="k">struct</span> <span class="n">Stream</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">sender</span><span class="p">;</span>
+        <span class="kt">address</span> <span class="n">recipient</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">amount</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">stopTime</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">remainingBalance</span><span class="p">;</span>
+        <span class="n">Status</span> <span class="n">status</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// State variables
+</span>    <span class="k">mapping</span><span class="p">(</span><span class="kt">uint256</span> <span class="o">=&gt;</span> <span class="n">Stream</span><span class="p">)</span> <span class="k">private</span> <span class="n">streams</span><span class="p">;</span>
+    <span class="kt">uint256</span> <span class="k">private</span> <span class="n">nextStreamId</span><span class="p">;</span>
+    <span class="kt">address</span> <span class="k">public</span> <span class="n">controller</span><span class="p">;</span>
+    
+    <span class="c1">// Events
+</span>    <span class="k">event</span> <span class="n">StreamRegistered</span><span class="p">(</span><span class="kt">uint256</span> <span class="k">indexed</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">sender</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">recipient</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">StreamUpdated</span><span class="p">(</span><span class="kt">uint256</span> <span class="k">indexed</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">remainingBalance</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">StreamStatusChanged</span><span class="p">(</span><span class="kt">uint256</span> <span class="k">indexed</span> <span class="n">streamId</span><span class="p">,</span> <span class="n">Status</span> <span class="n">status</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">ControllerUpdated</span><span class="p">(</span><span class="kt">address</span> <span class="k">indexed</span> <span class="n">oldController</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">newController</span><span class="p">);</span>
+    
+    <span class="c1">// Modifiers
+</span>    <span class="k">modifier</span> <span class="n">onlyController</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span> <span class="o">==</span> <span class="n">controller</span><span class="p">,</span> <span class="s">"StreamRegistry: caller is not the controller"</span><span class="p">);</span>
+        <span class="n">_</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Constructor
+     */</span>
+    <span class="k">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">nextStreamId</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Set the controller address
+     * @param _controller Address of the controller contract
+     */</span>
+    <span class="k">function</span> <span class="n">setController</span><span class="p">(</span><span class="kt">address</span> <span class="n">_controller</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyOwner</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_controller</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamRegistry: controller is zero address"</span><span class="p">);</span>
+        
+        <span class="kt">address</span> <span class="n">oldController</span> <span class="o">=</span> <span class="n">controller</span><span class="p">;</span>
+        <span class="n">controller</span> <span class="o">=</span> <span class="n">_controller</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">ControllerUpdated</span><span class="p">(</span><span class="n">oldController</span><span class="p">,</span> <span class="n">_controller</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Create a new stream
+     * @param sender Address of the sender
+     * @param recipient Address of the recipient
+     * @param amount Total amount of tokens to stream
+     * @param startTime Start time of the stream
+     * @param stopTime Stop time of the stream
+     * @return streamId The ID of the newly created stream
+     */</span>
+    <span class="k">function</span> <span class="n">createStream</span><span class="p">(</span>
+        <span class="kt">address</span> <span class="n">sender</span><span class="p">,</span>
+        <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">amount</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">stopTime</span>
+    <span class="p">)</span> <span class="k">external</span> <span class="n">onlyController</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">streamId</span> <span class="o">=</span> <span class="n">nextStreamId</span><span class="o">++</span><span class="p">;</span>
+        
+        <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">]</span> <span class="o">=</span> <span class="n">Stream</span><span class="p">({</span>
+            <span class="n">sender</span><span class="o">:</span> <span class="n">sender</span><span class="p">,</span>
+            <span class="n">recipient</span><span class="o">:</span> <span class="n">recipient</span><span class="p">,</span>
+            <span class="n">amount</span><span class="o">:</span> <span class="n">amount</span><span class="p">,</span>
+            <span class="n">startTime</span><span class="o">:</span> <span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">:</span> <span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">remainingBalance</span><span class="o">:</span> <span class="n">amount</span><span class="p">,</span>
+            <span class="n">status</span><span class="o">:</span> <span class="n">Status</span><span class="p">.</span><span class="n">Active</span>
+        <span class="p">});</span>
+        
+        <span class="k">emit</span> <span class="n">StreamRegistered</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">streamId</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Update the remaining balance of a stream
+     * @param streamId The ID of the stream
+     * @param remainingBalance The new remaining balance
+     */</span>
+    <span class="k">function</span> <span class="n">updateStreamBalance</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">remainingBalance</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyController</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="p">.</span><span class="n">Active</span><span class="p">,</span> <span class="s">"StreamRegistry: stream is not active"</span><span class="p">);</span>
+        
+        <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">remainingBalance</span> <span class="o">=</span> <span class="n">remainingBalance</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">StreamUpdated</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">remainingBalance</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Cancel a stream
+     * @param streamId The ID of the stream to cancel
+     */</span>
+    <span class="k">function</span> <span class="n">cancelStream</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyController</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="p">.</span><span class="n">Active</span><span class="p">,</span> <span class="s">"StreamRegistry: stream is not active"</span><span class="p">);</span>
+        
+        <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">status</span> <span class="o">=</span> <span class="n">Status</span><span class="p">.</span><span class="n">Cancelled</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">StreamStatusChanged</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">Status</span><span class="p">.</span><span class="n">Cancelled</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Mark a stream as completed
+     * @param streamId The ID of the stream to complete
+     */</span>
+    <span class="k">function</span> <span class="n">completeStream</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyController</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="p">.</span><span class="n">Active</span><span class="p">,</span> <span class="s">"StreamRegistry: stream is not active"</span><span class="p">);</span>
+        
+        <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">status</span> <span class="o">=</span> <span class="n">Status</span><span class="p">.</span><span class="n">Completed</span><span class="p">;</span>
+        <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">remainingBalance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">StreamStatusChanged</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">Status</span><span class="p">.</span><span class="n">Completed</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Get stream details
+     * @param streamId The ID of the stream
+     * @return sender The sender address
+     * @return recipient The recipient address
+     * @return amount The total amount of tokens in the stream
+     * @return startTime The start time of the stream
+     * @return stopTime The stop time of the stream
+     * @return remainingBalance The remaining balance of the stream
+     */</span>
+    <span class="k">function</span> <span class="n">getStream</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span>
+        <span class="kt">address</span> <span class="n">sender</span><span class="p">,</span>
+        <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">amount</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">startTime</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">stopTime</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">remainingBalance</span>
+    <span class="p">)</span> <span class="p">{</span>
+        <span class="n">Stream</span> <span class="k">storage</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">];</span>
+        
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">stream</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span>
+            <span class="n">stream</span><span class="p">.</span><span class="n">recipient</span><span class="p">,</span>
+            <span class="n">stream</span><span class="p">.</span><span class="n">amount</span><span class="p">,</span>
+            <span class="n">stream</span><span class="p">.</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stream</span><span class="p">.</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">stream</span><span class="p">.</span><span class="n">remainingBalance</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Get stream status
+     * @param streamId The ID of the stream
+     * @return status The status of the stream
+     */</span>
+    <span class="k">function</span> <span class="n">getStreamStatus</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="n">Status</span> <span class="n">status</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">status</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Check if a stream exists
+     * @param streamId The ID of the stream
+     * @return exists True if the stream exists
+     */</span>
+    <span class="k">function</span> <span class="n">streamExists</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span> <span class="n">exists</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">].</span><span class="n">sender</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="streamescrow-contract">StreamEscrow Contract</h4>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// StreamEscrow.sol
+// SPDX-License-Identifier: MIT
+</span><span class="k">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="s">"@openzeppelin/contracts/access/Ownable.sol"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">"./interfaces/IPRXToken.sol"</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @title Stream Escrow
+ * @dev Holds tokens for active streams and handles transfers
+ */</span>
+<span class="k">contract</span> <span class="n">StreamEscrow</span> <span class="k">is</span> <span class="n">Ownable</span> <span class="p">{</span>
+    <span class="c1">// State variables
+</span>    <span class="n">IPRXToken</span> <span class="k">public</span> <span class="n">token</span><span class="p">;</span>
+    <span class="kt">address</span> <span class="k">public</span> <span class="n">controller</span><span class="p">;</span>
+    
+    <span class="c1">// Events
+</span>    <span class="k">event</span> <span class="n">ControllerUpdated</span><span class="p">(</span><span class="kt">address</span> <span class="k">indexed</span> <span class="n">oldController</span><span class="p">,</span> <span class="kt">address</span> <span class="k">indexed</span> <span class="n">newController</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">TokenTransferred</span><span class="p">(</span><span class="kt">address</span> <span class="k">indexed</span> <span class="n">to</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">FeeTransferred</span><span class="p">(</span><span class="kt">address</span> <span class="k">indexed</span> <span class="n">collector</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">);</span>
+    
+    <span class="c1">// Modifiers
+</span>    <span class="k">modifier</span> <span class="n">onlyController</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span> <span class="o">==</span> <span class="n">controller</span><span class="p">,</span> <span class="s">"StreamEscrow: caller is not the controller"</span><span class="p">);</span>
+        <span class="n">_</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Constructor
+     * @param _token Address of the PRX token contract
+     */</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="kt">address</span> <span class="n">_token</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_token</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamEscrow: token is zero address"</span><span class="p">);</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">IPRXToken</span><span class="p">(</span><span class="n">_token</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Set the controller address
+     * @param _controller Address of the controller contract
+     */</span>
+    <span class="k">function</span> <span class="n">setController</span><span class="p">(</span><span class="kt">address</span> <span class="n">_controller</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyOwner</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">_controller</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamEscrow: controller is zero address"</span><span class="p">);</span>
+        
+        <span class="kt">address</span> <span class="n">oldController</span> <span class="o">=</span> <span class="n">controller</span><span class="p">;</span>
+        <span class="n">controller</span> <span class="o">=</span> <span class="n">_controller</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">ControllerUpdated</span><span class="p">(</span><span class="n">oldController</span><span class="p">,</span> <span class="n">_controller</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Transfer tokens to a recipient
+     * @param to Address of the recipient
+     * @param amount Amount of tokens to transfer
+     */</span>
+    <span class="k">function</span> <span class="n">transferAmount</span><span class="p">(</span><span class="kt">address</span> <span class="n">to</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyController</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">to</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamEscrow: recipient is zero address"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"StreamEscrow: amount is zero"</span><span class="p">);</span>
+        
+        <span class="nb">require</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="nb">transfer</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">),</span> <span class="s">"StreamEscrow: transfer failed"</span><span class="p">);</span>
+        
+        <span class="k">emit</span> <span class="n">TokenTransferred</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Transfer fee to the collector
+     * @param collector Address of the fee collector
+     * @param amount Amount of fee to transfer
+     */</span>
+    <span class="k">function</span> <span class="n">transferFee</span><span class="p">(</span><span class="kt">address</span> <span class="n">collector</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyController</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">collector</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamEscrow: collector is zero address"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"StreamEscrow: amount is zero"</span><span class="p">);</span>
+        
+        <span class="nb">require</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="nb">transfer</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">amount</span><span class="p">),</span> <span class="s">"StreamEscrow: transfer failed"</span><span class="p">);</span>
+        
+        <span class="k">emit</span> <span class="n">FeeTransferred</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Get the token balance of the escrow
+     * @return balance The token balance
+     */</span>
+    <span class="k">function</span> <span class="n">getBalance</span><span class="p">()</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span> <span class="nb">balance</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">token</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">));</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/**
+     * @dev Emergency withdrawal in case of contract upgrade
+     * @param to Address to transfer tokens to
+     * @param amount Amount of tokens to transfer
+     */</span>
+    <span class="k">function</span> <span class="n">emergencyWithdraw</span><span class="p">(</span><span class="kt">address</span> <span class="n">to</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="k">external</span> <span class="n">onlyOwner</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">to</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"StreamEscrow: recipient is zero address"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"StreamEscrow: amount is zero"</span><span class="p">);</span>
+        
+        <span class="nb">require</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="nb">transfer</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">),</span> <span class="s">"StreamEscrow: transfer failed"</span><span class="p">);</span>
+        
+        <span class="k">emit</span> <span class="n">TokenTransferred</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="openzeppelin-security">OpenZeppelin Security</h3>
+
+<p>Our contracts leverage OpenZeppelin’s security libraries to ensure robust protection against common vulnerabilities:</p>
+
+<ol>
+  <li><strong>Access Control</strong>: Implemented role-based access control to restrict sensitive operations</li>
+  <li><strong>Reentrancy Guards</strong>: Prevent reentrancy attacks on all fund-related functions</li>
+  <li><strong>Pausable Functionality</strong>: Allow emergency pausing of contracts if vulnerabilities are discovered</li>
+  <li><strong>Secure Math</strong>: Use SafeMath (implicit in Solidity 0.8+) to prevent overflow/underflow attacks</li>
+  <li><strong>Proxy Upgrades</strong>: Allow for contract upgrades while preserving state and balances</li>
+</ol>
+
+<h2 id="using-payment-streaming">Using Payment Streaming</h2>
+
+<h3 id="streaming-workflow">Streaming Workflow</h3>
+
+<ol>
+  <li><strong>Create a Stream</strong>:
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">streamController</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">StreamController</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="dl">"</span><span class="s2">0xStreamControllerAddress</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">recipient</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xRecipientAddress</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">amount</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseEther</span><span class="p">(</span><span class="dl">"</span><span class="s2">100</span><span class="dl">"</span><span class="p">);</span> <span class="c1">// 100 PRX tokens</span>
+<span class="kd">const</span> <span class="nx">duration</span> <span class="o">=</span> <span class="mi">86400</span><span class="p">;</span> <span class="c1">// 24 hours in seconds</span>
+   
+<span class="c1">// Approve token spending first</span>
+<span class="k">await</span> <span class="nx">prxToken</span><span class="p">.</span><span class="nx">approve</span><span class="p">(</span><span class="nx">streamController</span><span class="p">.</span><span class="nx">address</span><span class="p">,</span> <span class="nx">amount</span><span class="p">);</span>
+   
+<span class="c1">// Create the stream</span>
+<span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">streamController</span><span class="p">.</span><span class="nx">createStream</span><span class="p">(</span><span class="nx">recipient</span><span class="p">,</span> <span class="nx">amount</span><span class="p">,</span> <span class="nx">duration</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">receipt</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+   
+<span class="c1">// Get the stream ID from the event</span>
+<span class="kd">const</span> <span class="nx">event</span> <span class="o">=</span> <span class="nx">receipt</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">e</span> <span class="o">=&gt;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">event</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">StreamCreated</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">streamId</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">args</span><span class="p">.</span><span class="nx">streamId</span><span class="p">;</span>
+   
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Stream created with ID: </span><span class="p">${</span><span class="nx">streamId</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Check Stream Status</strong>:
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">streamRegistry</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">StreamRegistry</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="dl">"</span><span class="s2">0xStreamRegistryAddress</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">streamDetails</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">streamRegistry</span><span class="p">.</span><span class="nx">getStream</span><span class="p">(</span><span class="nx">streamId</span><span class="p">);</span>
+   
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Sender: </span><span class="p">${</span><span class="nx">streamDetails</span><span class="p">.</span><span class="nx">sender</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Recipient: </span><span class="p">${</span><span class="nx">streamDetails</span><span class="p">.</span><span class="nx">recipient</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Amount: </span><span class="p">${</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatEther</span><span class="p">(</span><span class="nx">streamDetails</span><span class="p">.</span><span class="nx">amount</span><span class="p">)}</span><span class="s2"> PRX`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Start Time: </span><span class="p">${</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">streamDetails</span><span class="p">.</span><span class="nx">startTime</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">).</span><span class="nx">toLocaleString</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Stop Time: </span><span class="p">${</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">streamDetails</span><span class="p">.</span><span class="nx">stopTime</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">).</span><span class="nx">toLocaleString</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Remaining Balance: </span><span class="p">${</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatEther</span><span class="p">(</span><span class="nx">streamDetails</span><span class="p">.</span><span class="nx">remainingBalance</span><span class="p">)}</span><span class="s2"> PRX`</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Withdraw from a Stream</strong> (Recipient):
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">withdrawableTx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">streamController</span><span class="p">.</span><span class="nx">withdrawFromStream</span><span class="p">(</span><span class="nx">streamId</span><span class="p">);</span>
+<span class="k">await</span> <span class="nx">withdrawableTx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+   
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Funds withdrawn successfully</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Cancel a Stream</strong> (Sender):
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">cancelTx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">streamController</span><span class="p">.</span><span class="nx">cancelStream</span><span class="p">(</span><span class="nx">streamId</span><span class="p">);</span>
+<span class="k">await</span> <span class="nx">cancelTx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+   
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream cancelled successfully</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="payment-stream-economics">Payment Stream Economics</h3>
+
+<p>Our payment streaming system offers several economic advantages:</p>
+
+<ol>
+  <li><strong>Time-Value Incentives</strong>: Recipients receive funds continuously, improving cash flow</li>
+  <li><strong>Reduced Default Risk</strong>: Funds are held in escrow and only released over time</li>
+  <li><strong>Lower Transaction Costs</strong>: One setup transaction replaces multiple periodic transfers</li>
+  <li><strong>Automatic Payments</strong>: No need for recurring manual transactions</li>
+  <li><strong>Precise Metering</strong>: Pay exactly for what is used, down to the second</li>
+</ol>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<h3 id="audits">Audits</h3>
+
+<p>Our smart contracts have undergone comprehensive security audits by leading blockchain security firms:</p>
+
+<ol>
+  <li><strong>ConsenSys Diligence</strong>: Full audit of core payment streaming contracts</li>
+  <li><strong>CertiK</strong>: Security assessment of token and registry contracts</li>
+  <li><strong>OpenZeppelin</strong>: Review of security practices and code quality</li>
+</ol>
+
+<h3 id="security-best-practices">Security Best Practices</h3>
+
+<p>When interacting with our payment streaming contracts:</p>
+
+<ol>
+  <li><strong>Approval Management</strong>: Only approve the exact amount needed for token transfers</li>
+  <li><strong>Timelock Verification</strong>: Always verify stream start and end times before confirmation</li>
+  <li><strong>Gas Price Monitoring</strong>: Use our Gas Price Manager to avoid excessive transaction fees</li>
+  <li><strong>Metadata Verification</strong>: Cross-check stream metadata before initiating payments</li>
+  <li><strong>Recovery Planning</strong>: Plan for dispute resolution and emergency scenarios</li>
+</ol>
+
+<h2 id="deployment-information">Deployment Information</h2>
+
+<p>Our contracts are deployed on the following networks:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Network</th>
+      <th>PRX Token</th>
+      <th>Stream Controller</th>
+      <th>Stream Registry</th>
+      <th>Stream Escrow</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ethereum Mainnet</td>
+      <td>0xPRXTokenAddress</td>
+      <td>0xControllerAddress</td>
+      <td>0xRegistryAddress</td>
+      <td>0xEscrowAddress</td>
+    </tr>
+    <tr>
+      <td>Polygon</td>
+      <td>0xPRXTokenAddressPoly</td>
+      <td>0xControllerAddressPoly</td>
+      <td>0xRegistryAddressPoly</td>
+      <td>0xEscrowAddressPoly</td>
+    </tr>
+    <tr>
+      <td>Binance Smart Chain</td>
+      <td>0xPRXTokenAddressBSC</td>
+      <td>0xControllerAddressBSC</td>
+      <td>0xRegistryAddressBSC</td>
+      <td>0xEscrowAddressBSC</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="/docs/server-docs/">Server Documentation</a></li>
+  <li><a href="/docs/typescript-docs/">TypeScript SDK Documentation</a></li>
+  <li><a href="/docs/services-docs/">Integration Services Documentation</a></li>
+</ul>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

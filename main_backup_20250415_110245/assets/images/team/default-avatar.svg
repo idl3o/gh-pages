@@ -1,0 +1,15 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="avatar-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6e45e2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00d8ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="100" cy="100" r="100" fill="url(#avatar-gradient)" />
+  
+  <!-- Simple person silhouette -->
+  <circle cx="100" cy="70" r="30" fill="#ffffff" fill-opacity="0.85" />
+  <path d="M 100 110 C 60 110, 40 150, 40 190 L 160 190 C 160 150, 140 110, 100 110 Z" fill="#ffffff" fill-opacity="0.85" />
+</svg>

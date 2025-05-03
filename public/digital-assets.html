@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcendental Digital Asset Gallery | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --exotic: #a782ff;
+            --mythic: #ff7700;
+            --legendary: #00ff9f;
+            --ultra-rare: #8B00FF;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: #e5e7eb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--exotic), var(--mythic), var(--legendary), var(--ultra-rare));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .asset-filters {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.all {
+            background-color: #e5e7eb;
+            color: var(--text);
+        }
+
+        .filter-btn.exotic {
+            background-color: var(--exotic);
+            color: white;
+        }
+
+        .filter-btn.mythic {
+            background-color: var(--mythic);
+            color: white;
+        }
+
+        .filter-btn.legendary {
+            background-color: var(--legendary);
+            color: var(--text);
+        }
+
+        .filter-btn.ultra-rare {
+            background-color: var(--ultra-rare);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .filter-btn.active {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor;
+        }
+
+        .asset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .asset-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .asset-card {
+            background-color: #1f2937;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .asset-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .asset-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .asset-badge.exotic {
+            background-color: var(--exotic);
+            color: white;
+        }
+
+        .asset-badge.mythic {
+            background-color: var(--mythic);
+            color: white;
+        }
+
+        .asset-badge.legendary {
+            background-color: var(--legendary);
+            color: var(--text);
+        }
+
+        .asset-badge.ultra-rare {
+            background-color: var(--ultra-rare);
+            color: white;
+        }
+
+        .asset-info {
+            padding: 1.5rem;
+        }
+
+        .asset-info h3 {
+            margin: 0 0 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .asset-info p {
+            margin: 0 0 1rem;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        body.dark-mode .asset-info p {
+            color: #9ca3af;
+        }
+
+        .asset-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        body.dark-mode .asset-meta {
+            color: #9ca3af;
+        }
+
+        .asset-rarity {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .rarity-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .rarity-indicator.exotic {
+            background-color: var(--exotic);
+        }
+
+        .rarity-indicator.mythic {
+            background-color: var(--mythic);
+        }
+
+        .rarity-indicator.legendary {
+            background-color: var(--legendary);
+        }
+
+        .rarity-indicator.ultra-rare {
+            background-color: var(--ultra-rare);
+            box-shadow: 0 0 5px var(--ultra-rare);
+        }
+
+        .asset-creator {
+            text-align: right;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            grid-column: 1 / -1;
+        }
+
+        body.dark-mode .empty-state {
+            background-color: #1f2937;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+            border: none;
+            font-size: 1.25rem;
+        }
+
+        body.dark-mode .theme-toggle {
+            background-color: #374151;
+            color: #e5e7eb;
+        }
+
+        /* Special effects */
+        .asset-card.exotic:hover .asset-image {
+            animation: pulse 2s infinite;
+        }
+
+        .asset-card.mythic .asset-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .asset-card.mythic .asset-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
+
+        .asset-card.legendary .asset-image {
+            border: 2px solid var(--legendary);
+            box-shadow: 0 0 10px var(--legendary);
+        }
+
+        .asset-card.ultra-rare {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .asset-card.ultra-rare::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: conic-gradient(
+                transparent,
+                rgba(139, 0, 255, 0.1),
+                transparent 30%
+            );
+            animation: rotate 4s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            20% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle">🌓</button>
+
+    <div class="container">
+        <header>
+            <h1>Transcendental Digital Assets</h1>
+            <p class="lead">Discover rare and exotic digital assets for the Web3 Crypto Streaming platform</p>
+        </header>
+
+        <div class="asset-filters">
+            <button class="filter-btn all active" data-filter="all">All Assets</button>
+            <button class="filter-btn exotic" data-filter="exotic">Exotic</button>
+            <button class="filter-btn mythic" data-filter="mythic">Mythic</button>
+            <button class="filter-btn legendary" data-filter="legendary">Legendary</button>
+            <button class="filter-btn ultra-rare" data-filter="ultra-rare">Ultra Rare</button>
+        </div>
+
+        <div class="asset-grid" id="asset-grid">
+            <!-- Dynamic content will be loaded here -->
+            <div class="empty-state">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h3>Loading transcendental assets...</h3>
+                <p>Please wait while we fetch digital assets from the quantum realm</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+        if (localStorage.getItem('theme') === 'dark' ||
+            (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+
+        // Sample asset data
+        const assets = [
+            {
+                id: 'exotic_001',
+                name: 'Ethereal Whisper',
+                description: 'A subtle manifestation that appears in dreams and liminal moments',
+                rarity: 'exotic',
+                image: '/assets/transcendental-cache/ethereal-whisper.webp',
+                creator: 'DreamWalker',
+                creationDate: '2023-06-12'
+            },
+            {
+                id: 'exotic_002',
+                name: 'Hyperdimensional Fragment',
+                description: 'A shard from beyond conventional dimensional space',
+                rarity: 'exotic',
+                image: '/assets/transcendental-cache/hyperdimensional-fragment.webp',
+                creator: 'GeometryShifter',
+                creationDate: '2023-07-29'
+            },
+            {
+                id: 'mythic_001',
+                name: 'Phoenix Rebirth',
+                description: 'A mythic essence that grants one revival per battle',
+                rarity: 'mythic',
+                image: '/assets/transcendental-cache/phoenix-rebirth.webp',
+                creator: 'FireBornArtisan',
+                creationDate: '2023-04-05'
+            },
+            {
+                id: 'mythic_002',
+                name: 'Ancestral Guardian',
+                description: 'Manifests the wisdom and protection of ancient lineage',
+                rarity: 'mythic',
+                image: '/assets/transcendental-cache/ancestral-guardian.webp',
+                creator: 'HeritageKeeper',
+                creationDate: '2023-02-18'
+            },
+            {
+                id: 'legendary_001',
+                name: 'Worldshaper\'s Prism',
+                description: 'Changes the fabric of reality around the wielder',
+                rarity: 'legendary',
+                image: '/assets/transcendental-cache/worldshapers-prism.webp',
+                creator: 'CosmicArchitect',
+                creationDate: '2023-01-01'
+            },
+            {
+                id: 'legendary_002',
+                name: 'Chronomancer\'s Pendant',
+                description: 'Grants limited control over local time flow',
+                rarity: 'legendary',
+                image: '/assets/transcendental-cache/chronomancers-pendant.webp',
+                creator: 'TemporalMage',
+                creationDate: '2022-12-21'
+            },
+            {
+                id: 'ultra_rare_001',
+                name: 'Cosmic Nexus',
+                description: 'A convergence point of cosmic forces that transcends universal boundaries',
+                rarity: 'ultra-rare',
+                image: '/assets/transcendental-cache/cosmic-nexus.webp',
+                creator: 'OmniCreator',
+                creationDate: '2022-12-12'
+            },
+            {
+                id: 'ultra_rare_002',
+                name: 'Primordial Essence',
+                description: 'Contains the raw power of creation from before the universe began',
+                rarity: 'ultra-rare',
+                image: '/assets/transcendental-cache/primordial-essence.webp',
+                creator: 'FirstLight',
+                creationDate: '2022-11-11'
+            }
+        ];
+
+        function renderAssets(filteredAssets = assets) {
+            const assetGrid = document.getElementById('asset-grid');
+
+            if (filteredAssets.length === 0) {
+                assetGrid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No assets found</h3>
+                        <p>Try selecting a different filter</p>
+                    </div>
+                `;
+                return;
+            }
+
+            assetGrid.innerHTML = filteredAssets.map(asset => `
+                <div class="asset-card ${asset.rarity}">
+                    <img src="${asset.image}" alt="${asset.name}" class="asset-image" onerror="this.src='/red_x/placeholder.png'">
+                    <span class="asset-badge ${asset.rarity}">${asset.rarity}</span>
+                    <div class="asset-info">
+                        <h3>${asset.name}</h3>
+                        <p>${asset.description}</p>
+                        <div class="asset-meta">
+                            <div class="asset-rarity">
+                                <div class="rarity-indicator ${asset.rarity}"></div>
+                                <span>${asset.rarity}</span>
+                            </div>
+                            <div class="asset-creator">
+                                By ${asset.creator}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load assets with slight delay to simulate loading
+        setTimeout(() => {
+            renderAssets();
+        }, 1000);
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filter = button.dataset.filter;
+
+                // Filter assets
+                if (filter === 'all') {
+                    renderAssets();
+                } else {
+                    const filteredAssets = assets.filter(asset => asset.rarity === filter);
+                    renderAssets(filteredAssets);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

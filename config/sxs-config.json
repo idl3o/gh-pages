@@ -1,0 +1,147 @@
+{
+  "version": "1.0.0",
+  "projectName": "Project RED X",
+  "defaultMode": "dev",
+  "modes": {
+    "web": {
+      "description": "Build and run web version",
+      "task": "make_web",
+      "postActions": ["start_server"],
+      "port": 8080
+    },
+    "native": {
+      "description": "Build and run native version",
+      "task": "make_native",
+      "fallbackMode": "web",
+      "buildArtifact": "red_x.exe"
+    },
+    "server": {
+      "description": "Start the web server only",
+      "task": "start_server",
+      "port": 8080,
+      "requiredFiles": ["index.html", "index.js", "index.wasm"]
+    },
+    "dev": {
+      "description": "Development mode with hot reloading",
+      "dependencies": ["nodemon"],
+      "task": "make_web",
+      "postActions": ["dev_server"],
+      "environmentSetup": {
+        "NODE_ENV": "development",
+        "DEBUG": "true"
+      },
+      "port": 8080
+    },
+    "dev_server": {
+      "description": "Start development server with hot reloading",
+      "dependencies": ["nodemon"],
+      "environmentSetup": {
+        "NODE_ENV": "development",
+        "DEBUG": "true",
+        "PORT": "8080",
+        "HOT_RELOAD": "true"
+      },
+      "internal": true
+    },
+    "afk": {
+      "description": "AFK Downloader Hub mode",
+      "task": "start_server",
+      "environmentSetup": {
+        "RED_X_MODE": "afk",
+        "RED_X_TITLE": "AFK Downloader Hub",
+        "RED_X_STARTUP_PAGE": "afk-downloader.html"
+      },
+      "port": 8080
+    },
+    "deploy": {
+      "description": "Deploy to GitHub Pages",
+      "task": "deploy",
+      "requiresBuild": true,
+      "buildMode": "web",
+      "preActions": ["clean"]
+    },
+    "docs": {
+      "description": "Generate project documentation",
+      "task": "generate_contract_docs",
+      "outputDir": "./docs/contracts"
+    },
+    "clean": {
+      "description": "Clean build artifacts",
+      "task": "clean",
+      "internal": true
+    },
+    "test": {
+      "description": "Run tests",
+      "task": "make_web",
+      "environmentSetup": {
+        "NODE_ENV": "test",
+        "TEST_MODE": "true"
+      },
+      "postActions": ["run_tests"]
+    },
+    "run_tests": {
+      "description": "Execute test suite",
+      "internal": true,
+      "environmentSetup": {
+        "NODE_ENV": "test"
+      },
+      "customCommand": "cd \"${workspaceFolder}/red_x\" && npx jest"
+    },
+    "branch:main": {
+      "description": "Switch to main branch (001)",
+      "task": "switch_to_main"
+    },
+    "branch:docs": {
+      "description": "Switch to docs branch (temp-check-actions)",
+      "task": "switch_to_docs"
+    },
+    "branch:sync": {
+      "description": "Sync all branches",
+      "task": "sync_branches"
+    },
+    "branch:info": {
+      "description": "Show branch information",
+      "task": "branch_info"
+    },
+    "setup": {
+      "description": "Set up development environment",
+      "preActions": ["setup_emsdk"],
+      "postActions": ["install_dependencies"]
+    },
+    "install_dependencies": {
+      "description": "Install project dependencies",
+      "internal": true,
+      "customCommand": "cd \"${workspaceFolder}/red_x\" && npm install"
+    }
+  },
+  "branches": {
+    "main": {
+      "name": "001",
+      "task": "switch_to_main"
+    },
+    "docs": {
+      "name": "temp-check-actions",
+      "task": "switch_to_docs"
+    }
+  },
+  "tools": {
+    "emscripten": {
+      "setupTask": "setup_emsdk",
+      "path": "../emsdk",
+      "envScript": "../emsdk/emsdk_env.bat"
+    },
+    "msys2": {
+      "path": "C:\\tools\\msys64\\msys2_shell.cmd"
+    }
+  },
+  "plugins": {
+    "enabled": true,
+    "directory": "./sxs-plugins"
+  },
+  "development": {
+    "watchPatterns": ["**/*.js", "**/*.html", "**/*.css", "**/*.json"],
+    "ignorePatterns": ["node_modules/**", "*.wasm", "*.tmp"],
+    "browserAutoOpen": true,
+    "browserUrl": "http://localhost:8080"
+  }
+}

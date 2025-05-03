@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Deployment Configuration | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Deployment Configuration" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/DEPLOYMENT_NOTE.html" />
+<meta property="og:url" content="/docs/DEPLOYMENT_NOTE.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deployment Configuration" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Deployment Configuration","url":"/docs/DEPLOYMENT_NOTE.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Deployment Configuration</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="deployment-configuration">Deployment Configuration</h1>
+
+<p>This document describes the deployment configuration for the Web3 Crypto Streaming Service website.</p>
+
+<h2 id="github-pages-deployment">GitHub Pages Deployment</h2>
+
+<p>The site is automatically deployed to GitHub Pages using GitHub Actions workflows whenever changes are pushed to the <code class="language-plaintext highlighter-rouge">main</code> branch.</p>
+
+<h3 id="domain-configuration">Domain Configuration</h3>
+
+<p>The site is configured to be deployed at:</p>
+
+<ul>
+  <li><strong>URL:</strong> https://idl3o.github.io</li>
+  <li><strong>Base Path:</strong> /gh-pages</li>
+</ul>
+
+<p>A CNAME file has been added to the repository root to ensure proper domain configuration. This file is automatically copied to the build directory during deployment.</p>
+
+<h3 id="unified-deployment-workflow">Unified Deployment Workflow</h3>
+
+<p>The main deployment process is handled by the <code class="language-plaintext highlighter-rouge">.github/workflows/unified-deploy.yml</code> workflow, which:</p>
+
+<ol>
+  <li>Checks out the repository code</li>
+  <li>Sets up the Node.js environment</li>
+  <li>Installs dependencies</li>
+  <li>Validates all URLs in HTML files</li>
+  <li>Properly configures domain settings</li>
+  <li>Deploys the site to the <code class="language-plaintext highlighter-rouge">gh-pages</code> branch</li>
+</ol>
+
+<h3 id="manual-deployment">Manual Deployment</h3>
+
+<p>You can manually trigger a deployment by:</p>
+
+<ol>
+  <li>Going to the “Actions” tab in the GitHub repository</li>
+  <li>Selecting the “Build and Deploy to GitHub Pages” workflow</li>
+  <li>Clicking “Run workflow”</li>
+  <li>Optionally providing a reason for the manual deployment</li>
+</ol>
+
+<h3 id="deployment-validation">Deployment Validation</h3>
+
+<p>After deployment, verify that:</p>
+
+<ul>
+  <li>The site is accessible at https://idl3o.github.io/gh-pages/</li>
+  <li>All pages render correctly</li>
+  <li>All links function properly</li>
+</ul>
+
+<h2 id="url-validation">URL Validation</h2>
+
+<p>The unified workflow includes URL validation to catch broken links before deployment. While this doesn’t prevent deployment if broken links are found, it does flag issues in the workflow logs.</p>
+
+<p>To run URL validation locally:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node scripts/url-checker.js
+</code></pre></div></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>If deployment fails:</p>
+
+<ol>
+  <li>Check the GitHub Actions logs for detailed error messages</li>
+  <li>Verify that all HTML is valid</li>
+  <li>Check for path issues (GitHub Pages is case-sensitive)</li>
+  <li>Ensure all dependencies are properly installed</li>
+</ol>
+
+<p>For persistent issues, please open an issue in the repository describing the problem in detail.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

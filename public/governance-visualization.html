@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DAO Consensus Visualization | Web3 Crypto Streaming Service</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+      :root {
+        --primary: #6e45e2;
+        --primary-light: rgba(110, 69, 226, 0.2);
+        --secondary: #00d8ff;
+        --accent: #ff5722;
+        --background: #111827;
+        --card-bg: #1f2937;
+        --border: #374151;
+        --text: #f3f4f6;
+        --text-muted: #9ca3af;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+      }
+
+      body {
+        background-color: var(--background);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      h1 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 1.2rem;
+      }
+
+      .intro-panel {
+        background-color: var(--primary-light);
+        border-left: 4px solid var(--primary);
+        padding: 1.5rem;
+        border-radius: 6px;
+        margin-bottom: 2rem;
+      }
+
+      .visualizations {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .visualization {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .visualization h2 {
+        margin-top: 0;
+        color: var(--secondary);
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .visualization h2 i {
+        margin-right: 0.5rem;
+      }
+
+      .chart-container {
+        height: 300px;
+        position: relative;
+        margin: 1rem 0;
+      }
+
+      .interactive-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        align-items: center;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+        color: var(--text-muted);
+      }
+
+      input[type='range'] {
+        width: 200px;
+      }
+
+      .slider-value {
+        font-size: 0.9rem;
+        color: var(--secondary);
+        margin-top: 0.3rem;
+      }
+
+      select,
+      button {
+        padding: 0.5rem;
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+
+      button {
+        background-color: var(--primary);
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      button:hover {
+        background-color: #5a36c9;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+      }
+
+      .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 2rem;
+        font-size: 0.9rem;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .data-table th {
+        color: var(--secondary);
+      }
+
+      .simulator {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .simulator h2 {
+        margin-top: 0;
+        color: var(--secondary);
+      }
+
+      .parameters {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .simulation-results {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .scenario-selector {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .scenario-btn {
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .scenario-btn.active {
+        background-color: var(--primary);
+        border-color: var(--primary);
+      }
+
+      .info-box {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-left: 4px solid var(--secondary);
+        padding: 1rem;
+        margin: 1.5rem 0;
+        font-size: 0.9rem;
+      }
+
+      .info-box h3 {
+        margin-top: 0;
+        font-size: 1.1rem;
+        color: var(--secondary);
+      }
+
+      @media (max-width: 768px) {
+        .visualizations {
+          grid-template-columns: 1fr;
+        }
+
+        .chart-container {
+          height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>DAO Consensus Visualization</h1>
+        <p class="subtitle">
+          Interactive exploration of governance mechanisms and consensus algorithms
+        </p>
+      </header>
+
+      <div class="intro-panel">
+        <p>
+          This interactive dashboard visualizes how different consensus mechanisms affect governance
+          outcomes in the Web3 Crypto Streaming Service DAO. Explore how voting power distribution,
+          participation rates, and mechanism designs influence decision-making in the platform.
+        </p>
+        <p>
+          Choose from predefined scenarios or customize parameters to see how changes impact
+          governance dynamics.
+        </p>
+      </div>
+
+      <div class="scenario-selector">
+        <h3>Select Scenario:</h3>
+        <button id="scenario-standard" class="scenario-btn active">Standard Distribution</button>
+        <button id="scenario-whale" class="scenario-btn">Whale Dominance</button>
+        <button id="scenario-fragmented" class="scenario-btn">Fragmented Community</button>
+        <button id="scenario-creator" class="scenario-btn">Creator-Focused</button>
+        <button id="scenario-custom" class="scenario-btn">Custom Parameters</button>
+      </div>
+
+      <div class="visualizations">
+        <div class="visualization">
+          <h2><i class="fas fa-balance-scale"></i> Voting Power Distribution</h2>
+          <div class="interactive-controls">
+            <div class="control-group">
+              <label for="stake-weight">Token Stake Weight:</label>
+              <input type="range" id="stake-weight" min="0" max="100" value="40" />
+              <div class="slider-value" id="stake-weight-value">40%</div>
+            </div>
+            <div class="control-group">
+              <label for="reputation-weight">Reputation Weight:</label>
+              <input type="range" id="reputation-weight" min="0" max="100" value="30" />
+              <div class="slider-value" id="reputation-weight-value">30%</div>
+            </div>
+            <div class="control-group">
+              <label for="timelock-weight">Timelock Weight:</label>
+              <input type="range" id="timelock-weight" min="0" max="100" value="30" />
+              <div class="slider-value" id="timelock-weight-value">30%</div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="voting-power-chart"></canvas>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: rgba(110, 69, 226, 0.7)"></div>
+              <span>Token Holders</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: rgba(0, 216, 255, 0.7)"></div>
+              <span>Content Creators</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: rgba(255, 87, 34, 0.7)"></div>
+              <span>Platform Viewers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="visualization">
+          <h2><i class="fas fa-chart-line"></i> Conviction Voting Simulation</h2>
+          <div class="interactive-controls">
+            <div class="control-group">
+              <label for="decay-factor">Decay Factor:</label>
+              <input type="range" id="decay-factor" min="50" max="99" value="90" />
+              <div class="slider-value" id="decay-factor-value">0.90</div>
+            </div>
+            <select id="proposal-type">
+              <option value="resource">Resource Allocation</option>
+              <option value="parameter">Parameter Change</option>
+              <option value="feature">Feature Request</option>
+            </select>
+            <button id="run-simulation">Run Simulation</button>
+          </div>
+          <div class="chart-container">
+            <canvas id="conviction-chart"></canvas>
+          </div>
+          <div class="info-box">
+            <h3>About Conviction Voting</h3>
+            <p>
+              Conviction voting allows stakeholders to express continuous support for proposals.
+              Voting power builds up over time, favoring proposals with sustained support rather
+              than momentary popularity.
+            </p>
+          </div>
+        </div>
+
+        <div class="visualization">
+          <h2><i class="fas fa-square-root-alt"></i> Quadratic Voting Impact</h2>
+          <div class="interactive-controls">
+            <div class="control-group">
+              <label for="voter-count">Number of Voters:</label>
+              <input type="range" id="voter-count" min="10" max="1000" value="100" step="10" />
+              <div class="slider-value" id="voter-count-value">100 voters</div>
+            </div>
+            <div class="control-group">
+              <label for="wealth-inequality">Wealth Inequality:</label>
+              <input type="range" id="wealth-inequality" min="0" max="100" value="70" />
+              <div class="slider-value" id="wealth-inequality-value">70% (High)</div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="quadratic-chart"></canvas>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: rgba(110, 69, 226, 0.7)"></div>
+              <span>Linear Voting</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: rgba(0, 216, 255, 0.7)"></div>
+              <span>Quadratic Voting</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="visualization">
+          <h2><i class="fas fa-network-wired"></i> Delegated Voting Network</h2>
+          <div class="interactive-controls">
+            <select id="delegation-view">
+              <option value="technical">Technical Committee</option>
+              <option value="creator">Creator Guild</option>
+              <option value="general">General Delegates</option>
+            </select>
+            <button id="refresh-network">Refresh Network</button>
+          </div>
+          <div class="chart-container" id="delegation-network"></div>
+          <div class="info-box">
+            <h3>Expertise-Based Delegation</h3>
+            <p>
+              The network visualization shows how voting power flows through delegate relationships.
+              Larger nodes represent accounts receiving more delegations from other participants.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="simulator">
+        <h2>Governance Process Simulator</h2>
+        <p>
+          See how different proposals and voting mechanisms affect governance outcomes over time.
+        </p>
+
+        <div class="parameters">
+          <div class="control-group">
+            <label for="sim-participation">Participation Rate:</label>
+            <input type="range" id="sim-participation" min="10" max="100" value="30" />
+            <div class="slider-value" id="sim-participation-value">30%</div>
+          </div>
+          <div class="control-group">
+            <label for="sim-mechanism">Consensus Mechanism:</label>
+            <select id="sim-mechanism">
+              <option value="rwpos">Reputation-Weighted PoS</option>
+              <option value="quadratic">Quadratic Voting</option>
+              <option value="conviction">Conviction Voting</option>
+              <option value="delegated">Delegated Expertise</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="sim-proposal">Proposal Type:</label>
+            <select id="sim-proposal">
+              <option value="protocol">Protocol Upgrade</option>
+              <option value="parameter">Parameter Update</option>
+              <option value="resource">Resource Allocation</option>
+              <option value="policy">Content Policy</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>Simulation Duration:</label>
+            <select id="sim-duration">
+              <option value="7">7 Days</option>
+              <option value="14" selected>14 Days</option>
+              <option value="30">30 Days</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="start-simulation" class="btn-primary">Start Simulation</button>
+
+        <div class="simulation-results">
+          <h3>Simulation Results</h3>
+          <div class="chart-container">
+            <canvas id="simulation-results-chart"></canvas>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Analysis</th>
+              </tr>
+            </thead>
+            <tbody id="simulation-metrics">
+              <tr>
+                <td>Proposal Outcome</td>
+                <td id="outcome-value">Pending</td>
+                <td id="outcome-analysis">Simulation not yet run</td>
+              </tr>
+              <tr>
+                <td>Participation Rate</td>
+                <td id="participation-value">-</td>
+                <td id="participation-analysis">-</td>
+              </tr>
+              <tr>
+                <td>Time to Decision</td>
+                <td id="time-value">-</td>
+                <td id="time-analysis">-</td>
+              </tr>
+              <tr>
+                <td>Stakeholder Satisfaction</td>
+                <td id="satisfaction-value">-</td>
+                <td id="satisfaction-analysis">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Initialize visualizations
+        initVotingPowerChart();
+        initConvictionChart();
+        initQuadraticChart();
+        initDelegationNetwork();
+
+        // Initialize simulator
+        initSimulator();
+
+        // Set up scenario buttons
+        document.querySelectorAll('.scenario-btn').forEach(btn => {
+          btn.addEventListener('click', function () {
+            document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            loadScenario(this.id.replace('scenario-', ''));
+          });
+        });
+
+        // Set up sliders
+        document.getElementById('stake-weight').addEventListener('input', function () {
+          document.getElementById('stake-weight-value').textContent = this.value + '%';
+          updateVotingPowerChart();
+        });
+
+        document.getElementById('reputation-weight').addEventListener('input', function () {
+          document.getElementById('reputation-weight-value').textContent = this.value + '%';
+          updateVotingPowerChart();
+        });
+
+        document.getElementById('timelock-weight').addEventListener('input', function () {
+          document.getElementById('timelock-weight-value').textContent = this.value + '%';
+          updateVotingPowerChart();
+        });
+
+        document.getElementById('decay-factor').addEventListener('input', function () {
+          const value = (parseInt(this.value) / 100).toFixed(2);
+          document.getElementById('decay-factor-value').textContent = value;
+          updateConvictionChart();
+        });
+
+        document.getElementById('voter-count').addEventListener('input', function () {
+          document.getElementById('voter-count-value').textContent = this.value + ' voters';
+          updateQuadraticChart();
+        });
+
+        document.getElementById('wealth-inequality').addEventListener('input', function () {
+          let text;
+          const value = parseInt(this.value);
+          if (value < 30) text = value + '% (Low)';
+          else if (value < 70) text = value + '% (Medium)';
+          else text = value + '% (High)';
+          document.getElementById('wealth-inequality-value').textContent = text;
+          updateQuadraticChart();
+        });
+
+        // Run simulation button
+        document.getElementById('run-simulation').addEventListener('click', function () {
+          updateConvictionChart(true);
+        });
+
+        // Refresh network button
+        document.getElementById('refresh-network').addEventListener('click', function () {
+          updateDelegationNetwork();
+        });
+
+        // Start simulation button
+        document.getElementById('start-simulation').addEventListener('click', function () {
+          runGovernanceSimulation();
+        });
+
+        // Initialize with default scenario
+        loadScenario('standard');
+      });
+
+      // Load predefined scenarios
+      function loadScenario(scenario) {
+        switch (scenario) {
+          case 'standard':
+            setSliderValues(40, 30, 30, 90, 100, 70);
+            break;
+          case 'whale':
+            setSliderValues(70, 20, 10, 80, 50, 90);
+            break;
+          case 'fragmented':
+            setSliderValues(30, 30, 40, 95, 500, 30);
+            break;
+          case 'creator':
+            setSliderValues(20, 60, 20, 85, 200, 50);
+            break;
+          case 'custom':
+            // Leave current values
+            break;
+        }
+
+        // Update all visualizations
+        updateAllVisualizations();
+      }
+
+      function setSliderValues(stake, reputation, timelock, decay, voters, inequality) {
+        // Set slider values
+        document.getElementById('stake-weight').value = stake;
+        document.getElementById('stake-weight-value').textContent = stake + '%';
+
+        document.getElementById('reputation-weight').value = reputation;
+        document.getElementById('reputation-weight-value').textContent = reputation + '%';
+
+        document.getElementById('timelock-weight').value = timelock;
+        document.getElementById('timelock-weight-value').textContent = timelock + '%';
+
+        document.getElementById('decay-factor').value = decay;
+        document.getElementById('decay-factor-value').textContent = (decay / 100).toFixed(2);
+
+        document.getElementById('voter-count').value = voters;
+        document.getElementById('voter-count-value').textContent = voters + ' voters';
+
+        document.getElementById('wealth-inequality').value = inequality;
+        let text;
+        if (inequality < 30) text = inequality + '% (Low)';
+        else if (inequality < 70) text = inequality + '% (Medium)';
+        else text = inequality + '% (High)';
+        document.getElementById('wealth-inequality-value').textContent = text;
+      }
+
+      function updateAllVisualizations() {
+        updateVotingPowerChart();
+        updateConvictionChart();
+        updateQuadraticChart();
+        updateDelegationNetwork();
+      }
+
+      // Chart initialization and update functions
+      let votingPowerChart, convictionChart, quadraticChart;
+
+      function initVotingPowerChart() {
+        const ctx = document.getElementById('voting-power-chart').getContext('2d');
+        votingPowerChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Bottom 50%', 'Middle 40%', 'Top 10%'],
+            datasets: [
+              {
+                label: 'Token Stake',
+                data: [5, 25, 70],
+                backgroundColor: 'rgba(110, 69, 226, 0.7)'
+              },
+              {
+                label: 'Reputation-Weighted',
+                data: [20, 50, 30],
+                backgroundColor: 'rgba(0, 216, 255, 0.7)'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Voting Power Distribution',
+                color: '#f3f4f6'
+              },
+              legend: {
+                labels: {
+                  color: '#f3f4f6'
+                }
+              }
+            },
+            scales: {
+              x: {
+                stacked: true,
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+              },
+              y: {
+                stacked: true,
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                beginAtZero: true,
+                max: 100
+              }
+            }
+          }
+        });
+      }
+
+      function updateVotingPowerChart() {
+        const stakeWeight = parseInt(document.getElementById('stake-weight').value) / 100;
+        const repWeight = parseInt(document.getElementById('reputation-weight').value) / 100;
+        const timelockWeight = parseInt(document.getElementById('timelock-weight').value) / 100;
+
+        // Generate simulated data based on weights
+        const tokenBottom = 5 * stakeWeight * 100;
+        const tokenMiddle = 25 * stakeWeight * 100;
+        const tokenTop = 70 * stakeWeight * 100;
+
+        const repBottom = 25 * repWeight * 100;
+        const repMiddle = 50 * repWeight * 100;
+        const repTop = 25 * repWeight * 100;
+
+        const timeBottom = 15 * timelockWeight * 100;
+        const timeMiddle = 40 * timelockWeight * 100;
+        const timeTop = 45 * timelockWeight * 100;
+
+        votingPowerChart.data.datasets = [
+          {
+            label: 'Token Stake',
+            data: [tokenBottom, tokenMiddle, tokenTop],
+            backgroundColor: 'rgba(110, 69, 226, 0.7)'
+          },
+          {
+            label: 'Reputation',
+            data: [repBottom, repMiddle, repTop],
+            backgroundColor: 'rgba(0, 216, 255, 0.7)'
+          },
+          {
+            label: 'Time Lock',
+            data: [timeBottom, timeMiddle, timeTop],
+            backgroundColor: 'rgba(255, 87, 34, 0.7)'
+          }
+        ];
+
+        votingPowerChart.update();
+      }
+
+      function initConvictionChart() {
+        const ctx = document.getElementById('conviction-chart').getContext('2d');
+        const labels = Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`);
+
+        convictionChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Proposal A',
+                data: generateConvictionData(0.9, 30, 40, 5),
+                borderColor: 'rgba(110, 69, 226, 1)',
+                backgroundColor: 'rgba(110, 69, 226, 0.1)',
+                tension: 0.4,
+                fill: true
+              },
+              {
+                label: 'Proposal B',
+                data: generateConvictionData(0.9, 30, 20, 12),
+                borderColor: 'rgba(0, 216, 255, 1)',
+                backgroundColor: 'rgba(0, 216, 255, 0.1)',
+                tension: 0.4,
+                fill: true
+              },
+              {
+                label: 'Threshold',
+                data: Array(30).fill(30),
+                borderColor: 'rgba(255, 87, 34, 0.7)',
+                backgroundColor: 'rgba(255, 87, 34, 0.05)',
+                borderDashed: [5, 5],
+                pointRadius: 0,
+                fill: true
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Conviction Accumulation Over Time',
+                color: '#f3f4f6'
+              },
+              legend: {
+                labels: {
+                  color: '#f3f4f6'
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+              },
+              y: {
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                beginAtZero: true,
+                max: 60
+              }
+            }
+          }
+        });
+      }
+
+      function generateConvictionData(decay, days, support, changeDay) {
+        let data = [];
+        let conviction = 0;
+
+        for (let i = 0; i < days; i++) {
+          // Change support level at the specified day
+          const dailySupport = i >= changeDay ? support * 1.5 : support;
+          conviction = conviction * decay + dailySupport * (1 - decay);
+          data.push(conviction);
+        }
+
+        return data;
+      }
+
+      function updateConvictionChart(animate = false) {
+        const decay = parseFloat(document.getElementById('decay-factor-value').textContent);
+        const proposalType = document.getElementById('proposal-type').value;
+
+        // Set threshold based on proposal type
+        let threshold;
+        switch (proposalType) {
+          case 'resource':
+            threshold = 35;
+            break;
+          case 'parameter':
+            threshold = 25;
+            break;
+          case 'feature':
+            threshold = 45;
+            break;
+          default:
+            threshold = 30;
+        }
+
+        // Update chart data
+        convictionChart.data.datasets = [
+          {
+            label: 'Proposal A',
+            data: generateConvictionData(
+              decay,
+              30,
+              40,
+              animate ? Math.floor(Math.random() * 10) + 5 : 5
+            ),
+            borderColor: 'rgba(110, 69, 226, 1)',
+            backgroundColor: 'rgba(110, 69, 226, 0.1)',
+            tension: 0.4,
+            fill: true
+          },
+          {
+            label: 'Proposal B',
+            data: generateConvictionData(
+              decay,
+              30,
+              20,
+              animate ? Math.floor(Math.random() * 15) + 10 : 12
+            ),
+            borderColor: 'rgba(0, 216, 255, 1)',
+            backgroundColor: 'rgba(0, 216, 255, 0.1)',
+            tension: 0.4,
+            fill: true
+          },
+          {
+            label: 'Threshold',
+            data: Array(30).fill(threshold),
+            borderColor: 'rgba(255, 87, 34, 0.7)',
+            borderDashed: [5, 5],
+            pointRadius: 0,
+            fill: false
+          }
+        ];
+
+        // Update y-axis maximum
+        convictionChart.options.scales.y.max = Math.max(threshold * 1.5, 60);
+
+        convictionChart.update();
+      }
+
+      function initQuadraticChart() {
+        const ctx = document.getElementById('quadratic-chart').getContext('2d');
+        quadraticChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Small Holders', 'Medium Holders', 'Large Holders', 'Whales'],
+            datasets: [
+              {
+                label: 'Linear Voting',
+                data: [5, 15, 30, 50],
+                backgroundColor: 'rgba(110, 69, 226, 0.7)'
+              },
+              {
+                label: 'Quadratic Voting',
+                data: [22, 31, 27, 20],
+                backgroundColor: 'rgba(0, 216, 255, 0.7)'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Voting Influence by Holder Size',
+                color: '#f3f4f6'
+              },
+              legend: {
+                labels: {
+                  color: '#f3f4f6'
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+              },
+              y: {
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                beginAtZero: true,
+                max: 100,
+                title: {
+                  display: true,
+                  text: 'Voting Power (%)',
+                  color: '#f3f4f6'
+                }
+              }
+            }
+          }
+        });
+      }
+
+      function updateQuadraticChart() {
+        const voterCount = parseInt(document.getElementById('voter-count').value);
+        const inequality = parseInt(document.getElementById('wealth-inequality').value);
+
+        // Adjust distribution based on inequality parameter
+        const whaleShare = 20 + inequality * 0.5;
+        const largeShare = 15 + inequality * 0.2;
+        const mediumShare = 30 - inequality * 0.1;
+        const smallShare = 100 - whaleShare - largeShare - mediumShare;
+
+        // Calculate quadratic voting effect
+        // As inequality increases, quadratic voting has a larger equalizing effect
+        const equalizingFactor = (inequality * 0.6) / 100;
+
+        const whaleQuad = Math.sqrt(whaleShare) * 5;
+        const largeQuad = Math.sqrt(largeShare) * 5;
+        const mediumQuad = Math.sqrt(mediumShare) * 5;
+        const smallQuad = Math.sqrt(smallShare) * 5;
+
+        // Normalize to percentages
+        const total = whaleQuad + largeQuad + mediumQuad + smallQuad;
+        const whaleQuadPct = (whaleQuad / total) * 100;
+        const largeQuadPct = (largeQuad / total) * 100;
+        const mediumQuadPct = (mediumQuad / total) * 100;
+        const smallQuadPct = (smallQuad / total) * 100;
+
+        quadraticChart.data.datasets = [
+          {
+            label: 'Linear Voting',
+            data: [smallShare, mediumShare, largeShare, whaleShare],
+            backgroundColor: 'rgba(110, 69, 226, 0.7)'
+          },
+          {
+            label: 'Quadratic Voting',
+            data: [smallQuadPct, mediumQuadPct, largeQuadPct, whaleQuadPct],
+            backgroundColor: 'rgba(0, 216, 255, 0.7)'
+          }
+        ];
+
+        quadraticChart.update();
+      }
+
+      function initDelegationNetwork() {
+        // This would typically use D3.js to create a network visualization
+        // For this demo, we'll just show a placeholder
+        const networkDiv = document.getElementById('delegation-network');
+        networkDiv.innerHTML =
+          '<div style="display: flex; justify-content: center; align-items: center; height: 100%; color: var(--text-muted);">Network visualization would appear here<br>using D3.js in a full implementation</div>';
+      }
+
+      function updateDelegationNetwork() {
+        // This would update the D3.js network visualization
+        // For the demo, we'll just show a loading indicator
+        const networkDiv = document.getElementById('delegation-network');
+        networkDiv.innerHTML =
+          '<div style="display: flex; justify-content: center; align-items: center; height: 100%; color: var(--text-muted);">Loading delegation network...</div>';
+
+        // Simulate loading delay
+        setTimeout(() => {
+          networkDiv.innerHTML =
+            '<div style="display: flex; justify-content: center; align-items: center; height: 100%; color: var(--text-muted);">Network visualization placeholder<br>Updated at ' +
+            new Date().toLocaleTimeString() +
+            '</div>';
+        }, 1000);
+      }
+
+      function initSimulator() {
+        const ctx = document.getElementById('simulation-results-chart').getContext('2d');
+        const simulationChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: Array.from({ length: 14 }, (_, i) => `Day ${i + 1}`),
+            datasets: [
+              {
+                label: 'Support',
+                data: [],
+                borderColor: 'rgba(110, 69, 226, 1)',
+                backgroundColor: 'rgba(110, 69, 226, 0.1)',
+                tension: 0.4,
+                fill: true
+              },
+              {
+                label: 'Opposition',
+                data: [],
+                borderColor: 'rgba(255, 87, 34, 1)',
+                backgroundColor: 'rgba(255, 87, 34, 0.1)',
+                tension: 0.4,
+                fill: true
+              },
+              {
+                label: 'Required Threshold',
+                data: [],
+                borderColor: 'rgba(0, 216, 255, 0.7)',
+                borderDashed: [5, 5],
+                pointRadius: 0,
+                fill: false
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Governance Simulation Results',
+                color: '#f3f4f6'
+              },
+              legend: {
+                labels: {
+                  color: '#f3f4f6'
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+              },
+              y: {
+                ticks: { color: '#f3f4f6' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                beginAtZero: true,
+                max: 100,
+                title: {
+                  display: true,
+                  text: 'Voting Power (%)',
+                  color: '#f3f4f6'
+                }
+              }
+            }
+          }
+        });
+
+        window.simulationChart = simulationChart;
+      }
+
+      function runGovernanceSimulation() {
+        // Get simulation parameters
+        const participationRate = parseInt(document.getElementById('sim-participation').value);
+        const mechanism = document.getElementById('sim-mechanism').value;
+        const proposalType = document.getElementById('sim-proposal').value;
+        const duration = parseInt(document.getElementById('sim-duration').value);
+
+        // Update UI to show simulation is running
+        document.getElementById('start-simulation').textContent = 'Running Simulation...';
+        document.getElementById('start-simulation').disabled = true;
+        document.getElementById('outcome-value').textContent = 'Processing...';
+        document.getElementById('outcome-analysis').textContent = 'Simulation running...';
+
+        // Set threshold based on proposal type
+        let threshold;
+        switch (proposalType) {
+          case 'protocol':
+            threshold = 66.7;
+            break;
+          case 'parameter':
+            threshold = 60;
+            break;
+          case 'resource':
+            threshold = 51;
+            break;
+          case 'policy':
+            threshold = 60;
+            break;
+          default:
+            threshold = 60;
+        }
+
+        // Generate simulated voting data
+        const supportData = [];
+        const oppositionData = [];
+        const thresholdData = Array(duration).fill(threshold);
+
+        // Different mechanisms have different voting patterns
+        let finalSupport, timeToDecision;
+        switch (mechanism) {
+          case 'rwpos':
+            // Start with some support that gradually increases
+            let support = 20 + Math.random() * 20;
+            for (let i = 0; i < duration; i++) {
+              support += Math.random() * 6 - 1;
+              support = Math.min(Math.max(support, 0), 100);
+              supportData.push(support);
+              oppositionData.push(100 - support - (100 - participationRate));
+            }
+            finalSupport = supportData[supportData.length - 1];
+            timeToDecision = duration;
+            break;
+
+          case 'quadratic':
+            // More initial engagement with steadier support
+            let qSupport = 30 + Math.random() * 15;
+            for (let i = 0; i < duration; i++) {
+              qSupport += Math.random() * 4 - 1.5;
+              qSupport = Math.min(Math.max(qSupport, 0), 100);
+              supportData.push(qSupport);
+              oppositionData.push(100 - qSupport - (100 - participationRate));
+            }
+            finalSupport = supportData[supportData.length - 1];
+            timeToDecision = duration;
+            break;
+
+          case 'conviction':
+            // Gradually accumulating support
+            let conviction = 0;
+            let dailySupport = 25 + Math.random() * 10;
+            const decay = 0.9;
+            for (let i = 0; i < duration; i++) {
+              dailySupport += Math.random() * 5 - 2;
+              dailySupport = Math.min(Math.max(dailySupport, 0), 100);
+              conviction = conviction * decay + dailySupport * (1 - decay);
+              supportData.push(conviction);
+              oppositionData.push(100 - conviction - (100 - participationRate));
+            }
+            finalSupport = supportData[supportData.length - 1];
+            timeToDecision = duration;
+            break;
+
+          case 'delegated':
+            // Quicker decisions due to expert decision-making
+            let dSupport = 35 + Math.random() * 25;
+            for (let i = 0; i < duration; i++) {
+              if (i < duration / 3) {
+                // Discussion phase - slower change
+                dSupport += Math.random() * 3 - 1;
+              } else {
+                // Decision phase - more alignment
+                dSupport += Math.random() * 5 - 1;
+              }
+              dSupport = Math.min(Math.max(dSupport, 0), 100);
+              supportData.push(dSupport);
+              oppositionData.push(100 - dSupport - (100 - participationRate));
+            }
+            finalSupport = supportData[supportData.length - 1];
+            timeToDecision = Math.ceil(duration * 0.6); // Faster decision
+            break;
+        }
+
+        // Update the chart after a short delay to show the animation
+        setTimeout(() => {
+          window.simulationChart.data.labels = Array.from(
+            { length: duration },
+            (_, i) => `Day ${i + 1}`
+          );
+          window.simulationChart.data.datasets[0].data = supportData;
+          window.simulationChart.data.datasets[1].data = oppositionData;
+          window.simulationChart.data.datasets[2].data = thresholdData;
+          window.simulationChart.options.scales.y.max = 100;
+          window.simulationChart.update();
+
+          // Update metrics table
+          const approved = finalSupport >= threshold;
+          document.getElementById('outcome-value').textContent = approved ? 'Approved' : 'Rejected';
+          document.getElementById('outcome-value').style.color = approved ? '#10b981' : '#ef4444';
+
+          document.getElementById('outcome-analysis').textContent = approved
+            ? `Proposal passed with ${finalSupport.toFixed(1)}% support (${threshold}% required)`
+            : `Proposal failed with ${finalSupport.toFixed(1)}% support (${threshold}% required)`;
+
+          document.getElementById('participation-value').textContent = `${participationRate}%`;
+          document.getElementById('participation-analysis').textContent =
+            participationRate < 30
+              ? 'Low participation may affect legitimacy of decision'
+              : 'Adequate participation for a valid governance decision';
+
+          document.getElementById('time-value').textContent = `${timeToDecision} days`;
+          document.getElementById('time-analysis').textContent =
+            timeToDecision < duration * 0.7
+              ? 'Efficient decision process'
+              : 'Standard decision timeline';
+
+          const satisfactionScore = approved
+            ? 70 + Math.floor(Math.random() * 20)
+            : 40 + Math.floor(Math.random() * 30);
+          document.getElementById('satisfaction-value').textContent = `${satisfactionScore}%`;
+          document.getElementById('satisfaction-analysis').textContent =
+            satisfactionScore > 70
+              ? 'High stakeholder satisfaction with the process'
+              : 'Moderate stakeholder satisfaction, potential for improvement';
+
+          // Reset the button
+          document.getElementById('start-simulation').textContent = 'Start Simulation';
+          document.getElementById('start-simulation').disabled = false;
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>

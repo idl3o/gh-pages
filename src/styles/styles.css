@@ -1,0 +1,21 @@
+/* ...existing code... */
+.language-switcher {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.lang-btn {
+  padding: 5px 10px;
+  margin-left: 5px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.lang-btn.active {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #3e8e41;
+}
+/* ...existing code... */

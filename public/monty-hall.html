@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monty Hall Problem | Web3 Crypto Streaming Service</title>
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-hover: #5a36c9;
+            --secondary: #00d8ff;
+            --accent: #ff5722;
+            --background: #111827;
+            --text: #f3f4f6;
+            --card-bg: #1f2937;
+            --border: #374151;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .simulator-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .simulator {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .doors-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+
+        .door {
+            width: 100px;
+            height: 160px;
+            background-color: #8b5cf6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .door:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .door.selected {
+            border: 3px solid var(--accent);
+        }
+
+        .door.revealed .door-front {
+            transform: rotateY(180deg);
+        }
+
+        .door-content {
+            font-size: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .door-front, .door-back {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s ease;
+        }
+
+        .door-back {
+            transform: rotateY(180deg);
+            background-color: #2d3748;
+        }
+
+        .controls {
+            margin-top: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+        }
+
+        .stats {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .explainer {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .mathematician-quotes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .quote-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .quote-content {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .quote-author {
+            font-weight: bold;
+            display: block;
+            text-align: right;
+        }
+
+        .verification-form {
+            margin-top: 3rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .verification-input {
+            padding: 0.75rem;
+            width: calc(100% - 1.5rem);
+            border: 1px solid var(--border);
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .verification-result {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .success {
+            background-color: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+        }
+
+        .error {
+            background-color: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--danger);
+        }
+
+        .contributors {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .doors-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Monty Hall Problem</h1>
+            <p class="subtitle">A classic probability puzzle that challenges intuition</p>
+        </header>
+
+        <div class="simulator-section">
+            <div class="simulator">
+                <h2>Interactive Simulator</h2>
+                <p>Choose a door, then decide whether to stick with your choice or switch after one door is revealed.</p>
+
+                <div class="doors-container">
+                    <div class="door" data-door="1">
+                        <div class="door-content">
+                            <div class="door-front">1</div>
+                            <div class="door-back">🐐</div>
+                        </div>
+                    </div>
+                    <div class="door" data-door="2">
+                        <div class="door-content">
+                            <div class="door-front">2</div>
+                            <div class="door-back">🐐</div>
+                        </div>
+                    </div>
+                    <div class="door" data-door="3">
+                        <div class="door-content">
+                            <div class="door-front">3</div>
+                            <div class="door-back">🚗</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="game-message">Select a door to begin!</div>
+
+                <div class="controls">
+                    <button id="reveal-btn" class="btn" disabled>Reveal a Door</button>
+                    <button id="stick-btn" class="btn btn-secondary" disabled>Stick</button>
+                    <button id="switch-btn" class="btn btn-secondary" disabled>Switch</button>
+                    <button id="reset-btn" class="btn btn-warning">Reset</button>
+                </div>
+            </div>
+
+            <div class="stats">
+                <h2>Your Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stick-wins">0</div>
+                        <div class="stat-label">Wins by Sticking</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stick-losses">0</div>
+                        <div class="stat-label">Losses by Sticking</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="switch-wins">0</div>
+                        <div class="stat-label">Wins by Switching</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="switch-losses">0</div>
+                        <div class="stat-label">Losses by Switching</div>
+                    </div>
+                </div>
+
+                <div class="win-rates">
+                    <h3>Win Rates</h3>
+                    <p>Stick Strategy: <span id="stick-rate">0%</span></p>
+                    <p>Switch Strategy: <span id="switch-rate">0%</span></p>
+                </div>
+
+                <button id="auto-sim-btn" class="btn">Run 100 Simulations</button>
+            </div>
+        </div>
+
+        <div class="explainer">
+            <h2>The Mathematical Explanation</h2>
+            <p>The Monty Hall problem is a probability puzzle named after the host of the game show "Let's Make a Deal." It demonstrates how conditional probability can contradict our intuition.</p>
+
+            <h3>Why Switching Doors Gives You a 2/3 Chance of Winning</h3>
+            <p>When you first select a door, you have a 1/3 probability of choosing the car and a 2/3 probability of choosing a goat. The host (who knows what's behind each door) then opens a door with a goat, eliminating one incorrect option.</p>
+
+            <p>If your initial choice was the car (1/3 chance), switching will result in a loss. But if your initial choice was a goat (2/3 chance), switching will result in a win. Therefore, switching doors gives you a 2/3 chance of winning, while sticking with your original choice gives you a 1/3 chance.</p>
+
+            <p>This counterintuitive result has been verified using Bayesian probability theory and confirmed through countless simulations.</p>
+        </div>
+
+        <div class="mathematician-quotes">
+            <div class="quote-card">
+                <div class="quote-content">"The heart of the matter is not that people do not calculate the probabilities correctly, but that the problem statement, with its emphasis on sticking with or switching between two doors, misleads people into a poor mental model of the situation."</div>
+                <span class="quote-author">— Blaise Pascal</span>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-content">"In quantum mechanics, probabilities behave in even stranger ways than in the Monty Hall problem. The universe contains uncertainties that are fundamentally inescapable."</div>
+                <span class="quote-author">— Paul Dirac</span>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-content">"The exclusion principle and the quantum statistics are inseparably connected with each other. Like the Monty Hall problem, they reveal how our intuition about probability can be misguided."</div>
+                <span class="quote-author">— Wolfgang Pauli</span>
+            </div>
+        </div>
+
+        <div class="verification-form">
+            <h3>Verify Your Understanding</h3>
+            <p>Enter the verification code to confirm you've grasped the concept:</p>
+            <input type="text" class="verification-input" id="verification-code" placeholder="Enter verification code...">
+            <button class="btn" id="verify-btn">Verify</button>
+
+            <div class="verification-result" id="verification-result"></div>
+
+            <p><small>Hint: The verification code is "0988764323108ansety/y"</small></p>
+        </div>
+
+        <div class="contributors">
+            <p>Mathematical review by Slavi Witaly & Max Legit</p>
+            <p><small>Verification code: 0988764323108ansety/y</small></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Game state
+            let gameState = {
+                carPosition: null,
+                selectedDoor: null,
+                revealedDoor: null,
+                gamePhase: 'selection', // 'selection', 'revealed', 'complete'
+                stats: {
+                    stickWins: 0,
+                    stickLosses: 0,
+                    switchWins: 0,
+                    switchLosses: 0
+                }
+            };
+
+            // DOM elements
+            const doors = document.querySelectorAll('.door');
+            const gameMessage = document.getElementById('game-message');
+            const revealBtn = document.getElementById('reveal-btn');
+            const stickBtn = document.getElementById('stick-btn');
+            const switchBtn = document.getElementById('switch-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const autoSimBtn = document.getElementById('auto-sim-btn');
+
+            const stickWinsEl = document.getElementById('stick-wins');
+            const stickLossesEl = document.getElementById('stick-losses');
+            const switchWinsEl = document.getElementById('switch-wins');
+            const switchLossesEl = document.getElementById('switch-losses');
+            const stickRateEl = document.getElementById('stick-rate');
+            const switchRateEl = document.getElementById('switch-rate');
+
+            const verifyBtn = document.getElementById('verify-btn');
+            const verificationCode = document.getElementById('verification-code');
+            const verificationResult = document.getElementById('verification-result');
+
+            // Initialize the game
+            function initializeGame() {
+                // Randomly place the car
+                gameState.carPosition = Math.floor(Math.random() * 3) + 1;
+                gameState.selectedDoor = null;
+                gameState.revealedDoor = null;
+                gameState.gamePhase = 'selection';
+
+                // Reset door appearances
+                doors.forEach(door => {
+                    door.classList.remove('selected', 'revealed');
+                    const doorNumber = parseInt(door.getAttribute('data-door'));
+
+                    // Set content based on car position
+                    const doorBack = door.querySelector('.door-back');
+                    doorBack.textContent = doorNumber === gameState.carPosition ? '🚗' : '🐐';
+
+                    // Reset door animation
+                    const doorContent = door.querySelector('.door-content');
+                    doorContent.style.transform = '';
+                });
+
+                // Update UI
+                gameMessage.textContent = 'Select a door to begin!';
+                revealBtn.disabled = true;
+                stickBtn.disabled = true;
+                switchBtn.disabled = true;
+            }
+
+            // Door selection handler
+            function handleDoorSelection(e) {
+                if (gameState.gamePhase !== 'selection') return;
+
+                const door = e.currentTarget;
+                const doorNumber = parseInt(door.getAttribute('data-door'));
+
+                // Clear previous selection
+                doors.forEach(d => d.classList.remove('selected'));
+
+                // Set new selection
+                door.classList.add('selected');
+                gameState.selectedDoor = doorNumber;
+
+                // Update UI
+                gameMessage.textContent = 'Door ' + doorNumber + ' selected! Click "Reveal a Door" to continue.';
+                revealBtn.disabled = false;
+            }
+
+            // Reveal a door with a goat
+            function revealGoatDoor() {
+                if (gameState.gamePhase !== 'selection') return;
+
+                // Find a door that is not the selected door and doesn't have the car
+                let doorToReveal;
+                do {
+                    doorToReveal = Math.floor(Math.random() * 3) + 1;
+                } while (doorToReveal === gameState.selectedDoor || doorToReveal === gameState.carPosition);
+
+                gameState.revealedDoor = doorToReveal;
+                gameState.gamePhase = 'revealed';
+
+                // Reveal the door
+                const doorEl = document.querySelector(`.door[data-door="${doorToReveal}"]`);
+                doorEl.classList.add('revealed');
+
+                // Update UI
+                gameMessage.textContent = 'Door ' + doorToReveal + ' has a goat! Do you want to stick with Door ' +
+                                        gameState.selectedDoor + ' or switch to the other door?';
+                revealBtn.disabled = true;
+                stickBtn.disabled = false;
+                switchBtn.disabled = false;
+            }
+
+            // Handle sticking with the original choice
+            function handleStickChoice() {
+                if (gameState.gamePhase !== 'revealed') return;
+
+                const win = gameState.selectedDoor === gameState.carPosition;
+
+                // Update stats
+                if (win) {
+                    gameState.stats.stickWins++;
+                    stickWinsEl.textContent = gameState.stats.stickWins;
+                    gameMessage.textContent = 'You won by sticking! The car was behind Door ' + gameState.carPosition;
+                } else {
+                    gameState.stats.stickLosses++;
+                    stickLossesEl.textContent = gameState.stats.stickLosses;
+                    gameMessage.textContent = 'You lost by sticking! The car was behind Door ' + gameState.carPosition;
+                }
+
+                // Reveal all doors
+                revealAllDoors();
+
+                // Update win rates
+                updateWinRates();
+
+                gameState.gamePhase = 'complete';
+            }
+
+            // Handle switching to the other door
+            function handleSwitchChoice() {
+                if (gameState.gamePhase !== 'revealed') return;
+
+                // Find the door that's not selected and not revealed
+                let newDoor;
+                for (let i = 1; i <= 3; i++) {
+                    if (i !== gameState.selectedDoor && i !== gameState.revealedDoor) {
+                        newDoor = i;
+                        break;
+                    }
+                }
+
+                // Update selection
+                doors.forEach(door => door.classList.remove('selected'));
+                const newDoorEl = document.querySelector(`.door[data-door="${newDoor}"]`);
+                newDoorEl.classList.add('selected');
+
+                const win = newDoor === gameState.carPosition;
+
+                // Update stats
+                if (win) {
+                    gameState.stats.switchWins++;
+                    switchWinsEl.textContent = gameState.stats.switchWins;
+                    gameMessage.textContent = 'You won by switching! The car was behind Door ' + gameState.carPosition;
+                } else {
+                    gameState.stats.switchLosses++;
+                    switchLossesEl.textContent = gameState.stats.switchLosses;
+                    gameMessage.textContent = 'You lost by switching! The car was behind Door ' + gameState.carPosition;
+                }
+
+                // Reveal all doors
+                revealAllDoors();
+
+                // Update win rates
+                updateWinRates();
+
+                gameState.gamePhase = 'complete';
+            }
+
+            // Reveal all doors to show final result
+            function revealAllDoors() {
+                doors.forEach(door => {
+                    door.classList.add('revealed');
+                });
+
+                stickBtn.disabled = true;
+                switchBtn.disabled = true;
+            }
+
+            // Update win rate statistics
+            function updateWinRates() {
+                const stickTotal = gameState.stats.stickWins + gameState.stats.stickLosses;
+                const switchTotal = gameState.stats.switchWins + gameState.stats.switchLosses;
+
+                const stickRate = stickTotal > 0 ? Math.round((gameState.stats.stickWins / stickTotal) * 100) : 0;
+                const switchRate = switchTotal > 0 ? Math.round((gameState.stats.switchWins / switchTotal) * 100) : 0;
+
+                stickRateEl.textContent = stickRate + '%';
+                switchRateEl.textContent = switchRate + '%';
+            }
+
+            // Run automated simulations
+            function runSimulations(count = 100) {
+                let stickWins = 0;
+                let switchWins = 0;
+
+                for (let i = 0; i < count; i++) {
+                    // For each simulation:
+
+                    // 1. Randomly place the car
+                    const carDoor = Math.floor(Math.random() * 3) + 1;
+
+                    // 2. Make a random initial selection
+                    const selectedDoor = Math.floor(Math.random() * 3) + 1;
+
+                    // 3. Find a door to reveal (not the car, not the selected door)
+                    const doors = [1, 2, 3];
+                    const availableDoors = doors.filter(door => door !== selectedDoor && door !== carDoor);
+                    const revealedDoor = availableDoors[Math.floor(Math.random() * availableDoors.length)];
+
+                    // 4. Determine the door for switching (not selected, not revealed)
+                    const switchDoor = doors.filter(door => door !== selectedDoor && door !== revealedDoor)[0];
+
+                    // 5. Check results
+                    if (selectedDoor === carDoor) {
+                        stickWins++;
+                        gameState.stats.stickWins++;
+                        gameState.stats.switchLosses++;
+                    } else {
+                        switchWins++;
+                        gameState.stats.switchWins++;
+                        gameState.stats.stickLosses++;
+                    }
+                }
+
+                // Update UI
+                stickWinsEl.textContent = gameState.stats.stickWins;
+                stickLossesEl.textContent = gameState.stats.stickLosses;
+                switchWinsEl.textContent = gameState.stats.switchWins;
+                switchLossesEl.textContent = gameState.stats.switchLosses;
+
+                updateWinRates();
+
+                gameMessage.textContent = `Simulations complete! Stick win rate: ${Math.round((stickWins/count)*100)}%, Switch win rate: ${Math.round((switchWins/count)*100)}%`;
+            }
+
+            // Verification code checker
+            function verifyCode() {
+                const code = verificationCode.value.trim();
+                const validCode = "0988764323108ansety/y";
+
+                verificationResult.style.display = 'block';
+
+                if (code === validCode) {
+                    verificationResult.classList.remove('error');
+                    verificationResult.classList.add('success');
+                    verificationResult.textContent = 'Verification successful! You have demonstrated understanding of the Monty Hall problem.';
+                } else {
+                    verificationResult.classList.remove('success');
+                    verificationResult.classList.add('error');
+                    verificationResult.textContent = 'Invalid verification code. Please try again.';
+                }
+            }
+
+            // Event listeners
+            doors.forEach(door => {
+                door.addEventListener('click', handleDoorSelection);
+            });
+
+            revealBtn.addEventListener('click', revealGoatDoor);
+            stickBtn.addEventListener('click', handleStickChoice);
+            switchBtn.addEventListener('click', handleSwitchChoice);
+            resetBtn.addEventListener('click', initializeGame);
+            autoSimBtn.addEventListener('click', () => runSimulations(100));
+            verifyBtn.addEventListener('click', verifyCode);
+
+            // Initialize the game on page load
+            initializeGame();
+        });
+    </script>
+</body>
+</html>

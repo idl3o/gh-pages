@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SXS CLI - Simple eXtensible Shell | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="SXS CLI - Simple eXtensible Shell" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/SXS-CLI-README.html" />
+<meta property="og:url" content="/docs/SXS-CLI-README.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SXS CLI - Simple eXtensible Shell" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"SXS CLI - Simple eXtensible Shell","url":"/docs/SXS-CLI-README.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">SXS CLI - Simple eXtensible Shell</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="sxs-cli---simple-extensible-shell">SXS CLI - Simple eXtensible Shell</h1>
+
+<p>SXS CLI is a unified command-line interface that combines bash and PowerShell functionality for the GitHub Pages project. It provides a consistent interface for project management tasks, regardless of whether you’re working in Windows or a Unix-based environment.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li><strong>Cross-platform</strong>: Works on Windows (PowerShell), Linux, macOS, and WSL</li>
+  <li><strong>Unified Commands</strong>: Same commands work across all environments</li>
+  <li><strong>Project Management</strong>: Build, deploy, and manage your project with simple commands</li>
+  <li><strong>Git Integration</strong>: Simplified branch management and safe commit options</li>
+  <li><strong>Fixes &amp; Repairs</strong>: Tools to fix common issues with git hooks and dependencies</li>
+  <li><strong>Command Chaining</strong>: Built-in support for &amp;&amp; operation across platforms</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<h3 id="on-windows">On Windows</h3>
+
+<p>Simply run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs-cli.cmd
+</code></pre></div></div>
+
+<p>Or directly with PowerShell:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="n">\sxs-cli.ps1</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="on-linuxmacoswsl">On Linux/macOS/WSL</h3>
+
+<p>Make the script executable and run it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x ./sxs-cli.sh
+./sxs-cli.sh
+</code></pre></div></div>
+
+<h2 id="available-commands">Available Commands</h2>
+
+<h3 id="core-commands">Core Commands</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">help</code> - Show the help menu</li>
+  <li><code class="language-plaintext highlighter-rouge">clear</code> - Clear the console</li>
+  <li><code class="language-plaintext highlighter-rouge">exit</code> - Exit SXS CLI</li>
+  <li><code class="language-plaintext highlighter-rouge">status</code> - Show current branch and repository status</li>
+</ul>
+
+<h3 id="build-commands">Build Commands</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">build web</code> - Build the web version (uses Emscripten)</li>
+  <li><code class="language-plaintext highlighter-rouge">build native</code> - Build the native version</li>
+  <li><code class="language-plaintext highlighter-rouge">clean</code> - Clean build artifacts</li>
+</ul>
+
+<h3 id="server--deploy-commands">Server &amp; Deploy Commands</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">server</code> - Start the development server</li>
+  <li><code class="language-plaintext highlighter-rouge">deploy</code> - Deploy to GitHub Pages</li>
+</ul>
+
+<h3 id="branch-management">Branch Management</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">branch info</code> - Show branch information</li>
+  <li><code class="language-plaintext highlighter-rouge">branch main</code> - Switch to main branch</li>
+  <li><code class="language-plaintext highlighter-rouge">branch docs</code> - Switch to docs branch</li>
+  <li><code class="language-plaintext highlighter-rouge">branch sync</code> - Sync all branches</li>
+</ul>
+
+<h3 id="fixes--repairs">Fixes &amp; Repairs</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">fix hooks</code> - Fix git hooks issues</li>
+  <li><code class="language-plaintext highlighter-rouge">fix deps</code> - Fix Node.js dependencies</li>
+  <li><code class="language-plaintext highlighter-rouge">setup</code> - Set up Emscripten SDK</li>
+</ul>
+
+<h3 id="git-operations">Git Operations</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">safe-commit "message"</code> - Commit changes safely (bypassing hooks)</li>
+  <li><code class="language-plaintext highlighter-rouge">restore-hooks</code> - Restore git hooks to normal operation</li>
+</ul>
+
+<h3 id="advanced-usage">Advanced Usage</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">try-chain</code> - Demonstrates command chaining (like &amp;&amp; operator)</li>
+  <li><code class="language-plaintext highlighter-rouge">and-operator</code> - Explains how &amp;&amp; works in bash (bash version only)</li>
+</ul>
+
+<h2 id="command-chaining">Command Chaining</h2>
+
+<p>The SXS CLI provides robust command chaining in both PowerShell and bash environments:</p>
+
+<h3 id="in-bash">In Bash</h3>
+<p>The <code class="language-plaintext highlighter-rouge">&amp;&amp;</code> operator is used natively to ensure commands only execute if the previous command succeeds:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>temp <span class="o">&amp;&amp;</span> <span class="nb">cd </span>temp <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"Success!"</span>
+</code></pre></div></div>
+
+<h3 id="in-powershell">In PowerShell</h3>
+<p>PowerShell doesn’t have a direct equivalent to <code class="language-plaintext highlighter-rouge">&amp;&amp;</code>, so SXS CLI provides the <code class="language-plaintext highlighter-rouge">Invoke-CommandChain</code> function:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Invoke-CommandChain</span><span class="w"> </span><span class="p">@(</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="n">New-Item</span><span class="w"> </span><span class="nt">-ItemType</span><span class="w"> </span><span class="nx">Directory</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="s2">"temp"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="n">Set-Location</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="s2">"temp"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"Success!"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This ensures that each command only executes if the previous one succeeded, mimicking the behavior of the <code class="language-plaintext highlighter-rouge">&amp;&amp;</code> operator in bash.</p>
+
+<h2 id="running-commands-directly">Running Commands Directly</h2>
+
+<h3 id="powershell">PowerShell</h3>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="n">\sxs-cli.ps1</span><span class="w"> </span><span class="nt">-Command</span><span class="w"> </span><span class="s2">"build web"</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="bash">Bash</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./sxs-cli.sh <span class="nt">--command</span><span class="o">=</span><span class="s2">"build web"</span>
+</code></pre></div></div>
+
+<h2 id="why-sxs-cli">Why SXS CLI?</h2>
+
+<p>SXS CLI was created to unify project management tasks across different environments and provide a consistent interface for developers. It wraps around various tools and scripts in the project, providing:</p>
+
+<ol>
+  <li><strong>Simplicity</strong>: Common tasks are simplified to a single command</li>
+  <li><strong>Consistency</strong>: Same commands work across all environments</li>
+  <li><strong>Integration</strong>: Seamlessly integrates with both bash and PowerShell scripts</li>
+  <li><strong>Discoverability</strong>: Makes all project management features discoverable in one place</li>
+  <li><strong>Reliability</strong>: Improved error handling with command chaining ensures operations are executed safely</li>
+</ol>
+
+<h2 id="extending-sxs-cli">Extending SXS CLI</h2>
+
+<p>To add new commands, simply modify the following files:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sxs-cli.ps1</code>: For PowerShell implementation</li>
+  <li><code class="language-plaintext highlighter-rouge">sxs-cli.sh</code>: For bash implementation</li>
+</ul>
+
+<p>Add your new command to both files to maintain cross-platform compatibility.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

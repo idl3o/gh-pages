@@ -1,0 +1,666 @@
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">Web3 Crypto Streaming</h1>
+      <p class="hero-subtitle">A decentralized platform that returns control and revenue to creators, powered by blockchain technology.</p>
+      <div class="hero-actions">
+        <a href="{{ '/viewer' | relative_url }}" class="button primary">Watch Content</a>
+        <a href="{{ '/creators' | relative_url }}" class="button secondary">Start Creating</a>
+        <button class="primary-button" id="connect-wallet">Connect Wallet</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-image">
+        <img src="{{ '/assets/images/hero-illustration.svg' | relative_url }}" alt="Web3 Streaming Illustration" class="hero-illustration">
+      </div>
+      <div class="stats-overlay">
+        <div class="stat-item">
+          <span class="stat-number">90%</span>
+          <span class="stat-label">Creator Revenue</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">0%</span>
+          <span class="stat-label">Platform Control</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Ownership</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path fill="currentColor" fill-opacity="1" d="M0,96L40,112C80,128,160,160,240,154.7C320,149,400,107,480,90.7C560,75,640,85,720,117.3C800,149,880,203,960,208C1040,213,1120,171,1200,154.7C1280,139,1360,149,1400,154.7L1440,160L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="container">
+    <h2>The Future of Content Streaming</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <i class="fa fa-lock"></i>
+        <h3>Decentralized Ownership</h3>
+        <p>Content ownership secured on the blockchain</p>
+      </div>
+      <div class="feature-card">
+        <i class="fa fa-money-bill"></i>
+        <h3>Creator Revenue</h3>
+        <p>90% of revenue goes directly to creators</p>
+      </div>
+      <div class="feature-card">
+        <i class="fa fa-users"></i>
+        <h3>Community Governance</h3>
+        <p>Platform decisions made by token holders</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-header">
+      <h2>Platform Metrics</h2>
+      <p>Real-time blockchain analytics from our decentralized ecosystem</p>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-data">
+          <div class="stat-counter" id="creator-count">0</div>
+          <div class="stat-label">Active Creators</div>
+        </div>
+        <div class="stat-chart">
+          <div class="mini-chart creator-chart"></div>
+          <div class="trend positive">+5.8% <i class="fas fa-caret-up"></i></div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-film"></i>
+        </div>
+        <div class="stat-data">
+          <div class="stat-counter" id="content-count">0</div>
+          <div class="stat-label">Content Items</div>
+        </div>
+        <div class="stat-chart">
+          <div class="mini-chart content-chart"></div>
+          <div class="trend positive">+12.4% <i class="fas fa-caret-up"></i></div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-coins"></i>
+        </div>
+        <div class="stat-data">
+          <div class="stat-counter" id="token-volume">0</div>
+          <div class="stat-label">STREAM Token Vol. (24h)</div>
+        </div>
+        <div class="stat-chart">
+          <div class="mini-chart token-chart"></div>
+          <div class="trend negative">-2.3% <i class="fas fa-caret-down"></i></div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-server"></i>
+        </div>
+        <div class="stat-data">
+          <div class="stat-counter" id="storage-count">0</div>
+          <div class="stat-label">TB Stored on IPFS</div>
+        </div>
+        <div class="stat-chart">
+          <div class="mini-chart storage-chart"></div>
+          <div class="trend positive">+8.7% <i class="fas fa-caret-up"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trending-content">
+  <div class="container">
+    <h2>Trending Content</h2>
+    <div class="content-grid" id="trending-content-grid">
+      <!-- Content will be loaded dynamically -->
+      <div class="content-placeholder">Loading trending content...</div>
+    </div>
+  </div>
+</section>
+
+<section class="how-it-works">
+  <div class="container">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Connect Your Wallet</h3>
+        <p>Use MetaMask or any Web3 wallet to join the platform</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Browse or Upload Content</h3>
+        <p>Discover creators or share your own content</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Earn & Support</h3>
+        <p>Earn tokens by watching or supporting creators</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="wallet-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Connect Your Wallet</h2>
+    <div class="wallet-options">
+      <button class="wallet-option" data-wallet="metamask">
+        <img src="/assets/images/metamask.svg" alt="MetaMask">
+        <span>MetaMask</span>
+      </button>
+      <button class="wallet-option" data-wallet="walletconnect">
+        <img src="/assets/images/walletconnect.svg" alt="WalletConnect">
+        <span>WalletConnect</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/web3-connect.js"></script>
+<script src="/assets/js/content-loader.js"></script>
+
+<section class="features" id="technology">
+  <div class="container">
+    <div class="section-header">
+      <h2>A New Paradigm of Digital Content</h2>
+      <p>Our platform is built on groundbreaking technology that fundamentally changes how creators and audiences connect.</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <path d="M13 15l2 2 4-4"></path>
+          </svg>
+        </div>
+        <h3>Smart Contract Payments</h3>
+        <p>Automatic, transparent revenue distribution directly to creators with every view, no intermediary required.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </div>
+        <h3>Decentralized Storage</h3>
+        <p>Content stored across the distributed IPFS network, ensuring censorship resistance and permanent availability.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+            <path d="M17 11l2 2 4-4"></path>
+          </svg>
+        </div>
+        <h3>Creator Sovereignty</h3>
+        <p>Full ownership of content, audience relationships, and direct connection with supporters.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <h3>Token Economics</h3>
+        <p>STREAM token powers the ecosystem, providing governance rights and platform-wide utility.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"></path>
+            <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+          </svg>
+        </div>
+        <h3>Fair Monetization</h3>
+        <p>Multiple revenue streams including micropayments, subscriptions, NFTs, and direct tips.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3>Distributed Engrams</h3>
+        <p>Neural network-inspired content distribution that strengthens with each viewer interaction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="engram-explainer">
+  <div class="container">
+    <div class="engram-content">
+      <h2>Distributed Engram Technology</h2>
+      <p>Unlike conventional platforms that store content in isolated silos, our Distributed Engram architecture mimics how the human brain forms memories - creating a resilient network where:</p>
+      
+      <ul class="engram-benefits">
+        <li>
+          <span class="benefit-icon">🔄</span>
+          <span class="benefit-text">Content fragments contain trace patterns of the whole</span>
+        </li>
+        <li>
+          <span class="benefit-icon">📈</span>
+          <span class="benefit-text">Quality improves with network participation</span>
+        </li>
+        <li>
+          <span class="benefit-icon">🔍</span>
+          <span class="benefit-text">Discovery happens through relationship networks</span>
+        </li>
+        <li>
+          <span class="benefit-icon">🛡️</span>
+          <span class="benefit-text">Censorship resistance becomes systemic</span>
+        </li>
+      </ul>
+      
+      <a href="{{ '/telos' | relative_url }}" class="button outline">Learn More About Our Technology</a>
+    </div>
+    <div class="engram-visual">
+      <div class="mini-engram-visualization"></div>
+    </div>
+  </div>
+</section>
+
+<section class="creators-section" id="for-creators">
+  <div class="container">
+    <div class="creators-content">
+      <div class="section-header">
+        <h2>For Creators, By Creators</h2>
+        <p>We're building the platform we always wanted - where your work, audience, and revenue truly belong to you.</p>
+      </div>
+      
+      <div class="creator-benefits">
+        <div class="benefit-item">
+          <div class="benefit-number">1</div>
+          <h3>Higher Revenue Share</h3>
+          <p>Keep 90% of all revenue generated from your content, compared to 55-70% on traditional platforms.</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-number">2</div>
+          <h3>True Content Ownership</h3>
+          <p>Your content can never be arbitrarily demonetized, removed, or restricted by algorithmic decisions.</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-number">3</div>
+          <h3>Diverse Monetization</h3>
+          <p>Create your own combination of pay-per-view, subscriptions, token-gated content, and more.</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-number">4</div>
+          <h3>Direct Audience Connection</h3>
+          <p>Build a direct relationship with your supporters without a corporation standing between you.</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-number">5</div>
+          <h3>Governance Rights</h3>
+          <p>As a creator, you'll have voting rights in platform decisions through our DAO structure.</p>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-number">6</div>
+          <h3>GitHub Integration</h3>
+          <p>Leverage version control and collaboration tools to manage your content production pipeline.</p>
+        </div>
+      </div>
+      
+      <div class="creator-cta">
+        <a href="{{ '/creators' | relative_url }}" class="button primary">Join as a Creator</a>
+        <a href="{{ '/calculator' | relative_url }}" class="button secondary">Earnings Calculator</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="beta-program" id="beta-program">
+  <div class="container">
+    <div class="beta-content">
+      <div class="section-header">
+        <h2>Join Our Beta Program</h2>
+        <p>Help us shape the future of decentralized streaming and get exclusive rewards.</p>
+      </div>
+      
+      <div class="beta-benefits">
+        <div class="benefit-item">
+          <i class="fas fa-rocket"></i>
+          <h3>Early Access</h3>
+          <p>Be among the first to experience new features and platform improvements.</p>
+        </div>
+        
+        <div class="benefit-item">
+          <i class="fas fa-coins"></i>
+          <h3>Token Rewards</h3>
+          <p>Earn STREAM tokens for providing feedback and participating in testing.</p>
+        </div>
+        
+        <div class="benefit-item">
+          <i class="fas fa-comments"></i>
+          <h3>Direct Influence</h3>
+          <p>Your feedback will directly impact the development of the platform.</p>
+        </div>
+      </div>
+      
+      <div class="beta-cta">
+        <a href="/register" class="button primary">Sign Up for Beta</a>
+        <p class="beta-terms">By joining the beta, you agree to our <a href="/legal/terms" target="_blank">Beta Program Terms</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="token-section" id="token">
+  <div class="container">
+    <div class="token-grid">
+      <div class="token-content">
+        <div class="section-header">
+          <h2>STREAM Token</h2>
+          <p>The economic backbone of our ecosystem, enabling new forms of creator-audience relationships.</p>
+        </div>
+        
+        <div class="token-uses">
+          <div class="token-use-item">
+            <h4>Content Access</h4>
+            <p>Pay for premium content or subscriptions directly to creators with minimal fees.</p>
+          </div>
+          
+          <div class="token-use-item">
+            <h4>Staking & Curation</h4>
+            <p>Stake tokens to support your favorite creators and earn curation rewards.</p>
+          </div>
+          
+          <div class="token-use-item">
+            <h4>Governance</h4>
+            <p>Vote on platform proposals, feature development, and fund allocation.</p>
+          </div>
+          
+          <div class="token-use-item">
+            <h4>Content Licensing</h4>
+            <p>Acquire rights to reuse and remix content through automated license agreements.</p>
+          </div>
+        </div>
+        
+        <div class="token-buttons">
+          <a href="{{ '/whitepaper' | relative_url }}" class="button secondary">Read the Whitepaper</a>
+          <a href="#" class="button outline" id="token-distribution-button">View Token Distribution</a>
+        </div>
+      </div>
+      
+      <div class="token-distribution">
+        <div class="token-chart-container">
+          <canvas id="tokenDistributionChart"></canvas>
+        </div>
+        
+        <div class="token-legend">
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #6366f1;"></span>
+            <span class="legend-label">Creator Rewards (40%)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #8b5cf6;"></span>
+            <span class="legend-label">Community Treasury (25%)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #ec4899;"></span>
+            <span class="legend-label">Team & Development (15%)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #14b8a6;"></span>
+            <span class="legend-label">Early Supporters (10%)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #f59e0b;"></span>
+            <span class="legend-label">Liquidity Provision (10%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="roadmap-section" id="roadmap">
+  <div class="container">
+    <div class="section-header">
+      <h2>Platform Roadmap</h2>
+      <p>Our journey to revolutionize content streaming and creator economics</p>
+    </div>
+    
+    <div class="roadmap">
+      <div class="roadmap-item completed">
+        <div class="roadmap-milestone">Q2 2023</div>
+        <div class="roadmap-content">
+          <h3>Foundation</h3>
+          <ul>
+            <li>✅ Core team formation</li>
+            <li>✅ Philosophical framework and values</li>
+            <li>✅ Technical whitepaper</li>
+            <li>✅ Initial funding secured</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="roadmap-item completed">
+        <div class="roadmap-milestone">Q4 2023</div>
+        <div class="roadmap-content">
+          <h3>Alpha Development</h3>
+          <ul>
+            <li>✅ Smart contract development</li>
+            <li>✅ IPFS integration for storage</li>
+            <li>✅ Creator dashboard prototype</li>
+            <li>✅ Alpha testing with select creators</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="roadmap-item active">
+        <div class="roadmap-milestone">Q2 2024</div>
+        <div class="roadmap-content">
+          <h3>Beta Launch</h3>
+          <ul>
+            <li>🔄 Public beta platform</li>n to early adopters and community members.</li>
+            <li>🔄 Creator onboarding program</li>port and resources for new creators joining the platform.</li>
+            <li>🔄 STREAM token private sale</li>lusive opportunity for early investors.</li>
+            <li>⏳ Creator analytics dashboard</li>ls for creators to track content performance and earnings.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="roadmap-item">
+        <div class="roadmap-milestone">Q4 2024</div>
+        <div class="roadmap-content">
+          <h3>Full Platform Launch</h3>
+          <ul>
+            <li>STREAM token public sale</li>er distribution of the STREAM token.</li>
+            <li>Mobile application release</li> and Android apps for content consumption and creation.</li>
+            <li>Community governance implementation</li> structure for platform decision-making.</li>
+            <li>Integration with major wallets</li>mless access for a broader user base.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="roadmap-item">
+        <div class="roadmap-milestone">Q2 2025</div>
+        <div class="roadmap-content">
+          <h3>Ecosystem Expansion</h3>
+          <ul>
+            <li>Creator DAO formation</li>owering creators with decentralized governance.</li>
+            <li>Live streaming capability</li>l-time content creation and interaction.</li>
+            <li>NFT integration for collectibles</li>que digital assets for creators and fans.</li>
+            <li>Cross-platform API for developers</li>bling third-party applications and integrations.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="community-section" id="get-involved">
+  <div class="container">
+    <div class="community-content">
+      <h2>Join Our Community</h2>
+      <p>Be part of the movement to revolutionize content economics and creator freedom.</p>
+      
+      <div class="community-channels">
+        <a href="https://discord.gg/yourdiscord" class="community-link discord">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 127.14 96.36">
+            <path fill="currentColor" d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0 72.37 72.37 0 0 0-3.36-6.83A105.89 105.89 0 0 0 19.39 8.07C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"/>
+          </svg>
+          Discord
+        </a>
+        <a href="https://twitter.com/yourtwitter" class="community-link twitter">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.01 10.01 0 01-3.127 1.195A4.92 4.92 0 0016.77 2a4.93 4.93 0 00-4.926 4.926c0 .386.046.762.128 1.121A13.98 13.98 0 011.67 3.15a4.89 4.89 0 00-.67 2.478c0 1.71.87 3.213 2.188 4.097a4.937 4.937 0 01-2.228-.616v.06A4.927 4.927 0 005.63 14.03a4.923 4.923 0 01-2.22.084 4.935 4.935 0 004.604 3.415 9.868 9.868 0 01-6.102 2.105c-.39 0-.78-.022-1.17-.066a13.93 13.93 0 007.548 2.209c9.054 0 14-7.496 14-13.986 0-.21 0-.42-.016-.63A10.01 10.01 0 0024 4.59z"/>
+          </svg>
+          Twitter
+        </a>
+        <a href="https://t.me/yourtelegram" class="community-link telegram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+          Telegram
+        </a>
+        <a href="https://github.com/idl3o" class="community-link github">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+      
+      <div class="newsletter-signup">
+        <h3>Stay Updated</h3>
+        <p>Get early access and the latest news about our platform.</p>
+        
+        <form class="signup-form" action="#" method="post">
+          <input type="email" placeholder="Your email address" required>
+          <button type="submit" class="button primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Token distribution chart
+    const tokenChartEl = document.getElementById('tokenDistributionChart');
+    if (tokenChartEl && typeof Chart !== 'undefined') {
+      const ctx = tokenChartEl.getContext('2d');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Creator Rewards', 'Community Treasury', 'Team & Development', 'Early Supporters', 'Liquidity Provision'],
+          datasets: [{
+            data: [40, 25, 15, 10, 10],
+            backgroundColor: ['#6366f1', '#8b5cf6', '#ec4899', '#14b8a6', '#f59e0b'],
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          cutout: '65%'
+        }
+      });
+    }
+    
+    // Toggle token distribution visibility on mobile
+    const tokenDistButton = document.getElementById('token-distribution-button');
+    const tokenDistSection = document.querySelector('.token-distribution');
+    
+    if (tokenDistButton && tokenDistSection && window.innerWidth < 768) {
+      tokenDistSection.style.display = 'none';
+      
+      tokenDistButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (tokenDistSection.style.display === 'none') {
+          tokenDistSection.style.display = 'block';
+          tokenDistButton.textContent = 'Hide Token Distribution';
+        } else {
+          tokenDistSection.style.display = 'none';
+          tokenDistButton.textContent = 'View Token Distribution';
+        }
+      });
+    }
+
+    // Initialize counters with realistic animation
+    animateCounter('creator-count', 0, 4328, 2000);
+    animateCounter('content-count', 0, 27495, 2500);
+    animateCounter('token-volume', 0, 856240, 3000, value => '$' + numberWithCommas(value));
+    animateCounter('storage-count', 0, 348, 2800);
+    
+    // Helper functions for realistic counter animation
+    function animateCounter(elementId, start, end, duration, formatter) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      const range = end - start;
+      const minIncrements = 30;
+      let current = start;
+      const stepTime = Math.max(duration / minIncrements, 1);
+      
+      // Add slight randomness to make it feel more realistic
+      const updateCounter = () => {
+        const progress = Math.min((current - start) / range, 1);
+        
+        // Ease-out effect for more natural counting
+        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+        const nextValue = Math.floor(start + easeOutCubic * range);
+        
+        if (nextValue > current) {
+          current = nextValue;
+          element.textContent = formatter ? formatter(current) : numberWithCommas(current);
+        }
+        
+        if (progress < 1) {
+          requestAnimationFrame(updateCounter);
+        }
+      };
+      
+      requestAnimationFrame(updateCounter);
+    }
+    
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  });
+</script>
+</html>

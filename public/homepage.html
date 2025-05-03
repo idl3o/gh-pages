@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web3 Educational Content Platform</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- Hero Banner -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Web3 Educational Content Platform</h1>
+      <p>
+        AI-assisted educational content about blockchain technology, smart contracts, and the Web3 ecosystem - curated by a single trusted source.
+      </p>
+      <div class="hero-cta">
+        <a href="{{ '/streaming' | relative_url }}" class="button primary">Start Learning</a>
+        <a href="{{ '/about' | relative_url }}" class="button secondary">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="{{ '/assets/images/hero-graphic.svg' | relative_url }}" alt="Web3 Streaming Illustration" />
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="container">
+    <h2>The Future of Educational Content</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <i class="fa fa-brain"></i>
+        <h3>AI-Generated Content</h3>
+        <p>Expert-curated educational materials created with AI assistance</p>
+      </div>
+      <div class="feature-card">
+        <i class="fa fa-lock"></i>
+        <h3>Decentralized Delivery</h3>
+        <p>Content distributed across secure decentralized networks</p>
+      </div>
+      <div class="feature-card">
+        <i class="fa fa-coins"></i>
+        <h3>Learn-to-Earn</h3>
+        <p>Earn tokens as you complete educational milestones</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-header">
+      <h2>Platform Metrics</h2>
+      <p>Track our growing educational ecosystem</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ site.data.stats.courses }}</div>
+          <div class="stat-label">Courses Available</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ site.data.stats.learners }}</div>
+          <div class="stat-label">Active Learners</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ site.data.stats.completions }}</div>
+          <div class="stat-label">Course Completions</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-award"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ site.data.stats.certifications }}</div>
+          <div class="stat-label">Certifications Issued</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works-section">
+  <div class="container">
+    <h2>How It Works</h2>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Sign Up</h3>
+        <p>Create your account with a web3 wallet to begin your learning journey</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Choose Your Path</h3>
+        <p>Select from our AI-generated educational content tracks</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Complete Lessons</h3>
+        <p>Work through interactive materials and quizzes at your own pace</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Earn Rewards</h3>
+        <p>Receive tokens for achievements and completed milestones</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Content Showcase -->
+<section class="content-showcase">
+  <div class="container">
+    <div class="showcase-header">
+      <h2>Featured Content</h2>
+      <p>Explore our most popular educational materials</p>
+    </div>
+    
+    <div class="content-grid">
+      {% for item in site.data.featured_content limit:3 %}
+      <div class="content-card">
+        <div class="content-thumbnail">
+          <img src="{{ item.thumbnail | relative_url }}" alt="{{ item.title }}" />
+          <div class="content-duration">{{ item.duration }}</div>
+        </div>
+        <div class="content-details">
+          <div class="content-category">{{ item.category }}</div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+          <div class="content-meta">
+            <span><i class="fas fa-chart-line"></i> {{ item.difficulty }}</span>
+            <span><i class="fas fa-users"></i> {{ item.students }} students</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+    <div class="showcase-cta">
+      <a href="{{ '/courses' | relative_url }}" class="button primary">Browse All Courses</a>
+    </div>
+  </div>
+</section>
+
+<!-- Token Section -->
+<section class="token-section">
+  <div class="container">
+    <div class="token-header">
+      <h2>STREAM Token</h2>
+      <p>The educational token that powers our learning ecosystem</p>
+    </div>
+
+    <div class="token-uses">
+      <div class="token-use-item">
+        <h4>Achievement Rewards</h4>
+        <p>Earn tokens for completing courses and performing well on assessments</p>
+      </div>
+      
+      <div class="token-use-item">
+        <h4>Premium Content Access</h4>
+        <p>Use tokens to unlock advanced courses and specialized materials</p>
+      </div>
+      
+      <div class="token-use-item">
+        <h4>Learning NFTs</h4>
+        <p>Convert your certifications to verifiable NFT credentials</p>
+      </div>
+      
+      <div class="token-use-item">
+        <h4>Educational Tooling</h4>
+        <p>Access development environments and specialized learning tools</p>
+      </div>
+    </div>
+    
+    <div class="token-buttons">
+      <a href="{{ '/token' | relative_url }}" class="button secondary">Learn About STREAM</a>
+      <a href="{{ '/whitepaper' | relative_url }}" class="button secondary">Read the Whitepaper</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Start Your Web3 Education Journey</h2>
+      <p>Join thousands of learners experiencing our interactive educational content</p>
+      <a href="{{ '/signup' | relative_url }}" class="button primary">Get Started Now</a>
+    </div>
+  </div>
+</section>
+
+<script src="/assets/js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "folders": [
+    {
+      "name": "Project Root", // Main project folder
+      "path": "."
+    },
+    {
+      "name": "Frontend", // Placeholder for the Next.js app
+      "path": "frontend"
+    },
+    {
+      "name": "TypeScript SDK",
+      "path": "ts"
+    },
+    {
+      "name": "Smart Contracts",
+      "path": "contracts"
+    },
+    {
+      "name": "RED X (WASM)",
+      "path": "red_x"
+    },
+    {
+      "name": "Serverless Functions",
+      "path": "netlify/functions" // Assuming Netlify, adjust if different
+    },
+    {
+       "name": "Docs",
+       "path": "docs"
+    }
+  ],
+  "settings": {
+    // Workspace-specific settings can be added here later
+    // Example:
+    // "files.exclude": {
+    //   "**/node_modules": true
+    // }
+  },
+  "extensions": {
+    // Recommendations for extensions useful for the workspace
+    "recommendations": [
+      "dbaeumer.vscode-eslint", // For ESLint
+      "esbenp.prettier-vscode", // For Prettier
+      "ms-vscode.vscode-typescript-next", // For TypeScript
+      "ms-azuretools.vscode-docker", // If using Docker
+      "github.vscode-github-actions", // If using GitHub Actions
+      "ms-azuretools.vscode-azurefunctions", // If using Azure Functions
+      "ms-azuretools.vscode-bicep", // If using Bicep
+      "hashicorp.terraform", // If using Terraform
+      "juanblanco.solidity", // For Solidity contracts
+      "bradlc.vscode-tailwindcss" // If using Tailwind CSS
+    ]
+  }
+}

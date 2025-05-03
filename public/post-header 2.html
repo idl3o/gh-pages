@@ -1,0 +1,17 @@
+<div class="post-header">
+    <div class="post-meta">
+        {% if page.author %}
+        <span class="post-author">By {{ page.author }}</span>
+        {% endif %}
+        <span class="post-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+        {% if page.categories.size > 0 %}
+        <span class="post-categories">
+            Categories:
+            {% for category in page.categories %}
+            <a href="{{ '/category/' | append: category | relative_url }}">{{ category }}</a>{% unless forloop.last %},
+            {% endunless %}
+            {% endfor %}
+        </span>
+        {% endif %}
+    </div>
+</div>

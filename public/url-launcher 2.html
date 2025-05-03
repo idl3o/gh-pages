@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 Streaming Service - URL Launcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-hover: #5a36c9;
+            --secondary: #00d8ff;
+            --secondary-hover: #00b8d9;
+            --accent: #ff5722;
+            --bg-dark: #111827;
+            --bg-card: #1f2937;
+            --bg-card-hover: #374151;
+            --text: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: #374151;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6e45e2 0%, #00d8ff 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .search-container {
+            display: flex;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 20px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 0 8px 8px 0;
+            font-size: 16px;
+        }
+
+        .url-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .url-section {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .url-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(110, 69, 226, 0.2);
+            border-radius: 8px;
+            color: var(--primary);
+        }
+
+        .url-list {
+            list-style-type: none;
+        }
+
+        .url-item {
+            margin-bottom: 10px;
+            transition: transform 0.1s ease;
+        }
+
+        .url-item:hover {
+            transform: translateX(5px);
+        }
+
+        .url-item a {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            text-decoration: none;
+            color: var(--text);
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .url-item a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .url-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: var(--secondary);
+        }
+
+        .url-item .tag {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: auto;
+            background-color: rgba(0, 216, 255, 0.2);
+            color: var(--secondary);
+        }
+
+        .quick-launch {
+            background: linear-gradient(135deg, rgba(110, 69, 226, 0.2) 0%, rgba(0, 216, 255, 0.2) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .quick-launch h2 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .quick-btn {
+            background-color: var(--bg-card);
+            color: var(--text);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .quick-btn i {
+            margin-right: 8px;
+        }
+
+        .quick-btn:hover {
+            background-color: var(--bg-card-hover);
+        }
+
+        .custom-url-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .custom-url-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 6px;
+        }
+
+        .custom-url-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .custom-url-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .local-dev {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .github {
+            background-color: #333;
+            color: white;
+        }
+
+        .tech {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .game {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-muted);
+        }
+
+        .recently-added {
+            position: relative;
+        }
+
+        .recently-added::after {
+            content: "NEW";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .url-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-input {
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+
+            .search-btn {
+                border-radius: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Web3 Crypto Streaming Service</h1>
+            <p>URL Launcher Dashboard</p>
+
+            <div class="search-container">
+                <input type="text" id="url-search" class="search-input" placeholder="Search URLs, games, tech...">
+                <button id="search-btn" class="search-btn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </header>
+
+        <section class="quick-launch">
+            <h2>Quick Launch</h2>
+            <div class="quick-buttons">
+                <button id="launch-local" class="quick-btn">
+                    <i class="fas fa-laptop-code"></i> Local Development
+                </button>
+                <button id="launch-github" class="quick-btn">
+                    <i class="fab fa-github"></i> GitHub Repository
+                </button>
+                <button id="launch-status" class="quick-btn">
+                    <i class="fas fa-signal"></i> System Status
+                </button>
+                <button id="launch-ranking" class="quick-btn">
+                    <i class="fas fa-award"></i> Ranking Power
+                </button>
+            </div>
+
+            <div class="custom-url-form">
+                <input type="text" id="custom-url" class="custom-url-input" placeholder="Enter any URL to launch...">
+                <button id="launch-custom" class="custom-url-btn">Launch</button>
+            </div>
+        </section>
+
+        <div class="url-sections">
+            <div class="url-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h2>Development Links</h2>
+                </div>
+                <ul class="url-list">
+                    <li class="url-item">
+                        <a href="http://127.0.0.1:5500/red_x/index.html" target="_blank">
+                            <i class="fas fa-laptop-code"></i>
+                            Local RED X Development
+                            <span class="tag local-dev">LOCAL</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="https://github.com/idl3o/web3-crypto-streaming-service.git" target="_blank">
+                            <i class="fab fa-github"></i>
+                            GitHub Repository
+                            <span class="tag github">GITHUB</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="http://localhost:3000/" target="_blank">
+                            <i class="fas fa-server"></i>
+                            Local Server
+                            <span class="tag local-dev">LOCAL</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="https://idl3o.github.io/gh-pages/" target="_blank">
+                            <i class="fas fa-globe"></i>
+                            Live Website
+                            <span class="tag github">GITHUB</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="url-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h2>Technical Concepts</h2>
+                </div>
+                <ul class="url-list">
+                    <li class="url-item recently-added">
+                        <a href="https://en.wikipedia.org/wiki/Soliton" target="_blank">
+                            <i class="fas fa-wave-square"></i>
+                            Soliton
+                            <span class="tag tech">CONCEPT</span>
+                        </a>
+                    </li>
+                    <li class="url-item recently-added">
+                        <a href="#" onclick="alert('Hyperstitial concept documentation coming soon!')">
+                            <i class="fas fa-network-wired"></i>
+                            Hyperstitial
+                            <span class="tag tech">CONCEPT</span>
+                        </a>
+                    </li>
+                    <li class="url-item recently-added">
+                        <a href="#" onclick="alert('Warp technology documentation coming soon!')">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Warp
+                            <span class="tag tech">CONCEPT</span>
+                        </a>
+                    </li>
+                    <li class="url-item recently-added">
+                        <a href="#" onclick="alert('BubbleHeal protocol documentation coming soon!')">
+                            <i class="fas fa-first-aid"></i>
+                            BubbleHeal
+                            <span class="tag tech">PROTOCOL</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="#" onclick="alert('Diagnostic systems documentation coming soon!')">
+                            <i class="fas fa-heartbeat"></i>
+                            Diag Sys
+                            <span class="tag tech">SYSTEM</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="url-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h2>Gaming Content</h2>
+                </div>
+                <ul class="url-list">
+                    <li class="url-item">
+                        <a href="https://worldofwarcraft.blizzard.com/" target="_blank">
+                            <i class="fas fa-dragon"></i>
+                            World of Warcraft
+                            <span class="tag game">WOW</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="https://www.dota2.com/" target="_blank">
+                            <i class="fas fa-chess-rook"></i>
+                            DOTA 2
+                            <span class="tag game">DOTA</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="https://elderscrolls.bethesda.net/en/skyrim" target="_blank">
+                            <i class="fas fa-mountain"></i>
+                            Skyrim
+                            <span class="tag game">RPG</span>
+                        </a>
+                    </li>
+                    <li class="url-item recently-added">
+                        <a href="https://www.thewitcher.com/" target="_blank">
+                            <i class="fas fa-sword"></i>
+                            Witcher 5
+                            <span class="tag game">RPG</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="url-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-user-astronaut"></i>
+                    </div>
+                    <h2>Game Characters</h2>
+                </div>
+                <ul class="url-list">
+                    <li class="url-item recently-added">
+                        <a href="https://witcher.fandom.com/wiki/Cirilla_Fiona_Elen_Riannon" target="_blank">
+                            <i class="fas fa-user-ninja"></i>
+                            Ciri
+                            <span class="tag game">WITCHER</span>
+                        </a>
+                    </li>
+                    <li class="url-item recently-added">
+                        <a href="https://gwent.fandom.com/wiki/Gwen" target="_blank">
+                            <i class="fas fa-cards"></i>
+                            Gwen
+                            <span class="tag game">GWENT</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="https://wowpedia.fandom.com/wiki/Plack" target="_blank">
+                            <i class="fas fa-dungeon"></i>
+                            Plack Verse
+                            <span class="tag game">WOW</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="url-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h2>Educational Content</h2>
+                </div>
+                <ul class="url-list">
+                    <li class="url-item recently-added">
+                        <a href="probability/monty-hall.html" target="_blank">
+                            <i class="fas fa-dice"></i>
+                            Monty Hall Problem Simulator
+                            <span class="tag tech">NEW</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="url-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h2>DAO Governance</h2>
+                </div>
+                <ul class="url-list">
+                    <li class="url-item recently-added">
+                        <a href="governance-visualization.html" target="_blank">
+                            <i class="fas fa-chart-network"></i>
+                            Governance Visualization
+                            <span class="tag tech">NEW</span>
+                        </a>
+                    </li>
+                    <li class="url-item recently-added">
+                        <a href="docs/governance-framework.md" target="_blank">
+                            <i class="fas fa-sitemap"></i>
+                            Integrated Governance Framework
+                            <span class="tag tech">NEW</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="web3-streaming-service-whitepaper.md#dao-governance-framework" target="_blank">
+                            <i class="fas fa-file-alt"></i>
+                            DAO Governance Whitepaper
+                            <span class="tag tech">CORE</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="docs/governance-specs.md" target="_blank">
+                            <i class="fas fa-cogs"></i>
+                            Technical Specifications
+                            <span class="tag tech">DOCS</span>
+                        </a>
+                    </li>
+                    <li class="url-item">
+                        <a href="docs/emergency-protocol.md" target="_blank">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Emergency Protocol
+                            <span class="tag tech">SECURITY</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Web3 Crypto Streaming Service - URL Launcher v1.2.0</p>
+        <p>Part of the Project RED X Development Suite</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quick launch buttons
+            document.getElementById('launch-local').addEventListener('click', function() {
+                window.open('http://127.0.0.1:5500/red_x/index.html', '_blank');
+            });
+
+            document.getElementById('launch-github').addEventListener('click', function() {
+                window.open('https://github.com/idl3o/web3-crypto-streaming-service.git', '_blank');
+            });
+
+            document.getElementById('launch-status').addEventListener('click', function() {
+                window.open('status.html', '_blank');
+            });
+
+            document.getElementById('launch-ranking').addEventListener('click', function() {
+                window.open('ranking-power.html', '_blank');
+            });
+
+            // Custom URL launcher
+            document.getElementById('launch-custom').addEventListener('click', function() {
+                const customUrl = document.getElementById('custom-url').value;
+                if (customUrl) {
+                    // Simple URL validation
+                    let url = customUrl;
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        url = 'http://' + url;
+                    }
+                    window.open(url, '_blank');
+                }
+            });
+
+            // Search functionality
+            document.getElementById('search-btn').addEventListener('click', performSearch);
+            document.getElementById('url-search').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            function performSearch() {
+                const searchTerm = document.getElementById('url-search').value.toLowerCase();
+                if (!searchTerm) return;
+
+                const items = document.querySelectorAll('.url-item');
+                let found = false;
+
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        found = true;
+                        item.style.backgroundColor = 'rgba(0, 216, 255, 0.2)';
+                        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        // Remove highlight after a few seconds
+                        setTimeout(() => {
+                            item.style.backgroundColor = '';
+                        }, 3000);
+                    }
+                });
+
+                if (!found) {
+                    alert('No matches found for: ' + searchTerm);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Deployment Guide for React Application | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Deployment Guide for React Application" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/temp-react-files/deployment-guide.html" />
+<meta property="og:url" content="/temp-react-files/deployment-guide.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deployment Guide for React Application" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Deployment Guide for React Application","url":"/temp-react-files/deployment-guide.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Deployment Guide for React Application</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="deployment-guide-for-react-application">Deployment Guide for React Application</h1>
+
+<p>This guide covers several deployment options for your standalone React application, allowing you to choose the option that best fits your needs and access.</p>
+
+<h2 id="option-1-netlify-deployment">Option 1: Netlify Deployment</h2>
+
+<p>Netlify offers a straightforward deployment process with a generous free tier and built-in CI/CD.</p>
+
+<h3 id="setup-steps">Setup Steps:</h3>
+
+<ol>
+  <li>
+    <p><strong>Sign up/login to Netlify</strong>: Visit <a href="https://www.netlify.com/">netlify.com</a> and create an account or log in</p>
+  </li>
+  <li><strong>Connect your GitHub repository</strong>:
+    <ul>
+      <li>Click “New site from Git”</li>
+      <li>Select GitHub and authorize Netlify</li>
+      <li>Select your <code class="language-plaintext highlighter-rouge">react-webapp</code> repository</li>
+    </ul>
+  </li>
+  <li><strong>Configure build settings</strong>:
+    <ul>
+      <li>Build command: <code class="language-plaintext highlighter-rouge">npm run build</code></li>
+      <li>Publish directory: <code class="language-plaintext highlighter-rouge">dist</code></li>
+      <li>Set any required environment variables</li>
+    </ul>
+  </li>
+  <li><strong>Deploy site</strong>:
+    <ul>
+      <li>Click “Deploy site”</li>
+      <li>Netlify will build and deploy your application</li>
+    </ul>
+  </li>
+  <li><strong>Set up custom domain</strong> (optional):
+    <ul>
+      <li>Go to “Domain settings”</li>
+      <li>Click “Add custom domain”</li>
+      <li>Follow the steps to configure DNS</li>
+    </ul>
+  </li>
+  <li><strong>Enable Netlify CI/CD with GitHub Actions</strong>:
+    <ul>
+      <li>Get your Netlify Site ID from Site settings &gt; General &gt; Site details</li>
+      <li>Generate a Netlify Personal Access Token in User Settings &gt; Applications</li>
+      <li>Add secrets to GitHub repository:
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">NETLIFY_SITE_ID</code></li>
+          <li><code class="language-plaintext highlighter-rouge">NETLIFY_AUTH_TOKEN</code></li>
+        </ul>
+      </li>
+      <li>Place the GitHub Actions workflow file (already created) in <code class="language-plaintext highlighter-rouge">.github/workflows/</code></li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="option-2-vercel-deployment">Option 2: Vercel Deployment</h2>
+
+<p>Vercel (creators of Next.js) also offers excellent React hosting with a generous free tier.</p>
+
+<h3 id="setup-steps-1">Setup Steps:</h3>
+
+<ol>
+  <li>
+    <p><strong>Sign up/login to Vercel</strong>: Visit <a href="https://vercel.com/">vercel.com</a> and create an account or log in</p>
+  </li>
+  <li><strong>Import your GitHub repository</strong>:
+    <ul>
+      <li>Click “New Project”</li>
+      <li>Select your GitHub repository</li>
+      <li>Authorize Vercel if needed</li>
+    </ul>
+  </li>
+  <li><strong>Configure project</strong>:
+    <ul>
+      <li>Vercel will automatically detect React/Vite settings</li>
+      <li>Adjust if needed:
+        <ul>
+          <li>Framework preset: Vite</li>
+          <li>Build command: <code class="language-plaintext highlighter-rouge">npm run build</code></li>
+          <li>Output directory: <code class="language-plaintext highlighter-rouge">dist</code></li>
+        </ul>
+      </li>
+      <li>Add any environment variables</li>
+    </ul>
+  </li>
+  <li><strong>Deploy</strong>:
+    <ul>
+      <li>Click “Deploy”</li>
+      <li>Vercel will build and deploy your application</li>
+    </ul>
+  </li>
+  <li><strong>Set up custom domain</strong> (optional):
+    <ul>
+      <li>Go to Project Settings &gt; Domains</li>
+      <li>Add your domain and follow the DNS configuration instructions</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="option-3-github-pages-deployment">Option 3: GitHub Pages Deployment</h2>
+
+<p>If you want to use GitHub Pages but keep your React app separate from the original project:</p>
+
+<h3 id="setup-steps-2">Setup Steps:</h3>
+
+<ol>
+  <li><strong>Update your <code class="language-plaintext highlighter-rouge">vite.config.ts</code> file</strong>:
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="nx">defineConfig</span><span class="p">({</span>
+  <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span><span class="nx">react</span><span class="p">()],</span>
+  <span class="na">base</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/react-webapp/</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// Your repository name</span>
+<span class="p">})</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Add a deploy script to <code class="language-plaintext highlighter-rouge">package.json</code></strong>:
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"deploy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npm run build &amp;&amp; gh-pages -d dist"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li><strong>Install the gh-pages package</strong>:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save-dev</span> gh-pages
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Deploy manually</strong>:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run deploy
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Or set up GitHub Actions</strong>:
+    <ul>
+      <li>Place the included GitHub Actions workflow file in <code class="language-plaintext highlighter-rouge">.github/workflows/</code></li>
+      <li>Modify it to use GitHub Pages instead of Netlify</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="option-4-traditional-web-hosting">Option 4: Traditional Web Hosting</h2>
+
+<p>For hosting on traditional web servers:</p>
+
+<ol>
+  <li><strong>Build your application</strong>:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run build
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Upload the contents of the <code class="language-plaintext highlighter-rouge">dist</code> folder</strong> to your web host using FTP or their provided upload tool</p>
+  </li>
+  <li><strong>Configure server for SPA routing</strong>:
+    <ul>
+      <li>For Apache, create a <code class="language-plaintext highlighter-rouge">.htaccess</code> file in the <code class="language-plaintext highlighter-rouge">dist</code> folder:
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;IfModule mod_rewrite.c&gt;
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+&lt;/IfModule&gt;
+</code></pre></div>        </div>
+      </li>
+      <li>For Nginx, configure in server block:
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>location / {
+  try_files $uri $uri/ /index.html;
+}
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="recommended-approach-for-your-project">Recommended Approach for Your Project</h2>
+
+<p>Based on your requirements:</p>
+<ol>
+  <li><strong>Netlify</strong> is the simplest option with the most features on the free tier</li>
+  <li><strong>Vercel</strong> is excellent especially if you might migrate to Next.js later</li>
+  <li><strong>GitHub Pages</strong> works if you prefer keeping everything on GitHub</li>
+</ol>
+
+<h2 id="environment-variables">Environment Variables</h2>
+
+<p>Regardless of platform, you’ll need to set these environment variables:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">VITE_API_URL</code>: URL to your API services</li>
+  <li>Any API keys required by your application (securely)</li>
+</ul>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

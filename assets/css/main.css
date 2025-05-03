@@ -1,0 +1,652 @@
+/* assets/css/main.css */
+:root {
+  /* Web3 Inspired Palette (Dark Theme Example) */
+  --primary-color: #8A2BE2; /* Vibrant Purple */
+  --secondary-color: #4169E1; /* Royal Blue */
+  --accent-color: #00FFFF; /* Aqua/Cyan */
+  --text-color: #E0E0E0; /* Light Gray for text */
+  --text-color-secondary: #A0A0A0; /* Medium Gray for less important text */
+  --background-color: #121212; /* Very Dark Gray/Black */
+  --background-color-secondary: #1E1E1E; /* Slightly Lighter Dark Gray */
+  --card-bg-color: #2A2A2A; /* Dark Gray for cards */
+  --border-color: #444444; /* Medium Dark Gray for borders */
+  --success-color: #00FF7F; /* Spring Green */
+  --warning-color: #FFD700; /* Gold */
+  --error-color: #FF6347; /* Tomato Red */
+  --code-bg-color: #1E1E1E; /* Match secondary background */
+  --azure-color: #0078d4; /* Keep Azure blue distinct */
+
+  /* Gradients */
+  --primary-gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  --accent-gradient: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+/* General Link Styling */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+a:hover {
+  color: var(--accent-color);
+  opacity: 0.8;
+  text-decoration: none; /* Often no underline in modern styles */
+}
+
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem; /* Slightly more padding */
+}
+
+.header {
+  background: var(--primary-gradient); /* Use gradient */
+  color: white;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow for dark theme */
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.header-title a {
+    color: white;
+    text-decoration: none;
+}
+.header-title a:hover {
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.nav-desktop {
+  display: flex;
+}
+
+.nav-mobile {
+  display: none;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 280px 1fr; /* Fixed sidebar width */
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.sidebar {
+  background-color: var(--card-bg-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  position: sticky;
+  top: 6rem; /* Adjust based on header height + margin */
+  align-self: start;
+  max-height: calc(100vh - 7rem); /* Adjust based on header height + margin */
+  overflow-y: auto;
+}
+
+.sidebar h2, .sidebar h3 {
+    color: var(--text-color); /* Ensure headings are light */
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.content {
+  background-color: var(--card-bg-color);
+  border-radius: 12px;
+  padding: 2.5rem; /* More padding */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+}
+
+/* Navigation */
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.nav-list li {
+  margin: 0 1rem;
+}
+
+/* Header Navigation Links */
+.nav-list a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-list a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  color: white;
+}
+
+/* Mobile navigation */
+.mobile-menu-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100%;
+  background-color: var(--card-bg-color);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  padding: 1.5rem;
+  display: none; /* Initially hidden */
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.close-menu {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.mobile-nav-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 3rem;
+}
+
+.mobile-nav-list li {
+  margin: 1rem 0;
+}
+
+/* Mobile Navigation Links */
+.mobile-nav-list a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.mobile-nav-list a:hover {
+  background-color: var(--background-color-secondary);
+  text-decoration: none;
+  color: var(--accent-color);
+}
+
+/* Search */
+.search-container {
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-left: 2.5rem;
+  background-color: var(--background-color-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.search-input::placeholder {
+    color: var(--text-color-secondary);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-color-secondary);
+}
+
+.search-results {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-top: none; /* Remove top border as it connects to input */
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.search-results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-results li {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.search-results li:last-child {
+  border-bottom: none;
+}
+
+/* Search Result Links */
+.search-results a {
+  text-decoration: none;
+  color: var(--text-color);
+  display: block;
+  padding: 0.25rem 0; /* Add some padding */
+}
+.search-results a:hover {
+    background-color: var(--background-color-secondary);
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+.search-results .result-description {
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Category boxes */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.category-box {
+  background-color: var(--background-color-secondary); /* Slightly different bg */
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  border-top: none; /* Remove top border, use gradient instead */
+  position: relative; /* For pseudo-element gradient */
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Ensure pseudo-element stays within bounds */
+}
+
+/* Add gradient top border effect */
+.category-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+}
+
+/* Specific gradient overrides */
+.category-box.ts-sdk::before { background: linear-gradient(135deg, #3178c6, #00FFFF); }
+.category-box.contracts::before { background: linear-gradient(135deg, #6e36e7, #8A2BE2); }
+.category-box.red-x::before { background: linear-gradient(135deg, #e53935, #FF6347); }
+.category-box.serverless::before { background: linear-gradient(135deg, #00C853, #00FF7F); }
+
+.category-box > *:last-child {
+    margin-top: auto; /* Push last element (link) down */
+}
+
+.category-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.category-box h3 {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* More space for icon */
+  color: var(--text-color); /* Ensure heading is light */
+  font-size: 1.25rem;
+}
+
+.category-box ul {
+    padding-left: 1.5rem; /* Indent list */
+    margin-bottom: 1.5rem;
+    color: var(--text-color-secondary);
+}
+
+.category-box p {
+    color: var(--text-color-secondary);
+    flex-grow: 1; /* Allow description to take up space */
+}
+
+/* Category Box Links */
+.category-box a {
+    font-weight: 600; /* Bolder link */
+    color: var(--accent-color);
+    margin-top: auto; /* Push link to bottom */
+}
+
+/* Replace Emojis with Placeholder Classes for Icons */
+.category-box .icon {
+  font-size: 1.5rem; /* Make icon slightly larger */
+  width: 1.5rem;
+  text-align: center;
+  /* Add specific classes for icons, e.g., .icon-ts, .icon-contracts */
+}
+.icon-ts::before { content: '\eXXX'; /* Placeholder for TS icon font/SVG */ }
+.icon-contracts::before { content: '\eYYY'; /* Placeholder for Contracts icon font/SVG */ }
+.icon-red-x::before { content: '\eZZZ'; /* Placeholder for Red X icon font/SVG */ }
+.icon-serverless::before { content: '\eAAA'; /* Placeholder for Serverless icon font/SVG */ }
+.icon-getting-started::before { content: '\eBBB'; }
+.icon-integration::before { content: '\eCCC'; }
+.icon-azure-functions::before { content: '\eDDD'; }
+.icon-azure-storage::before { content: '\eEEE'; }
+.icon-security::before { content: '\eFFF'; }
+
+/* Tabs */
+.tabs {
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color-secondary);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px; /* Overlap border */
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-button.active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+.tab-button:hover:not(.active) {
+  color: var(--text-color);
+  background-color: transparent; /* No background hover */
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* File explorer */
+.file-explorer {
+  margin-bottom: 1.5rem;
+}
+
+.file-explorer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.file-explorer li {
+  position: relative;
+  padding: 0.6rem 0 0.6rem 2rem; /* More padding for icon */
+  border-left: 2px solid transparent; /* Add space for hover effect */
+  transition: background-color 0.2s, border-left-color 0.2s;
+}
+
+.file-explorer li:hover {
+    background-color: var(--background-color-secondary);
+    border-left-color: var(--accent-color);
+}
+
+/* Replace Emojis with Placeholder Classes for Icons */
+.file-explorer li::before {
+  position: absolute;
+  left: 0.5rem; /* Position icon */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  width: 1.2em;
+  text-align: center;
+  color: var(--text-color-secondary);
+  /* Add specific classes: .icon-folder, .icon-file, .icon-readme, .icon-code */
+}
+.file-explorer li.folder::before { content: '\fXXX'; /* Placeholder */ color: var(--secondary-color); }
+.file-explorer li.file::before { content: '\fYYY'; /* Placeholder */ }
+.file-explorer li.readme::before { content: '\fZZZ'; /* Placeholder */ color: var(--accent-color); }
+.file-explorer li.code::before { content: '\fAAA'; /* Placeholder */ color: var(--primary-color); }
+
+/* File Explorer Links */
+.file-explorer a {
+    color: var(--text-color); /* Standard text color */
+}
+.file-explorer a:hover {
+    color: var(--accent-color); /* Accent on hover */
+    text-decoration: none;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: '/';
+  margin: 0 0.5rem;
+  color: var(--text-color-secondary);
+}
+
+/* Breadcrumb Links */
+.breadcrumb a {
+  color: var(--text-color-secondary);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+/* Link verification */
+.link-status {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.link-status.verified { background-color: var(--success-color); }
+.link-status.missing { background-color: var(--error-color); }
+.link-status.checking { background-color: var(--warning-color); }
+
+/* Azure section */
+.azure-section {
+  border-left: 4px solid var(--azure-color);
+  background-color: rgba(0, 120, 212, 0.1); /* Slightly more visible bg */
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.azure-section h3 {
+  color: var(--azure-color);
+  margin-top: 0;
+}
+
+/* Code styling */
+code {
+  background-color: var(--code-bg-color);
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  border-radius: 6px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  color: var(--accent-color); /* Use accent for inline code */
+}
+
+pre {
+  background-color: var(--code-bg-color);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.875em;
+  color: var(--text-color);
+  line-height: 1.45;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* Utility classes */
+.mb-1 { margin-bottom: 0.5rem !important; }
+.mb-2 { margin-bottom: 1rem !important; }
+.mb-3 { margin-bottom: 1.5rem !important; }
+.mb-4 { margin-bottom: 2rem !important; }
+.mt-1 { margin-top: 0.5rem !important; }
+.mt-2 { margin-top: 1rem !important; }
+.mt-3 { margin-top: 1.5rem !important; }
+.mt-4 { margin-top: 2rem !important; }
+
+/* Responsive design */
+@media (max-width: 992px) { /* Adjust breakpoint for sidebar */
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    margin-bottom: 2rem;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: block; /* Make it available for JS to toggle */
+  }
+}
+
+@media (max-width: 480px) {
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+  body {
+      font-size: 15px;
+  }
+  .content, .sidebar {
+      padding: 1.5rem;
+      border-radius: 8px;
+  }
+  .header-title {
+      font-size: 1.2rem;
+  }
+  .container {
+      padding: 1rem;
+  }
+}
+
+/* Button styling */
+.btn {
+    display: inline-block;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background: var(--primary-gradient);
+    border: 1px solid transparent; /* Transparent border for gradient */
+    padding: 0.5rem 1rem; /* Slightly larger padding */
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: opacity .2s ease-in-out, box-shadow .2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn:hover {
+    color: #fff;
+    opacity: 0.85;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/creator-payments%204.html" />
+<meta property="og:url" content="/docs/creator-payments%204.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/creator-payments%204.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: Creator Payment System | Web3 Crypto Streaming Service</p>
+<hr />
+
+<h1 id="creator-payment-system">Creator Payment System</h1>
+
+<p>This document details the payment mechanisms available to creators on the Web3 Crypto Streaming Service platform, explaining payment schedules, withdrawal options, and tokenomics.</p>
+
+<h2 id="payment-overview">Payment Overview</h2>
+
+<p>Content creators on our platform can earn revenue through multiple monetization methods, with all payments tracked transparently on-chain. Our payment system offers unprecedented flexibility, transparency, and immediacy compared to traditional streaming platforms.</p>
+
+<h2 id="revenue-streams">Revenue Streams</h2>
+
+<h3 id="1-direct-payments">1. Direct Payments</h3>
+
+<p>Creators receive direct payments through:</p>
+
+<ul>
+  <li><strong>Pay-per-view access</strong>: One-time payments from viewers purchasing access to content</li>
+  <li><strong>Subscription payments</strong>: Recurring revenue from viewer subscriptions</li>
+  <li><strong>Tips/donations</strong>: Optional additional payments from viewers</li>
+</ul>
+
+<h3 id="2-per-second-streaming-payments">2. Per-Second Streaming Payments</h3>
+
+<p>Our innovative StreamPayment contract enables real-time payment streaming:</p>
+
+<ul>
+  <li>Viewers can stream payments to creators at a specified rate per second</li>
+  <li>Payments accumulate continuously while content is being watched</li>
+  <li>Creators can withdraw available funds at any time without waiting for payment cycles</li>
+</ul>
+
+<h3 id="3-token-rewards">3. Token Rewards</h3>
+
+<p>Creators earn STREAM tokens through:</p>
+
+<ul>
+  <li>Platform engagement rewards</li>
+  <li>Content quality incentives</li>
+  <li>Active participation in governance</li>
+</ul>
+
+<h2 id="payment-schedule">Payment Schedule</h2>
+
+<h3 id="immediate-payments">Immediate Payments</h3>
+
+<p>The following payments are available to creators immediately:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Payment Type</th>
+      <th>Availability</th>
+      <th>Withdrawal Method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Streaming payments</td>
+      <td>Real-time accrual, instant withdrawal</td>
+      <td>Creator dashboard</td>
+    </tr>
+    <tr>
+      <td>Pay-per-view purchases</td>
+      <td>Available after 1-hour confirmation period</td>
+      <td>Creator dashboard</td>
+    </tr>
+    <tr>
+      <td>Tips/donations</td>
+      <td>Immediately after transaction confirmation</td>
+      <td>Creator dashboard</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="scheduled-rewards">Scheduled Rewards</h3>
+
+<p>Token rewards and bonus distributions follow this schedule:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Reward Type</th>
+      <th>Distribution Frequency</th>
+      <th>Requirements</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Engagement rewards</td>
+      <td>Weekly (every Monday)</td>
+      <td>Minimum 3 active viewers</td>
+    </tr>
+    <tr>
+      <td>Quality incentives</td>
+      <td>Monthly (1st of month)</td>
+      <td>Content quality score &gt;70%</td>
+    </tr>
+    <tr>
+      <td>Governance rewards</td>
+      <td>After proposal completion</td>
+      <td>Active participation in voting</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="withdrawal-options">Withdrawal Options</h2>
+
+<h3 id="on-chain-withdrawals">On-Chain Withdrawals</h3>
+
+<p>Creators can withdraw their earnings directly to their wallet:</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// From StreamPayment.sol
+</span><span class="k">function</span> <span class="n">withdraw</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">public</span> <span class="n">nonReentrant</span> <span class="p">{</span>
+    <span class="n">Stream</span> <span class="k">storage</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">];</span>
+    
+    <span class="nb">require</span><span class="p">(</span><span class="n">stream</span><span class="p">.</span><span class="n">recipient</span> <span class="o">==</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="s">"Only recipient can withdraw"</span><span class="p">);</span>
+    <span class="nb">require</span><span class="p">(</span><span class="n">stream</span><span class="p">.</span><span class="nb">balance</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"No funds available"</span><span class="p">);</span>
+    
+    <span class="kt">uint256</span> <span class="n">elapsedTime</span> <span class="o">=</span> <span class="n">stream</span><span class="p">.</span><span class="n">stop</span> <span class="o">&gt;</span> <span class="mi">0</span> 
+        <span class="o">?</span> <span class="n">stream</span><span class="p">.</span><span class="n">stop</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">start</span> 
+        <span class="o">:</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">start</span><span class="p">;</span>
+    
+    <span class="kt">uint256</span> <span class="n">totalAccrued</span> <span class="o">=</span> <span class="n">elapsedTime</span> <span class="o">*</span> <span class="n">stream</span><span class="p">.</span><span class="n">rate</span><span class="p">;</span>
+    <span class="kt">uint256</span> <span class="n">available</span> <span class="o">=</span> <span class="n">totalAccrued</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">withdrawn</span><span class="p">;</span>
+    
+    <span class="nb">require</span><span class="p">(</span><span class="n">available</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"No new funds to withdraw"</span><span class="p">);</span>
+    
+    <span class="c1">// Update withdrawn amount
+</span>    <span class="n">stream</span><span class="p">.</span><span class="n">withdrawn</span> <span class="o">+=</span> <span class="n">available</span><span class="p">;</span>
+    
+    <span class="c1">// Transfer funds
+</span>    <span class="k">payable</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">).</span><span class="nb">transfer</span><span class="p">(</span><span class="n">available</span><span class="p">);</span>
+    
+    <span class="k">emit</span> <span class="n">Withdrawal</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">stream</span><span class="p">.</span><span class="n">recipient</span><span class="p">,</span> <span class="n">available</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="automated-payments">Automated Payments</h3>
+
+<p>Creators can configure automatic payments:</p>
+
+<ol>
+  <li><strong>Auto-withdrawal</strong>: Set thresholds for automatic transfers to your wallet</li>
+  <li><strong>Split payments</strong>: Configure automatic distributions to multiple wallets</li>
+  <li><strong>HODL mode</strong>: Automatically convert earnings to STREAM tokens for staking</li>
+</ol>
+
+<h2 id="fee-structure">Fee Structure</h2>
+
+<p>Our platform uses a transparent fee model:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Revenue Type</th>
+      <th>Platform Fee</th>
+      <th>Creator Share</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pay-per-view</td>
+      <td>10%</td>
+      <td>90%</td>
+      <td>Fee reducible through staking</td>
+    </tr>
+    <tr>
+      <td>Subscriptions</td>
+      <td>8%</td>
+      <td>92%</td>
+      <td>Fee reducible through staking</td>
+    </tr>
+    <tr>
+      <td>Streaming payments</td>
+      <td>5%</td>
+      <td>95%</td>
+      <td>Lowest fee category</td>
+    </tr>
+    <tr>
+      <td>Tips/donations</td>
+      <td>3%</td>
+      <td>97%</td>
+      <td>Minimal platform fee</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Creators can reduce their fees by staking STREAM tokens (see <a href="tech.token.html">Token Economics</a> for details).</p>
+
+<h2 id="payment-analytics">Payment Analytics</h2>
+
+<p>The creator dashboard provides comprehensive payment analytics:</p>
+
+<ul>
+  <li>Real-time revenue tracking</li>
+  <li>Viewer payment patterns and demographics</li>
+  <li>Revenue source breakdowns</li>
+  <li>Historical payout records</li>
+  <li>Projection tools and revenue forecasting</li>
+</ul>
+
+<h2 id="pay-day-boost-system">Pay Day Boost System</h2>
+
+<p>To incentivize regular content creation, we’ve implemented a “Pay Day Boost” system:</p>
+
+<ol>
+  <li><strong>Weekly Pay Day</strong>: Every Friday, creators who published at least 3 pieces of content during the week receive a 10% bonus on all earnings</li>
+  <li><strong>Monthly Milestone</strong>: Creators who maintain consistent weekly publishing for a full month receive a 25% bonus on that month’s earnings</li>
+  <li><strong>Loyalty Multiplier</strong>: Each consecutive month of meeting publishing targets increases the monthly bonus by 5% (up to 50%)</li>
+</ol>
+
+<h2 id="implementing-payment-streams-in-your-content">Implementing Payment Streams in Your Content</h2>
+
+<p>Content creators can implement payment streams using our SDK:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example implementation</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">web3Service</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../services/Web3Service</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">setupPaymentStream</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Get viewer's connected wallet address</span>
+  <span class="kd">const</span> <span class="nx">viewerAddress</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">web3Service</span><span class="p">.</span><span class="nx">getAccount</span><span class="p">();</span>
+  
+  <span class="c1">// Set payment rate (0.0001 ETH per second)</span>
+  <span class="kd">const</span> <span class="nx">ratePerSecond</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0.0001</span><span class="dl">"</span><span class="p">;</span>
+  
+  <span class="c1">// Set initial deposit (1 ETH)</span>
+  <span class="kd">const</span> <span class="nx">initialDeposit</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">;</span>
+  
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// Create the payment stream with the creator's address</span>
+    <span class="kd">const</span> <span class="nx">streamId</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">web3Service</span><span class="p">.</span><span class="nx">createPaymentStream</span><span class="p">(</span>
+      <span class="nx">creatorAddress</span><span class="p">,</span>
+      <span class="nx">ratePerSecond</span><span class="p">,</span>
+      <span class="nx">initialDeposit</span>
+    <span class="p">);</span>
+    
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Payment stream created! Stream ID: </span><span class="p">${</span><span class="nx">streamId</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+    
+    <span class="c1">// Now content playback can begin</span>
+    <span class="nx">startContentPlayback</span><span class="p">();</span>
+    
+    <span class="k">return</span> <span class="nx">streamId</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Failed to create payment stream:</span><span class="dl">"</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+    <span class="k">throw</span> <span class="nx">error</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="security-and-dispute-resolution">Security and Dispute Resolution</h2>
+
+<p>Our payment system includes several security features:</p>
+
+<ul>
+  <li><strong>Payment verification</strong>: All transactions are verified on-chain</li>
+  <li><strong>Escrow options</strong>: Available for large transactions or premium content</li>
+  <li><strong>Dispute resolution</strong>: On-chain evidence for payment disputes</li>
+  <li><strong>Fraud protection</strong>: Anomaly detection for suspicious payment patterns</li>
+</ul>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="guides.creators.payments.html">Set up your creator payment profile</a></li>
+  <li><a href="guides.creators.payment-settings.html">Configure your automated payment rules</a></li>
+  <li><a href="guides.creators.tax-considerations.html">Learn about tax implications</a></li>
+  <li><a href="guides.creators.monetization-strategies.html">Optimize your revenue streams</a></li>
+</ul>
+
+<hr />
+
+<div style="background: #f0f7ff; border-left: 4px solid #4361ee; padding: 1rem; margin-top: 2rem;">
+  <h3 style="margin-top: 0;">Important</h3>
+  <p>
+    All payments on the platform are handled through smart contracts with immutable code. 
+    Always verify transaction details before confirming any financial operation.
+  </p>
+</div>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

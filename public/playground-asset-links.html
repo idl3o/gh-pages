@@ -1,0 +1,100 @@
+<!-- Asset links for the interactive playground -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Function to replace placeholder images/icons with actual assets
+  function loadPlaygroundAssets() {
+    // Replace video placeholder with thumbnail
+    const videoPlaceholder = document.querySelector('.video-placeholder');
+    if (videoPlaceholder) {
+      videoPlaceholder.style.backgroundImage = "url('{{ '/assets/images/demo/video-thumbnail.jpg' | relative_url }}')";
+      videoPlaceholder.style.backgroundSize = "cover";
+      videoPlaceholder.style.backgroundPosition = "center";
+    }
+    
+    // Add icons to tab buttons if needed
+    const walletTab = document.querySelector('[data-tab="wallet-connection"]');
+    if (walletTab) {
+      loadSvgIntoElement('{{ "/assets/images/icons/wallet.svg" | relative_url }}', walletTab, 'tab-icon');
+    }
+    
+    const streamingTab = document.querySelector('[data-tab="streaming-demo"]');
+    if (streamingTab) {
+      loadSvgIntoElement('{{ "/assets/images/icons/streaming.svg" | relative_url }}', streamingTab, 'tab-icon');
+    }
+    
+    const tokenTab = document.querySelector('[data-tab="token-economics"]');
+    if (tokenTab) {
+      loadSvgIntoElement('{{ "/assets/images/icons/token.svg" | relative_url }}', tokenTab, 'tab-icon');
+    }
+    
+    const creatorTab = document.querySelector('[data-tab="creator-tools"]');
+    if (creatorTab) {
+      loadSvgIntoElement('{{ "/assets/images/icons/creator.svg" | relative_url }}', creatorTab, 'tab-icon');
+    }
+    
+    // Add blockchain flow diagram to token economics tab
+    const tokenSimulator = document.querySelector('.token-simulator');
+    if (tokenSimulator) {
+      const diagramContainer = document.createElement('div');
+      diagramContainer.className = 'token-diagram';
+      diagramContainer.innerHTML = '<img src="{{ "/assets/images/diagrams/token-economics.svg" | relative_url }}" alt="Token Economics Diagram" class="diagram-image">';
+      tokenSimulator.appendChild(diagramContainer);
+    }
+    
+    // Add architecture diagram to streaming demo tab
+    const streamInfo = document.querySelector('.stream-info');
+    if (streamInfo) {
+      const systemArchContainer = document.createElement('div');
+      systemArchContainer.className = 'arch-diagram';
+      systemArchContainer.style.marginTop = '2rem';
+      systemArchContainer.innerHTML = '<h4>System Architecture</h4>' +
+        '<img src="{{ "/assets/images/diagrams/system-architecture.svg" | relative_url }}" alt="System Architecture" class="diagram-image">';
+      streamInfo.appendChild(systemArchContainer);
+    }
+  }
+  
+  function loadSvgIntoElement(url, element, className) {
+    fetch(url)
+      .then(response => response.text())
+      .then(svgContent => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = svgContent;
+        const svg = tempDiv.querySelector('svg');
+        svg.classList.add(className);
+        svg.style.width = '18px';
+        svg.style.height = '18px';
+        svg.style.marginRight = '8px';
+        element.prepend(svg);
+      })
+      .catch(error => console.error('Error loading SVG:', error));
+  }
+  
+  // Initialize assets
+  loadPlaygroundAssets();
+});
+</script>
+
+<style>
+  .tab-icon {
+    display: inline-block;
+    vertical-align: middle;
+    stroke: currentColor;
+  }
+  
+  .diagram-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .token-diagram {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .arch-diagram h4 {
+    margin-bottom: 0.5rem;
+  }
+</style>

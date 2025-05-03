@@ -1,0 +1,161 @@
+# Design Asset Generation Configuration
+
+# Theme definitions
+themes:
+  cyber:
+    primary_color: '#6e45e2'
+    secondary_color: '#00d8ff'
+    accent_color: '#ff5722'
+    font: 'Orbitron'
+    patterns:
+      - 'grid'
+      - 'circuit'
+      - 'hexagon'
+    effects:
+      - 'glow'
+      - 'scanline'
+      - 'distortion'
+
+  minimal:
+    primary_color: '#2d3748'
+    secondary_color: '#718096'
+    accent_color: '#4299e1'
+    font: 'Inter'
+    patterns:
+      - 'dots'
+      - 'lines'
+      - 'waves'
+    effects:
+      - 'shadow'
+      - 'blur'
+      - 'grain'
+
+  neon:
+    primary_color: '#ff00ff'
+    secondary_color: '#00ffff'
+    accent_color: '#ffff00'
+    font: 'Chakra Petch'
+    patterns:
+      - 'synthwave'
+      - 'retrowave'
+      - 'outline'
+    effects:
+      - 'neon-glow'
+      - 'flicker'
+      - 'chromatic'
+
+  corporate:
+    primary_color: '#0a2463'
+    secondary_color: '#3e92cc'
+    accent_color: '#d8315b'
+    font: 'Montserrat'
+    patterns:
+      - 'gradient'
+      - 'subtle-dots'
+      - 'diagonal-lines'
+    effects:
+      - 'depth'
+      - 'clean-shadow'
+      - 'highlight'
+
+  retro:
+    primary_color: '#e76f51'
+    secondary_color: '#2a9d8f'
+    accent_color: '#e9c46a'
+    font: 'Press Start 2P'
+    patterns:
+      - 'pixel'
+      - '8bit'
+      - 'vhs'
+    effects:
+      - 'noise'
+      - 'pixelate'
+      - 'crt'
+
+# Asset size definitions
+sizes:
+  thumbnails:
+    width: 300
+    height: 200
+    formats:
+      - 'webp'
+      - 'png'
+    optimizations:
+      - 'compression'
+      - 'lazy-loading'
+
+  icons:
+    width: 64
+    height: 64
+    formats:
+      - 'svg'
+      - 'png'
+    optimizations:
+      - 'vector-optimization'
+      - 'responsive-scaling'
+
+  banners:
+    width: 1200
+    height: 300
+    formats:
+      - 'webp'
+      - 'jpg'
+    optimizations:
+      - 'progressive-loading'
+      - 'responsive-sizes'
+
+  cards:
+    width: 400
+    height: 225
+    formats:
+      - 'webp'
+      - 'png'
+    optimizations:
+      - 'compression'
+      - 'preloading'
+
+  avatars:
+    width: 200
+    height: 200
+    formats:
+      - 'webp'
+      - 'png'
+    optimizations:
+      - 'circular-crop'
+      - 'compression'
+
+# Distribution settings
+distribution:
+  spoe:
+    endpoint: 'https://api.spoe.exchange/v1/assets'
+    authentication: 'bearer'
+    rate_limit: 100
+    batch_size: 20
+    pricing:
+      GBP:
+        thumbnails: '£2.50'
+        icons: '£1.25'
+        banners: '£5.00'
+        cards: '£3.00'
+        avatars: '£2.00'
+      EUR:
+        thumbnails: '€2.95'
+        icons: '€1.45'
+        banners: '€5.95'
+        cards: '€3.50'
+        avatars: '€2.35'
+      USD:
+        thumbnails: '$3.25'
+        icons: '$1.50'
+        banners: '$6.50'
+        cards: '$3.95'
+        avatars: '$2.50'
+    marketplace:
+      enabled: true
+      commission: 15
+      auto_listing: true
+      categories:
+        - 'web3'
+        - 'crypto'
+        - 'streaming'
+        - 'digital-assets'

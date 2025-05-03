@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Cross-Platform Build &amp; Hardware Optimization Guide | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Cross-Platform Build &amp; Hardware Optimization Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/cross-platform-build-guide%204.html" />
+<meta property="og:url" content="/docs/cross-platform-build-guide%204.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Cross-Platform Build &amp; Hardware Optimization Guide" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Cross-Platform Build &amp; Hardware Optimization Guide","url":"/docs/cross-platform-build-guide%204.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Cross-Platform Build &amp;amp; Hardware Optimization Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="cross-platform-build--hardware-optimization-guide">Cross-Platform Build &amp; Hardware Optimization Guide</h1>
+
+<p>This comprehensive guide provides detailed information for building the Web3 Crypto Streaming platform across all devices, platforms, and hardware configurations.</p>
+
+<h2 id="platform--device-support-matrix">Platform &amp; Device Support Matrix</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Support Level</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Web - Desktop</td>
+      <td>Full</td>
+      <td>Chrome, Firefox, Edge, Safari (latest 2 versions)</td>
+    </tr>
+    <tr>
+      <td>Web - Mobile</td>
+      <td>Full</td>
+      <td>Mobile Chrome, Safari, Samsung Internet</td>
+    </tr>
+    <tr>
+      <td>iOS Native</td>
+      <td>Full</td>
+      <td>iOS 14+ using React Native</td>
+    </tr>
+    <tr>
+      <td>Android Native</td>
+      <td>Full</td>
+      <td>Android 8.0+ using React Native</td>
+    </tr>
+    <tr>
+      <td>Smart TVs</td>
+      <td>Partial</td>
+      <td>Samsung Tizen, LG webOS, Android TV</td>
+    </tr>
+    <tr>
+      <td>Desktop Apps</td>
+      <td>Full</td>
+      <td>Windows, macOS, Linux via Electron</td>
+    </tr>
+    <tr>
+      <td>Game Consoles</td>
+      <td>Basic</td>
+      <td>Xbox (Microsoft Edge), PlayStation (Browser)</td>
+    </tr>
+    <tr>
+      <td>VR/AR</td>
+      <td>Experimental</td>
+      <td>Oculus Browser, WebXR support</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="hardware-requirements--optimization">Hardware Requirements &amp; Optimization</h2>
+
+<h3 id="minimum-hardware-requirements">Minimum Hardware Requirements</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Device Type</th>
+      <th>CPU</th>
+      <th>RAM</th>
+      <th>Storage</th>
+      <th>Network</th>
+      <th>GPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Desktop Web</td>
+      <td>Dual-core 2.0 GHz</td>
+      <td>4 GB</td>
+      <td>100 MB free</td>
+      <td>5 Mbps</td>
+      <td>Integrated</td>
+    </tr>
+    <tr>
+      <td>Mobile Web</td>
+      <td>Quad-core 1.5 GHz</td>
+      <td>2 GB</td>
+      <td>50 MB free</td>
+      <td>3 Mbps</td>
+      <td>Integrated</td>
+    </tr>
+    <tr>
+      <td>iOS App</td>
+      <td>A10 chip+</td>
+      <td>2 GB</td>
+      <td>150 MB free</td>
+      <td>3 Mbps</td>
+      <td>Integrated</td>
+    </tr>
+    <tr>
+      <td>Android App</td>
+      <td>Snapdragon 660+</td>
+      <td>3 GB</td>
+      <td>150 MB free</td>
+      <td>3 Mbps</td>
+      <td>Adreno 512+</td>
+    </tr>
+    <tr>
+      <td>Smart TV</td>
+      <td>Quad-core</td>
+      <td>2 GB</td>
+      <td>100 MB free</td>
+      <td>10 Mbps</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Desktop App</td>
+      <td>Quad-core 2.0 GHz</td>
+      <td>4 GB</td>
+      <td>250 MB free</td>
+      <td>5 Mbps</td>
+      <td>Integrated</td>
+    </tr>
+    <tr>
+      <td>Streaming Server</td>
+      <td>8-core 2.5 GHz</td>
+      <td>16 GB</td>
+      <td>1 TB SSD</td>
+      <td>100 Mbps</td>
+      <td>NVIDIA T4+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="recommended-hardware-specifications">Recommended Hardware Specifications</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Device Type</th>
+      <th>CPU</th>
+      <th>RAM</th>
+      <th>Storage</th>
+      <th>Network</th>
+      <th>GPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Desktop Web</td>
+      <td>Quad-core 3.0 GHz+</td>
+      <td>8 GB+</td>
+      <td>1 GB free</td>
+      <td>25+ Mbps</td>
+      <td>Dedicated w/2GB+</td>
+    </tr>
+    <tr>
+      <td>Mobile Web</td>
+      <td>Octa-core 2.0 GHz+</td>
+      <td>4 GB+</td>
+      <td>1 GB free</td>
+      <td>10+ Mbps</td>
+      <td>Integrated</td>
+    </tr>
+    <tr>
+      <td>iOS App</td>
+      <td>A13 chip+</td>
+      <td>4 GB+</td>
+      <td>500 MB free</td>
+      <td>10+ Mbps</td>
+      <td>Integrated</td>
+    </tr>
+    <tr>
+      <td>Android App</td>
+      <td>Snapdragon 865+</td>
+      <td>6 GB+</td>
+      <td>500 MB free</td>
+      <td>10+ Mbps</td>
+      <td>Adreno 650+</td>
+    </tr>
+    <tr>
+      <td>Smart TV</td>
+      <td>Quad-core 2.0 GHz</td>
+      <td>3 GB+</td>
+      <td>500 MB free</td>
+      <td>25+ Mbps</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Desktop App</td>
+      <td>Hexa-core 3.0 GHz+</td>
+      <td>8 GB+</td>
+      <td>500 MB free</td>
+      <td>25+ Mbps</td>
+      <td>Dedicated w/4GB+</td>
+    </tr>
+    <tr>
+      <td>Streaming Server</td>
+      <td>16-core 3.0 GHz+</td>
+      <td>32 GB+</td>
+      <td>2 TB NVMe</td>
+      <td>1 Gbps</td>
+      <td>NVIDIA A10+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="web-platform-build-configuration">Web Platform Build Configuration</h2>
+
+<h3 id="responsive-design-implementation">Responsive Design Implementation</h3>
+
+<p>Our web platform automatically adapts to different screen sizes and resolutions using a comprehensive responsive design approach:</p>
+
+<ul>
+  <li>Mobile-first CSS with progressive enhancement</li>
+  <li>Fluid grid layouts using CSS Grid and Flexbox</li>
+  <li>Responsive typography with relative units (rem/em)</li>
+  <li>Media queries for layout adjustments at key breakpoints</li>
+  <li>Image optimization with <code class="language-plaintext highlighter-rouge">srcset</code> and <code class="language-plaintext highlighter-rouge">sizes</code> attributes</li>
+  <li>Lazy loading for off-screen content</li>
+</ul>
+
+<h3 id="breakpoint-system">Breakpoint System</h3>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">/* Mobile first approach */</span>
+<span class="nc">.container</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">0</span> <span class="m">15px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c">/* Small devices (landscape phones) */</span>
+<span class="k">@media</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">576px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nc">.container</span> <span class="p">{</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">540px</span><span class="p">;</span>
+    <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span> <span class="nb">auto</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c">/* Medium devices (tablets) */</span>
+<span class="k">@media</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">768px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nc">.container</span> <span class="p">{</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">720px</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c">/* Large devices (desktops) */</span>
+<span class="k">@media</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">992px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nc">.container</span> <span class="p">{</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">960px</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c">/* Extra large devices */</span>
+<span class="k">@media</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">1200px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nc">.container</span> <span class="p">{</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">1140px</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c">/* Ultra wide devices */</span>
+<span class="k">@media</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">1400px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nc">.container</span> <span class="p">{</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">1320px</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="performance-optimization-strategies">Performance Optimization Strategies</h3>
+
+<ol>
+  <li><strong>Code Splitting &amp; Lazy Loading</strong>
+    <ul>
+      <li>Route-based code splitting</li>
+      <li>Component-level lazy loading</li>
+      <li>Dynamic imports for non-critical features</li>
+    </ul>
+  </li>
+  <li><strong>Asset Optimization</strong>
+    <ul>
+      <li>WebP/AVIF images with fallbacks</li>
+      <li>SVG for icons and simple graphics</li>
+      <li>Video compression with adaptive streaming</li>
+    </ul>
+  </li>
+  <li><strong>Caching Strategy</strong>
+    <ul>
+      <li>Service Worker for offline support</li>
+      <li>Cache API for application assets</li>
+      <li>IndexedDB for structured data storage</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="cross-browser-testing-workflow">Cross-Browser Testing Workflow</h3>
+
+<p>Our automated testing pipeline ensures cross-browser compatibility:</p>
+
+<ol>
+  <li>Unit tests with Jest for core functionality</li>
+  <li>Integration tests with Cypress covering key user flows</li>
+  <li>Visual regression testing with Percy</li>
+  <li>BrowserStack automated testing for broader device coverage</li>
+  <li>Real device testing lab for final verification</li>
+</ol>
+
+<h2 id="native-mobile-applications-ios--android">Native Mobile Applications (iOS &amp; Android)</h2>
+
+<h3 id="react-native-implementation">React Native Implementation</h3>
+
+<p>The mobile applications are built using React Native with shared business logic across platforms:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install React Native CLI</span>
+npm <span class="nb">install</span> <span class="nt">-g</span> react-native-cli
+
+<span class="c"># Create new project</span>
+npx react-native init WebStreamMobile <span class="nt">--template</span> react-native-template-typescript
+
+<span class="c"># Add required dependencies</span>
+<span class="nb">cd </span>WebStreamMobile
+npm <span class="nb">install</span> @react-navigation/native @react-navigation/stack react-native-video
+npm <span class="nb">install </span>react-native-gesture-handler react-native-reanimated
+npm <span class="nb">install</span> @react-native-async-storage/async-storage
+
+<span class="c"># Platform specific builds</span>
+npm run ios  <span class="c"># For iOS simulator</span>
+npm run android  <span class="c"># For Android emulator</span>
+</code></pre></div></div>
+
+<h3 id="platform-specific-optimizations">Platform-Specific Optimizations</h3>
+
+<h4 id="ios-optimizations">iOS Optimizations</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Add Pod dependencies</span>
+<span class="nb">cd </span>ios <span class="o">&amp;&amp;</span> pod <span class="nb">install</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ..
+
+<span class="c"># Enable Bitcode optimization</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">''</span> <span class="s1">'s/ENABLE_BITCODE = NO;/ENABLE_BITCODE = YES;/'</span> ios/WebStreamMobile.xcodeproj/project.pbxproj
+
+<span class="c"># Enable Optimization Compiler Flags (Release configuration)</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">''</span> <span class="s1">'s/-O2/-Os/'</span> ios/WebStreamMobile.xcodeproj/project.pbxproj
+</code></pre></div></div>
+
+<h4 id="android-optimizations">Android Optimizations</h4>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// In android/app/build.gradle</span>
+<span class="n">android</span> <span class="o">{</span>
+    <span class="c1">// ...existing code...</span>
+    
+    <span class="n">buildTypes</span> <span class="o">{</span>
+        <span class="n">release</span> <span class="o">{</span>
+            <span class="c1">// Enable proguard for minifying code</span>
+            <span class="n">minifyEnabled</span> <span class="kc">true</span>
+            <span class="n">shrinkResources</span> <span class="kc">true</span>
+            <span class="n">proguardFiles</span> <span class="nf">getDefaultProguardFile</span><span class="o">(</span><span class="s1">'proguard-android-optimize.txt'</span><span class="o">),</span> <span class="s1">'proguard-rules.pro'</span>
+            
+            <span class="c1">// Enable R8 optimization</span>
+            <span class="n">android</span><span class="o">.</span><span class="na">enableR8</span><span class="o">=</span><span class="kc">true</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// Enable split APKs based on CPU architecture</span>
+    <span class="n">splits</span> <span class="o">{</span>
+        <span class="n">abi</span> <span class="o">{</span>
+            <span class="n">enable</span> <span class="kc">true</span>
+            <span class="nf">reset</span><span class="o">()</span>
+            <span class="n">include</span> <span class="s1">'x86'</span><span class="o">,</span> <span class="s1">'x86_64'</span><span class="o">,</span> <span class="s1">'armeabi-v7a'</span><span class="o">,</span> <span class="s1">'arm64-v8a'</span>
+            <span class="n">universalApk</span> <span class="kc">false</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="device-specific-testing">Device-Specific Testing</h3>
+
+<ol>
+  <li>iOS Testing Matrix:
+    <ul>
+      <li>iPhone SE (smallest supported form factor)</li>
+      <li>iPhone 12/13/14 (mainstream devices)</li>
+      <li>iPhone Pro Max models (largest screens)</li>
+      <li>iPad Air/Pro (tablet experience)</li>
+      <li>Various iOS versions (14, 15, 16)</li>
+    </ul>
+  </li>
+  <li>Android Testing Matrix:
+    <ul>
+      <li>Small Phone: Google Pixel 4a or similar</li>
+      <li>Standard Phone: Samsung Galaxy S21/S22</li>
+      <li>Large Phone: Samsung Galaxy Note/Ultra</li>
+      <li>Tablet: Samsung Galaxy Tab S7/S8</li>
+      <li>Various Android versions (8.0 through 13)</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="desktop-applications-electron">Desktop Applications (Electron)</h2>
+
+<h3 id="electron-build-configuration">Electron Build Configuration</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// filepath: /Users/s/vsc25/gh-pages/electron/main.js</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">app</span><span class="p">,</span> <span class="nx">BrowserWindow</span><span class="p">,</span> <span class="nx">Menu</span><span class="p">,</span> <span class="nx">ipcMain</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">electron</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">isDev</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">electron-is-dev</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Hardware acceleration settings</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">disableHardwareAcceleration</span><span class="p">();</span> <span class="c1">// Disable for compatibility with older GPUs</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">commandLine</span><span class="p">.</span><span class="nx">appendSwitch</span><span class="p">(</span><span class="dl">'</span><span class="s1">enable-features</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">VaapiVideoDecoder</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// Enable VA-API on Linux</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">commandLine</span><span class="p">.</span><span class="nx">appendSwitch</span><span class="p">(</span><span class="dl">'</span><span class="s1">disable-gpu-vsync</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// Reduce latency</span>
+
+<span class="c1">// Create the browser window</span>
+<span class="kd">function</span> <span class="nx">createWindow</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">mainWindow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BrowserWindow</span><span class="p">({</span>
+    <span class="na">width</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span>
+    <span class="na">minWidth</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span>
+    <span class="na">minHeight</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>
+    <span class="na">webPreferences</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">nodeIntegration</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="na">contextIsolation</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">preload</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">preload.js</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Load the app</span>
+  <span class="nx">mainWindow</span><span class="p">.</span><span class="nx">loadURL</span><span class="p">(</span>
+    <span class="nx">isDev</span> 
+      <span class="p">?</span> <span class="dl">'</span><span class="s1">http://localhost:3000</span><span class="dl">'</span> 
+      <span class="p">:</span> <span class="s2">`file://</span><span class="p">${</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">../build/index.html</span><span class="dl">'</span><span class="p">)}</span><span class="s2">`</span>
+  <span class="p">);</span>
+  
+  <span class="c1">// Enable DevTools in development</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isDev</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">mainWindow</span><span class="p">.</span><span class="nx">webContents</span><span class="p">.</span><span class="nx">openDevTools</span><span class="p">({</span> <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">detach</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">}</span>
+  
+  <span class="c1">// Enable process monitoring</span>
+  <span class="nx">setupPerformanceMonitoring</span><span class="p">(</span><span class="nx">mainWindow</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Setup performance monitoring</span>
+<span class="kd">function</span> <span class="nx">setupPerformanceMonitoring</span><span class="p">(</span><span class="nx">win</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">setInterval</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">memoryInfo</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">getProcessMemoryInfo</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">cpuUsage</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cpuUsage</span><span class="p">();</span>
+    
+    <span class="nx">win</span><span class="p">.</span><span class="nx">webContents</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">performance-stats</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">memory</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">rss</span><span class="p">:</span> <span class="nx">memoryInfo</span><span class="p">.</span><span class="nx">rss</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span><span class="p">,</span> <span class="c1">// Convert to MB</span>
+        <span class="na">heapTotal</span><span class="p">:</span> <span class="nx">memoryInfo</span><span class="p">.</span><span class="nx">heapTotal</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span><span class="p">,</span>
+        <span class="na">heapUsed</span><span class="p">:</span> <span class="nx">memoryInfo</span><span class="p">.</span><span class="nx">heapUsed</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span>
+      <span class="p">},</span>
+      <span class="na">cpu</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">user</span><span class="p">:</span> <span class="nx">cpuUsage</span><span class="p">.</span><span class="nx">user</span><span class="p">,</span>
+        <span class="na">system</span><span class="p">:</span> <span class="nx">cpuUsage</span><span class="p">.</span><span class="nx">system</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">},</span> <span class="mi">5000</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Initialize the app</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">whenReady</span><span class="p">().</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">createWindow</span><span class="p">();</span>
+  
+  <span class="c1">// Setup custom protocol for deep linking</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">defaultApp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">app</span><span class="p">.</span><span class="nx">setAsDefaultProtocolClient</span><span class="p">(</span><span class="dl">'</span><span class="s1">webstream</span><span class="dl">'</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">execPath</span><span class="p">,</span> <span class="p">[</span>
+        <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+      <span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">setAsDefaultProtocolClient</span><span class="p">(</span><span class="dl">'</span><span class="s1">webstream</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// Quit when all windows are closed</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">window-all-closed</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">platform</span> <span class="o">!==</span> <span class="dl">'</span><span class="s1">darwin</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">quit</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">activate</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">BrowserWindow</span><span class="p">.</span><span class="nx">getAllWindows</span><span class="p">().</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">createWindow</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="cross-platform-build-script">Cross-Platform Build Script</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># filepath: /Users/s/vsc25/gh-pages/electron/build-all-platforms.sh</span>
+<span class="c"># !/bin/bash</span>
+
+<span class="c"># Build script for all desktop platforms</span>
+<span class="nb">echo</span> <span class="s2">"Building Web3 Crypto Streaming Platform for all desktop platforms..."</span>
+
+<span class="c"># Install dependencies</span>
+npm <span class="nb">install</span>
+
+<span class="c"># Build React app</span>
+npm run build
+
+<span class="c"># Package for macOS (Intel &amp; Apple Silicon)</span>
+<span class="nb">echo</span> <span class="s2">"Building for macOS (Intel &amp; Apple Silicon)..."</span>
+npm run electron:build <span class="nt">--</span> <span class="nt">--mac</span> <span class="nt">--x64</span> <span class="nt">--arm64</span>
+
+<span class="c"># Package for Windows</span>
+<span class="nb">echo</span> <span class="s2">"Building for Windows..."</span>
+npm run electron:build <span class="nt">--</span> <span class="nt">--win</span> <span class="nt">--x64</span> <span class="nt">--ia32</span>
+
+<span class="c"># Package for Linux</span>
+<span class="nb">echo</span> <span class="s2">"Building for Linux..."</span>
+npm run electron:build <span class="nt">--</span> <span class="nt">--linux</span> deb rpm AppImage <span class="nt">--x64</span>
+
+<span class="nb">echo</span> <span class="s2">"All builds completed. Check the dist/ directory for output files."</span>
+</code></pre></div></div>
+
+<h2 id="smart-tv-applications">Smart TV Applications</h2>
+
+<h3 id="samsung-tizen-tv-app">Samsung Tizen TV App</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Tizen CLI</span>
+npm <span class="nb">install</span> <span class="nt">-g</span> @tizen/tizen-tv-cli
+
+<span class="c"># Initialize Tizen TV project</span>
+tizen create web-project <span class="nt">-n</span> WebStreamTV <span class="nt">-t</span> basic-tv-samsung
+
+<span class="c"># Build for Samsung TVs</span>
+<span class="nb">cd </span>WebStreamTV
+tizen build-web
+tizen package <span class="nt">-t</span> wgt <span class="nt">-o</span> ./output <span class="nt">--</span> ./
+</code></pre></div></div>
+
+<h3 id="lg-webos-tv-app">LG webOS TV App</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install webOS CLI</span>
+npm <span class="nb">install</span> <span class="nt">-g</span> @webosose/ares-cli
+
+<span class="c"># Create webOS app</span>
+ares-generate <span class="nt">-t</span> webapp <span class="nt">-p</span> <span class="s2">"id=com.webstream.app"</span> WebStreamTV
+
+<span class="c"># Package for LG TVs</span>
+<span class="nb">cd </span>WebStreamTV
+ares-package <span class="nb">.</span>
+</code></pre></div></div>
+
+<h2 id="performance-optimization-for-low-end-devices">Performance Optimization for Low-End Devices</h2>
+
+<h3 id="cpu-optimization-strategies">CPU Optimization Strategies</h3>
+
+<ol>
+  <li><strong>Worker Threads</strong>
+    <ul>
+      <li>Offload heavy calculations to Web Workers</li>
+      <li>Implement thread pool for parallel processing</li>
+    </ul>
+  </li>
+  <li><strong>Computation Batching</strong>
+    <ul>
+      <li>Group related calculations to minimize context switching</li>
+      <li>Use requestAnimationFrame for UI updates</li>
+    </ul>
+  </li>
+  <li><strong>Lazy Evaluation</strong>
+    <ul>
+      <li>Defer non-critical operations</li>
+      <li>Implement virtual scrolling for large lists</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="memory-management">Memory Management</h3>
+
+<ol>
+  <li><strong>Memory Leak Prevention</strong>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Avoid memory leaks in event listeners</span>
+<span class="kd">class</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleEvent</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleEvent</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">resize</span><span class="dl">'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleEvent</span><span class="p">);</span>
+  <span class="p">}</span>
+     
+  <span class="nx">destroy</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Clean up event listeners when done</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">resize</span><span class="dl">'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleEvent</span><span class="p">);</span>
+  <span class="p">}</span>
+     
+  <span class="nx">handleEvent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Event handling logic</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Object Pooling</strong>
+```javascript
+// Reuse objects instead of creating new ones
+class ObjectPool {
+  constructor(objectFactory, initialSize = 10) {
+    this.objectFactory = objectFactory;
+    this.pool = Array(initialSize).fill().map(() =&gt; objectFactory());
+  }</p>
+
+    <p>get() {
+    return this.pool.pop() || this.objectFactory();
+  }</p>
+
+    <p>release(object) {
+    object.reset(); // Reset object to initial state
+    this.pool.push(object);
+  }
+}</p>
+  </li>
+</ol>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

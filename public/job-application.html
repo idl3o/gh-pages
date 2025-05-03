@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Application Received - Web3 Crypto Streaming</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #44337a 0%, #6b46c1 100%);
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+        margin: -20px -20px 20px;
+      }
+      .header h1 {
+        color: white;
+        margin: 0;
+        font-size: 24px;
+      }
+      .content {
+        padding: 20px 0;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        color: #999;
+        font-size: 12px;
+      }
+      .job-box {
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .button {
+        background-color: #44337a;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        display: inline-block;
+        margin: 20px 0;
+      }
+      .steps {
+        counter-reset: step-counter;
+        margin: 20px 0;
+        padding: 0;
+      }
+      .step {
+        list-style-type: none;
+        position: relative;
+        padding-left: 40px;
+        margin-bottom: 15px;
+      }
+      .step::before {
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 25px;
+        height: 25px;
+        background-color: #44337a;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 25px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>We've Received Your Application</h1>
+      </div>
+      <div class="content">
+        <p>Hello {{name}},</p>
+
+        <p>
+          Thank you for applying to join the Web3 Crypto Streaming Service team. We've received your
+          application for the <strong>{{jobTitle}}</strong> position.
+        </p>
+
+        <div class="job-box">
+          <p><strong>Application Details:</strong></p>
+          <p><strong>Position:</strong> {{jobTitle}}</p>
+          <p><strong>Email:</strong> {{email}}</p>
+          <p><strong>Date Received:</strong> {{date}}</p>
+        </div>
+
+        <p>What happens next?</p>
+        <ol class="steps">
+          <li class="step">
+            Our recruitment team will review your application (typically within 5-7 business days)
+          </li>
+          <li class="step">If selected, you'll receive an invitation for an initial interview</li>
+          <li class="step">Technical assessment and team interviews may follow</li>
+          <li class="step">Final decision and offer discussion</li>
+        </ol>
+
+        <p>While you wait, learn more about our team and culture:</p>
+        <p style="text-align: center">
+          <a href="https://web3streaming.example/team" class="button">Our Team & Culture</a>
+        </p>
+
+        <p>
+          If you have any questions about the recruitment process, please contact
+          <a href="mailto:careers@web3streaming.example">careers@web3streaming.example</a>.
+        </p>
+
+        <p>Best regards,<br />The Web3 Streaming Talent Team</p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2025 Web3 Crypto Streaming Service. All rights reserved.</p>
+        <p>
+          <a href="https://web3streaming.example/privacy">Privacy Policy</a> |
+          <a href="https://web3streaming.example/terms">Terms of Service</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

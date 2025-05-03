@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>PowerShell Coding Standards | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="PowerShell Coding Standards" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/powershell-coding-standards.html" />
+<meta property="og:url" content="/docs/powershell-coding-standards.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="PowerShell Coding Standards" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"PowerShell Coding Standards","url":"/docs/powershell-coding-standards.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">PowerShell Coding Standards</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="powershell-coding-standards">PowerShell Coding Standards</h1>
+
+<h2 id="parameter-naming">Parameter Naming</h2>
+
+<h3 id="avoid-powershell-reserved-parameter-names">Avoid PowerShell Reserved Parameter Names</h3>
+
+<p>Never use these PowerShell common parameter names in your scripts as they can cause conflicts:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Debug</code> - Use <code class="language-plaintext highlighter-rouge">DebugMode</code> or <code class="language-plaintext highlighter-rouge">DebugParam</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">ErrorAction</code> - Use <code class="language-plaintext highlighter-rouge">ErrorActionPreference</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">ErrorVariable</code> - Use <code class="language-plaintext highlighter-rouge">ErrorVar</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">InformationAction</code> - Use <code class="language-plaintext highlighter-rouge">InfoAction</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">InformationVariable</code> - Use <code class="language-plaintext highlighter-rouge">InfoVar</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">OutBuffer</code> - Use <code class="language-plaintext highlighter-rouge">OutputBuffer</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">OutVariable</code> - Use <code class="language-plaintext highlighter-rouge">OutputVar</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">PipelineVariable</code> - Use <code class="language-plaintext highlighter-rouge">PipelineVar</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">Verbose</code> - Use <code class="language-plaintext highlighter-rouge">VerboseMode</code> or <code class="language-plaintext highlighter-rouge">VerboseParam</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">WarningAction</code> - Use <code class="language-plaintext highlighter-rouge">WarningActionPreference</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">WarningVariable</code> - Use <code class="language-plaintext highlighter-rouge">WarningVar</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">WhatIf</code> - Use <code class="language-plaintext highlighter-rouge">WhatIfMode</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">Confirm</code> - Use <code class="language-plaintext highlighter-rouge">ConfirmMode</code> instead</li>
+</ul>
+
+<p>These parameter names are automatically added by PowerShell to all cmdlets and advanced functions, so reusing them can cause unexpected behavior.</p>
+
+<h3 id="automated-checking">Automated Checking</h3>
+
+<p>Run the <code class="language-plaintext highlighter-rouge">Check-PowerShellParameters.ps1</code> script to automatically detect and fix parameter naming conflicts.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check for naming conflicts</span><span class="w">
+</span><span class="o">.</span><span class="n">\Check-PowerShellParameters.ps1</span><span class="w">
+
+</span><span class="c"># Automatically fix naming conflicts</span><span class="w">
+</span><span class="o">.</span><span class="n">\Check-PowerShellParameters.ps1</span><span class="w"> </span><span class="nt">-Fix</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="general-style-guidelines">General Style Guidelines</h2>
+
+<h3 id="command-chaining-in-powershell">Command Chaining in PowerShell</h3>
+
+<p>When working with PowerShell scripts, remember that PowerShell uses different syntax for command chaining than Bash/Unix shells:</p>
+
+<h4 id="-dont-use-bash-style-command-chaining-in-powershell">❌ Don’t use Bash-style command chaining in PowerShell:</h4>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is INCORRECT in PowerShell</span><span class="w">
+</span><span class="n">npm</span><span class="w"> </span><span class="nx">install</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">npm</span><span class="w"> </span><span class="nx">start</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-instead-use-powershell-semicolons-for-sequential-execution">✅ Instead, use PowerShell semicolons for sequential execution:</h4>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is CORRECT in PowerShell</span><span class="w">
+</span><span class="n">npm</span><span class="w"> </span><span class="nx">install</span><span class="p">;</span><span class="w"> </span><span class="n">npm</span><span class="w"> </span><span class="nx">start</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-or-use-separate-lines-for-better-readability">✅ Or use separate lines for better readability:</h4>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is also CORRECT in PowerShell</span><span class="w">
+</span><span class="n">npm</span><span class="w"> </span><span class="nx">install</span><span class="w">
+</span><span class="n">npm</span><span class="w"> </span><span class="nx">start</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-for-conditional-execution-use-powershells-operators">✅ For conditional execution, use PowerShell’s operators:</h4>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Conditional execution in PowerShell (only run second command if first succeeds)</span><span class="w">
+</span><span class="nv">$result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">npm</span><span class="w"> </span><span class="nx">install</span><span class="w">
+</span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$LASTEXITCODE</span><span class="w"> </span><span class="o">-eq</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">npm</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="function-design">Function Design</h2>
+
+<h3 id="verb-noun-order">Verb-Noun Order</h3>
+
+<p>Use a <code class="language-plaintext highlighter-rouge">Verb-Noun</code> format for function names to clearly indicate the action and the target. This is a standard PowerShell practice that improves readability and discoverability of functions.</p>
+
+<h4 id="-good-examples">✅ Good Examples:</h4>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-Process</span><span class="w">
+</span><span class="nx">Set-Location</span><span class="w">
+</span><span class="n">New-Item</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-avoid-using-other-naming-conventions">❌ Avoid using other naming conventions:</h4>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Bad Examples:</span><span class="w">
+</span><span class="n">ProcessGet</span><span class="w">
+</span><span class="nx">LocationSet</span><span class="w">
+</span><span class="n">Item-New</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="use-of-cmdletbinding">Use of CmdletBinding</h3>
+
+<p>For advanced functions, use the <code class="language-plaintext highlighter-rouge">CmdletBinding</code> attribute to enable cmdlet features such as common parameters, and to specify the function as an advanced function.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">function</span><span class="w"> </span><span class="nf">Get-Something</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="p">[</span><span class="n">CmdletBinding</span><span class="p">()]</span><span class="w">
+    </span><span class="kr">param</span><span class="w"> </span><span class="p">(</span><span class="w">
+        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Name</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+    </span><span class="c"># Function code here</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="comment-based-help">Comment-Based Help</h3>
+
+<p>Include comment-based help in your functions to provide users with information about the function’s purpose, parameters, and usage examples. This help can be accessed through the <code class="language-plaintext highlighter-rouge">Get-Help</code> cmdlet.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">function</span><span class="w"> </span><span class="nf">Get-Something</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="cm">&lt;#
+    </span><span class="cs">.SYNOPSIS</span><span class="cm">
+    Short description of the function
+
+    </span><span class="cs">.DESCRIPTION</span><span class="cm">
+    A longer description of the function
+
+    </span><span class="cs">.PARAMETER</span><span class="cm"> Name
+    Description of the Name parameter
+
+    </span><span class="cs">.EXAMPLE</span><span class="cm">
+    Get-Something -Name 'Value'
+    #&gt;</span><span class="w">
+    </span><span class="p">[</span><span class="n">CmdletBinding</span><span class="p">()]</span><span class="w">
+    </span><span class="kr">param</span><span class="w"> </span><span class="p">(</span><span class="w">
+        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Name</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+    </span><span class="c"># Function code here</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

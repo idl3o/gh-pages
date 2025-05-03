@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>PRX Blockchain Phase 2: Enhanced Functionality | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="PRX Blockchain Phase 2: Enhanced Functionality" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/PRXTokenChain-Phase2-README.html" />
+<meta property="og:url" content="/docs/PRXTokenChain-Phase2-README.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="PRX Blockchain Phase 2: Enhanced Functionality" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"PRX Blockchain Phase 2: Enhanced Functionality","url":"/docs/PRXTokenChain-Phase2-README.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">PRX Blockchain Phase 2: Enhanced Functionality</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="prx-blockchain-phase-2-enhanced-functionality">PRX Blockchain Phase 2: Enhanced Functionality</h1>
+
+<p>This document provides an overview of all the enhanced functionality implemented in Phase 2 of the PRX Blockchain project. It serves as a guide for developers integrating with the blockchain and users interacting with the system.</p>
+
+<h2 id="phase-2-completed-features">Phase 2 Completed Features</h2>
+
+<p>Phase 2 introduces several critical enhancements to the PRX Blockchain:</p>
+
+<ol>
+  <li><strong>Token Minting Quotas and Rate Limiting</strong></li>
+  <li><strong>Tiered Access Controls for Private Content</strong></li>
+  <li><strong>Content Verification Mechanism</strong></li>
+  <li><strong>Token Delegation for Voting Power</strong></li>
+  <li><strong>Proposal Execution Pipeline for Governance Actions</strong></li>
+  <li><strong>Transaction Fee Model and Revenue Distribution</strong></li>
+</ol>
+
+<h2 id="1-token-minting-quotas-and-rate-limiting">1. Token Minting Quotas and Rate Limiting</h2>
+
+<p>To prevent spam and ensure fair distribution, we’ve implemented a robust quota and rate limiting system.</p>
+
+<h3 id="features">Features</h3>
+<ul>
+  <li>Daily token minting limits per address</li>
+  <li>Time-window based rate limiting (e.g., X tokens per hour)</li>
+  <li>Quota exemption for trusted addresses</li>
+  <li>Ability to enable/disable the quota system</li>
+  <li>Governance control over quota parameters</li>
+</ul>
+
+<h3 id="example-usage">Example Usage</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Check user's minting status</span>
+<span class="kd">const</span> <span class="p">[</span><span class="nx">dailyRemaining</span><span class="p">,</span> <span class="nx">windowRemaining</span><span class="p">,</span> <span class="nx">timeUntilReset</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">getMintingStatus</span><span class="p">(</span><span class="nx">userAddress</span><span class="p">);</span>
+
+<span class="c1">// For platform admins/governance</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">updateMintingQuota</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3600</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// 10 tokens per day, max 3 per hour</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">setQuotaExemption</span><span class="p">(</span><span class="nx">trustedUser</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">setQuotaEnabled</span><span class="p">(</span><span class="kc">true</span><span class="o">/</span><span class="kc">false</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="2-tiered-access-controls-for-private-content">2. Tiered Access Controls for Private Content</h2>
+
+<p>Content creators can now mark their content as private and monetize access.</p>
+
+<h3 id="features-1">Features</h3>
+<ul>
+  <li>Token-gated content with public/private toggle</li>
+  <li>Fee-based access for non-owners</li>
+  <li>Automatic fee distribution between creator, platform, and community</li>
+  <li>Permission checking system</li>
+</ul>
+
+<h3 id="example-usage-1">Example Usage</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Mint a token with private content</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">mintWithContent</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">Exclusive Content</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">ipfs://QmPrivateContentHash</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">video/mp4</span><span class="dl">"</span><span class="p">,</span>
+  <span class="kc">true</span><span class="p">,</span> <span class="c1">// isPrivate</span>
+  <span class="nx">contentHash</span>
+<span class="p">);</span>
+
+<span class="c1">// Access private content (costs fee for non-owners)</span>
+<span class="kd">const</span> <span class="nx">contentURI</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">accessPrivateContent</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">,</span> <span class="p">{</span><span class="na">value</span><span class="p">:</span> <span class="nx">accessFee</span><span class="p">});</span>
+
+<span class="c1">// Check if user can access content</span>
+<span class="kd">const</span> <span class="nx">canAccess</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">canAccessContent</span><span class="p">(</span><span class="nx">userAddress</span><span class="p">,</span> <span class="nx">tokenId</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="3-content-verification-mechanism">3. Content Verification Mechanism</h2>
+
+<p>Enables verification of content authenticity through trusted verifiers.</p>
+
+<h3 id="features-2">Features</h3>
+<ul>
+  <li>Content hash storage and verification</li>
+  <li>Authorized verifier system with trust scores</li>
+  <li>Configurable minimum verification requirements</li>
+  <li>Easy verification status checking</li>
+</ul>
+
+<h3 id="example-usage-2">Example Usage</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Verify content</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">verifyContent</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">);</span>
+
+<span class="c1">// Check verifiers</span>
+<span class="kd">const</span> <span class="nx">verifiers</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">getVerifiers</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">);</span>
+
+<span class="c1">// For governance</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">updateRequiredVerificationsCount</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="4-token-delegation-for-voting-power">4. Token Delegation for Voting Power</h2>
+
+<p>Token holders can now delegate their voting power to other addresses.</p>
+
+<h3 id="features-3">Features</h3>
+<ul>
+  <li>Delegation of voting power without transferring tokens</li>
+  <li>Prevention of circular delegation</li>
+  <li>Ability to undelegate at any time</li>
+  <li>Combined voting power tracking</li>
+</ul>
+
+<h3 id="example-usage-3">Example Usage</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Delegate voting power</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">delegate</span><span class="p">(</span><span class="nx">delegateeAddress</span><span class="p">);</span>
+
+<span class="c1">// Check delegation</span>
+<span class="kd">const</span> <span class="nx">delegate</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">getDelegate</span><span class="p">(</span><span class="nx">delegatorAddress</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">votingPower</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">getVotingPower</span><span class="p">(</span><span class="nx">delegateeAddress</span><span class="p">);</span>
+
+<span class="c1">// Undelegate</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">undelegate</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h2 id="5-proposal-execution-pipeline-for-governance-actions">5. Proposal Execution Pipeline for Governance Actions</h2>
+
+<p>A complete on-chain governance system that allows token holders to propose, vote on, and execute changes to the protocol.</p>
+
+<h3 id="features-4">Features</h3>
+<ul>
+  <li>Proposal creation with execution data</li>
+  <li>Voting system based on token holdings</li>
+  <li>Automatic proposal execution after successful vote</li>
+  <li>Support for multiple governance actions</li>
+</ul>
+
+<h3 id="supported-governance-actions">Supported Governance Actions</h3>
+<ul>
+  <li>Update fee model</li>
+  <li>Modify minting quotas</li>
+  <li>Toggle quota enforcement</li>
+  <li>Set quota exemptions</li>
+  <li>Update platform wallet</li>
+  <li>Update community treasury</li>
+  <li>Change required verifications count</li>
+  <li>Adjust governance threshold</li>
+  <li>Modify minimum voting period</li>
+</ul>
+
+<h3 id="example-usage-4">Example Usage</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create proposal to update minting quota</span>
+<span class="kd">const</span> <span class="nx">selector</span> <span class="o">=</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">updateMintingQuota</span><span class="p">.</span><span class="nx">selector</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">eth</span><span class="p">.</span><span class="nx">abi</span><span class="p">.</span><span class="nx">encodeFunctionCall</span><span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">updateMintingQuota</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">function</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">inputs</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">uint256</span><span class="dl">'</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">dailyLimit</span><span class="dl">'</span><span class="p">},</span>
+    <span class="p">{</span><span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">uint256</span><span class="dl">'</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">timeWindow</span><span class="dl">'</span><span class="p">},</span>
+    <span class="p">{</span><span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">uint256</span><span class="dl">'</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">windowLimit</span><span class="dl">'</span><span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">},</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3600</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">createProposal</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">Increase minting quotas</span><span class="dl">"</span><span class="p">,</span>
+  <span class="mi">604800</span><span class="p">,</span> <span class="c1">// 1 week voting period</span>
+  <span class="nx">data</span>
+<span class="p">);</span>
+
+<span class="c1">// Vote on proposal</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">vote</span><span class="p">(</span><span class="nx">proposalId</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+<span class="c1">// Execute proposal after voting period</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">executeProposal</span><span class="p">(</span><span class="nx">proposalId</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="6-transaction-fee-model-and-revenue-distribution">6. Transaction Fee Model and Revenue Distribution</h2>
+
+<p>A comprehensive fee system that generates revenue for the platform, content creators, and token holders.</p>
+
+<h3 id="features-5">Features</h3>
+<ul>
+  <li>Fee collection on transfers, minting, and content access</li>
+  <li>Configurable fee percentages</li>
+  <li>Automatic fee distribution</li>
+  <li>Platform and community treasury management</li>
+</ul>
+
+<h3 id="fee-types">Fee Types</h3>
+<ul>
+  <li>Transfer Fee: Applied when transferring tokens (basis points)</li>
+  <li>Mint Fee: Additional fee on token minting (basis points)</li>
+  <li>Content Fee: Flat fee for accessing private content (ETH)</li>
+</ul>
+
+<h3 id="distribution-shares">Distribution Shares</h3>
+<ul>
+  <li>Platform: Operating costs and development</li>
+  <li>Creator: Direct payment to content creators</li>
+  <li>Stakeholder: Distributed to token holders through community treasury</li>
+</ul>
+
+<h3 id="example-usage-5">Example Usage</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Update fee model</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">updateFeeModel</span><span class="p">(</span>
+  <span class="mi">25</span><span class="p">,</span>    <span class="c1">// 0.25% transfer fee</span>
+  <span class="mi">100</span><span class="p">,</span>   <span class="c1">// 1% mint fee</span>
+  <span class="mf">0.001</span><span class="p">,</span> <span class="c1">// 0.001 ETH content access fee</span>
+  <span class="mi">4000</span><span class="p">,</span>  <span class="c1">// 40% to platform</span>
+  <span class="mi">4000</span><span class="p">,</span>  <span class="c1">// 40% to creator</span>
+  <span class="mi">2000</span>   <span class="c1">// 20% to stakeholders</span>
+<span class="p">);</span>
+
+<span class="c1">// Distribute accumulated fees</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">distributeFees</span><span class="p">();</span>
+
+<span class="c1">// Update platform wallet</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">updatePlatformWallet</span><span class="p">(</span><span class="nx">newWalletAddress</span><span class="p">);</span>
+
+<span class="c1">// Update community treasury</span>
+<span class="k">await</span> <span class="nx">prxContract</span><span class="p">.</span><span class="nx">updateCommunityTreasury</span><span class="p">(</span><span class="nx">newTreasuryAddress</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="smart-contract-interface">Smart Contract Interface</h2>
+
+<p>For a complete API reference, see the full contract documentation or refer to the PRXTokenChain.sol file.</p>
+
+<h2 id="testing">Testing</h2>
+
+<p>Comprehensive tests have been implemented in the PRXTokenChainTest.sol contract. Run these tests to verify all functionality is working correctly before deployment.</p>
+
+<h2 id="next-steps-phase-3">Next Steps: Phase 3</h2>
+
+<p>With Phase 2 complete, we’re now ready to move on to Phase 3: Advanced Features, which will include:</p>
+<ul>
+  <li>Cross-chain bridge for token interoperability</li>
+  <li>Layer 2 scaling solution</li>
+  <li>Zero-knowledge proofs for privacy</li>
+  <li>Decentralized storage integration</li>
+  <li>Developer API</li>
+  <li>Analytics dashboard</li>
+</ul>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<p>The Phase 2 features have been implemented with security in mind, but we recommend a comprehensive security audit before mainnet deployment.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

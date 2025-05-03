@@ -1,0 +1,54 @@
+{
+  "name": "gh-pages-project",
+  "version": "1.0.0",
+  "description": "GitHub Pages project with TypeScript SDK and various services",
+  "type": "module",
+  "scripts": {
+    "start": "bundle exec jekyll serve",
+    "build": "bundle exec jekyll build",
+    "test": "powershell -ExecutionPolicy Bypass -File ./run-tests.ps1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky install",
+    "ts:build": "cd ts && npm run build",
+    "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy-gh-pages.ps1",
+    "check:env": "powershell -Command \"$env:PATH = 'C:\\Ruby27-x64\\bin;' + $env:PATH; ruby -v; bundler -v; jekyll -v\"",
+    "wasm:build": "cd red_x && make",
+    "contracts:build": "cd contracts && solc --bin --abi --optimize --overwrite -o ./build/ *.sol",
+    "spellcheck": "cspell lint \"**/*\" --config cspell.json --no-progress --show-context --show-suggestions"
+  },
+  "keywords": [
+    "github-pages",
+    "jekyll",
+    "typescript",
+    "webassembly",
+    "blockchain"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "cspell": "^8.19.3",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.5.1",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4",
+    "typescript-eslint": "^8.31.1"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix --quiet",
+    "*.ts": "eslint --cache --fix --quiet",
+    "*.{js,ts,css,md,json}": "prettier --write"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "ethers": "^5.7.2",
+    "ora": "^8.2.0"
+  }
+}

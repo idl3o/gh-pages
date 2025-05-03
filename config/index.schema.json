@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StreamChain Schema Definitions",
+  "description": "Index of all schema definitions for the StreamChain project",
+  "type": "object",
+  "properties": {
+    "blockchainConfig": {
+      "$ref": "./blockchainConfig.schema.json"
+    },
+    "poebcController": {
+      "$ref": "./poebcController.schema.json"
+    },
+    "conversationManager": {
+      "$ref": "./conversationManager.schema.json"
+    }
+  }
+}

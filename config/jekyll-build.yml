@@ -1,0 +1,60 @@
+name: Jekyll Build and Deploy
+
+on:
+  workflow_dispatch: # Allow manual triggering only as fallback
+
+permissions:
+  contents: write # Needed for gh-pages deployment
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Update RubyGems
+        run: |
+          gem update --system --no-document
+          gem --version # Verify the updated version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Updated to v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          # Install with retry logic
+          for i in 1 2 3; do
+            npm ci || npm install && break || echo "Retry $i..."
+            sleep 5
+          done
+          bundle install
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.4.3 # Updated to specific version
+        with:
+          folder: _site
+          branch: gh-pages
+          clean: true
+          single-commit: true
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4 # Updated to v4
+        with:
+          name: site-artifact
+          path: _site
+          retention-days: 7 # Added retention period

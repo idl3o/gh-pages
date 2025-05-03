@@ -1,0 +1,18 @@
+<div class="post-footer">
+    {% if page.tags.size > 0 %}
+    <div class="post-tags">
+        <strong>Tags:</strong>
+        {% for tag in page.tags %}
+        <a href="{{ '/tag/' | append: tag | relative_url }}" class="post-tag">{{ tag }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="share-post">
+        <h4>Share this post</h4>
+        <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url | append: page.url | url_encode }}"
+            target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url | append: page.url | url_encode }}"
+            target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+</div>

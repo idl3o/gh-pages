@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>API Reference | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="API Reference" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/api-reference.html" />
+<meta property="og:url" content="/docs/api-reference.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="API Reference" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"API Reference","url":"/docs/api-reference.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">API Reference</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="api-reference">API Reference</h1>
+
+<p>This document provides comprehensive documentation for the Web3 Streaming Platform APIs.</p>
+
+<h2 id="rest-api">REST API</h2>
+
+<p>The platform provides REST APIs via Netlify Functions for interacting with content, users, and blockchain data.</p>
+
+<h3 id="base-url">Base URL</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://yoursite.netlify.app/.netlify/functions/
+</code></pre></div></div>
+
+<p>For local development:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://localhost:8888/.netlify/functions/
+</code></pre></div></div>
+
+<h3 id="authentication">Authentication</h3>
+
+<p>Most API endpoints require authentication. Use one of the following methods:</p>
+
+<p><strong>Bearer Token</strong> (preferred):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authorization: Bearer &lt;your-jwt-token&gt;
+</code></pre></div></div>
+
+<p><strong>API Key</strong> (for development):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-API-Key: &lt;your-api-key&gt;
+</code></pre></div></div>
+
+<h3 id="content-api">Content API</h3>
+
+<h4 id="get-content">Get Content</h4>
+
+<p>Retrieves content metadata by ID.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api-handler/content/:contentId
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">contentId</code> (path): Unique identifier for the content</li>
+</ul>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content-123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Introduction to Web3"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Learn about Web3 technologies"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"creator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234567890123456789012345678901234567890"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-04-28T12:30:45Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"video/mp4"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"thumbnailUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ipfs://QmThumbnailCID"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contentUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ipfs://QmContentCID"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"accessType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"public"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"web3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blockchain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tutorial"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="list-content">List Content</h4>
+
+<p>Retrieves a paginated list of content.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api-handler/content
+</code></pre></div></div>
+
+<p><strong>Query Parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">page</code> (optional): Page number (default: 1)</li>
+  <li><code class="language-plaintext highlighter-rouge">limit</code> (optional): Items per page (default: 20)</li>
+  <li><code class="language-plaintext highlighter-rouge">creator</code> (optional): Filter by creator address</li>
+  <li><code class="language-plaintext highlighter-rouge">tags</code> (optional): Filter by tags (comma-separated)</li>
+  <li><code class="language-plaintext highlighter-rouge">accessType</code> (optional): Filter by access type (public, token-gated)</li>
+</ul>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content-123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Introduction to Web3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Learn about Web3 technologies"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"creator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234567890123456789012345678901234567890"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-04-28T12:30:45Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"contentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"video/mp4"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"thumbnailUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ipfs://QmThumbnailCID"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"accessType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"public"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"web3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blockchain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tutorial"</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="err">//</span><span class="w"> </span><span class="err">More</span><span class="w"> </span><span class="err">items...</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"pagination"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"page"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"pages"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="create-content">Create Content</h4>
+
+<p>Uploads new content to the platform.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /api-handler/content
+</code></pre></div></div>
+
+<p><strong>Request Body:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Web3 Tutorial"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A comprehensive guide to Web3"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"video/mp4"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"accessType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"public"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"web3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blockchain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tutorial"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Base64EncodedFileData"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">For</span><span class="w"> </span><span class="err">small</span><span class="w"> </span><span class="err">files</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For larger files, use the <code class="language-plaintext highlighter-rouge">/upload</code> endpoint with multipart/form-data.</p>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content-124"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Web3 Tutorial"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"processing"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uploadUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/upload/content-124"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="update-content">Update Content</h4>
+
+<p>Updates existing content metadata.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT /api-handler/content/:contentId
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">contentId</code> (path): Content ID to update</li>
+</ul>
+
+<p><strong>Request Body:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Updated Title"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Updated description"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"updated"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tags"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content-123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Updated Title"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Updated description"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"updated"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tags"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-04-29T10:15:30Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="delete-content">Delete Content</h4>
+
+<p>Removes content from the platform.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DELETE /api-handler/content/:contentId
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">contentId</code> (path): Content ID to delete</li>
+</ul>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content-123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deleted"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="user-api">User API</h3>
+
+<h4 id="get-current-user">Get Current User</h4>
+
+<p>Retrieves the authenticated user’s information.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api-handler/user
+</code></pre></div></div>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234567890123456789012345678901234567890"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"web3user"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"profileImage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ipfs://QmProfileImageCID"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-01-15T08:20:10Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contentCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"verified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="update-user-profile">Update User Profile</h4>
+
+<p>Updates the user’s profile information.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT /api-handler/user
+</code></pre></div></div>
+
+<p><strong>Request Body:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"newusername"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"profileImage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ipfs://QmNewProfileImageCID"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"bio"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Web3 content creator and blockchain enthusiast"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234567890123456789012345678901234567890"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"newusername"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"profileImage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ipfs://QmNewProfileImageCID"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"bio"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Web3 content creator and blockchain enthusiast"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-04-29T11:20:35Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="authentication-api">Authentication API</h3>
+
+<h4 id="connect-wallet">Connect Wallet</h4>
+
+<p>Authenticates a user via their blockchain wallet.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /api-handler/auth/connect
+</code></pre></div></div>
+
+<p><strong>Request Body:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234567890123456789012345678901234567890"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"signature"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sign this message to authenticate with Web3 Streaming Platform: nonce=123456"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"expiresIn"</span><span class="p">:</span><span class="w"> </span><span class="mi">86400</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234567890123456789012345678901234567890"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"web3user"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="get-authentication-challenge">Get Authentication Challenge</h4>
+
+<p>Gets a challenge message for wallet authentication.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api-handler/auth/challenge?address=0x1234567890123456789012345678901234567890
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">address</code> (query): Wallet address requesting authentication</li>
+</ul>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sign this message to authenticate with Web3 Streaming Platform: nonce=123456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"nonce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="blockchain-api">Blockchain API</h3>
+
+<h4 id="get-token-balance">Get Token Balance</h4>
+
+<p>Retrieves the user’s token balance.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api-handler/blockchain/balance
+</code></pre></div></div>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234567890123456789012345678901234567890"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1250000000000000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"formattedBalance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1250"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRX"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="get-transaction-history">Get Transaction History</h4>
+
+<p>Gets the user’s transaction history.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api-handler/blockchain/transactions
+</code></pre></div></div>
+
+<p><strong>Query Parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">page</code> (optional): Page number (default: 1)</li>
+  <li><code class="language-plaintext highlighter-rouge">limit</code> (optional): Items per page (default: 20)</li>
+</ul>
+
+<p><strong>Response:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contentPurchase"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50000000000000000000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"formattedAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-04-27T14:30:20Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"contentId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content-123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirmed"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="err">//</span><span class="w"> </span><span class="err">More</span><span class="w"> </span><span class="err">transactions...</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"pagination"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"page"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"pages"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="websocket-api">WebSocket API</h2>
+
+<p>For real-time updates, the platform provides a WebSocket API.</p>
+
+<h3 id="connection">Connection</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">socket</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="dl">'</span><span class="s1">wss://yoursite.netlify.app/.netlify/functions/websocket</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Authentication</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">socket</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span>
+    <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">authenticate</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">your-jwt-token</span><span class="dl">'</span>
+    <span class="p">})</span>
+  <span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="event-types">Event Types</h3>
+
+<h4 id="content-update">Content Update</h4>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">message</span><span class="dl">'</span><span class="p">,</span> <span class="nx">event</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">content.update</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Content updated:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">content</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h4 id="transaction-event">Transaction Event</h4>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">message</span><span class="dl">'</span><span class="p">,</span> <span class="nx">event</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">transaction</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Transaction:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">transaction</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="typescript-sdk-api">TypeScript SDK API</h2>
+
+<p>For client-side applications, the TypeScript SDK provides a convenient wrapper around the REST and WebSocket APIs.</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> @web3streaming/sdk
+</code></pre></div></div>
+
+<h3 id="usage">Usage</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">PRXBlockchainClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@web3streaming/sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PRXBlockchainClient</span><span class="p">({</span>
+  <span class="na">apiKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">your-api-key</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">network</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mainnet</span><span class="dl">'</span>
+<span class="p">});</span>
+
+<span class="c1">// Connect to wallet</span>
+<span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">connect</span><span class="p">();</span>
+
+<span class="c1">// Get content</span>
+<span class="kd">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">getContent</span><span class="p">(</span><span class="dl">'</span><span class="s1">content-123</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Upload content</span>
+<span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">uploadContent</span><span class="p">({</span>
+  <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">My Content</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">file</span><span class="p">:</span> <span class="nx">fileObject</span>
+<span class="p">});</span>
+
+<span class="c1">// Subscribe to events</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">content.update</span><span class="dl">'</span><span class="p">,</span> <span class="nx">content</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Content updated:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">content</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>See the <a href="/ts/README.md">TypeScript SDK Documentation</a> for more details.</p>
+
+<h2 id="error-codes">Error Codes</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>400</td>
+      <td>Bad Request - The request was malformed or missing required parameters.</td>
+    </tr>
+    <tr>
+      <td>401</td>
+      <td>Unauthorized - Authentication is required or failed.</td>
+    </tr>
+    <tr>
+      <td>403</td>
+      <td>Forbidden - The authenticated user lacks permission for this action.</td>
+    </tr>
+    <tr>
+      <td>404</td>
+      <td>Not Found - The requested resource does not exist.</td>
+    </tr>
+    <tr>
+      <td>409</td>
+      <td>Conflict - The request conflicts with the current state.</td>
+    </tr>
+    <tr>
+      <td>429</td>
+      <td>Too Many Requests - Rate limit exceeded.</td>
+    </tr>
+    <tr>
+      <td>500</td>
+      <td>Internal Server Error - An unexpected error occurred on the server.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="rate-limits">Rate Limits</h2>
+
+<p>API endpoints are rate-limited to prevent abuse:</p>
+
+<ul>
+  <li>Authentication endpoints: 10 requests per minute</li>
+  <li>Content retrieval: 60 requests per minute</li>
+  <li>Content creation: 10 requests per minute</li>
+  <li>User profile updates: 5 requests per minute</li>
+</ul>
+
+<p>When a rate limit is exceeded, the API returns a 429 status code with a Retry-After header indicating the seconds to wait before retrying.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

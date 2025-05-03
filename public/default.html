@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+    }
+    a {
+      text-decoration: none;
+      color: #4361ee;
+    }
+    .sidebar {
+      width: 280px;
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-right: 1px solid #e9ecef;
+      height: 100vh;
+      position: fixed;
+      overflow-y: auto;
+    }
+    .content {
+      flex: 1;
+      padding: 2rem;
+      margin-left: 280px;
+      max-width: 900px;
+    }
+    .nav-container {
+      background-color: #1a1a2e;
+      padding: 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo {
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      margin-right: 10px;
+      height: 30px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: #4361ee;
+    }
+    .page-container {
+      margin-top: 60px; /* Height of nav */
+      display: flex;
+    }
+    .breadcrumb {
+      margin-bottom: 2rem;
+      background-color: #f8f9fa;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="nav-container">
+  <div class="main-nav">
+    <a href="/" class="logo">
+      <img src="/assets/images/logo.png" alt="Web3 Streaming Logo" />
+      <span>Web3 Streaming</span>
+    </a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/docs/">Documentation</a>
+      <a href="/whitepaper/web3-streaming-service-whitepaper">Whitepaper</a>
+    </div>
+  </div>
+</div>
+
+<div class="page-container">
+  <div class="sidebar">
+    {% include sidebar.html %}
+  </div>
+  
+  <div class="content">
+    <div class="breadcrumb">
+      <a href="/docs/">Docs</a>
+      {% if page.url != "/docs/" %}
+      > {{ page.title | split: " | " | first }}
+      {% endif %}
+    </div>
+    
+    {{ content }}
+    
+    <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;">
+      <p>Last updated: {{ site.time | date: '%B %d, %Y' }}</p>
+      <p>
+        <a href="https://github.com/yourusername/gh-pages/edit/main/{{ page.path }}" target="_blank" rel="noopener">
+          Edit this page on GitHub
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

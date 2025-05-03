@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}} - Web3 Crypto Streaming Newsletter</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #553c9a 0%, #805ad5 100%);
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+        margin: -20px -20px 20px;
+      }
+      .header h1 {
+        color: white;
+        margin: 0;
+        font-size: 24px;
+      }
+      .date {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 5px;
+      }
+      .content {
+        padding: 20px 0;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        color: #999;
+        font-size: 12px;
+      }
+      .button {
+        background-color: #553c9a;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        display: inline-block;
+        margin: 20px 0;
+      }
+      .social-links {
+        margin-top: 20px;
+      }
+      .social-links a {
+        display: inline-block;
+        margin: 0 10px;
+        color: #553c9a;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>{{title}}</h1>
+        <div class="date">{{date}}</div>
+      </div>
+      <div class="content">
+        {{content}}
+
+        <p style="text-align: center">
+          <a href="https://web3streaming.example/latest" class="button">Read More on Our Website</a>
+        </p>
+
+        <div class="social-links">
+          <p>Connect with us:</p>
+          <a href="https://twitter.com/web3streaming">Twitter</a> |
+          <a href="https://discord.com/invite/web3streaming">Discord</a> |
+          <a href="https://t.me/web3streaming">Telegram</a> |
+          <a href="https://github.com/web3streaming">GitHub</a>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; 2025 Web3 Crypto Streaming Service. All rights reserved.</p>
+        <p>
+          <a href="https://web3streaming.example/privacy">Privacy Policy</a> |
+          <a href="https://web3streaming.example/terms">Terms of Service</a> |
+          <a href="https://web3streaming.example/unsubscribe?email={{email}}">Unsubscribe</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

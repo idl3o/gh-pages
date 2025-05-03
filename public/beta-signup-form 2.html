@@ -1,0 +1,99 @@
+<div class="beta-status-notice">
+    <div class="notice-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+    </div>
+    <div class="notice-content">
+        <h4>Beta Program Incoming</h4>
+        <p>Our beta program is launching soon! Here's what happens next:</p>
+        <ol class="next-steps">
+            <li>Submit this form to join the waiting list</li>
+            <li>You'll receive a confirmation email</li>
+            <li>When the beta launches, you'll get an invitation with access instructions</li>
+            <li>Early participants will receive exclusive token rewards</li>
+        </ol>
+    </div>
+</div>
+
+<form id="beta-signup-form" action="/submit" method="POST">
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+            <option value="creator">Creator</option>
+            <option value="viewer">Viewer</option>
+            <option value="developer">Developer</option>
+        </select>
+    </div>
+
+    <button type="submit" class="button primary">Sign Up for Beta</button>
+
+    <p id="form-success" class="hidden">Thank you for signing up! We'll be in touch soon.</p>
+    <p id="form-error" class="hidden">There was an error submitting the form. Please try again.</p>
+</form>
+
+<script>
+    document.getElementById('beta-signup-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formSuccess = document.getElementById('form-success');
+        const formError = document.getElementById('form-error');
+
+        // Simulate form submission
+        setTimeout(() => {
+            formSuccess.classList.remove('hidden');
+            formError.classList.add('hidden');
+        }, 1000);
+    });
+</script>
+
+<style>
+    .beta-status-notice {
+        background-color: rgba(110, 69, 226, 0.1);
+        border-left: 4px solid var(--secondary);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .notice-icon {
+        color: var(--secondary);
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+    }
+    
+    .notice-content h4 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: var(--light);
+    }
+    
+    .notice-content p {
+        margin-bottom: 1rem;
+    }
+    
+    .next-steps {
+        margin-left: 1.5rem;
+        padding-left: 0;
+    }
+    
+    .next-steps li {
+        margin-bottom: 0.5rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+</style>

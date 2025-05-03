@@ -1,0 +1,190 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-04-01T12:00:00Z",
+  "powerItems": [
+    {
+      "id": "content_quality",
+      "name": "Content Quality",
+      "description": "Score based on viewer ratings, resolution, and watch completion rate",
+      "maxPoints": 1000,
+      "multiplier": 2.5,
+      "tier": "primary",
+      "icon": "star",
+      "calculation": "qualityScore * resolutionFactor * (completionRate / 100) * multiplier"
+    },
+    {
+      "id": "engagement_rate",
+      "name": "Viewer Engagement",
+      "description": "Based on comments, shares, and interaction rate during streams",
+      "maxPoints": 800,
+      "multiplier": 2.0,
+      "tier": "primary",
+      "icon": "comments",
+      "calculation": "(comments + shares * 2 + reactions) / viewCount * multiplier"
+    },
+    {
+      "id": "stream_time",
+      "name": "Streaming Time",
+      "description": "Total hours spent streaming with bonuses for consistency",
+      "maxPoints": 700,
+      "multiplier": 1.0,
+      "tier": "secondary",
+      "icon": "clock",
+      "calculation": "hoursStreamed * consistencyFactor * multiplier"
+    },
+    {
+      "id": "token_earnings",
+      "name": "STREAM Token Earnings",
+      "description": "Total STREAM tokens earned through content creation",
+      "maxPoints": 1000,
+      "multiplier": 1.5,
+      "tier": "primary",
+      "icon": "coin",
+      "calculation": "totalTokensEarned / benchmarkEarnings * multiplier"
+    },
+    {
+      "id": "subscription_growth",
+      "name": "Subscription Growth",
+      "description": "Rate of subscriber acquisition and retention",
+      "maxPoints": 600,
+      "multiplier": 1.8,
+      "tier": "secondary",
+      "icon": "chart-line",
+      "calculation": "(newSubscribers - lostSubscribers) / totalSubscribers * multiplier"
+    },
+    {
+      "id": "community_building",
+      "name": "Community Building",
+      "description": "Activity in forums, discord, and community initiatives",
+      "maxPoints": 500,
+      "multiplier": 1.2,
+      "tier": "secondary",
+      "icon": "users",
+      "calculation": "(forumPosts + communityEvents * 5) * multiplier"
+    },
+    {
+      "id": "platform_loyalty",
+      "name": "Platform Loyalty",
+      "description": "Duration and consistency of platform usage",
+      "maxPoints": 400,
+      "multiplier": 1.0,
+      "tier": "tertiary",
+      "icon": "shield",
+      "calculation": "monthsActive * (1 + exclusivityRatio) * multiplier"
+    },
+    {
+      "id": "content_diversity",
+      "name": "Content Diversity",
+      "description": "Range of content categories and formats created",
+      "maxPoints": 300,
+      "multiplier": 1.1,
+      "tier": "tertiary",
+      "icon": "layer-group",
+      "calculation": "(uniqueCategories + uniqueFormats) * multiplier"
+    },
+    {
+      "id": "staking_power",
+      "name": "Staking Power",
+      "description": "STREAM tokens staked to the platform",
+      "maxPoints": 900,
+      "multiplier": 1.4,
+      "tier": "primary",
+      "icon": "lock",
+      "calculation": "tokensStaked / stakingBenchmark * multiplier"
+    },
+    {
+      "id": "governance_participation",
+      "name": "Governance Participation",
+      "description": "Active participation in platform governance voting",
+      "maxPoints": 500,
+      "multiplier": 1.3,
+      "tier": "secondary",
+      "icon": "vote-yea",
+      "calculation": "(proposalsVoted / totalProposals + proposalsCreated * 5) * multiplier"
+    },
+    {
+      "id": "referral_power",
+      "name": "Referral Power",
+      "description": "New creators and viewers brought to the platform",
+      "maxPoints": 600,
+      "multiplier": 1.7,
+      "tier": "secondary",
+      "icon": "user-plus",
+      "calculation": "(creatorsReferred * 10 + viewersReferred) * multiplier"
+    },
+    {
+      "id": "innovation_bonus",
+      "name": "Innovation Bonus",
+      "description": "Unique features or content formats pioneered",
+      "maxPoints": 400,
+      "multiplier": 2.0,
+      "tier": "special",
+      "icon": "lightbulb",
+      "calculation": "innovationScoreManual * multiplier"
+    }
+  ],
+  "tiers": {
+    "primary": {
+      "color": "#6e45e2",
+      "weight": 1.0,
+      "description": "Core metrics that directly impact creator ranking"
+    },
+    "secondary": {
+      "color": "#00d8ff",
+      "weight": 0.7,
+      "description": "Important supporting metrics for well-rounded creators"
+    },
+    "tertiary": {
+      "color": "#ff5722",
+      "weight": 0.4,
+      "description": "Additional metrics that provide minor ranking boosts"
+    },
+    "special": {
+      "color": "#f3ca3e",
+      "weight": 1.5,
+      "description": "Rare bonus metrics for exceptional contributions"
+    }
+  },
+  "rankLevels": [
+    {
+      "name": "Bronze",
+      "minScore": 0,
+      "maxScore": 1000,
+      "icon": "B",
+      "color": "#cd7f32",
+      "benefits": ["Basic analytics", "Standard revenue share"]
+    },
+    {
+      "name": "Silver",
+      "minScore": 1001,
+      "maxScore": 2500,
+      "icon": "S",
+      "color": "#c0c0c0",
+      "benefits": ["Enhanced analytics", "+2% higher revenue share", "Priority encoding"]
+    },
+    {
+      "name": "Gold",
+      "minScore": 2501,
+      "maxScore": 5000,
+      "icon": "G",
+      "color": "#ffd700",
+      "benefits": ["Advanced analytics suite", "+5% higher revenue share", "Priority encoding", "Featured placement opportunities"]
+    },
+    {
+      "name": "Platinum",
+      "minScore": 5001,
+      "maxScore": 7500,
+      "icon": "P",
+      "color": "#e5e4e2",
+      "benefits": ["Complete analytics suite", "+8% higher revenue share", "Priority encoding", "Regular featured placement", "Early access to new features"]
+    },
+    {
+      "name": "Diamond",
+      "minScore": 7501,
+      "maxScore": 999999,
+      "icon": "D",
+      "color": "#b9f2ff",
+      "benefits": ["Complete analytics suite", "+10% higher revenue share", "Highest priority encoding", "Premium featured placement", "Early access to all features", "Custom branding options"]
+    }
+  ]
+}

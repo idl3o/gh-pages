@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/proof-of-existence.html" />
+<meta property="og:url" content="/docs/proof-of-existence.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/proof-of-existence.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: ProofOfExistence | Web3 Crypto Streaming Service</p>
+<hr />
+
+<h1 id="proofofexistence-contract">ProofOfExistence Contract</h1>
+
+<p>The ProofOfExistence contract is a critical component of the Web3 Crypto Streaming Service platform that provides tamper-proof verification of content timestamps and ownership.</p>
+
+<h2 id="contract-overview">Contract Overview</h2>
+
+<p>This contract enables creators to establish immutable evidence that they possessed or created specific content at a particular point in time. It serves as a blockchain-powered notary service for digital content.</p>
+
+<h2 id="key-features">Key Features</h2>
+
+<ul>
+  <li><strong>Immutable Timestamping</strong>: Permanently record when content was registered</li>
+  <li><strong>Content Verification</strong>: Prove content existed at a specific point in time</li>
+  <li><strong>Quantum Signature Support</strong>: Enhanced security through quantum-resistant signatures</li>
+  <li><strong>Confidence Metrics</strong>: Track verification confidence levels</li>
+  <li><strong>Certificate Support</strong>: Special functions for educational content certification</li>
+</ul>
+
+<h2 id="contract-interface">Contract Interface</h2>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT
+</span><span class="k">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="n">IProofOfExistence</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Proof</span> <span class="p">{</span>
+        <span class="kt">bytes32</span> <span class="n">quantumSignature</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">timestamp</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">confidence</span><span class="p">;</span>
+        <span class="kt">address</span> <span class="n">registeredBy</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">exists</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">event</span> <span class="n">ProofRegistered</span><span class="p">(</span>
+        <span class="kt">bytes32</span> <span class="k">indexed</span> <span class="n">contentHash</span><span class="p">,</span>
+        <span class="kt">bytes32</span> <span class="n">quantumSignature</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">timestamp</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">confidence</span><span class="p">,</span>
+        <span class="kt">address</span> <span class="n">registeredBy</span>
+    <span class="p">);</span>
+    
+    <span class="k">event</span> <span class="n">ProofVerified</span><span class="p">(</span>
+        <span class="kt">bytes32</span> <span class="k">indexed</span> <span class="n">contentHash</span><span class="p">,</span>
+        <span class="kt">bool</span> <span class="n">exists</span><span class="p">,</span>
+        <span class="kt">uint256</span> <span class="n">timestamp</span>
+    <span class="p">);</span>
+    
+    <span class="k">function</span> <span class="n">registerProof</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">,</span> <span class="kt">bytes32</span> <span class="n">quantumSignature</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">confidence</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">verifyProof</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">external</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">getProofDetails</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bytes32</span><span class="p">,</span> <span class="kt">uint256</span><span class="p">,</span> <span class="kt">uint256</span><span class="p">,</span> <span class="kt">address</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">getTimestamp</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">getConfidence</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">registerProofWithCertificate</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">,</span> <span class="kt">bytes32</span> <span class="n">certificateSignature</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">completionScore</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="usage-examples">Usage Examples</h2>
+
+<h3 id="registering-content-proof">Registering Content Proof</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example JavaScript using ethers.js</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">registerContentProof</span><span class="p">(</span><span class="nx">contract</span><span class="p">,</span> <span class="nx">creator</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Generate content hash</span>
+  <span class="kd">const</span> <span class="nx">contentText</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">This is my original content that I want to timestamp</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">contentHash</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">id</span><span class="p">(</span><span class="nx">contentText</span><span class="p">);</span>
+  
+  <span class="c1">// Create a quantum-resistant signature (simplified for example)</span>
+  <span class="kd">const</span> <span class="nx">signature</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">id</span><span class="p">(</span><span class="dl">"</span><span class="s2">quantum-signature-</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">contentText</span><span class="p">);</span>
+  
+  <span class="c1">// Confidence level: 95.00%</span>
+  <span class="kd">const</span> <span class="nx">confidence</span> <span class="o">=</span> <span class="mi">9500</span><span class="p">;</span>  <span class="c1">// 0-10000 scale</span>
+  
+  <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">creator</span><span class="p">).</span><span class="nx">registerProof</span><span class="p">(</span>
+    <span class="nx">contentHash</span><span class="p">,</span>
+    <span class="nx">signature</span><span class="p">,</span>
+    <span class="nx">confidence</span>
+  <span class="p">);</span>
+  
+  <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Content proof registered with hash: </span><span class="p">${</span><span class="nx">contentHash</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="verifying-content-existence">Verifying Content Existence</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">verifyContent</span><span class="p">(</span><span class="nx">contract</span><span class="p">,</span> <span class="nx">contentHash</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Check if content exists in the contract</span>
+  <span class="kd">const</span> <span class="nx">exists</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">verifyProof</span><span class="p">(</span><span class="nx">contentHash</span><span class="p">);</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Get additional proof details</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">signature</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">confidence</span><span class="p">,</span> <span class="nx">registeredBy</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">getProofDetails</span><span class="p">(</span><span class="nx">contentHash</span><span class="p">);</span>
+    
+    <span class="kd">const</span> <span class="nx">registrationDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">timestamp</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">confidencePercent</span> <span class="o">=</span> <span class="nx">confidence</span> <span class="o">/</span> <span class="mi">100</span><span class="p">;</span>
+    
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Content verified! Registered on </span><span class="p">${</span><span class="nx">registrationDate</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Confidence level: </span><span class="p">${</span><span class="nx">confidencePercent</span><span class="p">}</span><span class="s2">%`</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Registered by: </span><span class="p">${</span><span class="nx">registeredBy</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Content verification failed - no proof exists</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">}</span>
+  
+  <span class="k">return</span> <span class="nx">exists</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="educational-certificate-registration">Educational Certificate Registration</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">registerCertificate</span><span class="p">(</span><span class="nx">contract</span><span class="p">,</span> <span class="nx">educator</span><span class="p">,</span> <span class="nx">studentId</span><span class="p">,</span> <span class="nx">courseId</span><span class="p">,</span> <span class="nx">score</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Generate certificate hash</span>
+  <span class="kd">const</span> <span class="nx">certificateData</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">studentId</span><span class="p">}</span><span class="s2">-</span><span class="p">${</span><span class="nx">courseId</span><span class="p">}</span><span class="s2">-completion`</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">certificateHash</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">id</span><span class="p">(</span><span class="nx">certificateData</span><span class="p">);</span>
+  
+  <span class="c1">// Create certificate signature</span>
+  <span class="kd">const</span> <span class="nx">certificateSignature</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">id</span><span class="p">(</span><span class="s2">`cert-sig-</span><span class="p">${</span><span class="nx">studentId</span><span class="p">}</span><span class="s2">-</span><span class="p">${</span><span class="nx">courseId</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  
+  <span class="c1">// Convert score to 10000-based scale (e.g., 87.5% = 8750)</span>
+  <span class="kd">const</span> <span class="nx">scoreValue</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">score</span> <span class="o">*</span> <span class="mi">100</span><span class="p">);</span>
+  
+  <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">educator</span><span class="p">).</span><span class="nx">registerProofWithCertificate</span><span class="p">(</span>
+    <span class="nx">certificateHash</span><span class="p">,</span>
+    <span class="nx">certificateSignature</span><span class="p">,</span>
+    <span class="nx">scoreValue</span>
+  <span class="p">);</span>
+  
+  <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Certificate registered for student </span><span class="p">${</span><span class="nx">studentId</span><span class="p">}</span><span class="s2"> with score </span><span class="p">${</span><span class="nx">score</span><span class="p">}</span><span class="s2">%`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Certificate hash: </span><span class="p">${</span><span class="nx">certificateHash</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<ul>
+  <li>Once registered, proofs cannot be modified or deleted</li>
+  <li>Input validation prevents empty content hashes and excessive confidence values</li>
+  <li>Uses bytes32 for content hashes to improve security over string-based approaches</li>
+  <li>All registration events are fully traceable and attributable to the sender</li>
+</ul>
+
+<h2 id="gas-optimization">Gas Optimization</h2>
+
+<ul>
+  <li>Uses bytes32 instead of string types for efficient storage</li>
+  <li>Struct packing optimizes storage layout</li>
+  <li>Minimal state changes during proof verification</li>
+  <li>View functions for non-mutating queries</li>
+</ul>
+
+<h2 id="deployed-contract-addresses">Deployed Contract Addresses</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Network</th>
+      <th>Address</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ethereum Mainnet</td>
+      <td>0x2345678901234567890123456789012345678901</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>Goerli Testnet</td>
+      <td>0x8765432109876543210987654321098765432109</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>Polygon</td>
+      <td>0xbcdef0123456789abcdef0123456789abcdef012</td>
+      <td>v1.0.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="implementation-source-code">Implementation Source Code</h2>
+
+<p>For the complete implementation, please visit our <a href="https://github.com/idl3o/contracts/blob/main/ProofOfExistence.sol">GitHub repository</a>.</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This is a simplified version of the contract for documentation purposes
+// See the GitHub repository for the full implementation
+</span><span class="k">contract</span> <span class="n">ProofOfExistence</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Proof</span> <span class="p">{</span>
+        <span class="kt">bytes32</span> <span class="n">quantumSignature</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">timestamp</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">confidence</span><span class="p">;</span>
+        <span class="kt">address</span> <span class="n">registeredBy</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">exists</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Mapping from content hash to proof
+</span>    <span class="k">mapping</span><span class="p">(</span><span class="kt">bytes32</span> <span class="o">=&gt;</span> <span class="n">Proof</span><span class="p">)</span> <span class="k">private</span> <span class="n">proofs</span><span class="p">;</span>
+    
+    <span class="c1">// Events defined as in the interface
+</span>    <span class="k">event</span> <span class="n">ProofRegistered</span><span class="p">(</span><span class="cm">/* fields as above */</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">ProofVerified</span><span class="p">(</span><span class="cm">/* fields as above */</span><span class="p">);</span>
+    
+    <span class="c1">// Implementation of interface functions
+</span>    <span class="k">function</span> <span class="n">registerProof</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentHash</span><span class="p">,</span> <span class="kt">bytes32</span> <span class="n">quantumSignature</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">confidence</span><span class="p">)</span> <span class="k">external</span> <span class="p">{</span>
+        <span class="c1">// Input validation
+</span>        <span class="nb">require</span><span class="p">(</span><span class="n">contentHash</span> <span class="o">!=</span> <span class="kt">bytes32</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"Content hash cannot be empty"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="o">!</span><span class="n">proofs</span><span class="p">[</span><span class="n">contentHash</span><span class="p">].</span><span class="n">exists</span><span class="p">,</span> <span class="s">"Proof already exists"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">confidence</span> <span class="o">&lt;=</span> <span class="mi">10000</span><span class="p">,</span> <span class="s">"Confidence must be &lt;= 10000"</span><span class="p">);</span>
+        
+        <span class="c1">// Create proof record
+</span>        <span class="n">proofs</span><span class="p">[</span><span class="n">contentHash</span><span class="p">]</span> <span class="o">=</span> <span class="n">Proof</span><span class="p">({</span>
+            <span class="n">quantumSignature</span><span class="o">:</span> <span class="n">quantumSignature</span><span class="p">,</span>
+            <span class="n">timestamp</span><span class="o">:</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">,</span>
+            <span class="n">confidence</span><span class="o">:</span> <span class="n">confidence</span><span class="p">,</span>
+            <span class="n">registeredBy</span><span class="o">:</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span>
+            <span class="n">exists</span><span class="o">:</span> <span class="nb">true</span>
+        <span class="p">});</span>
+        
+        <span class="c1">// Emit event
+</span>        <span class="k">emit</span> <span class="n">ProofRegistered</span><span class="p">(</span>
+            <span class="n">contentHash</span><span class="p">,</span>
+            <span class="n">quantumSignature</span><span class="p">,</span>
+            <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">,</span>
+            <span class="n">confidence</span><span class="p">,</span>
+            <span class="n">msg</span><span class="p">.</span><span class="n">sender</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Additional implementation details...
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+
+<ul>
+  <li><a href="../tech.contracts.html">Smart Contract Architecture</a></li>
+  <li><a href="../guides.developers.html">Web3 Developer Guide</a></li>
+  <li><a href="stream-access.html">StreamAccessContract</a></li>
+  <li><a href="../guides.creators.verification.html">Content Verification Guide</a></li>
+</ul>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

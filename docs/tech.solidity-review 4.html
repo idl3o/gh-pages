@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/tech.solidity-review%204.html" />
+<meta property="og:url" content="/docs/tech.solidity-review%204.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/tech.solidity-review%204.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: Solidity Code Review | Web3 Crypto Streaming Service</p>
+<hr />
+
+<h1 id="solidity-code-implementation-review">Solidity Code Implementation Review</h1>
+
+<p>This document provides an in-depth review of the Solidity implementation powering the Web3 Crypto Streaming Service platform. We analyze the code structure, design patterns, security considerations, and optimization techniques used throughout our smart contract ecosystem.</p>
+
+<h2 id="core-contract-implementations">Core Contract Implementations</h2>
+
+<h3 id="streamaccesscontract-analysis">StreamAccessContract Analysis</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">StreamAccessContract</code> acts as the primary gatekeeper for content access, implementing a robust permission and payment system:</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Key code sections from StreamAccessContract.sol
+</span><span class="k">contract</span> <span class="n">StreamAccessContract</span> <span class="p">{</span>
+    <span class="c1">// Content struct to store metadata and access information
+</span>    <span class="k">struct</span> <span class="n">Content</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">creator</span><span class="p">;</span>         <span class="c1">// Content creator address
+</span>        <span class="kt">uint256</span> <span class="n">price</span><span class="p">;</span>           <span class="c1">// Access price in wei
+</span>        <span class="kt">bool</span> <span class="n">exists</span><span class="p">;</span>             <span class="c1">// Whether content exists
+</span>        <span class="kt">bool</span> <span class="n">isPremium</span><span class="p">;</span>          <span class="c1">// Whether content is premium
+</span>        <span class="kt">uint256</span> <span class="n">royaltyPercent</span><span class="p">;</span>  <span class="c1">// Creator royalty percentage (out of 100)
+</span>        <span class="kt">string</span> <span class="n">contentHash</span><span class="p">;</span>      <span class="c1">// IPFS or content identifier hash
+</span>    <span class="p">}</span>
+    
+    <span class="c1">// Access struct to track user access
+</span>    <span class="k">struct</span> <span class="n">Access</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">hasAccess</span><span class="p">;</span>          <span class="c1">// Whether user has access
+</span>        <span class="kt">uint256</span> <span class="n">expirationTime</span><span class="p">;</span>  <span class="c1">// When access expires (0 for permanent)
+</span>    <span class="p">}</span>
+    
+    <span class="c1">// Content mapping: contentId =&gt; Content
+</span>    <span class="k">mapping</span><span class="p">(</span><span class="kt">bytes32</span> <span class="o">=&gt;</span> <span class="n">Content</span><span class="p">)</span> <span class="k">public</span> <span class="n">contents</span><span class="p">;</span>
+    
+    <span class="c1">// Access mapping: contentId =&gt; user =&gt; Access
+</span>    <span class="k">mapping</span><span class="p">(</span><span class="kt">bytes32</span> <span class="o">=&gt;</span> <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="n">Access</span><span class="p">))</span> <span class="k">public</span> <span class="n">userAccess</span><span class="p">;</span>
+    
+    <span class="c1">// Platform fee percentage (out of 100)
+</span>    <span class="kt">uint256</span> <span class="k">public</span> <span class="n">platformFeePercent</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>*Code Design Analysis:**</li>
+  <li>Uses a dual-mapping approach to efficiently track both content metadata and user access rights</li>
+  <li>Implements flexible time-based access controls with expirations</li>
+  <li>Structures the platform fee as a configurable parameter rather than hardcoded value</li>
+  <li>
+    <p>Properly defines ownership and access relationships</p>
+  </li>
+  <li>*Security Considerations:**</li>
+  <li>Validates all inputs with require statements</li>
+  <li>Implements platform fee limits to prevent malicious fee changes</li>
+  <li>Uses explicit visibility modifiers for all functions and state variables</li>
+  <li>Properly manages transfer of funds with checks before execution</li>
+</ul>
+
+<h3 id="proofofexistence-implementation">ProofOfExistence Implementation</h3>
+
+<p>We use two versions of the <code class="language-plaintext highlighter-rouge">ProofOfExistence</code> contract based on specific use cases:</p>
+
+<ul>
+  <li>*Basic Version:**
+    <div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Basic ProofOfExistence implementation
+</span><span class="k">contract</span> <span class="n">ProofOfExistence</span> <span class="p">{</span>
+  <span class="c1">// Mapping from hash to timestamp
+</span>  <span class="k">mapping</span><span class="p">(</span><span class="kt">string</span> <span class="o">=&gt;</span> <span class="kt">uint256</span><span class="p">)</span> <span class="k">private</span> <span class="n">proofs</span><span class="p">;</span>
+    
+  <span class="c1">// Events
+</span>  <span class="k">event</span> <span class="n">HashStored</span><span class="p">(</span><span class="kt">string</span> <span class="n">contentHash</span><span class="p">,</span> <span class="kt">address</span> <span class="n">sender</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">timestamp</span><span class="p">);</span>
+  <span class="k">event</span> <span class="n">HashVerified</span><span class="p">(</span><span class="kt">string</span> <span class="n">contentHash</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">exists</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">timestamp</span><span class="p">);</span>
+    
+  <span class="c1">// Store a hash on the blockchain
+</span>  <span class="k">function</span> <span class="n">storeHash</span><span class="p">(</span><span class="kt">string</span> <span class="k">memory</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">public</span> <span class="p">{</span>
+      <span class="nb">require</span><span class="p">(</span><span class="n">proofs</span><span class="p">[</span><span class="n">contentHash</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"Hash already exists"</span><span class="p">);</span>
+      <span class="n">proofs</span><span class="p">[</span><span class="n">contentHash</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">;</span>
+      <span class="k">emit</span> <span class="n">HashStored</span><span class="p">(</span><span class="n">contentHash</span><span class="p">,</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">);</span>
+  <span class="p">}</span>
+    
+  <span class="c1">// Verify if a hash exists
+</span>  <span class="k">function</span> <span class="n">verifyHash</span><span class="p">(</span><span class="kt">string</span> <span class="k">memory</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">public</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">proofs</span><span class="p">[</span><span class="n">contentHash</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+    
+  <span class="c1">// Get the timestamp when a hash was stored
+</span>  <span class="k">function</span> <span class="n">getTimestamp</span><span class="p">(</span><span class="kt">string</span> <span class="k">memory</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">public</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">uint256</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nb">require</span><span class="p">(</span><span class="n">proofs</span><span class="p">[</span><span class="n">contentHash</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"Hash does not exist"</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">proofs</span><span class="p">[</span><span class="n">contentHash</span><span class="p">];</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>*Advanced Version:**
+    <div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Enhanced ProofOfExistence implementation
+</span><span class="k">contract</span> <span class="n">ProofOfExistence</span> <span class="p">{</span>
+  <span class="k">struct</span> <span class="n">Proof</span> <span class="p">{</span>
+      <span class="kt">bytes32</span> <span class="n">quantumSignature</span><span class="p">;</span>
+      <span class="kt">uint256</span> <span class="n">timestamp</span><span class="p">;</span>
+      <span class="kt">uint256</span> <span class="n">confidence</span><span class="p">;</span>
+      <span class="kt">address</span> <span class="n">registeredBy</span><span class="p">;</span>
+      <span class="kt">bool</span> <span class="n">exists</span><span class="p">;</span>
+  <span class="p">}</span>
+    
+  <span class="c1">// Mapping from content hash to proof
+</span>  <span class="k">mapping</span><span class="p">(</span><span class="kt">bytes32</span> <span class="o">=&gt;</span> <span class="n">Proof</span><span class="p">)</span> <span class="k">private</span> <span class="n">proofs</span><span class="p">;</span>
+    
+  <span class="cm">/**
+   * @dev Register a new proof of existence
+   * @param contentHash Hash of the content
+   * @param quantumSignature Quantum signature of the content
+   * @param confidence Confidence level (0-10000, representing 0-100.00%)
+   * /
+  function registerProof(
+      bytes32 contentHash, 
+      bytes32 quantumSignature,
+      uint256 confidence
+  ) external {
+      require(contentHash != bytes32(0), "Content hash cannot be empty");
+      require(!proofs[contentHash].exists, "Proof already exists");
+      require(confidence &lt;= 10000, "Confidence must be &lt;= 10000");
+        
+      proofs[contentHash] = Proof({
+          quantumSignature: quantumSignature,
+          timestamp: block.timestamp,
+          confidence: confidence,
+          registeredBy: msg.sender,
+          exists: true
+      });
+        
+      emit ProofRegistered(
+          contentHash, 
+          quantumSignature, 
+          block.timestamp,
+          confidence,
+          msg.sender
+      );
+  }
+</span></code></pre></div>    </div>
+  </li>
+  <li>*Implementation Comparison:**</li>
+  <li>The basic version uses string hashes for simplicity and compatibility</li>
+  <li>The advanced version uses bytes32 for gas optimization and adds confidence metrics</li>
+  <li>Both versions maintain immutability of timestamp records</li>
+  <li>The advanced version adds quantum signature support for enhanced security</li>
+</ul>
+
+<h3 id="streamingtoken-contract">StreamingToken Contract</h3>
+
+<p>Our ERC20-compliant STREAM token implementation adds streaming-specific utility functions:</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// StreamingToken.sol implementation highlights
+</span><span class="k">contract</span> <span class="n">StreamingToken</span> <span class="k">is</span> <span class="n">ERC20</span><span class="p">,</span> <span class="n">Ownable</span> <span class="p">{</span>
+    <span class="kt">uint256</span> <span class="k">public</span> <span class="k">constant</span> <span class="n">CREDITS_PER_ETH</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="k">mapping</span><span class="p">(</span><span class="kt">string</span> <span class="o">=&gt;</span> <span class="kt">uint256</span><span class="p">))</span> <span class="k">public</span> <span class="n">streamExpiry</span><span class="p">;</span>
+
+    <span class="k">constructor</span><span class="p">()</span> <span class="n">ERC20</span><span class="p">(</span><span class="s">"Streaming Credits"</span><span class="p">,</span> <span class="s">"STRM"</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="k">function</span> <span class="n">purchaseCredits</span><span class="p">()</span> <span class="k">public</span> <span class="k">payable</span> <span class="p">{</span>
+        <span class="kt">uint256</span> <span class="n">credits</span> <span class="o">=</span> <span class="n">msg</span><span class="p">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">CREDITS_PER_ETH</span><span class="p">;</span>
+        <span class="n">_mint</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">credits</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">function</span> <span class="n">startStream</span><span class="p">(</span><span class="kt">string</span> <span class="k">memory</span> <span class="n">contentId</span><span class="p">)</span> <span class="k">public</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"Insufficient credits"</span><span class="p">);</span>
+        <span class="n">_burn</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">streamExpiry</span><span class="p">[</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">][</span><span class="n">contentId</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">+</span> <span class="mi">1</span> <span class="kc">hours</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">function</span> <span class="n">canStream</span><span class="p">(</span><span class="kt">address</span> <span class="n">user</span><span class="p">,</span> <span class="kt">string</span> <span class="k">memory</span> <span class="n">contentId</span><span class="p">)</span> <span class="k">public</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">streamExpiry</span><span class="p">[</span><span class="n">user</span><span class="p">][</span><span class="n">contentId</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>*Design Analysis:**</li>
+  <li>Extends OpenZeppelin’s ERC20 implementation for security and standardization</li>
+  <li>Implements a credit-based system with fixed ETH-to-credit conversion</li>
+  <li>Uses time-based streaming access controls</li>
+  <li>Burns tokens upon streaming to create token velocity</li>
+</ul>
+
+<h3 id="streampayment-implementation">StreamPayment Implementation</h3>
+
+<p>Our payment streaming contract enables per-second payment flows:</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// StreamPayment.sol key implementation
+</span><span class="k">contract</span> <span class="n">StreamPayment</span> <span class="p">{</span>
+    <span class="c1">// Payment stream structure
+</span>    <span class="k">struct</span> <span class="n">Stream</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">sender</span><span class="p">;</span>
+        <span class="kt">address</span> <span class="n">recipient</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">rate</span><span class="p">;</span>      <span class="c1">// Rate per second in wei
+</span>        <span class="kt">uint256</span> <span class="n">start</span><span class="p">;</span>     <span class="c1">// Start timestamp
+</span>        <span class="kt">uint256</span> <span class="n">stop</span><span class="p">;</span>      <span class="c1">// Stop timestamp (0 if active)
+</span>        <span class="kt">uint256</span> <span class="nb">balance</span><span class="p">;</span>   <span class="c1">// Total balance deposited
+</span>        <span class="kt">uint256</span> <span class="n">withdrawn</span><span class="p">;</span> <span class="c1">// Amount already withdrawn
+</span>    <span class="p">}</span>
+    
+    <span class="c1">// Storage
+</span>    <span class="k">mapping</span><span class="p">(</span><span class="kt">bytes32</span> <span class="o">=&gt;</span> <span class="n">Stream</span><span class="p">)</span> <span class="k">public</span> <span class="n">streams</span><span class="p">;</span>
+    
+    <span class="c1">// Events
+</span>    <span class="k">event</span> <span class="n">StreamCreated</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">sender</span><span class="p">,</span> <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">rate</span><span class="p">,</span> <span class="kt">uint256</span> <span class="nb">balance</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">StreamUpdated</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="nb">balance</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">StreamStopped</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">duration</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">paid</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">Withdrawal</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amount</span><span class="p">);</span>
+    
+    <span class="c1">// Create a new payment stream
+</span>    <span class="k">function</span> <span class="n">createStream</span><span class="p">(</span><span class="kt">address</span> <span class="n">recipient</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">ratePerSecond</span><span class="p">)</span> <span class="k">public</span> <span class="k">payable</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bytes32</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"Must deposit funds"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">recipient</span> <span class="o">!=</span> <span class="kt">address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"Invalid recipient"</span><span class="p">);</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">ratePerSecond</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"Rate must be positive"</span><span class="p">);</span>
+        
+        <span class="kt">bytes32</span> <span class="n">streamId</span> <span class="o">=</span> <span class="nb">keccak256</span><span class="p">(</span><span class="n">abi</span><span class="p">.</span><span class="n">encodePacked</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">));</span>
+        
+        <span class="n">streams</span><span class="p">[</span><span class="n">streamId</span><span class="p">]</span> <span class="o">=</span> <span class="n">Stream</span><span class="p">({</span>
+            <span class="n">sender</span><span class="o">:</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span>
+            <span class="n">recipient</span><span class="o">:</span> <span class="n">recipient</span><span class="p">,</span>
+            <span class="n">rate</span><span class="o">:</span> <span class="n">ratePerSecond</span><span class="p">,</span>
+            <span class="n">start</span><span class="o">:</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">,</span>
+            <span class="n">stop</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nb">balance</span><span class="o">:</span> <span class="n">msg</span><span class="p">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">withdrawn</span><span class="o">:</span> <span class="mi">0</span>
+        <span class="p">});</span>
+        
+        <span class="k">emit</span> <span class="n">StreamCreated</span><span class="p">(</span><span class="n">streamId</span><span class="p">,</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">ratePerSecond</span><span class="p">,</span> <span class="n">msg</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">streamId</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>*Technical Analysis:**</li>
+  <li>Implements real-time streaming payments using per-second rate calculations</li>
+  <li>Uses a unique stream ID generation mechanism based on participants and timestamp</li>
+  <li>Properly tracks withdrawn amounts versus available funds</li>
+  <li>Includes comprehensive event emissions for off-chain tracking</li>
+</ul>
+
+<h2 id="optimization-techniques">Optimization Techniques</h2>
+
+<p>Our smart contracts implement several gas optimization techniques:</p>
+
+<h3 id="storage-pattern-optimization">Storage Pattern Optimization</h3>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example of optimized storage patterns
+// Instead of:
+</span><span class="k">struct</span> <span class="n">User</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="n">active</span><span class="p">;</span>
+    <span class="kt">uint256</span> <span class="nb">balance</span><span class="p">;</span>
+    <span class="kt">string</span> <span class="n">name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// We use:
+</span><span class="k">struct</span> <span class="n">User</span> <span class="p">{</span>
+    <span class="kt">uint256</span> <span class="nb">balance</span><span class="p">;</span>  <span class="c1">// Aligns with 32-byte storage slots
+</span>    <span class="kt">bool</span> <span class="n">active</span><span class="p">;</span>      <span class="c1">// Packed with other small values
+</span>    <span class="kt">string</span> <span class="n">name</span><span class="p">;</span>      <span class="c1">// Separate slot for dynamic data
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="memory-vs-storage-usage">Memory vs Storage Usage</h3>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Efficient memory usage example
+</span><span class="k">function</span> <span class="n">processUsers</span><span class="p">(</span><span class="kt">address</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">userAddresses</span><span class="p">)</span> <span class="k">external</span> <span class="p">{</span>
+    <span class="kt">uint256</span> <span class="n">count</span> <span class="o">=</span> <span class="n">userAddresses</span><span class="p">.</span><span class="n">length</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">uint256</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Use memory reference for loop iterations
+</span>        <span class="kt">address</span> <span class="n">userAddress</span> <span class="o">=</span> <span class="n">userAddresses</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">User</span> <span class="k">storage</span> <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="n">userAddress</span><span class="p">];</span>
+        <span class="c1">// Process user...
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="optimized-function-calls">Optimized Function Calls</h3>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Before optimization
+</span><span class="k">function</span> <span class="n">checkBoth</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span> <span class="n">hasValid</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">expiry</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="n">access</span> <span class="o">=</span> <span class="n">hasAccess</span><span class="p">(</span><span class="n">contentId</span><span class="p">,</span> <span class="n">user</span><span class="p">);</span>
+    <span class="kt">uint256</span> <span class="n">expiryTime</span> <span class="o">=</span> <span class="n">getExpiryTime</span><span class="p">(</span><span class="n">contentId</span><span class="p">,</span> <span class="n">user</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">access</span><span class="p">,</span> <span class="n">expiryTime</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// After optimization - combined into single storage read
+</span><span class="k">function</span> <span class="n">checkBoth</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span> <span class="n">hasValid</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">expiry</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Access</span> <span class="k">memory</span> <span class="n">access</span> <span class="o">=</span> <span class="n">userAccess</span><span class="p">[</span><span class="n">contentId</span><span class="p">][</span><span class="n">user</span><span class="p">];</span>
+    <span class="kt">bool</span> <span class="n">hasValidAccess</span> <span class="o">=</span> <span class="n">access</span><span class="p">.</span><span class="n">hasAccess</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">access</span><span class="p">.</span><span class="n">expirationTime</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">access</span><span class="p">.</span><span class="n">expirationTime</span> <span class="o">&gt;</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">hasValidAccess</span><span class="p">,</span> <span class="n">access</span><span class="p">.</span><span class="n">expirationTime</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="security-measures">Security Measures</h2>
+
+<h3 id="re-entrancy-protection">Re-entrancy Protection</h3>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Re-entrancy guard implementation
+</span><span class="k">contract</span> <span class="n">ReentrancyGuarded</span> <span class="p">{</span>
+    <span class="kt">uint256</span> <span class="k">private</span> <span class="n">_guardCounter</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">modifier</span> <span class="n">nonReentrant</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kt">uint256</span> <span class="n">localCounter</span> <span class="o">=</span> <span class="n">_guardCounter</span><span class="p">;</span>
+        <span class="n">_guardCounter</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">_</span><span class="p">;</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">localCounter</span> <span class="o">==</span> <span class="n">_guardCounter</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"ReentrancyGuard: reentrant call"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage in payment functions
+</span><span class="k">function</span> <span class="n">withdraw</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">streamId</span><span class="p">)</span> <span class="k">public</span> <span class="n">nonReentrant</span> <span class="p">{</span>
+    <span class="c1">// Implementation...
+</span>    <span class="k">payable</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">).</span><span class="nb">transfer</span><span class="p">(</span><span class="n">available</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="integer-overflow-protection">Integer Overflow Protection</h3>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Using SafeMath for Solidity &lt;0.8.0
+</span><span class="k">using</span> <span class="n">SafeMath</span> <span class="k">for</span> <span class="kt">uint256</span><span class="p">;</span>
+<span class="kt">uint256</span> <span class="n">totalSupply</span> <span class="o">=</span> <span class="n">initialSupply</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">newMint</span><span class="p">);</span>
+
+<span class="c1">// With Solidity 0.8.0+ built-in overflow checking
+</span><span class="kt">uint256</span> <span class="n">totalSupply</span> <span class="o">=</span> <span class="n">initialSupply</span> <span class="o">+</span> <span class="n">newMint</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="access-controls">Access Controls</h3>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Role-based access control
+</span><span class="kt">bytes32</span> <span class="k">public</span> <span class="k">constant</span> <span class="n">ADMIN_ROLE</span> <span class="o">=</span> <span class="nb">keccak256</span><span class="p">(</span><span class="s">"ADMIN_ROLE"</span><span class="p">);</span>
+<span class="kt">bytes32</span> <span class="k">public</span> <span class="k">constant</span> <span class="n">CREATOR_ROLE</span> <span class="o">=</span> <span class="nb">keccak256</span><span class="p">(</span><span class="s">"CREATOR_ROLE"</span><span class="p">);</span>
+
+<span class="k">function</span> <span class="n">setParameter</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">newValue</span><span class="p">)</span> <span class="k">external</span> <span class="p">{</span>
+    <span class="nb">require</span><span class="p">(</span><span class="n">hasRole</span><span class="p">(</span><span class="n">ADMIN_ROLE</span><span class="p">,</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">),</span> <span class="s">"AdminOnly"</span><span class="p">);</span>
+    <span class="n">parameter</span> <span class="o">=</span> <span class="n">newValue</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="upgradeability-pattern">Upgradeability Pattern</h2>
+
+<p>We implement the transparent proxy pattern for contract upgradeability:</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Simplified proxy implementation
+</span><span class="k">contract</span> <span class="n">StreamingProxy</span> <span class="p">{</span>
+    <span class="kt">address</span> <span class="k">private</span> <span class="n">implementation</span><span class="p">;</span>
+    <span class="kt">address</span> <span class="k">private</span> <span class="n">admin</span><span class="p">;</span>
+    
+    <span class="k">constructor</span><span class="p">(</span><span class="kt">address</span> <span class="n">_implementation</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">implementation</span> <span class="o">=</span> <span class="n">_implementation</span><span class="p">;</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">function</span> <span class="n">upgradeTo</span><span class="p">(</span><span class="kt">address</span> <span class="n">newImplementation</span><span class="p">)</span> <span class="k">external</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span> <span class="o">==</span> <span class="n">admin</span><span class="p">,</span> <span class="s">"Only admin can upgrade"</span><span class="p">);</span>
+        <span class="n">implementation</span> <span class="o">=</span> <span class="n">newImplementation</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">fallback</span><span class="p">()</span> <span class="k">external</span> <span class="k">payable</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">impl</span> <span class="o">=</span> <span class="n">implementation</span><span class="p">;</span>
+        <span class="k">assembly</span> <span class="p">{</span>
+            <span class="kr">let</span> <span class="n">ptr</span> <span class="o">:=</span> <span class="n">mload</span><span class="p">(</span><span class="mh">0x40</span><span class="p">)</span>
+            <span class="n">calldatacopy</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">calldatasize</span><span class="p">())</span>
+            <span class="kr">let</span> <span class="n">result</span> <span class="o">:=</span> <span class="nb">delegatecall</span><span class="p">(</span><span class="n">gas</span><span class="p">(),</span> <span class="n">impl</span><span class="p">,</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">calldatasize</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="kr">let</span> <span class="n">size</span> <span class="o">:=</span> <span class="n">returndatasize</span><span class="p">()</span>
+            <span class="n">returndatacopy</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+            
+            <span class="kr">switch</span> <span class="n">result</span>
+            <span class="kr">case</span> <span class="mi">0</span> <span class="p">{</span> <span class="nb">revert</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="p">}</span>
+            <span class="kr">default</span> <span class="p">{</span> <span class="k">return</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="contract-inheritance-structure">Contract Inheritance Structure</h2>
+
+<p>Our contracts use a modular inheritance structure for clarity and reusability:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BaseContract
+  ↑
+  │
+AccessControl ← Ownable
+  ↑
+  │                  
+ContentContract ← ReentrancyGuard
+  ↑
+  │
+StreamAccessContract
+</code></pre></div></div>
+
+<h2 id="testing-framework">Testing Framework</h2>
+
+<p>We use a comprehensive testing suite including unit tests, integration tests, and formal verification:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example Hardhat test for StreamAccessContract</span>
+<span class="nx">describe</span><span class="p">(</span><span class="dl">"</span><span class="s2">StreamAccessContract</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">streamAccess</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">owner</span><span class="p">,</span> <span class="nx">creator</span><span class="p">,</span> <span class="nx">viewer</span><span class="p">;</span>
+  
+  <span class="nx">beforeEach</span><span class="p">(</span><span class="k">async</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nx">owner</span><span class="p">,</span> <span class="nx">creator</span><span class="p">,</span> <span class="nx">viewer</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">getSigners</span><span class="p">();</span>
+    
+    <span class="kd">const</span> <span class="nx">StreamAccess</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">getContractFactory</span><span class="p">(</span><span class="dl">"</span><span class="s2">StreamAccessContract</span><span class="dl">"</span><span class="p">);</span>
+    <span class="nx">streamAccess</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">StreamAccess</span><span class="p">.</span><span class="nx">deploy</span><span class="p">(</span><span class="nx">owner</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+    <span class="k">await</span> <span class="nx">streamAccess</span><span class="p">.</span><span class="nx">deployed</span><span class="p">();</span>
+  <span class="p">});</span>
+  
+  <span class="nx">it</span><span class="p">(</span><span class="dl">"</span><span class="s2">Should register content correctly</span><span class="dl">"</span><span class="p">,</span> <span class="k">async</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">contentId</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">id</span><span class="p">(</span><span class="dl">"</span><span class="s2">video1</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">contentHash</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">QmHash</span><span class="dl">"</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">price</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseEther</span><span class="p">(</span><span class="dl">"</span><span class="s2">0.1</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">isPremium</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">royaltyPercent</span> <span class="o">=</span> <span class="mi">90</span><span class="p">;</span>
+    
+    <span class="k">await</span> <span class="nx">streamAccess</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">creator</span><span class="p">).</span><span class="nx">registerContent</span><span class="p">(</span>
+      <span class="nx">contentId</span><span class="p">,</span>
+      <span class="nx">price</span><span class="p">,</span>
+      <span class="nx">isPremium</span><span class="p">,</span>
+      <span class="nx">royaltyPercent</span><span class="p">,</span>
+      <span class="nx">contentHash</span>
+    <span class="p">);</span>
+    
+    <span class="kd">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">streamAccess</span><span class="p">.</span><span class="nx">getContentDetails</span><span class="p">(</span><span class="nx">contentId</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">creator</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">creator</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">price</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">price</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">isPremium</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">isPremium</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">royaltyPercent</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">royaltyPercent</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">contentHash</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">contentHash</span><span class="p">);</span>
+  <span class="p">});</span>
+  
+  <span class="nx">it</span><span class="p">(</span><span class="dl">"</span><span class="s2">Should allow purchasing access</span><span class="dl">"</span><span class="p">,</span> <span class="k">async</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Test implementation...</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="gas-usage-analysis">Gas Usage Analysis</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Contract Function</th>
+      <th>Gas Usage</th>
+      <th>Optimization Potential</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>registerContent</td>
+      <td>~120,000</td>
+      <td>Medium - Could optimize string storage</td>
+    </tr>
+    <tr>
+      <td>purchaseAccess</td>
+      <td>~90,000</td>
+      <td>Low - Critical path is optimized</td>
+    </tr>
+    <tr>
+      <td>registerProof</td>
+      <td>~75,000</td>
+      <td>Medium - Consider bytes32 instead of string</td>
+    </tr>
+    <tr>
+      <td>createStream</td>
+      <td>~110,000</td>
+      <td>Low - Already optimized</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Solidity implementation of the Web3 Crypto Streaming Service platform demonstrates several best practices:</p>
+
+<ol>
+  <li><strong>Security-first approach</strong> with comprehensive input validation and access controls</li>
+  <li><strong>Gas optimization</strong> without sacrificing readability</li>
+  <li><strong>Modular design</strong> that enables future extensions</li>
+  <li><strong>Standard compliance</strong> with ERC20 and other relevant standards</li>
+  <li><strong>Upgradeability</strong> to allow for future improvements</li>
+</ol>
+
+<p>For developers looking to integrate with these contracts, we recommend:</p>
+
+<ol>
+  <li>Review the complete contract interfaces available in our GitHub repository</li>
+  <li>Test interactions on our testnet deployment before moving to production</li>
+  <li>Follow our security best practices when implementing contract calls</li>
+</ol>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="https://github.com/idl3o/web3-crypto-streaming-service">View our GitHub repository</a></li>
+  <li><a href="tech.contracts.html">Read our smart contract architecture overview</a></li>
+  <li><a href="tech.token.html">Learn about our token economics</a></li>
+  <li><a href="https://discord.gg/web3streaming">Join our developer community</a></li>
+</ul>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

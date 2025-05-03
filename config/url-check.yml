@@ -1,0 +1,36 @@
+name: URL Validation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  check-urls:
+    runs-on: ubuntu-latest
+    name: Check URLs
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install URL checker dependencies
+        run: npm install cheerio node-fetch@2
+
+      - name: Run URL checker
+        run: node scripts/url-checker.js
+
+      - name: Upload URL check results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: url-check-results
+          path: url-check-results.json

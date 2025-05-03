@@ -1,0 +1,209 @@
+<div class="animation-demo-section">
+  <h2>Animation Showcase</h2>
+  <p>Explore our platform's interactive elements through these demonstrations.</p>
+  
+  <div class="animation-grid">
+    <!-- Fade In Animation Demo -->
+    <div class="animation-card animate-on-scroll" data-animation="fadeIn">
+      <h3>Fade In</h3>
+      <div class="animation-demo-box">
+        <div class="token-icon">₿</div>
+      </div>
+      <p>Subtle fade-in effects enhance readability and focus attention.</p>
+    </div>
+    
+    <!-- Slide Up Animation Demo -->
+    <div class="animation-card animate-on-scroll" data-animation="fadeInUp">
+      <h3>Slide Up</h3>
+      <div class="animation-demo-box">
+        <div class="token-icon">Ξ</div>
+      </div>
+      <p>Content gracefully enters the viewport from below.</p>
+    </div>
+    
+    <!-- Pulse Animation Demo -->
+    <div class="animation-card animate-on-scroll" data-animation="fadeIn">
+      <h3>Pulse Effect</h3>
+      <div class="animation-demo-box">
+        <div class="token-icon pulse">◎</div>
+      </div>
+      <p>Subtle pulsing draws attention to important elements.</p>
+    </div>
+    
+    <!-- Float Animation Demo -->
+    <div class="animation-card animate-on-scroll" data-animation="fadeIn">
+      <h3>Float Effect</h3>
+      <div class="animation-demo-box">
+        <div class="token-icon float">₮</div>
+      </div>
+      <p>Gentle floating motion adds depth to the interface.</p>
+    </div>
+    
+    <!-- Glow Animation Demo -->
+    <div class="animation-card animate-on-scroll" data-animation="fadeInRight">
+      <h3>Glow Effect</h3>
+      <div class="animation-demo-box">
+        <div class="token-icon glow-hover">₳</div>
+      </div>
+      <p>Hover over the token to see the glow effect.</p>
+    </div>
+    
+    <!-- Button Animation Demo -->
+    <div class="animation-card animate-on-scroll" data-animation="fadeInLeft">
+      <h3>Button Animations</h3>
+      <div class="animation-demo-box">
+        <button class="button primary animate-click">Click Me</button>
+      </div>
+      <p>Interactive feedback improves user experience.</p>
+    </div>
+  </div>
+  
+  <!-- Network Animation Demo -->
+  <div class="animation-card full-width animate-on-scroll" data-animation="fadeIn">
+    <h3>Network Visualization</h3>
+    <div class="network-visualization">
+      <div class="node node-creator">Creator</div>
+      <div class="node-connections"></div>
+      <div class="node node-network">Network</div>
+      <div class="node-connections"></div>
+      <div class="node node-viewer">Viewer</div>
+    </div>
+    <p>Animated nodes demonstrate how our decentralized network connects creators and viewers.</p>
+  </div>
+  
+  <!-- Token Rain Animation Demo -->
+  <div class="animation-card full-width animate-on-scroll" data-animation="fadeIn">
+    <h3>Token Rain Effect</h3>
+    <div class="token-rain-container">
+      <p>Cryptocurrency symbols cascade through this container to create ambient motion.</p>
+    </div>
+  </div>
+  
+  <!-- Typing Animation Demo -->
+  <div class="animation-card full-width animate-on-scroll" data-animation="fadeIn">
+    <h3>Typing Animation</h3>
+    <div class="typing-container">
+      <h4 id="typing-text">Web3 Crypto Streaming</h4>
+    </div>
+    <p>Dynamic text transitions inform and engage visitors.</p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize typing animation with text phrases
+    if (window.animations && typeof window.animations.createTypingAnimation === 'function') {
+      window.animations.createTypingAnimation('#typing-text', [
+        'Web3 Crypto Streaming',
+        'Decentralized Content',
+        'Creator-First Economics',
+        'Censorship Resistant'
+      ], 100);
+    }
+    
+    // Apply click animation to demo buttons
+    document.querySelectorAll('.animate-click').forEach(button => {
+      button.addEventListener('click', function() {
+        this.classList.remove('button-click');
+        void this.offsetWidth; // Force reflow
+        this.classList.add('button-click');
+      });
+    });
+  });
+</script>
+
+<style>
+  .animation-demo-section {
+    margin: 4rem 0;
+    padding: 1rem;
+  }
+  
+  .animation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .animation-card {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .animation-card.full-width {
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+  }
+  
+  .animation-demo-box {
+    height: 150px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .token-icon {
+    font-size: 3rem;
+    color: var(--secondary);
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 1rem;
+    cursor: pointer;
+  }
+  
+  .network-visualization {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+  
+  .token-rain-container {
+    position: relative;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    padding: 1rem;
+  }
+  
+  .token-rain-container p {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding-top: 80px;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .typing-container {
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  
+  #typing-text {
+    color: var(--secondary);
+    font-size: 1.5rem;
+    min-height: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .animation-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

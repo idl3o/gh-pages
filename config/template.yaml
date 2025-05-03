@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: >
+  Web3 Crypto Streaming Service - STREAM Token Java Serverless Functions
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: java17
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        ETHEREUM_NETWORK: Goerli
+        CONTRACT_ADDRESS: '0x1234567890123456789012345678901234567890'
+        WEB3_PROVIDER_URL: 'https://goerli.infura.io/v3/yourinfurakey'
+
+Resources:
+  TokenBalanceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: io.web3streaming.handlers.TokenBalanceHandler::handleRequest
+      Description: Retrieves STREAM token balance for a given address
+      Events:
+        GetBalance:
+          Type: Api
+          Properties:
+            Path: /token/balance/{address}
+            Method: get
+
+  ContentRegistrationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: io.web3streaming.handlers.ContentRegistrationHandler::handleRequest
+      Description: Handles content registration on the blockchain
+      Events:
+        RegisterContent:
+          Type: Api
+          Properties:
+            Path: /content/register
+            Method: post
+
+  ContentAccessFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: io.web3streaming.handlers.ContentAccessHandler::handleRequest
+      Description: Verifies if a user has access to specific content
+      Events:
+        CheckAccess:
+          Type: Api
+          Properties:
+            Path: /content/access/{contentId}
+            Method: get
+
+  TransactionHistoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: io.web3streaming.handlers.TransactionHistoryHandler::handleRequest
+      Description: Retrieves transaction history for a specified address
+      Events:
+        GetHistory:
+          Type: Api
+          Properties:
+            Path: /transaction/history/{address}
+            Method: get
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL for the STREAM Token API"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+
+  TokenBalanceFunction:
+    Description: "Token Balance Lambda Function ARN"
+    Value: !GetAtt TokenBalanceFunction.Arn
+
+  ContentRegistrationFunction:
+    Description: "Content Registration Lambda Function ARN"
+    Value: !GetAtt ContentRegistrationFunction.Arn

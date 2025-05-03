@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Mobile Testing Guide for Project RED X | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Mobile Testing Guide for Project RED X" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/mobile-testing-guide.html" />
+<meta property="og:url" content="/docs/mobile-testing-guide.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mobile Testing Guide for Project RED X" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Mobile Testing Guide for Project RED X","url":"/docs/mobile-testing-guide.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Mobile Testing Guide for Project RED X</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="mobile-testing-guide-for-project-red-x">Mobile Testing Guide for Project RED X</h1>
+
+<p>This guide explains how to test and validate mobile optimizations in the RED X project.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>To begin testing mobile optimizations, build the project with the mobile testing flag:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RedX-Build.cmd <span class="nt">-test-mobile</span>
+</code></pre></div></div>
+
+<p>This command will:</p>
+
+<ol>
+  <li>Enable mobile optimizations</li>
+  <li>Create responsive testing tools</li>
+  <li>Generate mobile testing scripts</li>
+</ol>
+
+<h2 id="available-testing-tools">Available Testing Tools</h2>
+
+<p>After running the build with mobile testing enabled, you’ll have access to these tools:</p>
+
+<h3 id="1-visual-testing-tool">1. Visual Testing Tool</h3>
+
+<p>The responsive testing tool lets you visually inspect how the application renders on different devices.</p>
+
+<ul>
+  <li>Access at: <code class="language-plaintext highlighter-rouge">red_x/responsive-test.html</code></li>
+  <li>Features:
+    <ul>
+      <li>Device preview with common mobile/tablet/desktop dimensions</li>
+      <li>Rotation capability to test landscape/portrait modes</li>
+      <li>Device skins to simulate real device appearance</li>
+      <li>Screenshot functionality</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-automated-testing-tool">2. Automated Testing Tool</h3>
+
+<p>The automated testing suite runs checks on mobile optimization compliance:</p>
+
+<ul>
+  <li>Access at: <code class="language-plaintext highlighter-rouge">red_x/mobile-test.html</code></li>
+  <li>Tests include:
+    <ul>
+      <li>Viewport meta tag configuration</li>
+      <li>Touch target sizes (minimum 44x44px)</li>
+      <li>Font sizes (readability)</li>
+      <li>Media query implementation</li>
+      <li>Responsive layout behavior</li>
+      <li>Mobile performance metrics</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="best-practices-for-mobile-testing">Best Practices for Mobile Testing</h2>
+
+<ol>
+  <li>
+    <p><strong>Test on Real Devices</strong>: While simulators are helpful, always test on actual mobile devices when possible.</p>
+  </li>
+  <li>
+    <p><strong>Test Multiple Browsers</strong>: Mobile browser implementations vary. Test on Chrome, Safari (iOS), and Firefox Mobile.</p>
+  </li>
+  <li>
+    <p><strong>Test Network Conditions</strong>: Use browser throttling to simulate slow connections.</p>
+  </li>
+  <li>
+    <p><strong>Test Touch Interactions</strong>: Ensure all interactive elements work properly with touch input.</p>
+  </li>
+  <li>
+    <p><strong>Test Orientation</strong>: Validate both portrait and landscape modes.</p>
+  </li>
+</ol>
+
+<h2 id="common-mobile-issues-to-watch-for">Common Mobile Issues to Watch For</h2>
+
+<ul>
+  <li><strong>Horizontal Scrolling</strong>: Content shouldn’t force horizontal scrolling</li>
+  <li><strong>Small Touch Targets</strong>: Buttons, links and form elements should be large enough for touch</li>
+  <li><strong>Unreadable Text</strong>: Font sizes should be minimum 14px for body text</li>
+  <li><strong>Unresponsive Layout</strong>: Layout should adapt to screen width</li>
+  <li><strong>Performance Issues</strong>: Pages should load quickly even on mobile connections</li>
+</ul>
+
+<h2 id="testing-checklist">Testing Checklist</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Application loads properly on mobile viewports</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />All content is accessible without horizontal scrolling</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Text is readable without zooming</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Touch targets are large enough (44x44px minimum)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Forms and inputs work properly on mobile</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Media (images, videos) scale appropriately</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Page loads in under 3 seconds on 3G connection</li>
+</ul>
+
+<h2 id="debugging-mobile-issues">Debugging Mobile Issues</h2>
+
+<p>If you encounter mobile-specific issues:</p>
+
+<ol>
+  <li>Use the browser’s developer tools mobile emulation mode</li>
+  <li>Check for CSS conflicts in media queries</li>
+  <li>Verify viewport meta tag is correctly set</li>
+  <li>Test with device devtools connected to identify performance bottlenecks</li>
+  <li>Use the automated test results to pinpoint specific problems</li>
+</ol>
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<ul>
+  <li><a href="https://search.google.com/test/mobile-friendly">Google’s Mobile-Friendly Test</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design">MDN Responsive Design Guide</a></li>
+  <li><a href="https://web.dev/explore/fast">Web.dev Mobile Performance Guide</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monetization Options | Web3 Streaming Platform</title>
+    <meta name="description" content="Explore Web3 monetization options for creators" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/dashboard.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      .monetization-header {
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+        color: white;
+        padding: 4rem 0 3rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .monetization-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('assets/images/pattern.svg');
+        opacity: 0.1;
+      }
+
+      .monetization-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .monetization-header p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .monetization-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .option-card {
+        background-color: var(--color-bg-secondary);
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .option-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .option-icon {
+        font-size: 2.5rem;
+        color: var(--color-primary);
+        margin-bottom: 1rem;
+      }
+
+      .option-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .option-card .fee {
+        display: inline-block;
+        background-color: rgba(var(--color-primary-rgb), 0.1);
+        color: var(--color-primary);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+
+      .option-card .description {
+        color: var(--color-text);
+        margin-bottom: 1.5rem;
+      }
+
+      .option-card .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .settings-panel {
+        background-color: var(--color-bg-secondary);
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .settings-panel h2 {
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .settings-panel h2 i {
+        margin-right: 0.5rem;
+      }
+
+      .settings-form {
+        max-width: 800px;
+      }
+
+      .settings-form .form-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .settings-form .form-row .form-group {
+        flex: 1;
+      }
+
+      .settings-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .settings-form input,
+      .settings-form select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--color-border);
+        border-radius: 5px;
+        background-color: var(--color-bg);
+      }
+
+      .connected-wallets {
+        margin-top: 2rem;
+      }
+
+      .wallet-card {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background-color: var(--color-bg);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+      }
+
+      .wallet-icon {
+        margin-right: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .wallet-details {
+        flex-grow: 1;
+      }
+
+      .wallet-address {
+        font-family: monospace;
+        color: var(--color-text-alt);
+      }
+
+      .wallet-balance {
+        color: var(--color-success);
+        margin-left: auto;
+        font-weight: bold;
+      }
+
+      .revenue-chart-container {
+        height: 300px;
+        margin-bottom: 2rem;
+      }
+
+      .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background-color: var(--color-bg-secondary);
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .stat-card .value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--color-primary);
+        margin: 0.5rem 0;
+      }
+
+      .stat-card .label {
+        color: var(--color-text-alt);
+        font-size: 0.9rem;
+      }
+
+      .info-alert {
+        background-color: rgba(var(--color-primary-rgb), 0.1);
+        border-left: 4px solid var(--color-primary);
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 4px;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+      }
+
+      .status-active {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+      }
+
+      .status-inactive {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: '';
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .toggle-slider {
+        background-color: var(--color-primary);
+      }
+
+      input:checked + .toggle-slider:before {
+        transform: translateX(26px);
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .comparison-table th {
+        background-color: var(--color-bg-alt);
+      }
+
+      .comparison-table tr:hover {
+        background-color: rgba(var(--color-bg-secondary-rgb), 0.5);
+      }
+
+      .check-icon {
+        color: var(--color-success);
+      }
+
+      .x-icon {
+        color: var(--color-danger);
+      }
+
+      @media (max-width: 768px) {
+        .settings-form .form-row {
+          flex-direction: column;
+        }
+
+        .monetization-options {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header with navigation -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img src="./assets/images/logo.svg" alt="Web3 Educational Platform" />
+            </a>
+          </div>
+          <nav class="main-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="streaming.html">Learn</a></li>
+              <li><a href="token.html">Token</a></li>
+              <li><a href="docs/index.html">Documentation</a></li>
+              <li><a href="creator-dashboard.html">Dashboard</a></li>
+            </ul>
+          </nav>
+          <div class="account-section">
+            <span class="account-balance">
+              <i class="ri-coin-line"></i>
+              <span id="tokenBalance">2,450</span>
+            </span>
+            <button class="wallet-btn">
+              <i class="ri-wallet-3-line"></i>
+              <span class="address-display">0x1a2...3b4c</span>
+            </button>
+          </div>
+          <button class="mobile-menu-btn" aria-label="Toggle menu">
+            <i class="ri-menu-line"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Monetization Header -->
+    <div class="monetization-header">
+      <div class="container">
+        <h1>Creator Monetization Options</h1>
+        <p>
+          Maximize your earnings with our suite of Web3 native monetization solutions. Choose one or
+          combine multiple options to create your custom revenue stream.
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Revenue Overview -->
+      <div class="settings-panel">
+        <h2><i class="ri-line-chart-line"></i> Revenue Overview</h2>
+
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="label">Total Earnings (All-time)</div>
+            <div class="value">9,820 STREAM</div>
+            <div class="label">≈ $9,820 USD</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="label">This Month</div>
+            <div class="value">1,245 STREAM</div>
+            <div class="label">↑ 12% from last month</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="label">Average Per Content</div>
+            <div class="value">410 STREAM</div>
+            <div class="label">From 24 published items</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="label">Next Payout</div>
+            <div class="value">Apr 30, 2025</div>
+            <div class="label">Est. 580 STREAM</div>
+          </div>
+        </div>
+
+        <div class="revenue-chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="info-alert">
+          <strong>Pro Tip:</strong> Creators who use multiple monetization methods earn on average
+          3.2x more than those using only one method.
+        </div>
+      </div>
+
+      <!-- Monetization Options -->
+      <h2>Available Monetization Methods</h2>
+      <div class="monetization-options">
+        <!-- Subscription Option -->
+        <div class="option-card">
+          <div class="option-icon">
+            <i class="ri-vip-crown-line"></i>
+          </div>
+          <h3>Premium Subscriptions <span class="status-badge status-active">Active</span></h3>
+          <span class="fee">Platform Fee: 5%</span>
+          <p class="description">
+            Offer exclusive premium content, early access, or special features to subscribers who
+            pay a recurring fee in STREAM tokens.
+          </p>
+          <div class="actions">
+            <button class="btn-outline">Configure</button>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Pay-per-view Option -->
+        <div class="option-card">
+          <div class="option-icon">
+            <i class="ri-film-line"></i>
+          </div>
+          <h3>Pay Per View <span class="status-badge status-active">Active</span></h3>
+          <span class="fee">Platform Fee: 10%</span>
+          <p class="description">
+            Charge viewers a one-time fee to access specific premium videos, courses, or exclusive
+            educational content.
+          </p>
+          <div class="actions">
+            <button class="btn-outline">Configure</button>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Tips & Donations Option -->
+        <div class="option-card">
+          <div class="option-icon">
+            <i class="ri-hand-coin-line"></i>
+          </div>
+          <h3>Tips & Donations <span class="status-badge status-active">Active</span></h3>
+          <span class="fee">Platform Fee: 2%</span>
+          <p class="description">
+            Allow viewers to support your content through voluntary tips and donations in STREAM
+            tokens or other cryptocurrencies.
+          </p>
+          <div class="actions">
+            <button class="btn-outline">Configure</button>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- NFT Memberships Option -->
+        <div class="option-card">
+          <div class="option-icon">
+            <i class="ri-nft-line"></i>
+          </div>
+          <h3>NFT Memberships <span class="status-badge status-inactive">Inactive</span></h3>
+          <span class="fee">Platform Fee: 7.5%</span>
+          <p class="description">
+            Create exclusive NFT collections that grant special access, privileges, or ownership
+            rights to your educational content.
+          </p>
+          <div class="actions">
+            <button class="btn-primary">Activate</button>
+            <label class="toggle-switch">
+              <input type="checkbox" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Tokenized Revenue Share Option -->
+        <div class="option-card">
+          <div class="option-icon">
+            <i class="ri-coin-line"></i>
+          </div>
+          <h3>
+            Tokenized Revenue Share <span class="status-badge status-inactive">Inactive</span>
+          </h3>
+          <span class="fee">Platform Fee: 3%</span>
+          <p class="description">
+            Issue creator tokens that represent a share of your future revenue, allowing your
+            audience to invest in your growth.
+          </p>
+          <div class="actions">
+            <button class="btn-primary">Activate</button>
+            <label class="toggle-switch">
+              <input type="checkbox" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Ad Revenue Option -->
+        <div class="option-card">
+          <div class="option-icon">
+            <i class="ri-advertisement-line"></i>
+          </div>
+          <h3>Ad Revenue Sharing <span class="status-badge status-inactive">Inactive</span></h3>
+          <span class="fee">Platform Fee: 15%</span>
+          <p class="description">
+            Enable privacy-focused Web3 ads on your content and earn a share of advertising revenue
+            in STREAM tokens.
+          </p>
+          <div class="actions">
+            <button class="btn-primary">Activate</button>
+            <label class="toggle-switch">
+              <input type="checkbox" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Options Configuration -->
+      <div class="settings-panel">
+        <h2><i class="ri-settings-3-line"></i> Active Monetization Settings</h2>
+
+        <div class="info-alert">
+          <strong>Note:</strong> Changes to your monetization settings will take effect immediately
+          for new content, but won't affect existing arrangements.
+        </div>
+
+        <div class="settings-form">
+          <h3>Premium Subscription</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="subscriptionPrice">Monthly Subscription Price (STREAM)</label>
+              <input type="number" id="subscriptionPrice" value="50" min="10" max="1000" />
+            </div>
+            <div class="form-group">
+              <label for="trialDays">Free Trial Period (Days)</label>
+              <input type="number" id="trialDays" value="7" min="0" max="30" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="subscriptionBenefits">Subscriber Benefits</label>
+              <input
+                type="text"
+                id="subscriptionBenefits"
+                value="Early Access, Exclusive Q&A, Source Code Downloads"
+              />
+            </div>
+          </div>
+
+          <h3>Pay Per View</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="defaultPPVPrice">Default Price Per Content (STREAM)</label>
+              <input type="number" id="defaultPPVPrice" value="15" min="1" max="500" />
+            </div>
+            <div class="form-group">
+              <label for="previewLength">Preview Length (Minutes)</label>
+              <input type="number" id="previewLength" value="5" min="1" max="30" />
+            </div>
+          </div>
+
+          <h3>Tips & Donations</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="suggestedTip">Suggested Tip Amounts (STREAM)</label>
+              <input type="text" id="suggestedTip" value="5, 10, 25, 50, 100" />
+            </div>
+            <div class="form-group">
+              <label for="tipMessage">Default Thank You Message</label>
+              <input
+                type="text"
+                id="tipMessage"
+                value="Thank you for supporting my educational content!"
+              />
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem">
+            <button class="btn-primary">Save Settings</button>
+            <button class="btn-secondary" style="margin-left: 1rem">Restore Defaults</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connected Wallets -->
+      <div class="settings-panel">
+        <h2><i class="ri-wallet-3-line"></i> Connected Payment Wallets</h2>
+
+        <p>Manage wallets that receive your earnings from content monetization.</p>
+
+        <div class="connected-wallets">
+          <div class="wallet-card">
+            <div class="wallet-icon">
+              <i class="ri-wallet-3-fill"></i>
+            </div>
+            <div class="wallet-details">
+              <div><strong>Primary Wallet</strong></div>
+              <div class="wallet-address">0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b</div>
+            </div>
+            <div class="wallet-balance">1,250.00 STREAM</div>
+            <button class="btn-icon" aria-label="Edit wallet">
+              <i class="ri-pencil-line"></i>
+            </button>
+          </div>
+
+          <div class="wallet-card">
+            <div class="wallet-icon">
+              <i class="ri-wallet-3-fill"></i>
+            </div>
+            <div class="wallet-details">
+              <div><strong>Secondary Wallet</strong></div>
+              <div class="wallet-address">0xf9e8d7c6b5a4e3f2d1c0b9a8f7e6d5c4b3a2f1e0</div>
+            </div>
+            <div class="wallet-balance">450.00 STREAM</div>
+            <button class="btn-icon" aria-label="Edit wallet">
+              <i class="ri-pencil-line"></i>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn-outline" style="margin-top: 1rem">
+          <i class="ri-add-line"></i> Connect New Wallet
+        </button>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="settings-panel">
+        <h2><i class="ri-scales-3-line"></i> Monetization Methods Comparison</h2>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Monetization Method</th>
+              <th>Best For</th>
+              <th>Revenue Potential</th>
+              <th>Setup Complexity</th>
+              <th>Viewer Commitment</th>
+              <th>Payment Schedule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Premium Subscriptions</td>
+              <td>Regular content creators</td>
+              <td>High (Recurring)</td>
+              <td>Medium</td>
+              <td>High</td>
+              <td>Monthly</td>
+            </tr>
+            <tr>
+              <td>Pay Per View</td>
+              <td>Premium specialized content</td>
+              <td>Medium (Per content)</td>
+              <td>Low</td>
+              <td>Low</td>
+              <td>Immediate</td>
+            </tr>
+            <tr>
+              <td>Tips & Donations</td>
+              <td>Community-focused creators</td>
+              <td>Variable</td>
+              <td>Very low</td>
+              <td>None</td>
+              <td>Immediate</td>
+            </tr>
+            <tr>
+              <td>NFT Memberships</td>
+              <td>Exclusive communities</td>
+              <td>High (One-time + Royalties)</td>
+              <td>High</td>
+              <td>Medium</td>
+              <td>Per sale + Royalties</td>
+            </tr>
+            <tr>
+              <td>Tokenized Revenue Share</td>
+              <td>Growing creators</td>
+              <td>High (Investment)</td>
+              <td>Very high</td>
+              <td>High</td>
+              <td>Variable</td>
+            </tr>
+            <tr>
+              <td>Ad Revenue Sharing</td>
+              <td>High-volume content</td>
+              <td>Low to Medium</td>
+              <td>Low</td>
+              <td>None</td>
+              <td>Monthly</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="settings-panel">
+        <h2><i class="ri-question-line"></i> Monetization FAQ</h2>
+
+        <div class="faq-item">
+          <h3>How do creators get paid?</h3>
+          <p>
+            Payments are made directly to your connected wallet in STREAM tokens. You can keep them
+            as STREAM tokens or convert them to other cryptocurrencies or fiat through our
+            integrated exchange partners.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>When do I receive my earnings?</h3>
+          <p>
+            Tips and one-time payments are available immediately. Subscription revenue is
+            distributed on the last day of each month. Ad revenue is calculated and distributed by
+            the 10th of the following month.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What are the platform fees?</h3>
+          <p>
+            Platform fees vary by monetization method, ranging from 2% for tips to 15% for ad
+            revenue sharing. These fees cover platform maintenance, transaction costs, and ongoing
+            development of new creator tools.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Can I combine multiple monetization methods?</h3>
+          <p>
+            Absolutely! In fact, we recommend using multiple methods to maximize your revenue. Many
+            creators offer a mix of free content with tips, premium subscriptions, and paid special
+            content.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How do I handle taxes on my earnings?</h3>
+          <p>
+            The platform provides downloadable earnings reports that you can use for tax reporting.
+            We recommend consulting with a tax professional who specializes in cryptocurrency
+            income.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Streaming Platform</h3>
+            <p>The future of decentralized content creation and consumption.</p>
+          </div>
+          <div>
+            <h3>Platform</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="streaming.html">Stream</a></li>
+              <li><a href="creators.md">Creators</a></li>
+              <li><a href="token.html">Token</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="docs.html">Documentation</a></li>
+              <li><a href="faq.md">FAQ</a></li>
+              <li><a href="tutorials.html">Tutorials</a></li>
+              <li><a href="red_x/index.html">RED X Gateway</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="privacy.md">Privacy Policy</a></li>
+              <li><a href="terms.html">Terms of Service</a></li>
+              <li><a href="SECURITY.md">Security</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Web3 Streaming Platform. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Initialize revenue chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+
+        const revenueChart = new Chart(revenueCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [
+              {
+                label: 'Subscriptions',
+                data: [250, 350, 400, 450, 500, 600],
+                backgroundColor: 'rgba(79, 70, 229, 0.8)',
+                borderColor: 'rgba(79, 70, 229, 1)',
+                borderWidth: 1
+              },
+              {
+                label: 'One-time Payments',
+                data: [180, 200, 220, 280, 300, 320],
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                borderColor: 'rgba(59, 130, 246, 1)',
+                borderWidth: 1
+              },
+              {
+                label: 'Tips & Donations',
+                data: [120, 150, 200, 220, 250, 325],
+                backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                borderColor: 'rgba(16, 185, 129, 1)',
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'top'
+              },
+              title: {
+                display: true,
+                text: 'Monthly Revenue Breakdown (STREAM Tokens)'
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.dataset.label + ': ' + context.parsed.y + ' STREAM';
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                stacked: true
+              },
+              y: {
+                stacked: true,
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // Toggle switches for monetization options
+        const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+        toggleSwitches.forEach(switch_ => {
+          switch_.addEventListener('change', function () {
+            const card = this.closest('.option-card');
+            const statusBadge = card.querySelector('.status-badge');
+            const actionButton = card.querySelector('.actions button');
+
+            if (this.checked) {
+              statusBadge.textContent = 'Active';
+              statusBadge.className = 'status-badge status-active';
+              actionButton.textContent = 'Configure';
+              actionButton.className = 'btn-outline';
+            } else {
+              statusBadge.textContent = 'Inactive';
+              statusBadge.className = 'status-badge status-inactive';
+              actionButton.textContent = 'Activate';
+              actionButton.className = 'btn-primary';
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      deployment_message:
+        description: 'Reason for manual deployment'
+        required: false
+        default: 'Manual deployment'
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          rubygems: 'latest'
+
+      - name: Install dependencies
+        run: |
+          npm ci || npm install
+          gem update --system
+          bundle config set --local path 'vendor/bundle'
+          bundle config set --local deployment 'true'
+          bundle install --jobs 4 --retry 3
+
+      - name: Record deployment reason
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "Deployment triggered manually: ${{ github.event.inputs.deployment_message }}" >> build_info.txt
+
+      - name: Build site
+        run: npm run build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Prepare for deployment
+        run: |
+          # Ensure .nojekyll exists to bypass GitHub Pages Jekyll processing
+          touch _site/.nojekyll
+          # Copy CNAME file if it exists
+          if [ -f "CNAME" ]; then
+            cp CNAME _site/
+          fi
+          # Record build timestamp
+          echo "Built on $(date)" > _site/build_timestamp.txt
+          echo "Commit: ${GITHUB_SHA}" >> _site/build_timestamp.txt
+
+      - name: Run URL validation tests
+        run: npm run test:links
+        continue-on-error: true
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '_site'
+          # Ensure the path exists before uploading
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
+
+      - name: Verify deployment
+        run: |
+          echo "Deployed to ${{ steps.deployment.outputs.page_url }}"
+          curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" ${{ steps.deployment.outputs.page_url }}
+
+  notify:
+    name: Notify of Deployment Status
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: always()
+    steps:
+      - name: Check deployment status
+        run: |
+          if [[ "${{ needs.deploy.result }}" == "success" ]]; then
+            echo "✅ Deployment successful"
+          else
+            echo "❌ Deployment failed"
+            exit 1
+          fi

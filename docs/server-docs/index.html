@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Server Technologies Documentation | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Server Technologies Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/server-docs/" />
+<meta property="og:url" content="/docs/server-docs/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Server Technologies Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Server Technologies Documentation","url":"/docs/server-docs/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <h1 id="server-technologies-documentation">Server Technologies Documentation</h1>
+
+<p>This documentation covers the server-side components of our technology stack, including Node.js backend, API services, streaming cache mechanisms, and HLS services.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Our server architecture is designed for high performance, scalability, and reliability. It provides the backbone for our decentralized services and blockchain integrations.</p>
+
+<h2 id="key-components">Key Components</h2>
+
+<h3 id="nodejs-backend">Node.js Backend</h3>
+
+<p>The Node.js backend handles the core business logic and provides RESTful API endpoints for client consumption.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example server initialization</span>
+<span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">PORT</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">3000</span><span class="p">;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">PORT</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">PORT</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="api-services">API Services</h3>
+
+<p>Our API services follow RESTful design principles and provide a uniform interface for client applications to interact with our platform.</p>
+
+<h4 id="authentication-services">Authentication Services</h4>
+
+<p>The authentication services handle user authentication and authorization using JWT tokens and role-based access control.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">jwt</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">jsonwebtoken</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Example authentication middleware</span>
+<span class="kd">function</span> <span class="nx">authenticate</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">?.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1"> </span><span class="dl">'</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">401</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span> <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Authentication required</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">}</span>
+  
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">decoded</span> <span class="o">=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">token</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">JWT_SECRET</span><span class="p">);</span>
+    <span class="nx">req</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="nx">decoded</span><span class="p">;</span>
+    <span class="nx">next</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">401</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span> <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Invalid token</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="streaming-cache-service">Streaming Cache Service</h3>
+
+<p>The streaming cache service optimizes content delivery by caching frequently accessed streams and reducing load on the blockchain and IPFS networks.</p>
+
+<p>Key features:</p>
+<ul>
+  <li>LRU (Least Recently Used) cache strategy</li>
+  <li>Redis-based caching for distributed deployments</li>
+  <li>Time-based cache invalidation for dynamic content</li>
+</ul>
+
+<h3 id="hls-service">HLS Service</h3>
+
+<p>Our HTTP Live Streaming (HLS) service provides adaptive bitrate streaming capabilities for video and audio content.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example HLS segment processing</span>
+<span class="kd">function</span> <span class="nx">processVideoSegment</span><span class="p">(</span><span class="nx">videoBuffer</span><span class="p">,</span> <span class="nx">segmentIndex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">segment</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">index</span><span class="p">:</span> <span class="nx">segmentIndex</span><span class="p">,</span>
+    <span class="na">duration</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="c1">// seconds</span>
+    <span class="na">data</span><span class="p">:</span> <span class="nx">videoBuffer</span><span class="p">,</span>
+    <span class="na">quality</span><span class="p">:</span> <span class="dl">'</span><span class="s1">HD</span><span class="dl">'</span>
+  <span class="p">};</span>
+  
+  <span class="k">return</span> <span class="nx">encodeSegment</span><span class="p">(</span><span class="nx">segment</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>The server components are configured using environment variables and configuration files. Here’s an example configuration:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// config.js</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">server</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">port</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">3000</span><span class="p">,</span>
+    <span class="na">env</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">development</span><span class="dl">'</span>
+  <span class="p">},</span>
+  <span class="na">database</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DATABASE_URL</span><span class="p">,</span>
+    <span class="na">poolSize</span><span class="p">:</span> <span class="mi">10</span>
+  <span class="p">},</span>
+  <span class="na">cache</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">redis</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_URL</span><span class="p">,</span>
+    <span class="na">ttl</span><span class="p">:</span> <span class="mi">3600</span> <span class="c1">// 1 hour</span>
+  <span class="p">},</span>
+  <span class="na">streaming</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">segmentDuration</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="c1">// seconds</span>
+    <span class="na">qualities</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">SD</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">HD</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">4K</span><span class="dl">'</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="deployment">Deployment</h2>
+
+<p>Our server components are containerized using Docker for consistent deployment across environments.</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> node:16-alpine</span>
+
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+
+<span class="k">COPY</span><span class="s"> package*.json ./</span>
+<span class="k">RUN </span>npm ci <span class="nt">--only</span><span class="o">=</span>production
+
+<span class="k">COPY</span><span class="s"> . .</span>
+
+<span class="k">EXPOSE</span><span class="s"> 3000</span>
+
+<span class="k">CMD</span><span class="s"> ["node", "server.js"]</span>
+</code></pre></div></div>
+
+<h2 id="api-reference">API Reference</h2>
+
+<p>For detailed API documentation, please refer to our <a href="/docs/api-reference.html">API Reference Guide</a>.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="/docs/serverless-docs/">Serverless Function Integration</a></li>
+  <li><a href="/docs/blockchain-docs/">Blockchain Integration</a></li>
+  <li><a href="/docs/typescript-docs/">TypeScript SDK Documentation</a></li>
+</ul>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

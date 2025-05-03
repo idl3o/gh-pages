@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>TypeScript with Smart Contracts Integration | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="TypeScript with Smart Contracts Integration" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/tutorials/ts-contracts.html" />
+<meta property="og:url" content="/docs/tutorials/ts-contracts.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="TypeScript with Smart Contracts Integration" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"TypeScript with Smart Contracts Integration","url":"/docs/tutorials/ts-contracts.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">TypeScript with Smart Contracts Integration</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="typescript-with-smart-contracts-integration">TypeScript with Smart Contracts Integration</h1>
+
+<p>This tutorial demonstrates how to integrate the TypeScript SDK with Smart Contracts.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li>Node.js 18.x or higher</li>
+  <li>TypeScript 5.0+</li>
+  <li>Ethers.js</li>
+  <li>MetaMask or another Ethereum wallet</li>
+</ul>
+
+<h2 id="setup">Setup</h2>
+
+<ol>
+  <li>Install required dependencies:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>ethers @types/node dotenv
+</code></pre></div></div>
+
+<ol>
+  <li>Create a <code class="language-plaintext highlighter-rouge">.env</code> file in your project root:</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ETHEREUM_RPC_URL=https://polygon-mainnet.infura.io/v3/YOUR_INFURA_KEY
+CONTRACT_ADDRESS=0x1234...
+PRIVATE_KEY=your_private_key_here
+</code></pre></div></div>
+
+<h2 id="basic-integration-example">Basic Integration Example</h2>
+
+<p>Let’s build a simple application that connects to a smart contract and calls its methods:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/contract-integration.ts</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">ethers</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">ethers</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Client</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../../ts/src/client</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">dotenv</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">fs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Load environment variables</span>
+<span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">();</span>
+
+<span class="c1">// Load contract ABI</span>
+<span class="kd">const</span> <span class="nx">contractABI</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./contracts/build/PRXTokenChain.json</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">)).</span><span class="nx">abi</span><span class="p">;</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// Initialize TypeScript SDK client</span>
+    <span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">({</span>
+      <span class="na">apiKey</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_KEY</span><span class="p">,</span>
+      <span class="na">endpoint</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_ENDPOINT</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Initialize blockchain provider</span>
+    <span class="kd">const</span> <span class="nx">provider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">providers</span><span class="p">.</span><span class="nx">JsonRpcProvider</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ETHEREUM_RPC_URL</span><span class="p">);</span>
+
+    <span class="c1">// Create wallet from private key</span>
+    <span class="kd">const</span> <span class="nx">wallet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">Wallet</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PRIVATE_KEY</span><span class="o">!</span><span class="p">,</span> <span class="nx">provider</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Connected with address: </span><span class="p">${</span><span class="nx">wallet</span><span class="p">.</span><span class="nx">address</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+
+    <span class="c1">// Create contract instance</span>
+    <span class="kd">const</span> <span class="nx">contract</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">Contract</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">CONTRACT_ADDRESS</span><span class="o">!</span><span class="p">,</span> <span class="nx">contractABI</span><span class="p">,</span> <span class="nx">wallet</span><span class="p">);</span>
+
+    <span class="c1">// Example: Get token balance from contract</span>
+    <span class="kd">const</span> <span class="nx">balance</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">wallet</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Token balance: </span><span class="p">${</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatUnits</span><span class="p">(</span><span class="nx">balance</span><span class="p">,</span> <span class="mi">18</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span>
+
+    <span class="c1">// Example: Get user data from TypeScript SDK</span>
+    <span class="kd">const</span> <span class="nx">userData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">getUserData</span><span class="p">(</span><span class="nx">wallet</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">User data:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">userData</span><span class="p">);</span>
+
+    <span class="c1">// Example: Submit transaction using both SDK and contract</span>
+    <span class="c1">// 1. Get transaction parameters from SDK</span>
+    <span class="kd">const</span> <span class="nx">txParams</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">prepareTransaction</span><span class="p">({</span>
+      <span class="na">recipient</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xRecipientAddress</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">amount</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1.5</span><span class="dl">'</span>
+    <span class="p">});</span>
+
+    <span class="c1">// 2. Submit transaction to contract</span>
+    <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span>
+      <span class="nx">txParams</span><span class="p">.</span><span class="nx">recipient</span><span class="p">,</span>
+      <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="nx">txParams</span><span class="p">.</span><span class="nx">amount</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
+      <span class="p">{</span> <span class="na">gasLimit</span><span class="p">:</span> <span class="nx">txParams</span><span class="p">.</span><span class="nx">gasLimit</span> <span class="p">}</span>
+    <span class="p">);</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Transaction submitted: </span><span class="p">${</span><span class="nx">tx</span><span class="p">.</span><span class="nx">hash</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">receipt</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Transaction confirmed in block </span><span class="p">${</span><span class="nx">receipt</span><span class="p">.</span><span class="nx">blockNumber</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+
+    <span class="c1">// 3. Update SDK with transaction result</span>
+    <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">recordTransaction</span><span class="p">({</span>
+      <span class="na">txHash</span><span class="p">:</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">hash</span><span class="p">,</span>
+      <span class="na">blockNumber</span><span class="p">:</span> <span class="nx">receipt</span><span class="p">.</span><span class="nx">blockNumber</span><span class="p">,</span>
+      <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">confirmed</span><span class="dl">'</span>
+    <span class="p">});</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Integration complete!</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error during integration:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">main</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h2 id="advanced-integration-event-listeners">Advanced Integration: Event Listeners</h2>
+
+<p>The following example demonstrates how to listen for smart contract events and process them with the TypeScript SDK:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/event-integration.ts</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">ethers</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">ethers</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Client</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../../ts/src/client</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">dotenv</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">fs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">contractABI</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./contracts/build/PRXTokenChain.json</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">)).</span><span class="nx">abi</span><span class="p">;</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">monitorContractEvents</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Initialize SDK client</span>
+  <span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">({</span>
+    <span class="na">apiKey</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_KEY</span><span class="p">,</span>
+    <span class="na">endpoint</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_ENDPOINT</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Initialize provider and contract</span>
+  <span class="kd">const</span> <span class="nx">provider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">providers</span><span class="p">.</span><span class="nx">JsonRpcProvider</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ETHEREUM_RPC_URL</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">contract</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">Contract</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">CONTRACT_ADDRESS</span><span class="o">!</span><span class="p">,</span> <span class="nx">contractABI</span><span class="p">,</span> <span class="nx">provider</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Starting event monitor...</span><span class="dl">'</span><span class="p">);</span>
+
+  <span class="c1">// Listen for Transfer events</span>
+  <span class="nx">contract</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">Transfer</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="k">from</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">amount</span><span class="p">,</span> <span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+      <span class="s2">`Transfer detected: </span><span class="p">${</span><span class="k">from</span><span class="p">}</span><span class="s2"> sent </span><span class="p">${</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatUnits</span><span class="p">(</span><span class="nx">amount</span><span class="p">,</span> <span class="mi">18</span><span class="p">)}</span><span class="s2"> tokens to </span><span class="p">${</span><span class="nx">to</span><span class="p">}</span><span class="s2">`</span>
+    <span class="p">);</span>
+
+    <span class="c1">// Process the event with the SDK</span>
+    <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">processTransferEvent</span><span class="p">({</span>
+      <span class="k">from</span><span class="p">,</span>
+      <span class="nx">to</span><span class="p">,</span>
+      <span class="na">amount</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatUnits</span><span class="p">(</span><span class="nx">amount</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
+      <span class="na">txHash</span><span class="p">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">transactionHash</span><span class="p">,</span>
+      <span class="na">blockNumber</span><span class="p">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">blockNumber</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Listen for custom events</span>
+  <span class="nx">contract</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">CustomEvent</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Custom event detected with data: </span><span class="p">${</span><span class="nx">data</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+
+    <span class="c1">// Process with SDK</span>
+    <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">processCustomEvent</span><span class="p">({</span>
+      <span class="nx">data</span><span class="p">,</span>
+      <span class="na">txHash</span><span class="p">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">transactionHash</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Event listeners registered. Press Ctrl+C to exit.</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">monitorContractEvents</span><span class="p">().</span><span class="k">catch</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ol>
+  <li><strong>Error Handling</strong>: Always implement robust error handling for both contract and SDK operations</li>
+  <li><strong>Gas Estimation</strong>: Use dynamic gas estimation for transactions</li>
+  <li><strong>Retry Logic</strong>: Implement retry logic for failed transactions</li>
+  <li><strong>Event Logging</strong>: Log all events and transactions for auditing</li>
+  <li><strong>Secure Key Management</strong>: Never hardcode private keys; use environment variables or key vaults</li>
+  <li><strong>Test Networks First</strong>: Always test on testnets before deploying to production</li>
+</ol>
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<ul>
+  <li><a href="../api/typescript/index.html">TypeScript SDK Documentation</a></li>
+  <li><a href="../api/contracts/index.html">Smart Contracts API</a></li>
+  <li><a href="complete-workflow.md">Complete Project Workflow</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

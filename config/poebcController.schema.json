@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Poebc Controller",
+  "description": "Schema definition for poebcController",
+  "type": "object",
+  "properties": {
+    "activationState": {
+      "type": "string"
+    },
+    "authLevel": {
+      "type": "number"
+    },
+    "recoveryOptions": {
+      "type": "array"
+    }
+  }
+}

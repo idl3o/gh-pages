@@ -1,0 +1,123 @@
+<!-- This file defines the <head> section of the HTML document, including metadata, styles, and SEO tags -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <meta name="description" content="{{ page.description | default: site.description }}">
+    
+    <!-- Theme initialization (before any CSS loads) -->
+    <script src="{{ '/assets/js/theme-init.js' | relative_url }}"></script>
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta property="og:description" content="{{ page.description | default: site.description }}">
+    <meta property="og:type" content="{% if page.og_type %}{{ page.og_type }}{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    {% if page.image %}
+    <meta property="og:image" content="{{ page.image | absolute_url }}">
+    {% endif %}
+    
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@{{ site.twitter_username }}">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta name="twitter:description" content="{{ page.description | default: site.description }}">
+    {% if page.image %}
+    <meta name="twitter:image" content="{{ page.image | absolute_url }}">
+    {% endif %}
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ '/assets/images/favicon.ico' | relative_url }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ '/assets/images/favicon.ico' | relative_url }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ '/assets/images/apple-touch-icon.png' | relative_url }}">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;700;900&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;700;900&display=swap">
+    
+    <!-- Theme styles -->
+    <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/contrast-fixes.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/flymode.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/animations.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/freebase.css' | relative_url }}">
+    {% if page.layout == 'post' or page.url contains '/blog/' %}
+    <link rel="stylesheet" href="{{ '/assets/css/blog.css' | relative_url }}">
+    {% endif %}
+    
+    <!-- Style for moderation -->
+    <link rel="stylesheet" href="{{ '/assets/css/moderation.css' | relative_url }}">
+    
+    <!-- Beta status style -->
+    <style>
+        .beta-status {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 165, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 0.5rem 0;
+            z-index: 1000;
+            font-size: 0.9rem;
+        }
+        
+        .beta-status a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+    
+    <!-- Theme color for browser UI -->
+    <meta name="theme-color" content="#6e45e2">
+    
+    <!-- Fix for header display issue - ensure proper spacing -->
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .page-content {
+            flex: 1;
+        }
+    </style>
+    
+    <!-- Web3 libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    
+    <!-- Security systems -->
+    <script src="/assets/js/identity-verification.js"></script>
+    <script src="/assets/js/content-moderation.js"></script>
+    
+    <!-- Theme controller -->
+    <script src="/assets/js/theme-controller.js"></script>
+    
+    {% if jekyll.environment == 'production' and site.google_analytics %}
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ site.google_analytics }}');
+    </script>
+    {% endif %}
+    
+    <!-- SEO tags -->
+    {% seo %}
+</head>

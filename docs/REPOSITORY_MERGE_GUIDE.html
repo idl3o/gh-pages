@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/REPOSITORY_MERGE_GUIDE.html" />
+<meta property="og:url" content="/docs/REPOSITORY_MERGE_GUIDE.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/REPOSITORY_MERGE_GUIDE.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <p>«««&lt; test-rewrite</p>
+<h1 id="repository-merge-guide">Repository Merge Guide</h1>
+
+<p>This document provides instructions for merging the idl3o/gh-pages repository with our current Web3 Crypto Streaming Service repository.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ol>
+  <li>Git installed on your local machine</li>
+  <li>Command line terminal or Git bash</li>
+  <li>Write access to both repositories (or a fork of idl3o/gh-pages if you don’t have direct access)</li>
+</ol>
+
+<h2 id="step-1-clone-both-repositories">Step 1: Clone Both Repositories</h2>
+
+<p>If you haven’t already cloned the repositories locally, do so:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clone your repository (if not already done)</span>
+git clone https://github.com/yourusername/gh-pages.git
+
+<span class="c"># Clone the idl3o repository to a different directory</span>
+git clone https://github.com/idl3o/gh-pages.git idl3o-gh-pages
+</code></pre></div></div>
+
+<h2 id="step-2-add-idl3os-repository-as-a-remote">Step 2: Add idl3o’s Repository as a Remote</h2>
+
+<p>Navigate to your repository directory and add idl3o’s repository as a remote:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>gh-pages
+git remote add idl3o https://github.com/idl3o/gh-pages.git
+git fetch idl3o
+</code></pre></div></div>
+
+<h2 id="step-3-review-content-before-merging">Step 3: Review Content Before Merging</h2>
+
+<p>Before merging, you should review what’s in the idl3o repository to determine which files you want to keep and which might conflict:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Review the file structure</span>
+git ls-tree <span class="nt">-r</span> <span class="nt">--name-only</span> idl3o/main
+
+<span class="c"># Compare specific files or directories</span>
+git diff HEAD..idl3o/main <span class="nt">--</span> path/to/file/or/directory
+</code></pre></div></div>
+
+<h2 id="step-4-choose-a-merge-strategy">Step 4: Choose a Merge Strategy</h2>
+
+<h3 id="option-a-complete-merge">Option A: Complete Merge</h3>
+
+<p>If you want to merge all of idl3o’s content with your repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a new branch for the merge</span>
+git checkout <span class="nt">-b</span> merge-idl3o
+
+<span class="c"># Merge the main branch from idl3o (or master if that's their default)</span>
+git merge idl3o/main
+
+<span class="c"># Resolve any conflicts that occur</span>
+<span class="c"># Edit conflicted files, then:</span>
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Merge idl3o/gh-pages repository"</span>
+</code></pre></div></div>
+
+<h3 id="option-b-cherry-pick-specific-commits">Option B: Cherry-Pick Specific Commits</h3>
+
+<p>If you only want specific changes from idl3o’s repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a branch for cherry-picking</span>
+git checkout <span class="nt">-b</span> cherry-pick-idl3o
+
+<span class="c"># Find commits you want to include</span>
+git log idl3o/main
+
+<span class="c"># Cherry-pick each commit you want</span>
+git cherry-pick &lt;commit-hash&gt;
+
+<span class="c"># Resolve conflicts if necessary</span>
+</code></pre></div></div>
+
+<h3 id="option-c-copy-specific-files">Option C: Copy Specific Files</h3>
+
+<p>If you only want certain files:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a branch for file copies</span>
+git checkout <span class="nt">-b</span> copy-idl3o-files
+
+<span class="c"># Copy files from the other repository</span>
+<span class="nb">cp</span> <span class="nt">-r</span> ../idl3o-gh-pages/path/to/file ./destination/
+
+<span class="c"># Add and commit the copied files</span>
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Add selected files from idl3o/gh-pages"</span>
+</code></pre></div></div>
+
+<h2 id="step-5-review-the-combined-result">Step 5: Review the Combined Result</h2>
+
+<p>After merging, carefully review the combined repository to ensure everything looks correct:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check status</span>
+git status
+
+<span class="c"># Review the file structure</span>
+<span class="nb">ls</span> <span class="nt">-la</span>
+
+<span class="c"># Review recent commits</span>
+git log <span class="nt">--oneline</span> <span class="nt">-n</span> 10
+</code></pre></div></div>
+
+<h2 id="step-6-push-changes">Step 6: Push Changes</h2>
+
+<p>Once you’re satisfied with the merge:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Push your changes to your repository</span>
+git push origin merge-idl3o  <span class="c"># or whichever branch you created</span>
+</code></pre></div></div>
+
+<h2 id="step-7-create-a-pull-request-optional">Step 7: Create a Pull Request (Optional)</h2>
+
+<p>If you’re working with a team, create a pull request to have others review the merged content before it’s merged to your main branch.</p>
+
+<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
+
+<h3 id="dealing-with-large-files">Dealing with Large Files</h3>
+
+<p>If the idl3o repository contains large files tracked by Git LFS (Large File Storage):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Git LFS if not already installed</span>
+git lfs <span class="nb">install</span>
+
+<span class="c"># Fetch LFS objects</span>
+git lfs pull idl3o
+</code></pre></div></div>
+
+<h3 id="handling-theme-and-layout-conflicts">Handling Theme and Layout Conflicts</h3>
+
+<p>Pay special attention to theme files, layouts, and configuration files like <code class="language-plaintext highlighter-rouge">_config.yml</code>, as these often cause conflicts when merging Jekyll-based GitHub Pages repositories.</p>
+
+<h3 id="managing-dependencies">Managing Dependencies</h3>
+
+<p>If both repositories use different versions of dependencies:</p>
+
+<ol>
+  <li>Compare <code class="language-plaintext highlighter-rouge">Gemfile</code> or <code class="language-plaintext highlighter-rouge">package.json</code> files</li>
+  <li>Update to use the newer versions where appropriate</li>
+  <li>Test the site locally before pushing</li>
+</ol>
+
+<h2 id="testing-the-combined-site">Testing the Combined Site</h2>
+
+<p>Before finalizing the merge:</p>
+
+<ol>
+  <li>Build and run the site locally</li>
+  <li>Test all functionality</li>
+  <li>Verify that all links work</li>
+  <li>Check for visual inconsistencies</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For Jekyll sites</span>
+bundle <span class="nb">install
+</span>bundle <span class="nb">exec </span>jekyll serve
+
+<span class="c"># For npm-based sites</span>
+npm <span class="nb">install
+</span>npm start
+</code></pre></div></div>
+<p>=======</p>
+<h1 id="repository-merge-guide-1">Repository Merge Guide</h1>
+
+<p>This document provides instructions for merging the idl3o/gh-pages repository with our current Web3 Crypto Streaming Service repository.</p>
+
+<h2 id="prerequisites-1">Prerequisites</h2>
+
+<ol>
+  <li>Git installed on your local machine</li>
+  <li>Command line terminal or Git bash</li>
+  <li>Write access to both repositories (or a fork of idl3o/gh-pages if you don’t have direct access)</li>
+</ol>
+
+<h2 id="step-1-clone-both-repositories-1">Step 1: Clone Both Repositories</h2>
+
+<p>If you haven’t already cloned the repositories locally, do so:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clone your repository (if not already done)</span>
+git clone https://github.com/yourusername/gh-pages.git
+
+<span class="c"># Clone the idl3o repository to a different directory</span>
+git clone https://github.com/idl3o/gh-pages.git idl3o-gh-pages
+</code></pre></div></div>
+
+<h2 id="step-2-add-idl3os-repository-as-a-remote-1">Step 2: Add idl3o’s Repository as a Remote</h2>
+
+<p>Navigate to your repository directory and add idl3o’s repository as a remote:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>gh-pages
+git remote add idl3o https://github.com/idl3o/gh-pages.git
+git fetch idl3o
+</code></pre></div></div>
+
+<h2 id="step-3-review-content-before-merging-1">Step 3: Review Content Before Merging</h2>
+
+<p>Before merging, you should review what’s in the idl3o repository to determine which files you want to keep and which might conflict:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Review the file structure</span>
+git ls-tree <span class="nt">-r</span> <span class="nt">--name-only</span> idl3o/main
+
+<span class="c"># Compare specific files or directories</span>
+git diff HEAD..idl3o/main <span class="nt">--</span> path/to/file/or/directory
+</code></pre></div></div>
+
+<h2 id="step-4-choose-a-merge-strategy-1">Step 4: Choose a Merge Strategy</h2>
+
+<h3 id="option-a-complete-merge-1">Option A: Complete Merge</h3>
+
+<p>If you want to merge all of idl3o’s content with your repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a new branch for the merge</span>
+git checkout <span class="nt">-b</span> merge-idl3o
+
+<span class="c"># Merge the main branch from idl3o (or master if that's their default)</span>
+git merge idl3o/main
+
+<span class="c"># Resolve any conflicts that occur</span>
+<span class="c"># Edit conflicted files, then:</span>
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Merge idl3o/gh-pages repository"</span>
+</code></pre></div></div>
+
+<h3 id="option-b-cherry-pick-specific-commits-1">Option B: Cherry-Pick Specific Commits</h3>
+
+<p>If you only want specific changes from idl3o’s repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a branch for cherry-picking</span>
+git checkout <span class="nt">-b</span> cherry-pick-idl3o
+
+<span class="c"># Find commits you want to include</span>
+git log idl3o/main
+
+<span class="c"># Cherry-pick each commit you want</span>
+git cherry-pick &lt;commit-hash&gt;
+
+<span class="c"># Resolve conflicts if necessary</span>
+</code></pre></div></div>
+
+<h3 id="option-c-copy-specific-files-1">Option C: Copy Specific Files</h3>
+
+<p>If you only want certain files:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a branch for file copies</span>
+git checkout <span class="nt">-b</span> copy-idl3o-files
+
+<span class="c"># Copy files from the other repository</span>
+<span class="nb">cp</span> <span class="nt">-r</span> ../idl3o-gh-pages/path/to/file ./destination/
+
+<span class="c"># Add and commit the copied files</span>
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Add selected files from idl3o/gh-pages"</span>
+</code></pre></div></div>
+
+<h2 id="step-5-review-the-combined-result-1">Step 5: Review the Combined Result</h2>
+
+<p>After merging, carefully review the combined repository to ensure everything looks correct:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check status</span>
+git status
+
+<span class="c"># Review the file structure</span>
+<span class="nb">ls</span> <span class="nt">-la</span>
+
+<span class="c"># Review recent commits</span>
+git log <span class="nt">--oneline</span> <span class="nt">-n</span> 10
+</code></pre></div></div>
+
+<h2 id="step-6-push-changes-1">Step 6: Push Changes</h2>
+
+<p>Once you’re satisfied with the merge:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Push your changes to your repository</span>
+git push origin merge-idl3o  <span class="c"># or whichever branch you created</span>
+</code></pre></div></div>
+
+<h2 id="step-7-create-a-pull-request-optional-1">Step 7: Create a Pull Request (Optional)</h2>
+
+<p>If you’re working with a team, create a pull request to have others review the merged content before it’s merged to your main branch.</p>
+
+<h2 id="common-issues-and-solutions-1">Common Issues and Solutions</h2>
+
+<h3 id="dealing-with-large-files-1">Dealing with Large Files</h3>
+
+<p>If the idl3o repository contains large files tracked by Git LFS (Large File Storage):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Git LFS if not already installed</span>
+git lfs <span class="nb">install</span>
+
+<span class="c"># Fetch LFS objects</span>
+git lfs pull idl3o
+</code></pre></div></div>
+
+<h3 id="handling-theme-and-layout-conflicts-1">Handling Theme and Layout Conflicts</h3>
+
+<p>Pay special attention to theme files, layouts, and configuration files like <code class="language-plaintext highlighter-rouge">_config.yml</code>, as these often cause conflicts when merging Jekyll-based GitHub Pages repositories.</p>
+
+<h3 id="managing-dependencies-1">Managing Dependencies</h3>
+
+<p>If both repositories use different versions of dependencies:</p>
+
+<ol>
+  <li>Compare <code class="language-plaintext highlighter-rouge">Gemfile</code> or <code class="language-plaintext highlighter-rouge">package.json</code> files</li>
+  <li>Update to use the newer versions where appropriate</li>
+  <li>Test the site locally before pushing</li>
+</ol>
+
+<h2 id="testing-the-combined-site-1">Testing the Combined Site</h2>
+
+<p>Before finalizing the merge:</p>
+
+<ol>
+  <li>Build and run the site locally</li>
+  <li>Test all functionality</li>
+  <li>Verify that all links work</li>
+  <li>Check for visual inconsistencies</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For Jekyll sites</span>
+bundle <span class="nb">install
+</span>bundle <span class="nb">exec </span>jekyll serve
+
+<span class="c"># For npm-based sites</span>
+npm <span class="nb">install
+</span>npm start
+</code></pre></div></div>
+<blockquote>
+  <blockquote>
+    <blockquote>
+      <blockquote>
+        <blockquote>
+          <blockquote>
+            <blockquote>
+              <p>main</p>
+            </blockquote>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

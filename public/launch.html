@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web3 Crypto Streaming Service - Launch</title>
+    <meta
+      name="description"
+      content="A Web3 streaming platform that returns control and revenue to creators through blockchain technology"
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Chart.js for Token Distribution -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+
+    <!-- Confetti for celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css" />
+
+    <!-- Launch-specific styles -->
+    <style>
+      .celebration-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: white;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+      }
+
+      .celebration-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .celebration-content {
+        text-align: center;
+        max-width: 600px;
+        padding: 2rem;
+        background: rgba(110, 69, 226, 0.3);
+        border-radius: 12px;
+        border: 2px solid var(--primary-color);
+        animation: pulse 2s infinite;
+      }
+
+      .celebration-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .celebration-message {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .celebration-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .status-badge {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50px;
+        font-weight: bold;
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .pulse-dot {
+        width: 10px;
+        height: 10px;
+        background-color: #4ade80;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(110, 69, 226, 0.7);
+        }
+
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 10px rgba(110, 69, 226, 0);
+        }
+
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(110, 69, 226, 0);
+        }
+      }
+
+      /* Site header */
+      .site-header {
+        background-color: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        top: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--text-color);
+        text-decoration: none;
+      }
+
+      .main-nav ul {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .main-nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .main-nav a:hover {
+        color: var(--primary-color);
+      }
+
+      .connected {
+        background-color: rgba(110, 69, 226, 0.5) !important;
+        color: white !important;
+        border-color: var(--primary-color) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container header-container">
+        <a href="index.html" class="logo">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14 14-6.268 14-14S23.732 2 16 2z"
+              fill="url(#gradient)"
+            />
+            <path d="M22 16l-8 4.598V11.402L22 16z" fill="white" />
+            <defs>
+              <linearGradient
+                id="gradient"
+                x1="2"
+                y1="2"
+                x2="30"
+                y2="30"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#6e45e2" />
+                <stop offset="1" stop-color="#88d3ce" />
+              </linearGradient>
+            </defs>
+          </svg>
+          Web3 Streaming
+        </a>
+
+        <nav class="main-nav">
+          <ul>
+            <li><a href="#technology">Technology</a></li>
+            <li><a href="#for-creators">For Creators</a></li>
+            <li><a href="#token">Token</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="#get-involved">Community</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            The Future of <span class="highlight">Creator-Owned</span> Content Streaming
+          </h1>
+          <p class="hero-subtitle">
+            A decentralized streaming platform that returns control and revenue to creators, powered
+            by blockchain technology.
+          </p>
+          <div class="hero-actions">
+            <a href="streaming.html" class="button primary">Watch Content</a>
+            <a href="creator-dashboard.html" class="button secondary">Start Creating</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-image">
+            <img
+              src="https://via.placeholder.com/600x400?text=Web3+Streaming"
+              alt="Web3 Streaming Illustration"
+              class="hero-illustration"
+            />
+          </div>
+          <div class="stats-overlay">
+            <div class="stat-item">
+              <span class="stat-number">90%</span>
+              <span class="stat-label">Creator Revenue</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">0%</span>
+              <span class="stat-label">Platform Control</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Ownership</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path
+            fill="currentColor"
+            fill-opacity="1"
+            d="M0,96L40,112C80,128,160,160,240,154.7C320,149,400,107,480,90.7C560,75,640,85,720,117.3C800,149,880,203,960,208C1040,213,1120,171,1200,154.7C1280,139,1360,149,1400,154.7L1440,160L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <div class="hero-section">
+      <div class="container">
+        <h1>Web3 Crypto Streaming</h1>
+        <p class="tagline">Decentralized content that rewards creators and viewers</p>
+        <div class="hero-buttons">
+          <button class="primary-button" id="connect-wallet">Connect Wallet</button>
+          <button class="secondary-button" id="explore-button">Explore Content</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features section from homepage.html -->
+    <section class="features-section">
+      <div class="container">
+        <h2>The Future of Content Streaming</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <i class="fa fa-lock"></i>
+            <h3>Decentralized Ownership</h3>
+            <p>Content ownership secured on the blockchain</p>
+          </div>
+          <div class="feature-card">
+            <i class="fa fa-money-bill"></i>
+            <h3>Creator Revenue</h3>
+            <p>90% of revenue goes directly to creators</p>
+          </div>
+          <div class="feature-card">
+            <i class="fa fa-users"></i>
+            <h3>Community Governance</h3>
+            <p>Platform decisions made by token holders</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trending Content section -->
+    <section class="trending-content">
+      <div class="container">
+        <h2>Trending Content</h2>
+        <div class="content-grid" id="trending-content-grid">
+          <!-- Content will be loaded dynamically -->
+          <div class="content-placeholder">Loading trending content...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status Badge -->
+    <div class="status-badge">
+      <span class="pulse-dot"></span>
+      Platform Live
+    </div>
+
+    <!-- Celebration Overlay -->
+    <div class="celebration-overlay" id="celebration">
+      <div class="celebration-content">
+        <h2 class="celebration-title">🎉 Launch Complete! 🎉</h2>
+        <p class="celebration-message">
+          Congratulations! Your Web3 Crypto Streaming Service has been successfully launched. Users
+          can now connect wallets, explore content, and enjoy all the benefits of decentralized
+          streaming.
+        </p>
+        <div class="celebration-buttons">
+          <button class="button primary" id="celebrate-more">Celebrate More</button>
+          <button class="button secondary" id="close-celebration">Continue to Platform</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wallet Connection Modal -->
+    <div id="wallet-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Connect Your Wallet</h2>
+        <div class="wallet-options">
+          <button class="wallet-option" data-wallet="metamask">
+            <img
+              src="https://cdn.worldvectorlogo.com/logos/metamask.svg"
+              alt="MetaMask"
+              style="width: 50px; height: 50px"
+            />
+            <span>MetaMask</span>
+          </button>
+          <button class="wallet-option" data-wallet="walletconnect">
+            <img
+              src="https://seeklogo.com/images/W/walletconnect-logo-EE83B50C97-seeklogo.com.png"
+              alt="WalletConnect"
+              style="width: 50px; height: 50px"
+            />
+            <span>WalletConnect</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/assets/js/web3-connect.js"></script>
+    <script src="/assets/js/content-loader.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Celebration functions
+        const celebrationOverlay = document.getElementById('celebration');
+        const celebrateMoreBtn = document.getElementById('celebrate-more');
+        const closeCelebrationBtn = document.getElementById('close-celebration');
+        const exploreButton = document.getElementById('explore-button');
+
+        // Show celebration
+        function showCelebration() {
+          celebrationOverlay.classList.add('active');
+          fireConfetti();
+        }
+
+        // Hide celebration
+        function hideCelebration() {
+          celebrationOverlay.classList.remove('active');
+        }
+
+        // Fire confetti
+        function fireConfetti() {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
+
+        // Event listeners
+        if (celebrateMoreBtn) {
+          celebrateMoreBtn.addEventListener('click', fireConfetti);
+        }
+
+        if (closeCelebrationBtn) {
+          closeCelebrationBtn.addEventListener('click', hideCelebration);
+        }
+
+        if (exploreButton) {
+          exploreButton.addEventListener('click', function () {
+            const contentGrid = document.getElementById('trending-content-grid');
+            if (contentGrid) {
+              contentGrid.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        }
+
+        // Show celebration on page load with a delay
+        setTimeout(showCelebration, 1500);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/animations%202.html" />
+<meta property="og:url" content="/docs/animations%202.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/animations%202.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: Animation Showcase
+description: Interactive demonstrations of the Web3 Crypto Streaming Service platform’s animations and effects
+permalink: /animations/</p>
+<hr />
+
+<h1 id="animation-showcase">Animation Showcase</h1>
+
+<p>Welcome to our animation gallery! This page demonstrates the various animations and interactive elements used throughout the Web3 Crypto Streaming Service platform. These animations not only enhance the visual appeal but also improve user experience by providing visual feedback, guiding attention, and making interactions more intuitive.</p>
+
+<h2 id="why-animations-matter">Why Animations Matter</h2>
+
+<p>In Web3 applications, thoughtful animations serve multiple purposes:</p>
+
+<ul>
+  <li><strong>Improve Comprehension</strong>: Visualize complex blockchain concepts</li>
+  <li><strong>Provide Feedback</strong>: Show users their actions have been registered</li>
+  <li><strong>Guide Attention</strong>: Direct focus to important elements</li>
+  <li><strong>Enhance Engagement</strong>: Create a more enjoyable user experience</li>
+  <li><strong>Reduce Perceived Loading Time</strong>: Make waiting periods feel shorter</li>
+</ul>
+
+<div class="animation-demo">
+  <div class="animation-container">
+    <canvas id="animationCanvas" width="600" height="400"></canvas>
+  </div>
+
+  <div class="animation-controls">
+    <button id="playBtn" class="control-btn">
+      <span class="icon">▶</span> Play
+    </button>
+    <button id="pauseBtn" class="control-btn">
+      <span class="icon">⏸</span> Pause
+    </button>
+    <button id="resetBtn" class="control-btn">
+      <span class="icon">⟳</span> Reset
+    </button>
+
+    <div class="slider-container">
+      <label for="speedSlider">Speed:</label>
+      <input type="range" id="speedSlider" min="0.5" max="3" step="0.1" value="1" />
+      <span id="speedValue">1x</span>
+    </div>
+  </div>
+
+  <div class="animation-options">
+    <select id="animationSelector">
+      <option value="particle">Particle Effect</option>
+      <option value="wave">Wave Animation</option>
+      <option value="blockchain">Blockchain Visualization</option>
+      <option value="tokenflow">Token Flow</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('animationCanvas');
+    const ctx = canvas.getContext('2d');
+    let animationId;
+    let isPlaying = false;
+    let speed = 1;
+    let currentAnimation = 'particle';
+
+    // Animation initialization
+    function initAnimation() {
+      cancelAnimationFrame(animationId);
+      isPlaying = false;
+
+      // Set up animation based on selection
+      switch(currentAnimation) {
+        case 'particle':
+          initParticleAnimation();
+          break;
+        case 'wave':
+          initWaveAnimation();
+          break;
+        case 'blockchain':
+          initBlockchainAnimation();
+          break;
+        case 'tokenflow':
+          initTokenFlowAnimation();
+          break;
+      }
+
+      document.getElementById('playBtn').addEventListener('click', playAnimation);
+      document.getElementById('pauseBtn').addEventListener('click', pauseAnimation);
+      document.getElementById('resetBtn').addEventListener('click', resetAnimation);
+
+      document.getElementById('speedSlider').addEventListener('input', function() {
+        speed = parseFloat(this.value);
+        document.getElementById('speedValue').textContent = speed.toFixed(1) + 'x';
+      });
+
+      document.getElementById('animationSelector').addEventListener('change', function() {
+        currentAnimation = this.value;
+        resetAnimation();
+      });
+    }
+
+    function playAnimation() {
+      if (!isPlaying) {
+        isPlaying = true;
+        animate();
+      }
+    }
+
+    function pauseAnimation() {
+      isPlaying = false;
+      cancelAnimationFrame(animationId);
+    }
+
+    function resetAnimation() {
+      pauseAnimation();
+      initAnimation();
+    }
+
+    // Placeholder for different animation types
+    function initParticleAnimation() {
+      // Particle animation initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#333';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Particle Animation', 20, 30);
+    }
+
+    function initWaveAnimation() {
+      // Wave animation initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#004466';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Wave Animation', 20, 30);
+    }
+
+    function initBlockchainAnimation() {
+      // Blockchain visualization initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#1a1a2e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Blockchain Visualization', 20, 30);
+    }
+
+    function initTokenFlowAnimation() {
+      // Token flow animation initialization
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#2e1a3e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.fillText('Token Flow Animation', 20, 30);
+    }
+
+    function animate() {
+      if (!isPlaying) return;
+
+      // Run animation frame
+      // This is a placeholder - actual animation would go here
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    // Initialize on load
+    initAnimation();
+  });
+</script>
+
+<style>
+  .animation-demo {
+    margin: 2rem 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+  }
+
+  .animation-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  #animationCanvas {
+    display: block;
+    width: 100%;
+    background-color: #333;
+  }
+
+  .animation-controls {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+
+  .control-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #2a7ae2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+
+  .control-btn:hover {
+    background-color: #1756a9;
+  }
+
+  .icon {
+    margin-right: 5px;
+  }
+
+  .slider-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  #speedSlider {
+    width: 100px;
+  }
+
+  .animation-options {
+    margin-top: 1rem;
+    text-align: right;
+  }
+
+  #animationSelector {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+  }
+</style>
+
+<h2 id="blockchain-network-visualization">Blockchain Network Visualization</h2>
+
+<p>Our animated network visualizations help users understand how content flows through the decentralized platform. The following example shows how data moves from creators through the network to viewers.</p>
+
+<div class="blockchain-visualization animate-on-scroll" data-animation="fadeIn">
+  <svg width="100%" height="300" viewBox="0 0 800 300">
+    <defs>
+      <linearGradient id="creator-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#6e45e2;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#8464fa;stop-opacity:0.8" />
+      </linearGradient>
+      <linearGradient id="node-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#00d8ff;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#5edfff;stop-opacity:0.8" />
+      </linearGradient>
+      <linearGradient id="viewer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#68d391;stop-opacity:0.8" />
+      </linearGradient>
+    </defs>
+    
+    <!-- Background grid -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="none" />
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#grid)" />
+    
+    <!-- Connection lines -->
+    <line class="connect-line" x1="150" y1="150" x2="250" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <line class="connect-line" x1="150" y1="150" x2="250" y2="200" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    
+    <line class="connect-line" x1="350" y1="100" x2="450" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <line class="connect-line" x1="350" y1="200" x2="450" y2="200" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    
+    <line class="connect-line" x1="550" y1="100" x2="650" y2="150" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <line class="connect-line" x1="550" y1="200" x2="650" y2="150" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    
+    <!-- Data blocks moving along the lines -->
+    <rect class="data-block" x="180" y="120" width="10" height="10" fill="url(#creator-gradient)" />
+    <rect class="data-block" x="180" y="170" width="10" height="10" fill="url(#creator-gradient)" />
+    <rect class="data-block" x="380" y="90" width="10" height="10" fill="url(#node-gradient)" />
+    <rect class="data-block" x="380" y="190" width="10" height="10" fill="url(#node-gradient)" />
+    <rect class="data-block" x="580" y="120" width="10" height="10" fill="url(#viewer-gradient)" />
+    <rect class="data-block" x="580" y="170" width="10" height="10" fill="url(#viewer-gradient)" />
+    
+    <!-- Nodes -->
+    <circle class="node-pulse" cx="150" cy="150" r="40" fill="url(#creator-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <text x="150" y="150" font-family="sans-serif" font-size="12" fill="white" text-anchor="middle" dy="0.3em">Creator</text>
+    
+    <circle class="node-pulse" cx="300" cy="100" r="30" fill="url(#node-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <text x="300" y="100" font-family="sans-serif" font-size="10" fill="white" text-anchor="middle" dy="0.3em">Node 1</text>
+    
+    <circle class="node-pulse" cx="300" cy="200" r="30" fill="url(#node-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <text x="300" y="200" font-family="sans-serif" font-size="10" fill="white" text-anchor="middle" dy="0.3em">Node 2</text>
+    
+    <circle class="node-pulse" cx="500" cy="100" r="30" fill="url(#node-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <text x="500" y="100" font-family="sans-serif" font-size="10" fill="white" text-anchor="middle" dy="0.3em">Node 3</text>
+    
+    <circle class="node-pulse" cx="500" cy="200" r="30" fill="url(#node-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <text x="500" y="200" font-family="sans-serif" font-size="10" fill="white" text-anchor="middle" dy="0.3em">Node 4</text>
+    
+    <circle class="node-pulse" cx="650" cy="150" r="40" fill="url(#viewer-gradient)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
+    <text x="650" y="150" font-family="sans-serif" font-size="12" fill="white" text-anchor="middle" dy="0.3em">Viewer</text>
+  </svg>
+  <p class="visualization-caption">Content is distributed through a network of decentralized nodes, ensuring resilience and censorship resistance.</p>
+</div>
+
+<h2 id="token-economics-visualization">Token Economics Visualization</h2>
+
+<p>This animation demonstrates the flow of STREAM tokens within our ecosystem:</p>
+
+<div class="token-economics-container animate-on-scroll" data-animation="fadeInUp">
+  <div class="token-flow-visualization">
+    <div class="token-entity creator">
+      <div class="entity-icon">👩‍🎨</div>
+      <div class="entity-label">Creators</div>
+    </div>
+    
+    <div class="token-flow-arrow">
+      <div class="token-bubble">₮</div>
+      <div class="token-bubble delay-1">₮</div>
+      <div class="token-bubble delay-2">₮</div>
+      <svg viewBox="0 0 100 20">
+        <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(110, 69, 226, 0.5)" stroke-width="2" stroke-dasharray="5,3" />
+      </svg>
+    </div>
+    
+    <div class="token-entity platform">
+      <div class="entity-icon">🌐</div>
+      <div class="entity-label">Platform</div>
+    </div>
+    
+    <div class="token-flow-arrow reverse">
+      <div class="token-bubble">₮</div>
+      <div class="token-bubble delay-1">₮</div>
+      <svg viewBox="0 0 100 20">
+        <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(0, 216, 255, 0.5)" stroke-width="2" stroke-dasharray="5,3" />
+      </svg>
+    </div>
+    
+    <div class="token-entity viewers">
+      <div class="entity-icon">👀</div>
+      <div class="entity-label">Viewers</div>
+    </div>
+  </div>
+  <div class="token-economy-caption">
+    STREAM tokens flow directly between creators and viewers, with minimal platform fees.
+  </div>
+</div>
+
+<h2 id="implementing-animations">Implementing Animations</h2>
+
+<p>Animation principles used in our platform:</p>
+
+<ol>
+  <li><strong>Subtlety</strong>: Animations are subtle and purposeful, avoiding distraction</li>
+  <li><strong>Performance</strong>: Optimized animations that don’t impact page speed</li>
+  <li><strong>Context</strong>: Animation types match their purpose (e.g., gradual reveals for content)</li>
+  <li><strong>Consistency</strong>: Similar elements animate in similar ways across the platform</li>
+  <li><strong>Accessibility</strong>: Animations respect user preferences with <code class="language-plaintext highlighter-rouge">prefers-reduced-motion</code></li>
+</ol>
+
+<div class="animation-code-example animate-on-scroll" data-animation="fadeIn">
+  <h3>Implementation Example</h3>
+  <pre><code class="language-css">/* Simple fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in-element {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Respects user preferences */
+@media (prefers-reduced-motion) {
+  .fade-in-element {
+    animation: none;
+  }
+}</code></pre>
+</div>
+
+<div class="blockchain-cubes-container animate-on-scroll" data-animation="fadeIn" id="blockchain-cubes">
+  <!-- Cubes will be added here by JavaScript -->
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize blockchain cubes if the function exists
+    if (window.animations && typeof window.animations.createBlockchainCubes === 'function') {
+      window.animations.createBlockchainCubes('#blockchain-cubes', 5);
+    }
+  });
+</script>
+
+<style>
+  .blockchain-visualization {
+    margin: 3rem 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .visualization-caption {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-muted-on-dark);
+  }
+  
+  .token-economics-container {
+    margin: 3rem 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 2rem 1rem;
+  }
+  
+  .token-flow-visualization {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .token-entity {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .entity-icon {
+    font-size: 2.5rem;
+  }
+  
+  .entity-label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted-on-dark);
+  }
+  
+  .token-flow-arrow {
+    flex: 1;
+    position: relative;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .token-flow-arrow.reverse {
+    transform: scaleX(-1);
+  }
+  
+  .token-bubble {
+    position: absolute;
+    left: 20%;
+    font-size: 1.2rem;
+    color: var(--primary);
+    animation: flow-right 4s linear infinite;
+  }
+  
+  .token-bubble.delay-1 {
+    animation-delay: 1s;
+  }
+  
+  .token-bubble.delay-2 {
+    animation-delay: 2s;
+  }
+  
+  @keyframes flow-right {
+    0% {
+      left: 10%;
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    10% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    90% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      left: 90%;
+      opacity: 0;
+      transform: scale(0.5);
+    }
+  }
+  
+  .token-economy-caption {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--text-muted-on-dark);
+  }
+  
+  .animation-code-example {
+    margin: 3rem 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+  }
+  
+  .animation-code-example pre {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+  
+  .animation-code-example code {
+    font-family: monospace;
+    color: var(--light-color);
+  }
+  
+  .blockchain-cubes-container {
+    height: 300px;
+    position: relative;
+    margin: 3rem 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: hidden;
+  }
+  
+  .blockchain-cube {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    perspective: 600px;
+    transform-style: preserve-3d;
+  }
+  
+  .cube-face {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    background-color: rgba(110, 69, 226, 0.3);
+    border: 1px solid rgba(110, 69, 226, 0.5);
+    box-shadow: inset 0 0 20px rgba(0, 216, 255, 0.3);
+  }
+  
+  .cube-face:nth-child(1) { transform: translateZ(30px); }
+  .cube-face:nth-child(2) { transform: rotateY(180deg) translateZ(30px); }
+  .cube-face:nth-child(3) { transform: rotateY(90deg) translateZ(30px); }
+  .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(30px); }
+  .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(30px); }
+  .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(30px); }
+  
+  @media (max-width: 768px) {
+    .token-flow-visualization {
+      flex-direction: column;
+    }
+    
+    .token-flow-arrow {
+      transform: rotate(90deg);
+      margin: 1rem 0;
+      width: 150px;
+      height: 30px;
+    }
+    
+    .token-flow-arrow.reverse {
+      transform: rotate(90deg) scaleX(-1);
+    }
+  }
+</style>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

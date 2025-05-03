@@ -1,0 +1,12 @@
+<nav>
+  <ul>
+    <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
+    <li><a href="{{ '/about' | relative_url }}" {% if page.url == '/about/' %}class="active"{% endif %}>About</a></li>
+    <li><a href="{{ '/services' | relative_url }}" {% if page.url == '/services/' %}class="active"{% endif %}>Services</a></li>
+    <li><a href="{{ '/blog' | relative_url }}" {% if page.url contains '/blog/' %}class="active"{% endif %}>Blog</a></li>
+    <li><a href="{{ '/contact' | relative_url }}" {% if page.url == '/contact/' %}class="active"{% endif %}>Contact</a></li>
+    <li><a href="{{ '/playground' | relative_url }}" {% if page.url == '/playground/' %}class="active"{% endif %}>Playground</a></li>
+    <li><a href="{{ '/game' | relative_url }}" {% if page.url == '/game/' %}class="active"{% endif %}>Game</a></li>
+    <li><a href="{{ '/animations' | relative_url }}" {% if page.url == '/animations/' %}class="active"{% endif %}>Animations</a></li>
+  </ul>
+</nav>

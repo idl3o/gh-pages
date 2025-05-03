@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 HLS Streaming Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        h1, h2, h3 {
+            color: #0056b3;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .panel {
+            flex: 1 1 400px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #003d82;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .quality-btn {
+            background-color: #6c757d;
+        }
+
+        .quality-btn.active {
+            background-color: #28a745;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #0056b3;
+        }
+
+        .progress-container {
+            margin-top: 10px;
+            width: 100%;
+            background-color: #f0f0f0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #28a745;
+            transition: width 0.2s;
+        }
+
+        .progress-text {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #live-info {
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #0056b3;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        code {
+            display: block;
+            white-space: pre-wrap;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        .stream-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+        }
+
+        .stream-card h3 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web3 HLS Streaming Demo</h1>
+    <p>This demo showcases HLS (HTTP Live Streaming) integration with IPFS for adaptive bitrate streaming in a decentralized Web3 environment.</p>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="vod">VOD Streaming</div>
+        <div class="tab" data-tab="live">Live Streaming</div>
+        <div class="tab" data-tab="docs">Documentation</div>
+    </div>
+
+    <div class="tab-content active" id="vod-content">
+        <div class="container">
+            <div class="panel">
+                <h2>Video Processing</h2>
+                <p>Upload a video to convert it to HLS format with multiple quality levels. The video will be uploaded to IPFS for decentralized storage.</p>
+
+                <div class="upload-area" id="upload-area">
+                    <p>Drag & drop a video file here or click to select</p>
+                    <input type="file" id="file-input" accept="video/*" style="display: none;">
+                </div>
+
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="progress-text" id="progress-text"></div>
+
+                <h3>Quality Options</h3>
+                <div id="quality-options">
+                    <button class="quality-btn active" data-quality="360p">360p</button>
+                    <button class="quality-btn active" data-quality="480p">480p</button>
+                    <button class="quality-btn active" data-quality="720p">720p</button>
+                    <button class="quality-btn" data-quality="1080p">1080p</button>
+                </div>
+
+                <button id="process-btn" disabled>Process Video</button>
+
+                <div class="status" id="status-message"></div>
+            </div>
+
+            <div class="panel">
+                <h2>HLS Player</h2>
+                <p>This player supports adaptive bitrate streaming, automatically selecting the optimal quality based on available bandwidth.</p>
+
+                <div class="video-container">
+                    <video id="hls-player" controls playsinline></video>
+                </div>
+
+                <div id="player-controls">
+                    <button id="play-btn" disabled>Play</button>
+                    <button id="stop-btn" disabled>Stop</button>
+                </div>
+
+                <div id="stream-info"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="live-content">
+        <div class="container">
+            <div class="panel">
+                <h2>Live Stream Broadcasting</h2>
+                <p>Create a new live stream using your webcam or upload video segments for broadcasting.</p>
+
+                <div>
+                    <input type="text" id="stream-name" placeholder="Stream Name" style="padding: 8px; margin-bottom: 10px; width: 100%;">
+                </div>
+
+                <button id="create-stream-btn">Create Live Stream</button>
+                <button id="start-camera-btn" disabled>Start Camera</button>
+                <button id="stop-camera-btn" disabled>Stop Camera</button>
+
+                <div class="video-container hidden" id="camera-container">
+                    <video id="camera-preview" muted playsinline></video>
+                </div>
+
+                <div id="live-info"></div>
+            </div>
+
+            <div class="panel">
+                <h2>Live Stream Playback</h2>
+                <p>Watch live streams that are currently active.</p>
+
+                <div class="video-container">
+                    <video id="live-player" controls playsinline></video>
+                </div>
+
+                <button id="play-live-btn" disabled>Watch Stream</button>
+
+                <h3>Active Streams</h3>
+                <div id="streams-list">
+                    <p>No active streams found.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="docs-content">
+        <h2>HLS Integration Documentation</h2>
+        <p>Learn how to integrate HLS streaming into your Web3 dApp using our services.</p>
+
+        <h3>Initialize Services</h3>
+        <code>
+// Initialize IPFS service
+await ipfsService.initialize();
+
+// Initialize HLS service
+await hlsService.initialize({
+    segmentDuration: 6,
+    defaultQualities: ['360p', '720p']
+});
+        </code>
+
+        <h3>Convert Video to HLS</h3>
+        <code>
+// Process video file for HLS streaming
+const result = await hlsService.convertToHLS(
+    videoFile,
+    {
+        qualities: ['360p', '720p', '1080p'],
+        segmentDuration: 6,
+        playlistType: 'vod'
+    },
+    (progress, status) => {
+        console.log(`${status}: ${progress}%`);
+    }
+);
+
+// Get master playlist CID
+const masterPlaylistCid = result.masterPlaylistCid;
+        </code>
+
+        <h3>Create and Manage Live Stream</h3>
+        <code>
+// Create a new live stream
+const stream = await hlsService.createLiveStream({
+    name: 'My Live Stream',
+    qualities: ['360p', '720p'],
+    persistent: true
+});
+
+// Start the stream
+const startResult = await hlsService.startLiveStream(stream.streamId);
+
+// Add a segment to the stream
+await hlsService.addLiveSegment(stream.streamId, segmentData, {
+    duration: 6
+});
+
+// Stop the stream
+await hlsService.stopLiveStream(stream.streamId);
+        </code>
+
+        <h3>Play HLS Content</h3>
+        <code>
+// Set up HLS player using HLS.js
+const video = document.getElementById('video-player');
+const hls = new Hls();
+hls.loadSource(`${ipfsGateway}${masterPlaylistCid}`);
+hls.attachMedia(video);
+hls.on(Hls.Events.MANIFEST_PARSED, function() {
+    video.play();
+});
+        </code>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script type="module">
+        import ipfsService from './services/IPFSService.js';
+        import hlsService from './services/HLSService.js';
+
+        // DOM elements for VOD section
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const processBtn = document.getElementById('process-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const statusMessage = document.getElementById('status-message');
+        const hlsPlayer = document.getElementById('hls-player');
+        const playBtn = document.getElementById('play-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const streamInfo = document.getElementById('stream-info');
+        const qualityBtns = document.querySelectorAll('.quality-btn');
+
+        // DOM elements for Live section
+        const streamName = document.getElementById('stream-name');
+        const createStreamBtn = document.getElementById('create-stream-btn');
+        const startCameraBtn = document.getElementById('start-camera-btn');
+        const stopCameraBtn = document.getElementById('stop-camera-btn');
+        const cameraContainer = document.getElementById('camera-container');
+        const cameraPreview = document.getElementById('camera-preview');
+        const liveInfo = document.getElementById('live-info');
+        const livePlayer = document.getElementById('live-player');
+        const playLiveBtn = document.getElementById('play-live-btn');
+        const streamsList = document.getElementById('streams-list');
+
+        // Tab navigation
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                // Show corresponding tab content
+                const tabId = tab.dataset.tab + '-content';
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Selected file
+        let selectedFile = null;
+
+        // Selected qualities
+        const selectedQualities = ['360p', '480p', '720p'];
+
+        // Currently active stream
+        let activeStream = null;
+
+        // Media recorder for live stream
+        let mediaRecorder = null;
+        let mediaStream = null;
+        let recordingInterval = null;
+
+        // Initialize services
+        async function initializeServices() {
+            try {
+                // Initialize IPFS service
+                if (!ipfsService.isInitialized) {
+                    await ipfsService.initialize({
+                        gateway: 'https://ipfs.io/ipfs/'
+                    });
+                }
+
+                // Initialize HLS service
+                if (!hlsService.isInitialized) {
+                    await hlsService.initialize({
+                        segmentDuration: 6,
+                        defaultQualities: ['360p', '720p']
+                    });
+                }
+
+                updateStatus('Services initialized successfully');
+            } catch (error) {
+                console.error('Error initializing services:', error);
+                updateStatus('Failed to initialize services: ' + error.message, true);
+            }
+        }
+
+        // Update status message
+        function updateStatus(message, isError = false) {
+            statusMessage.textContent = message;
+            statusMessage.style.borderColor = isError ? '#dc3545' : '#28a745';
+        }
+
+        // Update progress bar
+        function updateProgress(percent, status = '') {
+            progressContainer.style.display = 'block';
+            progressBar.style.width = `${percent}%`;
+            progressText.textContent = status ? `${status} - ${percent}%` : `${percent}%`;
+        }
+
+        // Handle file selection
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#0056b3';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#ccc';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+
+            if (e.dataTransfer.files.length > 0) {
+                handleFileSelection(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                handleFileSelection(fileInput.files[0]);
+            }
+        });
+
+        function handleFileSelection(file) {
+            if (!file.type.startsWith('video/')) {
+                updateStatus('Please select a valid video file', true);
+                return;
+            }
+
+            selectedFile = file;
+            uploadArea.innerHTML = `<p>Selected: ${file.name}</p>`;
+            processBtn.disabled = false;
+            updateStatus('Video file selected. Click "Process Video" to convert to HLS.');
+        }
+
+        // Toggle quality selection
+        qualityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const quality = btn.dataset.quality;
+
+                if (btn.classList.contains('active')) {
+                    // Remove from selected qualities
+                    const index = selectedQualities.indexOf(quality);
+                    if (index !== -1) {
+                        selectedQualities.splice(index, 1);
+                    }
+                    btn.classList.remove('active');
+                } else {
+                    // Add to selected qualities
+                    selectedQualities.push(quality);
+                    btn.classList.add('active');
+                }
+
+                // Ensure at least one quality is selected
+                if (selectedQualities.length === 0) {
+                    btn.classList.add('active');
+                    selectedQualities.push(quality);
+                }
+            });
+        });
+
+        // Process video to HLS
+        processBtn.addEventListener('click', async () => {
+            if (!selectedFile) {
+                updateStatus('Please select a video file first', true);
+                return;
+            }
+
+            if (!hlsService.isInitialized) {
+                updateStatus('HLS service not initialized', true);
+                return;
+            }
+
+            try {
+                processBtn.disabled = true;
+                updateStatus('Processing video...');
+
+                // Convert video to HLS
+                const result = await hlsService.convertToHLS(
+                    selectedFile,
+                    {
+                        qualities: selectedQualities,
+                        segmentDuration: 6,
+                        playlistType: 'vod'
+                    },
+                    updateProgress
+                );
+
+                // Enable play button
+                playBtn.disabled = false;
+
+                // Store result for playback
+                activeStream = result;
+
+                // Display stream info
+                streamInfo.innerHTML = `
+                    <h3>Stream Info</h3>
+                    <p>Master Playlist: ${result.masterPlaylistCid}</p>
+                    <p>Qualities: ${result.qualities.join(', ')}</p>
+                    <p>Gateway: ${result.ipfsBaseUrl || ipfsService.gateway}</p>
+                `;
+
+                updateStatus('Video processed successfully');
+            } catch (error) {
+                console.error('Error processing video:', error);
+                updateStatus('Error processing video: ' + error.message, true);
+                processBtn.disabled = false;
+            }
+        });
+
+        // Play processed video
+        playBtn.addEventListener('click', () => {
+            if (!activeStream) return;
+
+            const url = `${activeStream.ipfsBaseUrl || ipfsService.gateway}${activeStream.masterPlaylistCid}`;
+
+            // Check for native HLS support
+            if (hlsPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                hlsPlayer.src = url;
+                hlsPlayer.play();
+            } else if (window.Hls) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(hlsPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    hlsPlayer.play();
+                });
+
+                // Store HLS instance for cleanup
+                hlsPlayer.hlsInstance = hls;
+            } else {
+                updateStatus('HLS playback not supported in this browser', true);
+            }
+
+            stopBtn.disabled = false;
+        });
+
+        // Stop video playback
+        stopBtn.addEventListener('click', () => {
+            if (hlsPlayer.hlsInstance) {
+                hlsPlayer.hlsInstance.destroy();
+                delete hlsPlayer.hlsInstance;
+            }
+
+            hlsPlayer.pause();
+            hlsPlayer.src = '';
+            stopBtn.disabled = true;
+        });
+
+        // Create a new live stream
+        createStreamBtn.addEventListener('click', async () => {
+            if (!hlsService.isInitialized) {
+                alert('HLS service not initialized');
+                return;
+            }
+
+            const name = streamName.value || 'Untitled Stream';
+
+            try {
+                createStreamBtn.disabled = true;
+
+                // Create a new live stream
+                const stream = await hlsService.createLiveStream({
+                    name,
+                    description: 'Demo live stream',
+                    qualities: ['360p', '720p'],
+                    persistent: true
+                });
+
+                // Start the stream
+                const startResult = await hlsService.startLiveStream(stream.streamId);
+
+                // Store active stream info
+                activeStream = {
+                    ...stream,
+                    ...startResult,
+                    masterPlaylistCid: null
+                };
+
+                // Update UI
+                liveInfo.innerHTML = `
+                    <h3>Stream Created</h3>
+                    <p>Stream ID: ${stream.streamId}</p>
+                    <p>Ingest URL: ${startResult.ingestUrl}</p>
+                    <p>Status: ${startResult.status}</p>
+                `;
+
+                startCameraBtn.disabled = false;
+                createStreamBtn.disabled = false;
+
+                // Add to streams list
+                updateStreamsList();
+            } catch (error) {
+                console.error('Error creating live stream:', error);
+                alert('Error creating live stream: ' + error.message);
+                createStreamBtn.disabled = false;
+            }
+        });
+
+        // Start camera for broadcasting
+        startCameraBtn.addEventListener('click', async () => {
+            if (!activeStream) {
+                alert('Create a live stream first');
+                return;
+            }
+
+            try {
+                // Request camera access
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: true
+                });
+
+                // Display preview
+                cameraPreview.srcObject = mediaStream;
+                cameraPreview.play();
+                cameraContainer.classList.remove('hidden');
+
+                // Create media recorder
+                mediaRecorder = new MediaRecorder(mediaStream, {
+                    mimeType: 'video/webm;codecs=vp8,opus',
+                    videoBitsPerSecond: 1000000
+                });
+
+                // Handle recorded data
+                let chunks = [];
+                let segmentCounter = 0;
+
+                mediaRecorder.ondataavailable = async (e) => {
+                    if (e.data.size > 0) {
+                        chunks.push(e.data);
+
+                        // Every 6 seconds, create a segment and upload
+                        if (chunks.length >= 6) {
+                            const segmentBlob = new Blob(chunks, { type: 'video/webm' });
+                            chunks = [];
+
+                            try {
+                                // Add segment to live stream
+                                await hlsService.addLiveSegment(
+                                    activeStream.streamId,
+                                    segmentBlob,
+                                    { duration: 6 }
+                                );
+
+                                segmentCounter++;
+
+                                // Update live info
+                                const liveInfoElem = document.getElementById('live-info');
+                                const currentInfo = liveInfoElem.innerHTML;
+
+                                // Extract existing content up to the segments line
+                                const infoPrefix = currentInfo.split('<p>Segments:')[0];
+
+                                // Update segments count
+                                liveInfoElem.innerHTML = `${infoPrefix}<p>Segments: ${segmentCounter} uploaded</p>`;
+
+                                // Get updated stream info including master playlist
+                                const streamInfo = await hlsService.getLiveStreamInfo(activeStream.streamId);
+
+                                if (streamInfo.masterPlaylistCid && !activeStream.masterPlaylistCid) {
+                                    activeStream.masterPlaylistCid = streamInfo.masterPlaylistCid;
+                                    liveInfoElem.innerHTML += `<p>Playback URL: ${streamInfo.playbackUrl}</p>`;
+                                    playLiveBtn.disabled = false;
+                                }
+
+                                // Update streams list
+                                updateStreamsList();
+
+                            } catch (error) {
+                                console.error('Error adding segment:', error);
+                            }
+                        }
+                    }
+                };
+
+                // Start recording
+                mediaRecorder.start(1000); // Capture data every second
+
+                // Update UI
+                startCameraBtn.disabled = true;
+                stopCameraBtn.disabled = false;
+
+                // Update info
+                liveInfo.innerHTML += `<p>Broadcasting started</p><p>Segments: 0 uploaded</p>`;
+
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                alert('Error accessing camera: ' + error.message);
+            }
+        });
+
+        // Stop camera broadcasting
+        stopCameraBtn.addEventListener('click', async () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+            }
+
+            // Hide preview
+            cameraContainer.classList.add('hidden');
+            cameraPreview.srcObject = null;
+
+            // Stop the stream
+            if (activeStream) {
+                try {
+                    await hlsService.stopLiveStream(activeStream.streamId);
+                    liveInfo.innerHTML += `<p>Broadcasting stopped</p>`;
+                } catch (error) {
+                    console.error('Error stopping stream:', error);
+                }
+            }
+
+            // Update UI
+            startCameraBtn.disabled = false;
+            stopCameraBtn.disabled = true;
+        });
+
+        // Play live stream
+        playLiveBtn.addEventListener('click', async () => {
+            if (!activeStream || !activeStream.masterPlaylistCid) {
+                alert('No active stream to play');
+                return;
+            }
+
+            const url = `${ipfsService.gateway}${activeStream.masterPlaylistCid}`;
+
+            // Check for native HLS support
+            if (livePlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                livePlayer.src = url;
+                livePlayer.play();
+            } else if (window.Hls) {
+                if (livePlayer.hlsInstance) {
+                    livePlayer.hlsInstance.destroy();
+                }
+
+                const hls = new Hls({
+                    maxBufferLength: 10,
+                    maxMaxBufferLength: 30,
+                    liveSyncDuration: 3,
+                    liveMaxLatencyDuration: 10,
+                    liveDurationInfinity: true
+                });
+
+                hls.loadSource(url);
+                hls.attachMedia(livePlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    livePlayer.play();
+                });
+
+                // Store HLS instance for cleanup
+                livePlayer.hlsInstance = hls;
+            } else {
+                alert('HLS playback not supported in this browser');
+            }
+        });
+
+        // Update list of active streams
+        async function updateStreamsList() {
+            // In a real app, you would fetch this from a service
+            // For this demo, we'll just show the current stream
+            if (activeStream && activeStream.streamId) {
+                try {
+                    const streamInfo = await hlsService.getLiveStreamInfo(activeStream.streamId);
+
+                    streamsList.innerHTML = `
+                        <div class="stream-card">
+                            <h3>${streamName.value || 'Untitled Stream'}</h3>
+                            <p>Stream ID: ${activeStream.streamId}</p>
+                            <p>Status: ${streamInfo.status || activeStream.status}</p>
+                            <button class="watch-stream-btn" data-id="${activeStream.streamId}">
+                                Watch Stream
+                            </button>
+                        </div>
+                    `;
+
+                    // Add click event to the watch button
+                    const watchBtns = document.querySelectorAll('.watch-stream-btn');
+                    watchBtns.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const streamId = btn.dataset.id;
+                            if (streamId === activeStream.streamId) {
+                                playLiveBtn.click();
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.error('Error updating streams list:', error);
+                }
+            } else {
+                streamsList.innerHTML = '<p>No active streams found.</p>';
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', initializeServices);
+    </script>
+</body>
+</html>

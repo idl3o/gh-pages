@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Team - Project RED X</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #eee;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #111;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        h1, h2, h3 {
+            color: #f00;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            flex: 1;
+        }
+        .team-section {
+            margin-bottom: 3rem;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .team-card {
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 3px solid #f00;
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        }
+        .team-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #444;
+        }
+        .team-body {
+            padding: 1.5rem;
+        }
+        .team-name {
+            font-size: 1.5rem;
+            margin: 0 0 0.5rem 0;
+        }
+        .team-role {
+            color: #f00;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+        .team-desc {
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+        .team-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .team-link {
+            display: inline-flex;
+            align-items: center;
+            color: #eee;
+            text-decoration: none;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background-color: #444;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+        .team-link:hover {
+            background-color: #555;
+        }
+        .github-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #f00;
+            color: #000;
+            font-size: 0.8rem;
+            border-radius: 50px;
+            margin: 0.25rem 0.5rem 0.25rem 0;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: auto;
+            padding: 1rem 0;
+            text-align: center;
+            width: 100%;
+            background-color: #111;
+        }
+        .nav-links {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .nav-links a {
+            color: #f00;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Project RED X Team</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="red_x/index.html">Demo</a>
+            <a href="url-launcher.html">URL Launcher</a>
+            <a href="team.html">Team</a>
+            <a href="status.html">Status</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="team-section">
+            <h2>Core Development Team</h2>
+
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-header">
+                        <h1>Team MODSIAS</h1>
+                        <p>The talented individuals behind Project Demo</p>
+                    </div>
+                    <div class="team-body">
+                        <p class="team-desc">
+                            Lead developer responsible for the Project RED X architecture,
+                            WebAssembly implementation, and integration with Claude 4 AI.
+                            Specializes in cross-platform C/C++ development and real-time graphics.
+                            <br><br>
+                            <strong>Verification Code:</strong> <code>AIMODE-775045-V1.0</code>
+                        </p>
+                        <div>
+                            <span class="badge">C/C++</span>
+                            <span class="badge">WebAssembly</span>
+                            <span class="badge">SDL2</span>
+                            <span class="badge">Node.js</span>
+                        </div>
+                        <div class="team-links">
+                            <a href="https://github.com/idl3o" class="team-link" target="_blank" rel="noopener noreferrer">
+                                <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                                </svg>
+                                GitHub Profile
+                            </a>
+                            <a href="red_x/legal/COPYRIGHT.asm" class="team-link" target="_blank" rel="noopener noreferrer">
+                                <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M21 8v12.993A1 1 0 0 1 20.007 22H3.993A.993.993 0 0 1 3 21.008V2.992C3 2.455 3.449 2 4.002 2h10.995L21 8zm-2 1h-5V4H5v16h14V9zM8 7h3v2H8V7zm0 4h8v2H8v-2zm0 4h8v2H8v-2z"/>
+                                </svg>
+                                Copyright File
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-header">
+                        <h3 class="team-name">RED X Collaboration Team</h3>
+                        <p class="team-role">Development & Support Team</p>
+                    </div>
+                    <div class="team-body">
+                        <p class="team-desc">
+                            Collective team working under the github/modsias leadership to deliver
+                            Project RED X. Includes developers, designers, and documentation specialists
+                            focusing on WebAssembly optimization and Claude AI integration.
+                        </p>
+                        <div>
+                            <span class="badge">JavaScript</span>
+                            <span class="badge">TypeScript</span>
+                            <span class="badge">AWS</span>
+                            <span class="badge">DevOps</span>
+                        </div>
+                        <div class="team-links">
+                            <a href="https://github.com/modsias/red_x" class="team-link" target="_blank" rel="noopener noreferrer">
+                                <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                                </svg>
+                                Project Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <h2>Contributors</h2>
+            <p>
+                Project RED X is made possible by the contributions of many individuals.
+                Special thanks to all those who have contributed code, documentation, testing, and feedback.
+            </p>
+
+            <div class="team-card" style="max-width: 600px; margin: 2rem auto;">
+                <div class="team-header">
+                    <h3 class="team-name">Become a Contributor</h3>
+                    <p class="team-role">Open Source Project</p>
+                </div>
+                <div class="team-body">
+                    <p class="team-desc">
+                        Project RED X is an open source project. We welcome contributions
+                        from developers of all skill levels. Whether you're fixing bugs,
+                        adding features, or improving documentation, your help is appreciated.
+                    </p>
+                    <div class="team-links">
+                        <a href="https://github.com/idl3o/red_x/issues" class="team-link" target="_blank" rel="noopener noreferrer">
+                            <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                            </svg>
+                            View Issues
+                        </a>
+                        <a href="https://github.com/idl3o/red_x/pulls" class="team-link" target="_blank" rel="noopener noreferrer">
+                            <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                            </svg>
+                            Submit a Pull Request
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Project Demo &copy; 2025 | Created by <a href="https://github.com/idl3o" style="color: #f00;">github/idl3o</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<div class="comments-section">
+    <h3>Community Discussion</h3>
+    <div class="comment-stats">
+        <div class="stat">
+            <span class="stat-number">24</span>
+            <span class="stat-label">Contributors</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">107</span>
+            <span class="stat-label">Comments</span>
+        </div>
+    </div>
+    <div class="comment-form">
+        <button id="connect-wallet-comment" class="button primary">Connect Wallet to Comment</button>
+        <textarea id="comment-input" placeholder="Share your thoughts..." class="hidden"></textarea>
+        <button id="submit-comment" class="button secondary hidden">Post Comment</button>
+    </div>
+    <div id="comments-list">
+        <div class="comment-item">
+            <div class="comment-header">
+                <span class="commenter-name">Alex Web3</span>
+                <span class="comment-time">2 hours ago</span>
+            </div>
+            <div class="comment-body">
+                <p>This approach to decentralized streaming is exactly what creators need right now.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .comments-section {
+        background-color: rgba(255, 255, 255, 0.03);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        margin: 3rem 0;
+        border-top: 3px solid var(--primary);
+    }
+
+    .comment-stats {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: var(--gradient-secondary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .comment-form {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .wallet-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: rgba(66, 133, 244, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+    }
+
+    #comment-input {
+        width: 100%;
+        min-height: 100px;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        background-color: var(--gray-darker);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-on-dark);
+        font-family: inherit;
+        font-size: 1rem;
+        resize: vertical;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .comment-item {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .comment-item:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .comment-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .action-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted-on-dark);
+        cursor: pointer;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+        color: var(--text-on-dark);
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const connectWalletBtn = document.getElementById('connect-wallet-comment');
+        const commentInput = document.getElementById('comment-input');
+        const submitCommentBtn = document.getElementById('submit-comment');
+
+        connectWalletBtn.addEventListener('click', function() {
+            this.innerHTML = '<span>0x72D4...38F1</span>';
+            this.classList.add('connected');
+            commentInput.classList.remove('hidden');
+            submitCommentBtn.classList.remove('hidden');
+            this.disabled = true;
+        });
+    });
+</script>

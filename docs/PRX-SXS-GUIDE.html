@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project RED X Development with SxS CLI | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project RED X Development with SxS CLI" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/PRX-SXS-GUIDE.html" />
+<meta property="og:url" content="/docs/PRX-SXS-GUIDE.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project RED X Development with SxS CLI" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project RED X Development with SxS CLI","url":"/docs/PRX-SXS-GUIDE.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Project RED X Development with SxS CLI</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="project-red-x-development-with-sxs-cli">Project RED X Development with SxS CLI</h1>
+
+<p>This guide provides a quick reference for using the SxS CLI to develop Project RED X.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>Set up your development environment:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs prx:setup
+</code></pre></div></div>
+
+<p>This command:</p>
+
+<ul>
+  <li>Sets up the Emscripten SDK</li>
+  <li>Installs all required dependencies</li>
+</ul>
+
+<h2 id="common-development-commands">Common Development Commands</h2>
+
+<h3 id="start-development-mode">Start Development Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs dev
+</code></pre></div></div>
+
+<p>Launches Project RED X in development mode with hot reloading.</p>
+
+<h3 id="build-web-version">Build Web Version</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs web
+</code></pre></div></div>
+
+<p>Builds the web version and starts the server.</p>
+
+<h3 id="build-native-version">Build Native Version</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs native
+</code></pre></div></div>
+
+<p>Builds the native version of Project RED X.</p>
+
+<h3 id="run-tests">Run Tests</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>Builds the web version and runs the test suite.</p>
+
+<h2 id="prx-specific-commands">PRX-Specific Commands</h2>
+
+<h3 id="check-project-status">Check Project Status</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs prx:status
+</code></pre></div></div>
+
+<p>Shows:</p>
+
+<ul>
+  <li>Whether the server is running</li>
+  <li>Currently active processes</li>
+  <li>Project statistics</li>
+</ul>
+
+<h3 id="see-recent-git-changes">See Recent Git Changes</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs prx:changes
+</code></pre></div></div>
+
+<p>Shows the 10 most recent changes to the codebase.</p>
+
+<h3 id="watch-mode">Watch Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs prx:watch
+</code></pre></div></div>
+
+<p>Watches for file changes and automatically rebuilds the project.</p>
+
+<h3 id="run-specific-tasks">Run Specific Tasks</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs prx:run &lt;task-name&gt;
+</code></pre></div></div>
+
+<p>Run a specific VS Code task with monitoring, e.g.:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sxs prx:run make_web</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sxs prx:run start_server</code></li>
+</ul>
+
+<h3 id="stop-running-tasks">Stop Running Tasks</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs prx:stop &lt;task-name&gt;
+</code></pre></div></div>
+
+<p>Stops a currently running task.</p>
+
+<h2 id="branch-management">Branch Management</h2>
+
+<p>Switch to main branch:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs branch:main
+</code></pre></div></div>
+
+<p>Switch to docs branch:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs branch:docs
+</code></pre></div></div>
+
+<p>Show branch information:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs branch:info
+</code></pre></div></div>
+
+<p>Sync all branches:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs branch:sync
+</code></pre></div></div>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>Generate project documentation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs docs
+</code></pre></div></div>
+
+<h2 id="deployment">Deployment</h2>
+
+<p>Deploy to GitHub Pages:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs deploy
+</code></pre></div></div>
+
+<h2 id="performance-monitoring">Performance Monitoring</h2>
+
+<p>View build and runtime performance metrics:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs perf
+</code></pre></div></div>
+
+<p>Clear performance metrics:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs perf-clear
+</code></pre></div></div>
+
+<h2 id="help-and-information">Help and Information</h2>
+
+<p>Show all available commands:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs <span class="nb">help</span>
+</code></pre></div></div>
+
+<p>List installed plugins:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs plugins
+</code></pre></div></div>
+
+<p>Show SxS CLI version:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sxs version
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

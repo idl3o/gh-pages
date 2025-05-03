@@ -1,0 +1,88 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="layer1-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(0,216,255,0.2);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(0,216,255,0.1);stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="layer2-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(110,69,226,0.2);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(110,69,226,0.1);stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="layer3-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(255,87,34,0.2);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(255,87,34,0.1);stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="layer4-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(72,187,120,0.2);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(72,187,120,0.1);stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-gradient)" rx="8" ry="8" />
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle" font-weight="bold">System Architecture</text>
+  
+  <!-- Layer 1: User Layer -->
+  <rect x="100" y="80" width="600" height="100" fill="url(#layer1-gradient)" stroke="rgba(0,216,255,0.3)" stroke-width="2" rx="5" ry="5" />
+  <text x="150" y="110" font-family="Arial, sans-serif" font-size="16" fill="rgba(0,216,255,1)" text-anchor="start">User Layer</text>
+  <rect x="200" y="130" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(0,216,255,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="340" y="130" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(0,216,255,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="480" y="130" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(0,216,255,0.3)" stroke-width="1" rx="3" ry="3" />
+  <text x="260" y="150" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Creator/Viewer Apps</text>
+  <text x="400" y="150" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Web Interface</text>
+  <text x="540" y="150" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Mobile Apps</text>
+  
+  <!-- Layer 2: Protocol Layer -->
+  <rect x="100" y="200" width="600" height="100" fill="url(#layer2-gradient)" stroke="rgba(110,69,226,0.3)" stroke-width="2" rx="5" ry="5" />
+  <text x="150" y="230" font-family="Arial, sans-serif" font-size="16" fill="rgba(110,69,226,1)" text-anchor="start">Protocol Layer</text>
+  <rect x="200" y="250" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(110,69,226,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="340" y="250" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(110,69,226,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="480" y="250" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(110,69,226,0.3)" stroke-width="1" rx="3" ry="3" />
+  <text x="260" y="270" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Smart Contracts</text>
+  <text x="400" y="270" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Token Economics</text>
+  <text x="540" y="270" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Authentication</text>
+  
+  <!-- Layer 3: Infrastructure Layer -->
+  <rect x="100" y="320" width="600" height="100" fill="url(#layer3-gradient)" stroke="rgba(255,87,34,0.3)" stroke-width="2" rx="5" ry="5" />
+  <text x="150" y="350" font-family="Arial, sans-serif" font-size="16" fill="rgba(255,87,34,1)" text-anchor="start">Infrastructure Layer</text>
+  <rect x="200" y="370" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(255,87,34,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="340" y="370" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(255,87,34,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="480" y="370" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(255,87,34,0.3)" stroke-width="1" rx="3" ry="3" />
+  <text x="260" y="390" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">IPFS Storage</text>
+  <text x="400" y="390" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">P2P Network</text>
+  <text x="540" y="390" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Encoding Nodes</text>
+  
+  <!-- Layer 4: Blockchain Layer -->
+  <rect x="100" y="440" width="600" height="100" fill="url(#layer4-gradient)" stroke="rgba(72,187,120,0.3)" stroke-width="2" rx="5" ry="5" />
+  <text x="150" y="470" font-family="Arial, sans-serif" font-size="16" fill="rgba(72,187,120,1)" text-anchor="start">Blockchain Layer</text>
+  <rect x="200" y="490" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(72,187,120,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="340" y="490" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(72,187,120,0.3)" stroke-width="1" rx="3" ry="3" />
+  <rect x="480" y="490" width="120" height="30" fill="rgba(0,0,0,0.3)" stroke="rgba(72,187,120,0.3)" stroke-width="1" rx="3" ry="3" />
+  <text x="260" y="510" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Ethereum</text>
+  <text x="400" y="510" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Polygon</text>
+  <text x="540" y="510" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Oracle Services</text>
+  
+  <!-- Connecting lines between layers -->
+  <line x1="250" y1="180" x2="250" y2="200" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  <line x1="400" y1="180" x2="400" y2="200" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  <line x1="550" y1="180" x2="550" y2="200" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  
+  <line x1="250" y1="300" x2="250" y2="320" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  <line x1="400" y1="300" x2="400" y2="320" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  <line x1="550" y1="300" x2="550" y2="320" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  
+  <line x1="250" y1="420" x2="250" y2="440" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  <line x1="400" y1="420" x2="400" y2="440" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  <line x1="550" y1="420" x2="550" y2="440" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="5,3" />
+  
+  <!-- Flow arrows -->
+  <path d="M 700,180 L 710,180 L 705,190 Z" fill="rgba(255,255,255,0.6)" />
+  <path d="M 700,300 L 710,300 L 705,310 Z" fill="rgba(255,255,255,0.6)" />
+  <path d="M 700,420 L 710,420 L 705,430 Z" fill="rgba(255,255,255,0.6)" />
+</svg>

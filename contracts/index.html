@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Smart Contracts | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Smart Contracts" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/contracts/" />
+<meta property="og:url" content="/contracts/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Smart Contracts" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Smart Contracts","url":"/contracts/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Smart Contracts</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="smart-contracts">Smart Contracts</h1>
+
+<p>This directory contains the smart contracts that power the Web3 Streaming Platform’s blockchain functionality. These contracts handle token management, content ownership, and payment processing on the blockchain.</p>
+
+<h2 id="contract-overview">Contract Overview</h2>
+
+<h3 id="prxtokenchainsol">PRXTokenChain.sol</h3>
+
+<p>The main token contract for the platform, implementing ERC-20 and ERC-1155 standards for fungible and non-fungible tokens.</p>
+
+<p><strong>Key Features:</strong></p>
+
+<ul>
+  <li>Token minting and burning</li>
+  <li>Content ownership verification</li>
+  <li>Creator royalty payments</li>
+  <li>Token-gated content access</li>
+</ul>
+
+<h3 id="simpletokenchainsol">SimpleTokenChain.sol</h3>
+
+<p>A simplified token contract for testing and development purposes.</p>
+
+<p><strong>Key Features:</strong></p>
+
+<ul>
+  <li>Basic ERC-20 functionality</li>
+  <li>Test minting and transfers</li>
+  <li>No gas optimization (for educational purposes)</li>
+</ul>
+
+<h2 id="development-setup">Development Setup</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li>Node.js (v18+)</li>
+  <li>npm or yarn</li>
+  <li>Solidity Compiler (<code class="language-plaintext highlighter-rouge">solc</code> v0.8.0+)</li>
+  <li>Hardhat or Truffle for testing</li>
+</ul>
+
+<h3 id="installation">Installation</h3>
+
+<ol>
+  <li>
+    <p>Install dependencies:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Compile contracts:</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run contracts:build
+<span class="c"># or</span>
+<span class="nb">cd </span>contracts <span class="o">&amp;&amp;</span> solc <span class="nt">--bin</span> <span class="nt">--abi</span> <span class="nt">--optimize</span> <span class="nt">--overwrite</span> <span class="nt">-o</span> ./build/ <span class="k">*</span>.sol
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="testing">Testing</h2>
+
+<p>Run the test suite with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>This will deploy the contracts to a local blockchain and run tests against them.</p>
+
+<h2 id="contract-deployment">Contract Deployment</h2>
+
+<h3 id="local-development">Local Development</h3>
+
+<p>For local development, you can use Hardhat’s local blockchain:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat node
+npx hardhat run scripts/deploy.js <span class="nt">--network</span> localhost
+</code></pre></div></div>
+
+<h3 id="test-networks">Test Networks</h3>
+
+<p>To deploy to a test network (e.g., Sepolia):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat run scripts/deploy.js <span class="nt">--network</span> sepolia
+</code></pre></div></div>
+
+<h3 id="main-network">Main Network</h3>
+
+<p>For production deployment (be cautious!):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat run scripts/deploy.js <span class="nt">--network</span> mainnet
+</code></pre></div></div>
+
+<h2 id="contract-verification">Contract Verification</h2>
+
+<p>After deployment, verify your contracts on Etherscan:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat verify <span class="nt">--network</span> sepolia DEPLOYED_CONTRACT_ADDRESS <span class="s2">"Constructor Arg 1"</span> <span class="s2">"Constructor Arg 2"</span>
+</code></pre></div></div>
+
+<h2 id="gas-optimization">Gas Optimization</h2>
+
+<p>Our contracts implement several gas optimization techniques:</p>
+
+<ul>
+  <li>Storage packing</li>
+  <li>View function optimization</li>
+  <li>Loop optimization</li>
+  <li>Using events where appropriate instead of storage</li>
+</ul>
+
+<p>To analyze gas usage:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node analyze-gas-usage.js
+</code></pre></div></div>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<p>These contracts have been designed with security best practices in mind:</p>
+
+<ol>
+  <li>Using OpenZeppelin’s battle-tested contracts where possible</li>
+  <li>Implementing reentrancy guards</li>
+  <li>Avoiding common vulnerabilities like frontrunning and integer overflow</li>
+  <li>Following the Checks-Effects-Interactions pattern</li>
+</ol>
+
+<h2 id="contract-documentation">Contract Documentation</h2>
+
+<p>For detailed function-by-function documentation, see <a href="../docs/contract-api.md">Contract API Documentation</a>.</p>
+
+<h2 id="license">License</h2>
+
+<p>These contracts are licensed under the <a href="/LICENSE">MIT License</a>.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Contributions are welcome! Please see our <a href="/CONTRIBUTING.md">Contributing Guidelines</a> before submitting pull requests.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/api.html" />
+<meta property="og:url" content="/docs/api.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/api.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: API Documentation
+description: Complete API reference for Web3 Crypto Streaming Service
+permalink: /docs/api/</p>
+<hr />
+
+<h1 id="api-documentation">API Documentation</h1>
+
+<p>Our RESTful API provides developers with programmatic access to the Web3 Crypto Streaming Service platform. This documentation covers the endpoints, request formats, and response structures.</p>
+
+<h2 id="authentication">Authentication</h2>
+
+<p>All API requests require authentication using JWT tokens. To obtain a token:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /api/auth/token
+</code></pre></div></div>
+
+<ul>
+  <li>*Request body:**
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"wallet_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1234..."</span><span class="p">,</span><span class="w">
+</span><span class="nl">"signature"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xabcd..."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>*Response:**
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span><span class="p">,</span><span class="w">
+</span><span class="nl">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-12-31T23:59:59Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="endpoints">Endpoints</h2>
+
+<h3 id="content">Content</h3>
+
+<h4 id="list-content">List Content</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/content
+</code></pre></div></div>
+
+<p>Parameters:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">page</code>: Page number (default: 1)</li>
+  <li><code class="language-plaintext highlighter-rouge">limit</code>: Items per page (default: 20)</li>
+  <li><code class="language-plaintext highlighter-rouge">creator</code>: Filter by creator address</li>
+  <li><code class="language-plaintext highlighter-rouge">tags</code>: Filter by tags (comma separated)</li>
+</ul>
+
+<h4 id="get-content">Get Content</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/content/{id}
+</code></pre></div></div>
+
+<h4 id="create-content">Create Content</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /api/content
+</code></pre></div></div>
+
+<h3 id="streams">Streams</h3>
+
+<h4 id="list-active-streams">List Active Streams</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/streams
+</code></pre></div></div>
+
+<h4 id="get-stream-details">Get Stream Details</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/streams/{id}
+</code></pre></div></div>
+
+<h4 id="create-stream">Create Stream</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /api/streams
+</code></pre></div></div>
+
+<h3 id="subscriptions">Subscriptions</h3>
+
+<h4 id="list-user-subscriptions">List User Subscriptions</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/subscriptions
+</code></pre></div></div>
+
+<h4 id="create-subscription">Create Subscription</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /api/subscriptions
+</code></pre></div></div>
+
+<h2 id="error-codes">Error Codes</h2>
+
+<p>Our API uses conventional HTTP response codes to indicate the success or failure of requests:</p>
+
+<ul>
+  <li>200: Success</li>
+  <li>400: Bad Request</li>
+  <li>401: Unauthorized</li>
+  <li>403: Forbidden</li>
+  <li>404: Not Found</li>
+  <li>429: Too Many Requests</li>
+  <li>500: Internal Server Error</li>
+</ul>
+
+<h2 id="rate-limits">Rate Limits</h2>
+
+<p>API calls are limited to 100 requests per minute per authenticated user. Exceeding this limit will result in a 429 response.</p>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

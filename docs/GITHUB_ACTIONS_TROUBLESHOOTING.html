@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>GitHub Actions Troubleshooting Guide | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="GitHub Actions Troubleshooting Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/GITHUB_ACTIONS_TROUBLESHOOTING.html" />
+<meta property="og:url" content="/docs/GITHUB_ACTIONS_TROUBLESHOOTING.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="GitHub Actions Troubleshooting Guide" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"GitHub Actions Troubleshooting Guide","url":"/docs/GITHUB_ACTIONS_TROUBLESHOOTING.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">GitHub Actions Troubleshooting Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="github-actions-troubleshooting-guide">GitHub Actions Troubleshooting Guide</h1>
+
+<p>This document provides solutions for common GitHub Actions workflow issues encountered in the Web3 Crypto Streaming Service repository.</p>
+
+<h2 id="common-issues-and-resolutions">Common Issues and Resolutions</h2>
+
+<h3 id="1-deployment-failures">1. Deployment Failures</h3>
+
+<h4 id="symptoms">Symptoms:</h4>
+<ul>
+  <li>“Error: The deploy step encountered an error”</li>
+  <li>Repository content not updating on GitHub Pages</li>
+</ul>
+
+<h4 id="resolutions">Resolutions:</h4>
+
+<ol>
+  <li><strong>Check Repository Permissions</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Settings &gt; Actions &gt; General &gt; Workflow permissions
+</code></pre></div>    </div>
+    <p>Ensure “Read and write permissions” is selected to allow workflows to push to the gh-pages branch.</p>
+  </li>
+  <li><strong>Verify Branch Protection</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Settings &gt; Branches &gt; Branch protection rules
+</code></pre></div>    </div>
+    <p>Make sure the <code class="language-plaintext highlighter-rouge">gh-pages</code> branch doesn’t have protection rules blocking force pushes from Actions.</p>
+  </li>
+  <li><strong>Check Deploy Action Configuration</strong>:
+Ensure the deploy action is correctly configured:
+```yaml
+    <ul>
+      <li>name: Deploy to GitHub Pages
+uses: JamesIves/github-pages-deploy-action@v4
+with:
+  branch: gh-pages  # Must match GitHub Pages publishing source
+  folder: .         # Directory containing built files
+```</li>
+    </ul>
+  </li>
+  <li><strong>Verify GitHub Pages Source</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Settings &gt; Pages &gt; Build and deployment &gt; Source
+</code></pre></div>    </div>
+    <p>Ensure it is set to “Deploy from a branch” and the branch is set to “gh-pages”.</p>
+  </li>
+</ol>
+
+<h3 id="2-url-validation-failures">2. URL Validation Failures</h3>
+
+<h4 id="symptoms-1">Symptoms:</h4>
+<ul>
+  <li>“URL validation failed” message in workflow logs</li>
+  <li>Deployment proceeds but with warnings</li>
+</ul>
+
+<h4 id="resolutions-1">Resolutions:</h4>
+
+<ol>
+  <li><strong>Run URL Check Locally</strong>:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node scripts/url-checker.js
+</code></pre></div>    </div>
+    <p>This will show broken links you need to fix.</p>
+  </li>
+  <li><strong>Common URL Issues</strong>:
+    <ul>
+      <li>Absolute URLs pointing to localhost</li>
+      <li>Missing files in the repository</li>
+      <li>External resources that are temporarily down</li>
+    </ul>
+  </li>
+  <li><strong>Temporarily Bypass Checks</strong>:
+Add URLs to an exclusion list in <code class="language-plaintext highlighter-rouge">scripts/url-checker.js</code> if they are known to be valid but temporarily failing.</li>
+</ol>
+
+<h3 id="3-workflow-conflicts">3. Workflow Conflicts</h3>
+
+<h4 id="symptoms-2">Symptoms:</h4>
+<ul>
+  <li>Multiple workflows running simultaneously</li>
+  <li>Inconsistent deployment results</li>
+  <li>Failed workflows with cryptic errors</li>
+</ul>
+
+<h4 id="resolutions-2">Resolutions:</h4>
+
+<ol>
+  <li>
+    <p><strong>Consolidate Workflows</strong>:
+Use the unified workflow (<code class="language-plaintext highlighter-rouge">unified-deploy.yml</code>) as your primary workflow and disable or remove redundant workflows.</p>
+  </li>
+  <li><strong>Check Trigger Conditions</strong>:
+Ensure each workflow has unique trigger conditions to avoid conflicts:
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+    <span class="na">paths-ignore</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s1">'</span><span class="s">docs/**'</span>
+      <span class="pi">-</span> <span class="s1">'</span><span class="s">*.md'</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Use Workflow Concurrency</strong>:
+Add concurrency settings to prevent simultaneous runs:
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">concurrency</span><span class="pi">:</span>
+  <span class="na">group</span><span class="pi">:</span> <span class="s">$-$</span>
+  <span class="na">cancel-in-progress</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="4-nodejs-and-npm-issues">4. Node.js and NPM Issues</h3>
+
+<h4 id="symptoms-3">Symptoms:</h4>
+<ul>
+  <li>“Cannot find module” errors</li>
+  <li>Package installation failures</li>
+</ul>
+
+<h4 id="resolutions-3">Resolutions:</h4>
+
+<ol>
+  <li><strong>Use Explicit Versioning</strong>:
+```yaml
+    <ul>
+      <li>name: Setup Node.js
+uses: actions/setup-node@v3
+with:
+  node-version: ‘18.x’
+```</li>
+    </ul>
+  </li>
+  <li><strong>Cache Dependencies</strong>:
+```yaml
+    <ul>
+      <li>name: Setup Node.js
+uses: actions/setup-node@v3
+with:
+  node-version: ‘18.x’
+  cache: ‘npm’
+```</li>
+    </ul>
+  </li>
+  <li><strong>Clean Installation</strong>:
+```yaml
+    <ul>
+      <li>name: Install Dependencies
+run: |
+  rm -rf node_modules package-lock.json
+  npm install
+```</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="5-diagnosis-and-debugging">5. Diagnosis and Debugging</h3>
+
+<h4 id="useful-diagnostic-tools">Useful Diagnostic Tools:</h4>
+
+<ol>
+  <li>
+    <p><strong>Workflow Run Logs</strong>:
+Navigate to Actions tab &gt; Select workflow run &gt; Full logs</p>
+  </li>
+  <li><strong>Debug Logging</strong>:
+Enable detailed logs by setting repository secret:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Settings &gt; Secrets &gt; Actions &gt; New repository secret
+Name: ACTIONS_STEP_DEBUG
+Value: true
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Local Workflow Testing</strong>:
+Use <a href="https://github.com/nektos/act">act</a> to run workflows locally:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>act <span class="nt">-j</span> build-and-deploy
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Repository Diagnostic Script</strong>:
+Run the diagnostic script to check for common issues:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash scripts/debug-actions.sh
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="getting-additional-help">Getting Additional Help</h2>
+
+<p>If you’re still experiencing issues after trying these resolutions:</p>
+
+<ol>
+  <li>Check <a href="https://www.githubstatus.com/">GitHub Status</a> for any ongoing service disruptions</li>
+  <li>Search for similar issues in the <a href="https://docs.github.com/en/actions">GitHub Actions documentation</a></li>
+  <li>Create an issue in the repository with detailed information:
+    <ul>
+      <li>Workflow file content</li>
+      <li>Error message</li>
+      <li>Steps to reproduce</li>
+      <li>Screenshots if applicable</li>
+    </ul>
+  </li>
+</ol>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

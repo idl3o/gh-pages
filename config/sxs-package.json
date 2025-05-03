@@ -1,0 +1,23 @@
+{
+  "name": "sxs-cli",
+  "version": "1.0.0",
+  "description": "Side by Side CLI - Cross-platform launcher for Project RED X",
+  "main": "sxs-cli.js",
+  "bin": {
+    "sxs": "./sxs-cli.js"
+  },
+  "scripts": {
+    "start": "node sxs-cli.js",
+    "install-global": "npm install -g ."
+  },
+  "keywords": ["cli", "red-x", "launcher", "side-by-side", "sxs"],
+  "author": "RED X Team",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

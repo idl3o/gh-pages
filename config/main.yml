@@ -1,0 +1,33 @@
+name: CI/CD Pipeline (Legacy)
+
+# This workflow is kept for reference and backward compatibility
+# Please use unified-deploy.yml for actual deployments
+
+on:
+  # Disable automatic triggering to avoid conflicts with unified-deploy.yml
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason to run legacy workflow'
+        required: true
+        default: 'Legacy deployment'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify About Legacy Workflow
+        run: |
+          echo "⚠️ This is a legacy workflow that has been replaced by unified-deploy.yml"
+          echo "Please use the 'Build and Deploy to GitHub Pages' workflow instead."
+          exit 1
+
+  # Legacy jobs are commented out to prevent execution
+  # build:
+  #   runs-on: ubuntu-latest
+  #   ...
+
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   ...

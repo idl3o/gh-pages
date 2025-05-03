@@ -1,0 +1,30 @@
+name: 'CodeQL Configuration'
+
+# Define queries to run
+queries:
+  - uses: security-and-quality
+
+# Define query filters to exclude specific queries
+query-filters:
+  - exclude:
+      id: js/security/audit
+
+# Define code paths to scan
+paths:
+  - '.'
+
+# Define paths to ignore during scanning
+paths-ignore:
+  - node_modules
+  - '**/*.test.js'
+  - '**/*.spec.js'
+  - dist
+  - _site
+  - vendor
+  - .bundle
+
+# Disable unnecessary experimental features
+disable-default-queries: false
+
+# Limit scanning to specific languages
+languages: javascript

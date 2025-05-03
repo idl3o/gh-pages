@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Governance Technical Specifications | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Governance Technical Specifications" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/governance-specs.html" />
+<meta property="og:url" content="/docs/governance-specs.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Governance Technical Specifications" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Governance Technical Specifications","url":"/docs/governance-specs.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Governance Technical Specifications</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="governance-technical-specifications">Governance Technical Specifications</h1>
+
+<h2 id="system-architecture">System Architecture</h2>
+
+<p>The Web3 Crypto Streaming Service governance system consists of the following components:</p>
+
+<h3 id="smart-contract-infrastructure">Smart Contract Infrastructure</h3>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Core governance contracts hierarchy
+</span><span class="n">GovernanceToken</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">├──</span> <span class="n">StreamToken</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">└──</span> <span class="n">CreatorCredits</span><span class="p">.</span><span class="n">sol</span>
+
+<span class="n">GovernanceCore</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">├──</span> <span class="n">ProposalManager</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">├──</span> <span class="n">VotingEngine</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">└──</span> <span class="n">ExecutionController</span><span class="p">.</span><span class="n">sol</span>
+
+<span class="n">GovernanceModifiers</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">├──</span> <span class="n">QuadraticVotingModifier</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">├──</span> <span class="n">ConvictionVotingModifier</span><span class="p">.</span><span class="n">sol</span>
+<span class="err">└──</span> <span class="n">ReputationWeightModifier</span><span class="p">.</span><span class="n">sol</span>
+
+<span class="n">TimelockController</span><span class="p">.</span><span class="n">sol</span>
+<span class="n">GovernanceRegistry</span><span class="p">.</span><span class="n">sol</span>
+</code></pre></div></div>
+
+<h3 id="staking--delegation-system">Staking &amp; Delegation System</h3>
+
+<ul>
+  <li><strong>Staking Contract</strong>: Handles token staking for governance participation</li>
+  <li><strong>Delegation Registry</strong>: Tracks vote delegation relationships</li>
+  <li><strong>Voting Power Calculator</strong>: Computes effective voting power based on multiple factors</li>
+</ul>
+
+<h3 id="on-chain-vs-off-chain-components">On-Chain vs. Off-Chain Components</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Location</th>
+      <th>Rationale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Proposal Storage</td>
+      <td>On-chain</td>
+      <td>Immutability and transparency</td>
+    </tr>
+    <tr>
+      <td>Voting Records</td>
+      <td>On-chain</td>
+      <td>Verifiability and auditability</td>
+    </tr>
+    <tr>
+      <td>Discussion Forums</td>
+      <td>Off-chain</td>
+      <td>Cost efficiency</td>
+    </tr>
+    <tr>
+      <td>Proposal Drafting</td>
+      <td>Off-chain</td>
+      <td>Flexibility and iteration</td>
+    </tr>
+    <tr>
+      <td>Analytics</td>
+      <td>Hybrid</td>
+      <td>Balance between transparency and efficiency</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="technical-implementation">Technical Implementation</h2>
+
+<h3 id="cryptographic-mechanisms">Cryptographic Mechanisms</h3>
+
+<p>The governance system employs several cryptographic mechanisms:</p>
+
+<ol>
+  <li><strong>zk-SNARKs for Anonymous Voting</strong>: Ensures voter privacy while maintaining verifiability</li>
+  <li><strong>Threshold Signatures</strong>: For multi-sig execution of sensitive operations</li>
+  <li><strong>Commit-Reveal Voting</strong>: Prevents front-running and vote manipulation</li>
+</ol>
+
+<h3 id="integration-points">Integration Points</h3>
+
+<pre><code class="language-mermaid">graph TD
+    A[Streaming Protocol] &lt;--&gt; B[Governance Protocol]
+    B &lt;--&gt; C[Tokenomics System]
+    B &lt;--&gt; D[Treasury Management]
+    B &lt;--&gt; E[Creator Ranking]
+    B &lt;--&gt; F[Content Registry]
+    B &lt;--&gt; G[Dispute Resolution]
+</code></pre>
+
+<h3 id="reputation-weighted-proof-of-stake-formula">Reputation-Weighted Proof of Stake Formula</h3>
+
+<p>The reputation score calculation that forms the basis of our primary consensus mechanism:</p>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

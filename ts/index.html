@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>TypeScript SDK | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="TypeScript SDK" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/ts/" />
+<meta property="og:url" content="/ts/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="TypeScript SDK" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"TypeScript SDK","url":"/ts/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">TypeScript SDK</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="typescript-sdk">TypeScript SDK</h1>
+
+<p>The TypeScript SDK provides a developer-friendly interface for interacting with the Web3 Streaming Platform. This document outlines how to use and extend the SDK.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>You can install the TypeScript SDK using npm:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> @web3streaming/sdk
+</code></pre></div></div>
+
+<p>Or using yarn:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn add @web3streaming/sdk
+</code></pre></div></div>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<p>Here’s a simple example of using the SDK to connect to a wallet and access content:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">PRXBlockchainClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@web3streaming/sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Initialize the client</span>
+<span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PRXBlockchainClient</span><span class="p">({</span>
+  <span class="na">apiKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">your-api-key</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">network</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mainnet</span><span class="dl">'</span>
+<span class="p">});</span>
+
+<span class="c1">// Connect to a wallet</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">connectWallet</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">connect</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">getCurrentAccount</span><span class="p">();</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Connected to wallet: </span><span class="p">${</span><span class="nx">account</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Failed to connect wallet:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Access content</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">getContent</span><span class="p">(</span><span class="nx">contentId</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">getContent</span><span class="p">(</span><span class="nx">contentId</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">content</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Failed to fetch content:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="core-components">Core Components</h2>
+
+<p>The TypeScript SDK includes the following core components:</p>
+
+<h3 id="prxblockchainclient">PRXBlockchainClient</h3>
+
+<p>The main client for interacting with the blockchain and content systems.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">PRXBlockchainClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@web3streaming/sdk</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="prxblockchaindashboard">PRXBlockchainDashboard</h3>
+
+<p>A React component for displaying blockchain information and user data.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">PRXBlockchainDashboard</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@web3streaming/sdk/components</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="web3service">Web3Service</h3>
+
+<p>A service for interacting with Web3 providers and smart contracts.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Web3Service</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@web3streaming/sdk/services</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="api-reference">API Reference</h2>
+
+<h3 id="prxblockchainclient-1">PRXBlockchainClient</h3>
+
+<h4 id="constructor">Constructor</h4>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">(</span><span class="nx">options</span><span class="p">:</span> <span class="nx">ClientOptions</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Options:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">apiKey</code>: Your API key</li>
+  <li><code class="language-plaintext highlighter-rouge">network</code>: ‘mainnet’ or ‘testnet’</li>
+  <li><code class="language-plaintext highlighter-rouge">ipfsGateway</code>: (optional) Custom IPFS gateway URL</li>
+</ul>
+
+<h4 id="methods">Methods</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">connect()</code>: Connect to a Web3 wallet</li>
+  <li><code class="language-plaintext highlighter-rouge">disconnect()</code>: Disconnect from the current wallet</li>
+  <li><code class="language-plaintext highlighter-rouge">getCurrentAccount()</code>: Get the currently connected account</li>
+  <li><code class="language-plaintext highlighter-rouge">getBalance()</code>: Get the token balance of the current account</li>
+  <li><code class="language-plaintext highlighter-rouge">getContent(contentId: string)</code>: Fetch content by ID</li>
+  <li><code class="language-plaintext highlighter-rouge">uploadContent(data: ContentData)</code>: Upload new content</li>
+  <li><code class="language-plaintext highlighter-rouge">purchaseContent(contentId: string)</code>: Purchase access to content</li>
+</ul>
+
+<h3 id="prxblockchaindashboard-1">PRXBlockchainDashboard</h3>
+
+<p>A React component that displays blockchain data and user information.</p>
+
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">PRXBlockchainDashboard</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@web3streaming/sdk/components</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nc">PRXBlockchainDashboard</span> <span class="na">apiKey</span><span class="p">=</span><span class="s">"your-api-key"</span> <span class="na">showBalance</span><span class="p">=</span><span class="si">{</span><span class="kc">true</span><span class="si">}</span> <span class="na">showHistory</span><span class="p">=</span><span class="si">{</span><span class="kc">true</span><span class="si">}</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Props:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">apiKey</code>: Your API key</li>
+  <li><code class="language-plaintext highlighter-rouge">showBalance</code>: (boolean) Whether to show token balance</li>
+  <li><code class="language-plaintext highlighter-rouge">showHistory</code>: (boolean) Whether to show transaction history</li>
+  <li><code class="language-plaintext highlighter-rouge">theme</code>: (optional) Custom theme overrides</li>
+</ul>
+
+<h2 id="building-the-sdk">Building the SDK</h2>
+
+<p>To build the SDK from source:</p>
+
+<ol>
+  <li>Clone the repository</li>
+  <li>Install dependencies:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Build the SDK:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run build
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>This will generate the compiled output in the <code class="language-plaintext highlighter-rouge">dist</code> directory.</p>
+
+<h2 id="running-tests">Running Tests</h2>
+
+<p>To run the test suite:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>For coverage reports:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run <span class="nb">test</span>:coverage
+</code></pre></div></div>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>We welcome contributions to the TypeScript SDK! Please see our <a href="/CONTRIBUTING.md">Contributing Guidelines</a> for more information.</p>
+
+<h2 id="license">License</h2>
+
+<p>This SDK is licensed under the <a href="/LICENSE">MIT License</a>.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

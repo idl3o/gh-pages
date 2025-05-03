@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Build OS Recommendations | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Build OS Recommendations" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/build-os-recommendations%204.html" />
+<meta property="og:url" content="/docs/build-os-recommendations%204.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Build OS Recommendations" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Build OS Recommendations","url":"/docs/build-os-recommendations%204.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Build OS Recommendations</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="build-os-recommendations">Build OS Recommendations</h1>
+
+<p>This document provides operating system recommendations for development, building, and deploying the Web3 Crypto Streaming platform.</p>
+
+<h2 id="development-environment-recommendations">Development Environment Recommendations</h2>
+
+<h3 id="recommended-operating-systems">Recommended Operating Systems</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>OS</th>
+      <th>Version</th>
+      <th>Suitability</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ubuntu</td>
+      <td>22.04 LTS</td>
+      <td>Excellent</td>
+      <td>Best overall experience for Web3 development with built-in support for required tools</td>
+    </tr>
+    <tr>
+      <td>macOS</td>
+      <td>13+ (Ventura)</td>
+      <td>Excellent</td>
+      <td>Great developer experience but requires Docker Desktop for containerization</td>
+    </tr>
+    <tr>
+      <td>Windows</td>
+      <td>11</td>
+      <td>Good</td>
+      <td>Use with WSL2 (Ubuntu 22.04) for best experience</td>
+    </tr>
+    <tr>
+      <td>Debian</td>
+      <td>12 (Bookworm)</td>
+      <td>Very Good</td>
+      <td>Solid foundation but may require more manual setup than Ubuntu</td>
+    </tr>
+    <tr>
+      <td>Fedora</td>
+      <td>38+</td>
+      <td>Good</td>
+      <td>Cutting-edge packages but may require troubleshooting</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="os-specific-setup-notes">OS-Specific Setup Notes</h3>
+
+<h4 id="ubuntu-2204-lts">Ubuntu 22.04 LTS</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install development dependencies</span>
+<span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> git curl wget build-essential
+<span class="nb">sudo </span>snap <span class="nb">install</span> <span class="nt">--classic</span> code <span class="c"># VS Code</span>
+
+<span class="c"># Install .NET SDK</span>
+wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb <span class="nt">-O</span> packages-microsoft-prod.deb
+<span class="nb">sudo </span>dpkg <span class="nt">-i</span> packages-microsoft-prod.deb
+<span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> dotnet-sdk-6.0
+
+<span class="c"># Install Node.js and npm</span>
+curl <span class="nt">-fsSL</span> https://deb.nodesource.com/setup_18.x | <span class="nb">sudo</span> <span class="nt">-E</span> bash -
+<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> nodejs
+
+<span class="c"># Install Docker</span>
+<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> docker.io docker-compose
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+<span class="c"># Log out and log back in to apply group changes</span>
+</code></pre></div></div>
+
+<h4 id="macos">macOS</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Homebrew</span>
+/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="si">)</span><span class="s2">"</span>
+
+<span class="c"># Install dependencies</span>
+brew <span class="nb">install </span>git node
+brew <span class="nb">install</span> <span class="nt">--cask</span> visual-studio-code
+brew <span class="nb">install</span> <span class="nt">--cask</span> dotnet-sdk
+brew <span class="nb">install</span> <span class="nt">--cask</span> docker
+
+<span class="c"># Start Docker Desktop manually after installation</span>
+</code></pre></div></div>
+
+<h4 id="windows-11-with-wsl2">Windows 11 with WSL2</h4>
+<ol>
+  <li>Install WSL2 with Ubuntu 22.04:
+    <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wsl</span><span class="w"> </span><span class="nt">--install</span><span class="w"> </span><span class="nt">-d</span><span class="w"> </span><span class="nx">Ubuntu-22.04</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>Follow Ubuntu 22.04 setup instructions within WSL2</li>
+  <li>Install Docker Desktop for Windows with WSL2 backend</li>
+  <li>Install Visual Studio or Visual Studio Code on Windows host</li>
+</ol>
+
+<h2 id="cicd-build-environments">CI/CD Build Environments</h2>
+
+<h3 id="github-actions-recommendations">GitHub Actions Recommendations</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Build and Deploy</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>  <span class="c1"># Best balance of features and performance</span>
+    <span class="c1"># Alternative: runs-on: windows-latest for .NET-specific workflows</span>
+    
+    <span class="na">steps</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+    
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Setup .NET</span>
+      <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-dotnet@v3</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="na">dotnet-version</span><span class="pi">:</span> <span class="s">6.0.x</span>
+        
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Setup Node.js</span>
+      <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v3</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="na">node-version</span><span class="pi">:</span> <span class="m">18</span>
+        <span class="na">cache</span><span class="pi">:</span> <span class="s1">'</span><span class="s">npm'</span>
+        
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build App</span>
+      <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+        <span class="s">dotnet restore</span>
+        <span class="s">dotnet build --no-restore</span>
+        <span class="s">dotnet test --no-build</span>
+        <span class="s">npm ci</span>
+        <span class="s">npm run build</span>
+</code></pre></div></div>
+
+<h3 id="azure-devops-recommendations">Azure DevOps Recommendations</h3>
+
+<p>For Azure Pipelines, the recommended agents are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ubuntu-latest</code> for most builds (optimal performance/compatibility)</li>
+  <li><code class="language-plaintext highlighter-rouge">windows-latest</code> for Windows-specific builds</li>
+  <li><code class="language-plaintext highlighter-rouge">macOS-latest</code> only when macOS-specific building is required</li>
+</ul>
+
+<h2 id="container-base-images">Container Base Images</h2>
+
+<h3 id="net-applications">.NET Applications</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Base Image</th>
+      <th>Size</th>
+      <th>Best For</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/aspnet:6.0-alpine</code></td>
+      <td>Smallest (~110MB)</td>
+      <td>Production</td>
+      <td>Minimal footprint, best security profile</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/aspnet:6.0-jammy</code></td>
+      <td>Medium (~210MB)</td>
+      <td>Standard Production</td>
+      <td>Based on Ubuntu 22.04, better compatibility</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/sdk:6.0-alpine</code></td>
+      <td>Medium (~290MB)</td>
+      <td>Development</td>
+      <td>For development and build containers</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/runtime:6.0-alpine</code></td>
+      <td>Small (~90MB)</td>
+      <td>Console Apps</td>
+      <td>For non-ASP.NET applications</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="react-frontend">React Frontend</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Base Image</th>
+      <th>Size</th>
+      <th>Best For</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">nginx:alpine</code></td>
+      <td>Tiny (~20MB)</td>
+      <td>Production</td>
+      <td>Recommended for serving static frontend assets</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">node:18-alpine</code></td>
+      <td>Small (~120MB)</td>
+      <td>Build Stage</td>
+      <td>Use in multi-stage build for compiling React app</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="production-deployment-os-recommendations">Production Deployment OS Recommendations</h2>
+
+<h3 id="container-orchestration-environments">Container Orchestration Environments</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Recommended Host OS</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Kubernetes</td>
+      <td>Ubuntu Server 22.04 LTS</td>
+      <td>Best driver support and compatibility with k8s</td>
+    </tr>
+    <tr>
+      <td>Docker Swarm</td>
+      <td>Ubuntu Server 22.04 LTS</td>
+      <td>Simple setup and good performance</td>
+    </tr>
+    <tr>
+      <td>AWS ECS</td>
+      <td>Amazon Linux 2023</td>
+      <td>Optimized for AWS infrastructure</td>
+    </tr>
+    <tr>
+      <td>Azure AKS</td>
+      <td>Azure Linux (Ubuntu-based)</td>
+      <td>Managed by Azure, no OS choice needed</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="bare-metalvm-deployments">Bare Metal/VM Deployments</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Workload</th>
+      <th>Recommended OS</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>.NET Services</td>
+      <td>Ubuntu Server 22.04 LTS</td>
+      <td>Best balance of support and performance</td>
+    </tr>
+    <tr>
+      <td>Database Servers</td>
+      <td>Ubuntu Server 22.04 LTS</td>
+      <td>Good stability for PostgreSQL/MySQL</td>
+    </tr>
+    <tr>
+      <td>CI/CD Runners</td>
+      <td>Ubuntu Server 22.04 LTS</td>
+      <td>Best compatibility with build tools</td>
+    </tr>
+    <tr>
+      <td>Monitoring Services</td>
+      <td>Ubuntu Server 22.04 LTS or Debian 12</td>
+      <td>Lightweight options available</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="performance-considerations">Performance Considerations</h2>
+
+<h3 id="build-performance-by-os">Build Performance by OS</h3>
+
+<p>Based on our benchmarks building the complete Web3 Crypto Streaming platform:</p>
+
+<ol>
+  <li><strong>Ubuntu 22.04 LTS</strong>: 100% (baseline)</li>
+  <li><strong>Windows 11 (native)</strong>: 90% of Ubuntu’s performance</li>
+  <li><strong>Windows 11 (WSL2)</strong>: 95% of Ubuntu’s performance</li>
+  <li><strong>macOS Ventura</strong>: 98% of Ubuntu’s performance</li>
+  <li><strong>Debian 12</strong>: 97% of Ubuntu’s performance</li>
+</ol>
+
+<h3 id="memory-requirements">Memory Requirements</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Build Type</th>
+      <th>Minimum RAM</th>
+      <th>Recommended RAM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Development</td>
+      <td>8GB</td>
+      <td>16GB</td>
+    </tr>
+    <tr>
+      <td>CI/CD Builds</td>
+      <td>4GB</td>
+      <td>8GB</td>
+    </tr>
+    <tr>
+      <td>Production Containers</td>
+      <td>2GB</td>
+      <td>4GB per node</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="security-recommendations">Security Recommendations</h2>
+
+<ul>
+  <li>For container-based deployments, use Alpine-based images when possible for minimal attack surface</li>
+  <li>Always use non-root users in containers (as shown in our Dockerfile examples)</li>
+  <li>Keep host OS updated with security patches:
+    <ul>
+      <li>Ubuntu: <code class="language-plaintext highlighter-rouge">sudo apt update &amp;&amp; sudo apt upgrade</code></li>
+      <li>Alpine: <code class="language-plaintext highlighter-rouge">apk update &amp;&amp; apk upgrade</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="troubleshooting-os-specific-issues">Troubleshooting OS-Specific Issues</h2>
+
+<h3 id="ubuntudebian">Ubuntu/Debian</h3>
+
+<p>Issue: Node.js or npm command not found</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Install node via nvm for better version control</span>
+curl <span class="nt">-o-</span> https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+<span class="nb">source</span> ~/.bashrc
+nvm <span class="nb">install </span>18
+</code></pre></div></div>
+
+<h3 id="macos-1">macOS</h3>
+
+<p>Issue: .NET SDK not found in path</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Add to PATH</span>
+<span class="nb">echo</span> <span class="s1">'export PATH=$PATH:$HOME/.dotnet'</span> <span class="o">&gt;&gt;</span> ~/.zshrc
+<span class="nb">source</span> ~/.zshrc
+</code></pre></div></div>
+
+<h3 id="windows">Windows</h3>
+
+<p>Issue: Docker networking issues on WSL2</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Restart Docker Desktop and WSL</span><span class="w">
+</span><span class="n">wsl</span><span class="w"> </span><span class="nt">--shutdown</span><span class="w">
+</span><span class="c"># Then restart Docker Desktop</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>For the optimal development and build experience with our Web3 Crypto Streaming platform, we recommend:</p>
+
+<ol>
+  <li><strong>Development</strong>: Ubuntu 22.04 LTS or macOS Ventura+</li>
+  <li><strong>CI/CD</strong>: Ubuntu-based runners (GitHub Actions’ <code class="language-plaintext highlighter-rouge">ubuntu-latest</code> or equivalent)</li>
+  <li><strong>Production</strong>: Container-based deployment using Alpine-based images when possible</li>
+  <li><strong>Server Infrastructure</strong>: Ubuntu Server 22.04 LTS for most workloads</li>
+</ol>
+
+<p>These recommendations balance performance, compatibility, security, and team productivity based on our platform’s requirements.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

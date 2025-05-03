@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/amm-lazy-minting.html" />
+<meta property="og:url" content="/docs/amm-lazy-minting.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/amm-lazy-minting.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: AMM &amp; Lazy Minting | StreamChain Web3 Platform</p>
+<hr />
+
+<h1 id="amm-and-lazy-minting-on-streamchain">AMM and Lazy Minting on StreamChain</h1>
+
+<p>This document explains how our platform implements Automated Market Making (AMM) and lazy minting technologies to provide significant benefits to creators and users without the drawbacks of traditional exchanges and NFT minting.</p>
+
+<h2 id="automated-market-maker-amm">Automated Market Maker (AMM)</h2>
+
+<h3 id="what-is-an-amm">What is an AMM?</h3>
+
+<p>An Automated Market Maker is a decentralized exchange protocol that uses mathematical formulas to price assets. Unlike traditional order book exchanges, AMMs use liquidity pools and algorithms to determine prices and execute trades.</p>
+
+<h3 id="streamchains-custom-amm-solution">StreamChain’s Custom AMM Solution</h3>
+
+<p>Our platform features a custom AMM solution that provides several key advantages:</p>
+
+<h4 id="lower-fees-than-traditional-exchanges">Lower Fees Than Traditional Exchanges</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fee Type</th>
+      <th>Traditional Exchanges</th>
+      <th>StreamChain AMM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Trading Fee</td>
+      <td>0.2-0.3%</td>
+      <td>0.05-0.1%</td>
+    </tr>
+    <tr>
+      <td>Withdrawal Fee</td>
+      <td>Fixed fee (often $10-25)</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>Listing Fee</td>
+      <td>Thousands of dollars</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="how-our-amm-works">How Our AMM Works</h4>
+
+<ol>
+  <li><strong>Direct Token Swaps</strong>: Swap StreamToken directly for other cryptocurrencies without intermediaries</li>
+  <li><strong>Liquidity Pools</strong>: Users can become liquidity providers and earn fees</li>
+  <li><strong>Constant Product Formula</strong>: Uses x * y = k formula for price discovery</li>
+  <li><strong>Fee Distribution</strong>: Lower overall fees with transparent allocation:
+    <ul>
+      <li>0.03% platform fee (to treasury)</li>
+      <li>0.02% liquidity provider fee (to pool providers)</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="benefits-for-creators-and-users">Benefits for Creators and Users</h4>
+
+<ul>
+  <li><strong>No KYC Required</strong>: Trade without identity verification</li>
+  <li><strong>No Custodial Risk</strong>: Always maintain control of your funds</li>
+  <li><strong>Instant Liquidity</strong>: No waiting for order matching</li>
+  <li><strong>Transparent Pricing</strong>: All formulas and fees are visible on-chain</li>
+  <li><strong>Earn While Holding</strong>: Provide liquidity to earn fees on idle tokens</li>
+</ul>
+
+<h2 id="lazy-minting">Lazy Minting</h2>
+
+<h3 id="what-is-lazy-minting">What is Lazy Minting?</h3>
+
+<p>Lazy minting is a technique that delays the actual minting of NFTs until the moment of purchase. This shifts the gas fees for minting from the creator to the buyer.</p>
+
+<h3 id="streamchains-lazy-content-minting">StreamChain’s Lazy Content Minting</h3>
+
+<p>Our lazy minting implementation lets creators list content without paying upfront gas fees:</p>
+
+<h4 id="how-it-works">How It Works</h4>
+
+<ol>
+  <li><strong>Content Registration</strong>: Creator signs a “voucher” containing content details and price</li>
+  <li><strong>Off-chain Storage</strong>: Voucher is stored off-chain until needed</li>
+  <li><strong>On-demand Minting</strong>: When a user purchases, the NFT is minted at that moment</li>
+  <li><strong>Buyer Pays Gas</strong>: The gas cost for minting is included in the purchase transaction</li>
+  <li><strong>Instant Creator Payment</strong>: Creator receives payment immediately upon purchase</li>
+</ol>
+
+<h4 id="technical-implementation">Technical Implementation</h4>
+
+<p>Our <code class="language-plaintext highlighter-rouge">LazyContentMinter</code> contract uses secure cryptographic signatures to verify content authenticity:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Creator creates and signs a voucher</span>
+<span class="kd">const</span> <span class="nx">voucher</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ammLazyIntegration</span><span class="p">.</span><span class="nx">signContentVoucher</span><span class="p">({</span>
+  <span class="na">contentId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">unique-content-identifier</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">tokenId</span><span class="p">:</span> <span class="mi">12345</span><span class="p">,</span>
+  <span class="na">price</span><span class="p">:</span> <span class="dl">'</span><span class="s1">10000000000000000</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// 0.01 ETH in wei</span>
+  <span class="na">royaltyBps</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="c1">// 10% royalty</span>
+  <span class="na">uri</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ipfs://QmContent...</span><span class="dl">'</span>
+<span class="p">});</span>
+
+<span class="c1">// Register content without minting (no gas fee for creator)</span>
+<span class="k">await</span> <span class="nx">ammLazyIntegration</span><span class="p">.</span><span class="nx">registerContent</span><span class="p">(</span><span class="nx">voucher</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="benefits-for-creators">Benefits for Creators</h4>
+
+<ul>
+  <li><strong>Zero Upfront Costs</strong>: No gas fees to list content</li>
+  <li><strong>Lower Barrier to Entry</strong>: New creators can list unlimited content without capital</li>
+  <li><strong>Reduced Risk</strong>: No lost investment if content doesn’t sell</li>
+  <li><strong>Automatic Royalties</strong>: Built-in royalty enforcement for secondary sales</li>
+  <li><strong>Verifiable Authenticity</strong>: Cryptographic proof of creator’s signature</li>
+</ul>
+
+<h2 id="combined-benefits-of-amm--lazy-minting">Combined Benefits of AMM &amp; Lazy Minting</h2>
+
+<p>When used together, these technologies provide a powerful economic model for creators:</p>
+
+<ol>
+  <li><strong>Complete Economic Control</strong>: Creators set prices and royalties without platform interference</li>
+  <li><strong>Minimal Fees</strong>: Dramatically lower fee structure compared to traditional platforms</li>
+  <li><strong>True Ownership</strong>: Content and tokens are fully owned by creators and users</li>
+  <li><strong>Instant Liquidity</strong>: Convert earnings between cryptocurrencies without leaving the platform</li>
+  <li><strong>Capital Efficiency</strong>: No locked capital in listings or marketplace restrictions</li>
+</ol>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<h3 id="for-creators">For Creators</h3>
+
+<ol>
+  <li>Connect your Web3 wallet to the StreamChain platform</li>
+  <li>Create content metadata and upload to IPFS</li>
+  <li>Use the Creator Dashboard to create a content voucher</li>
+  <li>Register your content with zero upfront cost</li>
+  <li>Promote your content to your audience</li>
+</ol>
+
+<h3 id="for-users">For Users</h3>
+
+<ol>
+  <li>Connect your Web3 wallet to the StreamChain platform</li>
+  <li>Browse available content from creators</li>
+  <li>Purchase content - the system handles minting automatically</li>
+  <li>Access your purchased content via your collection</li>
+  <li>Use the AMM to swap tokens when needed with minimal fees</li>
+</ol>
+
+<h2 id="technical-resources">Technical Resources</h2>
+
+<ul>
+  <li><a href="docs/contracts/StreamAMM.html">StreamAMM Contract Documentation</a></li>
+  <li><a href="docs/contracts/LazyContentMinter.html">LazyContentMinter Contract Documentation</a></li>
+  <li><a href="docs/guides/web3-integration.html">JavaScript Integration Guide</a></li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p>For support or questions about AMM and lazy minting features, contact our developer team at developers@streamchain.example.com</p>
+</blockquote>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

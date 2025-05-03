@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Web3 Streaming Platform Frontend | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Web3 Streaming Platform Frontend" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/frontend/frontend/webapp/" />
+<meta property="og:url" content="/frontend/frontend/webapp/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Web3 Streaming Platform Frontend" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Web3 Streaming Platform Frontend","url":"/frontend/frontend/webapp/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Web3 Streaming Platform Frontend</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="web3-streaming-platform-frontend">Web3 Streaming Platform Frontend</h1>
+
+<p>This is the main frontend application for the Web3 Streaming Platform, built with React, TypeScript, and Vite. This application provides a modern, responsive interface for interacting with the decentralized streaming features of our platform.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Modern React application with TypeScript support</li>
+  <li>Fast development with Vite’s HMR (Hot Module Replacement)</li>
+  <li>Web3 wallet integration for blockchain interactions</li>
+  <li>Responsive design for desktop and mobile devices</li>
+  <li>ESLint configuration for code quality</li>
+  <li>Integration with our backend services and smart contracts</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li>Node.js 18.x or later</li>
+  <li>npm 8.x or later</li>
+  <li>A modern web browser</li>
+  <li>(Optional) MetaMask or other Web3 wallet extension</li>
+</ul>
+
+<h3 id="required-environment-setup">Required Environment Setup</h3>
+
+<p>Before local testing, make sure you have the following configured:</p>
+
+<ol>
+  <li><strong>Local Environment Variables</strong>
+Create a <code class="language-plaintext highlighter-rouge">.env.local</code> file in the webapp directory with these values:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>VITE_API_URL=http://localhost:3000/api
+VITE_IPFS_GATEWAY=https://ipfs.io/ipfs/
+VITE_WEB3_NETWORK=localhost
+VITE_CONTRACT_ADDRESS=0x0000000000000000000000000000000000000000
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Local Blockchain (Optional)</strong>
+If testing Web3 functionality:
+    <ul>
+      <li>Install Ganache for a local blockchain (or use Hardhat)</li>
+      <li>Update the <code class="language-plaintext highlighter-rouge">VITE_WEB3_NETWORK</code> and <code class="language-plaintext highlighter-rouge">VITE_CONTRACT_ADDRESS</code> accordingly</li>
+    </ul>
+  </li>
+  <li><strong>Mock API Server (Optional)</strong>
+For testing without a backend:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> json-server
+json-server <span class="nt">--watch</span> mock-data.json <span class="nt">--port</span> 3000
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="installation">Installation</h3>
+
+<ol>
+  <li>Clone the repository
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/username/gh-pages.git
+<span class="nb">cd </span>gh-pages/frontend/frontend/webapp
+</code></pre></div>    </div>
+  </li>
+  <li>Install dependencies
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Start the development server
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev
+</code></pre></div>    </div>
+  </li>
+  <li>Open your browser and navigate to <code class="language-plaintext highlighter-rouge">http://localhost:5173</code></li>
+</ol>
+
+<h3 id="testing-locally">Testing Locally</h3>
+
+<ol>
+  <li><strong>Unit Tests</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run <span class="nb">test</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>End-to-End Tests</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run <span class="nb">test</span>:e2e
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Testing with Mock Data</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># In one terminal</span>
+npm run mock-api
+   
+<span class="c"># In another terminal</span>
+npm run dev
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Browser Testing</strong>
+For cross-browser compatibility testing:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run build
+npm run preview
+</code></pre></div>    </div>
+
+    <p>Then test in multiple browsers: Chrome, Firefox, Safari, and Edge</p>
+  </li>
+</ol>
+
+<h3 id="building-for-production">Building for Production</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run build
+</code></pre></div></div>
+
+<p>The build artifacts will be stored in the <code class="language-plaintext highlighter-rouge">dist/</code> directory.</p>
+
+<h2 id="available-scripts">Available Scripts</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">npm run dev</code> - Starts the development server</li>
+  <li><code class="language-plaintext highlighter-rouge">npm run build</code> - Builds the app for production</li>
+  <li><code class="language-plaintext highlighter-rouge">npm run lint</code> - Runs ESLint to check code quality</li>
+  <li><code class="language-plaintext highlighter-rouge">npm run preview</code> - Previews the production build locally</li>
+  <li><code class="language-plaintext highlighter-rouge">npm run test</code> - Runs unit tests</li>
+  <li><code class="language-plaintext highlighter-rouge">npm run mock-api</code> - Starts the mock API server (requires json-server)</li>
+</ul>
+
+<h2 id="project-structure">Project Structure</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>webapp/
+├── public/          # Static assets
+├── src/
+│   ├── assets/      # Images, fonts, etc.
+│   ├── components/  # Reusable UI components
+│   ├── contexts/    # React context providers
+│   ├── hooks/       # Custom React hooks
+│   ├── pages/       # Page components
+│   ├── services/    # API and service integrations
+│   ├── utils/       # Utility functions
+│   ├── App.tsx      # Root component
+│   └── main.tsx     # Entry point
+└── index.html       # HTML template
+</code></pre></div></div>
+
+<h2 id="eslint-configuration">ESLint Configuration</h2>
+
+<p>We use a flat ESLint configuration with TypeScript support. For more advanced linting rules, see below:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// eslint.config.js</span>
+<span class="k">import</span> <span class="nx">tseslint</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">typescript-eslint</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">reactPlugin</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">eslint-plugin-react</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">reactHooks</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">eslint-plugin-react-hooks</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">tseslint</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+  <span class="na">extends</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">...</span><span class="nx">tseslint</span><span class="p">.</span><span class="nx">configs</span><span class="p">.</span><span class="nx">recommendedTypeChecked</span><span class="p">,</span>
+    <span class="p">...</span><span class="nx">tseslint</span><span class="p">.</span><span class="nx">configs</span><span class="p">.</span><span class="nx">stylisticTypeChecked</span><span class="p">,</span>
+  <span class="p">],</span>
+  <span class="na">plugins</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">:</span> <span class="nx">reactPlugin</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">react-hooks</span><span class="dl">'</span><span class="p">:</span> <span class="nx">reactHooks</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="na">languageOptions</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">parserOptions</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">project</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">./tsconfig.node.json</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">./tsconfig.app.json</span><span class="dl">'</span><span class="p">],</span>
+      <span class="na">tsconfigRootDir</span><span class="p">:</span> <span class="k">import</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">dirname</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="na">rules</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// Custom rules here</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<ol>
+  <li><strong>Node.js Version Mismatch</strong>
+    <ul>
+      <li>Error: “The engine ‘node’ is incompatible with this module”</li>
+      <li>Solution: Use Node.js 18.x or later (check with <code class="language-plaintext highlighter-rouge">node -v</code>)</li>
+    </ul>
+  </li>
+  <li><strong>Port Already in Use</strong>
+    <ul>
+      <li>Error: “Port 5173 is already in use”</li>
+      <li>Solution: Kill the process using that port or use a different port:
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev <span class="nt">--</span> <span class="nt">--port</span> 3000
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Web3 Connection Issues</strong>
+    <ul>
+      <li>Error: “Could not connect to Web3 provider”</li>
+      <li>Solution: Make sure your MetaMask or local blockchain is running</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Please refer to our <a href="/CONTRIBUTING.md">CONTRIBUTING.md</a> file for details on our code of conduct and the process for submitting pull requests.</p>
+
+<h2 id="license">License</h2>
+
+<p>This project is licensed under the terms specified in our repository’s root directory.</p>
+
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<ul>
+  <li><a href="https://vitejs.dev/">Vite</a> - Next generation frontend tooling</li>
+  <li><a href="https://reactjs.org/">React</a> - A JavaScript library for building user interfaces</li>
+  <li><a href="https://www.typescriptlang.org/">TypeScript</a> - Typed JavaScript at any scale</li>
+  <li><a href="https://eslint.org/">ESLint</a> - Pluggable JavaScript linter</li>
+  <li><a href="https://web3js.readthedocs.io/">Web3.js</a> - Ethereum JavaScript API</li>
+  <li><a href="https://ipfs.io/">IPFS</a> - InterPlanetary File System</li>
+</ul>
+
+<hr />
+
+<p>Updated: May 2, 2025</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Web3 Jobs - Powered by AWS | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Web3 Jobs - Powered by AWS" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Blockchain and Web3 job opportunities for developers and creators" />
+<meta property="og:description" content="Blockchain and Web3 job opportunities for developers and creators" />
+<link rel="canonical" href="/public/aws-jobs%202.html" />
+<meta property="og:url" content="/public/aws-jobs%202.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Web3 Jobs - Powered by AWS" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Blockchain and Web3 job opportunities for developers and creators","headline":"Web3 Jobs - Powered by AWS","url":"/public/aws-jobs%202.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <section class="jobs-hero">
+  <div class="container">
+    <h1>Web3 Creator Jobs</h1>
+    <p class="subtitle">Find opportunities in the decentralized content ecosystem powered by AWS</p>
+    <div class="search-container">
+      <input type="text" id="job-search" placeholder="Search jobs...">
+      <select id="job-category">
+        <option value="">All Categories</option>
+        <option value="development">Development</option>
+        <option value="content">Content Creation</option>
+        <option value="marketing">Marketing</option>
+        <option value="community">Community</option>
+        <option value="design">Design</option>
+      </select>
+      <button class="button primary" id="search-button">Search</button>
+    </div>
+  </div>
+</section>
+
+<section class="jobs-board">
+  <div class="container">
+    <div class="jobs-header">
+      <h2>Featured Opportunities</h2>
+      <div class="jobs-actions">
+        <button id="reload-jobs" class="reload-button" title="Refresh job listings">
+          <i class="fas fa-sync-alt"></i> Reload Jobs
+        </button>
+        <div class="view-toggle">
+          <button class="toggle-btn active" data-view="grid"><i class="fas fa-th-large"></i></button>
+          <button class="toggle-btn" data-view="list"><i class="fas fa-list"></i></button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="jobs-container grid-view" id="jobs-container">
+      <div class="job-loading">Loading opportunities from AWS Cloud...</div>
+    </div>
+    
+    <div class="jobs-pagination">
+      <button class="page-btn" id="prev-page" disabled>&laquo; Previous</button>
+      <span class="page-indicator">Page <span id="current-page">1</span> of <span id="total-pages">1</span></span>
+      <button class="page-btn" id="next-page">Next &raquo;</button>
+    </div>
+  </div>
+</section>
+
+<section class="job-posting">
+  <div class="container">
+    <h2>Post a Web3 Opportunity</h2>
+    <p>Looking for talent? Create a job listing that will be stored securely on AWS and indexed by our platform.</p>
+    
+    <form id="job-post-form" class="job-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="company-name">Company/Project Name</label>
+          <input type="text" id="company-name" name="company-name" required>
+        </div>
+        <div class="form-group">
+          <label for="job-title">Job Title</label>
+          <input type="text" id="job-title" name="job-title" required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="job-description">Job Description</label>
+        <textarea id="job-description" name="job-description" rows="6" required></textarea>
+        <div class="description-helper">
+          <span class="markdown-notice">Markdown supported</span>
+          <span class="char-counter">0/5000</span>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="job-category-select">Category</label>
+          <select id="job-category-select" name="job-category" required>
+            <option value="">Select a category</option>
+            <option value="development">Development</option>
+            <option value="content">Content Creation</option>
+            <option value="marketing">Marketing</option>
+            <option value="community">Community</option>
+            <option value="design">Design</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="job-type">Job Type</label>
+          <select id="job-type" name="job-type" required>
+            <option value="">Select job type</option>
+            <option value="full-time">Full-time</option>
+            <option value="part-time">Part-time</option>
+            <option value="contract">Contract</option>
+            <option value="freelance">Freelance</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="payment-type">Payment Type</label>
+          <select id="payment-type" name="payment-type" required>
+            <option value="">Select payment type</option>
+            <option value="fiat">Fiat Currency</option>
+            <option value="crypto">Cryptocurrency</option>
+            <option value="hybrid">Hybrid (Fiat + Crypto)</option>
+            <option value="token">Project Tokens</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="location-type">Location</label>
+          <select id="location-type" name="location-type" required>
+            <option value="">Select location type</option>
+            <option value="remote">Remote</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="onsite">On-site</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="application-link">Application Link or Email</label>
+        <input type="text" id="application-link" name="application-link" required>
+      </div>
+      
+      <div class="form-group wallet-connect-section">
+        <label>Connect Your Wallet to Post (0.01 ETH posting fee)</label>
+        <button type="button" id="connect-wallet-job" class="wallet-button">
+          <i class="fas fa-wallet"></i> Connect Wallet
+        </button>
+        <div id="wallet-status-job">
+          <span class="wallet-not-connected">Not connected</span>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="button primary" id="submit-job">Post Job</button>
+        <button type="button" class="button secondary" id="preview-job">Preview</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<div id="job-preview-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Job Preview</h2>
+    <div id="job-preview-content"></div>
+    <button class="button primary" id="publish-from-preview">Publish Job</button>
+  </div>
+</div>
+
+<script src="/assets/js/aws-jobs.js"></script>
+<link rel="stylesheet" href="/assets/css/aws-jobs.css">
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

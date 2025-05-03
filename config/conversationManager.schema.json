@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Conversation Manager",
+  "description": "Schema definition for conversationManager",
+  "type": "object",
+  "properties": {
+    "conversationHistory": {
+      "type": "array"
+    },
+    "currentContext": {
+      "type": "object"
+    },
+    "followUpPatterns": {
+      "type": "object"
+    }
+  }
+}

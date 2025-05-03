@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Migration Guide: GitHub Pages to Standalone React Application | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Migration Guide: GitHub Pages to Standalone React Application" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/temp-react-files/migration-guide.html" />
+<meta property="og:url" content="/temp-react-files/migration-guide.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Migration Guide: GitHub Pages to Standalone React Application" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Migration Guide: GitHub Pages to Standalone React Application","url":"/temp-react-files/migration-guide.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Migration Guide: GitHub Pages to Standalone React Application</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="migration-guide-github-pages-to-standalone-react-application">Migration Guide: GitHub Pages to Standalone React Application</h1>
+
+<h2 id="overview">Overview</h2>
+<p>This document outlines the process for migrating components, styles, and functionality from the GitHub Pages project to the new standalone React application. Following this guide will ensure a smooth transition while preserving existing functionality.</p>
+
+<h2 id="1-component-migration-strategy">1. Component Migration Strategy</h2>
+
+<h3 id="step-1-identify-key-components">Step 1: Identify Key Components</h3>
+<p>Based on the GitHub Pages repository, these are the key components to migrate:</p>
+
+<ul>
+  <li><strong>Navigation Component</strong> (<code class="language-plaintext highlighter-rouge">components/Navigation.tsx</code>)</li>
+  <li><strong>Layout Structure</strong> (Header, Footer, Sidebar)</li>
+  <li><strong>User Authentication</strong> (found in context files)</li>
+  <li><strong>Chain Selector Component</strong> (<code class="language-plaintext highlighter-rouge">red_x/js/components/chain-selector.js</code>)</li>
+  <li><strong>Theme Controller</strong> (<code class="language-plaintext highlighter-rouge">assets/js/theme-controller.js</code>)</li>
+</ul>
+
+<h3 id="step-2-convert-to-react-components">Step 2: Convert to React Components</h3>
+<p>For each component:</p>
+<ol>
+  <li>Create a corresponding file in the React app under <code class="language-plaintext highlighter-rouge">src/components/</code></li>
+  <li>Convert HTML/vanilla JS to React component syntax</li>
+  <li>Ensure all props and state management are handled properly</li>
+  <li>Update event handlers to use React patterns</li>
+</ol>
+
+<h2 id="2-styling-migration">2. Styling Migration</h2>
+
+<h3 id="step-1-extract-core-styles">Step 1: Extract Core Styles</h3>
+<p>The primary styles to migrate are from:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">assets/css/main.css</code> (core styling)</li>
+  <li><code class="language-plaintext highlighter-rouge">assets/css/theme.css</code> (theming)</li>
+  <li><code class="language-plaintext highlighter-rouge">assets/css/animations.css</code> (animations and transitions)</li>
+</ul>
+
+<h3 id="step-2-convert-to-component-styling">Step 2: Convert to Component Styling</h3>
+<p>Options:</p>
+<ul>
+  <li><strong>CSS Modules</strong>: Rename files to <code class="language-plaintext highlighter-rouge">ComponentName.module.css</code> and import in components</li>
+  <li><strong>Styled Components</strong>: Convert CSS to styled-component syntax</li>
+  <li><strong>Tailwind CSS</strong>: If desired, gradually refactor to use Tailwind classes</li>
+</ul>
+
+<h3 id="step-3-theme-implementation">Step 3: Theme Implementation</h3>
+<p>Use React Context to implement the theme switching functionality from <code class="language-plaintext highlighter-rouge">theme-controller.js</code></p>
+
+<h2 id="3-functionality-migration">3. Functionality Migration</h2>
+
+<h3 id="sdk-integration">SDK Integration</h3>
+<ol>
+  <li>Import the TypeScript SDK into the React app:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> ../ts
+</code></pre></div>    </div>
+    <p>Or add as path dependency in package.json:</p>
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"prx-sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"file:../ts"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="smart-contract-interaction">Smart Contract Interaction</h3>
+<ol>
+  <li>Migrate the chain selector component to React</li>
+  <li>Implement wallet connection using libraries mentioned in the roadmap</li>
+</ol>
+
+<h3 id="authentication">Authentication</h3>
+<ol>
+  <li>Review authentication context from backup files</li>
+  <li>Implement auth provider and context in new React app</li>
+</ol>
+
+<h2 id="4-page-structure-migration">4. Page Structure Migration</h2>
+
+<p>Based on the GitHub Pages site, create the following page components:</p>
+<ul>
+  <li>Home/Landing Page</li>
+  <li>Documentation Pages</li>
+  <li>Developer Dashboard</li>
+  <li>Creator Dashboard (if relevant)</li>
+</ul>
+
+<h2 id="5-api-integration">5. API Integration</h2>
+
+<ol>
+  <li>Review the serverless function integration in the original project</li>
+  <li>Create API service files for each endpoint category</li>
+  <li>Implement API hooks using React Query or similar library</li>
+</ol>
+
+<h2 id="6-step-by-step-migration-workflow">6. Step-by-Step Migration Workflow</h2>
+
+<ol>
+  <li>Set up basic app structure and routing ✅</li>
+  <li>Migrate core components one by one</li>
+  <li>Implement theming and styling</li>
+  <li>Add authentication and protected routes</li>
+  <li>Integrate SDK and smart contract functionality</li>
+  <li>Implement remaining features from GitHub Pages project</li>
+</ol>
+
+<h2 id="7-testing-the-migration">7. Testing the Migration</h2>
+
+<p>For each migrated component:</p>
+<ol>
+  <li>Create unit tests to verify functionality</li>
+  <li>Compare visual appearance with original</li>
+  <li>Verify all interactions work as expected</li>
+</ol>
+
+<h2 id="references">References</h2>
+<ul>
+  <li>Original GitHub Pages repository: <code class="language-plaintext highlighter-rouge">gh-pages</code></li>
+  <li>TypeScript SDK: <code class="language-plaintext highlighter-rouge">ts</code> directory</li>
+  <li>Smart Contracts: <code class="language-plaintext highlighter-rouge">contracts</code> directory</li>
+  <li>RED X Backend: <code class="language-plaintext highlighter-rouge">red_x</code> directory</li>
+  <li>Serverless Functions: <code class="language-plaintext highlighter-rouge">netlify/functions</code> directory</li>
+</ul>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

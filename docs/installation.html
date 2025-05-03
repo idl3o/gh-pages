@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Installation Guide for Web3 Crypto Streaming Service | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Installation Guide for Web3 Crypto Streaming Service" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/installation.html" />
+<meta property="og:url" content="/docs/installation.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Installation Guide for Web3 Crypto Streaming Service" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Installation Guide for Web3 Crypto Streaming Service","url":"/docs/installation.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Installation Guide for Web3 Crypto Streaming Service</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="installation-guide-for-web3-crypto-streaming-service">Installation Guide for Web3 Crypto Streaming Service</h1>
+
+<p>This guide will help you set up and run the Web3 Crypto Streaming platform locally for development or testing purposes.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before you begin, ensure you have the following installed:</p>
+
+<ul>
+  <li><a href="https://nodejs.org/">Node.js</a> (v16.x or higher)</li>
+  <li><a href="https://www.npmjs.com/">npm</a> (v8.x or higher) or <a href="https://yarnpkg.com/">Yarn</a> (v1.22.x or higher)</li>
+  <li><a href="https://git-scm.com/">Git</a> for version control</li>
+  <li>A modern web browser with MetaMask extension installed</li>
+  <li><a href="https://www.ruby-lang.org/en/downloads/">Ruby</a> (for Jekyll)</li>
+  <li><a href="https://bundler.io/">Bundler</a> (for Jekyll dependencies)</li>
+</ul>
+
+<h2 id="step-1-clone-the-repository">Step 1: Clone the Repository</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/yourusername/web3-streaming-platform.git
+<span class="nb">cd </span>web3-streaming-platform
+</code></pre></div></div>
+
+<h2 id="step-2-install-dependencies">Step 2: Install Dependencies</h2>
+
+<p>For the Jekyll static site:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>For the Web3 components:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span>
+<span class="c"># or with yarn</span>
+yarn <span class="nb">install</span>
+</code></pre></div></div>
+
+<h2 id="step-3-configure-environment-variables">Step 3: Configure Environment Variables</h2>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">.env</code> file in the root directory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> .env.example .env
+</code></pre></div></div>
+
+<p>Edit the <code class="language-plaintext highlighter-rouge">.env</code> file with your configuration:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Blockchain Network Configuration
+NETWORK_RPC_URL=https://rpc-mainnet.maticvigil.com/
+CHAIN_ID=137
+
+# Smart Contract Addresses
+CONTENT_CONTRACT=0x1234567890abcdef1234567890abcdef12345678
+TOKEN_CONTRACT=0xabcdef1234567890abcdef1234567890abcdef12
+
+# IPFS Configuration
+IPFS_GATEWAY=https://ipfs.infura.io/ipfs/
+IPFS_API_KEY=your_ipfs_api_key_here
+
+# API Keys (for development only, use environment secrets in production)
+ALCHEMY_API_KEY=your_alchemy_key_here
+</code></pre></div></div>
+
+<h2 id="step-4-set-up-local-development-environment">Step 4: Set Up Local Development Environment</h2>
+
+<h3 id="for-jekyll-site">For Jekyll Site</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<p>Your site will be available at <code class="language-plaintext highlighter-rouge">http://localhost:4000</code></p>
+
+<h3 id="for-web3-development-server">For Web3 Development Server</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev
+<span class="c"># or with yarn</span>
+yarn dev
+</code></pre></div></div>
+
+<p>This will start the development server at <code class="language-plaintext highlighter-rouge">http://localhost:3000</code></p>
+
+<h2 id="step-5-connect-a-wallet-for-testing">Step 5: Connect a Wallet for Testing</h2>
+
+<ol>
+  <li>Open your browser and navigate to <code class="language-plaintext highlighter-rouge">http://localhost:4000</code></li>
+  <li>Click the “Connect Wallet” button</li>
+  <li>Choose MetaMask or WalletConnect</li>
+  <li>For testing functionality, connect to a test network (Mumbai for Polygon)</li>
+</ol>
+
+<h2 id="smart-contract-development">Smart Contract Development</h2>
+
+<p>If you need to modify or deploy the smart contracts:</p>
+
+<ol>
+  <li>Install Hardhat globally:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> hardhat
+</code></pre></div>    </div>
+  </li>
+  <li>Compile contracts:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat compile
+</code></pre></div>    </div>
+  </li>
+  <li>Run tests:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat <span class="nb">test</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Deploy to a test network:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat run scripts/deploy.js <span class="nt">--network</span> mumbai
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="environment-setup-for-creators">Environment Setup for Creators</h2>
+
+<p>Creators need additional tools for content management:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> @web3-stream/creator-cli
+creator-cli setup
+</code></pre></div></div>
+
+<p>Follow the setup wizard to configure your creator environment.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<ul>
+  <li><strong>MetaMask Connection Issues</strong>: Ensure you’re on the correct network (Polygon Mainnet or Mumbai Testnet)</li>
+  <li><strong>IPFS Upload Failures</strong>: Check your API key and connection to the IPFS gateway</li>
+  <li><strong>Smart Contract Interactions Failing</strong>: Verify you have sufficient gas (MATIC) in your wallet</li>
+  <li><strong>Jekyll Build Errors</strong>: Check Ruby and Bundler versions compatibility</li>
+</ul>
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<ul>
+  <li><a href="https://docs.web3streamingplatform.com">Full Documentation</a></li>
+  <li><a href="https://api.web3streamingplatform.com/docs">API Reference</a></li>
+  <li><a href="https://discord.gg/web3streaming">Developer Discord</a></li>
+  <li><a href="https://github.com/yourusername/web3-streaming-platform">GitHub Repository</a></li>
+</ul>
+
+<h2 id="production-deployment">Production Deployment</h2>
+
+<p>For production deployment, consider using:</p>
+
+<ul>
+  <li><a href="https://vercel.com/">Vercel</a> or <a href="https://www.netlify.com/">Netlify</a> for frontend hosting</li>
+  <li><a href="https://pages.github.com/">GitHub Pages</a> for the static Jekyll site</li>
+  <li><a href="https://ipfs.io/">IPFS</a> or <a href="https://www.arweave.org/">Arweave</a> for decentralized storage</li>
+  <li><a href="https://polygon.technology/">Polygon</a> for scalable blockchain transactions</li>
+</ul>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

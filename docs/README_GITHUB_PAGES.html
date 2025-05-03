@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project RED X on GitHub Pages | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project RED X on GitHub Pages" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/README_GITHUB_PAGES.html" />
+<meta property="og:url" content="/docs/README_GITHUB_PAGES.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project RED X on GitHub Pages" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project RED X on GitHub Pages","url":"/docs/README_GITHUB_PAGES.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Project RED X on GitHub Pages</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="project-red-x-on-github-pages">Project RED X on GitHub Pages</h1>
+
+<p>This document explains how Project RED X works on GitHub Pages and what limitations exist.</p>
+
+<h2 id="limitations-of-github-pages-deployment">Limitations of GitHub Pages Deployment</h2>
+
+<p>GitHub Pages only supports static content, which means:</p>
+
+<ol>
+  <li><strong>No Server-Side Code</strong>: Node.js server, Socket.io, and API endpoints don’t work</li>
+  <li><strong>No Claude AI</strong>: AWS Bedrock integration requires server-side authentication</li>
+  <li><strong>No Real-Time Networking</strong>: WebSocket connections for multiplayer won’t function</li>
+  <li><strong>No Build Process</strong>: Code must be pre-compiled before pushing to GitHub Pages</li>
+</ol>
+
+<h2 id="what-works-in-static-mode">What Works in Static Mode</h2>
+
+<ol>
+  <li><strong>WebAssembly Demo</strong>: The core C/SDL2 demo compiled to WebAssembly</li>
+  <li><strong>WUB Links</strong>: External links still work (they’re client-side rendered)</li>
+  <li><strong>Basic UI</strong>: All visual elements display properly</li>
+</ol>
+
+<h2 id="deployment-process">Deployment Process</h2>
+
+<p>To deploy to GitHub Pages:</p>
+
+<ol>
+  <li>Run the deployment script: <code class="language-plaintext highlighter-rouge">./deploy-gh-pages.sh</code></li>
+  <li>Push the contents of the <code class="language-plaintext highlighter-rouge">build</code> directory to the <code class="language-plaintext highlighter-rouge">gh-pages</code> branch</li>
+  <li>Make sure GitHub Pages is enabled in your repository settings</li>
+</ol>
+
+<p>Alternatively, use GitHub Actions to automate deployment (see <code class="language-plaintext highlighter-rouge">.github/workflows/deploy.yml</code>).</p>
+
+<h2 id="local-development">Local Development</h2>
+
+<p>For full functionality including AI features and real-time networking, run the project locally:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>red_x
+npm <span class="nb">install
+</span>make web
+npm start
+</code></pre></div></div>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://webassembly.org/">WebAssembly Documentation</a></li>
+  <li><a href="https://www.libsdl.org/">SDL2 Library</a></li>
+  <li><a href="https://emscripten.org/">Emscripten</a></li>
+  <li><a href="https://docs.github.com/en/pages">GitHub Pages Documentation</a></li>
+  <li><a href="https://modsias.github.io/red_x/team.html">Project Team</a></li>
+  <li><a href="https://modsias.github.io/red_x/status.html">System Status</a></li>
+</ul>
+
+<h2 id="copyright">Copyright</h2>
+
+<p>COPYRIGHT (C) 2025 github/modsias<br />
+CODE GEN ID: AIMODE-775045-V1.0</p>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

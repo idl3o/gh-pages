@@ -1,0 +1,146 @@
+{
+  "folders": [
+    {
+      "name": "Project Root",
+      "path": "."
+    },
+    {
+      "name": "Server APIs",
+      "path": "./server"
+    },
+    {
+      "name": "Smart Contracts",
+      "path": "./contracts"
+    },
+    {
+      "name": "Serverless Functions",
+      "path": "./netlify/functions"
+    },
+    {
+      "name": "RED X Backend",
+      "path": "./red_x"
+    },
+    {
+      "name": "TypeScript SDK",
+      "path": "./ts/src"
+    },
+    {
+      "name": "Services",
+      "path": "./services"
+    },
+    {
+      "name": "Utils",
+      "path": "./utils"
+    },
+    {
+      "name": "Config Files",
+      "path": "./config"
+    },
+    {
+      "name": "MCP Server",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.cache": true,
+      "_site/**": true,
+      "assets/css/**": true,
+      "assets/fonts/**": true,
+      "assets/images/**": true,
+      "public/**": true,
+      "_data/**": true,
+      "_drafts/**": true,
+      "_includes/**": true,
+      "_layouts/**": true,
+      "_posts/**": true,
+      "blog/**": true,
+      "docs/**": false, // Only hide in Project Root view
+      "examples/**": true,
+      "pages/**": true,
+      "career/**": true,
+      "vendor/**": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/build": true,
+      "**/dist": true,
+      "**/temp_gh_pages": true,
+      "**/backups": true
+    },
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.associations": {
+      "*.js": "javascript",
+      "*.jsx": "javascriptreact",
+      "*.ts": "typescript",
+      "*.tsx": "typescriptreact"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+      "*.jsx": "${capture}.js",
+      "*.tsx": "${capture}.ts",
+      "*.ts": "${capture}.js, ${capture}.d.ts",
+      "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml"
+    },
+    "cSpell.words": [
+      "ethers",
+      "hardhat",
+      "ipfs",
+      "poebc",
+      "supabase",
+      "blockchain",
+      "wagmi",
+      "netlify",
+      "vercel"
+    ],
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#19415c",
+      "activityBar.background": "#0e2636",
+      "activityBar.foreground": "#e7e7e7",
+      "activityBarBadge.background": "#4d9a81",
+      "activityBarBadge.foreground": "#15202b",
+      "titleBar.activeBackground": "#0e2636",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveBackground": "#0e263699",
+      "titleBar.inactiveForeground": "#e7e7e799",
+      "statusBar.background": "#0e2636",
+      "statusBarItem.hoverBackground": "#19415c",
+      "statusBar.foreground": "#e7e7e7"
+    },
+    "peacock.color": "#0e2636",
+    "sarif-viewer.connectToGithubCodeScanning": "off",
+    "powershell.cwd": "Project Root"
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "streetsidesoftware.code-spell-checker",
+      "mikestead.dotenv",
+      "ms-vscode.js-debug",
+      "redhat.vscode-yaml",
+      "VisualStudioExptTeam.vscodeintellicode",
+      "ms-azuretools.vscode-bicep",
+      "ms-azuretools.vscode-docker",
+      "nomicfoundation.hardhat-solidity",
+      "orta.vscode-jest"
+    ]
+  }
+}

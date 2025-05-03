@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Ruby Setup Guide for RED X Project | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Ruby Setup Guide for RED X Project" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/ruby-setup.html" />
+<meta property="og:url" content="/docs/ruby-setup.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Ruby Setup Guide for RED X Project" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Ruby Setup Guide for RED X Project","url":"/docs/ruby-setup.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Ruby Setup Guide for RED X Project</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="ruby-setup-guide-for-red-x-project">Ruby Setup Guide for RED X Project</h1>
+
+<p>This guide explains how to set up Ruby for the RED X project if you encounter issues with the automatic installation.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li>Windows 10 or later</li>
+  <li>Administrator privileges</li>
+  <li>Internet connection</li>
+</ul>
+
+<h2 id="manual-ruby-installation">Manual Ruby Installation</h2>
+
+<ol>
+  <li>
+    <p><strong>Download the Ruby Installer</strong>:</p>
+
+    <ul>
+      <li>Go to <a href="https://rubyinstaller.org/downloads/">RubyInstaller website</a></li>
+      <li>Download the latest Ruby+Devkit x64 version (e.g., Ruby+Devkit 3.2.2-1 (x64))</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Run the installer</strong>:</p>
+
+    <ul>
+      <li>Launch the downloaded executable</li>
+      <li>Select the following options:
+        <ul class="task-list">
+          <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Add Ruby executables to your PATH</li>
+          <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Associate .rb and .rbw files with Ruby</li>
+          <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Use UTF-8 as default external encoding</li>
+        </ul>
+      </li>
+      <li>Complete the installation</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Verify installation</strong>:</p>
+
+    <ul>
+      <li>Open a new Command Prompt or PowerShell window</li>
+      <li>Type <code class="language-plaintext highlighter-rouge">ruby -v</code></li>
+      <li>If installed correctly, this will show the Ruby version</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Install required gems</strong>:</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem install bundler jekyll webrick rouge sass-embedded
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="using-ruby-with-red-x">Using Ruby with RED X</h2>
+
+<p>After installation, you can use Ruby with the RED X build process in two ways:</p>
+
+<ol>
+  <li>
+    <p><strong>Automatic usage</strong>: Add the <code class="language-plaintext highlighter-rouge">-ruby</code> flag when running RedX-Build.cmd:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RedX-Build.cmd -web -ruby
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Manual process</strong>:</p>
+    <ul>
+      <li>Navigate to your RED X project directory</li>
+      <li>Create a <code class="language-plaintext highlighter-rouge">Gemfile</code> with the required dependencies</li>
+      <li>Run <code class="language-plaintext highlighter-rouge">bundle install</code> to install dependencies</li>
+      <li>Run <code class="language-plaintext highlighter-rouge">bundle exec jekyll build</code> to process with Jekyll</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<ul>
+  <li><strong>Ruby command not found</strong>: Make sure Ruby is in your PATH. Reopen the command prompt after installing.</li>
+  <li><strong>SSL certificate errors</strong>: Download the RubyInstaller CA certificate and run <code class="language-plaintext highlighter-rouge">gem update --system</code></li>
+  <li><strong>Dependency errors</strong>: Run <code class="language-plaintext highlighter-rouge">bundle update</code> to update all dependencies to their compatible versions</li>
+</ul>
+
+<p>For additional help, consult the <a href="https://www.ruby-lang.org/en/documentation/">Ruby documentation</a> or the <a href="https://jekyllrb.com/docs/">Jekyll documentation</a>.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

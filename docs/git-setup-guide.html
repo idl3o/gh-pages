@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/git-setup-guide.html" />
+<meta property="og:url" content="/docs/git-setup-guide.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/git-setup-guide.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: Git Configuration Guide
+description: How to properly configure Git when contributing to the Web3 Crypto Streaming Service project
+permalink: /docs/git-setup/</p>
+<hr />
+
+<h1 id="git-configuration-guide">Git Configuration Guide</h1>
+
+<p>This guide will help contributors properly set up Git for working with the Web3 Crypto Streaming Service project codebase.</p>
+
+<h2 id="first-time-git-setup">First-Time Git Setup</h2>
+
+<p>After installing Git on your system, you’ll need to configure some basic settings. These settings will persist between upgrades and can be changed at any time.</p>
+
+<h3 id="configuration-levels">Configuration Levels</h3>
+
+<p>Git stores configuration at three levels:</p>
+
+<ol>
+  <li><strong>System level</strong> (<code class="language-plaintext highlighter-rouge">/etc/gitconfig</code>): Applied to every user and repository on your system
+    <ul>
+      <li>Set with <code class="language-plaintext highlighter-rouge">git config --system</code> (requires admin privileges)</li>
+    </ul>
+  </li>
+  <li><strong>Global level</strong> (<code class="language-plaintext highlighter-rouge">~/.gitconfig</code> or <code class="language-plaintext highlighter-rouge">~/.config/git/config</code>): Settings specific to your user account
+    <ul>
+      <li>Set with <code class="language-plaintext highlighter-rouge">git config --global</code></li>
+      <li>Affects all repositories you work with</li>
+    </ul>
+  </li>
+  <li><strong>Local level</strong> (<code class="language-plaintext highlighter-rouge">.git/config</code> in each repo): Settings specific to a single repository
+    <ul>
+      <li>Set with <code class="language-plaintext highlighter-rouge">git config --local</code> (the default)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Each level overrides the previous one, so repository-specific settings take precedence over global settings.</p>
+
+<h3 id="essential-configuration">Essential Configuration</h3>
+
+<h4 id="1-set-your-identity">1. Set Your Identity</h4>
+
+<p>Every commit you make includes your name and email address, which gets permanently embedded in the commit history:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> user.name <span class="s2">"Your Name"</span>
+git config <span class="nt">--global</span> user.email your.email@example.com
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>Project Requirement:</strong> Please use the same email address associated with your GitHub account for consistent attribution.</p>
+</blockquote>
+
+<h4 id="2-configure-default-branch-name">2. Configure Default Branch Name</h4>
+
+<p>Our project uses <code class="language-plaintext highlighter-rouge">main</code> as the default branch name:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> init.defaultBranch main
+</code></pre></div></div>
+
+<h4 id="3-configure-line-ending-behavior">3. Configure Line Ending Behavior</h4>
+
+<p>For cross-platform compatibility:</p>
+
+<ul>
+  <li>*On macOS/Linux:**
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> core.autocrlf input
+</code></pre></div>    </div>
+  </li>
+  <li>*On Windows:**
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> core.autocrlf <span class="nb">true</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="4-set-your-editor">4. Set Your Editor</h4>
+
+<p>Choose your preferred text editor for commit messages:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For VS Code</span>
+git config <span class="nt">--global</span> core.editor <span class="s2">"code --wait"</span>
+
+<span class="c"># For Vim</span>
+git config <span class="nt">--global</span> core.editor vim
+
+<span class="c"># For Sublime Text</span>
+git config <span class="nt">--global</span> core.editor <span class="s2">"subl -n -w"</span>
+</code></pre></div></div>
+
+<h2 id="project-specific-configuration">Project-Specific Configuration</h2>
+
+<p>When working on the Web3 Crypto Streaming Service project, we recommend these additional settings:</p>
+
+<h3 id="commit-message-template">Commit Message Template</h3>
+
+<p>Our project follows a structured commit message format. Set up the template:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--local</span> commit.template .github/commit-template.txt
+</code></pre></div></div>
+
+<h3 id="signing-commits">Signing Commits</h3>
+
+<p>For security, we encourage signing your commits:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> user.signingkey YOUR_GPG_KEY_ID
+git config <span class="nt">--global</span> commit.gpgsign <span class="nb">true</span>
+</code></pre></div></div>
+
+<h3 id="pull-strategy">Pull Strategy</h3>
+
+<p>To avoid unnecessary merge commits:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> pull.rebase <span class="nb">true</span>
+</code></pre></div></div>
+
+<h3 id="useful-aliases">Useful Aliases</h3>
+
+<p>These aliases can improve your workflow:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> alias.st status
+git config <span class="nt">--global</span> alias.co checkout
+git config <span class="nt">--global</span> alias.br branch
+git config <span class="nt">--global</span> alias.ci commit
+git config <span class="nt">--global</span> alias.lg <span class="s2">"log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"</span>
+git config <span class="nt">--global</span> alias.unstage <span class="s2">"reset HEAD --"</span>
+</code></pre></div></div>
+
+<h2 id="verify-your-configuration">Verify Your Configuration</h2>
+
+<p>Check your current configuration:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List all settings</span>
+git config <span class="nt">--list</span>
+
+<span class="c"># Show specific setting</span>
+git config user.name
+
+<span class="c"># Show where settings are defined</span>
+git config <span class="nt">--list</span> <span class="nt">--show-origin</span>
+</code></pre></div></div>
+
+<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
+
+<h3 id="usernameemail-not-set-correctly">Username/Email Not Set Correctly</h3>
+
+<p>If your commits show the wrong identity:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"Your Name &lt;your.email@example.com&gt;"</span>
+git rebase <span class="nt">--continue</span>
+</code></pre></div></div>
+
+<h3 id="line-ending-problems">Line Ending Problems</h3>
+
+<p>If you encounter line ending warnings:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nt">--renormalize</span> <span class="nb">.</span>
+git status
+git commit <span class="nt">-m</span> <span class="s2">"Fix line endings"</span>
+</code></pre></div></div>
+
+<h3 id="contribution-process">Contribution Process</h3>
+
+<p>After configuring Git correctly:</p>
+
+<ol>
+  <li>Fork the repository on GitHub</li>
+  <li>Clone your fork locally</li>
+  <li>Add the upstream repository:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote add upstream https://github.com/web3streaming/main-repo.git
+</code></pre></div>    </div>
+  </li>
+  <li>Create a feature branch:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout <span class="nt">-b</span> feature/your-feature-name
+</code></pre></div>    </div>
+  </li>
+  <li>Commit your changes following our commit guidelines</li>
+  <li>Push to your fork and submit a pull request</li>
+</ol>
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<ul>
+  <li><a href="https://git-scm.com/doc">Official Git Documentation</a></li>
+  <li><a href="https://training.github.com/downloads/github-git-cheat-sheet.pdf">GitHub Git Cheat Sheet</a></li>
+  <li><a href="/docs/contributing">Project Contribution Guidelines</a></li>
+</ul>
+
+<p>For any questions about Git configuration, please ask in our <a href="https://discord.gg/web3streaming">Discord community</a>.</p>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

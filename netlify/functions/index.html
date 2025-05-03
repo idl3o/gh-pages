@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Serverless Functions | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Serverless Functions" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/netlify/functions/" />
+<meta property="og:url" content="/netlify/functions/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Serverless Functions" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Serverless Functions","url":"/netlify/functions/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Serverless Functions</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="serverless-functions">Serverless Functions</h1>
+
+<p>This directory contains the serverless functions that power the Web3 Streaming Platform’s API layer. These functions are deployed to Netlify and provide the backend services for various platform features.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Our serverless functions provide scalable, on-demand processing for various platform operations. Using the serverless architecture allows us to maintain high availability while only paying for the compute resources we actually use.</p>
+
+<h2 id="key-functions">Key Functions</h2>
+
+<h3 id="api-handlerjs">api-handler.js</h3>
+
+<p>The main API handler function that routes requests to the appropriate service.</p>
+
+<p><strong>Endpoints:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">GET /api/content</code>: Fetch content metadata</li>
+  <li><code class="language-plaintext highlighter-rouge">POST /api/content</code>: Create new content</li>
+  <li><code class="language-plaintext highlighter-rouge">GET /api/user</code>: Get user information</li>
+  <li><code class="language-plaintext highlighter-rouge">POST /api/auth</code>: Authentication endpoint</li>
+</ul>
+
+<h3 id="content-apijs">content-api.js</h3>
+
+<p>Handles content-related operations including storage, retrieval, and metadata management.</p>
+
+<h3 id="auth-apijs">auth-api.js</h3>
+
+<p>Manages user authentication and authorization, including JWT issuance and validation.</p>
+
+<h3 id="blockchain-apijs">blockchain-api.js</h3>
+
+<p>Provides blockchain interaction endpoints for smart contract calls and transaction management.</p>
+
+<h3 id="ipfs-apijs">ipfs-api.js</h3>
+
+<p>Handles IPFS content pinning, retrieval, and gateway management.</p>
+
+<h2 id="development">Development</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li>Node.js (v18+)</li>
+  <li>npm or yarn</li>
+  <li>Netlify CLI (for local development)</li>
+</ul>
+
+<h3 id="installation">Installation</h3>
+
+<ol>
+  <li>
+    <p>Install dependencies:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>netlify/functions
+npm <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Install Netlify CLI (if not already installed):</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> netlify-cli
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="local-development">Local Development</h3>
+
+<p>To run the functions locally:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netlify dev
+</code></pre></div></div>
+
+<p>This will start the Netlify development server with your functions available at <code class="language-plaintext highlighter-rouge">http://localhost:8888/.netlify/functions/[function-name]</code>.</p>
+
+<h3 id="environment-variables">Environment Variables</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">.env</code> file in the <code class="language-plaintext highlighter-rouge">netlify/functions</code> directory with the following variables:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># API Keys
+API_KEY=your-api-key
+IPFS_API_KEY=your-ipfs-api-key
+
+# Blockchain Configuration
+WEB3_PROVIDER_URL=https://mainnet.infura.io/v3/your-project-id
+CONTRACT_ADDRESS=0x1234567890123456789012345678901234567890
+
+# Authentication
+JWT_SECRET=your-jwt-secret
+JWT_EXPIRY=24h
+
+# CORS
+ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
+</code></pre></div></div>
+
+<h2 id="deployment">Deployment</h2>
+
+<p>The functions are automatically deployed to Netlify when changes are pushed to the main branch. Manual deployment can be performed using:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netlify deploy <span class="nt">--prod</span>
+</code></pre></div></div>
+
+<h2 id="testing">Testing</h2>
+
+<h3 id="unit-tests">Unit Tests</h3>
+
+<p>Run the test suite with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">test</span>
+</code></pre></div></div>
+
+<h3 id="integration-tests">Integration Tests</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run <span class="nb">test</span>:integration
+</code></pre></div></div>
+
+<p>This will start the functions locally and run tests against them.</p>
+
+<h2 id="security">Security</h2>
+
+<p>Our serverless functions implement several security measures:</p>
+
+<ol>
+  <li><strong>JWT Authentication</strong>: Secure token-based authentication</li>
+  <li><strong>CORS Protection</strong>: Configurable origin restrictions</li>
+  <li><strong>Rate Limiting</strong>: Protection against DDoS and brute force attacks</li>
+  <li><strong>Input Validation</strong>: Schema validation for all input data</li>
+  <li><strong>Environment Isolation</strong>: Production secrets are isolated from development</li>
+</ol>
+
+<h2 id="performance-optimization">Performance Optimization</h2>
+
+<ul>
+  <li>Cold start optimization using keep-alive techniques</li>
+  <li>Database connection pooling</li>
+  <li>Response caching where appropriate</li>
+  <li>Payload size minimization</li>
+</ul>
+
+<h2 id="function-structure">Function Structure</h2>
+
+<p>Each function follows a standard structure:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Required dependencies</span>
+<span class="kd">const</span> <span class="nx">dependencies</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./lib/dependencies</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Handler function</span>
+<span class="nx">exports</span><span class="p">.</span><span class="nx">handler</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// Parse input</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">httpMethod</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">body</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">event</span><span class="p">;</span>
+
+    <span class="c1">// Process request</span>
+    <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">processRequest</span><span class="p">(</span><span class="nx">httpMethod</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+
+    <span class="c1">// Return response</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">statusCode</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+      <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+        <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span>
+      <span class="p">},</span>
+      <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+    <span class="p">};</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Error handling</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">statusCode</span><span class="p">:</span> <span class="nx">error</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">||</span> <span class="mi">500</span><span class="p">,</span>
+      <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+        <span class="na">error</span><span class="p">:</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
+      <span class="p">})</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Helper functions</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">processRequest</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Implementation</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>For detailed API documentation, see <a href="/docs/api-reference.html">API Reference</a>.</p>
+
+<h2 id="license">License</h2>
+
+<p>These functions are licensed under the <a href="/LICENSE">MIT License</a>.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Contributions are welcome! Please see our <a href="/CONTRIBUTING.md">Contributing Guidelines</a> before submitting pull requests.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

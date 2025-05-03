@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>TypeScript SDK Documentation | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="TypeScript SDK Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/typescript-docs/" />
+<meta property="og:url" content="/docs/typescript-docs/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="TypeScript SDK Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"TypeScript SDK Documentation","url":"/docs/typescript-docs/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <h1 id="typescript-sdk-documentation">TypeScript SDK Documentation</h1>
+
+<p>This documentation covers our TypeScript SDK, which provides strongly typed interfaces for interacting with our platform’s APIs and blockchain services.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Our TypeScript SDK simplifies integration with our platform by providing a set of tools, utilities, and interfaces that abstract away the complexity of direct API and blockchain interaction.</p>
+
+<h2 id="installation">Installation</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> @project/typescript-sdk
+<span class="c"># or</span>
+yarn add @project/typescript-sdk
+</code></pre></div></div>
+
+<h2 id="key-components">Key Components</h2>
+
+<h3 id="type-definitions">Type Definitions</h3>
+
+<p>Our SDK includes comprehensive TypeScript definitions for all API endpoints, responses, and blockchain interactions.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example type definitions</span>
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">User</span> <span class="p">{</span>
+  <span class="nl">id</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">username</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">walletAddress</span><span class="p">?:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">createdAt</span><span class="p">:</span> <span class="nb">Date</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">StreamMetadata</span> <span class="p">{</span>
+  <span class="nl">id</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">title</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">description</span><span class="p">?:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">creator</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">contentHash</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">duration</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+  <span class="nl">created</span><span class="p">:</span> <span class="nb">Date</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">PaymentStream</span> <span class="p">{</span>
+  <span class="nl">streamId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">sender</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">recipient</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">tokenAddress</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">amountPerSecond</span><span class="p">:</span> <span class="nx">BigNumber</span><span class="p">;</span>
+  <span class="nl">startTime</span><span class="p">:</span> <span class="nb">Date</span><span class="p">;</span>
+  <span class="nl">endTime</span><span class="p">?:</span> <span class="nb">Date</span><span class="p">;</span>
+  <span class="nl">active</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="api-integration">API Integration</h3>
+
+<p>The SDK provides typed wrappers around our REST APIs for simplified integration.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ApiClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/typescript-sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ApiClient</span><span class="p">({</span>
+  <span class="na">baseUrl</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://api.example.com</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">apiKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">your-api-key</span><span class="dl">'</span>
+<span class="p">});</span>
+
+<span class="c1">// Get user profile with full type safety</span>
+<span class="kd">const</span> <span class="nx">getProfile</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">userId</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">getProfile</span><span class="p">(</span><span class="nx">userId</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// Create a new stream</span>
+<span class="kd">const</span> <span class="nx">createStream</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">metadata</span><span class="p">:</span> <span class="nx">StreamMetadata</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">streams</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">metadata</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="developer-tools">Developer Tools</h3>
+
+<p>The SDK includes developer tools to simplify common tasks.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DevTools</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/typescript-sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Generate test data</span>
+<span class="kd">const</span> <span class="nx">testUsers</span> <span class="o">=</span> <span class="nx">DevTools</span><span class="p">.</span><span class="nx">generateTestUsers</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">testStreams</span> <span class="o">=</span> <span class="nx">DevTools</span><span class="p">.</span><span class="nx">generateTestStreams</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Validate blockchain addresses</span>
+<span class="kd">const</span> <span class="nx">isValidAddress</span> <span class="o">=</span> <span class="nx">DevTools</span><span class="p">.</span><span class="nx">validateEthAddress</span><span class="p">(</span><span class="dl">'</span><span class="s1">0x1234...</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Format currency values</span>
+<span class="kd">const</span> <span class="nx">formattedAmount</span> <span class="o">=</span> <span class="nx">DevTools</span><span class="p">.</span><span class="nx">formatCurrency</span><span class="p">(</span><span class="dl">'</span><span class="s1">1000000000000000000</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">formattedAmount</span><span class="p">);</span> <span class="c1">// "1.0 ETH"</span>
+</code></pre></div></div>
+
+<h3 id="web3-integration">Web3 Integration</h3>
+
+<p>Our SDK provides type-safe wrappers around Web3 functionality for blockchain interactions.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Web3Service</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/typescript-sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">web3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Web3Service</span><span class="p">({</span>
+  <span class="na">provider</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://mainnet.infura.io/v3/your-project-id</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">privateKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">your-private-key</span><span class="dl">'</span> <span class="c1">// Optional</span>
+<span class="p">});</span>
+
+<span class="c1">// Create a payment stream</span>
+<span class="kd">const</span> <span class="nx">createPaymentStream</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span>
+  <span class="nx">recipient</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span>
+  <span class="nx">tokenAddress</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span>
+  <span class="nx">amountPerSecond</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span>
+  <span class="nx">duration</span><span class="p">:</span> <span class="kr">number</span>
+<span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">streams</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+    <span class="nx">recipient</span><span class="p">,</span>
+    <span class="nx">tokenAddress</span><span class="p">,</span>
+    <span class="nx">amountPerSecond</span><span class="p">,</span>
+    <span class="nx">duration</span>
+  <span class="p">});</span>
+  
+  <span class="k">return</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">hash</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// Check stream balance</span>
+<span class="kd">const</span> <span class="nx">getStreamBalance</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">streamId</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">await</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">streams</span><span class="p">.</span><span class="nx">getBalance</span><span class="p">(</span><span class="nx">streamId</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="error-handling">Error Handling</h2>
+
+<p>The SDK includes standardized error handling:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ApiClient</span><span class="p">,</span> <span class="nx">ApiError</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/typescript-sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ApiClient</span><span class="p">({</span> <span class="cm">/* config */</span> <span class="p">});</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">client</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">getProfile</span><span class="p">(</span><span class="dl">'</span><span class="s1">invalid-id</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span> <span class="k">instanceof</span> <span class="nx">ApiError</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">`API Error: </span><span class="p">${</span><span class="nx">error</span><span class="p">.</span><span class="nx">code</span><span class="p">}</span><span class="s2"> - </span><span class="p">${</span><span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+    
+    <span class="c1">// Handle specific error codes</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">code</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">NOT_FOUND</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Handle not found error</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">code</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">UNAUTHORIZED</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Handle authentication error</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Unexpected error:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>The SDK can be configured based on your environment:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">createSdkConfig</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/typescript-sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">createSdkConfig</span><span class="p">({</span>
+  <span class="na">environment</span><span class="p">:</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// or 'development', 'staging'</span>
+  <span class="na">apiKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">your-api-key</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">logLevel</span><span class="p">:</span> <span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// 'debug', 'info', 'warn', 'error'</span>
+  <span class="na">timeout</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="c1">// ms</span>
+  <span class="na">retries</span><span class="p">:</span> <span class="mi">3</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ApiClient</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="creating-and-managing-a-payment-stream">Creating and Managing a Payment Stream</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Web3Service</span><span class="p">,</span> <span class="nx">ApiClient</span><span class="p">,</span> <span class="nx">BigNumber</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/typescript-sdk</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Setup services</span>
+<span class="kd">const</span> <span class="nx">web3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Web3Service</span><span class="p">({</span> <span class="cm">/* config */</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">api</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ApiClient</span><span class="p">({</span> <span class="cm">/* config */</span> <span class="p">});</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">createAndManageStream</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// 1. Create a payment stream - 0.1 tokens per second for 1 hour</span>
+  <span class="kd">const</span> <span class="nx">recipient</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0xRecipientAddress</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">tokenAddress</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0xTokenContractAddress</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">amountPerSecond</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BigNumber</span><span class="p">(</span><span class="dl">'</span><span class="s1">100000000000000000</span><span class="dl">'</span><span class="p">).</span><span class="nx">div</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">// 0.1 tokens/sec</span>
+  <span class="kd">const</span> <span class="nx">durationInSeconds</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span><span class="p">;</span> <span class="c1">// 1 hour</span>
+  
+  <span class="kd">const</span> <span class="nx">streamId</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">streams</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+    <span class="nx">recipient</span><span class="p">,</span>
+    <span class="nx">tokenAddress</span><span class="p">,</span>
+    <span class="na">amountPerSecond</span><span class="p">:</span> <span class="nx">amountPerSecond</span><span class="p">.</span><span class="nx">toString</span><span class="p">(),</span>
+    <span class="na">duration</span><span class="p">:</span> <span class="nx">durationInSeconds</span>
+  <span class="p">});</span>
+  
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Stream created with ID: </span><span class="p">${</span><span class="nx">streamId</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  
+  <span class="c1">// 2. Register stream metadata in the API</span>
+  <span class="k">await</span> <span class="nx">api</span><span class="p">.</span><span class="nx">streams</span><span class="p">.</span><span class="nx">registerMetadata</span><span class="p">(</span><span class="nx">streamId</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Premium Content Access</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">description</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Payment stream for accessing premium content</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">creator</span><span class="p">:</span> <span class="k">await</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">getConnectedAddress</span><span class="p">()</span>
+  <span class="p">});</span>
+  
+  <span class="c1">// 3. Check stream status</span>
+  <span class="kd">const</span> <span class="nx">status</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">streams</span><span class="p">.</span><span class="nx">getStatus</span><span class="p">(</span><span class="nx">streamId</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Stream status: </span><span class="p">${</span><span class="nx">status</span><span class="p">.</span><span class="nx">active</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">Active</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">Inactive</span><span class="dl">'</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Current balance: </span><span class="p">${</span><span class="nx">status</span><span class="p">.</span><span class="nx">remainingBalance</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  
+  <span class="c1">// 4. Cancel stream early if needed</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">userRequestedCancel</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">streams</span><span class="p">.</span><span class="nx">cancel</span><span class="p">(</span><span class="nx">streamId</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Stream cancelled</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="typescript-sdk-reference">TypeScript SDK Reference</h2>
+
+<p>For a complete reference of all classes, interfaces, and types, see the <a href="./api-reference.md">TypeScript SDK API Reference</a>.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="/docs/server-docs/">Server Documentation</a></li>
+  <li><a href="/docs/blockchain-docs/">Blockchain Integration</a></li>
+  <li><a href="/docs/serverless-docs/">Serverless Functions Documentation</a></li>
+</ul>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

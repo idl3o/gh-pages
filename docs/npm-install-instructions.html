@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Installing and Using Node.js on macOS | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Installing and Using Node.js on macOS" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/npm-install-instructions.html" />
+<meta property="og:url" content="/docs/npm-install-instructions.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Installing and Using Node.js on macOS" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Installing and Using Node.js on macOS","url":"/docs/npm-install-instructions.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Installing and Using Node.js on macOS</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="installing-and-using-nodejs-on-macos">Installing and Using Node.js on macOS</h1>
+
+<h2 id="installation-methods">Installation Methods</h2>
+
+<h3 id="method-1-using-homebrew-recommended">Method 1: Using Homebrew (Recommended)</h3>
+
+<ol>
+  <li><strong>Install Homebrew</strong> if you don’t have it yet:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Follow Homebrew’s setup instructions</strong> that appear after installation, which typically include:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For Apple Silicon (M1/M2/M3) Macs</span>
+<span class="nb">echo</span> <span class="s1">'eval "$(/opt/homebrew/bin/brew shellenv)"'</span> <span class="o">&gt;&gt;</span> ~/.zprofile
+<span class="nb">eval</span> <span class="s2">"</span><span class="si">$(</span>/opt/homebrew/bin/brew shellenv<span class="si">)</span><span class="s2">"</span>
+
+<span class="c"># For Intel Macs</span>
+<span class="nb">echo</span> <span class="s1">'eval "$(/usr/local/bin/brew shellenv)"'</span> <span class="o">&gt;&gt;</span> ~/.zprofile
+<span class="nb">eval</span> <span class="s2">"</span><span class="si">$(</span>/usr/local/bin/brew shellenv<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Install Node.js</strong>:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>node
+</code></pre></div></div>
+
+<h3 id="method-2-using-nvm-node-version-manager">Method 2: Using NVM (Node Version Manager)</h3>
+
+<p>NVM allows you to install and manage multiple Node.js versions:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install NVM</span>
+curl <span class="nt">-o-</span> https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+<span class="c"># Add NVM to your path (add this to your ~/.zshrc or ~/.bash_profile)</span>
+<span class="nb">export </span><span class="nv">NVM_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.nvm"</span>
+<span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/nvm.sh"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="se">\.</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/nvm.sh"</span>
+<span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/bash_completion"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="se">\.</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/bash_completion"</span>
+
+<span class="c"># Install latest LTS version of Node.js</span>
+nvm <span class="nb">install</span> <span class="nt">--lts</span>
+
+<span class="c"># Set it as default</span>
+nvm <span class="nb">alias </span>default node
+</code></pre></div></div>
+
+<h3 id="method-3-direct-download">Method 3: Direct Download</h3>
+
+<ol>
+  <li>Visit <a href="https://nodejs.org/">nodejs.org</a></li>
+  <li>Download the macOS installer (.pkg file) for the LTS version</li>
+  <li>Run the installer and follow the instructions</li>
+</ol>
+
+<h2 id="verifying-installation">Verifying Installation</h2>
+
+<p>After installation, open a new Terminal window and verify Node.js is correctly installed:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check Node.js version</span>
+node <span class="nt">-v</span>
+
+<span class="c"># Check npm version</span>
+npm <span class="nt">-v</span>
+</code></pre></div></div>
+
+<h2 id="using-nodejs-with-your-github-pages-project">Using Node.js with Your GitHub Pages Project</h2>
+
+<ol>
+  <li><strong>Navigate to your project directory</strong>:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /Users/s/Documents/GitHub/gh-pages
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Install project dependencies</strong>:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span>
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Generate package-lock.json</strong> (for GitHub Actions):</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x scripts/generate-lock-file.sh
+./scripts/generate-lock-file.sh <span class="nt">--commit</span>
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Run your build script</strong>:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run build
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Start local development server</strong> (if available):</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run dev
+</code></pre></div></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="nodejs-command-not-found">Node.js Command Not Found</h3>
+
+<p>If you receive “command not found” errors after installation:</p>
+
+<ol>
+  <li><strong>Restart your terminal</strong> or open a new terminal window</li>
+  <li><strong>Check your PATH</strong> by running: <code class="language-plaintext highlighter-rouge">echo $PATH</code></li>
+  <li><strong>Add Node.js to your PATH</strong> if needed:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For Homebrew installations on Apple Silicon</span>
+<span class="nb">echo</span> <span class="s1">'export PATH="/opt/homebrew/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.zshrc
+<span class="nb">source</span> ~/.zshrc
+
+<span class="c"># For Homebrew installations on Intel Macs</span>
+<span class="nb">echo</span> <span class="s1">'export PATH="/usr/local/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.zshrc
+<span class="nb">source</span> ~/.zshrc
+</code></pre></div></div>
+
+<h3 id="permission-issues">Permission Issues</h3>
+
+<p>For permission-related errors:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Fix ownership of npm directories</span>
+<span class="nb">sudo chown</span> <span class="nt">-R</span> <span class="si">$(</span><span class="nb">whoami</span><span class="si">)</span> <span class="si">$(</span>npm config get prefix<span class="si">)</span>/<span class="o">{</span>lib/node_modules,bin,share<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="updating-nodejs">Updating Node.js</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># With Homebrew</span>
+brew update <span class="o">&amp;&amp;</span> brew upgrade node
+
+<span class="c"># With NVM</span>
+nvm <span class="nb">install</span> <span class="nt">--lts</span> <span class="nt">--latest-npm</span>
+nvm <span class="nb">alias </span>default node
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

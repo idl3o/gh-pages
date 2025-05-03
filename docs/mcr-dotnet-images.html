@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Microsoft Container Registry .NET Images | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Microsoft Container Registry .NET Images" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/mcr-dotnet-images.html" />
+<meta property="og:url" content="/docs/mcr-dotnet-images.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Microsoft Container Registry .NET Images" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Microsoft Container Registry .NET Images","url":"/docs/mcr-dotnet-images.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Microsoft Container Registry .NET Images</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="microsoft-container-registry-net-images">Microsoft Container Registry .NET Images</h1>
+
+<p>This guide provides information on using Microsoft’s official .NET container images from the Microsoft Container Registry (MCR) with the Web3 Crypto Streaming platform.</p>
+
+<h2 id="available-net-images">Available .NET Images</h2>
+
+<p>Microsoft provides a wide range of .NET container images for different purposes:</p>
+
+<h3 id="base-images">Base Images</h3>
+
+<ul>
+  <li><strong>SDK Images</strong>: Full .NET SDK for building and developing
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/dotnet/sdk:7.0
+docker pull mcr.microsoft.com/dotnet/sdk:6.0
+</code></pre></div>    </div>
+  </li>
+  <li><strong>ASP.NET Runtime</strong>: Optimized for running ASP.NET Core web applications
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/dotnet/aspnet:7.0
+docker pull mcr.microsoft.com/dotnet/aspnet:6.0
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Runtime</strong>: .NET Runtime for running .NET applications
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/dotnet/runtime:7.0
+docker pull mcr.microsoft.com/dotnet/runtime:6.0
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Runtime Dependencies</strong>: Just the dependencies for the .NET Runtime
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/dotnet/runtime-deps:7.0
+docker pull mcr.microsoft.com/dotnet/runtime-deps:6.0
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="application-frameworks">Application Frameworks</h3>
+
+<ul>
+  <li><strong>ASP.NET Core</strong>: For web applications and APIs
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/dotnet/aspnet:7.0
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Blazor</strong>: For Blazor WebAssembly apps
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/dotnet/aspnet:7.0 <span class="c"># Use with Blazor Server</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="application-infrastructure">Application Infrastructure</h3>
+
+<ul>
+  <li><strong>Monitor</strong>: For application monitoring
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/dotnet/monitor:7
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="devops-tools">DevOps Tools</h3>
+
+<ul>
+  <li><strong>PowerShell</strong>: For automation scripts
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull mcr.microsoft.com/powershell:7.3
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="using-net-images-with-web3-crypto-streaming-platform">Using .NET Images with Web3 Crypto Streaming Platform</h2>
+
+<h3 id="development-workflow">Development Workflow</h3>
+
+<ol>
+  <li><strong>Local Development with SDK Image</strong></li>
+</ol>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/sdk:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+<span class="k">WORKDIR</span><span class="s"> /src</span>
+
+<span class="c"># Copy csproj files for restore</span>
+<span class="k">COPY</span><span class="s"> ["WebStreamClient/WebStreamClient.csproj", "WebStreamClient/"]</span>
+<span class="k">RUN </span>dotnet restore <span class="s2">"WebStreamClient/WebStreamClient.csproj"</span>
+
+<span class="c"># Copy all source code</span>
+<span class="k">COPY</span><span class="s"> . .</span>
+<span class="k">WORKDIR</span><span class="s"> "/src/WebStreamClient"</span>
+
+<span class="c"># Build the application</span>
+<span class="k">RUN </span>dotnet build <span class="s2">"WebStreamClient.csproj"</span> <span class="nt">-c</span> Release <span class="nt">-o</span> /app/build
+
+<span class="c"># Publish the application</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">build</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">publish</span>
+<span class="k">RUN </span>dotnet publish <span class="s2">"WebStreamClient.csproj"</span> <span class="nt">-c</span> Release <span class="nt">-o</span> /app/publish /p:UseAppHost<span class="o">=</span><span class="nb">false</span>
+
+<span class="c"># Create final runtime image</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/aspnet:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">final</span>
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">COPY</span><span class="s"> --from=publish /app/publish .</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["dotnet", "WebStreamClient.dll"]</span>
+</code></pre></div></div>
+
+<h3 id="multi-stage-builds-for-smaller-production-images">Multi-Stage Builds for Smaller Production Images</h3>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Build Stage</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/sdk:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+<span class="k">WORKDIR</span><span class="s"> /src</span>
+<span class="k">COPY</span><span class="s"> ["WebStreamClient.csproj", "./"]</span>
+<span class="k">RUN </span>dotnet restore
+<span class="k">COPY</span><span class="s"> . .</span>
+<span class="k">RUN </span>dotnet build <span class="nt">-c</span> Release <span class="nt">-o</span> /app/build
+
+<span class="c"># Publish Stage</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">build</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">publish</span>
+<span class="k">RUN </span>dotnet publish <span class="nt">-c</span> Release <span class="nt">-o</span> /app/publish
+
+<span class="c"># Final Stage - Using runtime image for smaller size</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/aspnet:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">final</span>
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">COPY</span><span class="s"> --from=publish /app/publish .</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["dotnet", "WebStreamClient.dll"]</span>
+</code></pre></div></div>
+
+<h3 id="using-with-docker-compose">Using with Docker Compose</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.8'</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">web-client</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">mcr.microsoft.com/dotnet/aspnet:6.0</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./publish:/app</span>
+    <span class="na">working_dir</span><span class="pi">:</span> <span class="s">/app</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">dotnet WebStreamClient.dll</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">5000:80"</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">web3-network</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">database</span>
+      
+  <span class="na">api-service</span><span class="pi">:</span>
+    <span class="na">build</span><span class="pi">:</span>
+      <span class="na">context</span><span class="pi">:</span> <span class="s">./APIService</span>
+      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">ASPNETCORE_ENVIRONMENT=Production</span>
+      <span class="pi">-</span> <span class="s">ConnectionStrings__DefaultConnection=Server=database;Port=5432;Database=streamdb;User Id=dbuser;Password=dbpassword;</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">5001:80"</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">web3-network</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">database</span>
+      
+  <span class="na">database</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">mcr.microsoft.com/mssql/server:2019-latest</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">SA_PASSWORD=Your_Strong_Password</span>
+      <span class="pi">-</span> <span class="s">ACCEPT_EULA=Y</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">dbdata:/var/opt/mssql</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">web3-network</span>
+
+<span class="na">networks</span><span class="pi">:</span>
+  <span class="na">web3-network</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">bridge</span>
+
+<span class="na">volumes</span><span class="pi">:</span>
+  <span class="na">dbdata</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h2 id="advanced-scenarios">Advanced Scenarios</h2>
+
+<h3 id="including-entity-framework-migrations-in-docker-build">Including Entity Framework Migrations in Docker Build</h3>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/sdk:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+<span class="k">WORKDIR</span><span class="s"> /src</span>
+<span class="k">COPY</span><span class="s"> ["StreamingService.csproj", "./"]</span>
+<span class="k">RUN </span>dotnet restore
+<span class="k">COPY</span><span class="s"> . .</span>
+
+<span class="c"># Run migrations during build process</span>
+<span class="k">RUN </span>dotnet tool <span class="nb">install</span> <span class="nt">--global</span> dotnet-ef
+<span class="k">ENV</span><span class="s"> PATH="${PATH}:/root/.dotnet/tools"</span>
+<span class="k">RUN </span>dotnet ef migrations script <span class="nt">-o</span> /app/migrations.sql
+
+<span class="c"># Continue with build and publish</span>
+<span class="k">RUN </span>dotnet build <span class="nt">-c</span> Release <span class="nt">-o</span> /app/build
+<span class="k">RUN </span>dotnet publish <span class="nt">-c</span> Release <span class="nt">-o</span> /app/publish
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/aspnet:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">final</span>
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">COPY</span><span class="s"> --from=build /app/publish .</span>
+<span class="k">COPY</span><span class="s"> --from=build /app/migrations.sql .</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["dotnet", "StreamingService.dll"]</span>
+</code></pre></div></div>
+
+<h3 id="optimized-image-for-stream-processing">Optimized Image for Stream Processing</h3>
+
+<p>For a service that processes streaming content:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/sdk:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+<span class="k">WORKDIR</span><span class="s"> /src</span>
+<span class="k">COPY</span><span class="s"> ["StreamProcessor.csproj", "./"]</span>
+<span class="k">RUN </span>dotnet restore
+<span class="k">COPY</span><span class="s"> . .</span>
+<span class="k">RUN </span>dotnet publish <span class="nt">-c</span> Release <span class="nt">-o</span> /app/publish
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/runtime:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">final</span>
+<span class="c"># Install FFmpeg for media processing</span>
+<span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    apt-get <span class="nb">install</span> <span class="nt">-y</span> ffmpeg <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+    
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">COPY</span><span class="s"> --from=build /app/publish .</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["dotnet", "StreamProcessor.dll"]</span>
+</code></pre></div></div>
+
+<h2 id="mcr-image-versioning-strategy">MCR Image Versioning Strategy</h2>
+
+<p>When using MCR images, you can specify versions in different ways:</p>
+
+<ul>
+  <li><strong>Major version only</strong>: <code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/sdk:6</code> (automatically uses the latest 6.x)</li>
+  <li><strong>Major.Minor</strong>: <code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/sdk:6.0</code> (uses the latest 6.0.x)</li>
+  <li><strong>Major.Minor.Patch</strong>: <code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/sdk:6.0.13</code> (specific version)</li>
+  <li><strong>Latest</strong>: <code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/sdk:latest</code> (latest release, not recommended for production)</li>
+</ul>
+
+<h2 id="image-update-strategy">Image Update Strategy</h2>
+
+<p>For production environments, use specific versions and update through your CI/CD pipeline:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In your CI/CD pipeline</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Update Docker Image Tags</span>
+    <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+      <span class="s">sed -i 's/mcr.microsoft.com\/dotnet\/aspnet:6.0.12/mcr.microsoft.com\/dotnet\/aspnet:6.0.13/' docker-compose.yml</span>
+      <span class="s">git commit -am "Update .NET images to 6.0.13"</span>
+      <span class="s">git push</span>
+</code></pre></div></div>
+
+<h2 id="security-best-practices">Security Best Practices</h2>
+
+<ol>
+  <li><strong>Use Official Images</strong>: Always use official Microsoft images from MCR</li>
+  <li><strong>Specific Versions</strong>: Use specific versions rather than <code class="language-plaintext highlighter-rouge">latest</code> tag</li>
+  <li><strong>Minimal Base Images</strong>: Use the smallest image that meets your needs (runtime vs SDK)</li>
+  <li><strong>Non-root User</strong>: Run containers as non-root when possible</li>
+  <li><strong>Scan for Vulnerabilities</strong>: Regularly scan images for vulnerabilities</li>
+</ol>
+
+<p>Example of running as non-root:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/aspnet:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">base</span>
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">EXPOSE</span><span class="s"> 80</span>
+
+<span class="c"># Create non-root user</span>
+<span class="k">RUN </span>adduser <span class="nt">--disabled-password</span> <span class="nt">--gecos</span> <span class="s2">""</span> appuser
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/sdk:6.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+<span class="c"># ...build steps...</span>
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">base</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">final</span>
+<span class="k">COPY</span><span class="s"> --from=publish /app/publish .</span>
+<span class="k">USER</span><span class="s"> appuser</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["dotnet", "WebStreamClient.dll"]</span>
+</code></pre></div></div>
+
+<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
+
+<h3 id="issue-build-failures-with-compiler-errors">Issue: Build failures with compiler errors</h3>
+<ul>
+  <li>*Solution**: Ensure your .NET SDK version in the Dockerfile matches your project’s target framework</li>
+</ul>
+
+<h3 id="issue-connection-refused-when-accessing-services">Issue: Connection refused when accessing services</h3>
+<ul>
+  <li>*Solution**: Verify that you’re exposing the correct ports and that your service is listening on 0.0.0.0 (not localhost)</li>
+</ul>
+
+<h3 id="issue-startup-errors">Issue: Startup errors</h3>
+<ul>
+  <li>*Solution**: Check that all environment variables are properly configured in your docker-compose file</li>
+</ul>
+
+<h2 id="useful-commands">Useful Commands</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List all containers</span>
+docker ps <span class="nt">-a</span>
+
+<span class="c"># View logs</span>
+docker logs container_name
+
+<span class="c"># Shell into container</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> container_name bash
+
+<span class="c"># Build specific service</span>
+docker-compose build web-client
+
+<span class="c"># Update single service</span>
+docker-compose up <span class="nt">-d</span> <span class="nt">--no-deps</span> <span class="nt">--build</span> web-client
+</code></pre></div></div>
+
+<p>For more information on Microsoft Container Registry images, visit the <a href="https://mcr.microsoft.com/en-us/catalog">official MCR catalog</a>.</p>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

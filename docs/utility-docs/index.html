@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Development Utilities Documentation | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Development Utilities Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/utility-docs/" />
+<meta property="og:url" content="/docs/utility-docs/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Development Utilities Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Development Utilities Documentation","url":"/docs/utility-docs/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <h1 id="development-utilities-documentation">Development Utilities Documentation</h1>
+
+<p>This documentation covers the utility tools and scripts that support development, deployment, and optimization of our platform.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Our development utilities provide essential tools for managing blockchain interactions, environment configuration, deployment automation, and performance optimization.</p>
+
+<h2 id="key-utilities">Key Utilities</h2>
+
+<h3 id="gas-price-manager">Gas Price Manager</h3>
+
+<p>The Gas Price Manager utility helps optimize transaction costs on Ethereum and other EVM-compatible blockchains.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// gas-price-manager.js</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">ethers</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">ethers</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">axios</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">class</span> <span class="nx">GasPriceManager</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">config</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">provider</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">provider</span> <span class="o">||</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">providers</span><span class="p">.</span><span class="nx">JsonRpcProvider</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">rpcUrl</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">gasPriceOracle</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">gasPriceOracle</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">https://api.etherscan.io/api?module=gastracker&amp;action=gasoracle&amp;apikey=</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">apiKey</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">apiKey</span> <span class="o">||</span> <span class="dl">''</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">defaultPriorityFee</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">defaultPriorityFee</span> <span class="o">||</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="dl">'</span><span class="s1">1.5</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">updateInterval</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">updateInterval</span> <span class="o">||</span> <span class="mi">60000</span><span class="p">;</span> <span class="c1">// 1 minute</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">standard</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="dl">'</span><span class="s1">50</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">),</span>
+      <span class="na">fast</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="dl">'</span><span class="s1">55</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">),</span>
+      <span class="na">fastest</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="dl">'</span><span class="s1">60</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">};</span>
+    
+    <span class="k">this</span><span class="p">.</span><span class="nx">lastUpdated</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">async</span> <span class="nx">updateGasPrices</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+    
+    <span class="c1">// Only update if more than updateInterval has passed</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">now</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastUpdated</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">updateInterval</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="c1">// Try to get gas prices from the gas oracle</span>
+      <span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="k">this</span><span class="p">.</span><span class="nx">gasPriceOracle</span><span class="p">}${</span><span class="k">this</span><span class="p">.</span><span class="nx">apiKey</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+      
+      <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">1</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">result</span><span class="p">;</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="na">standard</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">SafeGasPrice</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">),</span>
+          <span class="na">fast</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">ProposeGasPrice</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">),</span>
+          <span class="na">fastest</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseUnits</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">FastGasPrice</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">)</span>
+        <span class="p">};</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// Fallback to provider's gas price</span>
+        <span class="kd">const</span> <span class="nx">gasPrice</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">provider</span><span class="p">.</span><span class="nx">getGasPrice</span><span class="p">();</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="na">standard</span><span class="p">:</span> <span class="nx">gasPrice</span><span class="p">,</span>
+          <span class="na">fast</span><span class="p">:</span> <span class="nx">gasPrice</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">gasPrice</span><span class="p">.</span><span class="nx">div</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span> <span class="c1">// +10%</span>
+          <span class="na">fastest</span><span class="p">:</span> <span class="nx">gasPrice</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">gasPrice</span><span class="p">.</span><span class="nx">div</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="c1">// +20%</span>
+        <span class="p">};</span>
+      <span class="p">}</span>
+      
+      <span class="k">this</span><span class="p">.</span><span class="nx">lastUpdated</span> <span class="o">=</span> <span class="nx">now</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error updating gas prices:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+      
+      <span class="c1">// Try fallback method</span>
+      <span class="k">try</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">gasPrice</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">provider</span><span class="p">.</span><span class="nx">getGasPrice</span><span class="p">();</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="na">standard</span><span class="p">:</span> <span class="nx">gasPrice</span><span class="p">,</span>
+          <span class="na">fast</span><span class="p">:</span> <span class="nx">gasPrice</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">gasPrice</span><span class="p">.</span><span class="nx">div</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
+          <span class="na">fastest</span><span class="p">:</span> <span class="nx">gasPrice</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">gasPrice</span><span class="p">.</span><span class="nx">div</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+        <span class="p">};</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">lastUpdated</span> <span class="o">=</span> <span class="nx">now</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">fallbackError</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Fallback gas price update failed:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">fallbackError</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">async</span> <span class="nx">getGasPrice</span><span class="p">(</span><span class="nx">speed</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">standard</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">updateGasPrices</span><span class="p">();</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span><span class="p">[</span><span class="nx">speed</span><span class="p">]</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">gasPrices</span><span class="p">.</span><span class="nx">standard</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">async</span> <span class="nx">getFeeData</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// For EIP-1559 compatible networks</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">feeData</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">provider</span><span class="p">.</span><span class="nx">getFeeData</span><span class="p">();</span>
+      
+      <span class="k">if</span> <span class="p">(</span><span class="nx">feeData</span><span class="p">.</span><span class="nx">maxFeePerGas</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">feeData</span><span class="p">;</span>
+      <span class="p">}</span>
+      
+      <span class="c1">// Network doesn't support EIP-1559 or getFeeData failed</span>
+      <span class="kd">const</span> <span class="nx">gasPrice</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">getGasPrice</span><span class="p">(</span><span class="dl">'</span><span class="s1">fast</span><span class="dl">'</span><span class="p">);</span>
+      
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="na">lastBaseFeePerGas</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="na">maxFeePerGas</span><span class="p">:</span> <span class="nx">gasPrice</span><span class="p">,</span>
+        <span class="na">maxPriorityFeePerGas</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">defaultPriorityFee</span><span class="p">,</span>
+        <span class="nx">gasPrice</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error getting fee data:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+      
+      <span class="c1">// Fallback to standard gas price</span>
+      <span class="kd">const</span> <span class="nx">gasPrice</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">getGasPrice</span><span class="p">(</span><span class="dl">'</span><span class="s1">standard</span><span class="dl">'</span><span class="p">);</span>
+      
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="na">lastBaseFeePerGas</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="na">maxFeePerGas</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="na">maxPriorityFeePerGas</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nx">gasPrice</span>
+      <span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">async</span> <span class="nx">getTransactionOptions</span><span class="p">(</span><span class="nx">speed</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">standard</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">provider</span><span class="p">.</span><span class="nx">getNetwork</span><span class="p">();</span>
+    
+    <span class="c1">// Check if the network supports EIP-1559</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">network</span><span class="p">.</span><span class="nx">chainId</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">network</span><span class="p">.</span><span class="nx">chainId</span> <span class="o">===</span> <span class="mi">3</span> <span class="o">||</span> <span class="nx">network</span><span class="p">.</span><span class="nx">chainId</span> <span class="o">===</span> <span class="mi">4</span> <span class="o">||</span> <span class="nx">network</span><span class="p">.</span><span class="nx">chainId</span> <span class="o">===</span> <span class="mi">5</span> <span class="o">||</span> <span class="nx">network</span><span class="p">.</span><span class="nx">chainId</span> <span class="o">===</span> <span class="mi">42</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Ethereum mainnet or testnets</span>
+      <span class="kd">const</span> <span class="nx">feeData</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">getFeeData</span><span class="p">();</span>
+      
+      <span class="k">if</span> <span class="p">(</span><span class="nx">feeData</span><span class="p">.</span><span class="nx">maxFeePerGas</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Support for EIP-1559</span>
+        <span class="k">return</span> <span class="p">{</span>
+          <span class="na">maxFeePerGas</span><span class="p">:</span> <span class="nx">feeData</span><span class="p">.</span><span class="nx">maxFeePerGas</span><span class="p">,</span>
+          <span class="na">maxPriorityFeePerGas</span><span class="p">:</span> <span class="nx">feeData</span><span class="p">.</span><span class="nx">maxPriorityFeePerGas</span>
+        <span class="p">};</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Fallback for non-EIP-1559 networks</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">gasPrice</span><span class="p">:</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">getGasPrice</span><span class="p">(</span><span class="nx">speed</span><span class="p">)</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">GasPriceManager</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h4 id="usage-example">Usage Example</h4>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">ethers</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">ethers</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">GasPriceManager</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./utils/gas-price-manager</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">optimizeTransactionCosts</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Initialize provider</span>
+  <span class="kd">const</span> <span class="nx">provider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">providers</span><span class="p">.</span><span class="nx">JsonRpcProvider</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://mainnet.infura.io/v3/your-project-id</span><span class="dl">'</span><span class="p">);</span>
+  
+  <span class="c1">// Initialize gas price manager</span>
+  <span class="kd">const</span> <span class="nx">gasPriceManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GasPriceManager</span><span class="p">({</span>
+    <span class="nx">provider</span><span class="p">,</span>
+    <span class="na">apiKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">your-etherscan-api-key</span><span class="dl">'</span>
+  <span class="p">});</span>
+  
+  <span class="c1">// Get current gas prices</span>
+  <span class="kd">const</span> <span class="nx">gasPrices</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">gasPriceManager</span><span class="p">.</span><span class="nx">updateGasPrices</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Current gas prices:</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Standard: </span><span class="p">${</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatUnits</span><span class="p">(</span><span class="nx">gasPrices</span><span class="p">.</span><span class="nx">standard</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">)}</span><span class="s2"> gwei`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Fast: </span><span class="p">${</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatUnits</span><span class="p">(</span><span class="nx">gasPrices</span><span class="p">.</span><span class="nx">fast</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">)}</span><span class="s2"> gwei`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Fastest: </span><span class="p">${</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">formatUnits</span><span class="p">(</span><span class="nx">gasPrices</span><span class="p">.</span><span class="nx">fastest</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gwei</span><span class="dl">'</span><span class="p">)}</span><span class="s2"> gwei`</span><span class="p">);</span>
+  
+  <span class="c1">// Create a transaction with optimized gas settings</span>
+  <span class="kd">const</span> <span class="nx">wallet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">Wallet</span><span class="p">(</span><span class="dl">'</span><span class="s1">your-private-key</span><span class="dl">'</span><span class="p">,</span> <span class="nx">provider</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">txOptions</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">gasPriceManager</span><span class="p">.</span><span class="nx">getTransactionOptions</span><span class="p">(</span><span class="dl">'</span><span class="s1">fast</span><span class="dl">'</span><span class="p">);</span>
+  
+  <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">sendTransaction</span><span class="p">({</span>
+    <span class="na">to</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xRecipientAddress</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">value</span><span class="p">:</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseEther</span><span class="p">(</span><span class="dl">'</span><span class="s1">0.1</span><span class="dl">'</span><span class="p">),</span>
+    <span class="p">...</span><span class="nx">txOptions</span>
+  <span class="p">});</span>
+  
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Transaction sent: </span><span class="p">${</span><span class="nx">tx</span><span class="p">.</span><span class="nx">hash</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Waiting for confirmation...</span><span class="dl">'</span><span class="p">);</span>
+  
+  <span class="kd">const</span> <span class="nx">receipt</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Transaction confirmed in block </span><span class="p">${</span><span class="nx">receipt</span><span class="p">.</span><span class="nx">blockNumber</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="environment-utilities">Environment Utilities</h3>
+
+<p>Environment utilities simplify configuration and setup across different environments.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// cfig.js - Configuration Manager</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">dotenv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">class</span> <span class="nx">ConfigManager</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">options</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">configDir</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">configDir</span> <span class="o">||</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span> <span class="dl">'</span><span class="s1">config</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">environment</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">environment</span> <span class="o">||</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">development</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">envFile</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">envFile</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">.env</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">config</span> <span class="o">=</span> <span class="p">{};</span>
+    
+    <span class="c1">// Load environment variables</span>
+    <span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span> <span class="na">path</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span> <span class="k">this</span><span class="p">.</span><span class="nx">envFile</span><span class="p">)</span> <span class="p">});</span>
+    
+    <span class="c1">// Initialize configuration</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">loadConfig</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="nx">loadConfig</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="c1">// Load base configuration</span>
+      <span class="kd">const</span> <span class="nx">baseConfigPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">configDir</span><span class="p">,</span> <span class="dl">'</span><span class="s1">base.json</span><span class="dl">'</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">baseConfigPath</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">baseConfig</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">baseConfigPath</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">));</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">config</span> <span class="o">=</span> <span class="p">{</span> <span class="p">...</span><span class="nx">baseConfig</span> <span class="p">};</span>
+      <span class="p">}</span>
+      
+      <span class="c1">// Load environment-specific configuration</span>
+      <span class="kd">const</span> <span class="nx">envConfigPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">configDir</span><span class="p">,</span> <span class="s2">`</span><span class="p">${</span><span class="k">this</span><span class="p">.</span><span class="nx">environment</span><span class="p">}</span><span class="s2">.json`</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">envConfigPath</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">envConfig</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">envConfigPath</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">));</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">config</span> <span class="o">=</span> <span class="p">{</span> <span class="p">...</span><span class="k">this</span><span class="p">.</span><span class="nx">config</span><span class="p">,</span> <span class="p">...</span><span class="nx">envConfig</span> <span class="p">};</span>
+      <span class="p">}</span>
+      
+      <span class="c1">// Override with environment variables</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">overrideWithEnvVars</span><span class="p">();</span>
+      
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Configuration loaded for environment: </span><span class="p">${</span><span class="k">this</span><span class="p">.</span><span class="nx">environment</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error loading configuration:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+      <span class="k">throw</span> <span class="nx">error</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">overrideWithEnvVars</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">overrideConfig</span> <span class="o">=</span> <span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">path</span> <span class="o">=</span> <span class="dl">''</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="p">[</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">]</span> <span class="k">of</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">obj</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">envPath</span> <span class="o">=</span> <span class="nx">path</span> <span class="p">?</span> <span class="s2">`</span><span class="p">${</span><span class="nx">path</span><span class="p">}</span><span class="s2">_</span><span class="p">${</span><span class="nx">key</span><span class="p">}</span><span class="s2">`</span> <span class="p">:</span> <span class="nx">key</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">object</span><span class="dl">'</span> <span class="o">&amp;&amp;</span> <span class="nx">value</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+          <span class="nx">overrideConfig</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">envPath</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="kd">const</span> <span class="nx">envVarName</span> <span class="o">=</span> <span class="s2">`CONFIG_</span><span class="p">${</span><span class="nx">envPath</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()}</span><span class="s2">`</span><span class="p">;</span>
+          
+          <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">[</span><span class="nx">envVarName</span><span class="p">]</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">envValue</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">[</span><span class="nx">envVarName</span><span class="p">];</span>
+            
+            <span class="c1">// Convert to appropriate type</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">number</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+              <span class="nx">envValue</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">envValue</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">boolean</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+              <span class="nx">envValue</span> <span class="o">=</span> <span class="nx">envValue</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">true</span><span class="dl">'</span><span class="p">;</span>
+            <span class="p">}</span>
+            
+            <span class="k">this</span><span class="p">.</span><span class="nx">setNestedValue</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">envValue</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+    
+    <span class="nx">overrideConfig</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">config</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">setNestedValue</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">obj</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kd">get</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">defaultValue</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nx">key</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">.</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">config</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">k</span> <span class="k">of</span> <span class="nx">keys</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">result</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">result</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">defaultValue</span><span class="p">;</span>
+      <span class="p">}</span>
+      
+      <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">[</span><span class="nx">k</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="nx">result</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="nx">result</span> <span class="p">:</span> <span class="nx">defaultValue</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">getAll</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="p">...</span><span class="k">this</span><span class="p">.</span><span class="nx">config</span> <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">ConfigManager</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h4 id="usage-example-1">Usage Example</h4>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">ConfigManager</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./utils/cfig</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Initialize configuration</span>
+<span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConfigManager</span><span class="p">({</span>
+  <span class="na">environment</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="p">,</span>
+  <span class="na">configDir</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./config</span><span class="dl">'</span>
+<span class="p">});</span>
+
+<span class="c1">// Access configuration values</span>
+<span class="kd">const</span> <span class="nx">serverPort</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">server.port</span><span class="dl">'</span><span class="p">,</span> <span class="mi">3000</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">dbUrl</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">database.url</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">apiKeys</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">api.keys</span><span class="dl">'</span><span class="p">,</span> <span class="p">[]);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Server port: </span><span class="p">${</span><span class="nx">serverPort</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Database URL: </span><span class="p">${</span><span class="nx">dbUrl</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`API keys: </span><span class="p">${</span><span class="nx">apiKeys</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">'</span><span class="s1">, </span><span class="dl">'</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span>
+
+<span class="c1">// Start server with configuration</span>
+<span class="kd">function</span> <span class="nx">startServer</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+  
+  <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">serverPort</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Server running on port </span><span class="p">${</span><span class="nx">serverPort</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="ruby-setup-tools">Ruby Setup Tools</h3>
+
+<p>Ruby setup tools automate the configuration and installation of Ruby-based components.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ruby_env_setup.rb</span>
+<span class="nb">require</span> <span class="s1">'fileutils'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+<span class="nb">require</span> <span class="s1">'open3'</span>
+
+<span class="k">class</span> <span class="nc">RubyEnvironmentSetup</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="vi">@options</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="ss">ruby_version: </span><span class="s1">'2.7.4'</span><span class="p">,</span>
+      <span class="ss">bundler_version: </span><span class="s1">'2.2.27'</span><span class="p">,</span>
+      <span class="ss">install_dependencies: </span><span class="kp">true</span><span class="p">,</span>
+      <span class="ss">setup_jekyll: </span><span class="kp">false</span>
+    <span class="p">}.</span><span class="nf">merge</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+    
+    <span class="vi">@log_file</span> <span class="o">=</span> <span class="s1">'ruby_setup.log'</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Starting Ruby environment setup"</span><span class="p">)</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Ruby version: </span><span class="si">#{</span><span class="vi">@options</span><span class="p">[</span><span class="ss">:ruby_version</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Bundler version: </span><span class="si">#{</span><span class="vi">@options</span><span class="p">[</span><span class="ss">:bundler_version</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    
+    <span class="n">check_ruby_installation</span>
+    <span class="n">install_bundler</span>
+    
+    <span class="k">if</span> <span class="vi">@options</span><span class="p">[</span><span class="ss">:setup_jekyll</span><span class="p">]</span>
+      <span class="n">setup_jekyll</span>
+    <span class="k">end</span>
+    
+    <span class="k">if</span> <span class="vi">@options</span><span class="p">[</span><span class="ss">:install_dependencies</span><span class="p">]</span>
+      <span class="n">install_dependencies</span>
+    <span class="k">end</span>
+    
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Ruby environment setup completed successfully"</span><span class="p">)</span>
+  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Error during setup: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">backtrace</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">))</span>
+    <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="kp">private</span>
+  
+  <span class="k">def</span> <span class="nf">check_ruby_installation</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Checking Ruby installation..."</span><span class="p">)</span>
+    
+    <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s1">'ruby -v'</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">status</span><span class="p">.</span><span class="nf">success?</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Ruby detected: </span><span class="si">#{</span><span class="n">stdout</span><span class="p">.</span><span class="nf">strip</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+      
+      <span class="c1"># Check if version matches</span>
+      <span class="n">version_match</span> <span class="o">=</span> <span class="n">stdout</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="sr">/ruby (\d+\.\d+\.\d+)/</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">version_match</span> <span class="o">&amp;&amp;</span> <span class="n">version_match</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="vi">@options</span><span class="p">[</span><span class="ss">:ruby_version</span><span class="p">]</span>
+        <span class="n">log_message</span><span class="p">(</span><span class="s2">"Warning: Ruby version mismatch. Expected </span><span class="si">#{</span><span class="vi">@options</span><span class="p">[</span><span class="ss">:ruby_version</span><span class="p">]</span><span class="si">}</span><span class="s2">, got </span><span class="si">#{</span><span class="n">version_match</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">log_message</span><span class="p">(</span><span class="s2">"Consider installing the correct Ruby version"</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">else</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Ruby not found. Please install Ruby </span><span class="si">#{</span><span class="vi">@options</span><span class="p">[</span><span class="ss">:ruby_version</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+      <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">install_bundler</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Installing Bundler </span><span class="si">#{</span><span class="vi">@options</span><span class="p">[</span><span class="ss">:bundler_version</span><span class="p">]</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+    
+    <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s2">"gem install bundler -v </span><span class="si">#{</span><span class="vi">@options</span><span class="p">[</span><span class="ss">:bundler_version</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">status</span><span class="p">.</span><span class="nf">success?</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Bundler </span><span class="si">#{</span><span class="vi">@options</span><span class="p">[</span><span class="ss">:bundler_version</span><span class="p">]</span><span class="si">}</span><span class="s2"> installed successfully"</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Failed to install Bundler: </span><span class="si">#{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+      <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">setup_jekyll</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Setting up Jekyll..."</span><span class="p">)</span>
+    
+    <span class="c1"># Check if Jekyll is installed</span>
+    <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s1">'jekyll -v'</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="o">!</span><span class="n">status</span><span class="p">.</span><span class="nf">success?</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Installing Jekyll..."</span><span class="p">)</span>
+      <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s1">'gem install jekyll'</span><span class="p">)</span>
+      
+      <span class="k">if</span> <span class="o">!</span><span class="n">status</span><span class="p">.</span><span class="nf">success?</span>
+        <span class="n">log_message</span><span class="p">(</span><span class="s2">"Failed to install Jekyll: </span><span class="si">#{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">else</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Jekyll detected: </span><span class="si">#{</span><span class="n">stdout</span><span class="p">.</span><span class="nf">strip</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">end</span>
+    
+    <span class="c1"># Check for Gemfile</span>
+    <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s1">'Gemfile'</span><span class="p">)</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Gemfile found, installing dependencies..."</span><span class="p">)</span>
+      <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s1">'bundle install'</span><span class="p">)</span>
+      
+      <span class="k">if</span> <span class="o">!</span><span class="n">status</span><span class="p">.</span><span class="nf">success?</span>
+        <span class="n">log_message</span><span class="p">(</span><span class="s2">"Failed to install bundle dependencies: </span><span class="si">#{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">else</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"No Gemfile found, creating default Jekyll Gemfile..."</span><span class="p">)</span>
+      
+      <span class="c1"># Create default Jekyll Gemfile</span>
+      <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'Gemfile'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+        <span class="n">f</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"source 'https://rubygems.org'"</span>
+        <span class="n">f</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"gem 'jekyll', '~&gt; 4.2.0'"</span>
+        <span class="n">f</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"gem 'minima', '~&gt; 2.5'"</span>
+        <span class="n">f</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"group :jekyll_plugins do"</span>
+        <span class="n">f</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"  gem 'jekyll-feed', '~&gt; 0.12'"</span>
+        <span class="n">f</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"end"</span>
+      <span class="k">end</span>
+      
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"Default Gemfile created, installing dependencies..."</span><span class="p">)</span>
+      <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s1">'bundle install'</span><span class="p">)</span>
+      
+      <span class="k">if</span> <span class="o">!</span><span class="n">status</span><span class="p">.</span><span class="nf">success?</span>
+        <span class="n">log_message</span><span class="p">(</span><span class="s2">"Failed to install bundle dependencies: </span><span class="si">#{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+    
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Jekyll setup completed"</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">install_dependencies</span>
+    <span class="n">log_message</span><span class="p">(</span><span class="s2">"Installing dependencies from Gemfile..."</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s1">'Gemfile'</span><span class="p">)</span>
+      <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s1">'bundle install'</span><span class="p">)</span>
+      
+      <span class="k">if</span> <span class="n">status</span><span class="p">.</span><span class="nf">success?</span>
+        <span class="n">log_message</span><span class="p">(</span><span class="s2">"Dependencies installed successfully"</span><span class="p">)</span>
+      <span class="k">else</span>
+        <span class="n">log_message</span><span class="p">(</span><span class="s2">"Failed to install dependencies: </span><span class="si">#{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">else</span>
+      <span class="n">log_message</span><span class="p">(</span><span class="s2">"No Gemfile found, skipping dependency installation"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-%d %H:%M:%S"</span><span class="p">)</span>
+    <span class="n">formatted_message</span> <span class="o">=</span> <span class="s2">"[</span><span class="si">#{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">] </span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
+    
+    <span class="nb">puts</span> <span class="n">formatted_message</span>
+    
+    <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="vi">@log_file</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+      <span class="n">f</span><span class="p">.</span><span class="nf">puts</span> <span class="n">formatted_message</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Execute if run directly</span>
+<span class="k">if</span> <span class="kp">__FILE__</span> <span class="o">==</span> <span class="vg">$0</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">setup_jekyll: </span><span class="no">ARGV</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s1">'--jekyll'</span><span class="p">),</span>
+    <span class="ss">install_dependencies: </span><span class="o">!</span><span class="no">ARGV</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s1">'--no-deps'</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="no">RubyEnvironmentSetup</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">options</span><span class="p">).</span><span class="nf">setup</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h4 id="usage-example-2">Usage Example</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Setup Ruby environment for Jekyll</span>
+ruby ruby_env_setup.rb <span class="nt">--jekyll</span>
+
+<span class="c"># Setup Ruby environment without installing dependencies</span>
+ruby ruby_env_setup.rb <span class="nt">--no-deps</span>
+</code></pre></div></div>
+
+<h3 id="deployment-scripts">Deployment Scripts</h3>
+
+<p>Deployment scripts automate the process of building and deploying the platform to various environments.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># deploy-gh-pages.ps1</span><span class="w">
+</span><span class="cm">&lt;#
+</span><span class="cs">.SYNOPSIS</span><span class="cm">
+    Deploys the website to GitHub Pages
+</span><span class="cs">.DESCRIPTION</span><span class="cm">
+    This script builds the Jekyll site and deploys it to GitHub Pages.
+    It requires Git and Ruby with Jekyll installed.
+</span><span class="cs">.NOTES</span><span class="cm">
+    Author: Platform Team
+    Date: May 1, 2025
+#&gt;</span><span class="w">
+
+</span><span class="c"># Stop on errors</span><span class="w">
+</span><span class="bp">$Error</span><span class="n">ActionPreference</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Stop"</span><span class="w">
+
+</span><span class="c"># Configuration</span><span class="w">
+</span><span class="nv">$buildDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"./_site"</span><span class="w">
+</span><span class="nv">$sourceBranch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"main"</span><span class="w">
+</span><span class="nv">$deployBranch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gh-pages"</span><span class="w">
+</span><span class="nv">$commitMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Deploy site update </span><span class="si">$(</span><span class="n">Get-Date</span><span class="w"> </span><span class="nt">-Format</span><span class="w"> </span><span class="s1">'yyyy-MM-dd HH:mm:ss'</span><span class="p">)</span><span class="s2">"
+
+# Log function
+function Write-Log {
+    param (
+        [string]</span><span class="nv">$Message</span><span class="s2">,
+        [string]</span><span class="nv">$Level</span><span class="s2"> = "</span><span class="n">INFO</span><span class="s2">"
+    )
+    
+    </span><span class="nv">$timestamp</span><span class="s2"> = Get-Date -Format "</span><span class="nx">yyyy-MM-dd</span><span class="w"> </span><span class="nx">HH:mm:ss</span><span class="s2">"
+    Write-Host "</span><span class="p">[</span><span class="nv">$timestamp</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="nv">$Level</span><span class="p">]</span><span class="w"> </span><span class="nv">$Message</span><span class="s2">"
+}
+
+# Check if Git is installed
+try {
+    </span><span class="nv">$gitVersion</span><span class="s2"> = git --version
+    Write-Log "</span><span class="nx">Git</span><span class="w"> </span><span class="nx">detected:</span><span class="w"> </span><span class="nv">$gitVersion</span><span class="s2">"
+} catch {
+    Write-Log "</span><span class="nx">Git</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">found.</span><span class="w"> </span><span class="nx">Please</span><span class="w"> </span><span class="nx">install</span><span class="w"> </span><span class="nx">Git.</span><span class="s2">" "</span><span class="nx">ERROR</span><span class="s2">"
+    exit 1
+}
+
+# Check current branch
+</span><span class="nv">$currentBranch</span><span class="s2"> = git rev-parse --abbrev-ref HEAD
+if (</span><span class="nv">$currentBranch</span><span class="s2"> -ne </span><span class="nv">$sourceBranch</span><span class="s2">) {
+    Write-Log "</span><span class="nx">You</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nv">$sourceBranch</span><span class="w"> </span><span class="nx">branch.</span><span class="w"> </span><span class="nx">Please</span><span class="w"> </span><span class="nx">switch</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nv">$sourceBranch</span><span class="w"> </span><span class="nx">before</span><span class="w"> </span><span class="nx">deploying.</span><span class="s2">" "</span><span class="nx">WARNING</span><span class="s2">"
+    </span><span class="nv">$confirm</span><span class="s2"> = Read-Host "</span><span class="nx">Do</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">want</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">continue</span><span class="w"> </span><span class="nx">anyway</span><span class="nf">?</span><span class="w"> </span><span class="p">(</span><span class="nx">y/n</span><span class="p">)</span><span class="s2">"
+    if (</span><span class="nv">$confirm</span><span class="s2"> -ne "</span><span class="n">y</span><span class="s2">") {
+        Write-Log "</span><span class="nx">Deployment</span><span class="w"> </span><span class="nx">aborted.</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+        exit 0
+    }
+}
+
+# Check for uncommitted changes
+</span><span class="nv">$status</span><span class="s2"> = git status --porcelain
+if (</span><span class="nv">$status</span><span class="s2">) {
+    Write-Log "</span><span class="nx">You</span><span class="w"> </span><span class="nx">have</span><span class="w"> </span><span class="nx">uncommitted</span><span class="w"> </span><span class="nx">changes.</span><span class="w"> </span><span class="nx">Please</span><span class="w"> </span><span class="nx">commit</span><span class="w"> </span><span class="nx">or</span><span class="w"> </span><span class="nx">stash</span><span class="w"> </span><span class="nx">them</span><span class="w"> </span><span class="nx">before</span><span class="w"> </span><span class="nx">deploying.</span><span class="s2">" "</span><span class="nx">WARNING</span><span class="s2">"
+    </span><span class="nv">$confirm</span><span class="s2"> = Read-Host "</span><span class="nx">Do</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">want</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">continue</span><span class="w"> </span><span class="nx">anyway</span><span class="nf">?</span><span class="w"> </span><span class="p">(</span><span class="nx">y/n</span><span class="p">)</span><span class="s2">"
+    if (</span><span class="nv">$confirm</span><span class="s2"> -ne "</span><span class="n">y</span><span class="s2">") {
+        Write-Log "</span><span class="nx">Deployment</span><span class="w"> </span><span class="nx">aborted.</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+        exit 0
+    }
+}
+
+# Build the site
+try {
+    Write-Log "</span><span class="nx">Building</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">site</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">Jekyll...</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+    
+    # Set Ruby environment path
+    </span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">PATH</span><span class="s2"> = "</span><span class="nx">C:\Ruby27-x64\bin</span><span class="p">;</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">PATH</span><span class="s2">"
+    
+    # Build the site
+    bundle exec jekyll build
+    
+    if (-not </span><span class="bp">$?</span><span class="s2">) {
+        Write-Log "</span><span class="n">Jekyll</span><span class="w"> </span><span class="nx">build</span><span class="w"> </span><span class="nx">failed.</span><span class="s2">" "</span><span class="nx">ERROR</span><span class="s2">"
+        exit 1
+    }
+    
+    Write-Log "</span><span class="nx">Site</span><span class="w"> </span><span class="nx">built</span><span class="w"> </span><span class="nx">successfully.</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+} catch {
+    Write-Log "</span><span class="nx">Failed</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">build</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">site:</span><span class="w"> </span><span class="bp">$_</span><span class="s2">" "</span><span class="nx">ERROR</span><span class="s2">"
+    exit 1
+}
+
+# Deploy to GitHub Pages
+try {
+    Write-Log "</span><span class="nx">Deploying</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">GitHub</span><span class="w"> </span><span class="nx">Pages...</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+    
+    # Save current branch to return to it later
+    </span><span class="nv">$originalBranch</span><span class="s2"> = git rev-parse --abbrev-ref HEAD
+    
+    # Check if the deploy branch exists
+    </span><span class="nv">$branchExists</span><span class="s2"> = git show-ref --verify --quiet refs/heads/</span><span class="nv">$deployBranch</span><span class="s2">
+    
+    if (</span><span class="nv">$branchExists</span><span class="s2"> -eq </span><span class="bp">$false</span><span class="s2">) {
+        Write-Log "</span><span class="nx">Creating</span><span class="w"> </span><span class="nv">$deployBranch</span><span class="w"> </span><span class="nx">branch...</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+        git checkout --orphan </span><span class="nv">$deployBranch</span><span class="s2">
+        git rm -rf .
+    } else {
+        Write-Log "</span><span class="nx">Checking</span><span class="w"> </span><span class="nx">out</span><span class="w"> </span><span class="nv">$deployBranch</span><span class="w"> </span><span class="nx">branch...</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+        git checkout </span><span class="nv">$deployBranch</span><span class="s2">
+        
+        # Remove all files except .git directory
+        Get-ChildItem -Path . -Exclude .git | Remove-Item -Recurse -Force
+    }
+    
+    # Copy built files
+    Write-Log "</span><span class="nx">Copying</span><span class="w"> </span><span class="nx">built</span><span class="w"> </span><span class="nx">files...</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+    Copy-Item -Path "</span><span class="nv">$buildDir</span><span class="nx">/</span><span class="o">*</span><span class="s2">" -Destination . -Recurse
+    
+    # Add, commit, and push
+    git add -A
+    git commit -m "</span><span class="nv">$commitMessage</span><span class="s2">"
+    git push origin </span><span class="nv">$deployBranch</span><span class="s2">
+    
+    # Return to original branch
+    git checkout </span><span class="nv">$originalBranch</span><span class="s2">
+    
+    Write-Log "</span><span class="nx">Deployment</span><span class="w"> </span><span class="nx">completed</span><span class="w"> </span><span class="nx">successfully</span><span class="o">!</span><span class="s2">" "</span><span class="nx">INFO</span><span class="s2">"
+} catch {
+    Write-Log "</span><span class="nx">Failed</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">deploy:</span><span class="w"> </span><span class="bp">$_</span><span class="s2">" "</span><span class="nx">ERROR</span><span class="s2">"
+    
+    # Try to return to original branch
+    try {
+        git checkout </span><span class="nv">$originalBranch</span><span class="s2">
+    } catch {
+        Write-Log "</span><span class="nx">Failed</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">return</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">original</span><span class="w"> </span><span class="nx">branch.</span><span class="w"> </span><span class="nx">You</span><span class="w"> </span><span class="nx">may</span><span class="w"> </span><span class="nx">need</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">do</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">manually.</span><span class="s2">" "</span><span class="nx">WARNING</span><span class="s2">"
+    }
+    
+    exit 1
+}
+</span></code></pre></div></div>
+
+<h4 id="usage-example-3">Usage Example</h4>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Deploy to GitHub Pages</span><span class="w">
+</span><span class="o">.</span><span class="n">\deploy-gh-pages.ps1</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="utility-functions">Utility Functions</h2>
+
+<p>In addition to the major utilities, we provide a collection of smaller utility functions for common tasks.</p>
+
+<h3 id="browser-compatibility-checking">Browser Compatibility Checking</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// browser-compatibility.js</span>
+<span class="kd">const</span> <span class="nx">browserify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">browserify</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">babelify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">babelify</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">browserslist</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">browserslist</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">class</span> <span class="nx">BrowserCompatibilityChecker</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">options</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">sourceDir</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">sourceDir</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">./src</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">outputDir</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">outputDir</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">./dist</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">targets</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">targets</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">&gt; 0.5%, last 2 versions, not dead</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">checkFiles</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">checkFiles</span> <span class="o">||</span> <span class="p">[</span><span class="dl">'</span><span class="s1">*.js</span><span class="dl">'</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="k">async</span> <span class="nx">checkCompatibility</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">supportedBrowsers</span> <span class="o">=</span> <span class="nx">browserslist</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targets</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Checking compatibility for browsers:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">supportedBrowsers</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">'</span><span class="s1">, </span><span class="dl">'</span><span class="p">));</span>
+    
+    <span class="kd">const</span> <span class="nx">files</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getJsFiles</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="p">[];</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">file</span> <span class="k">of</span> <span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">checkFile</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+      <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">getJsFiles</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Implementation to find JS files based on this.checkFiles patterns</span>
+    <span class="c1">// This is a simplified version</span>
+    <span class="k">return</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readdirSync</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">sourceDir</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">endsWith</span><span class="p">(</span><span class="dl">'</span><span class="s1">.js</span><span class="dl">'</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">sourceDir</span><span class="p">,</span> <span class="nx">file</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="nx">checkFile</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">filename</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="nx">filePath</span><span class="p">);</span>
+      <span class="kd">const</span> <span class="nx">outputPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">outputDir</span><span class="p">,</span> <span class="nx">filename</span><span class="p">);</span>
+      
+      <span class="nx">browserify</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="nx">babelify</span><span class="p">,</span> <span class="p">{</span>
+          <span class="na">presets</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">[</span><span class="dl">'</span><span class="s1">@babel/preset-env</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+              <span class="na">targets</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">targets</span><span class="p">,</span>
+              <span class="na">useBuiltIns</span><span class="p">:</span> <span class="dl">'</span><span class="s1">usage</span><span class="dl">'</span><span class="p">,</span>
+              <span class="na">corejs</span><span class="p">:</span> <span class="mi">3</span>
+            <span class="p">}]</span>
+          <span class="p">]</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">bundle</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="nx">resolve</span><span class="p">({</span>
+            <span class="na">file</span><span class="p">:</span> <span class="nx">filename</span><span class="p">,</span>
+            <span class="na">compatible</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="na">error</span><span class="p">:</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span>
+          <span class="p">});</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">outputPath</span><span class="p">))</span>
+        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">finish</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="nx">resolve</span><span class="p">({</span>
+            <span class="na">file</span><span class="p">:</span> <span class="nx">filename</span><span class="p">,</span>
+            <span class="na">compatible</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">outputPath</span>
+          <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">BrowserCompatibilityChecker</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="impact-analysis">Impact Analysis</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// impact-analysis.js</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">execSync</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">child_process</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">class</span> <span class="nx">ImpactAnalyzer</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">options</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">repoRoot</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">repoRoot</span> <span class="o">||</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">excludeDirs</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">excludeDirs</span> <span class="o">||</span> <span class="p">[</span><span class="dl">'</span><span class="s1">node_modules</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">dist</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">build</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.git</span><span class="dl">'</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="nx">analyzeChanges</span><span class="p">(</span><span class="nx">baseBranch</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">main</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="c1">// Get changed files</span>
+      <span class="kd">const</span> <span class="nx">diffCommand</span> <span class="o">=</span> <span class="s2">`git diff --name-only </span><span class="p">${</span><span class="nx">baseBranch</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+      <span class="kd">const</span> <span class="nx">changedFiles</span> <span class="o">=</span> <span class="nx">execSync</span><span class="p">(</span><span class="nx">diffCommand</span><span class="p">,</span> <span class="p">{</span> <span class="na">encoding</span><span class="p">:</span> <span class="dl">'</span><span class="s1">utf-8</span><span class="dl">'</span> <span class="p">})</span>
+        <span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="se">\n</span><span class="dl">'</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">trim</span><span class="p">()</span> <span class="o">!==</span> <span class="dl">''</span><span class="p">);</span>
+      
+      <span class="k">if</span> <span class="p">(</span><span class="nx">changedFiles</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="na">changedFiles</span><span class="p">:</span> <span class="p">[],</span> <span class="na">impactedAreas</span><span class="p">:</span> <span class="p">[],</span> <span class="na">riskLevel</span><span class="p">:</span> <span class="dl">'</span><span class="s1">none</span><span class="dl">'</span> <span class="p">};</span>
+      <span class="p">}</span>
+      
+      <span class="c1">// Analyze impact</span>
+      <span class="kd">const</span> <span class="nx">impactedAreas</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">identifyImpactedAreas</span><span class="p">(</span><span class="nx">changedFiles</span><span class="p">);</span>
+      <span class="kd">const</span> <span class="nx">riskLevel</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">assessRiskLevel</span><span class="p">(</span><span class="nx">changedFiles</span><span class="p">,</span> <span class="nx">impactedAreas</span><span class="p">);</span>
+      
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">changedFiles</span><span class="p">,</span>
+        <span class="nx">impactedAreas</span><span class="p">,</span>
+        <span class="nx">riskLevel</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error analyzing changes:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="na">error</span><span class="p">:</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span> <span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">identifyImpactedAreas</span><span class="p">(</span><span class="nx">changedFiles</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">areas</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="p">();</span>
+    
+    <span class="kd">const</span> <span class="nx">areaMapping</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="dl">'</span><span class="s1">contracts/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">blockchain</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">src/web3/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">blockchain</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">src/components/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">frontend</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">src/pages/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">frontend</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">server/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">backend</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">api/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">backend</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">config/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">configuration</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">scripts/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">tooling</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">docs/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">documentation</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">tests/</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">testing</span><span class="dl">'</span>
+    <span class="p">};</span>
+    
+    <span class="nx">changedFiles</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="p">[</span><span class="nx">prefix</span><span class="p">,</span> <span class="nx">area</span><span class="p">]</span> <span class="k">of</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">areaMapping</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="nx">prefix</span><span class="p">))</span> <span class="p">{</span>
+          <span class="nx">areas</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">area</span><span class="p">);</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    
+    <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">(</span><span class="nx">areas</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">assessRiskLevel</span><span class="p">(</span><span class="nx">changedFiles</span><span class="p">,</span> <span class="nx">impactedAreas</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// High-risk files and patterns</span>
+    <span class="kd">const</span> <span class="nx">highRiskPatterns</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="dl">'</span><span class="s1">contracts/</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">server/auth/</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">src/web3/wallet</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">config/production</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">deploy</span><span class="dl">'</span>
+    <span class="p">];</span>
+    
+    <span class="c1">// Check for high-risk changes</span>
+    <span class="kd">const</span> <span class="nx">hasHighRiskChanges</span> <span class="o">=</span> <span class="nx">changedFiles</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> 
+      <span class="nx">highRiskPatterns</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">pattern</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">pattern</span><span class="p">))</span>
+    <span class="p">);</span>
+    
+    <span class="c1">// Check for changes across multiple areas</span>
+    <span class="kd">const</span> <span class="nx">hasMultipleAreaChanges</span> <span class="o">=</span> <span class="nx">impactedAreas</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="c1">// Check for large changes</span>
+    <span class="kd">const</span> <span class="nx">largeChangeThreshold</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">hasLargeChanges</span> <span class="o">=</span> <span class="nx">changedFiles</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="nx">largeChangeThreshold</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="nx">hasHighRiskChanges</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">high</span><span class="dl">'</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hasMultipleAreaChanges</span> <span class="o">||</span> <span class="nx">hasLargeChanges</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">medium</span><span class="dl">'</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">low</span><span class="dl">'</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
+  <span class="nx">suggestReviewers</span><span class="p">(</span><span class="nx">changedFiles</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Map file patterns to team members</span>
+    <span class="kd">const</span> <span class="nx">expertMapping</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="dl">'</span><span class="s1">contracts/</span><span class="dl">'</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">blockchain-expert</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">security-reviewer</span><span class="dl">'</span><span class="p">],</span>
+      <span class="dl">'</span><span class="s1">server/</span><span class="dl">'</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">backend-developer</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">api-specialist</span><span class="dl">'</span><span class="p">],</span>
+      <span class="dl">'</span><span class="s1">src/components/</span><span class="dl">'</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">frontend-developer</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ui-designer</span><span class="dl">'</span><span class="p">],</span>
+      <span class="dl">'</span><span class="s1">src/web3/</span><span class="dl">'</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">blockchain-developer</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">integration-specialist</span><span class="dl">'</span><span class="p">],</span>
+      <span class="dl">'</span><span class="s1">docs/</span><span class="dl">'</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">documentation-specialist</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">product-manager</span><span class="dl">'</span><span class="p">]</span>
+    <span class="p">};</span>
+    
+    <span class="kd">const</span> <span class="nx">reviewers</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="p">();</span>
+    
+    <span class="nx">changedFiles</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="p">[</span><span class="nx">prefix</span><span class="p">,</span> <span class="nx">experts</span><span class="p">]</span> <span class="k">of</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">expertMapping</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="nx">prefix</span><span class="p">))</span> <span class="p">{</span>
+          <span class="nx">experts</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">expert</span> <span class="o">=&gt;</span> <span class="nx">reviewers</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">expert</span><span class="p">));</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    
+    <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">(</span><span class="nx">reviewers</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">ImpactAnalyzer</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="/docs/server-docs/">Server Documentation</a></li>
+  <li><a href="/docs/serverless-docs/">Serverless Functions Documentation</a></li>
+  <li><a href="/docs/services-docs/">Integration Services Documentation</a></li>
+</ul>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

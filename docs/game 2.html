@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/game%202.html" />
+<meta property="og:url" content="/docs/game%202.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/game%202.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: Blockchain Miner Game
+description: Play our blockchain-themed minigame while learning about crypto concepts
+permalink: /game/</p>
+<hr />
+
+<h1 id="blockchain-miner-game">Blockchain Miner Game</h1>
+
+<div class="game-container">
+  <div class="game-ui">
+    <div class="game-stats">
+      <div class="stat">
+        <span>STREAM Tokens:</span>
+        <span id="score">0</span>
+      </div>
+      <div class="stat">
+        <span>Blocks Mined:</span>
+        <span id="blocks">0</span>
+      </div>
+      <div class="stat">
+        <span>Difficulty:</span>
+        <span id="level">1</span>
+      </div>
+    </div>
+    
+    <div class="game-controls">
+      <button id="start-game" class="button primary">Start Mining</button>
+      <button id="pause-game" class="button secondary hidden">Pause</button>
+    </div>
+  </div>
+  
+  <canvas id="game-canvas" width="800" height="500"></canvas>
+  
+  <div class="game-overlay hidden" id="game-overlay">
+    <div class="overlay-content">
+      <h2 id="overlay-title">Game Over</h2>
+      <p id="overlay-message">You collected <span id="final-score">0</span> STREAM tokens!</p>
+      <button id="play-again" class="button primary">Mine Again</button>
+    </div>
+  </div>
+  
+  <div class="game-instructions">
+    <h3>How to Play</h3>
+    <ul>
+      <li><strong>Goal:</strong> Collect as many STREAM tokens as possible while avoiding obstacles</li>
+      <li><strong>Controls:</strong> Use arrow keys or WASD to move your miner</li>
+      <li><strong>Tokens:</strong> Blue tokens = 1 STREAM, Purple tokens = 5 STREAM, Gold tokens = 25 STREAM</li>
+      <li><strong>Blocks:</strong> Collect a certain number of tokens to mine a block and advance the difficulty</li>
+      <li><strong>Obstacles:</strong> Avoid red error blocks and security breaches</li>
+    </ul>
+    
+    <h3>Crypto Concepts</h3>
+    <p>This game simulates several blockchain concepts:</p>
+    <ul>
+      <li><strong>Mining:</strong> Collecting tokens represents solving computational puzzles</li>
+      <li><strong>Block Rewards:</strong> Each completed block rewards you with bonus tokens</li>
+      <li><strong>Difficulty Adjustment:</strong> As you progress, the game becomes more challenging, similar to increasing mining difficulty</li>
+      <li><strong>Consensus Mechanisms:</strong> Special events require you to follow specific patterns to validate blocks</li>
+    </ul>
+  </div>
+</div>
+
+<div class="game-leaderboard">
+  <h3>Top Miners</h3>
+  <div class="leaderboard-container" id="leaderboard">
+    <div class="leaderboard-entry">
+      <span class="position">1</span>
+      <span class="name">CryptoMaster</span>
+      <span class="score">25,420</span>
+    </div>
+    <div class="leaderboard-entry">
+      <span class="position">2</span>
+      <span class="name">BlockchainWizard</span>
+      <span class="score">19,876</span>
+    </div>
+    <div class="leaderboard-entry">
+      <span class="position">3</span>
+      <span class="name">TokenCollector</span>
+      <span class="score">15,230</span>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/css/blockchain-game.css" />
+
+<script src="/assets/js/blockchain-game.js"></script>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <meta name="description" content="{{ page.description | default: site.description }}">
+    {% if page.image %}
+    <meta property="og:image" content="{{ page.image | absolute_url }}">
+    {% endif %}
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    {% if page.url == '/telos/' %}
+    <link rel="stylesheet" href="{{ '/assets/css/telos.css' | relative_url }}">
+    <script src="{{ '/assets/js/engram-visualization.js' | relative_url }}" defer></script>
+    {% endif %}
+    {% if page.url == '/viewer/' %}
+    <link rel="stylesheet" href="{{ '/assets/css/content-viewer.css' | relative_url }}">
+    {% endif %}
+    {% seo %}
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="{{ '/' | relative_url }}" class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14 14-6.268 14-14S23.732 2 16 2z" fill="url(#gradient)" />
+                    <path d="M22 16l-8 4.598V11.402L22 16z" fill="white" />
+                    <defs>
+                        <linearGradient id="gradient" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#6e45e2" />
+                            <stop offset="1" stop-color="#88d3ce" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                Web3 Streaming
+            </a>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ '/technology' | relative_url }}">Technology</a></li>
+                    <li><a href="{{ '/creators' | relative_url }}">For Creators</a></li>
+                    <li><a href="{{ '/tokens' | relative_url }}">Token</a></li>
+                    <li><a href="{{ '/roadmap' | relative_url }}">Roadmap</a></li>
+                    <li><a href="{{ '/community' | relative_url }}">Community</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="theme-toggle" title="Switch Theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button id="connect-wallet" class="wallet-button">
+                    <i class="fas fa-wallet"></i> Connect Wallet
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-content">
+        <div class="wrapper">
+        </div>
+</body>
+
+<style>
+    .site-header {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1rem 0;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s ease;
+    }
+    
+    /* Add some spacing before the content to prevent header overlap */
+    .page-content {
+        padding-top: 1rem;
+    }
+    
+    /* Fix for mobile header display */
+    @media (max-width: 768px) {
+        .site-header .container {
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            flex: 1;
+            order: 1;
+        }
+        
+        .menu-toggle {
+            order: 2;
+        }
+        
+        .main-nav {
+            order: 3;
+            width: 100%;
+        }
+        
+        .wallet-connect {
+            order: 4;
+            width: 100%;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+    }
+    
+    /* Enhanced active state */
+    .nav-links a.active {
+        color: var(--secondary-light);
+        font-weight: 600;
+        position: relative;
+    }
+    
+    .nav-links a.active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--secondary-light);
+        border-radius: 2px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+        }
+        
+        // Dropdown menus
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('.dropdown-toggle');
+            
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdown.classList.toggle('open');
+                
+                // Close other dropdowns
+                dropdowns.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown && otherDropdown.classList.contains('open')) {
+                        otherDropdown.classList.remove('open');
+                    }
+                });
+            });
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('open');
+                });
+            }
+        });
+        
+        // Add scrolled class to header when page is scrolled
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.site-header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    });
+</script>
+
+</html>

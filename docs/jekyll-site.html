@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Jekyll Site Structure | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Jekyll Site Structure" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/jekyll-site.html" />
+<meta property="og:url" content="/docs/jekyll-site.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Jekyll Site Structure" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Jekyll Site Structure","url":"/docs/jekyll-site.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Jekyll Site Structure</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="jekyll-site-structure">Jekyll Site Structure</h1>
+
+<p>This document outlines the structure and key components of the Jekyll site used for the Web3 Streaming Platform.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Our Jekyll site serves as the main user interface for the Web3 Streaming Platform. It’s built with Jekyll, a static site generator that transforms plain text into static websites and blogs.</p>
+
+<h2 id="directory-structure">Directory Structure</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/
+├── _config.yml           # Main Jekyll configuration
+├── _data/                # Data files (YAML, JSON, CSV)
+├── _includes/            # Reusable components
+├── _layouts/             # Template files
+├── _posts/               # Blog posts
+├── _sass/                # Sass partials
+├── _site/                # Generated site (don't edit directly)
+├── assets/               # Static files (images, CSS, JS)
+│   ├── css/              # Main stylesheets
+│   ├── images/           # Image files
+│   └── js/               # JavaScript files
+├── docs/                 # Documentation files
+└── index.html            # Site homepage
+</code></pre></div></div>
+
+<h2 id="key-components">Key Components</h2>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>The main configuration for the Jekyll site is in <code class="language-plaintext highlighter-rouge">_config.yml</code>. It controls site-wide settings, such as:</p>
+
+<ul>
+  <li>Site title and description</li>
+  <li>URL and baseurl settings</li>
+  <li>Build settings and plugins</li>
+  <li>Custom variables</li>
+</ul>
+
+<h3 id="layouts">Layouts</h3>
+
+<p>Jekyll uses layouts to define the structure of different page types. These are located in the <code class="language-plaintext highlighter-rouge">_layouts</code> directory:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">default.html</code> - The base layout for all pages</li>
+  <li><code class="language-plaintext highlighter-rouge">home.html</code> - The layout for the homepage</li>
+  <li><code class="language-plaintext highlighter-rouge">post.html</code> - The layout for blog posts</li>
+  <li><code class="language-plaintext highlighter-rouge">page.html</code> - The layout for standard pages</li>
+  <li><code class="language-plaintext highlighter-rouge">docs.html</code> - The layout for documentation pages</li>
+</ul>
+
+<h3 id="includes">Includes</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">_includes</code> directory contains reusable components that are included in multiple layouts:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">header.html</code> - Site header with navigation</li>
+  <li><code class="language-plaintext highlighter-rouge">footer.html</code> - Site footer</li>
+  <li><code class="language-plaintext highlighter-rouge">sidebar.html</code> - Documentation sidebar navigation</li>
+  <li><code class="language-plaintext highlighter-rouge">web3-connect.html</code> - Web3 wallet connection component</li>
+</ul>
+
+<h3 id="assets">Assets</h3>
+
+<p>Static assets for the site are in the <code class="language-plaintext highlighter-rouge">assets</code> directory:</p>
+
+<ul>
+  <li>CSS stylesheets (built from Sass)</li>
+  <li>JavaScript files for client-side functionality</li>
+  <li>Images and other media</li>
+</ul>
+
+<h3 id="front-matter">Front Matter</h3>
+
+<p>Each Jekyll page or post includes front matter at the top of the file to define metadata:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Welcome</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Web3</span><span class="nv"> </span><span class="s">Streaming'</span>
+<span class="na">date</span><span class="pi">:</span> <span class="s">2025-04-25</span>
+<span class="na">categories</span><span class="pi">:</span> <span class="s">announcements</span>
+<span class="na">author</span><span class="pi">:</span> <span class="s">Web3 Team</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<h2 id="building-and-serving">Building and Serving</h2>
+
+<p>The Jekyll site can be built and served locally using:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run start
+</code></pre></div></div>
+
+<p>Or using the VS Code task “Start Jekyll (Ruby 2.7)”.</p>
+
+<p>This will compile the site and make it available at <code class="language-plaintext highlighter-rouge">http://localhost:4000</code>.</p>
+
+<h2 id="deployment">Deployment</h2>
+
+<p>The site is automatically deployed to GitHub Pages when changes are pushed to the main branch. Manual deployment can be performed using:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run deploy
+</code></pre></div></div>
+
+<p>Or using the VS Code task “Deploy to GitHub Pages”.</p>
+
+<h2 id="web3-integration">Web3 Integration</h2>
+
+<p>Our Jekyll site integrates with Web3 technologies through:</p>
+
+<ol>
+  <li><strong>Web3 Connection Component</strong> - Front-end component for connecting to blockchain wallets</li>
+  <li><strong>TypeScript SDK Integration</strong> - Connection to our TypeScript SDK for blockchain interactions</li>
+  <li><strong>Content Loading from IPFS</strong> - Some content is loaded from IPFS for decentralized hosting</li>
+  <li><strong>Smart Contract Interaction</strong> - Direct integration with blockchain contracts for features like token-gated content</li>
+</ol>
+
+<h2 id="customizing">Customizing</h2>
+
+<p>To customize the Jekyll site:</p>
+
+<ol>
+  <li>Modify the theme settings in <code class="language-plaintext highlighter-rouge">_config.yml</code></li>
+  <li>Edit the Sass files in <code class="language-plaintext highlighter-rouge">_sass/</code> directory</li>
+  <li>Update JavaScript files in <code class="language-plaintext highlighter-rouge">assets/js/</code></li>
+  <li>Add new layouts or includes as needed</li>
+</ol>
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<ul>
+  <li><a href="https://jekyllrb.com/docs/">Jekyll Documentation</a></li>
+  <li><a href="https://shopify.github.io/liquid/">Liquid Syntax</a></li>
+  <li><a href="https://docs.github.com/en/pages">GitHub Pages Documentation</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

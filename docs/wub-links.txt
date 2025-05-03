@@ -1,0 +1,30 @@
+# WUB - Web URLs and Bookmarks Collection
+
+## Music Production Resources
+<a href="https://www.musicradar.com/how-to/how-to-make-dubstep-wobble-bass">How to make dubstep wobble bass</a>
+<a href="https://www.soundonsound.com/techniques/creating-dubstep">Creating Dubstep Tutorial</a>
+<a href="https://www.attackmagazine.com/technique/tutorials/wobble-bass-in-serum/">Wobble Bass in Serum</a>
+
+## Artists & Labels
+<a href="https://skrillex.com">Skrillex</a>
+<a href="https://excision.ca">Excision</a>
+<a href="https://ukf.com">UKF</a>
+<a href="https://www.never-say-die.co.uk">Never Say Die Records</a>
+
+## Streaming & Communities
+<a href="https://soundcloud.com/tags/wub">SoundCloud Wub Tag</a>
+<a href="https://www.reddit.com/r/dubstep/">Reddit Dubstep Community</a>
+<a href="https://www.youtube.com/results?search_query=wub+bass+tutorial">YouTube Wub Bass Tutorials</a>
+<a href="https://www.twitch.tv/directory/game/Music">Twitch Music Producers</a>
+
+## Software & Equipment
+<a href="https://xferrecords.com/products/serum">Xfer Records Serum</a>
+<a href="https://www.native-instruments.com/en/products/komplete/synths/massive-x/">Native Instruments Massive X</a>
+<a href="https://www.image-line.com/">Image-Line FL Studio</a>
+<a href="https://www.ableton.com/">Ableton Live</a>
+
+## Project RED X Integration Resources
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">Web Audio API Documentation</a>
+<a href="https://tonejs.github.io/">Tone.js Library</a>
+<a href="https://p5js.org/reference/#/libraries/p5.sound">p5.sound Library</a>
+<a href="https://github.com/Tonejs/Tone.js">Tone.js GitHub Repository</a>

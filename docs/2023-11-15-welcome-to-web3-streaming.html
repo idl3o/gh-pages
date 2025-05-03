@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/2023-11-15-welcome-to-web3-streaming.html" />
+<meta property="og:url" content="/docs/2023-11-15-welcome-to-web3-streaming.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/2023-11-15-welcome-to-web3-streaming.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: post
+title: “Welcome to Web3 Crypto Streaming: The Future of Content Delivery”
+subtitle: “Discover how blockchain technology is revolutionizing the streaming industry”
+author: “Alex Rivers”
+author_title: “Founder &amp; CEO”
+date: 2023-11-15 12:00:00 -0500
+categories: [updates, technology]
+tags: [blockchain, streaming, web3, introduction]
+image: /assets/images/blog/welcome-post.jpg
+image_caption: “Web3 streaming technology connects creators directly with their audience”</p>
+<hr />
+
+<p>The streaming industry has experienced explosive growth over the past decade, but this growth has come with significant challenges. Traditional platforms take substantial cuts from creator earnings, exercise increasing control over content policies, and collect vast amounts of user data. Enter Web3 Crypto Streaming—a revolutionary approach designed to address these fundamental issues by leveraging blockchain technology and decentralized infrastructure.</p>
+
+<h2 id="why-we-built-this-platform">Why We Built This Platform</h2>
+
+<p>When we started this journey, we asked ourselves: how can we create a streaming platform that truly puts creators first? The answer became clear: by removing intermediaries, creating transparent payment systems, and giving ownership back to content creators.</p>
+
+<blockquote>
+  <p>“Web3 isn’t just about technology—it’s about creating a more equitable internet where value flows directly to those who create it.”</p>
+</blockquote>
+
+<p>Traditional streaming platforms typically take between 30-50% of creator revenue. Our platform reduces this to less than 10%, with the vast majority flowing directly to creators. This is possible because blockchain technology enables:</p>
+
+<ol>
+  <li><strong>Direct creator-to-viewer transactions</strong> without expensive intermediaries</li>
+  <li><strong>Transparent and immutable</strong> record-keeping</li>
+  <li><strong>Programmable revenue splits</strong> for collaborative content</li>
+  <li><strong>Reduced infrastructure costs</strong> through decentralized storage and delivery</li>
+</ol>
+
+<h2 id="how-it-works">How It Works</h2>
+
+<p>At its core, our platform consists of four primary components:</p>
+
+<h3 id="1-smart-contract-layer">1. Smart Contract Layer</h3>
+
+<p>Built on Ethereum and Polygon, our smart contracts manage:</p>
+<ul>
+  <li>Subscription payments</li>
+  <li>Content access rights</li>
+  <li>Creator revenue distribution</li>
+  <li>Platform governance</li>
+</ul>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Simplified example of our subscription contract
+</span><span class="k">contract</span> <span class="n">StreamSubscription</span> <span class="p">{</span>
+    <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="kt">uint256</span><span class="p">))</span> <span class="k">public</span> <span class="n">subscriptions</span><span class="p">;</span>
+    
+    <span class="k">function</span> <span class="n">subscribe</span><span class="p">(</span><span class="kt">address</span> <span class="n">creator</span><span class="p">)</span> <span class="k">external</span> <span class="k">payable</span> <span class="p">{</span>
+        <span class="nb">require</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="n">minSubscriptionAmount</span><span class="p">,</span> <span class="s">"Insufficient payment"</span><span class="p">);</span>
+        
+        <span class="kt">uint256</span> <span class="n">creatorShare</span> <span class="o">=</span> <span class="n">msg</span><span class="p">.</span><span class="n">value</span> <span class="o">*</span> <span class="mi">95</span> <span class="o">/</span> <span class="mi">100</span><span class="p">;</span> <span class="c1">// 95% to creator
+</span>        <span class="kt">uint256</span> <span class="n">platformShare</span> <span class="o">=</span> <span class="n">msg</span><span class="p">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">creatorShare</span><span class="p">;</span> <span class="c1">// 5% platform fee
+</span>        
+        <span class="k">payable</span><span class="p">(</span><span class="n">creator</span><span class="p">).</span><span class="nb">transfer</span><span class="p">(</span><span class="n">creatorShare</span><span class="p">);</span>
+        <span class="k">payable</span><span class="p">(</span><span class="n">platformWallet</span><span class="p">).</span><span class="nb">transfer</span><span class="p">(</span><span class="n">platformShare</span><span class="p">);</span>
+        
+        <span class="n">subscriptions</span><span class="p">[</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">][</span><span class="n">creator</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">+</span> <span class="mi">30</span> <span class="kc">days</span><span class="p">;</span>
+        
+        <span class="k">emit</span> <span class="n">NewSubscription</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">creator</span><span class="p">,</span> <span class="n">block</span><span class="p">.</span><span class="n">timestamp</span> <span class="o">+</span> <span class="mi">30</span> <span class="kc">days</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Additional functions...
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="2-content-storage-layer">2. Content Storage Layer</h3>
+
+<p>All content metadata is stored on IPFS, a distributed file system that:</p>
+<ul>
+  <li>Ensures censorship resistance</li>
+  <li>Provides content addressing (CIDs) rather than location addressing</li>
+  <li>Creates permanent links to content</li>
+  <li>Reduces storage costs through deduplication</li>
+</ul>
+
+<h3 id="3-streaming-layer">3. Streaming Layer</h3>
+
+<p>Our decentralized content delivery network:</p>
+<ul>
+  <li>Uses peer-to-peer connections to reduce bandwidth costs</li>
+  <li>Implements adaptive bitrate streaming for various connection speeds</li>
+  <li>Incentivizes node operators with STREAM tokens</li>
+  <li>Supports both live and on-demand content</li>
+</ul>
+
+<h3 id="4-user-interface-layer">4. User Interface Layer</h3>
+
+<p>Easy-to-use applications that abstract away blockchain complexity:</p>
+<ul>
+  <li>Web app (desktop and mobile responsive)</li>
+  <li>Native mobile apps (coming soon)</li>
+  <li>Smart TV applications (in development)</li>
+</ul>
+
+<h2 id="the-stream-token-economy">The STREAM Token Economy</h2>
+
+<p>At the heart of our platform is the STREAM utility token, which serves multiple purposes:</p>
+
+<ul>
+  <li><strong>Governance</strong>: Token holders can vote on platform features and policies</li>
+  <li><strong>Incentives</strong>: Node operators and early adopters receive token rewards</li>
+  <li><strong>Discounts</strong>: Token holders receive reduced fees and bonus features</li>
+  <li><strong>Staking</strong>: Lock tokens to earn a share of platform revenue</li>
+</ul>
+
+<p><img src="/assets/images/diagrams/token-economics.svg" alt="Token Economics" /></p>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>We’re just getting started on our mission to revolutionize content streaming. Our roadmap includes:</p>
+
+<h3 id="q1-2024">Q1 2024</h3>
+<ul>
+  <li>Mobile app beta release</li>
+  <li>Enhanced creator analytics</li>
+  <li>Multi-chain support (Solana integration)</li>
+</ul>
+
+<h3 id="q2-2024">Q2 2024</h3>
+<ul>
+  <li>DAO governance implementation</li>
+  <li>Live streaming improvements</li>
+  <li>Collaborative content tools</li>
+</ul>
+
+<h3 id="q3-2024">Q3 2024</h3>
+<ul>
+  <li>Smart TV apps</li>
+  <li>Expanded payment options</li>
+  <li>Advanced recommendation algorithms</li>
+</ul>
+
+<h3 id="q4-2024">Q4 2024</h3>
+<ul>
+  <li>Full-scale network launch</li>
+  <li>Creator grants program</li>
+  <li>Metaverse integrations</li>
+</ul>
+
+<h2 id="join-the-revolution">Join the Revolution</h2>
+
+<p>Whether you’re a creator tired of platform restrictions and high fees, or a viewer who wants more of their subscription money to reach creators, we invite you to join us in building the future of streaming.</p>
+
+<p>Sign up for our beta program today and experience the future of decentralized content delivery!</p>
+
+<hr />
+
+<ul>
+  <li>This article was published on November 15, 2023. The platform features and roadmap are subject to change as we continue development.*</li>
+</ul>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

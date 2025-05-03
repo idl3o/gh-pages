@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Health & Security | Web3 Crypto Streaming</title>
+    <link rel="stylesheet" href="main.css" />
+    <style>
+      .security-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .security-feature {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid var(--primary);
+      }
+
+      .security-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .security-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .security-card h3 {
+        color: var(--primary);
+        margin-top: 0;
+      }
+
+      .security-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--secondary);
+      }
+
+      .security-level {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+      }
+
+      .security-level-indicator {
+        height: 8px;
+        flex-grow: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-right: 1rem;
+      }
+
+      .security-level-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 4px;
+      }
+
+      .status-pill {
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .status-active {
+        background-color: rgba(72, 187, 120, 0.2);
+        color: #48bb78;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Digital Health Protection</h1>
+        <p>Comprehensive security measures against digital threats</p>
+      </div>
+    </header>
+
+    <main class="security-container">
+      <section>
+        <h2>Web3 Platform Immune System</h2>
+        <p>
+          Just as your body has defenses against biological viruses and flu, our platform
+          incorporates multiple security layers to protect your digital assets and content from
+          cyber threats.
+        </p>
+
+        <div class="security-feature">
+          <h3>Active Protection Status</h3>
+          <p>
+            All security systems are currently active and monitoring the platform for threats. Last
+            scan completed <strong id="last-scan-time">2 minutes ago</strong>.
+          </p>
+          <div class="security-level">
+            <div class="security-level-indicator">
+              <div class="security-level-fill" style="width: 95%"></div>
+            </div>
+            <span class="status-pill status-active">Protected</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Multi-Layer Protection</h2>
+
+        <div class="security-grid">
+          <div class="security-card">
+            <div class="security-icon">🛡️</div>
+            <h3>Smart Contract Immunity</h3>
+            <p>
+              Audited smart contracts with built-in protection against common vulnerabilities like
+              reentrancy attacks, overflow, and frontrunning.
+            </p>
+            <div class="security-level">
+              <div class="security-level-indicator">
+                <div class="security-level-fill" style="width: 98%"></div>
+              </div>
+              <span>98%</span>
+            </div>
+          </div>
+
+          <div class="security-card">
+            <div class="security-icon">🔍</div>
+            <h3>Transaction Screening</h3>
+            <p>
+              Real-time monitoring of transactions to detect suspicious patterns and prevent
+              malicious activities.
+            </p>
+            <div class="security-level">
+              <div class="security-level-indicator">
+                <div class="security-level-fill" style="width: 92%"></div>
+              </div>
+              <span>92%</span>
+            </div>
+          </div>
+
+          <div class="security-card">
+            <div class="security-icon">🧠</div>
+            <h3>AI Threat Detection</h3>
+            <p>
+              Machine learning algorithms that identify and neutralize emerging threats before they
+              can affect users.
+            </p>
+            <div class="security-level">
+              <div class="security-level-indicator">
+                <div class="security-level-fill" style="width: 94%"></div>
+              </div>
+              <span>94%</span>
+            </div>
+          </div>
+
+          <div class="security-card">
+            <div class="security-icon">🔐</div>
+            <h3>Wallet Vaccination</h3>
+            <p>
+              Protection against phishing and unauthorized connection attempts to your crypto
+              wallet.
+            </p>
+            <div class="security-level">
+              <div class="security-level-indicator">
+                <div class="security-level-fill" style="width: 96%"></div>
+              </div>
+              <span>96%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Seasonal Threat Protection</h2>
+        <p>
+          Just like seasonal flu, crypto threats evolve and mutate over time. Our security team
+          constantly updates our defenses against emerging threats.
+        </p>
+
+        <div class="security-feature">
+          <h3>Current Threat Landscape</h3>
+          <p>
+            Our system is actively monitoring and protecting against these current high-priority
+            threats:
+          </p>
+          <ul>
+            <li>
+              <strong>DeFi Drain Attacks</strong> - Attempts to exploit protocol vulnerabilities
+            </li>
+            <li>
+              <strong>Cryptojacking Scripts</strong> - Hidden miners that consume your resources
+            </li>
+            <li>
+              <strong>Smart Contract Exploits</strong> - Zero-day vulnerabilities in contract code
+            </li>
+            <li>
+              <strong>Phishing Campaigns</strong> - Social engineering targeting crypto holders
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>User Protection Measures</h2>
+        <p>Steps you can take to enhance your protection:</p>
+
+        <div class="security-grid">
+          <div class="security-card">
+            <div class="security-icon">🔑</div>
+            <h3>Two-Factor Authentication</h3>
+            <p>Enable 2FA on your account to prevent unauthorized access.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="security-icon">🔄</div>
+            <h3>Regular Wallet Updates</h3>
+            <p>Keep your wallet software and extensions up to date.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="security-icon">👁️</div>
+            <h3>Contract Verification</h3>
+            <p>Always verify smart contract addresses before interacting.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="security-icon">🔒</div>
+            <h3>Hardware Security</h3>
+            <p>Consider using hardware wallets for large holdings.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Update last scan time dynamically
+      function updateLastScanTime() {
+        const lastScanEl = document.getElementById('last-scan-time');
+        const minutesAgo = Math.floor(Math.random() * 5) + 1;
+        lastScanEl.textContent = `${minutesAgo} minute${minutesAgo !== 1 ? 's' : ''} ago`;
+
+        // Schedule next update
+        setTimeout(updateLastScanTime, 60000);
+      }
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', function () {
+        updateLastScanTime();
+      });
+    </script>
+  </body>
+</html>

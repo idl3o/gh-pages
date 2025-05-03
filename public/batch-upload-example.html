@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Batch Upload Example - RED X</title>
+    <style>
+      :root {
+        --primary-color: #4361ee;
+        --success-color: #2ecc71;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+        --dark-color: #2c3e50;
+        --light-color: #ecf0f1;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-color);
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1,
+      h2 {
+        color: var(--primary-color);
+      }
+
+      .batch-upload-container {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: var(--light-color);
+      }
+
+      .file-drop-area {
+        border: 2px dashed #aaa;
+        border-radius: 5px;
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        transition: all 0.3s;
+      }
+
+      .file-drop-area.highlight {
+        background-color: rgba(67, 97, 238, 0.1);
+        border-color: var(--primary-color);
+      }
+
+      .file-list {
+        margin: 20px 0;
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: white;
+      }
+
+      .file-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .file-item:last-child {
+        border-bottom: none;
+      }
+
+      .file-name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-right: 10px;
+      }
+
+      .file-size {
+        color: #666;
+        font-size: 0.9em;
+        min-width: 80px;
+        text-align: right;
+      }
+
+      .file-type {
+        color: var(--primary-color);
+        font-size: 0.9em;
+        width: 80px;
+        text-align: center;
+      }
+
+      .file-status {
+        width: 100px;
+        text-align: right;
+        font-weight: bold;
+      }
+
+      .file-status.pending {
+        color: #666;
+      }
+
+      .file-status.processing {
+        color: var(--primary-color);
+      }
+
+      .file-status.success {
+        color: var(--success-color);
+      }
+
+      .file-status.error {
+        color: var(--danger-color);
+      }
+
+      .progress-container {
+        margin: 20px 0;
+        background-color: #eee;
+        border-radius: 5px;
+        height: 25px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background-color: var(--primary-color);
+        border-radius: 5px;
+        width: 0%;
+        transition: width 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+      }
+
+      .button-container {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        min-height: 44px;
+        transition: background-color 0.2s;
+      }
+
+      button:hover {
+        background-color: #3050d8;
+      }
+
+      button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      button.secondary {
+        background-color: #6c757d;
+      }
+
+      button.secondary:hover {
+        background-color: #5a6268;
+      }
+
+      button.success {
+        background-color: var(--success-color);
+      }
+
+      button.success:hover {
+        background-color: #27ae60;
+      }
+
+      button.warning {
+        background-color: var(--warning-color);
+      }
+
+      button.warning:hover {
+        background-color: #e67e22;
+      }
+
+      button.danger {
+        background-color: var(--danger-color);
+      }
+
+      button.danger:hover {
+        background-color: #c0392b;
+      }
+
+      .summary {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+      }
+
+      .summary h3 {
+        margin-top: 0;
+      }
+
+      .summary.success {
+        background-color: rgba(46, 204, 113, 0.1);
+        border-left: 5px solid var(--success-color);
+      }
+
+      .summary.error {
+        background-color: rgba(231, 76, 60, 0.1);
+        border-left: 5px solid var(--danger-color);
+      }
+
+      #uploadStatus {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .file-item {
+          flex-wrap: wrap;
+        }
+
+        .file-type {
+          width: auto;
+          min-width: 60px;
+        }
+
+        .file-status {
+          width: auto;
+          min-width: 80px;
+        }
+
+        .button-container {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Batch Upload Example</h1>
+    <p>This example demonstrates how to use the batch upload functionality added to RED X.</p>
+
+    <div class="batch-upload-container">
+      <h2>Upload Files</h2>
+
+      <div id="dropArea" class="file-drop-area">
+        <p>Drag and drop files here<br />or <button id="browseButton">Browse Files</button></p>
+        <input type="file" id="fileInput" multiple style="display: none" />
+      </div>
+
+      <div class="file-list" id="fileList"></div>
+
+      <div class="progress-container" id="progressContainer" style="display: none">
+        <div class="progress-bar" id="progressBar" style="width: 0%">0%</div>
+      </div>
+
+      <div id="uploadStatus"></div>
+
+      <div class="button-container">
+        <button id="uploadButton" disabled>Upload Files</button>
+        <button id="clearButton" class="secondary" disabled>Clear All</button>
+        <button id="resumeButton" class="warning" style="display: none">
+          Resume Failed Uploads
+        </button>
+      </div>
+
+      <div id="uploadSummary" class="summary" style="display: none"></div>
+    </div>
+
+    <script>
+      // Mock the RED X batch upload API since we're in a standalone example
+      if (typeof window.redx === 'undefined') {
+        window.redx = {};
+      }
+
+      window.redx.batchUpload = {
+        maxBatchSize: 50,
+        currentBatch: [],
+        failedItems: [],
+        inProgress: false,
+
+        // Add files to batch
+        addFiles: function (files) {
+          const remaining = this.maxBatchSize - this.currentBatch.length;
+          const toAdd = Array.from(files).slice(0, remaining);
+
+          this.currentBatch = this.currentBatch.concat(toAdd);
+          console.log(
+            `Added ${toAdd.length} files to batch. Batch size: ${this.currentBatch.length}/${this.maxBatchSize}`
+          );
+
+          return toAdd.length;
+        },
+
+        // Process batch upload
+        processUpload: function (progressCallback, completeCallback, errorCallback) {
+          if (this.inProgress) {
+            if (errorCallback) errorCallback('Batch upload already in progress');
+            return false;
+          }
+
+          if (this.currentBatch.length === 0) {
+            if (errorCallback) errorCallback('No files in batch to upload');
+            return false;
+          }
+
+          this.inProgress = true;
+          this.failedItems = [];
+
+          // Process files
+          const total = this.currentBatch.length;
+          let processed = 0;
+
+          const processNext = index => {
+            if (index >= total) {
+              // All done
+              this.inProgress = false;
+              if (completeCallback) {
+                completeCallback({
+                  total: total,
+                  successful: total - this.failedItems.length,
+                  failed: this.failedItems
+                });
+              }
+              return;
+            }
+
+            const file = this.currentBatch[index];
+
+            // Simulate file processing with random delay
+            setTimeout(
+              () => {
+                processed++;
+
+                // Report progress
+                if (progressCallback) {
+                  progressCallback({
+                    file: file,
+                    index: index,
+                    processed: processed,
+                    total: total,
+                    percent: Math.round((processed / total) * 100)
+                  });
+                }
+
+                // Random success/failure for testing (10% failure rate)
+                const success = Math.random() > 0.1;
+
+                if (!success) {
+                  this.failedItems.push({
+                    file: file,
+                    index: index,
+                    error: 'Simulated upload failure'
+                  });
+                }
+
+                processNext(index + 1);
+              },
+              500 + Math.random() * 1000
+            ); // Random delay between 500ms and 1500ms
+          };
+
+          // Start processing
+          processNext(0);
+          return true;
+        },
+
+        // Clear batch
+        clearBatch: function () {
+          if (this.inProgress) return false;
+
+          const count = this.currentBatch.length;
+          this.currentBatch = [];
+          this.failedItems = [];
+          return count;
+        },
+
+        // Resume failed uploads
+        resumeFailedUploads: function (progressCallback, completeCallback, errorCallback) {
+          if (this.inProgress) {
+            if (errorCallback) errorCallback('Upload already in progress');
+            return false;
+          }
+
+          if (this.failedItems.length === 0) {
+            if (errorCallback) errorCallback('No failed uploads to retry');
+            return false;
+          }
+
+          // Get the files that failed
+          const failedFiles = this.failedItems.map(item => item.file);
+
+          // Clear current state and retry with just the failed files
+          this.clearBatch();
+          this.addFiles(failedFiles);
+
+          // Process them again
+          return this.processUpload(progressCallback, completeCallback, errorCallback);
+        }
+      };
+
+      // DOM Elements
+      const dropArea = document.getElementById('dropArea');
+      const fileInput = document.getElementById('fileInput');
+      const browseButton = document.getElementById('browseButton');
+      const fileList = document.getElementById('fileList');
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBar');
+      const uploadButton = document.getElementById('uploadButton');
+      const clearButton = document.getElementById('clearButton');
+      const resumeButton = document.getElementById('resumeButton');
+      const uploadStatus = document.getElementById('uploadStatus');
+      const uploadSummary = document.getElementById('uploadSummary');
+
+      // Event Listeners
+      dropArea.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropArea.classList.add('highlight');
+      });
+
+      dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('highlight');
+      });
+
+      dropArea.addEventListener('drop', e => {
+        e.preventDefault();
+        dropArea.classList.remove('highlight');
+
+        const files = e.dataTransfer.files;
+        handleFiles(files);
+      });
+
+      browseButton.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', () => {
+        handleFiles(fileInput.files);
+        fileInput.value = ''; // Reset for future selections
+      });
+
+      uploadButton.addEventListener('click', startUpload);
+      clearButton.addEventListener('click', clearFiles);
+      resumeButton.addEventListener('click', resumeFailedUploads);
+
+      // Functions
+      function handleFiles(files) {
+        if (window.redx.batchUpload.inProgress) {
+          showStatus('Upload in progress. Please wait until it completes.', 'error');
+          return;
+        }
+
+        const addedCount = window.redx.batchUpload.addFiles(files);
+
+        if (addedCount === 0) {
+          showStatus('Maximum batch size reached or no files selected', 'warning');
+          return;
+        }
+
+        updateFileList();
+        uploadButton.disabled = false;
+        clearButton.disabled = false;
+
+        showStatus(`Added ${addedCount} files to the batch`, 'success');
+      }
+
+      function updateFileList() {
+        fileList.innerHTML = '';
+
+        if (window.redx.batchUpload.currentBatch.length === 0) {
+          fileList.innerHTML = '<p>No files selected</p>';
+          return;
+        }
+
+        window.redx.batchUpload.currentBatch.forEach((file, index) => {
+          const fileItem = document.createElement('div');
+          fileItem.className = 'file-item';
+          fileItem.id = `file-${index}`;
+
+          const fileName = document.createElement('div');
+          fileName.className = 'file-name';
+          fileName.textContent = file.name;
+
+          const fileType = document.createElement('div');
+          fileType.className = 'file-type';
+          fileType.textContent = file.type || 'Unknown';
+
+          const fileSize = document.createElement('div');
+          fileSize.className = 'file-size';
+          fileSize.textContent = formatFileSize(file.size);
+
+          const fileStatus = document.createElement('div');
+          fileStatus.className = 'file-status pending';
+          fileStatus.textContent = 'Pending';
+
+          fileItem.appendChild(fileName);
+          fileItem.appendChild(fileType);
+          fileItem.appendChild(fileSize);
+          fileItem.appendChild(fileStatus);
+
+          fileList.appendChild(fileItem);
+        });
+      }
+
+      function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+
+      function startUpload() {
+        progressContainer.style.display = 'block';
+        uploadButton.disabled = true;
+        clearButton.disabled = true;
+        resumeButton.style.display = 'none';
+        uploadSummary.style.display = 'none';
+
+        window.redx.batchUpload.processUpload(
+          // Progress callback
+          progress => {
+            // Update progress bar
+            progressBar.style.width = `${progress.percent}%`;
+            progressBar.textContent = `${progress.percent}%`;
+
+            // Update file status
+            const fileItem = document.getElementById(`file-${progress.index}`);
+            if (fileItem) {
+              const statusEl = fileItem.querySelector('.file-status');
+              statusEl.className = 'file-status processing';
+              statusEl.textContent = 'Processing';
+            }
+          },
+          // Complete callback
+          result => {
+            progressBar.style.width = '100%';
+            progressBar.textContent = '100%';
+
+            // Mark failed files
+            result.failed.forEach(item => {
+              const fileItem = document.getElementById(`file-${item.index}`);
+              if (fileItem) {
+                const statusEl = fileItem.querySelector('.file-status');
+                statusEl.className = 'file-status error';
+                statusEl.textContent = 'Failed';
+              }
+            });
+
+            // Mark successful files
+            for (let i = 0; i < result.total; i++) {
+              if (!result.failed.some(f => f.index === i)) {
+                const fileItem = document.getElementById(`file-${i}`);
+                if (fileItem) {
+                  const statusEl = fileItem.querySelector('.file-status');
+                  statusEl.className = 'file-status success';
+                  statusEl.textContent = 'Success';
+                }
+              }
+            }
+
+            // Show summary
+            uploadSummary.innerHTML = `
+                        <h3>Upload Complete</h3>
+                        <p>Total files: ${result.total}</p>
+                        <p>Successfully uploaded: ${result.successful}</p>
+                        <p>Failed uploads: ${result.failed.length}</p>
+                    `;
+
+            uploadSummary.className =
+              result.failed.length > 0 ? 'summary error' : 'summary success';
+            uploadSummary.style.display = 'block';
+
+            // Enable/disable buttons
+            clearButton.disabled = false;
+            if (result.failed.length > 0) {
+              resumeButton.style.display = 'block';
+            }
+          },
+          // Error callback
+          error => {
+            showStatus(`Error: ${error}`, 'error');
+            clearButton.disabled = false;
+          }
+        );
+      }
+
+      function clearFiles() {
+        if (window.redx.batchUpload.inProgress) {
+          showStatus('Cannot clear files while upload is in progress', 'error');
+          return;
+        }
+
+        const clearedCount = window.redx.batchUpload.clearBatch();
+        updateFileList();
+
+        progressContainer.style.display = 'none';
+        uploadButton.disabled = true;
+        clearButton.disabled = true;
+        resumeButton.style.display = 'none';
+        uploadSummary.style.display = 'none';
+
+        showStatus(`Cleared ${clearedCount} files`, 'success');
+      }
+
+      function resumeFailedUploads() {
+        progressContainer.style.display = 'block';
+        uploadButton.disabled = true;
+        clearButton.disabled = true;
+        resumeButton.style.display = 'none';
+        uploadSummary.style.display = 'none';
+
+        const result = window.redx.batchUpload.resumeFailedUploads(
+          progress => {
+            // Update progress bar
+            progressBar.style.width = `${progress.percent}%`;
+            progressBar.textContent = `${progress.percent}%`;
+
+            // Update file status
+            const fileItem = document.getElementById(`file-${progress.index}`);
+            if (fileItem) {
+              const statusEl = fileItem.querySelector('.file-status');
+              statusEl.className = 'file-status processing';
+              statusEl.textContent = 'Retrying';
+            }
+          },
+          result => {
+            // Same as standard complete callback
+            progressBar.style.width = '100%';
+            progressBar.textContent = '100%';
+
+            // Mark failed files
+            result.failed.forEach(item => {
+              const fileItem = document.getElementById(`file-${item.index}`);
+              if (fileItem) {
+                const statusEl = fileItem.querySelector('.file-status');
+                statusEl.className = 'file-status error';
+                statusEl.textContent = 'Failed';
+              }
+            });
+
+            // Mark successful files
+            for (let i = 0; i < result.total; i++) {
+              if (!result.failed.some(f => f.index === i)) {
+                const fileItem = document.getElementById(`file-${i}`);
+                if (fileItem) {
+                  const statusEl = fileItem.querySelector('.file-status');
+                  statusEl.className = 'file-status success';
+                  statusEl.textContent = 'Success';
+                }
+              }
+            }
+
+            // Show summary
+            uploadSummary.innerHTML = `
+                        <h3>Retry Complete</h3>
+                        <p>Total files: ${result.total}</p>
+                        <p>Successfully uploaded: ${result.successful}</p>
+                        <p>Failed uploads: ${result.failed.length}</p>
+                    `;
+
+            uploadSummary.className =
+              result.failed.length > 0 ? 'summary error' : 'summary success';
+            uploadSummary.style.display = 'block';
+
+            // Enable/disable buttons
+            clearButton.disabled = false;
+            if (result.failed.length > 0) {
+              resumeButton.style.display = 'block';
+            }
+          },
+          error => {
+            showStatus(`Error: ${error}`, 'error');
+            clearButton.disabled = false;
+          }
+        );
+
+        if (!result) {
+          showStatus('Failed to resume uploads', 'error');
+        }
+      }
+
+      function showStatus(message, type) {
+        uploadStatus.textContent = message;
+        uploadStatus.className = '';
+        uploadStatus.classList.add(type);
+        uploadStatus.style.display = 'block';
+
+        switch (type) {
+          case 'success':
+            uploadStatus.style.backgroundColor = 'rgba(46, 204, 113, 0.2)';
+            uploadStatus.style.color = '#27ae60';
+            break;
+          case 'error':
+            uploadStatus.style.backgroundColor = 'rgba(231, 76, 60, 0.2)';
+            uploadStatus.style.color = '#c0392b';
+            break;
+          case 'warning':
+            uploadStatus.style.backgroundColor = 'rgba(243, 156, 18, 0.2)';
+            uploadStatus.style.color = '#d35400';
+            break;
+          default:
+            uploadStatus.style.backgroundColor = '#f8f9fa';
+            uploadStatus.style.color = '#2c3e50';
+        }
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          uploadStatus.style.display = 'none';
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

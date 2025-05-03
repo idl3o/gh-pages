@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "compile-solidity",
+      "command": "npx",
+      "args": [
+        "hardhat",
+        "compile"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

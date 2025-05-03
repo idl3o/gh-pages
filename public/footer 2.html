@@ -1,0 +1,151 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <a href="{{ '/' | relative_url }}">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14 14-6.268 14-14S23.732 2 16 2z" fill="url(#footer-gradient)" />
+            <path d="M22 16l-8 4.598V11.402L22 16z" fill="white" />
+            <defs>
+              <linearGradient id="footer-gradient" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6e45e2" />
+                <stop offset="1" stop-color="#88d3ce" />
+              </linearGradient>
+            </defs>
+          </svg>
+          Web3 Streaming
+        </a>
+      </div>
+      
+      <div class="footer-links">
+        <div class="footer-links-column">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="{{ '/viewer' | relative_url }}">Watch Content</a></li>
+            <li><a href="{{ '/creators' | relative_url }}">For Creators</a></li>
+            <li><a href="{{ '/telos' | relative_url }}">Technology</a></li>
+            <li><a href="{{ '/installation' | relative_url }}">Installation</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="{{ '/whitepaper' | relative_url }}">Whitepaper</a></li>
+            <li><a href="{{ '/docs' | relative_url }}">Documentation</a></li>
+            <li><a href="{{ '/api' | relative_url }}">API Reference</a></li>
+            <li><a href="{{ '/faq' | relative_url }}">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://discord.gg/web3streaming" target="_blank" rel="noopener">Discord</a></li>
+            <li><a href="https://twitter.com/web3streaming" target="_blank" rel="noopener">Twitter</a></li>
+            <li><a href="https://github.com/web3streaming" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://forum.web3streaming.com" target="_blank" rel="noopener">Forum</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-column">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="{{ '/legal/terms' | relative_url }}">Terms & Conditions</a></li>
+            <li><a href="{{ '/legal/privacy' | relative_url }}">Privacy Policy</a></li>
+            <li><a href="{{ '/legal/copyright' | relative_url }}">Copyright Policy</a></li>
+            <li><a href="{{ '/legal/token-disclaimer' | relative_url }}">Token Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p class="copyright">&copy; {{ site.time | date: '%Y' }} Web3 Crypto Streaming Service. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="https://discord.gg/web3streaming" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+        <a href="https://twitter.com/web3streaming" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+        <a href="https://github.com/web3streaming" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+        <a href="https://t.me/web3streaming" target="_blank" rel="noopener"><i class="fab fa-telegram"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+    /* Enhanced newsletter form */
+    .newsletter-form {
+        display: flex;
+        gap: 0.5rem;
+        max-width: 500px;
+        margin: 1rem auto;
+    }
+    
+    .newsletter-form input {
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--text-on-dark);
+        flex-grow: 1;
+        font-size: 1rem;
+    }
+    
+    .newsletter-form input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .newsletter-form input:focus {
+        outline: none;
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 2px rgba(0, 216, 255, 0.3);
+    }
+    
+    /* Social links with improved contrast */
+    .social-links a {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: var(--text-on-dark);
+    }
+    
+    .social-links a:hover, 
+    .social-links a:focus {
+        background-color: var(--secondary);
+        transform: translateY(-3px);
+    }
+
+    .footer-contribute {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .footer-contribute h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--light-color);
+    }
+
+    .footer-contribute p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: var(--text-muted);
+    }
+
+    .footer-contribute .button.primary {
+        background: var(--gradient-primary);
+        color: var(--light-color);
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .footer-contribute .button.primary:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+</style>
+
+<script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flymode.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/animations.js' | relative_url }}"></script>

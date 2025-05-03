@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>NVM for Windows Setup Guide | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="NVM for Windows Setup Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/windows-nvm-setup.html" />
+<meta property="og:url" content="/docs/windows-nvm-setup.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="NVM for Windows Setup Guide" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"NVM for Windows Setup Guide","url":"/docs/windows-nvm-setup.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">NVM for Windows Setup Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="nvm-for-windows-setup-guide">NVM for Windows Setup Guide</h1>
+
+<p>NVM (Node Version Manager) for Windows is different from the Unix/Linux version and requires a different installation process.</p>
+
+<h2 id="installation">Installation</h2>
+
+<ol>
+  <li>Download the installer from the <a href="https://github.com/coreybutler/nvm-windows/releases">nvm-windows releases page</a>
+    <ul>
+      <li>Choose the <code class="language-plaintext highlighter-rouge">nvm-setup.exe</code> file from the latest release</li>
+    </ul>
+  </li>
+  <li>
+    <p>Run the installer and follow the installation prompts</p>
+  </li>
+  <li>After installation, close and reopen your command prompt or PowerShell window</li>
+</ol>
+
+<h2 id="usage">Usage</h2>
+
+<p>NVM for Windows uses different commands than Unix/Linux NVM:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List available Node.js versions</span><span class="w">
+</span><span class="n">nvm</span><span class="w"> </span><span class="nx">list</span><span class="w"> </span><span class="nx">available</span><span class="w">
+
+</span><span class="c"># Install a specific version</span><span class="w">
+</span><span class="n">nvm</span><span class="w"> </span><span class="nx">install</span><span class="w"> </span><span class="nx">16.15.1</span><span class="w">
+
+</span><span class="c"># Use a specific version</span><span class="w">
+</span><span class="n">nvm</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">16.15.1</span><span class="w">
+
+</span><span class="c"># Check which version is currently active</span><span class="w">
+</span><span class="n">nvm</span><span class="w"> </span><span class="nx">current</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="common-issues">Common Issues</h2>
+
+<h3 id="command-not-found">Command Not Found</h3>
+
+<p>If you get “nvm is not recognized as an internal or external command”, try:</p>
+<ul>
+  <li>Make sure you’ve restarted your command prompt or PowerShell after installation</li>
+  <li>Check if the NVM installation directory is in your PATH environment variable</li>
+</ul>
+
+<h3 id="permission-issues">Permission Issues</h3>
+
+<p>Run your command prompt or PowerShell as Administrator if you encounter permission issues.</p>
+
+<h2 id="integrating-with-project-red-x">Integrating with Project RED X</h2>
+
+<p>For your project, you should use Node.js version 16.x for compatibility:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Node.js 16.x</span><span class="w">
+</span><span class="n">nvm</span><span class="w"> </span><span class="nx">install</span><span class="w"> </span><span class="nx">16.15.1</span><span class="w">
+
+</span><span class="c"># Use this version</span><span class="w">
+</span><span class="n">nvm</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">16.15.1</span><span class="w">
+
+</span><span class="c"># Verify installation</span><span class="w">
+</span><span class="n">node</span><span class="w"> </span><span class="nt">-v</span><span class="w">
+</span><span class="n">npm</span><span class="w"> </span><span class="nt">-v</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Then install project dependencies:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cd</span><span class="w"> </span><span class="nx">c:\Users\Sam\Documents\GitHub\gh-pages</span><span class="w">
+</span><span class="n">npm</span><span class="w"> </span><span class="nx">install</span><span class="w">
+</span></code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

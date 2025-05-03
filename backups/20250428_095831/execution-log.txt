@@ -1,0 +1,1878 @@
+Execution Log - 20250428_095831
+
+Moved: branch-manager.ps1 -> scripts/branch-manager.ps1
+Moved: Check-PowerShellParameters.ps1 -> scripts/Check-PowerShellParameters.ps1
+Moved: Convert-BashScripts.ps1 -> scripts/Convert-BashScripts.ps1
+Moved: create-test-video.ps1 -> scripts/create-test-video.ps1
+Moved: create-web3-demo-video.ps1 -> scripts/create-web3-demo-video.ps1
+Moved: deploy-gh-pages.ps1 -> scripts/deploy-gh-pages.ps1
+Moved: fix-bin-bin.ps1 -> scripts/fix-bin-bin.ps1
+Moved: fix-binaryen.ps1 -> scripts/fix-binaryen.ps1
+Moved: Fix-HtmlCssErrors.ps1 -> scripts/Fix-HtmlCssErrors.ps1
+Moved: Fix-MarkdownLint.ps1 -> scripts/Fix-MarkdownLint.ps1
+Moved: Format-And-Lint.ps1 -> scripts/Format-And-Lint.ps1
+Moved: Launch-RedX.ps1 -> scripts/Launch-RedX.ps1
+Moved: Reorganize-Repository.ps1 -> scripts/Reorganize-Repository.ps1
+Moved: Repair-Project.ps1 -> scripts/Repair-Project.ps1
+Moved: run-ubuntu.ps1 -> scripts/run-ubuntu.ps1
+Moved: setup-emsdk.ps1 -> scripts/setup-emsdk.ps1
+Moved: setup-ruby.ps1 -> scripts/setup-ruby.ps1
+Moved: sxs-cli.ps1 -> scripts/sxs-cli.ps1
+Moved: test-jekyll.ps1 -> scripts/test-jekyll.ps1
+Moved: Test-Local.ps1 -> scripts/Test-Local.ps1
+Moved: update-bundler.ps1 -> scripts/update-bundler.ps1
+Moved: Validate-PowerShell.ps1 -> scripts/Validate-PowerShell.ps1
+Moved: emsdk\emsdk.ps1 -> scripts/emsdk.ps1
+Moved: emsdk\emsdk_env.ps1 -> scripts/emsdk_env.ps1
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\venv\scripts\common\Activate.ps1 -> scripts/Activate.ps1
+Moved: emsdk\test\test_activation.ps1 -> scripts/test_activation.ps1
+Moved: emsdk\test\test_bazel.ps1 -> scripts/test_bazel.ps1
+Moved: emsdk\test\test_path_preservation.ps1 -> scripts/test_path_preservation.ps1
+Moved: red_x\build-web.ps1 -> scripts/build-web.ps1
+Moved: red_x\Develop-Native.ps1 -> scripts/Develop-Native.ps1
+Moved: red_x\fix-clang-manually.ps1 -> scripts/fix-clang-manually.ps1
+Moved: red_x\fix-emscripten-llvm.ps1 -> scripts/fix-emscripten-llvm.ps1
+Moved: red_x\fix-emscripten.ps1 -> scripts/fix-emscripten.ps1
+Moved: red_x\fix-node-detection.ps1 -> scripts/fix-node-detection.ps1
+Moved: red_x\Invoke-RedX.ps1 -> scripts/Invoke-RedX.ps1
+Moved: red_x\run-emcc.ps1 -> scripts/run-emcc.ps1
+Moved: red_x\Run-RedX.ps1 -> scripts/Run-RedX.ps1
+Moved: red_x\Setup-Dependencies.ps1 -> scripts/Setup-Dependencies.ps1
+Moved: red_x\Start-RedX-Build.ps1 -> scripts/Start-RedX-Build.ps1
+Moved: red_x\sxs-build-web.ps1 -> scripts/sxs-build-web.ps1
+Moved: red_x\sxs-start-server.ps1 -> scripts/sxs-start-server.ps1
+Moved: red_x\sxs.ps1 -> scripts/sxs.ps1
+Moved: red_x\Test-RedXSyntax.ps1 -> scripts/Test-RedXSyntax.ps1
+WARNING: Destination file exists, renaming to cleanup-workflows-old.ps1
+Moved: scripts\cleanup-workflows.ps1 -> scripts/cleanup-workflows.ps1
+WARNING: Destination file exists, renaming to ps-backup-old.ps1
+Moved: scripts\ps-backup.ps1 -> scripts/ps-backup.ps1
+WARNING: Destination file exists, renaming to ps-build-old.ps1
+Moved: scripts\ps-build.ps1 -> scripts/ps-build.ps1
+WARNING: Destination file exists, renaming to ps-deploy-old.ps1
+Moved: scripts\ps-deploy.ps1 -> scripts/ps-deploy.ps1
+WARNING: Destination file exists, renaming to ps-restore-old.ps1
+Moved: scripts\ps-restore.ps1 -> scripts/ps-restore.ps1
+WARNING: Destination file exists, renaming to run-native-build-old.ps1
+Moved: scripts\run-native-build.ps1 -> scripts/run-native-build.ps1
+Moved: branch-manager.cmd -> scripts/branch-manager.cmd
+Moved: check-status.cmd -> scripts/check-status.cmd
+Moved: create-test-video.cmd -> scripts/create-test-video.cmd
+Moved: create-web3-demo-video.cmd -> scripts/create-web3-demo-video.cmd
+Moved: deploy-gh-pages.cmd -> scripts/deploy-gh-pages.cmd
+Moved: launch-branch-manager.cmd -> scripts/launch-branch-manager.cmd
+Moved: open-launcher.cmd -> scripts/open-launcher.cmd
+Moved: open-ubuntu-prx.cmd -> scripts/open-ubuntu-prx.cmd
+Moved: RedX-Build.cmd -> scripts/RedX-Build.cmd
+Moved: run-app.cmd -> scripts/run-app.cmd
+Moved: run-build 2.cmd -> scripts/run-build 2.cmd
+Moved: run-build.cmd -> scripts/run-build.cmd
+Moved: run-cfig.cmd -> scripts/run-cfig.cmd
+Moved: run-fix-deploy.cmd -> scripts/run-fix-deploy.cmd
+Moved: run-launcher.cmd -> scripts/run-launcher.cmd
+Moved: run-ranking-page.cmd -> scripts/run-ranking-page.cmd
+Moved: run-script.cmd -> scripts/run-script.cmd
+Moved: run-security.cmd -> scripts/run-security.cmd
+Moved: run-status.cmd -> scripts/run-status.cmd
+Moved: run-tests.cmd -> scripts/run-tests.cmd
+Moved: switch-branch.cmd -> scripts/switch-branch.cmd
+Moved: sxs-cli.cmd -> scripts/sxs-cli.cmd
+WARNING: Destination file exists, renaming to check-status-old.cmd
+Moved: main_backup_20250415_110245\check-status.cmd -> scripts/check-status.cmd
+WARNING: Destination file exists, renaming to open-launcher-old.cmd
+Moved: main_backup_20250415_110245\open-launcher.cmd -> scripts/open-launcher.cmd
+WARNING: Destination file exists, renaming to run-app-old.cmd
+Moved: main_backup_20250415_110245\run-app.cmd -> scripts/run-app.cmd
+WARNING: Destination file exists, renaming to run-build 2-old.cmd
+Moved: main_backup_20250415_110245\run-build 2.cmd -> scripts/run-build 2.cmd
+WARNING: Destination file exists, renaming to run-build-old.cmd
+Moved: main_backup_20250415_110245\run-build.cmd -> scripts/run-build.cmd
+WARNING: Destination file exists, renaming to run-cfig-old.cmd
+Moved: main_backup_20250415_110245\run-cfig.cmd -> scripts/run-cfig.cmd
+WARNING: Destination file exists, renaming to run-fix-deploy-old.cmd
+Moved: main_backup_20250415_110245\run-fix-deploy.cmd -> scripts/run-fix-deploy.cmd
+WARNING: Destination file exists, renaming to run-launcher-old.cmd
+Moved: main_backup_20250415_110245\run-launcher.cmd -> scripts/run-launcher.cmd
+WARNING: Destination file exists, renaming to run-ranking-page-old.cmd
+Moved: main_backup_20250415_110245\run-ranking-page.cmd -> scripts/run-ranking-page.cmd
+WARNING: Destination file exists, renaming to run-script-old.cmd
+Moved: main_backup_20250415_110245\run-script.cmd -> scripts/run-script.cmd
+WARNING: Destination file exists, renaming to run-security-old.cmd
+Moved: main_backup_20250415_110245\run-security.cmd -> scripts/run-security.cmd
+Moved: main_backup_20250415_110245\run-status 2.cmd -> scripts/run-status 2.cmd
+WARNING: Destination file exists, renaming to run-status-old.cmd
+Moved: main_backup_20250415_110245\run-status.cmd -> scripts/run-status.cmd
+WARNING: Destination file exists, renaming to run-tests-old.cmd
+Moved: main_backup_20250415_110245\run-tests.cmd -> scripts/run-tests.cmd
+WARNING: Destination file exists, renaming to download-assets-old.cmd
+Moved: main_backup_20250415_110245\scripts\download-assets.cmd -> scripts/download-assets.cmd
+WARNING: Destination file exists, renaming to run-ruby-generator-old.cmd
+Moved: main_backup_20250415_110245\scripts\run-ruby-generator.cmd -> scripts/run-ruby-generator.cmd
+WARNING: Destination file exists, renaming to download-assets-old.cmd
+Moved: scripts\download-assets.cmd -> scripts/download-assets.cmd
+WARNING: Destination file exists, renaming to run-ruby-generator-old.cmd
+Moved: scripts\run-ruby-generator.cmd -> scripts/run-ruby-generator.cmd
+WARNING: Destination file exists, renaming to run-task-old.cmd
+Moved: scripts\run-task.cmd -> scripts/run-task.cmd
+Moved: BuildRedX.bat -> scripts/BuildRedX.bat
+Moved: setup-env 2.bat -> scripts/setup-env 2.bat
+Moved: setup-env.bat -> scripts/setup-env.bat
+Moved: start-sxs.bat -> scripts/start-sxs.bat
+Moved: emsdk\emcmdprompt.bat -> scripts/emcmdprompt.bat
+Moved: emsdk\emsdk.bat -> scripts/emsdk.bat
+Moved: emsdk\emsdk_env.bat -> scripts/emsdk_env.bat
+Moved: emsdk\bazel\emscripten_toolchain\emar.bat -> scripts/emar.bat
+Moved: emsdk\bazel\emscripten_toolchain\emcc.bat -> scripts/emcc.bat
+Moved: emsdk\bazel\emscripten_toolchain\emcc_link.bat -> scripts/emcc_link.bat
+Moved: emsdk\bazel\emscripten_toolchain\env.bat -> scripts/env.bat
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\ctypes\macholib\fetch_macholib.bat -> scripts/fetch_macholib.bat
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\venv\scripts\nt\activate.bat -> scripts/activate.bat
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\venv\scripts\nt\deactivate.bat -> scripts/deactivate.bat
+Moved: emsdk\test\test.bat -> scripts/test.bat
+Moved: emsdk\upstream\emscripten\bootstrap.bat -> scripts/bootstrap.bat
+Moved: emsdk\upstream\emscripten\em++.bat -> scripts/em++.bat
+Moved: emsdk\upstream\emscripten\em-config.bat -> scripts/em-config.bat
+WARNING: Destination file exists, renaming to emar-old.bat
+Moved: emsdk\upstream\emscripten\emar.bat -> scripts/emar.bat
+Moved: emsdk\upstream\emscripten\embuilder.bat -> scripts/embuilder.bat
+WARNING: Destination file exists, renaming to emcc-old.bat
+Moved: emsdk\upstream\emscripten\emcc.bat -> scripts/emcc.bat
+Moved: emsdk\upstream\emscripten\emcmake.bat -> scripts/emcmake.bat
+Moved: emsdk\upstream\emscripten\emconfigure.bat -> scripts/emconfigure.bat
+Moved: emsdk\upstream\emscripten\emdump.bat -> scripts/emdump.bat
+Moved: emsdk\upstream\emscripten\emdwp.bat -> scripts/emdwp.bat
+Moved: emsdk\upstream\emscripten\emmake.bat -> scripts/emmake.bat
+Moved: emsdk\upstream\emscripten\emnm.bat -> scripts/emnm.bat
+Moved: emsdk\upstream\emscripten\emprofile.bat -> scripts/emprofile.bat
+Moved: emsdk\upstream\emscripten\emranlib.bat -> scripts/emranlib.bat
+Moved: emsdk\upstream\emscripten\emrun.bat -> scripts/emrun.bat
+Moved: emsdk\upstream\emscripten\emscan-deps.bat -> scripts/emscan-deps.bat
+Moved: emsdk\upstream\emscripten\emscons.bat -> scripts/emscons.bat
+Moved: emsdk\upstream\emscripten\emsize.bat -> scripts/emsize.bat
+Moved: emsdk\upstream\emscripten\emstrip.bat -> scripts/emstrip.bat
+Moved: emsdk\upstream\emscripten\emsymbolizer.bat -> scripts/emsymbolizer.bat
+Moved: emsdk\upstream\emscripten\cache\sysroot\bin\sdl-config.bat -> scripts/sdl-config.bat
+Moved: emsdk\upstream\emscripten\cache\sysroot\bin\sdl2-config.bat -> scripts/sdl2-config.bat
+WARNING: Destination file exists, renaming to sdl-config-old.bat
+Moved: emsdk\upstream\emscripten\system\bin\sdl-config.bat -> scripts/sdl-config.bat
+WARNING: Destination file exists, renaming to sdl2-config-old.bat
+Moved: emsdk\upstream\emscripten\system\bin\sdl2-config.bat -> scripts/sdl2-config.bat
+Moved: emsdk\upstream\emscripten\test\runner.bat -> scripts/runner.bat
+Moved: emsdk\upstream\emscripten\tools\file_packager.bat -> scripts/file_packager.bat
+Moved: emsdk\upstream\emscripten\tools\webidl_binder.bat -> scripts/webidl_binder.bat
+WARNING: Destination file exists, renaming to setup-env 2-old.bat
+Moved: main_backup_20250415_110245\setup-env 2.bat -> scripts/setup-env 2.bat
+Moved: main_backup_20250415_110245\setup-env 3.bat -> scripts/setup-env 3.bat
+WARNING: Destination file exists, renaming to setup-env-old.bat
+Moved: main_backup_20250415_110245\setup-env.bat -> scripts/setup-env.bat
+Moved: red_x\red_x.bat -> scripts/red_x.bat
+Moved: vendor\bundle\ruby\3.3.0\bin\bundle.bat -> scripts/bundle.bat
+Moved: vendor\bundle\ruby\3.3.0\bin\bundler.bat -> scripts/bundler.bat
+Moved: safe-commit.sh -> scripts/safe-commit.sh
+Moved: sxs-cli.sh -> scripts/sxs-cli.sh
+Moved: emsdk\upstream\emscripten\system\lib\libcxxabi\src\demangle\cp-to-llvm.sh -> scripts/cp-to-llvm.sh
+Moved: emsdk\upstream\emscripten\third_party\ply\example\cleanup.sh -> scripts/cleanup.sh
+WARNING: Destination file exists, renaming to cleanup-old.sh
+Moved: emsdk\upstream\emscripten\third_party\ply\test\cleanup.sh -> scripts/cleanup.sh
+Moved: red_x\build-ubuntu.sh -> scripts/build-ubuntu.sh
+Moved: red_x\deploy-to-ubuntu.sh -> scripts/deploy-to-ubuntu.sh
+Moved: red_x\run-redx.sh -> scripts/run-redx.sh
+Created directory: src/pages
+Moved: main_backup_20250415_110245\scripts\deploy-gh-pages.js -> src/pages/deploy-gh-pages.js
+Moved: main_backup_20250415_110245\src\components\Login\LoginPage.js -> src/pages/LoginPage.js
+WARNING: Destination file exists, renaming to deploy-gh-pages-old.js
+Moved: scripts\deploy-gh-pages.js -> src/pages/deploy-gh-pages.js
+Moved: scripts\diagnose-gh-pages.js -> src/pages/diagnose-gh-pages.js
+WARNING: Destination file exists, renaming to LoginPage-old.js
+Moved: src\components\Login\LoginPage.js -> src/pages/LoginPage.js
+Moved: .branch-config.json -> config/.branch-config.json
+Moved: .eslintrc.json -> config/.eslintrc.json
+Moved: .markdownlint.json -> config/.markdownlint.json
+Moved: launch.json -> config/launch.json
+Moved: nodemon.json -> config/nodemon.json
+Moved: package 2.json -> config/package 2.json
+Moved: package-lock.json -> config/package-lock.json
+Moved: package.json -> config/package.json
+Moved: tasks 2.json -> config/tasks 2.json
+Moved: tasks.json -> config/tasks.json
+Moved: .dependency-backups\backups.json -> config/backups.json
+Moved: .github\workflows\lighthouse-config.json -> config/lighthouse-config.json
+Moved: .sonarlint\sonarlint 2.json -> config/sonarlint 2.json
+Moved: .sonarlint\sonarlint.json -> config/sonarlint.json
+Moved: .vscode\extensions.json -> config/extensions.json
+WARNING: Destination file exists, renaming to launch-old.json
+Moved: .vscode\launch.json -> config/launch.json
+Moved: .vscode\settings.json -> config/settings.json
+WARNING: Destination file exists, renaming to tasks-old.json
+Moved: .vscode\tasks.json -> config/tasks.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: build\package.json -> config/package.json
+Moved: build\.cmake\api\v1\query\client-vscode\query.json -> config/query.json
+Moved: build\.cmake\api\v1\reply\cache-v2-7434f39ec3af327bc434.json -> config/cache-v2-7434f39ec3af327bc434.json
+Moved: build\.cmake\api\v1\reply\cmakeFiles-v1-7b84363198b1da679575.json -> config/cmakeFiles-v1-7b84363198b1da679575.json
+Moved: build\.cmake\api\v1\reply\codemodel-v2-fdf9c42dd4bcdab71306.json -> config/codemodel-v2-fdf9c42dd4bcdab71306.json
+Moved: build\.cmake\api\v1\reply\index-2025-04-28T04-32-32-0916.json -> config/index-2025-04-28T04-32-32-0916.json
+Moved: build\.cmake\api\v1\reply\target-ALL_BUILD-Debug-69ec12e2a2c5969eef29.json -> config/target-ALL_BUILD-Debug-69ec12e2a2c5969eef29.json
+Moved: build\.cmake\api\v1\reply\target-ALL_BUILD-MinSizeRel-69ec12e2a2c5969eef29.json -> config/target-ALL_BUILD-MinSizeRel-69ec12e2a2c5969eef29.json
+Moved: build\.cmake\api\v1\reply\target-ALL_BUILD-Release-69ec12e2a2c5969eef29.json -> config/target-ALL_BUILD-Release-69ec12e2a2c5969eef29.json
+Moved: build\.cmake\api\v1\reply\target-ALL_BUILD-RelWithDebInfo-69ec12e2a2c5969eef29.json -> config/target-ALL_BUILD-RelWithDebInfo-69ec12e2a2c5969eef29.json
+Moved: build\.cmake\api\v1\reply\target-helloworld-Debug-7ae65212b66f16cf4d8a.json -> config/target-helloworld-Debug-7ae65212b66f16cf4d8a.json
+Moved: build\.cmake\api\v1\reply\target-helloworld-MinSizeRel-c062963de7c6f1c965d4.json -> config/target-helloworld-MinSizeRel-c062963de7c6f1c965d4.json
+Moved: build\.cmake\api\v1\reply\target-helloworld-Release-1865329e7c750e8c0f90.json -> config/target-helloworld-Release-1865329e7c750e8c0f90.json
+Moved: build\.cmake\api\v1\reply\target-helloworld-RelWithDebInfo-f227c9d1932f27085ddd.json -> config/target-helloworld-RelWithDebInfo-f227c9d1932f27085ddd.json
+Moved: build\.cmake\api\v1\reply\target-ZERO_CHECK-Debug-fbfcd449e8ac8ae64be6.json -> config/target-ZERO_CHECK-Debug-fbfcd449e8ac8ae64be6.json
+Moved: build\.cmake\api\v1\reply\target-ZERO_CHECK-MinSizeRel-fbfcd449e8ac8ae64be6.json -> config/target-ZERO_CHECK-MinSizeRel-fbfcd449e8ac8ae64be6.json
+Moved: build\.cmake\api\v1\reply\target-ZERO_CHECK-Release-fbfcd449e8ac8ae64be6.json -> config/target-ZERO_CHECK-Release-fbfcd449e8ac8ae64be6.json
+Moved: build\.cmake\api\v1\reply\target-ZERO_CHECK-RelWithDebInfo-fbfcd449e8ac8ae64be6.json -> config/target-ZERO_CHECK-RelWithDebInfo-fbfcd449e8ac8ae64be6.json
+Moved: build\.cmake\api\v1\reply\toolchains-v1-d4e45aededf8e2a12165.json -> config/toolchains-v1-d4e45aededf8e2a12165.json
+WARNING: Destination file exists, renaming to cfig-old.json
+Moved: config\cfig.json -> config/cfig.json
+WARNING: Destination file exists, renaming to ranking-schema-old.json
+Moved: config\ranking-schema.json -> config/ranking-schema.json
+Moved: emsdk\emscripten-releases-tags.json -> config/emscripten-releases-tags.json
+Moved: emsdk\emsdk_manifest.json -> config/emsdk_manifest.json
+WARNING: Destination file exists, renaming to package-lock-old.json
+Moved: emsdk\upstream\emscripten\package-lock.json -> config/package-lock.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: emsdk\upstream\emscripten\package.json -> config/package.json
+Moved: emsdk\upstream\emscripten\src\struct_info.json -> config/struct_info.json
+Moved: emsdk\upstream\emscripten\src\struct_info_cxx.json -> config/struct_info_cxx.json
+Moved: emsdk\upstream\emscripten\src\struct_info_generated.json -> config/struct_info_generated.json
+Moved: emsdk\upstream\emscripten\src\struct_info_generated_wasm64.json -> config/struct_info_generated_wasm64.json
+Moved: emsdk\upstream\emscripten\src\struct_info_internal.json -> config/struct_info_internal.json
+Moved: emsdk\upstream\emscripten\src\struct_info_webgpu.json -> config/struct_info_webgpu.json
+Moved: emsdk\upstream\emscripten\test\code_size\embind_hello_wasm.json -> config/embind_hello_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\embind_val_wasm.json -> config/embind_val_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\hello_wasm_worker_wasm.json -> config/hello_wasm_worker_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\hello_webgl2_wasm.json -> config/hello_webgl2_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\hello_webgl2_wasm2js.json -> config/hello_webgl2_wasm2js.json
+Moved: emsdk\upstream\emscripten\test\code_size\hello_webgl_wasm.json -> config/hello_webgl_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\hello_webgl_wasm2js.json -> config/hello_webgl_wasm2js.json
+Moved: emsdk\upstream\emscripten\test\code_size\hello_world_wasm.json -> config/hello_world_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\hello_world_wasm2js.json -> config/hello_world_wasm2js.json
+Moved: emsdk\upstream\emscripten\test\code_size\math_wasm.json -> config/math_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\random_printf_wasm.json -> config/random_printf_wasm.json
+Moved: emsdk\upstream\emscripten\test\code_size\random_printf_wasm2js.json -> config/random_printf_wasm2js.json
+Moved: emsdk\upstream\emscripten\test\other\embind_tsgen_package.json -> config/embind_tsgen_package.json
+Moved: emsdk\upstream\emscripten\test\other\test_extra_struct_info.json -> config/test_extra_struct_info.json
+WARNING: Destination file exists, renaming to launch-old.json
+Moved: main_backup_20250415_110245\launch.json -> config/launch.json
+WARNING: Destination file exists, renaming to nodemon-old.json
+Moved: main_backup_20250415_110245\nodemon.json -> config/nodemon.json
+WARNING: Destination file exists, renaming to package 2-old.json
+Moved: main_backup_20250415_110245\package 2.json -> config/package 2.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: main_backup_20250415_110245\package.json -> config/package.json
+WARNING: Destination file exists, renaming to tasks 2-old.json
+Moved: main_backup_20250415_110245\tasks 2.json -> config/tasks 2.json
+Moved: main_backup_20250415_110245\tasks 3.json -> config/tasks 3.json
+WARNING: Destination file exists, renaming to tasks-old.json
+Moved: main_backup_20250415_110245\tasks.json -> config/tasks.json
+WARNING: Destination file exists, renaming to sonarlint 2-old.json
+Moved: main_backup_20250415_110245\.sonarlint\sonarlint 2.json -> config/sonarlint 2.json
+WARNING: Destination file exists, renaming to sonarlint-old.json
+Moved: main_backup_20250415_110245\.sonarlint\sonarlint.json -> config/sonarlint.json
+WARNING: Destination file exists, renaming to extensions-old.json
+Moved: main_backup_20250415_110245\.vscode\extensions.json -> config/extensions.json
+WARNING: Destination file exists, renaming to launch-old.json
+Moved: main_backup_20250415_110245\.vscode\launch.json -> config/launch.json
+WARNING: Destination file exists, renaming to settings-old.json
+Moved: main_backup_20250415_110245\.vscode\settings.json -> config/settings.json
+WARNING: Destination file exists, renaming to tasks-old.json
+Moved: main_backup_20250415_110245\.vscode\tasks.json -> config/tasks.json
+Moved: main_backup_20250415_110245\config\cfig 2.json -> config/cfig 2.json
+Moved: main_backup_20250415_110245\config\cfig.json -> config/cfig.json
+Moved: main_backup_20250415_110245\config\ranking-schema 2.json -> config/ranking-schema 2.json
+Moved: main_backup_20250415_110245\config\ranking-schema.json -> config/ranking-schema.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: main_backup_20250415_110245\red_x\package.json -> config/package.json
+Moved: main_backup_20250415_110245\red_x\tsconfig.json -> config/tsconfig.json
+Moved: main_backup_20250415_110245\tests\asset-generator\test-files.json -> config/test-files.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: main_backup_20250415_110245\ts\package.json -> config/package.json
+WARNING: Destination file exists, renaming to tsconfig-old.json
+Moved: main_backup_20250415_110245\ts\tsconfig.json -> config/tsconfig.json
+Moved: mcp-schemas\blockchainConfig.schema.json -> config/blockchainConfig.schema.json
+Moved: mcp-schemas\conversationManager.schema.json -> config/conversationManager.schema.json
+Moved: mcp-schemas\index.schema.json -> config/index.schema.json
+Moved: mcp-schemas\poebcController.schema.json -> config/poebcController.schema.json
+WARNING: Destination file exists, renaming to package-lock-old.json
+Moved: red_x\package-lock.json -> config/package-lock.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: red_x\package.json -> config/package.json
+Moved: red_x\sxs-config.json -> config/sxs-config.json
+Moved: red_x\sxs-package.json -> config/sxs-package.json
+WARNING: Destination file exists, renaming to tsconfig-old.json
+Moved: red_x\tsconfig.json -> config/tsconfig.json
+Moved: red_x\sxs-core\nlp-config.json -> config/nlp-config.json
+Moved: red_x\sxs-metrics\metrics.json -> config/metrics.json
+WARNING: Destination file exists, renaming to test-files-old.json
+Moved: tests\asset-generator\test-files.json -> config/test-files.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: ts\package.json -> config/package.json
+WARNING: Destination file exists, renaming to tsconfig-old.json
+Moved: ts\tsconfig.json -> config/tsconfig.json
+WARNING: Destination file exists, renaming to package-old.json
+Moved: _site\package.json -> config/package.json
+Moved: docker-compose 2.yml -> config/docker-compose 2.yml
+Moved: docker-compose.yml -> config/docker-compose.yml
+Moved: _config.yml -> config/_config.yml
+Moved: .github\codeql-config.yml -> config/codeql-config.yml
+Moved: .github\dependabot.yml -> config/dependabot.yml
+Moved: .github\workflows\build-and-test.yml -> config/build-and-test.yml
+Moved: .github\workflows\build-deploy.yml -> config/build-deploy.yml
+Moved: .github\workflows\build-test.yml -> config/build-test.yml
+Moved: .github\workflows\code-quality.yml -> config/code-quality.yml
+Moved: .github\workflows\codeql-analysis.yml -> config/codeql-analysis.yml
+Moved: .github\workflows\contract-docs-deploy.yml -> config/contract-docs-deploy.yml
+Moved: .github\workflows\deploy-pages.yml -> config/deploy-pages.yml
+Moved: .github\workflows\deploy.yml -> config/deploy.yml
+Moved: .github\workflows\deployment.yml -> config/deployment.yml
+Moved: .github\workflows\gh-pages-deploy.yml -> config/gh-pages-deploy.yml
+Moved: .github\workflows\gh-pages.yml -> config/gh-pages.yml
+Moved: .github\workflows\github-compatibility.yml -> config/github-compatibility.yml
+Moved: .github\workflows\github-pages.yml -> config/github-pages.yml
+Moved: .github\workflows\jekyll-build.yml -> config/jekyll-build.yml
+Moved: .github\workflows\lighthouse.yml -> config/lighthouse.yml
+Moved: .github\workflows\main.yml -> config/main.yml
+Moved: .github\workflows\pages-build-deployment.yml -> config/pages-build-deployment.yml
+Moved: .github\workflows\powershell-validation.yml -> config/powershell-validation.yml
+Moved: .github\workflows\pull-request.yml -> config/pull-request.yml
+Moved: .github\workflows\ruby-ci.yml -> config/ruby-ci.yml
+Moved: .github\workflows\test.yml -> config/test.yml
+Moved: .github\workflows\unified-deploy.yml -> config/unified-deploy.yml
+Moved: .github\workflows\unified-testing.yml -> config/unified-testing.yml
+Moved: .github\workflows\url-check.yml -> config/url-check.yml
+Moved: .github\workflows\validate-powershell.yml -> config/validate-powershell.yml
+WARNING: Destination file exists, renaming to _config-old.yml
+Moved: build\_config.yml -> config/_config.yml
+WARNING: Destination file exists, renaming to design-config-old.yml
+Moved: config\design-config.yml -> config/design-config.yml
+Moved: emsdk\.circleci\config.yml -> config/config.yml
+Moved: emsdk\.github\stale.yml -> config/stale.yml
+Moved: emsdk\.github\workflows\create-release.yml -> config/create-release.yml
+Moved: emsdk\.github\workflows\tag-release.yml -> config/tag-release.yml
+WARNING: Destination file exists, renaming to config-old.yml
+Moved: emsdk\upstream\emscripten\.circleci\config.yml -> config/config.yml
+WARNING: Destination file exists, renaming to dependabot-old.yml
+Moved: emsdk\upstream\emscripten\.github\dependabot.yml -> config/dependabot.yml
+WARNING: Destination file exists, renaming to stale-old.yml
+Moved: emsdk\upstream\emscripten\.github\stale.yml -> config/stale.yml
+Moved: emsdk\upstream\emscripten\.github\workflows\ci.yml -> config/ci.yml
+Moved: emsdk\upstream\emscripten\.github\workflows\rebaseline-tests.yml -> config/rebaseline-tests.yml
+Moved: emsdk\upstream\emscripten\.github\workflows\scorecards.yml -> config/scorecards.yml
+WARNING: Destination file exists, renaming to tag-release-old.yml
+Moved: emsdk\upstream\emscripten\.github\workflows\tag-release.yml -> config/tag-release.yml
+WARNING: Destination file exists, renaming to docker-compose 2-old.yml
+Moved: main_backup_20250415_110245\docker-compose 2.yml -> config/docker-compose 2.yml
+WARNING: Destination file exists, renaming to docker-compose-old.yml
+Moved: main_backup_20250415_110245\docker-compose.yml -> config/docker-compose.yml
+Moved: main_backup_20250415_110245\_config 2.yml -> config/_config 2.yml
+WARNING: Destination file exists, renaming to _config-old.yml
+Moved: main_backup_20250415_110245\_config.yml -> config/_config.yml
+WARNING: Destination file exists, renaming to dependabot-old.yml
+Moved: main_backup_20250415_110245\.github\dependabot.yml -> config/dependabot.yml
+Moved: main_backup_20250415_110245\.github\workflows\0-welcome.yml -> config/0-welcome.yml
+Moved: main_backup_20250415_110245\.github\workflows\1-enable-github-pages.yml -> config/1-enable-github-pages.yml
+Moved: main_backup_20250415_110245\.github\workflows\2-configure-your-site.yml -> config/2-configure-your-site.yml
+Moved: main_backup_20250415_110245\.github\workflows\3-customize-your-homepage.yml -> config/3-customize-your-homepage.yml
+Moved: main_backup_20250415_110245\.github\workflows\4-create-a-blog-post.yml -> config/4-create-a-blog-post.yml
+Moved: main_backup_20250415_110245\.github\workflows\5-merge-your-pull-request.yml -> config/5-merge-your-pull-request.yml
+WARNING: Destination file exists, renaming to build-test-old.yml
+Moved: main_backup_20250415_110245\.github\workflows\build-test.yml -> config/build-test.yml
+WARNING: Destination file exists, renaming to deploy-old.yml
+Moved: main_backup_20250415_110245\.github\workflows\deploy.yml -> config/deploy.yml
+WARNING: Destination file exists, renaming to gh-pages-old.yml
+Moved: main_backup_20250415_110245\.github\workflows\gh-pages.yml -> config/gh-pages.yml
+WARNING: Destination file exists, renaming to github-pages-old.yml
+Moved: main_backup_20250415_110245\.github\workflows\github-pages.yml -> config/github-pages.yml
+Moved: main_backup_20250415_110245\config\design-config 2.yml -> config/design-config 2.yml
+Moved: main_backup_20250415_110245\config\design-config.yml -> config/design-config.yml
+WARNING: Destination file exists, renaming to _config-old.yml
+Moved: _site\_config.yml -> config/_config.yml
+Moved: java\serverless-function\template.yaml -> config/template.yaml
+Moved: assets\js\utils.js -> src/utils/utils.js
+WARNING: Destination file exists, renaming to utils-old.js
+Moved: build\assets\js\utils.js -> src/utils/utils.js
+Moved: emsdk\upstream\emscripten\third_party\closure-compiler\node-externs\util.js -> src/utils/util.js
+WARNING: Destination file exists, renaming to utils-old.js
+Moved: main_backup_20250415_110245\assets\js\utils.js -> src/utils/utils.js
+Moved: main_backup_20250415_110245\tests\utils.test 2.js -> src/utils/utils.test 2.js
+Moved: main_backup_20250415_110245\tests\utils.test.js -> src/utils/utils.test.js
+WARNING: Destination file exists, renaming to utils.test-old.js
+Moved: tests\utils.test.js -> src/utils/utils.test.js
+WARNING: Destination file exists, renaming to utils-old.js
+Moved: _site\assets\js\utils.js -> src/utils/utils.js
+Moved: cli\utils\ui-helpers.js -> src/utils/ui-helpers.js
+Moved: scripts\ci-helper.js -> src/utils/ci-helper.js
+Moved: scripts\deploy-helper.js -> src/utils/deploy-helper.js
+Created directory: src/contracts
+Moved: ProofOfExistence (1).sol -> src/contracts/ProofOfExistence (1).sol
+Moved: ProofOfExistence 2.sol -> src/contracts/ProofOfExistence 2.sol
+Moved: ProofOfExistence.sol -> src/contracts/ProofOfExistence.sol
+Moved: StreamAccessContract.sol -> src/contracts/StreamAccessContract.sol
+Moved: Streaming.sol -> src/contracts/Streaming.sol
+Moved: StreamPayment.sol -> src/contracts/StreamPayment.sol
+Moved: StreamToken.sol -> src/contracts/StreamToken.sol
+WARNING: Destination file exists, renaming to StreamAccessContract-old.sol
+Moved: build\StreamAccessContract.sol -> src/contracts/StreamAccessContract.sol
+WARNING: Destination file exists, renaming to Streaming-old.sol
+Moved: build\Streaming.sol -> src/contracts/Streaming.sol
+WARNING: Destination file exists, renaming to StreamPayment-old.sol
+Moved: build\StreamPayment.sol -> src/contracts/StreamPayment.sol
+WARNING: Destination file exists, renaming to StreamToken-old.sol
+Moved: build\StreamToken.sol -> src/contracts/StreamToken.sol
+Moved: contracts\ContentRegistry.sol -> src/contracts/ContentRegistry.sol
+Moved: contracts\EmergencyResponse.sol -> src/contracts/EmergencyResponse.sol
+Moved: contracts\EnhancedReentrancyGuard.sol -> src/contracts/EnhancedReentrancyGuard.sol
+Moved: contracts\LazyContentMinter.sol -> src/contracts/LazyContentMinter.sol
+WARNING: Destination file exists, renaming to ProofOfExistence-old.sol
+Moved: contracts\ProofOfExistence.sol -> src/contracts/ProofOfExistence.sol
+Moved: contracts\StandardErrors.sol -> src/contracts/StandardErrors.sol
+WARNING: Destination file exists, renaming to StreamAccessContract-old.sol
+Moved: contracts\StreamAccessContract.sol -> src/contracts/StreamAccessContract.sol
+Moved: contracts\StreamAccessProxy.sol -> src/contracts/StreamAccessProxy.sol
+Moved: contracts\StreamAMM.sol -> src/contracts/StreamAMM.sol
+Moved: contracts\StreamingToken.sol -> src/contracts/StreamingToken.sol
+Moved: contracts\ValidationUtils.sol -> src/contracts/ValidationUtils.sol
+Moved: docs\token\contracts\StreamEcosystem.sol -> src/contracts/StreamEcosystem.sol
+Moved: docs\token\contracts\StreamGovernance.sol -> src/contracts/StreamGovernance.sol
+Moved: docs\token\contracts\StreamMetricsOracle.sol -> src/contracts/StreamMetricsOracle.sol
+WARNING: Destination file exists, renaming to StreamToken-old.sol
+Moved: docs\token\contracts\StreamToken.sol -> src/contracts/StreamToken.sol
+WARNING: Destination file exists, renaming to ProofOfExistence (1)-old.sol
+Moved: main_backup_20250415_110245\ProofOfExistence (1).sol -> src/contracts/ProofOfExistence (1).sol
+WARNING: Destination file exists, renaming to ProofOfExistence 2-old.sol
+Moved: main_backup_20250415_110245\ProofOfExistence 2.sol -> src/contracts/ProofOfExistence 2.sol
+Moved: main_backup_20250415_110245\ProofOfExistence 4.sol -> src/contracts/ProofOfExistence 4.sol
+WARNING: Destination file exists, renaming to ProofOfExistence-old.sol
+Moved: main_backup_20250415_110245\ProofOfExistence.sol -> src/contracts/ProofOfExistence.sol
+WARNING: Destination file exists, renaming to StreamAccessContract-old.sol
+Moved: main_backup_20250415_110245\StreamAccessContract.sol -> src/contracts/StreamAccessContract.sol
+WARNING: Destination file exists, renaming to Streaming-old.sol
+Moved: main_backup_20250415_110245\Streaming.sol -> src/contracts/Streaming.sol
+Moved: main_backup_20250415_110245\StreamPayment 2.sol -> src/contracts/StreamPayment 2.sol
+WARNING: Destination file exists, renaming to StreamPayment-old.sol
+Moved: main_backup_20250415_110245\StreamPayment.sol -> src/contracts/StreamPayment.sol
+WARNING: Destination file exists, renaming to StreamToken-old.sol
+Moved: main_backup_20250415_110245\StreamToken.sol -> src/contracts/StreamToken.sol
+WARNING: Destination file exists, renaming to ProofOfExistence 2-old.sol
+Moved: main_backup_20250415_110245\contracts\ProofOfExistence 2.sol -> src/contracts/ProofOfExistence 2.sol
+WARNING: Destination file exists, renaming to ProofOfExistence-old.sol
+Moved: main_backup_20250415_110245\contracts\ProofOfExistence.sol -> src/contracts/ProofOfExistence.sol
+Moved: main_backup_20250415_110245\contracts\StreamAccessContract 2.sol -> src/contracts/StreamAccessContract 2.sol
+WARNING: Destination file exists, renaming to StreamAccessContract-old.sol
+Moved: main_backup_20250415_110245\contracts\StreamAccessContract.sol -> src/contracts/StreamAccessContract.sol
+WARNING: Destination file exists, renaming to StreamAccessContract-old.sol
+Moved: _site\StreamAccessContract.sol -> src/contracts/StreamAccessContract.sol
+WARNING: Destination file exists, renaming to Streaming-old.sol
+Moved: _site\Streaming.sol -> src/contracts/Streaming.sol
+WARNING: Destination file exists, renaming to StreamPayment-old.sol
+Moved: _site\StreamPayment.sol -> src/contracts/StreamPayment.sol
+WARNING: Destination file exists, renaming to StreamToken-old.sol
+Moved: _site\StreamToken.sol -> src/contracts/StreamToken.sol
+Created directory: src/styles
+Moved: dashboard-batch-upload.css -> src/styles/dashboard-batch-upload.css
+Moved: main 2.css -> src/styles/main 2.css
+Moved: main.css -> src/styles/main.css
+Moved: styles.css -> src/styles/styles.css
+Moved: assets\css\ai-companion.css -> src/styles/ai-companion.css
+Moved: assets\css\animations.css -> src/styles/animations.css
+Moved: assets\css\aws-jobs 2.css -> src/styles/aws-jobs 2.css
+Moved: assets\css\aws-jobs.css -> src/styles/aws-jobs.css
+Moved: assets\css\blockchain-game.css -> src/styles/blockchain-game.css
+Moved: assets\css\blog 2.css -> src/styles/blog 2.css
+Moved: assets\css\blog.css -> src/styles/blog.css
+Moved: assets\css\browser-compatibility.css -> src/styles/browser-compatibility.css
+Moved: assets\css\chat.css -> src/styles/chat.css
+Moved: assets\css\components 2.css -> src/styles/components 2.css
+Moved: assets\css\components.css -> src/styles/components.css
+Moved: assets\css\content-studio.css -> src/styles/content-studio.css
+Moved: assets\css\content-viewer.css -> src/styles/content-viewer.css
+Moved: assets\css\contrast-fixes.css -> src/styles/contrast-fixes.css
+Moved: assets\css\cross-browser.css -> src/styles/cross-browser.css
+Moved: assets\css\dashboard.css -> src/styles/dashboard.css
+Moved: assets\css\definitive.css -> src/styles/definitive.css
+Moved: assets\css\flymode.css -> src/styles/flymode.css
+Moved: assets\css\freebase.css -> src/styles/freebase.css
+Moved: assets\css\legal.css -> src/styles/legal.css
+WARNING: Destination file exists, renaming to main-old.css
+Moved: assets\css\main.css -> src/styles/main.css
+Moved: assets\css\mobile.css -> src/styles/mobile.css
+Moved: assets\css\moderation 2.css -> src/styles/moderation 2.css
+Moved: assets\css\moderation.css -> src/styles/moderation.css
+Moved: assets\css\registration.css -> src/styles/registration.css
+Moved: assets\css\style.css -> src/styles/style.css
+Moved: assets\css\telos.css -> src/styles/telos.css
+Moved: assets\css\theme.css -> src/styles/theme.css
+Moved: assets\css\westoast 2.css -> src/styles/westoast 2.css
+Moved: assets\css\westoast.css -> src/styles/westoast.css
+WARNING: Destination file exists, renaming to ai-companion-old.css
+Moved: build\assets\css\ai-companion.css -> src/styles/ai-companion.css
+WARNING: Destination file exists, renaming to animations-old.css
+Moved: build\assets\css\animations.css -> src/styles/animations.css
+WARNING: Destination file exists, renaming to aws-jobs 2-old.css
+Moved: build\assets\css\aws-jobs 2.css -> src/styles/aws-jobs 2.css
+WARNING: Destination file exists, renaming to aws-jobs-old.css
+Moved: build\assets\css\aws-jobs.css -> src/styles/aws-jobs.css
+WARNING: Destination file exists, renaming to blockchain-game-old.css
+Moved: build\assets\css\blockchain-game.css -> src/styles/blockchain-game.css
+WARNING: Destination file exists, renaming to blog 2-old.css
+Moved: build\assets\css\blog 2.css -> src/styles/blog 2.css
+WARNING: Destination file exists, renaming to blog-old.css
+Moved: build\assets\css\blog.css -> src/styles/blog.css
+WARNING: Destination file exists, renaming to browser-compatibility-old.css
+Moved: build\assets\css\browser-compatibility.css -> src/styles/browser-compatibility.css
+WARNING: Destination file exists, renaming to chat-old.css
+Moved: build\assets\css\chat.css -> src/styles/chat.css
+WARNING: Destination file exists, renaming to components 2-old.css
+Moved: build\assets\css\components 2.css -> src/styles/components 2.css
+WARNING: Destination file exists, renaming to components-old.css
+Moved: build\assets\css\components.css -> src/styles/components.css
+WARNING: Destination file exists, renaming to content-studio-old.css
+Moved: build\assets\css\content-studio.css -> src/styles/content-studio.css
+WARNING: Destination file exists, renaming to content-viewer-old.css
+Moved: build\assets\css\content-viewer.css -> src/styles/content-viewer.css
+WARNING: Destination file exists, renaming to contrast-fixes-old.css
+Moved: build\assets\css\contrast-fixes.css -> src/styles/contrast-fixes.css
+WARNING: Destination file exists, renaming to cross-browser-old.css
+Moved: build\assets\css\cross-browser.css -> src/styles/cross-browser.css
+WARNING: Destination file exists, renaming to dashboard-old.css
+Moved: build\assets\css\dashboard.css -> src/styles/dashboard.css
+WARNING: Destination file exists, renaming to definitive-old.css
+Moved: build\assets\css\definitive.css -> src/styles/definitive.css
+WARNING: Destination file exists, renaming to flymode-old.css
+Moved: build\assets\css\flymode.css -> src/styles/flymode.css
+WARNING: Destination file exists, renaming to freebase-old.css
+Moved: build\assets\css\freebase.css -> src/styles/freebase.css
+WARNING: Destination file exists, renaming to legal-old.css
+Moved: build\assets\css\legal.css -> src/styles/legal.css
+WARNING: Destination file exists, renaming to main-old.css
+Moved: build\assets\css\main.css -> src/styles/main.css
+WARNING: Destination file exists, renaming to moderation 2-old.css
+Moved: build\assets\css\moderation 2.css -> src/styles/moderation 2.css
+WARNING: Destination file exists, renaming to moderation-old.css
+Moved: build\assets\css\moderation.css -> src/styles/moderation.css
+WARNING: Destination file exists, renaming to registration-old.css
+Moved: build\assets\css\registration.css -> src/styles/registration.css
+WARNING: Destination file exists, renaming to style-old.css
+Moved: build\assets\css\style.css -> src/styles/style.css
+WARNING: Destination file exists, renaming to telos-old.css
+Moved: build\assets\css\telos.css -> src/styles/telos.css
+WARNING: Destination file exists, renaming to theme-old.css
+Moved: build\assets\css\theme.css -> src/styles/theme.css
+WARNING: Destination file exists, renaming to westoast 2-old.css
+Moved: build\assets\css\westoast 2.css -> src/styles/westoast 2.css
+WARNING: Destination file exists, renaming to westoast-old.css
+Moved: build\assets\css\westoast.css -> src/styles/westoast.css
+WARNING: Destination file exists, renaming to dashboard-batch-upload-old.css
+Moved: css\dashboard-batch-upload.css -> src/styles/dashboard-batch-upload.css
+Moved: css\dashboard-upload.css -> src/styles/dashboard-upload.css
+WARNING: Destination file exists, renaming to dashboard-old.css
+Moved: css\dashboard.css -> src/styles/dashboard.css
+Moved: css\ipfs-upload.css -> src/styles/ipfs-upload.css
+Moved: css\responsive-framework.css -> src/styles/responsive-framework.css
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\pydoc_data\_pydoc.css -> src/styles/_pydoc.css
+Moved: emsdk\upstream\emscripten\src\shell.css -> src/styles/shell.css
+WARNING: Destination file exists, renaming to animations-old.css
+Moved: gh pages actions workspace\streamchain-website\assets\css\animations.css -> src/styles/animations.css
+WARNING: Destination file exists, renaming to definitive-old.css
+Moved: gh pages actions workspace\streamchain-website\assets\css\definitive.css -> src/styles/definitive.css
+WARNING: Destination file exists, renaming to main-old.css
+Moved: gh pages actions workspace\streamchain-website\assets\css\main.css -> src/styles/main.css
+WARNING: Destination file exists, renaming to main 2-old.css
+Moved: main_backup_20250415_110245\main 2.css -> src/styles/main 2.css
+WARNING: Destination file exists, renaming to main-old.css
+Moved: main_backup_20250415_110245\main.css -> src/styles/main.css
+WARNING: Destination file exists, renaming to styles-old.css
+Moved: main_backup_20250415_110245\styles.css -> src/styles/styles.css
+WARNING: Destination file exists, renaming to ai-companion-old.css
+Moved: main_backup_20250415_110245\assets\css\ai-companion.css -> src/styles/ai-companion.css
+WARNING: Destination file exists, renaming to animations-old.css
+Moved: main_backup_20250415_110245\assets\css\animations.css -> src/styles/animations.css
+WARNING: Destination file exists, renaming to aws-jobs 2-old.css
+Moved: main_backup_20250415_110245\assets\css\aws-jobs 2.css -> src/styles/aws-jobs 2.css
+WARNING: Destination file exists, renaming to aws-jobs-old.css
+Moved: main_backup_20250415_110245\assets\css\aws-jobs.css -> src/styles/aws-jobs.css
+WARNING: Destination file exists, renaming to blockchain-game-old.css
+Moved: main_backup_20250415_110245\assets\css\blockchain-game.css -> src/styles/blockchain-game.css
+WARNING: Destination file exists, renaming to blog 2-old.css
+Moved: main_backup_20250415_110245\assets\css\blog 2.css -> src/styles/blog 2.css
+WARNING: Destination file exists, renaming to blog-old.css
+Moved: main_backup_20250415_110245\assets\css\blog.css -> src/styles/blog.css
+WARNING: Destination file exists, renaming to components 2-old.css
+Moved: main_backup_20250415_110245\assets\css\components 2.css -> src/styles/components 2.css
+WARNING: Destination file exists, renaming to components-old.css
+Moved: main_backup_20250415_110245\assets\css\components.css -> src/styles/components.css
+WARNING: Destination file exists, renaming to content-viewer-old.css
+Moved: main_backup_20250415_110245\assets\css\content-viewer.css -> src/styles/content-viewer.css
+WARNING: Destination file exists, renaming to contrast-fixes-old.css
+Moved: main_backup_20250415_110245\assets\css\contrast-fixes.css -> src/styles/contrast-fixes.css
+WARNING: Destination file exists, renaming to flymode-old.css
+Moved: main_backup_20250415_110245\assets\css\flymode.css -> src/styles/flymode.css
+WARNING: Destination file exists, renaming to freebase-old.css
+Moved: main_backup_20250415_110245\assets\css\freebase.css -> src/styles/freebase.css
+WARNING: Destination file exists, renaming to legal-old.css
+Moved: main_backup_20250415_110245\assets\css\legal.css -> src/styles/legal.css
+WARNING: Destination file exists, renaming to main-old.css
+Moved: main_backup_20250415_110245\assets\css\main.css -> src/styles/main.css
+WARNING: Destination file exists, renaming to moderation 2-old.css
+Moved: main_backup_20250415_110245\assets\css\moderation 2.css -> src/styles/moderation 2.css
+WARNING: Destination file exists, renaming to moderation-old.css
+Moved: main_backup_20250415_110245\assets\css\moderation.css -> src/styles/moderation.css
+WARNING: Destination file exists, renaming to registration-old.css
+Moved: main_backup_20250415_110245\assets\css\registration.css -> src/styles/registration.css
+WARNING: Destination file exists, renaming to style-old.css
+Moved: main_backup_20250415_110245\assets\css\style.css -> src/styles/style.css
+WARNING: Destination file exists, renaming to telos-old.css
+Moved: main_backup_20250415_110245\assets\css\telos.css -> src/styles/telos.css
+WARNING: Destination file exists, renaming to theme-old.css
+Moved: main_backup_20250415_110245\assets\css\theme.css -> src/styles/theme.css
+WARNING: Destination file exists, renaming to westoast 2-old.css
+Moved: main_backup_20250415_110245\assets\css\westoast 2.css -> src/styles/westoast 2.css
+WARNING: Destination file exists, renaming to westoast-old.css
+Moved: main_backup_20250415_110245\assets\css\westoast.css -> src/styles/westoast.css
+WARNING: Destination file exists, renaming to responsive-framework-old.css
+Moved: main_backup_20250415_110245\css\responsive-framework.css -> src/styles/responsive-framework.css
+WARNING: Destination file exists, renaming to ai-companion-old.css
+Moved: _site\assets\css\ai-companion.css -> src/styles/ai-companion.css
+WARNING: Destination file exists, renaming to animations-old.css
+Moved: _site\assets\css\animations.css -> src/styles/animations.css
+WARNING: Destination file exists, renaming to aws-jobs 2-old.css
+Moved: _site\assets\css\aws-jobs 2.css -> src/styles/aws-jobs 2.css
+WARNING: Destination file exists, renaming to aws-jobs-old.css
+Moved: _site\assets\css\aws-jobs.css -> src/styles/aws-jobs.css
+WARNING: Destination file exists, renaming to blockchain-game-old.css
+Moved: _site\assets\css\blockchain-game.css -> src/styles/blockchain-game.css
+WARNING: Destination file exists, renaming to blog 2-old.css
+Moved: _site\assets\css\blog 2.css -> src/styles/blog 2.css
+WARNING: Destination file exists, renaming to blog-old.css
+Moved: _site\assets\css\blog.css -> src/styles/blog.css
+WARNING: Destination file exists, renaming to browser-compatibility-old.css
+Moved: _site\assets\css\browser-compatibility.css -> src/styles/browser-compatibility.css
+WARNING: Destination file exists, renaming to chat-old.css
+Moved: _site\assets\css\chat.css -> src/styles/chat.css
+WARNING: Destination file exists, renaming to components 2-old.css
+Moved: _site\assets\css\components 2.css -> src/styles/components 2.css
+WARNING: Destination file exists, renaming to components-old.css
+Moved: _site\assets\css\components.css -> src/styles/components.css
+WARNING: Destination file exists, renaming to content-studio-old.css
+Moved: _site\assets\css\content-studio.css -> src/styles/content-studio.css
+WARNING: Destination file exists, renaming to content-viewer-old.css
+Moved: _site\assets\css\content-viewer.css -> src/styles/content-viewer.css
+WARNING: Destination file exists, renaming to contrast-fixes-old.css
+Moved: _site\assets\css\contrast-fixes.css -> src/styles/contrast-fixes.css
+WARNING: Destination file exists, renaming to cross-browser-old.css
+Moved: _site\assets\css\cross-browser.css -> src/styles/cross-browser.css
+WARNING: Destination file exists, renaming to dashboard-old.css
+Moved: _site\assets\css\dashboard.css -> src/styles/dashboard.css
+WARNING: Destination file exists, renaming to definitive-old.css
+Moved: _site\assets\css\definitive.css -> src/styles/definitive.css
+WARNING: Destination file exists, renaming to flymode-old.css
+Moved: _site\assets\css\flymode.css -> src/styles/flymode.css
+WARNING: Destination file exists, renaming to freebase-old.css
+Moved: _site\assets\css\freebase.css -> src/styles/freebase.css
+WARNING: Destination file exists, renaming to legal-old.css
+Moved: _site\assets\css\legal.css -> src/styles/legal.css
+WARNING: Destination file exists, renaming to main-old.css
+Moved: _site\assets\css\main.css -> src/styles/main.css
+WARNING: Destination file exists, renaming to mobile-old.css
+Moved: _site\assets\css\mobile.css -> src/styles/mobile.css
+WARNING: Destination file exists, renaming to moderation 2-old.css
+Moved: _site\assets\css\moderation 2.css -> src/styles/moderation 2.css
+WARNING: Destination file exists, renaming to moderation-old.css
+Moved: _site\assets\css\moderation.css -> src/styles/moderation.css
+WARNING: Destination file exists, renaming to registration-old.css
+Moved: _site\assets\css\registration.css -> src/styles/registration.css
+WARNING: Destination file exists, renaming to style-old.css
+Moved: _site\assets\css\style.css -> src/styles/style.css
+WARNING: Destination file exists, renaming to telos-old.css
+Moved: _site\assets\css\telos.css -> src/styles/telos.css
+WARNING: Destination file exists, renaming to theme-old.css
+Moved: _site\assets\css\theme.css -> src/styles/theme.css
+WARNING: Destination file exists, renaming to westoast 2-old.css
+Moved: _site\assets\css\westoast 2.css -> src/styles/westoast 2.css
+WARNING: Destination file exists, renaming to westoast-old.css
+Moved: _site\assets\css\westoast.css -> src/styles/westoast.css
+Moved: assets\css\style.scss -> src/styles/style.scss
+WARNING: Destination file exists, renaming to style-old.scss
+Moved: build\assets\css\style.scss -> src/styles/style.scss
+WARNING: Destination file exists, renaming to style-old.scss
+Moved: main_backup_20250415_110245\assets\css\style.scss -> src/styles/style.scss
+WARNING: Destination file exists, renaming to style-old.scss
+Moved: _site\assets\css\style.scss -> src/styles/style.scss
+Moved: emsdk\upstream\emscripten\docs\graph.png -> assets/images/graph.png
+Moved: emsdk\upstream\emscripten\media\logo.png -> assets/images/logo.png
+Moved: emsdk\upstream\emscripten\media\powered_by_logo.png -> assets/images/powered_by_logo.png
+Moved: emsdk\upstream\emscripten\media\powered_by_logo_shell.png -> assets/images/powered_by_logo_shell.png
+Moved: emsdk\upstream\emscripten\media\switch_logo.png -> assets/images/switch_logo.png
+Moved: emsdk\upstream\emscripten\test\cocos2d_hello.png -> assets/images/cocos2d_hello.png
+Moved: emsdk\upstream\emscripten\test\cube_explosion.png -> assets/images/cube_explosion.png
+Moved: emsdk\upstream\emscripten\test\float_tex.png -> assets/images/float_tex.png
+Moved: emsdk\upstream\emscripten\test\gears.png -> assets/images/gears.png
+Moved: emsdk\upstream\emscripten\test\glbegin_points.png -> assets/images/glbegin_points.png
+Moved: emsdk\upstream\emscripten\test\gl_ps.png -> assets/images/gl_ps.png
+Moved: emsdk\upstream\emscripten\test\gl_ps_strides.png -> assets/images/gl_ps_strides.png
+Moved: emsdk\upstream\emscripten\test\gl_renderers.png -> assets/images/gl_renderers.png
+Moved: emsdk\upstream\emscripten\test\gl_stride.png -> assets/images/gl_stride.png
+Moved: emsdk\upstream\emscripten\test\gl_triangle.png -> assets/images/gl_triangle.png
+Moved: emsdk\upstream\emscripten\test\gl_vertex_buffer.png -> assets/images/gl_vertex_buffer.png
+Moved: emsdk\upstream\emscripten\test\gl_vertex_buffer_pre.png -> assets/images/gl_vertex_buffer_pre.png
+Moved: emsdk\upstream\emscripten\test\htmltest.png -> assets/images/htmltest.png
+Moved: emsdk\upstream\emscripten\test\perspective.png -> assets/images/perspective.png
+Moved: emsdk\upstream\emscripten\test\s3tc.png -> assets/images/s3tc.png
+Moved: emsdk\upstream\emscripten\test\s3tc_crunch.png -> assets/images/s3tc_crunch.png
+Moved: emsdk\upstream\emscripten\test\screenshot-fog-density.png -> assets/images/screenshot-fog-density.png
+Moved: emsdk\upstream\emscripten\test\screenshot-fog-exp2.png -> assets/images/screenshot-fog-exp2.png
+Moved: emsdk\upstream\emscripten\test\screenshot-fog-linear.png -> assets/images/screenshot-fog-linear.png
+Moved: emsdk\upstream\emscripten\test\screenshot-fog-negative.png -> assets/images/screenshot-fog-negative.png
+Moved: emsdk\upstream\emscripten\test\screenshot-fog-simple.png -> assets/images/screenshot-fog-simple.png
+Moved: emsdk\upstream\emscripten\test\screenshot-gray-purple.png -> assets/images/screenshot-gray-purple.png
+Moved: emsdk\upstream\emscripten\test\screenshot-gray.png -> assets/images/screenshot-gray.png
+Moved: emsdk\upstream\emscripten\test\screenshot.png -> assets/images/screenshot.png
+Moved: emsdk\upstream\emscripten\test\tex_nonbyte.png -> assets/images/tex_nonbyte.png
+Moved: emsdk\upstream\emscripten\test\browser\test_anisotropic.png -> assets/images/test_anisotropic.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp1.png -> assets/images/test_sdl-stb-bpp1.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp2.png -> assets/images/test_sdl-stb-bpp2.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp3.png -> assets/images/test_sdl-stb-bpp3.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl-stb-bpp4.png -> assets/images/test_sdl-stb-bpp4.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_canvas.png -> assets/images/test_sdl2_canvas.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_gfx.png -> assets/images/test_sdl2_gfx.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_glalphatest.png -> assets/images/test_sdl2_glalphatest.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_glclipplane_gllighting.png -> assets/images/test_sdl2_glclipplane_gllighting.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_gldrawelements.png -> assets/images/test_sdl2_gldrawelements.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_glmatrixmode_texture.png -> assets/images/test_sdl2_glmatrixmode_texture.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_gl_frames_swap.png -> assets/images/test_sdl2_gl_frames_swap.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_ttf.png -> assets/images/test_sdl2_ttf.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl2_ttf_rtl.png -> assets/images/test_sdl2_ttf_rtl.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_alpha.png -> assets/images/test_sdl_canvas_alpha.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_alpha_flag_0.png -> assets/images/test_sdl_canvas_alpha_flag_0.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_blank.png -> assets/images/test_sdl_canvas_blank.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette.png -> assets/images/test_sdl_canvas_palette.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette_b.png -> assets/images/test_sdl_canvas_palette_b.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette_g.png -> assets/images/test_sdl_canvas_palette_g.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_palette_r.png -> assets/images/test_sdl_canvas_palette_r.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_proxy.png -> assets/images/test_sdl_canvas_proxy.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_twice.png -> assets/images/test_sdl_canvas_twice.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_create_rgb_surface_from.png -> assets/images/test_sdl_create_rgb_surface_from.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_gfx_primitives.png -> assets/images/test_sdl_gfx_primitives.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_glshader.png -> assets/images/test_sdl_glshader.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_maprgba.png -> assets/images/test_sdl_maprgba.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_rotozoom.png -> assets/images/test_sdl_rotozoom.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_set_clip_rect.png -> assets/images/test_sdl_set_clip_rect.png
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_ttf_render_text_solid.png -> assets/images/test_sdl_ttf_render_text_solid.png
+Moved: emsdk\upstream\emscripten\test\browser\webgl_array_of_structs_uniform.png -> assets/images/webgl_array_of_structs_uniform.png
+Moved: emsdk\upstream\emscripten\test\browser\webgl_draw_instanced_base_vertex_base_instance.png -> assets/images/webgl_draw_instanced_base_vertex_base_instance.png
+Moved: emsdk\upstream\emscripten\test\browser\webgl_multi_draw.png -> assets/images/webgl_multi_draw.png
+Moved: emsdk\upstream\emscripten\test\minimal_webgl\moon.png -> assets/images/moon.png
+Moved: emsdk\upstream\emscripten\test\screenshot.jpg -> assets/images/screenshot.jpg
+Moved: emsdk\upstream\emscripten\test\screenshot.webp -> assets/images/screenshot.webp
+Created directory: public
+Moved: 404.html -> public/404.html
+Moved: about.html -> public/about.html
+Moved: admin.html -> public/admin.html
+Moved: ai-companion.html -> public/ai-companion.html
+Moved: audience-engagement.html -> public/audience-engagement.html
+Moved: batch-upload-demo.html -> public/batch-upload-demo.html
+Moved: branch-manager.html -> public/branch-manager.html
+Moved: creator-dashboard.html -> public/creator-dashboard.html
+Moved: docs.html -> public/docs.html
+Moved: governance-visualization.html -> public/governance-visualization.html
+Moved: index.html -> public/index.html
+Moved: instructor.html -> public/instructor.html
+Moved: launch.html -> public/launch.html
+Moved: monetization.html -> public/monetization.html
+Moved: offline.html -> public/offline.html
+Moved: ranking-power.html -> public/ranking-power.html
+Moved: redirect.html -> public/redirect.html
+Moved: security.html -> public/security.html
+Moved: sitemap.html -> public/sitemap.html
+Moved: status-onboarding.html -> public/status-onboarding.html
+Moved: status.html -> public/status.html
+Moved: streaming.html -> public/streaming.html
+Moved: team.html -> public/team.html
+Moved: token-explorer.html -> public/token-explorer.html
+Moved: token.html -> public/token.html
+Moved: url-launcher.html -> public/url-launcher.html
+Moved: aws-integration\aws-jobs.html -> public/aws-jobs.html
+WARNING: Destination file exists, renaming to creator-dashboard-old.html
+Moved: backup_community_model\creator-dashboard.html -> public/creator-dashboard.html
+Moved: backup_community_model\homepage.html -> public/homepage.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: blog\index.html -> public/index.html
+WARNING: Destination file exists, renaming to 404-old.html
+Moved: build\404.html -> public/404.html
+WARNING: Destination file exists, renaming to ai-companion-old.html
+Moved: build\ai-companion.html -> public/ai-companion.html
+WARNING: Destination file exists, renaming to creator-dashboard-old.html
+Moved: build\creator-dashboard.html -> public/creator-dashboard.html
+WARNING: Destination file exists, renaming to governance-visualization-old.html
+Moved: build\governance-visualization.html -> public/governance-visualization.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: build\index.html -> public/index.html
+WARNING: Destination file exists, renaming to ranking-power-old.html
+Moved: build\ranking-power.html -> public/ranking-power.html
+WARNING: Destination file exists, renaming to status-old.html
+Moved: build\status.html -> public/status.html
+WARNING: Destination file exists, renaming to streaming-old.html
+Moved: build\streaming.html -> public/streaming.html
+WARNING: Destination file exists, renaming to team-old.html
+Moved: build\team.html -> public/team.html
+WARNING: Destination file exists, renaming to url-launcher-old.html
+Moved: build\url-launcher.html -> public/url-launcher.html
+Moved: build\red_x\afk-downloader.html -> public/afk-downloader.html
+Moved: build\red_x\deployment_test.html -> public/deployment_test.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: build\red_x\index.html -> public/index.html
+Moved: build\red_x\template.html -> public/template.html
+Moved: docs\contracts.html -> public/contracts.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: docs\index.html -> public/index.html
+WARNING: Destination file exists, renaming to token-old.html
+Moved: docs\token.html -> public/token.html
+Moved: docs\_includes\sidebar.html -> public/sidebar.html
+Moved: docs\_layouts\default.html -> public/default.html
+Moved: email-templates\beta-signup.html -> public/beta-signup.html
+Moved: email-templates\confirmation.html -> public/confirmation.html
+Moved: email-templates\job-application.html -> public/job-application.html
+Moved: email-templates\newsletter.html -> public/newsletter.html
+Moved: email-templates\welcome.html -> public/welcome.html
+Moved: emsdk\upstream\emscripten\src\shell.html -> public/shell.html
+Moved: emsdk\upstream\emscripten\src\shell_minimal.html -> public/shell_minimal.html
+Moved: emsdk\upstream\emscripten\src\shell_minimal_runtime.html -> public/shell_minimal_runtime.html
+Moved: emsdk\upstream\emscripten\test\browser_harness.html -> public/browser_harness.html
+Moved: emsdk\upstream\emscripten\test\canvas_animate_resize_shell.html -> public/canvas_animate_resize_shell.html
+Moved: emsdk\upstream\emscripten\test\canvas_style_proxy_shell.html -> public/canvas_style_proxy_shell.html
+Moved: emsdk\upstream\emscripten\test\custom_messages_proxy_shell.html -> public/custom_messages_proxy_shell.html
+Moved: emsdk\upstream\emscripten\test\hello_world_gles_shell.html -> public/hello_world_gles_shell.html
+Moved: emsdk\upstream\emscripten\test\shell_that_launches_modularize.html -> public/shell_that_launches_modularize.html
+Moved: emsdk\upstream\emscripten\test\test_fflush.html -> public/test_fflush.html
+Moved: emsdk\upstream\emscripten\test\test_html5_fullscreen.html -> public/test_html5_fullscreen.html
+Moved: emsdk\upstream\emscripten\test\test_manual_wasm_instantiate.html -> public/test_manual_wasm_instantiate.html
+Moved: emsdk\upstream\emscripten\test\test_preallocated_heap_shell.html -> public/test_preallocated_heap_shell.html
+Moved: emsdk\upstream\emscripten\test\test_preinitialized_webgl_context.html -> public/test_preinitialized_webgl_context.html
+Moved: emsdk\upstream\emscripten\test\browser\test_em_asm_blocking.html -> public/test_em_asm_blocking.html
+Moved: emsdk\upstream\emscripten\test\browser\test_manual_download_data.html -> public/test_manual_download_data.html
+Moved: emsdk\upstream\emscripten\test\browser\test_sdl_canvas_size.html -> public/test_sdl_canvas_size.html
+Moved: emsdk\upstream\emscripten\test\browser\webgl_destroy_context_shell.html -> public/webgl_destroy_context_shell.html
+WARNING: Destination file exists, renaming to shell-old.html
+Moved: emsdk\upstream\emscripten\test\embind\shell.html -> public/shell.html
+Moved: emsdk\upstream\emscripten\test\module\test_html_preprocess.html -> public/test_html_preprocess.html
+Moved: emsdk\upstream\emscripten\test\module\test_html_preprocess1.html -> public/test_html_preprocess1.html
+Moved: emsdk\upstream\emscripten\test\pthread\main_js_with_loader.html -> public/main_js_with_loader.html
+Moved: emsdk\upstream\emscripten\test\pthread\test_pthread_mandelbrot_shell.html -> public/test_pthread_mandelbrot_shell.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: emsdk\upstream\emscripten\test\rollup\index.html -> public/index.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: emsdk\upstream\emscripten\test\vite\index.html -> public/index.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: emsdk\upstream\emscripten\test\webpack\dist\index.html -> public/index.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: emsdk\upstream\emscripten\test\webpack_es6\dist\index.html -> public/index.html
+Moved: emsdk\upstream\emscripten\third_party\ply\doc\internal.html -> public/internal.html
+Moved: emsdk\upstream\emscripten\third_party\ply\doc\ply.html -> public/ply.html
+Moved: emsdk\upstream\emscripten\tools\toolchain_profiler.results_template.html -> public/toolchain_profiler.results_template.html
+Moved: examples\batch-upload-example.html -> public/batch-upload-example.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: gh pages actions workspace\streamchain-website\index.html -> public/index.html
+WARNING: Destination file exists, renaming to about-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\about.html -> public/about.html
+WARNING: Destination file exists, renaming to admin-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\admin.html -> public/admin.html
+Moved: gh pages actions workspace\streamchain-website\pages\contact.html -> public/contact.html
+WARNING: Destination file exists, renaming to creator-dashboard-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\creator-dashboard.html -> public/creator-dashboard.html
+WARNING: Destination file exists, renaming to docs-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\docs.html -> public/docs.html
+Moved: gh pages actions workspace\streamchain-website\pages\faq.html -> public/faq.html
+WARNING: Destination file exists, renaming to governance-visualization-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\governance-visualization.html -> public/governance-visualization.html
+Moved: gh pages actions workspace\streamchain-website\pages\privacy.html -> public/privacy.html
+WARNING: Destination file exists, renaming to security-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\security.html -> public/security.html
+WARNING: Destination file exists, renaming to sitemap-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\sitemap.html -> public/sitemap.html
+WARNING: Destination file exists, renaming to streaming-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\streaming.html -> public/streaming.html
+WARNING: Destination file exists, renaming to team-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\team.html -> public/team.html
+Moved: gh pages actions workspace\streamchain-website\pages\terms-of-service.html -> public/terms-of-service.html
+Moved: gh pages actions workspace\streamchain-website\pages\token-disclaimer.html -> public/token-disclaimer.html
+WARNING: Destination file exists, renaming to token-old.html
+Moved: gh pages actions workspace\streamchain-website\pages\token.html -> public/token.html
+WARNING: Destination file exists, renaming to homepage-old.html
+Moved: gh pages b0\homepage.html -> public/homepage.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: gh-pages-build\index.html -> public/index.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: java\index.html -> public/index.html
+Moved: legal\terms.html -> public/terms.html
+Moved: main_backup_20250415_110245\404 2.html -> public/404 2.html
+WARNING: Destination file exists, renaming to 404-old.html
+Moved: main_backup_20250415_110245\404.html -> public/404.html
+Moved: main_backup_20250415_110245\ai-companion 2.html -> public/ai-companion 2.html
+WARNING: Destination file exists, renaming to ai-companion-old.html
+Moved: main_backup_20250415_110245\ai-companion.html -> public/ai-companion.html
+WARNING: Destination file exists, renaming to governance-visualization-old.html
+Moved: main_backup_20250415_110245\governance-visualization.html -> public/governance-visualization.html
+Moved: main_backup_20250415_110245\index 2.html -> public/index 2.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: main_backup_20250415_110245\index.html -> public/index.html
+WARNING: Destination file exists, renaming to launch-old.html
+Moved: main_backup_20250415_110245\launch.html -> public/launch.html
+WARNING: Destination file exists, renaming to ranking-power-old.html
+Moved: main_backup_20250415_110245\ranking-power.html -> public/ranking-power.html
+WARNING: Destination file exists, renaming to security-old.html
+Moved: main_backup_20250415_110245\security.html -> public/security.html
+WARNING: Destination file exists, renaming to status-onboarding-old.html
+Moved: main_backup_20250415_110245\status-onboarding.html -> public/status-onboarding.html
+WARNING: Destination file exists, renaming to status-old.html
+Moved: main_backup_20250415_110245\status.html -> public/status.html
+WARNING: Destination file exists, renaming to team-old.html
+Moved: main_backup_20250415_110245\team.html -> public/team.html
+Moved: main_backup_20250415_110245\url-launcher 2.html -> public/url-launcher 2.html
+WARNING: Destination file exists, renaming to url-launcher-old.html
+Moved: main_backup_20250415_110245\url-launcher.html -> public/url-launcher.html
+Moved: main_backup_20250415_110245\aws-integration\aws-jobs 2.html -> public/aws-jobs 2.html
+WARNING: Destination file exists, renaming to aws-jobs-old.html
+Moved: main_backup_20250415_110245\aws-integration\aws-jobs.html -> public/aws-jobs.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: main_backup_20250415_110245\blog\index.html -> public/index.html
+WARNING: Destination file exists, renaming to sidebar-old.html
+Moved: main_backup_20250415_110245\docs\_includes\sidebar.html -> public/sidebar.html
+WARNING: Destination file exists, renaming to default-old.html
+Moved: main_backup_20250415_110245\docs\_layouts\default.html -> public/default.html
+Moved: main_backup_20250415_110245\gh pages b0\homepage 2.html -> public/homepage 2.html
+WARNING: Destination file exists, renaming to homepage-old.html
+Moved: main_backup_20250415_110245\gh pages b0\homepage.html -> public/homepage.html
+Moved: main_backup_20250415_110245\legal\terms 2.html -> public/terms 2.html
+WARNING: Destination file exists, renaming to terms-old.html
+Moved: main_backup_20250415_110245\legal\terms.html -> public/terms.html
+Moved: main_backup_20250415_110245\pages\digital-assets.html -> public/digital-assets.html
+Moved: main_backup_20250415_110245\pages\education-platform.html -> public/education-platform.html
+Moved: main_backup_20250415_110245\probability\monty-hall.html -> public/monty-hall.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: main_backup_20250415_110245\register\index.html -> public/index.html
+Moved: main_backup_20250415_110245\_includes\animation-demo 2.html -> public/animation-demo 2.html
+Moved: main_backup_20250415_110245\_includes\animation-demo 3.html -> public/animation-demo 3.html
+Moved: main_backup_20250415_110245\_includes\animation-demo 4.html -> public/animation-demo 4.html
+Moved: main_backup_20250415_110245\_includes\animation-demo.html -> public/animation-demo.html
+Moved: main_backup_20250415_110245\_includes\beta-signup-form 2.html -> public/beta-signup-form 2.html
+Moved: main_backup_20250415_110245\_includes\beta-signup-form.html -> public/beta-signup-form.html
+Moved: main_backup_20250415_110245\_includes\comments 2.html -> public/comments 2.html
+Moved: main_backup_20250415_110245\_includes\comments.html -> public/comments.html
+Moved: main_backup_20250415_110245\_includes\contact-info 2.html -> public/contact-info 2.html
+Moved: main_backup_20250415_110245\_includes\contact-info 3.html -> public/contact-info 3.html
+Moved: main_backup_20250415_110245\_includes\contact-info 4.html -> public/contact-info 4.html
+Moved: main_backup_20250415_110245\_includes\contact-info.html -> public/contact-info.html
+Moved: main_backup_20250415_110245\_includes\cta-buttons 2.html -> public/cta-buttons 2.html
+Moved: main_backup_20250415_110245\_includes\cta-buttons 3.html -> public/cta-buttons 3.html
+Moved: main_backup_20250415_110245\_includes\cta-buttons 4.html -> public/cta-buttons 4.html
+Moved: main_backup_20250415_110245\_includes\cta-buttons.html -> public/cta-buttons.html
+Moved: main_backup_20250415_110245\_includes\footer 2.html -> public/footer 2.html
+Moved: main_backup_20250415_110245\_includes\footer.html -> public/footer.html
+Moved: main_backup_20250415_110245\_includes\head 2.html -> public/head 2.html
+Moved: main_backup_20250415_110245\_includes\head.html -> public/head.html
+Moved: main_backup_20250415_110245\_includes\header 2.html -> public/header 2.html
+Moved: main_backup_20250415_110245\_includes\header.html -> public/header.html
+WARNING: Destination file exists, renaming to homepage 2-old.html
+Moved: main_backup_20250415_110245\_includes\homepage 2.html -> public/homepage 2.html
+WARNING: Destination file exists, renaming to homepage-old.html
+Moved: main_backup_20250415_110245\_includes\homepage.html -> public/homepage.html
+Moved: main_backup_20250415_110245\_includes\legal-scripts 2.html -> public/legal-scripts 2.html
+Moved: main_backup_20250415_110245\_includes\legal-scripts.html -> public/legal-scripts.html
+Moved: main_backup_20250415_110245\_includes\navigation 2.html -> public/navigation 2.html
+Moved: main_backup_20250415_110245\_includes\navigation.html -> public/navigation.html
+Moved: main_backup_20250415_110245\_includes\partners-carousel 2.html -> public/partners-carousel 2.html
+Moved: main_backup_20250415_110245\_includes\partners-carousel.html -> public/partners-carousel.html
+Moved: main_backup_20250415_110245\_includes\playground-asset-links 2.html -> public/playground-asset-links 2.html
+Moved: main_backup_20250415_110245\_includes\playground-asset-links.html -> public/playground-asset-links.html
+Moved: main_backup_20250415_110245\_includes\post-footer 2.html -> public/post-footer 2.html
+Moved: main_backup_20250415_110245\_includes\post-footer.html -> public/post-footer.html
+Moved: main_backup_20250415_110245\_includes\post-header 2.html -> public/post-header 2.html
+Moved: main_backup_20250415_110245\_includes\post-header 3.html -> public/post-header 3.html
+Moved: main_backup_20250415_110245\_includes\post-header 4.html -> public/post-header 4.html
+Moved: main_backup_20250415_110245\_includes\post-header.html -> public/post-header.html
+Moved: main_backup_20250415_110245\_includes\roadmap-timeline 2.html -> public/roadmap-timeline 2.html
+Moved: main_backup_20250415_110245\_includes\roadmap-timeline.html -> public/roadmap-timeline.html
+Moved: main_backup_20250415_110245\_includes\team-section 2.html -> public/team-section 2.html
+Moved: main_backup_20250415_110245\_includes\team-section.html -> public/team-section.html
+Moved: main_backup_20250415_110245\_includes\tech-overview 2.html -> public/tech-overview 2.html
+Moved: main_backup_20250415_110245\_includes\tech-overview.html -> public/tech-overview.html
+Moved: main_backup_20250415_110245\_includes\technology-diagram 2.html -> public/technology-diagram 2.html
+Moved: main_backup_20250415_110245\_includes\technology-diagram.html -> public/technology-diagram.html
+WARNING: Destination file exists, renaming to default-old.html
+Moved: main_backup_20250415_110245\_layouts\default.html -> public/default.html
+Moved: main_backup_20250415_110245\_layouts\doc.html -> public/doc.html
+Moved: main_backup_20250415_110245\_layouts\post.html -> public/post.html
+WARNING: Destination file exists, renaming to digital-assets-old.html
+Moved: pages\digital-assets.html -> public/digital-assets.html
+WARNING: Destination file exists, renaming to education-platform-old.html
+Moved: pages\education-platform.html -> public/education-platform.html
+WARNING: Destination file exists, renaming to monty-hall-old.html
+Moved: probability\monty-hall.html -> public/monty-hall.html
+WARNING: Destination file exists, renaming to afk-downloader-old.html
+Moved: red_x\afk-downloader.html -> public/afk-downloader.html
+WARNING: Destination file exists, renaming to deployment_test-old.html
+Moved: red_x\deployment_test.html -> public/deployment_test.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: red_x\index.html -> public/index.html
+WARNING: Destination file exists, renaming to template-old.html
+Moved: red_x\template.html -> public/template.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: register\index.html -> public/index.html
+Moved: whitepaper\web3-streaming-service-whitepaper.html -> public/web3-streaming-service-whitepaper.html
+WARNING: Destination file exists, renaming to animation-demo 2-old.html
+Moved: _includes\animation-demo 2.html -> public/animation-demo 2.html
+WARNING: Destination file exists, renaming to animation-demo-old.html
+Moved: _includes\animation-demo.html -> public/animation-demo.html
+WARNING: Destination file exists, renaming to beta-signup-form-old.html
+Moved: _includes\beta-signup-form.html -> public/beta-signup-form.html
+WARNING: Destination file exists, renaming to comments-old.html
+Moved: _includes\comments.html -> public/comments.html
+WARNING: Destination file exists, renaming to contact-info 2-old.html
+Moved: _includes\contact-info 2.html -> public/contact-info 2.html
+WARNING: Destination file exists, renaming to contact-info-old.html
+Moved: _includes\contact-info.html -> public/contact-info.html
+WARNING: Destination file exists, renaming to cta-buttons 2-old.html
+Moved: _includes\cta-buttons 2.html -> public/cta-buttons 2.html
+WARNING: Destination file exists, renaming to cta-buttons-old.html
+Moved: _includes\cta-buttons.html -> public/cta-buttons.html
+WARNING: Destination file exists, renaming to footer-old.html
+Moved: _includes\footer.html -> public/footer.html
+WARNING: Destination file exists, renaming to head-old.html
+Moved: _includes\head.html -> public/head.html
+WARNING: Destination file exists, renaming to header-old.html
+Moved: _includes\header.html -> public/header.html
+WARNING: Destination file exists, renaming to homepage-old.html
+Moved: _includes\homepage.html -> public/homepage.html
+WARNING: Destination file exists, renaming to legal-scripts-old.html
+Moved: _includes\legal-scripts.html -> public/legal-scripts.html
+WARNING: Destination file exists, renaming to navigation-old.html
+Moved: _includes\navigation.html -> public/navigation.html
+WARNING: Destination file exists, renaming to partners-carousel-old.html
+Moved: _includes\partners-carousel.html -> public/partners-carousel.html
+WARNING: Destination file exists, renaming to playground-asset-links-old.html
+Moved: _includes\playground-asset-links.html -> public/playground-asset-links.html
+WARNING: Destination file exists, renaming to post-footer-old.html
+Moved: _includes\post-footer.html -> public/post-footer.html
+WARNING: Destination file exists, renaming to post-header 2-old.html
+Moved: _includes\post-header 2.html -> public/post-header 2.html
+WARNING: Destination file exists, renaming to post-header-old.html
+Moved: _includes\post-header.html -> public/post-header.html
+WARNING: Destination file exists, renaming to roadmap-timeline-old.html
+Moved: _includes\roadmap-timeline.html -> public/roadmap-timeline.html
+WARNING: Destination file exists, renaming to team-section-old.html
+Moved: _includes\team-section.html -> public/team-section.html
+Moved: _includes\team-socials.html -> public/team-socials.html
+WARNING: Destination file exists, renaming to tech-overview-old.html
+Moved: _includes\tech-overview.html -> public/tech-overview.html
+WARNING: Destination file exists, renaming to technology-diagram-old.html
+Moved: _includes\technology-diagram.html -> public/technology-diagram.html
+WARNING: Destination file exists, renaming to default-old.html
+Moved: _layouts\default.html -> public/default.html
+WARNING: Destination file exists, renaming to doc-old.html
+Moved: _layouts\doc.html -> public/doc.html
+WARNING: Destination file exists, renaming to post-old.html
+Moved: _layouts\post.html -> public/post.html
+WARNING: Destination file exists, renaming to 404-old.html
+Moved: _site\404.html -> public/404.html
+WARNING: Destination file exists, renaming to ai-companion-old.html
+Moved: _site\ai-companion.html -> public/ai-companion.html
+WARNING: Destination file exists, renaming to creator-dashboard-old.html
+Moved: _site\creator-dashboard.html -> public/creator-dashboard.html
+WARNING: Destination file exists, renaming to governance-visualization-old.html
+Moved: _site\governance-visualization.html -> public/governance-visualization.html
+WARNING: Destination file exists, renaming to index-old.html
+Moved: _site\index.html -> public/index.html
+WARNING: Destination file exists, renaming to ranking-power-old.html
+Moved: _site\ranking-power.html -> public/ranking-power.html
+WARNING: Destination file exists, renaming to status-old.html
+Moved: _site\status.html -> public/status.html
+WARNING: Destination file exists, renaming to streaming-old.html
+Moved: _site\streaming.html -> public/streaming.html
+WARNING: Destination file exists, renaming to team-old.html
+Moved: _site\team.html -> public/team.html
+WARNING: Destination file exists, renaming to url-launcher-old.html
+Moved: _site\url-launcher.html -> public/url-launcher.html
+Moved: gh pages actions workspace\streamchain-website\assets\images\favicon.ico -> public/favicon.ico
+Moved: about.md -> docs/about.md
+Moved: animations.md -> docs/animations.md
+Moved: calculator.md -> docs/calculator.md
+Moved: CONSOLIDATION.md -> docs/CONSOLIDATION.md
+Moved: CONTRIBUTING.md -> docs/CONTRIBUTING.md
+Moved: creators.md -> docs/creators.md
+Moved: DEFINITIONS.md -> docs/DEFINITIONS.md
+Moved: deploy-urls.md -> docs/deploy-urls.md
+Moved: DEPLOYMENT_NOTE.md -> docs/DEPLOYMENT_NOTE.md
+Moved: faq.md -> docs/faq.md
+Moved: game.md -> docs/game.md
+Moved: GAS_OPTIMIZATION.md -> docs/GAS_OPTIMIZATION.md
+Moved: GITHUB_ACTIONS_TROUBLESHOOTING.md -> docs/GITHUB_ACTIONS_TROUBLESHOOTING.md
+Moved: INCLUSIONS.md -> docs/INCLUSIONS.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: index.md -> docs/index.md
+Moved: installation.md -> docs/installation.md
+Moved: mobile-testing-guide.md -> docs/mobile-testing-guide.md
+Moved: npm-install-instructions.md -> docs/npm-install-instructions.md
+Moved: playground.md -> docs/playground.md
+Moved: powershell-coding-standards.md -> docs/powershell-coding-standards.md
+Moved: privacy.md -> docs/privacy.md
+Moved: rate-contract-detail-print 2.md -> docs/rate-contract-detail-print 2.md
+Moved: rate-contract-detail-print.md -> docs/rate-contract-detail-print.md
+Moved: README.md -> docs/README.md
+Moved: README_GITHUB_PAGES.md -> docs/README_GITHUB_PAGES.md
+Moved: RECOMMENDATIONS.md -> docs/RECOMMENDATIONS.md
+Moved: REFERENCES.md -> docs/REFERENCES.md
+Moved: REPOSITORY_MERGE_GUIDE.md -> docs/REPOSITORY_MERGE_GUIDE.md
+Moved: ruby-setup.md -> docs/ruby-setup.md
+Moved: SECURITY.md -> docs/SECURITY.md
+Moved: SECURITY_BEST_PRACTICES.md -> docs/SECURITY_BEST_PRACTICES.md
+Moved: session-review-april-24.md -> docs/session-review-april-24.md
+Moved: SXS-CLI-README.md -> docs/SXS-CLI-README.md
+Moved: telos 2.md -> docs/telos 2.md
+Moved: telos.md -> docs/telos.md
+Moved: terms.md -> docs/terms.md
+Moved: ultimate-use-case.md -> docs/ultimate-use-case.md
+Moved: viewer.md -> docs/viewer.md
+Moved: web3-streaming-service-whitepaper.md -> docs/web3-streaming-service-whitepaper.md
+Moved: whitepaper.md -> docs/whitepaper.md
+Moved: windows-nvm-setup.md -> docs/windows-nvm-setup.md
+Moved: .github\pull_request_template.md -> docs/pull_request_template.md
+Moved: .github\WORKFLOW-README.md -> docs/WORKFLOW-README.md
+Moved: .github\steps\0-welcome.md -> docs/0-welcome.md
+Moved: .github\steps\1-enable-github-pages.md -> docs/1-enable-github-pages.md
+Moved: .github\steps\2-configure-your-site.md -> docs/2-configure-your-site.md
+Moved: .github\steps\3-customize-your-homepage.md -> docs/3-customize-your-homepage.md
+Moved: .github\steps\4-create-a-blog-post.md -> docs/4-create-a-blog-post.md
+Moved: .github\steps\5-merge-your-pull-request.md -> docs/5-merge-your-pull-request.md
+Moved: .github\steps\X-finish.md -> docs/X-finish.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: .github\workflows\.disabled-workflows\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: backup_community_model\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: blog\index.md -> docs/index.md
+WARNING: Destination file exists, renaming to about-old.md
+Moved: build\about.md -> docs/about.md
+WARNING: Destination file exists, renaming to animations-old.md
+Moved: build\animations.md -> docs/animations.md
+WARNING: Destination file exists, renaming to calculator-old.md
+Moved: build\calculator.md -> docs/calculator.md
+WARNING: Destination file exists, renaming to CONSOLIDATION-old.md
+Moved: build\CONSOLIDATION.md -> docs/CONSOLIDATION.md
+WARNING: Destination file exists, renaming to CONTRIBUTING-old.md
+Moved: build\CONTRIBUTING.md -> docs/CONTRIBUTING.md
+WARNING: Destination file exists, renaming to creators-old.md
+Moved: build\creators.md -> docs/creators.md
+WARNING: Destination file exists, renaming to DEFINITIONS-old.md
+Moved: build\DEFINITIONS.md -> docs/DEFINITIONS.md
+WARNING: Destination file exists, renaming to deploy-urls-old.md
+Moved: build\deploy-urls.md -> docs/deploy-urls.md
+WARNING: Destination file exists, renaming to DEPLOYMENT_NOTE-old.md
+Moved: build\DEPLOYMENT_NOTE.md -> docs/DEPLOYMENT_NOTE.md
+WARNING: Destination file exists, renaming to faq-old.md
+Moved: build\faq.md -> docs/faq.md
+WARNING: Destination file exists, renaming to game-old.md
+Moved: build\game.md -> docs/game.md
+WARNING: Destination file exists, renaming to GITHUB_ACTIONS_TROUBLESHOOTING-old.md
+Moved: build\GITHUB_ACTIONS_TROUBLESHOOTING.md -> docs/GITHUB_ACTIONS_TROUBLESHOOTING.md
+WARNING: Destination file exists, renaming to INCLUSIONS-old.md
+Moved: build\INCLUSIONS.md -> docs/INCLUSIONS.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: build\index.md -> docs/index.md
+WARNING: Destination file exists, renaming to installation-old.md
+Moved: build\installation.md -> docs/installation.md
+WARNING: Destination file exists, renaming to npm-install-instructions-old.md
+Moved: build\npm-install-instructions.md -> docs/npm-install-instructions.md
+WARNING: Destination file exists, renaming to playground-old.md
+Moved: build\playground.md -> docs/playground.md
+WARNING: Destination file exists, renaming to privacy-old.md
+Moved: build\privacy.md -> docs/privacy.md
+WARNING: Destination file exists, renaming to rate-contract-detail-print 2-old.md
+Moved: build\rate-contract-detail-print 2.md -> docs/rate-contract-detail-print 2.md
+WARNING: Destination file exists, renaming to rate-contract-detail-print-old.md
+Moved: build\rate-contract-detail-print.md -> docs/rate-contract-detail-print.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: build\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README_GITHUB_PAGES-old.md
+Moved: build\README_GITHUB_PAGES.md -> docs/README_GITHUB_PAGES.md
+WARNING: Destination file exists, renaming to RECOMMENDATIONS-old.md
+Moved: build\RECOMMENDATIONS.md -> docs/RECOMMENDATIONS.md
+WARNING: Destination file exists, renaming to REFERENCES-old.md
+Moved: build\REFERENCES.md -> docs/REFERENCES.md
+WARNING: Destination file exists, renaming to REPOSITORY_MERGE_GUIDE-old.md
+Moved: build\REPOSITORY_MERGE_GUIDE.md -> docs/REPOSITORY_MERGE_GUIDE.md
+WARNING: Destination file exists, renaming to SECURITY-old.md
+Moved: build\SECURITY.md -> docs/SECURITY.md
+WARNING: Destination file exists, renaming to SECURITY_BEST_PRACTICES-old.md
+Moved: build\SECURITY_BEST_PRACTICES.md -> docs/SECURITY_BEST_PRACTICES.md
+WARNING: Destination file exists, renaming to session-review-april-24-old.md
+Moved: build\session-review-april-24.md -> docs/session-review-april-24.md
+WARNING: Destination file exists, renaming to SXS-CLI-README-old.md
+Moved: build\SXS-CLI-README.md -> docs/SXS-CLI-README.md
+WARNING: Destination file exists, renaming to telos 2-old.md
+Moved: build\telos 2.md -> docs/telos 2.md
+WARNING: Destination file exists, renaming to telos-old.md
+Moved: build\telos.md -> docs/telos.md
+WARNING: Destination file exists, renaming to terms-old.md
+Moved: build\terms.md -> docs/terms.md
+WARNING: Destination file exists, renaming to ultimate-use-case-old.md
+Moved: build\ultimate-use-case.md -> docs/ultimate-use-case.md
+WARNING: Destination file exists, renaming to viewer-old.md
+Moved: build\viewer.md -> docs/viewer.md
+WARNING: Destination file exists, renaming to web3-streaming-service-whitepaper-old.md
+Moved: build\web3-streaming-service-whitepaper.md -> docs/web3-streaming-service-whitepaper.md
+WARNING: Destination file exists, renaming to whitepaper-old.md
+Moved: build\whitepaper.md -> docs/whitepaper.md
+WARNING: Destination file exists, renaming to windows-nvm-setup-old.md
+Moved: build\windows-nvm-setup.md -> docs/windows-nvm-setup.md
+Moved: career\cv_engineering_manager.md -> docs/cv_engineering_manager.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: career\index.md -> docs/index.md
+Moved: career\reference_letter.md -> docs/reference_letter.md
+Moved: career\sam-lavi-web3-cover-letter.md -> docs/sam-lavi-web3-cover-letter.md
+Moved: career\sam-lavi-web3-cv.md -> docs/sam-lavi-web3-cv.md
+Moved: career\sam-lavi-web3-resume.md -> docs/sam-lavi-web3-resume.md
+Moved: career\web3-application-tips.md -> docs/web3-application-tips.md
+Moved: docker\mcr-dotnet-images.md -> docs/mcr-dotnet-images.md
+WARNING: Destination file exists, renaming to api 2-old.md
+Moved: docs\api 2.md -> docs/api 2.md
+WARNING: Destination file exists, renaming to api-old.md
+Moved: docs\api.md -> docs/api.md
+WARNING: Destination file exists, renaming to architecture-overview 2-old.md
+Moved: docs\architecture-overview 2.md -> docs/architecture-overview 2.md
+WARNING: Destination file exists, renaming to architecture-overview-old.md
+Moved: docs\architecture-overview.md -> docs/architecture-overview.md
+WARNING: Destination file exists, renaming to beta-deployment-guide 2-old.md
+Moved: docs\beta-deployment-guide 2.md -> docs/beta-deployment-guide 2.md
+WARNING: Destination file exists, renaming to beta-deployment-guide-old.md
+Moved: docs\beta-deployment-guide.md -> docs/beta-deployment-guide.md
+WARNING: Destination file exists, renaming to build-os-recommendations 2-old.md
+Moved: docs\build-os-recommendations 2.md -> docs/build-os-recommendations 2.md
+WARNING: Destination file exists, renaming to build-os-recommendations-old.md
+Moved: docs\build-os-recommendations.md -> docs/build-os-recommendations.md
+WARNING: Destination file exists, renaming to creator-payments 2-old.md
+Moved: docs\creator-payments 2.md -> docs/creator-payments 2.md
+WARNING: Destination file exists, renaming to creator-payments-old.md
+Moved: docs\creator-payments.md -> docs/creator-payments.md
+WARNING: Destination file exists, renaming to cross-platform-build-guide 2-old.md
+Moved: docs\cross-platform-build-guide 2.md -> docs/cross-platform-build-guide 2.md
+WARNING: Destination file exists, renaming to cross-platform-build-guide-old.md
+Moved: docs\cross-platform-build-guide.md -> docs/cross-platform-build-guide.md
+WARNING: Destination file exists, renaming to emergency-protocol 2-old.md
+Moved: docs\emergency-protocol 2.md -> docs/emergency-protocol 2.md
+WARNING: Destination file exists, renaming to emergency-protocol-old.md
+Moved: docs\emergency-protocol.md -> docs/emergency-protocol.md
+WARNING: Destination file exists, renaming to git-setup-guide 2-old.md
+Moved: docs\git-setup-guide 2.md -> docs/git-setup-guide 2.md
+WARNING: Destination file exists, renaming to git-setup-guide-old.md
+Moved: docs\git-setup-guide.md -> docs/git-setup-guide.md
+WARNING: Destination file exists, renaming to github-actions-guide-old.md
+Moved: docs\github-actions-guide.md -> docs/github-actions-guide.md
+WARNING: Destination file exists, renaming to github-web3-integration 2-old.md
+Moved: docs\github-web3-integration 2.md -> docs/github-web3-integration 2.md
+WARNING: Destination file exists, renaming to github-web3-integration-old.md
+Moved: docs\github-web3-integration.md -> docs/github-web3-integration.md
+WARNING: Destination file exists, renaming to github-workflow-guide-old.md
+Moved: docs\github-workflow-guide.md -> docs/github-workflow-guide.md
+WARNING: Destination file exists, renaming to governance-framework-old.md
+Moved: docs\governance-framework.md -> docs/governance-framework.md
+WARNING: Destination file exists, renaming to governance-specs-old.md
+Moved: docs\governance-specs.md -> docs/governance-specs.md
+WARNING: Destination file exists, renaming to index 2-old.md
+Moved: docs\index 2.md -> docs/index 2.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: docs\index.md -> docs/index.md
+WARNING: Destination file exists, renaming to introduction-old.md
+Moved: docs\introduction.md -> docs/introduction.md
+WARNING: Destination file exists, renaming to poebc-simulator 2-old.md
+Moved: docs\poebc-simulator 2.md -> docs/poebc-simulator 2.md
+WARNING: Destination file exists, renaming to poebc-simulator-old.md
+Moved: docs\poebc-simulator.md -> docs/poebc-simulator.md
+WARNING: Destination file exists, renaming to sam-lavi-resume 2-old.md
+Moved: docs\sam-lavi-resume 2.md -> docs/sam-lavi-resume 2.md
+WARNING: Destination file exists, renaming to sam-lavi-resume-old.md
+Moved: docs\sam-lavi-resume.md -> docs/sam-lavi-resume.md
+WARNING: Destination file exists, renaming to status-guide-old.md
+Moved: docs\status-guide.md -> docs/status-guide.md
+WARNING: Destination file exists, renaming to tech.contract-list 2-old.md
+Moved: docs\tech.contract-list 2.md -> docs/tech.contract-list 2.md
+WARNING: Destination file exists, renaming to tech.contract-list-old.md
+Moved: docs\tech.contract-list.md -> docs/tech.contract-list.md
+WARNING: Destination file exists, renaming to tech.contracts 2-old.md
+Moved: docs\tech.contracts 2.md -> docs/tech.contracts 2.md
+WARNING: Destination file exists, renaming to tech.contracts-old.md
+Moved: docs\tech.contracts.md -> docs/tech.contracts.md
+WARNING: Destination file exists, renaming to tech.solidity-review 2-old.md
+Moved: docs\tech.solidity-review 2.md -> docs/tech.solidity-review 2.md
+WARNING: Destination file exists, renaming to tech.solidity-review-old.md
+Moved: docs\tech.solidity-review.md -> docs/tech.solidity-review.md
+WARNING: Destination file exists, renaming to tech.token 2-old.md
+Moved: docs\tech.token 2.md -> docs/tech.token 2.md
+WARNING: Destination file exists, renaming to tech.token-old.md
+Moved: docs\tech.token.md -> docs/tech.token.md
+WARNING: Destination file exists, renaming to viewer-rewards 2-old.md
+Moved: docs\viewer-rewards 2.md -> docs/viewer-rewards 2.md
+WARNING: Destination file exists, renaming to viewer-rewards-old.md
+Moved: docs\viewer-rewards.md -> docs/viewer-rewards.md
+WARNING: Destination file exists, renaming to web-platform-build-guide-old.md
+Moved: docs\web-platform-build-guide.md -> docs/web-platform-build-guide.md
+Moved: docs\analysis\project-analysis.md -> docs/project-analysis.md
+Moved: docs\analysis\technical-recommendations.md -> docs/technical-recommendations.md
+Moved: docs\components\batch-uploader.md -> docs/batch-uploader.md
+Moved: docs\components\index.md -> docs/index.md
+Moved: docs\concepts\bubbleheal.md -> docs/bubbleheal.md
+Moved: docs\concepts\diagsys.md -> docs/diagsys.md
+Moved: docs\concepts\hyperstitial.md -> docs/hyperstitial.md
+Moved: docs\concepts\warp.md -> docs/warp.md
+Moved: docs\contracts\proof-of-existence.md -> docs/proof-of-existence.md
+Moved: docs\contracts\stream-access.md -> docs/stream-access.md
+Moved: docs\features\batch-upload.md -> docs/batch-upload.md
+Moved: docs\resources\external-links.md -> docs/external-links.md
+Moved: docs\resources\google-docs.md -> docs/google-docs.md
+Moved: docs\roadmap\enhanced-roadmap.md -> docs/enhanced-roadmap.md
+Moved: docs\roadmap\review-approach.md -> docs/review-approach.md
+Moved: docs\root\introduction.md -> docs/introduction.md
+Moved: docs\tech-features\amm-lazy-minting.md -> docs/amm-lazy-minting.md
+Moved: docs\token\ecosystem-design.md -> docs/ecosystem-design.md
+Moved: docs\token\tokenomics-scalability.md -> docs/tokenomics-scalability.md
+Moved: docs\use-cases\smart-contract-applications.md -> docs/smart-contract-applications.md
+Moved: dotnet\README 2.md -> docs/README 2.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: dotnet\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to SECURITY-old.md
+Moved: emsdk\SECURITY.md -> docs/SECURITY.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\bazel\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\docker\README.md -> docs/README.md
+Moved: emsdk\node\20.18.0_64bit\CHANGELOG.md -> docs/CHANGELOG.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\node\20.18.0_64bit\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to ChangeLog-old.md
+Moved: emsdk\upstream\emscripten\ChangeLog.md -> docs/ChangeLog.md
+WARNING: Destination file exists, renaming to CONTRIBUTING-old.md
+Moved: emsdk\upstream\emscripten\CONTRIBUTING.md -> docs/CONTRIBUTING.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to SECURITY-old.md
+Moved: emsdk\upstream\emscripten\SECURITY.md -> docs/SECURITY.md
+Moved: emsdk\upstream\emscripten\.github\ISSUE_TEMPLATE\bug_report.md -> docs/bug_report.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\cache\sysroot\include\webgpu\README.md -> docs/README.md
+Moved: emsdk\upstream\emscripten\docs\packaging.md -> docs/packaging.md
+Moved: emsdk\upstream\emscripten\docs\process.md -> docs/process.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\system\include\webgpu\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\system\lib\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\system\lib\libc\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to readme-old.md
+Moved: emsdk\upstream\emscripten\system\lib\mimalloc\readme.md -> docs/readme.md
+WARNING: Destination file exists, renaming to readme-old.md
+Moved: emsdk\upstream\emscripten\system\lib\mimalloc\src\prim\readme.md -> docs/readme.md
+WARNING: Destination file exists, renaming to readme-old.md
+Moved: emsdk\upstream\emscripten\system\lib\mimalloc\src\prim\windows\readme.md -> docs/readme.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\system\lib\webgpu\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\test\webaudio\audio_files\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\third_party\closure-compiler\node-externs\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\third_party\leb128\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\third_party\terser\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: emsdk\upstream\emscripten\tools\ports\contrib\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: gh pages actions workspace\streamchain-website\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: java\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to about-old.md
+Moved: main_backup_20250415_110245\about.md -> docs/about.md
+Moved: main_backup_20250415_110245\animations 2.md -> docs/animations 2.md
+WARNING: Destination file exists, renaming to animations-old.md
+Moved: main_backup_20250415_110245\animations.md -> docs/animations.md
+WARNING: Destination file exists, renaming to calculator-old.md
+Moved: main_backup_20250415_110245\calculator.md -> docs/calculator.md
+WARNING: Destination file exists, renaming to CONSOLIDATION-old.md
+Moved: main_backup_20250415_110245\CONSOLIDATION.md -> docs/CONSOLIDATION.md
+WARNING: Destination file exists, renaming to creators-old.md
+Moved: main_backup_20250415_110245\creators.md -> docs/creators.md
+WARNING: Destination file exists, renaming to DEFINITIONS-old.md
+Moved: main_backup_20250415_110245\DEFINITIONS.md -> docs/DEFINITIONS.md
+WARNING: Destination file exists, renaming to deploy-urls-old.md
+Moved: main_backup_20250415_110245\deploy-urls.md -> docs/deploy-urls.md
+WARNING: Destination file exists, renaming to faq-old.md
+Moved: main_backup_20250415_110245\faq.md -> docs/faq.md
+Moved: main_backup_20250415_110245\game 2.md -> docs/game 2.md
+WARNING: Destination file exists, renaming to game-old.md
+Moved: main_backup_20250415_110245\game.md -> docs/game.md
+WARNING: Destination file exists, renaming to INCLUSIONS-old.md
+Moved: main_backup_20250415_110245\INCLUSIONS.md -> docs/INCLUSIONS.md
+Moved: main_backup_20250415_110245\index 2.md -> docs/index 2.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: main_backup_20250415_110245\index.md -> docs/index.md
+WARNING: Destination file exists, renaming to installation-old.md
+Moved: main_backup_20250415_110245\installation.md -> docs/installation.md
+WARNING: Destination file exists, renaming to npm-install-instructions-old.md
+Moved: main_backup_20250415_110245\npm-install-instructions.md -> docs/npm-install-instructions.md
+WARNING: Destination file exists, renaming to playground-old.md
+Moved: main_backup_20250415_110245\playground.md -> docs/playground.md
+WARNING: Destination file exists, renaming to privacy-old.md
+Moved: main_backup_20250415_110245\privacy.md -> docs/privacy.md
+WARNING: Destination file exists, renaming to rate-contract-detail-print 2-old.md
+Moved: main_backup_20250415_110245\rate-contract-detail-print 2.md -> docs/rate-contract-detail-print 2.md
+WARNING: Destination file exists, renaming to rate-contract-detail-print-old.md
+Moved: main_backup_20250415_110245\rate-contract-detail-print.md -> docs/rate-contract-detail-print.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: main_backup_20250415_110245\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README_GITHUB_PAGES-old.md
+Moved: main_backup_20250415_110245\README_GITHUB_PAGES.md -> docs/README_GITHUB_PAGES.md
+WARNING: Destination file exists, renaming to RECOMMENDATIONS-old.md
+Moved: main_backup_20250415_110245\RECOMMENDATIONS.md -> docs/RECOMMENDATIONS.md
+WARNING: Destination file exists, renaming to REFERENCES-old.md
+Moved: main_backup_20250415_110245\REFERENCES.md -> docs/REFERENCES.md
+WARNING: Destination file exists, renaming to REPOSITORY_MERGE_GUIDE-old.md
+Moved: main_backup_20250415_110245\REPOSITORY_MERGE_GUIDE.md -> docs/REPOSITORY_MERGE_GUIDE.md
+WARNING: Destination file exists, renaming to telos 2-old.md
+Moved: main_backup_20250415_110245\telos 2.md -> docs/telos 2.md
+WARNING: Destination file exists, renaming to telos-old.md
+Moved: main_backup_20250415_110245\telos.md -> docs/telos.md
+WARNING: Destination file exists, renaming to terms-old.md
+Moved: main_backup_20250415_110245\terms.md -> docs/terms.md
+WARNING: Destination file exists, renaming to ultimate-use-case-old.md
+Moved: main_backup_20250415_110245\ultimate-use-case.md -> docs/ultimate-use-case.md
+WARNING: Destination file exists, renaming to viewer-old.md
+Moved: main_backup_20250415_110245\viewer.md -> docs/viewer.md
+WARNING: Destination file exists, renaming to web3-streaming-service-whitepaper-old.md
+Moved: main_backup_20250415_110245\web3-streaming-service-whitepaper.md -> docs/web3-streaming-service-whitepaper.md
+WARNING: Destination file exists, renaming to whitepaper-old.md
+Moved: main_backup_20250415_110245\whitepaper.md -> docs/whitepaper.md
+WARNING: Destination file exists, renaming to windows-nvm-setup-old.md
+Moved: main_backup_20250415_110245\windows-nvm-setup.md -> docs/windows-nvm-setup.md
+WARNING: Destination file exists, renaming to 0-welcome-old.md
+Moved: main_backup_20250415_110245\.github\steps\0-welcome.md -> docs/0-welcome.md
+WARNING: Destination file exists, renaming to 1-enable-github-pages-old.md
+Moved: main_backup_20250415_110245\.github\steps\1-enable-github-pages.md -> docs/1-enable-github-pages.md
+WARNING: Destination file exists, renaming to 2-configure-your-site-old.md
+Moved: main_backup_20250415_110245\.github\steps\2-configure-your-site.md -> docs/2-configure-your-site.md
+WARNING: Destination file exists, renaming to 3-customize-your-homepage-old.md
+Moved: main_backup_20250415_110245\.github\steps\3-customize-your-homepage.md -> docs/3-customize-your-homepage.md
+WARNING: Destination file exists, renaming to 4-create-a-blog-post-old.md
+Moved: main_backup_20250415_110245\.github\steps\4-create-a-blog-post.md -> docs/4-create-a-blog-post.md
+WARNING: Destination file exists, renaming to 5-merge-your-pull-request-old.md
+Moved: main_backup_20250415_110245\.github\steps\5-merge-your-pull-request.md -> docs/5-merge-your-pull-request.md
+WARNING: Destination file exists, renaming to X-finish-old.md
+Moved: main_backup_20250415_110245\.github\steps\X-finish.md -> docs/X-finish.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: main_backup_20250415_110245\blog\index.md -> docs/index.md
+Moved: main_backup_20250415_110245\career\cv_engineering_manager 2.md -> docs/cv_engineering_manager 2.md
+WARNING: Destination file exists, renaming to cv_engineering_manager-old.md
+Moved: main_backup_20250415_110245\career\cv_engineering_manager.md -> docs/cv_engineering_manager.md
+WARNING: Destination file exists, renaming to index 2-old.md
+Moved: main_backup_20250415_110245\career\index 2.md -> docs/index 2.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: main_backup_20250415_110245\career\index.md -> docs/index.md
+Moved: main_backup_20250415_110245\career\reference_letter 2.md -> docs/reference_letter 2.md
+WARNING: Destination file exists, renaming to reference_letter-old.md
+Moved: main_backup_20250415_110245\career\reference_letter.md -> docs/reference_letter.md
+Moved: main_backup_20250415_110245\career\sam-lavi-web3-cover-letter 2.md -> docs/sam-lavi-web3-cover-letter 2.md
+WARNING: Destination file exists, renaming to sam-lavi-web3-cover-letter-old.md
+Moved: main_backup_20250415_110245\career\sam-lavi-web3-cover-letter.md -> docs/sam-lavi-web3-cover-letter.md
+Moved: main_backup_20250415_110245\career\sam-lavi-web3-cv 2.md -> docs/sam-lavi-web3-cv 2.md
+WARNING: Destination file exists, renaming to sam-lavi-web3-cv-old.md
+Moved: main_backup_20250415_110245\career\sam-lavi-web3-cv.md -> docs/sam-lavi-web3-cv.md
+Moved: main_backup_20250415_110245\career\sam-lavi-web3-resume 2.md -> docs/sam-lavi-web3-resume 2.md
+WARNING: Destination file exists, renaming to sam-lavi-web3-resume-old.md
+Moved: main_backup_20250415_110245\career\sam-lavi-web3-resume.md -> docs/sam-lavi-web3-resume.md
+Moved: main_backup_20250415_110245\career\web3-application-tips 2.md -> docs/web3-application-tips 2.md
+WARNING: Destination file exists, renaming to web3-application-tips-old.md
+Moved: main_backup_20250415_110245\career\web3-application-tips.md -> docs/web3-application-tips.md
+Moved: main_backup_20250415_110245\docker\mcr-dotnet-images 2.md -> docs/mcr-dotnet-images 2.md
+WARNING: Destination file exists, renaming to mcr-dotnet-images-old.md
+Moved: main_backup_20250415_110245\docker\mcr-dotnet-images.md -> docs/mcr-dotnet-images.md
+Moved: main_backup_20250415_110245\docs\api 2.md -> docs/api 2.md
+Moved: main_backup_20250415_110245\docs\api 3.md -> docs/api 3.md
+Moved: main_backup_20250415_110245\docs\api 4.md -> docs/api 4.md
+Moved: main_backup_20250415_110245\docs\api.md -> docs/api.md
+Moved: main_backup_20250415_110245\docs\architecture-overview 2.md -> docs/architecture-overview 2.md
+Moved: main_backup_20250415_110245\docs\architecture-overview 3.md -> docs/architecture-overview 3.md
+Moved: main_backup_20250415_110245\docs\architecture-overview 4.md -> docs/architecture-overview 4.md
+Moved: main_backup_20250415_110245\docs\architecture-overview.md -> docs/architecture-overview.md
+Moved: main_backup_20250415_110245\docs\beta-deployment-guide 2.md -> docs/beta-deployment-guide 2.md
+Moved: main_backup_20250415_110245\docs\beta-deployment-guide 3.md -> docs/beta-deployment-guide 3.md
+Moved: main_backup_20250415_110245\docs\beta-deployment-guide 4.md -> docs/beta-deployment-guide 4.md
+Moved: main_backup_20250415_110245\docs\beta-deployment-guide.md -> docs/beta-deployment-guide.md
+Moved: main_backup_20250415_110245\docs\build-os-recommendations 2.md -> docs/build-os-recommendations 2.md
+Moved: main_backup_20250415_110245\docs\build-os-recommendations 3.md -> docs/build-os-recommendations 3.md
+Moved: main_backup_20250415_110245\docs\build-os-recommendations 4.md -> docs/build-os-recommendations 4.md
+Moved: main_backup_20250415_110245\docs\build-os-recommendations.md -> docs/build-os-recommendations.md
+Moved: main_backup_20250415_110245\docs\creator-payments 2.md -> docs/creator-payments 2.md
+Moved: main_backup_20250415_110245\docs\creator-payments 3.md -> docs/creator-payments 3.md
+Moved: main_backup_20250415_110245\docs\creator-payments 4.md -> docs/creator-payments 4.md
+Moved: main_backup_20250415_110245\docs\creator-payments.md -> docs/creator-payments.md
+Moved: main_backup_20250415_110245\docs\cross-platform-build-guide 2.md -> docs/cross-platform-build-guide 2.md
+Moved: main_backup_20250415_110245\docs\cross-platform-build-guide 3.md -> docs/cross-platform-build-guide 3.md
+Moved: main_backup_20250415_110245\docs\cross-platform-build-guide 4.md -> docs/cross-platform-build-guide 4.md
+Moved: main_backup_20250415_110245\docs\cross-platform-build-guide.md -> docs/cross-platform-build-guide.md
+Moved: main_backup_20250415_110245\docs\emergency-protocol 2.md -> docs/emergency-protocol 2.md
+Moved: main_backup_20250415_110245\docs\emergency-protocol 3.md -> docs/emergency-protocol 3.md
+Moved: main_backup_20250415_110245\docs\emergency-protocol 4.md -> docs/emergency-protocol 4.md
+Moved: main_backup_20250415_110245\docs\emergency-protocol.md -> docs/emergency-protocol.md
+Moved: main_backup_20250415_110245\docs\git-setup-guide 2.md -> docs/git-setup-guide 2.md
+Moved: main_backup_20250415_110245\docs\git-setup-guide 3.md -> docs/git-setup-guide 3.md
+Moved: main_backup_20250415_110245\docs\git-setup-guide 4.md -> docs/git-setup-guide 4.md
+Moved: main_backup_20250415_110245\docs\git-setup-guide.md -> docs/git-setup-guide.md
+Moved: main_backup_20250415_110245\docs\github-web3-integration 2.md -> docs/github-web3-integration 2.md
+Moved: main_backup_20250415_110245\docs\github-web3-integration 3.md -> docs/github-web3-integration 3.md
+Moved: main_backup_20250415_110245\docs\github-web3-integration 4.md -> docs/github-web3-integration 4.md
+Moved: main_backup_20250415_110245\docs\github-web3-integration.md -> docs/github-web3-integration.md
+Moved: main_backup_20250415_110245\docs\governance-framework 2.md -> docs/governance-framework 2.md
+Moved: main_backup_20250415_110245\docs\governance-framework.md -> docs/governance-framework.md
+Moved: main_backup_20250415_110245\docs\governance-specs 2.md -> docs/governance-specs 2.md
+Moved: main_backup_20250415_110245\docs\governance-specs.md -> docs/governance-specs.md
+WARNING: Destination file exists, renaming to index 2-old.md
+Moved: main_backup_20250415_110245\docs\index 2.md -> docs/index 2.md
+Moved: main_backup_20250415_110245\docs\index 3.md -> docs/index 3.md
+Moved: main_backup_20250415_110245\docs\index 4.md -> docs/index 4.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: main_backup_20250415_110245\docs\index.md -> docs/index.md
+Moved: main_backup_20250415_110245\docs\poebc-simulator 2.md -> docs/poebc-simulator 2.md
+Moved: main_backup_20250415_110245\docs\poebc-simulator 3.md -> docs/poebc-simulator 3.md
+Moved: main_backup_20250415_110245\docs\poebc-simulator 4.md -> docs/poebc-simulator 4.md
+Moved: main_backup_20250415_110245\docs\poebc-simulator.md -> docs/poebc-simulator.md
+Moved: main_backup_20250415_110245\docs\sam-lavi-resume 2.md -> docs/sam-lavi-resume 2.md
+Moved: main_backup_20250415_110245\docs\sam-lavi-resume 3.md -> docs/sam-lavi-resume 3.md
+Moved: main_backup_20250415_110245\docs\sam-lavi-resume 4.md -> docs/sam-lavi-resume 4.md
+Moved: main_backup_20250415_110245\docs\sam-lavi-resume.md -> docs/sam-lavi-resume.md
+Moved: main_backup_20250415_110245\docs\status-guide 2.md -> docs/status-guide 2.md
+Moved: main_backup_20250415_110245\docs\status-guide.md -> docs/status-guide.md
+Moved: main_backup_20250415_110245\docs\tech.contract-list 2.md -> docs/tech.contract-list 2.md
+Moved: main_backup_20250415_110245\docs\tech.contract-list 3.md -> docs/tech.contract-list 3.md
+Moved: main_backup_20250415_110245\docs\tech.contract-list 4.md -> docs/tech.contract-list 4.md
+Moved: main_backup_20250415_110245\docs\tech.contract-list.md -> docs/tech.contract-list.md
+Moved: main_backup_20250415_110245\docs\tech.contracts 2.md -> docs/tech.contracts 2.md
+Moved: main_backup_20250415_110245\docs\tech.contracts 3.md -> docs/tech.contracts 3.md
+Moved: main_backup_20250415_110245\docs\tech.contracts 4.md -> docs/tech.contracts 4.md
+Moved: main_backup_20250415_110245\docs\tech.contracts.md -> docs/tech.contracts.md
+Moved: main_backup_20250415_110245\docs\tech.solidity-review 2.md -> docs/tech.solidity-review 2.md
+Moved: main_backup_20250415_110245\docs\tech.solidity-review 3.md -> docs/tech.solidity-review 3.md
+Moved: main_backup_20250415_110245\docs\tech.solidity-review 4.md -> docs/tech.solidity-review 4.md
+Moved: main_backup_20250415_110245\docs\tech.solidity-review.md -> docs/tech.solidity-review.md
+Moved: main_backup_20250415_110245\docs\tech.token 2.md -> docs/tech.token 2.md
+Moved: main_backup_20250415_110245\docs\tech.token 3.md -> docs/tech.token 3.md
+Moved: main_backup_20250415_110245\docs\tech.token 4.md -> docs/tech.token 4.md
+Moved: main_backup_20250415_110245\docs\tech.token.md -> docs/tech.token.md
+Moved: main_backup_20250415_110245\docs\viewer-rewards 2.md -> docs/viewer-rewards 2.md
+Moved: main_backup_20250415_110245\docs\viewer-rewards 3.md -> docs/viewer-rewards 3.md
+Moved: main_backup_20250415_110245\docs\viewer-rewards 4.md -> docs/viewer-rewards 4.md
+Moved: main_backup_20250415_110245\docs\viewer-rewards.md -> docs/viewer-rewards.md
+WARNING: Destination file exists, renaming to project-analysis-old.md
+Moved: main_backup_20250415_110245\docs\analysis\project-analysis.md -> docs/project-analysis.md
+WARNING: Destination file exists, renaming to technical-recommendations-old.md
+Moved: main_backup_20250415_110245\docs\analysis\technical-recommendations.md -> docs/technical-recommendations.md
+WARNING: Destination file exists, renaming to proof-of-existence-old.md
+Moved: main_backup_20250415_110245\docs\contracts\proof-of-existence.md -> docs/proof-of-existence.md
+WARNING: Destination file exists, renaming to stream-access-old.md
+Moved: main_backup_20250415_110245\docs\contracts\stream-access.md -> docs/stream-access.md
+WARNING: Destination file exists, renaming to external-links-old.md
+Moved: main_backup_20250415_110245\docs\resources\external-links.md -> docs/external-links.md
+WARNING: Destination file exists, renaming to google-docs-old.md
+Moved: main_backup_20250415_110245\docs\resources\google-docs.md -> docs/google-docs.md
+WARNING: Destination file exists, renaming to enhanced-roadmap-old.md
+Moved: main_backup_20250415_110245\docs\roadmap\enhanced-roadmap.md -> docs/enhanced-roadmap.md
+WARNING: Destination file exists, renaming to review-approach-old.md
+Moved: main_backup_20250415_110245\docs\roadmap\review-approach.md -> docs/review-approach.md
+WARNING: Destination file exists, renaming to introduction-old.md
+Moved: main_backup_20250415_110245\docs\root\introduction.md -> docs/introduction.md
+WARNING: Destination file exists, renaming to smart-contract-applications-old.md
+Moved: main_backup_20250415_110245\docs\use-cases\smart-contract-applications.md -> docs/smart-contract-applications.md
+WARNING: Destination file exists, renaming to README 2-old.md
+Moved: main_backup_20250415_110245\dotnet\README 2.md -> docs/README 2.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: main_backup_20250415_110245\dotnet\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: main_backup_20250415_110245\red_x\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README 2-old.md
+Moved: main_backup_20250415_110245\tests\README 2.md -> docs/README 2.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: main_backup_20250415_110245\tests\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: main_backup_20250415_110245\ts\src\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to web3-streaming-service-whitepaper-old.md
+Moved: main_backup_20250415_110245\whitepaper\web3-streaming-service-whitepaper.md -> docs/web3-streaming-service-whitepaper.md
+Moved: main_backup_20250415_110245\_drafts\first.md -> docs/first.md
+Moved: main_backup_20250415_110245\_posts\2023-11-15-welcome-to-web3-streaming 2.md -> docs/2023-11-15-welcome-to-web3-streaming 2.md
+Moved: main_backup_20250415_110245\_posts\2023-11-15-welcome-to-web3-streaming.md -> docs/2023-11-15-welcome-to-web3-streaming.md
+Moved: main_backup_20250415_110245\_posts\2025-03-25-first 2.md -> docs/2025-03-25-first 2.md
+Moved: main_backup_20250415_110245\_posts\2025-03-25-first.md -> docs/2025-03-25-first.md
+Moved: red_x\PRX-SXS-GUIDE.md -> docs/PRX-SXS-GUIDE.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: red_x\README.md -> docs/README.md
+Moved: scripts\CLEANUP-README.md -> docs/CLEANUP-README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: tests\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: ts\src\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to CHANGELOG-old.md
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\CHANGELOG.md -> docs/CHANGELOG.md
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\LICENSE.md -> docs/LICENSE.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to web3-streaming-service-whitepaper-old.md
+Moved: whitepaper\web3-streaming-service-whitepaper.md -> docs/web3-streaming-service-whitepaper.md
+WARNING: Destination file exists, renaming to first-old.md
+Moved: _drafts\first.md -> docs/first.md
+WARNING: Destination file exists, renaming to 2023-11-15-welcome-to-web3-streaming-old.md
+Moved: _posts\2023-11-15-welcome-to-web3-streaming.md -> docs/2023-11-15-welcome-to-web3-streaming.md
+WARNING: Destination file exists, renaming to 2025-03-25-first-old.md
+Moved: _posts\2025-03-25-first.md -> docs/2025-03-25-first.md
+WARNING: Destination file exists, renaming to about-old.md
+Moved: _site\about.md -> docs/about.md
+WARNING: Destination file exists, renaming to animations-old.md
+Moved: _site\animations.md -> docs/animations.md
+WARNING: Destination file exists, renaming to calculator-old.md
+Moved: _site\calculator.md -> docs/calculator.md
+WARNING: Destination file exists, renaming to CONSOLIDATION-old.md
+Moved: _site\CONSOLIDATION.md -> docs/CONSOLIDATION.md
+WARNING: Destination file exists, renaming to CONTRIBUTING-old.md
+Moved: _site\CONTRIBUTING.md -> docs/CONTRIBUTING.md
+WARNING: Destination file exists, renaming to creators-old.md
+Moved: _site\creators.md -> docs/creators.md
+WARNING: Destination file exists, renaming to DEFINITIONS-old.md
+Moved: _site\DEFINITIONS.md -> docs/DEFINITIONS.md
+WARNING: Destination file exists, renaming to deploy-urls-old.md
+Moved: _site\deploy-urls.md -> docs/deploy-urls.md
+WARNING: Destination file exists, renaming to DEPLOYMENT_NOTE-old.md
+Moved: _site\DEPLOYMENT_NOTE.md -> docs/DEPLOYMENT_NOTE.md
+WARNING: Destination file exists, renaming to faq-old.md
+Moved: _site\faq.md -> docs/faq.md
+WARNING: Destination file exists, renaming to game-old.md
+Moved: _site\game.md -> docs/game.md
+WARNING: Destination file exists, renaming to GAS_OPTIMIZATION-old.md
+Moved: _site\GAS_OPTIMIZATION.md -> docs/GAS_OPTIMIZATION.md
+WARNING: Destination file exists, renaming to GITHUB_ACTIONS_TROUBLESHOOTING-old.md
+Moved: _site\GITHUB_ACTIONS_TROUBLESHOOTING.md -> docs/GITHUB_ACTIONS_TROUBLESHOOTING.md
+WARNING: Destination file exists, renaming to INCLUSIONS-old.md
+Moved: _site\INCLUSIONS.md -> docs/INCLUSIONS.md
+WARNING: Destination file exists, renaming to index-old.md
+Moved: _site\index.md -> docs/index.md
+WARNING: Destination file exists, renaming to installation-old.md
+Moved: _site\installation.md -> docs/installation.md
+WARNING: Destination file exists, renaming to mobile-testing-guide-old.md
+Moved: _site\mobile-testing-guide.md -> docs/mobile-testing-guide.md
+WARNING: Destination file exists, renaming to npm-install-instructions-old.md
+Moved: _site\npm-install-instructions.md -> docs/npm-install-instructions.md
+WARNING: Destination file exists, renaming to playground-old.md
+Moved: _site\playground.md -> docs/playground.md
+WARNING: Destination file exists, renaming to powershell-coding-standards-old.md
+Moved: _site\powershell-coding-standards.md -> docs/powershell-coding-standards.md
+WARNING: Destination file exists, renaming to privacy-old.md
+Moved: _site\privacy.md -> docs/privacy.md
+WARNING: Destination file exists, renaming to rate-contract-detail-print 2-old.md
+Moved: _site\rate-contract-detail-print 2.md -> docs/rate-contract-detail-print 2.md
+WARNING: Destination file exists, renaming to rate-contract-detail-print-old.md
+Moved: _site\rate-contract-detail-print.md -> docs/rate-contract-detail-print.md
+WARNING: Destination file exists, renaming to README-old.md
+Moved: _site\README.md -> docs/README.md
+WARNING: Destination file exists, renaming to README_GITHUB_PAGES-old.md
+Moved: _site\README_GITHUB_PAGES.md -> docs/README_GITHUB_PAGES.md
+WARNING: Destination file exists, renaming to RECOMMENDATIONS-old.md
+Moved: _site\RECOMMENDATIONS.md -> docs/RECOMMENDATIONS.md
+WARNING: Destination file exists, renaming to REFERENCES-old.md
+Moved: _site\REFERENCES.md -> docs/REFERENCES.md
+WARNING: Destination file exists, renaming to REPOSITORY_MERGE_GUIDE-old.md
+Moved: _site\REPOSITORY_MERGE_GUIDE.md -> docs/REPOSITORY_MERGE_GUIDE.md
+WARNING: Destination file exists, renaming to ruby-setup-old.md
+Moved: _site\ruby-setup.md -> docs/ruby-setup.md
+WARNING: Destination file exists, renaming to SECURITY-old.md
+Moved: _site\SECURITY.md -> docs/SECURITY.md
+WARNING: Destination file exists, renaming to SECURITY_BEST_PRACTICES-old.md
+Moved: _site\SECURITY_BEST_PRACTICES.md -> docs/SECURITY_BEST_PRACTICES.md
+WARNING: Destination file exists, renaming to session-review-april-24-old.md
+Moved: _site\session-review-april-24.md -> docs/session-review-april-24.md
+WARNING: Destination file exists, renaming to SXS-CLI-README-old.md
+Moved: _site\SXS-CLI-README.md -> docs/SXS-CLI-README.md
+WARNING: Destination file exists, renaming to telos 2-old.md
+Moved: _site\telos 2.md -> docs/telos 2.md
+WARNING: Destination file exists, renaming to telos-old.md
+Moved: _site\telos.md -> docs/telos.md
+WARNING: Destination file exists, renaming to terms-old.md
+Moved: _site\terms.md -> docs/terms.md
+WARNING: Destination file exists, renaming to ultimate-use-case-old.md
+Moved: _site\ultimate-use-case.md -> docs/ultimate-use-case.md
+WARNING: Destination file exists, renaming to viewer-old.md
+Moved: _site\viewer.md -> docs/viewer.md
+WARNING: Destination file exists, renaming to web3-streaming-service-whitepaper-old.md
+Moved: _site\web3-streaming-service-whitepaper.md -> docs/web3-streaming-service-whitepaper.md
+WARNING: Destination file exists, renaming to whitepaper-old.md
+Moved: _site\whitepaper.md -> docs/whitepaper.md
+WARNING: Destination file exists, renaming to windows-nvm-setup-old.md
+Moved: _site\windows-nvm-setup.md -> docs/windows-nvm-setup.md
+Moved: wub-links.txt -> docs/wub-links.txt
+Moved: .github\steps\-step.txt -> docs/-step.txt
+Moved: build\CMakeCache.txt -> docs/CMakeCache.txt
+Moved: build\CMakeFiles\TargetDirectories.txt -> docs/TargetDirectories.txt
+Moved: build\CMakeFiles\3.20.21032501-MSVC_2\VCTargetsPath.txt -> docs/VCTargetsPath.txt
+Moved: emsdk\legacy-binaryen-tags.txt -> docs/legacy-binaryen-tags.txt
+Moved: emsdk\legacy-emscripten-tags.txt -> docs/legacy-emscripten-tags.txt
+Moved: emsdk\llvm-tags-64bit.txt -> docs/llvm-tags-64bit.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\LICENSE.txt -> docs/LICENSE.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\lib2to3\Grammar.txt -> docs/Grammar.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\lib2to3\PatternGrammar.txt -> docs/PatternGrammar.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\README.txt -> docs/README.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip\_vendor\vendor.txt -> docs/vendor.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip-20.2.3.dist-info\entry_points.txt -> docs/entry_points.txt
+WARNING: Destination file exists, renaming to LICENSE-old.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip-20.2.3.dist-info\LICENSE.txt -> docs/LICENSE.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\pip-20.2.3.dist-info\top_level.txt -> docs/top_level.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\setuptools-49.2.1.dist-info\dependency_links.txt -> docs/dependency_links.txt
+WARNING: Destination file exists, renaming to entry_points-old.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\setuptools-49.2.1.dist-info\entry_points.txt -> docs/entry_points.txt
+WARNING: Destination file exists, renaming to top_level-old.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Lib\site-packages\setuptools-49.2.1.dist-info\top_level.txt -> docs/top_level.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Tools\pynche\html40colors.txt -> docs/html40colors.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Tools\pynche\namedcolors.txt -> docs/namedcolors.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Tools\pynche\webcolors.txt -> docs/webcolors.txt
+Moved: emsdk\python\3.9.2-nuget_64bit\Tools\pynche\websafe.txt -> docs/websafe.txt
+Moved: emsdk\upstream\emscripten\emscripten-revision.txt -> docs/emscripten-revision.txt
+Moved: emsdk\upstream\emscripten\emscripten-version.txt -> docs/emscripten-version.txt
+Moved: emsdk\upstream\emscripten\requirements-dev.txt -> docs/requirements-dev.txt
+Moved: emsdk\upstream\emscripten\docs\emcc.txt -> docs/emcc.txt
+Moved: emsdk\upstream\emscripten\docs\EMSCRIPTEN_explicit_uniform_binding.txt -> docs/EMSCRIPTEN_explicit_uniform_binding.txt
+Moved: emsdk\upstream\emscripten\docs\EMSCRIPTEN_explicit_uniform_location.txt -> docs/EMSCRIPTEN_explicit_uniform_location.txt
+Moved: emsdk\upstream\emscripten\system\lib\compiler-rt\CREDITS.TXT -> docs/CREDITS.TXT
+WARNING: Destination file exists, renaming to LICENSE-old.TXT
+Moved: emsdk\upstream\emscripten\system\lib\compiler-rt\LICENSE.TXT -> docs/LICENSE.TXT
+WARNING: Destination file exists, renaming to readme-old.txt
+Moved: emsdk\upstream\emscripten\system\lib\compiler-rt\readme.txt -> docs/readme.txt
+Moved: emsdk\upstream\emscripten\system\lib\compiler-rt\lib\asan\asan_ignorelist.txt -> docs/asan_ignorelist.txt
+WARNING: Destination file exists, renaming to readme-old.txt
+Moved: emsdk\upstream\emscripten\system\lib\libc\compat\readme.txt -> docs/readme.txt
+WARNING: Destination file exists, renaming to CREDITS-old.TXT
+Moved: emsdk\upstream\emscripten\system\lib\libcxx\CREDITS.TXT -> docs/CREDITS.TXT
+WARNING: Destination file exists, renaming to LICENSE-old.TXT
+Moved: emsdk\upstream\emscripten\system\lib\libcxx\LICENSE.TXT -> docs/LICENSE.TXT
+WARNING: Destination file exists, renaming to readme-old.txt
+Moved: emsdk\upstream\emscripten\system\lib\libcxx\readme.txt -> docs/readme.txt
+WARNING: Destination file exists, renaming to README-old.txt
+Moved: emsdk\upstream\emscripten\system\lib\libcxx\src\ryu\README.txt -> docs/README.txt
+WARNING: Destination file exists, renaming to CREDITS-old.TXT
+Moved: emsdk\upstream\emscripten\system\lib\libcxxabi\CREDITS.TXT -> docs/CREDITS.TXT
+WARNING: Destination file exists, renaming to LICENSE-old.TXT
+Moved: emsdk\upstream\emscripten\system\lib\libcxxabi\LICENSE.TXT -> docs/LICENSE.TXT
+WARNING: Destination file exists, renaming to readme-old.txt
+Moved: emsdk\upstream\emscripten\system\lib\libcxxabi\readme.txt -> docs/readme.txt
+WARNING: Destination file exists, renaming to README-old.txt
+Moved: emsdk\upstream\emscripten\system\lib\libcxxabi\src\demangle\README.txt -> docs/README.txt
+WARNING: Destination file exists, renaming to LICENSE-old.TXT
+Moved: emsdk\upstream\emscripten\system\lib\libunwind\LICENSE.TXT -> docs/LICENSE.TXT
+WARNING: Destination file exists, renaming to readme-old.txt
+Moved: emsdk\upstream\emscripten\system\lib\libunwind\readme.txt -> docs/readme.txt
+Moved: emsdk\upstream\emscripten\test\ascii_corpus.txt -> docs/ascii_corpus.txt
+Moved: emsdk\upstream\emscripten\test\hello_world_file.txt -> docs/hello_world_file.txt
+Moved: emsdk\upstream\emscripten\test\utf16_corpus.txt -> docs/utf16_corpus.txt
+Moved: emsdk\upstream\emscripten\test\utf8_corpus.txt -> docs/utf8_corpus.txt
+Moved: emsdk\upstream\emscripten\test\bullet\output.txt -> docs/output.txt
+Moved: emsdk\upstream\emscripten\test\bullet\output2.txt -> docs/output2.txt
+Moved: emsdk\upstream\emscripten\test\bullet\output3.txt -> docs/output3.txt
+Moved: emsdk\upstream\emscripten\test\bullet\output4.txt -> docs/output4.txt
+Moved: emsdk\upstream\emscripten\test\cmake\check_type_size\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\cmake_with_emval\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\cpp_lib\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\cxx20\CMakeLists.txt -> docs/CMakeLists.txt
+Moved: emsdk\upstream\emscripten\test\cmake\cxx20\out.txt -> docs/out.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\emscripten_system_processor\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\emscripten_version\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\find_modules\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\find_package\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\find_pkg_config\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\find_stuff\CMakeLists.txt -> docs/CMakeLists.txt
+Moved: emsdk\upstream\emscripten\test\cmake\find_stuff\foo.txt -> docs/foo.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\install_lib\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\post_build\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to out-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\post_build\out.txt -> docs/out.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\static_lib\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\stdproperty\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to out-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\stdproperty\out.txt -> docs/out.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\target_html\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\target_js\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to out-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\target_js\out.txt -> docs/out.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\target_library\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\threads\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\whole_archive\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to out-old.txt
+Moved: emsdk\upstream\emscripten\test\cmake\whole_archive\out.txt -> docs/out.txt
+Moved: emsdk\upstream\emscripten\test\core\test_cube2md5.txt -> docs/test_cube2md5.txt
+Moved: emsdk\upstream\emscripten\test\freetype\LiberationSansBoldLICENSE.txt -> docs/LiberationSansBoldLICENSE.txt
+WARNING: Destination file exists, renaming to readme-old.txt
+Moved: emsdk\upstream\emscripten\test\freetype\readme.txt -> docs/readme.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\test\minimal_webgl\CMakeLists.txt -> docs/CMakeLists.txt
+Moved: emsdk\upstream\emscripten\test\other\wasm2c\output-multi.txt -> docs/output-multi.txt
+WARNING: Destination file exists, renaming to output-old.txt
+Moved: emsdk\upstream\emscripten\test\other\wasm2c\output.txt -> docs/output.txt
+WARNING: Destination file exists, renaming to LICENSE-old.txt
+Moved: emsdk\upstream\emscripten\test\sounds\LICENSE.txt -> docs/LICENSE.txt
+WARNING: Destination file exists, renaming to readme-old.txt
+Moved: emsdk\upstream\emscripten\third_party\closure-compiler\node-externs\readme.txt -> docs/readme.txt
+WARNING: Destination file exists, renaming to CMakeLists-old.txt
+Moved: emsdk\upstream\emscripten\tools\websocket_to_posix_proxy\CMakeLists.txt -> docs/CMakeLists.txt
+WARNING: Destination file exists, renaming to wub-links-old.txt
+Moved: main_backup_20250415_110245\wub-links.txt -> docs/wub-links.txt
+WARNING: Destination file exists, renaming to -step-old.txt
+Moved: main_backup_20250415_110245\.github\steps\-step.txt -> docs/-step.txt
+Moved: red_x\build_log.txt -> docs/build_log.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-add.1.txt -> docs/bundle-add.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-binstubs.1.txt -> docs/bundle-binstubs.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-check.1.txt -> docs/bundle-check.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-clean.1.txt -> docs/bundle-clean.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-config.1.txt -> docs/bundle-config.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-doctor.1.txt -> docs/bundle-doctor.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-exec.1.txt -> docs/bundle-exec.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-gem.1.txt -> docs/bundle-gem.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-info.1.txt -> docs/bundle-info.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-init.1.txt -> docs/bundle-init.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-inject.1.txt -> docs/bundle-inject.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-install.1.txt -> docs/bundle-install.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-list.1.txt -> docs/bundle-list.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-lock.1.txt -> docs/bundle-lock.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-open.1.txt -> docs/bundle-open.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-outdated.1.txt -> docs/bundle-outdated.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-package.1.txt -> docs/bundle-package.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-platform.1.txt -> docs/bundle-platform.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-pristine.1.txt -> docs/bundle-pristine.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-remove.1.txt -> docs/bundle-remove.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-show.1.txt -> docs/bundle-show.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-update.1.txt -> docs/bundle-update.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle-viz.1.txt -> docs/bundle-viz.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\bundle.1.txt -> docs/bundle.1.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\gemfile.5.txt -> docs/gemfile.5.txt
+Moved: vendor\bundle\ruby\3.3.0\gems\bundler-1.17.2\man\index.txt -> docs/index.txt

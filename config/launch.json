@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "type": "solidity",
+      "request": "launch",
+      "name": "Debug Solidity Contract",
+      "program": "${workspaceFolder}/${input:contractFile}",
+      "preLaunchTask": "compile-solidity"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "pickString",
+      "id": "contractFile",
+      "description": "Select the Solidity contract to debug",
+      "options": [
+        "ProofOfExistence.sol",
+        "StreamAccessContract.sol",
+        "Streaming.sol",
+        "StreamPayment.sol",
+        "StreamToken.sol"
+      ]
+    }
+  ]
+}

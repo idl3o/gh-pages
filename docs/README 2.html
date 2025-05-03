@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Web3 Crypto Streaming Service - .NET Client | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Web3 Crypto Streaming Service - .NET Client" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/README%202.html" />
+<meta property="og:url" content="/docs/README%202.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Web3 Crypto Streaming Service - .NET Client" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Web3 Crypto Streaming Service - .NET Client","url":"/docs/README%202.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Web3 Crypto Streaming Service - .NET Client</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="web3-crypto-streaming-service---net-client">Web3 Crypto Streaming Service - .NET Client</h1>
+
+<p>This folder contains a .NET client library for interacting with the Web3 Crypto Streaming Service platform. This library enables .NET developers to:</p>
+
+<ul>
+  <li>Authenticate with the platform using Ethereum wallets</li>
+  <li>Upload content to IPFS</li>
+  <li>Register as creators</li>
+  <li>Interact with platform smart contracts</li>
+  <li>Manage stream tokens</li>
+</ul>
+
+<h2 id="requirements">Requirements</h2>
+
+<ul>
+  <li>.NET 6.0 or later</li>
+  <li>Nethereum library</li>
+  <li>Newtonsoft.Json library</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<h3 id="installation">Installation</h3>
+
+<ol>
+  <li>Add the project as a reference:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dotnet add reference /path/to/WebStreamClient.csproj
+</code></pre></div>    </div>
+  </li>
+  <li>Add required NuGet packages:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dotnet add package Nethereum.Web3 <span class="nt">--version</span> 4.14.0
+dotnet add package Newtonsoft.Json <span class="nt">--version</span> 13.0.3
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="basic-usage">Basic Usage</h3>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Initialize the client with API URL and Ethereum RPC URL</span>
+<span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">StreamClient</span><span class="p">(</span><span class="s">"https://api.yourwebstreamservice.com"</span><span class="p">,</span> <span class="s">"https://mainnet.infura.io/v3/YOUR_INFURA_KEY"</span><span class="p">);</span>
+
+<span class="c1">// Authenticate with a private key (NEVER hardcode this in production)</span>
+<span class="kt">string</span> <span class="n">privateKey</span> <span class="p">=</span> <span class="s">"0x..."</span><span class="p">;</span> <span class="c1">// Your private key</span>
+<span class="kt">bool</span> <span class="n">authenticated</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="nf">AuthenticateAsync</span><span class="p">(</span><span class="n">privateKey</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">authenticated</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Authentication successful!"</span><span class="p">);</span>
+    
+    <span class="c1">// Get current user's profile</span>
+    <span class="kt">var</span> <span class="n">address</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Nethereum</span><span class="p">.</span><span class="n">Web3</span><span class="p">.</span><span class="n">Accounts</span><span class="p">.</span><span class="nf">Account</span><span class="p">(</span><span class="n">privateKey</span><span class="p">).</span><span class="n">Address</span><span class="p">;</span>
+    <span class="kt">var</span> <span class="n">profile</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="nf">GetProfileAsync</span><span class="p">(</span><span class="n">address</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">profile</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Welcome back, </span><span class="p">{</span><span class="n">profile</span><span class="p">.</span><span class="n">Name</span><span class="p">}</span><span class="s">!"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="c1">// Register as a creator</span>
+        <span class="kt">var</span> <span class="n">registration</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CreatorRegistrationRequest</span>
+        <span class="p">{</span>
+            <span class="n">Name</span> <span class="p">=</span> <span class="s">"Creator Name"</span><span class="p">,</span>
+            <span class="n">Email</span> <span class="p">=</span> <span class="s">"creator@example.com"</span><span class="p">,</span>
+            <span class="n">Bio</span> <span class="p">=</span> <span class="s">"I create awesome content"</span><span class="p">,</span>
+            <span class="n">Category</span> <span class="p">=</span> <span class="s">"education"</span>
+        <span class="p">};</span>
+        
+        <span class="c1">// Upload profile image first</span>
+        <span class="kt">byte</span><span class="p">[]</span> <span class="n">imageData</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="nf">ReadAllBytes</span><span class="p">(</span><span class="s">"profile.jpg"</span><span class="p">);</span>
+        <span class="kt">var</span> <span class="n">imageCid</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="nf">UploadToIPFSAsync</span><span class="p">(</span><span class="n">imageData</span><span class="p">,</span> <span class="s">"profile.jpg"</span><span class="p">);</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">imageCid</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">registration</span><span class="p">.</span><span class="n">ProfileImageCid</span> <span class="p">=</span> <span class="n">imageCid</span><span class="p">;</span>
+            <span class="kt">bool</span> <span class="n">registered</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="nf">RegisterCreatorAsync</span><span class="p">(</span><span class="n">registration</span><span class="p">);</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">registered</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Creator registration successful!"</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Check token balance</span>
+    <span class="kt">decimal</span> <span class="n">balance</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="nf">GetTokenBalanceAsync</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Your STREAM token balance: </span><span class="p">{</span><span class="n">balance</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="docker-support">Docker Support</h2>
+
+<p>You can run the .NET client in a Docker container using the official Microsoft .NET images.</p>
+
+<h3 id="build-the-docker-image">Build the Docker Image</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> web3-streaming-dotnet-client ./dotnet
+</code></pre></div></div>
+
+<h3 id="run-with-docker-compose">Run with Docker Compose</h3>
+
+<p>We’ve provided a <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file in the root directory that sets up both the web frontend and the .NET client:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up
+</code></pre></div></div>
+
+<h3 id="using-a-custom-image">Using a Custom Image</h3>
+
+<p>You can also use one of Microsoft’s official .NET images directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Pull the official .NET SDK image</span>
+docker pull mcr.microsoft.com/dotnet/sdk:6.0
+
+<span class="c"># Run a development container</span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="nt">-v</span> <span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>:/app <span class="nt">-w</span> /app mcr.microsoft.com/dotnet/sdk:6.0 dotnet run
+</code></pre></div></div>
+
+<p>Available .NET images from Microsoft Container Registry:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/sdk</code>: For development and building</li>
+  <li><code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/aspnet</code>: Optimized for running ASP.NET Core applications</li>
+  <li><code class="language-plaintext highlighter-rouge">mcr.microsoft.com/dotnet/runtime</code>: For running .NET applications</li>
+</ul>
+
+<h2 id="security-notes">Security Notes</h2>
+
+<ul>
+  <li>NEVER hardcode private keys in your application code</li>
+  <li>Use secure storage for sensitive information</li>
+  <li>Consider using environment variables or secure configuration management</li>
+  <li>Implement proper error handling in production applications</li>
+</ul>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>We welcome contributions! Please feel free to submit a Pull Request.</p>
+
+<h2 id="license">License</h2>
+
+<p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

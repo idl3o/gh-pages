@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>GitHub Actions Workflow Documentation | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="GitHub Actions Workflow Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/WORKFLOW-README.html" />
+<meta property="og:url" content="/docs/WORKFLOW-README.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="GitHub Actions Workflow Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"GitHub Actions Workflow Documentation","url":"/docs/WORKFLOW-README.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">GitHub Actions Workflow Documentation</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="github-actions-workflow-documentation">GitHub Actions Workflow Documentation</h1>
+
+<h2 id="active-workflows">Active Workflows</h2>
+
+<h3 id="pages-build-deploymentyml">pages-build-deployment.yml</h3>
+
+<p>This is the primary workflow for deploying content to GitHub Pages. It:</p>
+
+<ol>
+  <li>Builds the project using <code class="language-plaintext highlighter-rouge">npm run build</code></li>
+  <li>Uploads the built files as an artifact</li>
+  <li>Deploys the artifact to GitHub Pages</li>
+</ol>
+
+<h3 id="lighthouseyml-if-enabled">lighthouse.yml (if enabled)</h3>
+
+<p>This workflow runs Lighthouse performance tests on the deployed site.</p>
+
+<h3 id="testyml-if-enabled">test.yml (if enabled)</h3>
+
+<p>This workflow runs tests on the codebase.</p>
+
+<h2 id="disabled-workflows">Disabled Workflows</h2>
+
+<p>Several workflows have been disabled to prevent deployment conflicts:</p>
+
+<ul>
+  <li>build-deploy.yml</li>
+  <li>Multiple “Build and Deploy to GitHub Pages” workflows</li>
+  <li>Multiple “Deploy to GitHub Pages” workflows</li>
+  <li>GitHub Pages Deployment workflows</li>
+</ul>
+
+<h2 id="how-this-works">How This Works</h2>
+
+<p>GitHub Pages now uses a standardized deployment process with specific permissions and concurrency settings. Our <code class="language-plaintext highlighter-rouge">pages-build-deployment.yml</code> file follows GitHub’s recommended pattern for GitHub Pages deployment to ensure successful builds and deployments.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>If you encounter deployment failures:</p>
+
+<ol>
+  <li>Check that only one workflow is attempting to deploy to GitHub Pages</li>
+  <li>Ensure proper permissions are set in the workflow file</li>
+  <li>Verify that the concurrency settings prevent parallel deployments</li>
+  <li>Confirm that the build script is successfully preparing files for deployment</li>
+</ol>
+
+<h2 id="modifying-the-workflow">Modifying the Workflow</h2>
+
+<p>When modifying the GitHub Actions workflow:</p>
+
+<ol>
+  <li>Test changes in a branch before merging to main</li>
+  <li>Don’t enable multiple workflows that deploy to GitHub Pages</li>
+  <li>Keep the permissions and concurrency settings intact</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

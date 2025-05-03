@@ -1,0 +1,94 @@
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="token-gradient" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#6e45e2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6e45e2;stop-opacity:0.3" />
+    </radialGradient>
+    <linearGradient id="chart-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6e45e2;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#6e45e2;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg-gradient)" rx="8" ry="8" />
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle" font-weight="bold">STREAM Token Economics</text>
+  
+  <!-- Token Icon -->
+  <circle cx="150" cy="150" r="80" fill="url(#token-gradient)" stroke="white" stroke-width="2" />
+  <text x="150" y="140" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle" font-weight="bold">STREAM</text>
+  <text x="150" y="170" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">Utility Token</text>
+  
+  <!-- Token Distribution -->
+  <text x="500" y="80" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">Token Distribution</text>
+  
+  <!-- Token distribution pie chart -->
+  <circle cx="500" cy="150" r="70" fill="none" stroke="white" stroke-width="2" />
+  
+  <!-- Pie segments -->
+  <!-- Public sale: 30% -->
+  <path d="M 500 150 L 500 80 A 70 70 0 0 1 557 185 Z" fill="#6e45e2" stroke="white" stroke-width="1" />
+  <!-- Platform development: 25% -->
+  <path d="M 500 150 L 557 185 A 70 70 0 0 1 470 218 Z" fill="#00d8ff" stroke="white" stroke-width="1" />
+  <!-- Creator incentives: 20% -->
+  <path d="M 500 150 L 470 218 A 70 70 0 0 1 430 150 Z" fill="#48bb78" stroke="white" stroke-width="1" />
+  <!-- Team and advisors: 15% -->
+  <path d="M 500 150 L 430 150 A 70 70 0 0 1 450 90 Z" fill="#ff5722" stroke="white" stroke-width="1" />
+  <!-- Community and ecosystem: 10% -->
+  <path d="M 500 150 L 450 90 A 70 70 0 0 1 500 80 Z" fill="#ffb400" stroke="white" stroke-width="1" />
+  
+  <!-- Legend -->
+  <rect x="600" y="100" width="14" height="14" fill="#6e45e2" />
+  <text x="620" y="112" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="start">Public sale (30%)</text>
+  
+  <rect x="600" y="125" width="14" height="14" fill="#00d8ff" />
+  <text x="620" y="137" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="start">Platform dev (25%)</text>
+  
+  <rect x="600" y="150" width="14" height="14" fill="#48bb78" />
+  <text x="620" y="162" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="start">Creator incentives (20%)</text>
+  
+  <rect x="600" y="175" width="14" height="14" fill="#ff5722" />
+  <text x="620" y="187" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="start">Team & advisors (15%)</text>
+  
+  <rect x="600" y="200" width="14" height="14" fill="#ffb400" />
+  <text x="620" y="212" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="start">Community & ecosystem (10%)</text>
+  
+  <!-- Utility functions -->
+  <text x="150" y="270" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">Token Utility</text>
+  
+  <rect x="50" y="290" width="200" height="140" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.2)" stroke-width="1" rx="5" ry="5" />
+  <text x="70" y="320" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">• Subscription payments</text>
+  <text x="70" y="350" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">• Staking for rewards</text>
+  <text x="70" y="380" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">• Governance voting</text>
+  <text x="70" y="410" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">• Fee discounts</text>
+  
+  <!-- Tokenomics -->
+  <text x="400" y="270" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="start">Tokenomics Model</text>
+  
+  <rect x="300" y="290" width="450" height="140" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.2)" stroke-width="1" rx="5" ry="5" />
+  
+  <!-- Token supply -->
+  <text x="320" y="320" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">Total Supply:</text>
+  <text x="420" y="320" font-family="Arial, sans-serif" font-size="14" fill="#6e45e2" text-anchor="start" font-weight="bold">1,000,000,000 STREAM</text>
+  
+  <!-- Token model features -->
+  <text x="320" y="350" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">• Deflationary: 1% transaction fee burn</text>
+  <text x="320" y="380" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">• Creator pool: 5% of new blocks for creator rewards</text>
+  <text x="320" y="410" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="start">• DAO Treasury: Platform fees directed to governance</text>
+  
+  <!-- Token value chart (simplified) -->
+  <line x1="550" y1="410" x2="700" y2="410" stroke="rgba(255,255,255,0.5)" stroke-width="1" />
+  <line x1="550" y1="310" x2="550" y2="410" stroke="rgba(255,255,255,0.5)" stroke-width="1" />
+  
+  <path d="M 550 390 C 570 385, 600 340, 630 330 C 660 320, 690 310, 700 300" stroke="#6e45e2" stroke-width="2" fill="none" />
+  <path d="M 550 390 C 570 385, 600 340, 630 330 C 660 320, 690 310, 700 300 L 700 410 L 550 410 Z" fill="url(#chart-gradient)" fill-opacity="0.5" />
+  
+  <text x="625" y="430" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Timeline</text>
+  <text x="530" y="360" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="end" transform="rotate(-90, 530, 360)">Token Value</text>
+</svg>

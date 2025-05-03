@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Page Onboarding</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #c084fc;
+            --light-bg: #f9fafb;
+            --dark-bg: #111827;
+            --text: #374151;
+            --text-light: #6b7280;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+
+            --dark-primary: #818cf8;
+            --dark-secondary: #6366f1;
+            --dark-text: #f3f4f6;
+            --dark-text-light: #d1d5db;
+            --dark-card-bg: #1f2937;
+            --dark-section-bg: #1a1e2c;
+            --dark-border: #374151;
+
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-xxl: 3rem;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: var(--space-xl);
+            margin: var(--space-xl) 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: var(--space-xxl);
+        }
+
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: var(--space-xl);
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .step h2 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .step p {
+            margin-bottom: var(--space-md);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--space-xl);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: var(--space-md) var(--space-xl);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--secondary);
+        }
+
+        button.secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        button.secondary:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .status-example {
+            display: flex;
+            align-items: center;
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            border-radius: 8px;
+            background: var(--light-bg);
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: var(--space-md);
+        }
+
+        .operational { background-color: var(--success); }
+        .degraded { background-color: var(--warning); }
+        .outage { background-color: var(--danger); }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: var(--space-md) 0;
+            border: 1px solid var(--border);
+        }
+
+        .tip {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-md);
+            }
+
+            .step {
+                padding-left: 50px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Status Page</h1>
+
+        <div class="card">
+            <p>This onboarding guide will help you understand how to use the Web3 Crypto Streaming Service status page effectively.</p>
+
+            <div class="steps">
+                <div class="step">
+                    <h2>Understanding Status Indicators</h2>
+                    <p>The status page uses colored indicators to show the health of various system components:</p>
+
+                    <div class="status-example">
+                        <span class="status-indicator operational"></span>
+                        <span>Operational - System is functioning normally</span>
+                    </div>
+
+                    <div class="status-example">
+                        <span class="status-indicator degraded"></span>
+                        <span>Degraded Performance - System is experiencing issues but still working</span>
+                    </div>
+
+                    <div class="status-example">
+                        <span class="status-indicator outage"></span>
+                        <span>Outage - System component is not functioning</span>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h2>Key Components</h2>
+                    <p>Monitor the health of these critical platform components:</p>
+                    <ul>
+                        <li><strong>Blockchain Connectivity</strong> - Connection to Ethereum and other chains</li>
+                        <li><strong>Smart Contract Status</strong> - Health of deployed contracts</li>
+                        <li><strong>Content Delivery</strong> - Video streaming infrastructure</li>
+                        <li><strong>API Services</strong> - API endpoint availability</li>
+                        <li><strong>Authentication</strong> - Wallet connection services</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h2>Incident History</h2>
+                    <p>The status page displays recent incidents and their resolution status. Click on any incident for details about:</p>
+                    <ul>
+                        <li>Root cause analysis</li>
+                        <li>Steps taken to resolve the issue</li>
+                        <li>Preventative measures for the future</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h2>Setting Up Notifications</h2>
+                    <p>Stay informed about system status changes:</p>
+                    <ol>
+                        <li>Click the "Subscribe to Updates" button</li>
+                        <li>Choose your preferred notification method</li>
+                        <li>Enter your contact details</li>
+                        <li>Confirm subscription through the verification link</li>
+                    </ol>
+
+                    <div class="tip">
+                        <strong>Pro Tip:</strong> You can customize which components you want to be notified about in the notification settings.
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="secondary" onclick="window.location.href='docs/status-guide.md'">Read Full Documentation</button>
+                <button onclick="window.location.href='status.html'">Continue to Status Page</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // You can add interactive elements or tutorials here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if this is the user's first visit to the status page
+            const firstVisit = !localStorage.getItem('statusPageVisited');
+
+            if (window.location.search.includes('from=status')) {
+                // User was redirected here from the status page
+                // Add specific content or behavior
+            }
+
+            // Mark as visited for future reference
+            localStorage.setItem('statusPageVisited', 'true');
+        });
+    </script>
+</body>
+</html>

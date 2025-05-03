@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Contract Documentation | Web3 Crypto Streaming Service</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon" />
+    <style>
+      .contract-section {
+        margin-bottom: 3rem;
+      }
+
+      .function-details {
+        background-color: var(--background-dark);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .function-signature {
+        font-family: 'Courier New', monospace;
+        background-color: #121225;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        overflow-x: auto;
+      }
+
+      .function-params {
+        margin-top: 1rem;
+      }
+
+      .function-params dt {
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-top: 0.5rem;
+      }
+
+      .function-params dd {
+        margin-left: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .contract-diagram {
+        max-width: 100%;
+        margin: 2rem auto;
+        display: block;
+      }
+
+      .tab-container {
+        margin: 2rem 0;
+      }
+
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .tab {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+      }
+
+      .tab.active {
+        border-bottom: 2px solid var(--primary-color);
+        color: var(--primary-color);
+      }
+
+      .tab-content {
+        display: none;
+        padding: 1.5rem 0;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="container nav-container">
+        <a href="../" class="logo">Web3 Crypto Streaming</a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="index.html">Docs</a></li>
+            <li><a href="../streaming.html">Demo Player</a></li>
+            <li><a href="../index.html#token">Token</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Contract Documentation -->
+    <section class="section">
+      <div class="container">
+        <h1>Smart Contract Documentation</h1>
+        <p>
+          Comprehensive technical reference for the Web3 Crypto Streaming Service smart contracts.
+        </p>
+
+        <div class="tab-container">
+          <div class="tabs">
+            <div class="tab active" data-tab="overview">Overview</div>
+            <div class="tab" data-tab="streaming">StreamingToken</div>
+            <div class="tab" data-tab="payment">StreamPayment</div>
+            <div class="tab" data-tab="access">StreamAccessContract</div>
+          </div>
+
+          <div id="overview" class="tab-content active">
+            <h2>Contract Architecture</h2>
+            <p>
+              Our platform utilizes a system of interconnected smart contracts to manage streaming
+              access, payments, and token economics. The core contracts are:
+            </p>
+
+            <div class="architecture-diagram">
+              <pre>
+┌─────────────────┐     ┌───────────────┐     ┌───────────────┐
+│ StreamingToken  │     │ StreamPayment │     │StreamAccess   │
+│ ERC20 + Custom  │────▶│ Distribution  │────▶│ Management    │
+└─────────────────┘     └───────────────┘     └───────────────┘
+        │                       │                     │
+        ▼                       ▼                     ▼
+┌─────────────────┐     ┌───────────────┐     ┌───────────────┐
+│  User Wallet    │     │ Creator Wallet│     │Content Registry│
+│  Management     │     │ & Payments    │     │ & Metadata    │
+└─────────────────┘     └───────────────┘     └───────────────┘</pre
+              >
+            </div>
+
+            <h3>Contract Relationships</h3>
+            <p>The three main contracts work together to create a seamless streaming experience:</p>
+            <ul>
+              <li>
+                <strong>StreamingToken</strong> - The core token contract that manages credits,
+                balances, and basic access control.
+              </li>
+              <li>
+                <strong>StreamPayment</strong> - Handles revenue distribution to content creators,
+                platform fees, and payment processing.
+              </li>
+              <li>
+                <strong>StreamAccessContract</strong> - Manages content access permissions,
+                subscription rules, and viewer access rights.
+              </li>
+            </ul>
+
+            <h3>Security Considerations</h3>
+            <p>
+              All contracts have been audited by Certik and OpenZeppelin with the following security
+              measures implemented:
+            </p>
+            <ul>
+              <li>Reentrancy guards on all payment functions</li>
+              <li>Access control using OpenZeppelin's Role-based system</li>
+              <li>Circuit breakers for emergency situations</li>
+              <li>Rate limiting to prevent abuse</li>
+            </ul>
+          </div>
+
+          <div id="streaming" class="tab-content">
+            <h2>StreamingToken.sol</h2>
+            <p>
+              The StreamingToken contract is an ERC20-compliant token with additional functionality
+              for managing streaming access.
+            </p>
+
+            <div class="contract-section">
+              <h3>Core Functions</h3>
+
+              <div class="function-details">
+                <h4>purchaseCredits</h4>
+                <div class="function-signature">function purchaseCredits() public payable</div>
+                <p>
+                  Allows users to purchase streaming credits with ETH. Each credit represents access
+                  to streaming content for a specific duration.
+                </p>
+                <dl class="function-params">
+                  <dt>Returns</dt>
+                  <dd>None. Credits are minted directly to the sender's address.</dd>
+                </dl>
+              </div>
+
+              <div class="function-details">
+                <h4>startStream</h4>
+                <div class="function-signature">
+                  function startStream(string memory contentId) public
+                </div>
+                <p>
+                  Starts a streaming session for the specified content, consuming 1 credit and
+                  granting 1 hour of access.
+                </p>
+                <dl class="function-params">
+                  <dt>Parameters</dt>
+                  <dd><code>contentId</code> - Unique identifier for the content being accessed</dd>
+                  <dt>Requirements</dt>
+                  <dd>User must have at least 1 credit</dd>
+                </dl>
+              </div>
+
+              <div class="function-details">
+                <h4>canStream</h4>
+                <div class="function-signature">
+                  function canStream(address user, string memory contentId) public view returns
+                  (bool)
+                </div>
+                <p>Checks if a user has active access to the specified content.</p>
+                <dl class="function-params">
+                  <dt>Parameters</dt>
+                  <dd><code>user</code> - Address of the user to check</dd>
+                  <dd><code>contentId</code> - Unique identifier for the content</dd>
+                  <dt>Returns</dt>
+                  <dd><code>bool</code> - True if the user has access, false otherwise</dd>
+                </dl>
+              </div>
+            </div>
+
+            <div class="contract-section">
+              <h3>ERC20 Functions</h3>
+              <p>The contract implements all standard ERC20 functions:</p>
+              <ul>
+                <li>transfer</li>
+                <li>transferFrom</li>
+                <li>approve</li>
+                <li>balanceOf</li>
+                <li>totalSupply</li>
+                <li>allowance</li>
+              </ul>
+            </div>
+
+            <div class="contract-section">
+              <h3>Events</h3>
+              <div class="function-details">
+                <h4>StreamStarted</h4>
+                <div class="function-signature">
+                  event StreamStarted(address indexed user, string contentId, uint256 expiryTime);
+                </div>
+                <p>Emitted when a user starts streaming content.</p>
+              </div>
+
+              <div class="function-details">
+                <h4>CreditsPurchased</h4>
+                <div class="function-signature">
+                  event CreditsPurchased(address indexed user, uint256 amount, uint256 ethValue);
+                </div>
+                <p>Emitted when a user purchases streaming credits.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="payment" class="tab-content">
+            <h2>StreamPayment.sol</h2>
+            <p>
+              The StreamPayment contract manages revenue distribution between creators and the
+              platform.
+            </p>
+
+            <div class="contract-section">
+              <h3>Core Functions</h3>
+
+              <div class="function-details">
+                <h4>distributePayment</h4>
+                <div class="function-signature">
+                  function distributePayment(address creator, uint256 amount) public payable
+                </div>
+                <p>
+                  Distributes payment between the creator and the platform according to the
+                  predefined split.
+                </p>
+                <dl class="function-params">
+                  <dt>Parameters</dt>
+                  <dd><code>creator</code> - Address of the content creator</dd>
+                  <dd><code>amount</code> - Payment amount in wei</dd>
+                </dl>
+              </div>
+
+              <div class="function-details">
+                <h4>setRevenueSplit</h4>
+                <div class="function-signature">
+                  function setRevenueSplit(uint256 creatorShare) public onlyOwner
+                </div>
+                <p>
+                  Sets the revenue split between creators and the platform. Creator share is
+                  expressed in percentage (1-100).
+                </p>
+                <dl class="function-params">
+                  <dt>Parameters</dt>
+                  <dd>
+                    <code>creatorShare</code> - Percentage of revenue that goes to creators (1-100)
+                  </dd>
+                  <dt>Requirements</dt>
+                  <dd>Only contract owner can call this function</dd>
+                  <dd>Creator share must be between 1 and 100</dd>
+                </dl>
+              </div>
+
+              <div class="function-details">
+                <h4>withdrawPlatformFees</h4>
+                <div class="function-signature">
+                  function withdrawPlatformFees() public onlyOwner
+                </div>
+                <p>Allows the platform owner to withdraw accumulated platform fees.</p>
+                <dl class="function-params">
+                  <dt>Requirements</dt>
+                  <dd>Only contract owner can call this function</dd>
+                </dl>
+              </div>
+            </div>
+
+            <div class="contract-section">
+              <h3>Events</h3>
+              <div class="function-details">
+                <h4>PaymentDistributed</h4>
+                <div class="function-signature">
+                  event PaymentDistributed(address indexed creator, uint256 creatorAmount, uint256
+                  platformAmount);
+                </div>
+                <p>Emitted when a payment is distributed between a creator and the platform.</p>
+              </div>
+
+              <div class="function-details">
+                <h4>RevenueSplitUpdated</h4>
+                <div class="function-signature">
+                  event RevenueSplitUpdated(uint256 oldCreatorShare, uint256 newCreatorShare);
+                </div>
+                <p>Emitted when the revenue split percentage is updated.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="access" class="tab-content">
+            <h2>StreamAccessContract.sol</h2>
+            <p>The StreamAccessContract manages content access control and registration.</p>
+
+            <div class="contract-section">
+              <h3>Core Functions</h3>
+
+              <div class="function-details">
+                <h4>registerContent</h4>
+                <div class="function-signature">
+                  function registerContent(string memory contentId, address creator) public
+                </div>
+                <p>Registers new content on the platform, associating it with its creator.</p>
+                <dl class="function-params">
+                  <dt>Parameters</dt>
+                  <dd><code>contentId</code> - Unique identifier for the content</dd>
+                  <dd><code>creator</code> - Address of the content creator</dd>
+                </dl>
+              </div>
+
+              <div class="function-details">
+                <h4>setContentPrice</h4>
+                <div class="function-signature">
+                  function setContentPrice(string memory contentId, uint256 price) public
+                </div>
+                <p>Sets the price for accessing specific content.</p>
+                <dl class="function-params">
+                  <dt>Parameters</dt>
+                  <dd><code>contentId</code> - Unique identifier for the content</dd>
+                  <dd><code>price</code> - Price in STREAM tokens</dd>
+                  <dt>Requirements</dt>
+                  <dd>Only the content creator can set the price</dd>
+                </dl>
+              </div>
+
+              <div class="function-details">
+                <h4>getContentCreator</h4>
+                <div class="function-signature">
+                  function getContentCreator(string memory contentId) public view returns (address)
+                </div>
+                <p>Gets the creator address for specific content.</p>
+                <dl class="function-params">
+                  <dt>Parameters</dt>
+                  <dd><code>contentId</code> - Unique identifier for the content</dd>
+                  <dt>Returns</dt>
+                  <dd><code>address</code> - Address of the content creator</dd>
+                </dl>
+              </div>
+            </div>
+
+            <div class="contract-section">
+              <h3>Events</h3>
+              <div class="function-details">
+                <h4>ContentRegistered</h4>
+                <div class="function-signature">
+                  event ContentRegistered(string contentId, address indexed creator);
+                </div>
+                <p>Emitted when new content is registered on the platform.</p>
+              </div>
+
+              <div class="function-details">
+                <h4>ContentPriceUpdated</h4>
+                <div class="function-signature">
+                  event ContentPriceUpdated(string contentId, uint256 oldPrice, uint256 newPrice);
+                </div>
+                <p>Emitted when the price of content is updated.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Integration Examples -->
+    <section class="section-alt">
+      <div class="container">
+        <h2>Integration Examples</h2>
+        <p>Code examples for integrating with our smart contracts.</p>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Web3.js Integration</h3>
+            <div class="code-block">
+              <code
+                >// Connect to the StreamingToken contract const streamingContract = new
+                web3.eth.Contract( StreamingTokenABI, "0xYourContractAddressHere" ); // Purchase
+                credits async function purchaseCredits() { await
+                streamingContract.methods.purchaseCredits().send({ from: userAddress, value:
+                web3.utils.toWei("0.01", "ether") }); } // Start streaming async function
+                startStream(contentId) { await
+                streamingContract.methods.startStream(contentId).send({ from: userAddress }); } //
+                Check streaming access async function checkAccess(contentId) { const hasAccess =
+                await streamingContract.methods .canStream(userAddress, contentId) .call(); return
+                hasAccess; }</code
+              >
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>ethers.js Integration</h3>
+            <div class="code-block">
+              <code
+                >// Connect to the StreamingToken contract const provider = new
+                ethers.providers.Web3Provider(window.ethereum); const signer = provider.getSigner();
+                const streamingContract = new ethers.Contract( "0xYourContractAddressHere",
+                StreamingTokenABI, signer ); // Purchase credits async function purchaseCredits() {
+                const tx = await streamingContract.purchaseCredits({ value:
+                ethers.utils.parseEther("0.01") }); await tx.wait(); } // Start streaming async
+                function startStream(contentId) { const tx = await
+                streamingContract.startStream(contentId); await tx.wait(); } // Check streaming
+                access async function checkAccess(contentId) { const userAddress = await
+                signer.getAddress(); return await streamingContract.canStream(userAddress,
+                contentId); }</code
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Web3 Crypto Streaming Service</h3>
+            <p>Revolutionizing content distribution through blockchain technology.</p>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="../web3-streaming-service-whitepaper.md">Whitepaper</a></li>
+              <li><a href="../docs/">Documentation</a></li>
+              <li><a href="../blog/">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://twitter.com/modsias">Twitter</a></li>
+              <li><a href="https://discord.gg/web3streaming">Discord</a></li>
+              <li><a href="https://t.me/web3streaming">Telegram</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="../terms.md">Terms of Service</a></li>
+              <li><a href="../privacy.md">Privacy Policy</a></li>
+              <li><a href="token-disclaimer.html">Token Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Team MODSIAS | <a href="../sitemap.html">Sitemap</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Tab functionality
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs and content
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+          // Add active class to clicked tab
+          tab.classList.add('active');
+
+          // Show corresponding content
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>

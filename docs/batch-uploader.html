@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Batch Uploader Component | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Batch Uploader Component" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/batch-uploader.html" />
+<meta property="og:url" content="/docs/batch-uploader.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Batch Uploader Component" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Batch Uploader Component","url":"/docs/batch-uploader.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Batch Uploader Component</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="batch-uploader-component">Batch Uploader Component</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">BatchUploader</code> component enables users to upload multiple files simultaneously, edit their metadata, and publish them together.</p>
+
+<h2 id="component-structure">Component Structure</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>StreamChainUploader (Main Class)
+├── BatchUploadManager
+│   ├── FileProcessor
+│   ├── MetadataManager
+│   └── ProgressTracker
+├── NFTManager
+├── RevenueManager
+└── PublishingScheduler
+</code></pre></div></div>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<ul>
+  <li>IPFS Client for decentralized storage</li>
+  <li>Web3 libraries for blockchain interaction</li>
+  <li>Drag-and-Drop API for file handling</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="basic-implementation">Basic Implementation</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">uploader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StreamChainUploader</span><span class="p">({</span>
+  <span class="na">container</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">upload-container</span><span class="dl">'</span><span class="p">),</span>
+  <span class="na">maxFiles</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+  <span class="na">supportedTypes</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">video/*</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">audio/*</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">image/*</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">application/pdf</span><span class="dl">'</span><span class="p">],</span>
+  <span class="na">maxFileSize</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="c1">// 2GB</span>
+  <span class="na">enableNFT</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">enableScheduling</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+
+<span class="c1">// Initialize uploader</span>
+<span class="nx">uploader</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+
+<span class="c1">// Listen for events</span>
+<span class="nx">uploader</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">batchComplete</span><span class="dl">'</span><span class="p">,</span> <span class="nx">result</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Batch upload complete: </span><span class="p">${</span><span class="nx">result</span><span class="p">.</span><span class="nx">success</span><span class="p">}</span><span class="s2"> succeeded, </span><span class="p">${</span><span class="nx">result</span><span class="p">.</span><span class="nx">failed</span><span class="p">}</span><span class="s2"> failed`</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="configuration-options">Configuration Options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>container</td>
+      <td>Element</td>
+      <td>null</td>
+      <td>DOM element to render the uploader in</td>
+    </tr>
+    <tr>
+      <td>maxFiles</td>
+      <td>Number</td>
+      <td>50</td>
+      <td>Maximum number of files allowed in one batch</td>
+    </tr>
+    <tr>
+      <td>supportedTypes</td>
+      <td>Array</td>
+      <td>[‘*’]</td>
+      <td>Array of MIME types to accept</td>
+    </tr>
+    <tr>
+      <td>maxFileSize</td>
+      <td>Number</td>
+      <td>2GB</td>
+      <td>Maximum size per file in bytes</td>
+    </tr>
+    <tr>
+      <td>chunkSize</td>
+      <td>Number</td>
+      <td>5MB</td>
+      <td>Size of chunks for resumable uploads</td>
+    </tr>
+    <tr>
+      <td>concurrentUploads</td>
+      <td>Number</td>
+      <td>3</td>
+      <td>Number of simultaneous file uploads</td>
+    </tr>
+    <tr>
+      <td>enableNFT</td>
+      <td>Boolean</td>
+      <td>true</td>
+      <td>Enable NFT creation options</td>
+    </tr>
+    <tr>
+      <td>enableScheduling</td>
+      <td>Boolean</td>
+      <td>true</td>
+      <td>Enable scheduled publishing</td>
+    </tr>
+    <tr>
+      <td>metadataTemplate</td>
+      <td>Object</td>
+      <td>{}</td>
+      <td>Default metadata for new uploads</td>
+    </tr>
+    <tr>
+      <td>uploadEndpoint</td>
+      <td>String</td>
+      <td>‘/api/upload’</td>
+      <td>API endpoint for uploads</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="events">Events</h2>
+
+<p>The component emits the following events:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Description</th>
+      <th>Callback Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filesAdded</td>
+      <td>Files have been added to the batch</td>
+      <td><code class="language-plaintext highlighter-rouge">{ files: Array }</code></td>
+    </tr>
+    <tr>
+      <td>uploadStart</td>
+      <td>Batch upload has started</td>
+      <td><code class="language-plaintext highlighter-rouge">{ totalFiles: Number, totalSize: Number }</code></td>
+    </tr>
+    <tr>
+      <td>fileProgress</td>
+      <td>Progress update for a file</td>
+      <td><code class="language-plaintext highlighter-rouge">{ file: Object, progress: Number }</code></td>
+    </tr>
+    <tr>
+      <td>fileComplete</td>
+      <td>Single file upload completed</td>
+      <td><code class="language-plaintext highlighter-rouge">{ file: Object, result: Object }</code></td>
+    </tr>
+    <tr>
+      <td>fileError</td>
+      <td>Error uploading a file</td>
+      <td><code class="language-plaintext highlighter-rouge">{ file: Object, error: Error }</code></td>
+    </tr>
+    <tr>
+      <td>batchProgress</td>
+      <td>Overall batch progress</td>
+      <td><code class="language-plaintext highlighter-rouge">{ progress: Number, filesComplete: Number }</code></td>
+    </tr>
+    <tr>
+      <td>batchComplete</td>
+      <td>Entire batch completed</td>
+      <td><code class="language-plaintext highlighter-rouge">{ success: Number, failed: Number, results: Array }</code></td>
+    </tr>
+    <tr>
+      <td>metadataUpdate</td>
+      <td>Metadata has been updated</td>
+      <td><code class="language-plaintext highlighter-rouge">{ fileId: String, metadata: Object }</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="methods">Methods</h2>
+
+<h3 id="init"><code class="language-plaintext highlighter-rouge">init()</code></h3>
+
+<p>Initializes the uploader and sets up event listeners.</p>
+
+<h3 id="addfilesfiles-filelist--array"><code class="language-plaintext highlighter-rouge">addFiles(files: FileList | Array)</code></h3>
+
+<p>Adds files to the current batch.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">addFiles</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">file-input</span><span class="dl">'</span><span class="p">).</span><span class="nx">files</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="addfilesfromurlsurls-array"><code class="language-plaintext highlighter-rouge">addFilesFromUrls(urls: Array)</code></h3>
+
+<p>Adds files from URLs to the current batch.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">addFilesFromUrls</span><span class="p">([</span><span class="dl">'</span><span class="s1">https://example.com/video.mp4</span><span class="dl">'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<h3 id="importfromcsvcsvfile-file"><code class="language-plaintext highlighter-rouge">importFromCSV(csvFile: File)</code></h3>
+
+<p>Imports metadata from a CSV file and associates it with uploaded files.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">importFromCSV</span><span class="p">(</span><span class="nx">csvFile</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="removefilefileid-string"><code class="language-plaintext highlighter-rouge">removeFile(fileId: String)</code></h3>
+
+<p>Removes a file from the batch by ID.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">removeFile</span><span class="p">(</span><span class="dl">'</span><span class="s1">file-1234</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="updatemetadatafileid-string-metadata-object"><code class="language-plaintext highlighter-rouge">updateMetadata(fileId: String, metadata: Object)</code></h3>
+
+<p>Updates metadata for a specific file.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">updateMetadata</span><span class="p">(</span><span class="dl">'</span><span class="s1">file-1234</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">New Title</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">description</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Updated description</span><span class="dl">'</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="bulkupdatemetadatafileids-array-metadata-object"><code class="language-plaintext highlighter-rouge">bulkUpdateMetadata(fileIds: Array, metadata: Object)</code></h3>
+
+<p>Updates metadata for multiple files at once.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">bulkUpdateMetadata</span><span class="p">([</span><span class="dl">'</span><span class="s1">file-1234</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">file-5678</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span>
+  <span class="na">category</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Music</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">tags</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">electronic</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ambient</span><span class="dl">'</span><span class="p">]</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="startupload"><code class="language-plaintext highlighter-rouge">startUpload()</code></h3>
+
+<p>Starts uploading the current batch.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">startUpload</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h3 id="pauseupload"><code class="language-plaintext highlighter-rouge">pauseUpload()</code></h3>
+
+<p>Pauses the current batch upload.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">pauseUpload</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h3 id="resumeupload"><code class="language-plaintext highlighter-rouge">resumeUpload()</code></h3>
+
+<p>Resumes a paused upload.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">resumeUpload</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h3 id="cancelupload"><code class="language-plaintext highlighter-rouge">cancelUpload()</code></h3>
+
+<p>Cancels the current upload process.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">uploader</span><span class="p">.</span><span class="nx">cancelUpload</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h2 id="implementation-examples">Implementation Examples</h2>
+
+<h3 id="simple-implementation">Simple Implementation</h3>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"batch-uploader"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">uploader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StreamChainUploader</span><span class="p">({</span>
+      <span class="na">container</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">batch-uploader</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">});</span>
+
+    <span class="nx">uploader</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<h3 id="advanced-implementation-with-custom-handling">Advanced Implementation with Custom Handling</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">uploader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StreamChainUploader</span><span class="p">({</span>
+  <span class="na">container</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">advanced-uploader</span><span class="dl">'</span><span class="p">),</span>
+  <span class="na">maxFiles</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+  <span class="na">supportedTypes</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">video/mp4</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">video/webm</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">audio/mp3</span><span class="dl">'</span><span class="p">],</span>
+  <span class="na">concurrentUploads</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="na">metadataTemplate</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">category</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Music</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">language</span><span class="p">:</span> <span class="dl">'</span><span class="s1">en</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">license</span><span class="p">:</span> <span class="dl">'</span><span class="s1">CC-BY</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">uploader</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+
+<span class="c1">// Custom event handling</span>
+<span class="nx">uploader</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">fileComplete</span><span class="dl">'</span><span class="p">,</span> <span class="p">({</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">result</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// Add to user's content library</span>
+  <span class="nx">addToLibrary</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">ipfsHash</span><span class="p">,</span> <span class="nx">file</span><span class="p">.</span><span class="nx">metadata</span><span class="p">);</span>
+
+  <span class="c1">// Update analytics</span>
+  <span class="nx">trackUpload</span><span class="p">({</span>
+    <span class="na">fileType</span><span class="p">:</span> <span class="nx">file</span><span class="p">.</span><span class="nx">type</span><span class="p">,</span>
+    <span class="na">fileSize</span><span class="p">:</span> <span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">,</span>
+    <span class="na">duration</span><span class="p">:</span> <span class="nx">result</span><span class="p">.</span><span class="nx">processingTime</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">uploader</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">batchComplete</span><span class="dl">'</span><span class="p">,</span> <span class="p">({</span> <span class="nx">results</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// Save batch information</span>
+  <span class="nx">saveBatchRecord</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+
+  <span class="c1">// Notify user</span>
+  <span class="nx">showNotification</span><span class="p">(</span><span class="s2">`Batch upload complete. </span><span class="p">${</span><span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">}</span><span class="s2"> files uploaded.`</span><span class="p">);</span>
+
+  <span class="c1">// Reset form</span>
+  <span class="nx">resetForm</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="c1">// Handle form submission</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">publish-form</span><span class="dl">'</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">submit</span><span class="dl">'</span><span class="p">,</span> <span class="nx">event</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+
+  <span class="c1">// Set monetization options</span>
+  <span class="kd">const</span> <span class="nx">monetizationModel</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">input[name="monetization"]:checked</span><span class="dl">'</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+  <span class="nx">uploader</span><span class="p">.</span><span class="nx">setMonetizationModel</span><span class="p">(</span><span class="nx">monetizationModel</span><span class="p">);</span>
+
+  <span class="c1">// Start the upload</span>
+  <span class="nx">uploader</span><span class="p">.</span><span class="nx">startUpload</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="browser-compatibility">Browser Compatibility</h2>
+
+<p>The component is compatible with:</p>
+
+<ul>
+  <li>Chrome 70+</li>
+  <li>Firefox 65+</li>
+  <li>Safari 12.1+</li>
+  <li>Edge 79+</li>
+</ul>
+
+<p>Mobile support:</p>
+
+<ul>
+  <li>iOS Safari 12.2+</li>
+  <li>Android Chrome 70+</li>
+</ul>
+
+<h2 id="performance-considerations">Performance Considerations</h2>
+
+<ul>
+  <li>Large batches (&gt;30 files) may cause performance issues on lower-end devices</li>
+  <li>Consider implementing pagination for very large batches</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">concurrentUploads</code> setting to balance between speed and resource usage</li>
+  <li>The component implements connection throttling detection to avoid timeouts</li>
+</ul>
+
+<h2 id="security-notes">Security Notes</h2>
+
+<ul>
+  <li>All uploads are processed through IPFS with content addressing</li>
+  <li>Files are verified for integrity using SHA-256 checksums</li>
+  <li>Content moderation is applied during processing</li>
+  <li>User must have sufficient STREAM tokens for storage costs</li>
+</ul>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

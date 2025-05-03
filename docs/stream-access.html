@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Documentation Hub | Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Documentation Hub" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/docs/stream-access.html" />
+<meta property="og:url" content="/docs/stream-access.html" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Documentation Hub" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Documentation Hub","url":"/docs/stream-access.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <hr />
+<p>layout: default
+title: StreamAccessContract | Web3 Crypto Streaming Service</p>
+<hr />
+
+<h1 id="streamaccesscontract">StreamAccessContract</h1>
+
+<p>The StreamAccessContract is a core component of the Web3 Crypto Streaming Service platform, providing access control and monetization for content creators.</p>
+
+<h2 id="contract-overview">Contract Overview</h2>
+
+<p>This contract manages access to streaming content based on payments, subscriptions, and permissions. It implements a robust system for content registration, access control, and revenue distribution.</p>
+
+<h2 id="key-features">Key Features</h2>
+
+<ul>
+  <li><strong>Content Registration</strong>: Creators register their content with pricing and royalty information</li>
+  <li><strong>Access Control</strong>: Only authorized users can access premium content</li>
+  <li><strong>Flexible Monetization</strong>: Support for different payment models (one-time, subscription)</li>
+  <li><strong>Revenue Splitting</strong>: Automatic fee distribution between platform and creators</li>
+  <li><strong>Time-based Access</strong>: Control content access with flexible time periods</li>
+</ul>
+
+<h2 id="contract-interface">Contract Interface</h2>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT
+</span><span class="k">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="n">IStreamAccessContract</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Content</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">creator</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">price</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">exists</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">isPremium</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">royaltyPercent</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="n">contentHash</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">struct</span> <span class="n">Access</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">hasAccess</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">expirationTime</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">event</span> <span class="n">ContentRegistered</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">creator</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">price</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isPremium</span><span class="p">,</span> <span class="kt">string</span> <span class="n">contentHash</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">AccessPurchased</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">duration</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">amountPaid</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">AccessGranted</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">duration</span><span class="p">);</span>
+    <span class="k">event</span> <span class="n">FeeUpdated</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">oldFee</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">newFee</span><span class="p">);</span>
+    
+    <span class="k">function</span> <span class="n">registerContent</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">price</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isPremium</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">royaltyPercent</span><span class="p">,</span> <span class="kt">string</span> <span class="k">memory</span> <span class="n">contentHash</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">purchaseAccess</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">duration</span><span class="p">)</span> <span class="k">external</span> <span class="k">payable</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">hasAccess</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bool</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">grantAccess</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">,</span> <span class="kt">address</span> <span class="n">user</span><span class="p">,</span> <span class="kt">uint256</span> <span class="n">duration</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+    <span class="k">function</span> <span class="n">getContentDetails</span><span class="p">(</span><span class="kt">bytes32</span> <span class="n">contentId</span><span class="p">)</span> <span class="k">external</span> <span class="k">view</span> <span class="k">returns</span> <span class="p">(</span><span class="n">Content</span> <span class="k">memory</span><span class="p">);</span>
+    <span class="k">function</span> <span class="n">updatePlatformFee</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">newFeePercent</span><span class="p">)</span> <span class="k">external</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="usage-examples">Usage Examples</h2>
+
+<h3 id="content-registration">Content Registration</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example JavaScript using ethers.js</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">registerContent</span><span class="p">(</span><span class="nx">contract</span><span class="p">,</span> <span class="nx">creator</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">contentId</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">id</span><span class="p">(</span><span class="dl">"</span><span class="s2">my-premium-video</span><span class="dl">"</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">price</span> <span class="o">=</span> <span class="nx">ethers</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">parseEther</span><span class="p">(</span><span class="dl">"</span><span class="s2">0.01</span><span class="dl">"</span><span class="p">);</span>  <span class="c1">// 0.01 ETH</span>
+  <span class="kd">const</span> <span class="nx">isPremium</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">royaltyPercent</span> <span class="o">=</span> <span class="mi">90</span><span class="p">;</span>  <span class="c1">// Creator gets 90%</span>
+  <span class="kd">const</span> <span class="nx">contentHash</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">QmHash123456789</span><span class="dl">"</span><span class="p">;</span>  <span class="c1">// IPFS hash</span>
+  
+  <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">creator</span><span class="p">).</span><span class="nx">registerContent</span><span class="p">(</span>
+    <span class="nx">contentId</span><span class="p">,</span>
+    <span class="nx">price</span><span class="p">,</span>
+    <span class="nx">isPremium</span><span class="p">,</span>
+    <span class="nx">royaltyPercent</span><span class="p">,</span>
+    <span class="nx">contentHash</span>
+  <span class="p">);</span>
+  
+  <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Content registered with ID: </span><span class="p">${</span><span class="nx">contentId</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="purchasing-access">Purchasing Access</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">purchaseContentAccess</span><span class="p">(</span><span class="nx">contract</span><span class="p">,</span> <span class="nx">viewer</span><span class="p">,</span> <span class="nx">contentId</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">contentDetails</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">getContentDetails</span><span class="p">(</span><span class="nx">contentId</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">price</span> <span class="o">=</span> <span class="nx">contentDetails</span><span class="p">.</span><span class="nx">price</span><span class="p">;</span>
+  
+  <span class="c1">// Purchase 30-day access</span>
+  <span class="kd">const</span> <span class="nx">duration</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span><span class="p">;</span>  <span class="c1">// 30 days in seconds</span>
+  
+  <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">viewer</span><span class="p">).</span><span class="nx">purchaseAccess</span><span class="p">(</span>
+    <span class="nx">contentId</span><span class="p">,</span>
+    <span class="nx">duration</span><span class="p">,</span>
+    <span class="p">{</span> <span class="na">value</span><span class="p">:</span> <span class="nx">price</span> <span class="p">}</span>
+  <span class="p">);</span>
+  
+  <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">wait</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Access purchased successfully</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="checking-access">Checking Access</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">checkAccess</span><span class="p">(</span><span class="nx">contract</span><span class="p">,</span> <span class="nx">viewer</span><span class="p">,</span> <span class="nx">contentId</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">hasAccess</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">hasAccess</span><span class="p">(</span><span class="nx">contentId</span><span class="p">,</span> <span class="nx">viewer</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="nx">hasAccess</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">User has access to this content</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">User does not have access to this content</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">}</span>
+  
+  <span class="k">return</span> <span class="nx">hasAccess</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<ul>
+  <li>The contract uses <code class="language-plaintext highlighter-rouge">ReentrancyGuard</code> to protect against reentrancy attacks</li>
+  <li>Payment splitting is performed with checks before execution</li>
+  <li>All user inputs are validated with require statements</li>
+  <li>Platform fee is capped at 30% to prevent excessive fees</li>
+  <li>Content creator verification is enforced for all content operations</li>
+</ul>
+
+<h2 id="gas-optimization">Gas Optimization</h2>
+
+<ul>
+  <li>Uses bytes32 for contentIds to optimize gas usage</li>
+  <li>Implements efficient storage patterns with struct packing</li>
+  <li>Combines related state changes to reduce storage operations</li>
+  <li>Uses storage pointers for efficient data access</li>
+</ul>
+
+<h2 id="deployed-contract-addresses">Deployed Contract Addresses</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Network</th>
+      <th>Address</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ethereum Mainnet</td>
+      <td>0x1234567890123456789012345678901234567890</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>Goerli Testnet</td>
+      <td>0x9876543210987654321098765432109876543210</td>
+      <td>v1.0.0</td>
+    </tr>
+    <tr>
+      <td>Polygon</td>
+      <td>0xabcdef0123456789abcdef0123456789abcdef01</td>
+      <td>v1.0.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="implementation-source-code">Implementation Source Code</h2>
+
+<p>For the complete implementation, please visit our <a href="https://github.com/idl3o/contracts/blob/main/StreamAccessContract.sol">GitHub repository</a>.</p>
+
+<div class="language-solidity highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This is a simplified version of the contract for documentation purposes
+// See the GitHub repository for the full implementation
+</span><span class="k">contract</span> <span class="n">StreamAccessContract</span> <span class="k">is</span> <span class="n">Ownable</span><span class="p">,</span> <span class="n">ReentrancyGuard</span> <span class="p">{</span>
+    <span class="c1">// Content struct to store metadata and access information
+</span>    <span class="k">struct</span> <span class="n">Content</span> <span class="p">{</span>
+        <span class="kt">address</span> <span class="n">creator</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">price</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">exists</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">isPremium</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">royaltyPercent</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="n">contentHash</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Access struct to track user access
+</span>    <span class="k">struct</span> <span class="n">Access</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">hasAccess</span><span class="p">;</span>
+        <span class="kt">uint256</span> <span class="n">expirationTime</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Content mapping: contentId =&gt; Content
+</span>    <span class="k">mapping</span><span class="p">(</span><span class="kt">bytes32</span> <span class="o">=&gt;</span> <span class="n">Content</span><span class="p">)</span> <span class="k">public</span> <span class="n">contents</span><span class="p">;</span>
+    
+    <span class="c1">// Access mapping: contentId =&gt; user =&gt; Access
+</span>    <span class="k">mapping</span><span class="p">(</span><span class="kt">bytes32</span> <span class="o">=&gt;</span> <span class="k">mapping</span><span class="p">(</span><span class="kt">address</span> <span class="o">=&gt;</span> <span class="n">Access</span><span class="p">))</span> <span class="k">public</span> <span class="n">userAccess</span><span class="p">;</span>
+    
+    <span class="c1">// Platform fee percentage (out of 100)
+</span>    <span class="kt">uint256</span> <span class="k">public</span> <span class="n">platformFeePercent</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    
+    <span class="c1">// Platform address to receive fees
+</span>    <span class="kt">address</span> <span class="k">public</span> <span class="n">platformAddress</span><span class="p">;</span>
+    
+    <span class="c1">// Additional implementation details...
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="related-documentation">Related Documentation</h2>
+
+<ul>
+  <li><a href="../tech.contracts.html">Smart Contract Architecture</a></li>
+  <li><a href="../guides.developers.html">Web3 Developer Guide</a></li>
+  <li><a href="proof-of-existence.html">ProofOfExistence Contract</a></li>
+  <li><a href="stream-payment.html">StreamPayment Contract</a></li>
+</ul>
+
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>

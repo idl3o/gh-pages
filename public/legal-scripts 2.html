@@ -1,0 +1,49 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add smooth scrolling to all links
+  const links = document.querySelectorAll('.legal-toc a');
+  
+  for (const link of links) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 100,
+          behavior: 'smooth'
+        });
+        
+        // Update URL without reloading
+        history.pushState(null, null, targetId);
+      }
+    });
+  }
+  
+  // Add back-to-top functionality
+  const backToTopButton = document.createElement('a');
+  backToTopButton.href = '#';
+  backToTopButton.className = 'back-to-top';
+  backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+  document.body.appendChild(backToTopButton);
+  
+  backToTopButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+  
+  // Show/hide back-to-top button based on scroll position
+  window.addEventListener('scroll', function() {
+    if (window.pageYOffset > 300) {
+      backToTopButton.classList.add('visible');
+    } else {
+      backToTopButton.classList.remove('visible');
+    }
+  });
+});
+</script>

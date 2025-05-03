@@ -1,0 +1,112 @@
+{
+  "version": "1.0.0",
+  "environment": {
+    "current": "development",
+    "development": {
+      "apiUrl": "http://localhost:3000/api",
+      "wsUrl": "ws://localhost:3001",
+      "debug": true,
+      "mockData": true
+    },
+    "staging": {
+      "apiUrl": "https://staging-api.web3streaming.example",
+      "wsUrl": "wss://staging-ws.web3streaming.example",
+      "debug": true,
+      "mockData": false
+    },
+    "production": {
+      "apiUrl": "https://api.web3streaming.example",
+      "wsUrl": "wss://ws.web3streaming.example",
+      "debug": false,
+      "mockData": false
+    }
+  },
+  "features": {
+    "streamingService": true,
+    "tokenomics": true,
+    "creatorDashboard": true,
+    "viewerTools": true,
+    "monetization": true,
+    "analytics": true,
+    "governance": true,
+    "experimentalFeatures": {
+      "nftIntegration": false,
+      "multiStreamOutput": false,
+      "aiContentSummary": true,
+      "p2pStreaming": false
+    }
+  },
+  "blockchain": {
+    "networks": {
+      "ethereum": {
+        "chainId": 1,
+        "rpcUrl": "https://mainnet.infura.io/v3/${INFURA_API_KEY}",
+        "blockExplorer": "https://etherscan.io",
+        "active": true
+      },
+      "polygon": {
+        "chainId": 137,
+        "rpcUrl": "https://polygon-rpc.com",
+        "blockExplorer": "https://polygonscan.com",
+        "active": true
+      },
+      "arbitrum": {
+        "chainId": 42161,
+        "rpcUrl": "https://arb1.arbitrum.io/rpc",
+        "blockExplorer": "https://arbiscan.io",
+        "active": false
+      }
+    },
+    "contracts": {
+      "streamToken": {
+        "address": {
+          "ethereum": "0x1234567890123456789012345678901234567890",
+          "polygon": "0x0987654321098765432109876543210987654321"
+        },
+        "decimals": 18
+      },
+      "streamPayment": {
+        "address": {
+          "ethereum": "0xabcdef1234567890abcdef1234567890abcdef12",
+          "polygon": "0x12345abcdef67890abcdef12345abcdef67890ab"
+        }
+      }
+    },
+    "gasPriceStrategy": "medium"
+  },
+  "ui": {
+    "theme": "dark",
+    "primaryColor": "#6e45e2",
+    "secondaryColor": "#00d8ff",
+    "accentColor": "#ff5722",
+    "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    "animationsEnabled": true,
+    "defaultStreamQuality": "auto"
+  },
+  "performance": {
+    "cacheStrategy": "aggressive",
+    "prefetchAssets": true,
+    "lazyLoadImages": true,
+    "compressImages": true,
+    "minifyAssets": true,
+    "useServiceWorker": true
+  },
+  "security": {
+    "contentSecurityPolicy": "strict",
+    "requireSigning": true,
+    "enableCaptcha": true,
+    "rateLimit": {
+      "login": 5,
+      "register": 3,
+      "forgotPassword": 3
+    },
+    "sessionTimeout": 3600
+  },
+  "notifications": {
+    "email": true,
+    "push": true,
+    "inApp": true,
+    "discord": false,
+    "telegram": false
+  }
+}

@@ -1,0 +1,72 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Update RubyGems
+        run: |
+          gem update --system --no-document
+          gem --version
+        continue-on-error: true
+
+      - name: Install Bundler
+        run: gem install bundler
+        continue-on-error: true
+
+      - name: Install Ruby Gems with Retry
+        run: |
+          for i in 1 2 3; do
+            bundle install && break || echo "Retry $i..."
+            sleep 5
+          done
+        continue-on-error: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          for i in 1 2 3; do
+            npm ci || npm install && break || echo "Retry $i..."
+            sleep 5
+          done
+
+      - name: Run build process
+        run: npm run build
+        env:
+          CI: 'true'
+          SKIP_JEKYLL: ${{ failure() }}
+
+      - name: Run tests
+        run: npm run test:ci
+
+      - name: Prepare for deployment
+        run: npm run docs:deploy
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        with:
+          folder: . # The folder the action should deploy
+          branch: gh-pages # The branch the action should deploy to
+          clean: true # Automatically remove deleted files from the deploy branch

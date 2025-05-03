@@ -1,0 +1,184 @@
+/* Mobile-specific CSS */
+
+/* Base mobile optimizations */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 1rem;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+  }
+
+  /* Header adjustments for mobile */
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .main-nav {
+    display: none;
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+  .main-nav.active {
+    display: block;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .main-nav ul li {
+    margin: 0;
+    width: 100%;
+  }
+
+  .main-nav ul li a {
+    display: block;
+    padding: 0.75rem 0;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+
+  /* Hero section adjustments */
+  .hero {
+    padding: 4rem 0 2rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-buttons a {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  /* Features section adjustments */
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* CTA section adjustments */
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-buttons a {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  /* Footer adjustments */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Performance optimizations for mobile */
+  .lazy-load {
+    transition: opacity 0.3s ease;
+  }
+
+  .lazy-load:not(.loaded) {
+    opacity: 0.1;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .completion-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Touch-specific optimizations */
+@media (pointer: coarse) {
+  button,
+  a.btn,
+  .main-nav a {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1.25rem;
+  }
+
+  input, select, textarea {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+
+  /* Larger tap targets */
+  .feature-card,
+  .footer a,
+  .social-icons a {
+    padding: 0.5rem;
+  }
+
+  .social-icons a {
+    margin: 0 0.5rem;
+  }
+}
+
+/* Dark mode specific mobile tweaks */
+@media (max-width: 768px) {
+  .dark-theme .main-nav.active {
+    background-color: var(--color-bg-secondary);
+    border-radius: 8px;
+    padding: 0.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .header-actions,
+  .mobile-menu-toggle,
+  .cta-section,
+  .footer {
+    display: none;
+  }
+
+  body {
+    color: #000;
+    background: #fff;
+  }
+
+  a {
+    text-decoration: underline;
+    color: #000;
+  }
+
+  .container {
+    width: 100%;
+    max-width: none;
+  }
+}

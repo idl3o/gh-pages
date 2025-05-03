@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project Backups | Project Documentation Hub</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Project Backups" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<meta property="og:description" content="Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions" />
+<link rel="canonical" href="/backups/" />
+<meta property="og:url" content="/backups/" />
+<meta property="og:site_name" content="Project Documentation Hub" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Backups" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Central documentation for TypeScript SDK, Smart Contracts, RED X Backend, and Serverless Functions","headline":"Project Backups","url":"/backups/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  
+</head>
+<body>
+  
+
+
+  <div class="container-lg px-3 my-5 markdown-body">
+    
+    <!-- prettier-ignore-start -->
+    <h1><a href="/">Project Documentation Hub</a></h1>
+    <!-- prettier-ignore-end -->
+    
+
+    <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Project Backups</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="project-backups">Project Backups</h1>
+
+<p>This directory contains backup files for the StreamChain Web3 platform.</p>
+
+<h2 id="backup-types">Backup Types</h2>
+
+<ul>
+  <li><strong>site_[timestamp].zip</strong> - Backups of the built site (contents of _site directory)</li>
+  <li><strong>docs_[timestamp].zip</strong> - Backups of the documentation</li>
+  <li><strong>config_[timestamp].zip</strong> - Backups of configuration files</li>
+</ul>
+
+<h2 id="how-to-create-backups">How to Create Backups</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Backup the site</span>
+npm run backup:site
+
+<span class="c"># Backup documentation</span>
+npm run backup:docs
+
+<span class="c"># Backup configuration files</span>
+npm run backup:config
+
+<span class="c"># Backup everything</span>
+npm run backup:all
+</code></pre></div></div>
+
+<h2 id="how-to-restore-backups">How to Restore Backups</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List all available backups</span>
+npm run restore:list
+
+<span class="c"># Restore from a specific backup file</span>
+npm run restore <span class="nt">--</span> <span class="s2">"filename.zip"</span>
+
+<span class="c"># Restore the latest backups of each type</span>
+npm run restore:latest
+</code></pre></div></div>
+
+<h2 id="automatic-backups">Automatic Backups</h2>
+
+<p>The system is configured to create automatic backups before major deployments or updates.
+These backups ensure you can restore to a previous state if needed.</p>
+
+  </div>
+
+</article>
+
+
+    
+    <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+      <!-- Removed github_edit_link tag -->
+    </div>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>anchors.add();</script>
+</body>
+</html>
