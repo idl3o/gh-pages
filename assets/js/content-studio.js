@@ -1,7 +1,7 @@
 /**
- * AI Content Studio for Web3 Educational Platform
+ * Creator Studio for Web3 Educational Platform
  *
- * Enables AI-assisted content creation for the single-creator educational model
+ * Enables AI-assisted content creation and stream scheduling for the Web3 educational platform
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const generateContentBtn = document.getElementById('generate-content-btn');
   const aiOutput = document.getElementById('ai-output');
   const newProjectBtn = document.getElementById('new-ai-project');
+
+  // New Studio UI elements
+  const studioTabs = document.querySelectorAll('.studio-tab');
+  const contentSection = document.getElementById('content-creation-section');
+  const streamingSection = document.getElementById('streaming-section');
+  const analyticsSection = document.getElementById('analytics-section');
+  const scheduleStreamBtn = document.getElementById('schedule-stream-btn');
+  const streamScheduleForm = document.getElementById('stream-schedule-form');
+  const scheduledStreamsList = document.getElementById('scheduled-streams-list');
+  const analyticsChartContainer = document.getElementById('analytics-chart-container');
 
   // Template data structure
   const templates = {
@@ -76,12 +86,83 @@ document.addEventListener('DOMContentLoaded', () => {
         '4. Line-by-line explanation of key parts\n' +
         '5. Variations for different use cases\n' +
         '6. Best practices and optimization tips'
+    },
+    'stream-script': {
+      title: 'Live Stream Script',
+      description: 'Detailed script for educational live streams',
+      promptTemplate:
+        'Create a detailed live stream script for a [DURATION] minute educational session on [TOPIC] that includes: \n' +
+        '1. Opening hook and introduction (2-3 minutes)\n' +
+        '2. Topic overview and learning objectives\n' +
+        '3. Main content sections with key talking points\n' +
+        '4. Visual aid suggestions and demo instructions\n' +
+        '5. Interactive elements (polls, questions for audience)\n' +
+        '6. Closing summary and call to action\n' +
+        '7. Q&A preparation with anticipated questions'
     }
   };
+
+  // Stream categories
+  const streamCategories = [
+    'Blockchain Basics',
+    'Smart Contract Development',
+    'DeFi Protocols',
+    'NFT Creation & Trading',
+    'Web3 UX Design',
+    'Crypto Economics',
+    'DAO Governance',
+    'Metaverse Development',
+    'Zero Knowledge Proofs',
+    'Layer 2 Solutions'
+  ];
 
   // State
   let currentTemplate = null;
   let generating = false;
+  let streamingService = null;
+  let currentTab = 'content'; // Default tab
+  let analyticsData = {};
+  let analyticsChart = null;
+
+  // Initialize StreamingService when available
+  function initStreamingService() {
+    if (window.StreamingService) {
+      streamingService = new window.StreamingService();
+      console.log('Streaming service initialized');
+
+      // Load scheduled streams if user is connected
+      if (streamingService.currentAccount) {
+        loadScheduledStreams();
+        loadStreamAnalytics();
+      }
+
+      // Listen for wallet connection events
+      streamingService.on('walletConnected', (account) => {
+        console.log('Wallet connected:', account);
+        loadScheduledStreams();
+        loadStreamAnalytics();
+        updateUIForConnectedWallet(account);
+      });
+
+      // Listen for stream scheduling events
+      streamingService.on('streamScheduled', (streamInfo) => {
+        console.log('Stream scheduled:', streamInfo);
+        addScheduledStreamToUI(streamInfo);
+      });
+    } else {
+      console.warn('Streaming service not available');
+      // Disable streaming features if service not available
+      if (streamingSection) {
+        streamingSection.innerHTML = `
+          <div class="feature-unavailable">
+            <i class="ri-signal-wifi-error-line"></i>
+            <p>Streaming service is currently unavailable</p>
+            <p class="subtext">Please check your connection or try again later</p>
+          </div>
+        `;
+      }
+    }
+  }
 
   // Event listeners
   templateItems.forEach(item => {
@@ -100,6 +181,30 @@ document.addEventListener('DOMContentLoaded', () => {
     newProjectBtn.addEventListener('click', createNewProject);
   }
 
+  // Tab navigation listeners
+  if (studioTabs) {
+    studioTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabId = tab.getAttribute('data-tab');
+        switchTab(tabId);
+      });
+    });
+  }
+
+  // Stream scheduling listeners
+  if (scheduleStreamBtn) {
+    scheduleStreamBtn.addEventListener('click', () => {
+      showStreamScheduleModal();
+    });
+  }
+
+  if (streamScheduleForm) {
+    streamScheduleForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      scheduleNewStream();
+    });
+  }
+
   // Initialize studio
   function initStudio() {
     // Check if AI companion is available
@@ -107,6 +212,77 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Content safety module detected');
     } else {
       console.warn('Content safety module not loaded');
+    }
+
+    // Initialize streaming service
+    initStreamingService();
+
+    // Set up the studio UI
+    setupStudioUI();
+
+    // Initialize charts
+    if (analyticsSection && typeof Chart !== 'undefined') {
+      setupAnalyticsCharts();
+    }
+  }
+
+  /**
+   * Set up initial studio UI
+   */
+  function setupStudioUI() {
+    // Set up stream categories in form if element exists
+    const categorySelect = document.getElementById('stream-category');
+    if (categorySelect) {
+      streamCategories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.toLowerCase().replace(/\s+/g, '-');
+        option.textContent = category;
+        categorySelect.appendChild(option);
+      });
+    }
+
+    // Initialize date-time pickers if available
+    if (typeof flatpickr !== 'undefined') {
+      flatpickr('#stream-date', {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        minDate: "today",
+        time_24hr: true
+      });
+    }
+
+    // Show content tab by default
+    switchTab('content');
+  }
+
+  /**
+   * Switch between studio tabs
+   */
+  function switchTab(tabId) {
+    // Update tab state
+    currentTab = tabId;
+
+    // Update active tab indicator
+    if (studioTabs) {
+      studioTabs.forEach(tab => {
+        if (tab.getAttribute('data-tab') === tabId) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+    }
+
+    // Show appropriate section
+    if (contentSection) contentSection.style.display = tabId === 'content' ? 'block' : 'none';
+    if (streamingSection) streamingSection.style.display = tabId === 'streaming' ? 'block' : 'none';
+    if (analyticsSection) analyticsSection.style.display = tabId === 'analytics' ? 'block' : 'none';
+
+    // Load data for the active tab if needed
+    if (tabId === 'streaming' && streamingService) {
+      loadScheduledStreams();
+    } else if (tabId === 'analytics' && streamingService) {
+      loadStreamAnalytics();
     }
   }
 

@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
   let animationFrame;
   let lastFrameTime = 0;
 
+  // Cheat code tracking
+  let cheatCodeBuffer = '';
+  let lastCheatKeyTime = 0;
+  const CHEAT_TIMEOUT = 1000; // Clear cheat buffer after 1 second of inactivity
+
   // Game objects
   const miner = {
     x: canvas.width / 2 - 15,
@@ -838,6 +843,19 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('keydown', e => {
     if (!gameRunning || gamePaused) return;
 
+    // Track keypresses for cheat codes
+    const currentTime = Date.now();
+    if (currentTime - lastCheatKeyTime > CHEAT_TIMEOUT) {
+      cheatCodeBuffer = '';
+    }
+    lastCheatKeyTime = currentTime;
+
+    // Add key to cheat buffer if it's a number, dash, or letter
+    if (/[0-9\-a-zA-Z]/.test(e.key)) {
+      cheatCodeBuffer += e.key;
+      checkCheats();
+    }
+
     switch (e.key) {
       case 'ArrowLeft':
       case 'a':
@@ -961,4 +979,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize leaderboard on load
   displayLeaderboard();
+
+  // Cheat code function
+  function checkCheats() {
+    // Check for "1-9" cheat code to instantly level up to 9
+    if (cheatCodeBuffer.endsWith('1-9')) {
+      // Reset cheat buffer
+      cheatCodeBuffer = '';
+
+      // Apply the cheat: Jump to level 9
+      const targetLevel = 9;
+      if (level < targetLevel) {
+        // Calculate how many blocks we need to mine to reach level 9
+        // Each level up happens every 3 blocks
+        const blocksNeeded = (targetLevel - level) * 3;
+
+        // Add the necessary blocks
+        blocks += blocksNeeded;
+        blocksElement.textContent = blocks;
+
+        // Set the level
+        level = targetLevel;
+        levelElement.textContent = level;
+
+        // Add bonus score for the level jump
+        const bonusScore = 1000 * (targetLevel - 1);
+        score += bonusScore;
+        scoreElement.textContent = score;
+
+        // Show special effect
+        const levelUpOverlay = document.createElement('div');
+        levelUpOverlay.className = 'level-up-overlay';
+        levelUpOverlay.style.backgroundColor = 'rgba(255, 215, 0, 0.7)'; // Golden color
+        levelUpOverlay.innerHTML = `<h2>CHEAT ACTIVATED!</h2><p>Jumped to Level ${targetLevel}!</p><p>+${bonusScore} bonus score</p>`;
+        document.querySelector('.game-container').appendChild(levelUpOverlay);
+
+        // Update game difficulty
+        clearInterval(window.tokenInterval);
+        window.tokenInterval = setInterval(spawnToken, 1000 - level * 50);
+
+        clearInterval(window.obstacleInterval);
+        window.obstacleInterval = setInterval(spawnObstacle, 2000 - level * 100);
+
+        // Remove overlay after animation
+        setTimeout(() => {
+          levelUpOverlay.remove();
+        }, 2500);
+      }
+    }
+  }
 });

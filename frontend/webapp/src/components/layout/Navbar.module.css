@@ -62,7 +62,9 @@
 }
 
 .menuIconContainer {
-  display: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .menuButton {
@@ -132,6 +134,20 @@
   font-weight: 500;
 }
 
+.studioLink {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  background-color: rgba(99, 102, 241, 0.1);
+  border-radius: 0.375rem;
+  font-weight: 500;
+}
+
+.studioLink:hover {
+  background-color: rgba(99, 102, 241, 0.2);
+}
+
 @media (max-width: 900px) {
   .searchBar {
     margin: 0 1rem;
@@ -141,7 +157,8 @@
 
 @media (max-width: 768px) {
   .menuIconContainer {
-    display: block;
+    display: flex;
+    gap: 0.5rem;
   }
 
   .navLinks {

@@ -16,6 +16,7 @@ class StreamingService {
     this.activeStream = null;
     this.streamingEvents = {};
     this.liveStreams = new Map();
+    this.scheduledStreams = new Map(); // Store scheduled streams
 
     // Contract addresses by network
     this.contractAddresses = {
@@ -101,6 +102,11 @@ class StreamingService {
     this.processVideoForHLS = this.processVideoForHLS.bind(this);
     this.startLiveStream = this.startLiveStream.bind(this);
     this.stopLiveStream = this.stopLiveStream.bind(this);
+    this.scheduleStream = this.scheduleStream.bind(this);
+    this.getScheduledStreams = this.getScheduledStreams.bind(this);
+    this.updateScheduledStream = this.updateScheduledStream.bind(this);
+    this.cancelScheduledStream = this.cancelScheduledStream.bind(this);
+    this.getStreamAnalytics = this.getStreamAnalytics.bind(this);
   }
 
   /**
@@ -157,6 +163,9 @@ class StreamingService {
 
       // Load initial content catalog
       await this.loadContentCatalog();
+
+      // Load scheduled streams from storage
+      this._loadScheduledStreamsFromStorage();
 
       this.isInitialized = true;
       return true;
@@ -904,41 +913,535 @@ class StreamingService {
   }
 
   /**
-   * Register event listener
-   * @param {string} event Event name
-   * @param {Function} callback Event callback function
+   * Schedule a future live stream
+   * @param {Object} streamOptions Stream configuration options
+   * @param {Date} scheduledTime When to start the stream (Date object)
+   * @returns {Promise<Object>} Scheduled stream information
    */
-  on(event, callback) {
-    if (!this._eventListeners) this._eventListeners = {};
-    if (!this._eventListeners[event]) this._eventListeners[event] = [];
-    this._eventListeners[event].push(callback);
-  }
+  async scheduleStream(streamOptions = {}, scheduledTime) {
+    if (!this.currentAccount) {
+      throw new Error('No wallet connected');
+    }
 
-  /**
-   * Remove event listener
-   * @param {string} event Event name
-   * @param {Function} callback Event callback function
-   */
-  off(event, callback) {
-    if (!this._eventListeners || !this._eventListeners[event]) return;
-    this._eventListeners[event] = this._eventListeners[event].filter(cb => cb !== callback);
-  }
+    if (!(scheduledTime instanceof Date) || scheduledTime <= new Date()) {
+      throw new Error('Invalid scheduled time. Must be a future date.');
+    }
 
-  /**
-   * Emit event to listeners
-   * @param {string} event Event name
-   * @param {Object} data Event data
-   */
-  emitEvent(event, data) {
-    if (!this._eventListeners || !this._eventListeners[event]) return;
-    this._eventListeners[event].forEach(callback => {
-      try {
-        callback(data);
-      } catch (error) {
-        console.error(`Error in ${event} event listener:`, error);
+    try {
+      // Generate a unique ID for the scheduled stream
+      const scheduledId = 'scheduled-' + Math.random().toString(36).substring(2, 15);
+
+      // Store scheduled stream info
+      const scheduledStream = {
+        id: scheduledId,
+        name: streamOptions.name || 'Untitled Stream',
+        description: streamOptions.description || '',
+        scheduledTime: scheduledTime,
+        creator: this.currentAccount,
+        qualities: streamOptions.qualities || ['360p', '720p'],
+        thumbnail: streamOptions.thumbnail || null,
+        status: 'scheduled',
+        createdAt: new Date(),
+        streamOptions: { ...streamOptions },
+        notificationSent: false,
+        expectedDuration: streamOptions.expectedDuration || 60, // Default 60 minutes
+        category: streamOptions.category || 'General',
+        tags: streamOptions.tags || []
+      };
+
+      // Save scheduled stream
+      this.scheduledStreams.set(scheduledId, scheduledStream);
+
+      // Set up notification timer for 10 minutes before stream
+      const notifyTime = new Date(scheduledTime.getTime() - 10 * 60 * 1000);
+      const now = new Date();
+
+      if (notifyTime > now) {
+        const timeoutMs = notifyTime.getTime() - now.getTime();
+        setTimeout(() => {
+          this._sendStreamNotification(scheduledId);
+        }, timeoutMs);
       }
-    });
+
+      // Optional: Save to localStorage for persistence
+      this._saveScheduledStreamsToStorage();
+
+      // Emit event
+      this.emitEvent('streamScheduled', scheduledStream);
+
+      return scheduledStream;
+    } catch (error) {
+      console.error('Error scheduling stream:', error);
+      throw error;
+    }
   }
+
+  /**
+   * Get all scheduled streams for the current account
+   * @param {Object} options Filter options
+   * @returns {Array<Object>} List of scheduled streams
+   */
+  getScheduledStreams(options = {}) {
+    if (!this.currentAccount) {
+      return [];
+    }
+
+    try {
+      // Filter and sort scheduled streams
+      let streams = Array.from(this.scheduledStreams.values())
+        .filter(stream => {
+          // Filter by creator if specified
+          if (options.creator && options.creator !== stream.creator) {
+            return false;
+          }
+
+          // Filter by status if specified
+          if (options.status && options.status !== stream.status) {
+            return false;
+          }
+
+          // Filter by category if specified
+          if (options.category && options.category !== stream.category) {
+            return false;
+          }
+
+          // Filter by date range if specified
+          if (options.startDate && stream.scheduledTime < options.startDate) {
+            return false;
+          }
+
+          if (options.endDate && stream.scheduledTime > options.endDate) {
+            return false;
+          }
+
+          return true;
+        });
+
+      // Sort streams by scheduled time (ascending by default)
+      streams.sort((a, b) => {
+        if (options.sortDescending) {
+          return b.scheduledTime - a.scheduledTime;
+        }
+        return a.scheduledTime - b.scheduledTime;
+      });
+
+      // Limit results if specified
+      if (options.limit && options.limit > 0) {
+        streams = streams.slice(0, options.limit);
+      }
+
+      return streams;
+    } catch (error) {
+      console.error('Error getting scheduled streams:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Update a scheduled stream
+   * @param {string} scheduledId Scheduled stream ID
+   * @param {Object} updates Updates to apply
+   * @returns {Promise<Object>} Updated stream info
+   */
+  async updateScheduledStream(scheduledId, updates = {}) {
+    if (!this.scheduledStreams.has(scheduledId)) {
+      throw new Error(`Scheduled stream not found: ${scheduledId}`);
+    }
+
+    try {
+      // Get current stream info
+      const streamInfo = this.scheduledStreams.get(scheduledId);
+
+      // Check ownership
+      if (streamInfo.creator !== this.currentAccount) {
+        throw new Error('You do not own this scheduled stream');
+      }
+
+      // Allow updating only certain fields
+      const allowedUpdates = [
+        'name', 'description', 'scheduledTime', 'qualities',
+        'thumbnail', 'expectedDuration', 'category', 'tags'
+      ];
+
+      // Apply updates
+      for (const [key, value] of Object.entries(updates)) {
+        if (allowedUpdates.includes(key)) {
+          streamInfo[key] = value;
+
+          // Also update in streamOptions object for some fields
+          if (['name', 'description', 'qualities'].includes(key)) {
+            streamInfo.streamOptions[key] = value;
+          }
+        }
+      }
+
+      // Update last modified time
+      streamInfo.lastModified = new Date();
+
+      // Store updated info
+      this.scheduledStreams.set(scheduledId, streamInfo);
+
+      // Update storage
+      this._saveScheduledStreamsToStorage();
+
+      // Emit event
+      this.emitEvent('scheduledStreamUpdated', streamInfo);
+
+      return streamInfo;
+    } catch (error) {
+      console.error(`Error updating scheduled stream ${scheduledId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Cancel a scheduled stream
+   * @param {string} scheduledId Scheduled stream ID
+   * @returns {Promise<boolean>} Success status
+   */
+  async cancelScheduledStream(scheduledId) {
+    if (!this.scheduledStreams.has(scheduledId)) {
+      throw new Error(`Scheduled stream not found: ${scheduledId}`);
+    }
+
+    try {
+      // Get stream info
+      const streamInfo = this.scheduledStreams.get(scheduledId);
+
+      // Check ownership
+      if (streamInfo.creator !== this.currentAccount) {
+        throw new Error('You do not own this scheduled stream');
+      }
+
+      // Update status
+      streamInfo.status = 'cancelled';
+      streamInfo.cancelledAt = new Date();
+
+      // Store updated info
+      this.scheduledStreams.set(scheduledId, streamInfo);
+
+      // Update storage
+      this._saveScheduledStreamsToStorage();
+
+      // Emit event
+      this.emitEvent('scheduledStreamCancelled', streamInfo);
+
+      return true;
+    } catch (error) {
+      console.error(`Error cancelling scheduled stream ${scheduledId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Start a scheduled stream now
+   * @param {string} scheduledId Scheduled stream ID
+   * @returns {Promise<Object>} Live stream information
+   */
+  async startScheduledStream(scheduledId) {
+    if (!this.scheduledStreams.has(scheduledId)) {
+      throw new Error(`Scheduled stream not found: ${scheduledId}`);
+    }
+
+    try {
+      // Get scheduled stream info
+      const scheduledInfo = this.scheduledStreams.get(scheduledId);
+
+      // Check ownership
+      if (scheduledInfo.creator !== this.currentAccount) {
+        throw new Error('You do not own this scheduled stream');
+      }
+
+      // Start the live stream with the scheduled options
+      const liveStream = await this.startLiveStream(scheduledInfo.streamOptions);
+
+      // Update the scheduled stream status
+      scheduledInfo.status = 'live';
+      scheduledInfo.liveStreamId = liveStream.streamId;
+      scheduledInfo.actualStartTime = new Date();
+
+      // Store updated info
+      this.scheduledStreams.set(scheduledId, scheduledInfo);
+
+      // Update storage
+      this._saveScheduledStreamsToStorage();
+
+      // Track relationship between live stream and scheduled stream
+      const liveStreamInfo = this.liveStreams.get(liveStream.streamId);
+      if (liveStreamInfo) {
+        liveStreamInfo.scheduledId = scheduledId;
+        this.liveStreams.set(liveStream.streamId, liveStreamInfo);
+      }
+
+      // Emit event
+      this.emitEvent('scheduledStreamStarted', {
+        scheduledId,
+        liveStreamId: liveStream.streamId
+      });
+
+      return liveStream;
+    } catch (error) {
+      console.error(`Error starting scheduled stream ${scheduledId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Send notification for upcoming stream
+   * @param {string} scheduledId Scheduled stream ID
+   * @private
+   */
+  _sendStreamNotification(scheduledId) {
+    if (!this.scheduledStreams.has(scheduledId)) return;
+
+    const streamInfo = this.scheduledStreams.get(scheduledId);
+
+    // If already cancelled or notification already sent, skip
+    if (streamInfo.status === 'cancelled' || streamInfo.notificationSent) return;
+
+    // Mark notification as sent
+    streamInfo.notificationSent = true;
+    this.scheduledStreams.set(scheduledId, streamInfo);
+
+    // Emit notification event
+    this.emitEvent('streamNotification', {
+      type: 'scheduled',
+      message: `Your scheduled stream "${streamInfo.name}" starts in 10 minutes`,
+      streamId: scheduledId,
+      scheduledTime: streamInfo.scheduledTime
+    });
+
+    // If browser notifications are supported and permitted
+    if (window.Notification && Notification.permission === 'granted') {
+      new Notification('Stream Reminder', {
+        body: `Your scheduled stream "${streamInfo.name}" starts in 10 minutes`,
+        icon: '/assets/images/stream-icon.png'
+      });
+    }
+  }
+
+  /**
+   * Save scheduled streams to localStorage for persistence
+   * @private
+   */
+  _saveScheduledStreamsToStorage() {
+    try {
+      // Convert Map to array
+      const streamsArray = Array.from(this.scheduledStreams.entries()).map(([id, stream]) => {
+        return {
+          ...stream,
+          scheduledTime: stream.scheduledTime.toISOString(),
+          createdAt: stream.createdAt.toISOString(),
+          lastModified: stream.lastModified ? stream.lastModified.toISOString() : null,
+          cancelledAt: stream.cancelledAt ? stream.cancelledAt.toISOString() : null
+        };
+      });
+
+      // Save to localStorage
+      localStorage.setItem('scheduledStreams', JSON.stringify(streamsArray));
+    } catch (error) {
+      console.error('Error saving scheduled streams to storage:', error);
+    }
+  }
+
+  /**
+   * Load scheduled streams from localStorage
+   * @private
+   */
+  _loadScheduledStreamsFromStorage() {
+    try {
+      const storedStreams = localStorage.getItem('scheduledStreams');
+      if (!storedStreams) return;
+
+      const streamsArray = JSON.parse(storedStreams);
+
+      // Convert array back to Map
+      streamsArray.forEach(stream => {
+        // Convert date strings back to Date objects
+        stream.scheduledTime = new Date(stream.scheduledTime);
+        stream.createdAt = new Date(stream.createdAt);
+        if (stream.lastModified) stream.lastModified = new Date(stream.lastModified);
+        if (stream.cancelledAt) stream.cancelledAt = new Date(stream.cancelledAt);
+
+        this.scheduledStreams.set(stream.id, stream);
+      });
+    } catch (error) {
+      console.error('Error loading scheduled streams from storage:', error);
+    }
+  }
+
+  /**
+   * Get analytics for a stream
+   * @param {string} streamId Stream identifier (live or VOD)
+   * @param {Object} options Analytics options
+   * @returns {Promise<Object>} Stream analytics
+   */
+  async getStreamAnalytics(streamId, options = {}) {
+    if (!this.currentAccount) {
+      throw new Error('No wallet connected');
+    }
+
+    try {
+      // Check if it's a live stream
+      const isLive = this.liveStreams.has(streamId);
+      const isScheduled = streamId.startsWith('scheduled-') && this.scheduledStreams.has(streamId);
+
+      // Base analytics object
+      const analytics = {
+        streamId,
+        type: isLive ? 'live' : (isScheduled ? 'scheduled' : 'vod'),
+        viewCount: 0,
+        uniqueViewers: 0,
+        watchTime: 0,
+        averageWatchDuration: 0,
+        peakViewers: 0,
+        engagementRate: 0,
+        completionRate: 0,
+        deviceBreakdown: { mobile: 0, desktop: 0, tablet: 0, tv: 0, other: 0 },
+        viewerRetention: [],
+        geographicDistribution: {},
+        referralSources: {}
+      };
+
+      if (isLive) {
+        // Get live stream info
+        const streamInfo = this.liveStreams.get(streamId);
+
+        // Check ownership
+        if (streamInfo.creator !== this.currentAccount) {
+          throw new Error('You do not own this stream');
+        }
+
+        // Get real-time analytics from HLS service
+        const hlsAnalytics = await hlsService.getStreamAnalytics(streamId);
+
+        // Merge analytics data
+        analytics.viewCount = hlsAnalytics.viewCount || 0;
+        analytics.uniqueViewers = hlsAnalytics.uniqueViewers || 0;
+        analytics.watchTime = hlsAnalytics.totalWatchTime || 0;
+        analytics.peakViewers = hlsAnalytics.peakConcurrentViewers || 0;
+        analytics.deviceBreakdown = hlsAnalytics.devices || analytics.deviceBreakdown;
+        analytics.viewerRetention = hlsAnalytics.retentionData || [];
+        analytics.geographicDistribution = hlsAnalytics.geography || {};
+        analytics.referralSources = hlsAnalytics.referrers || {};
+
+        // Calculate averages
+        if (analytics.uniqueViewers > 0) {
+          analytics.averageWatchDuration = analytics.watchTime / analytics.uniqueViewers;
+          analytics.engagementRate = hlsAnalytics.interactions ?
+            hlsAnalytics.interactions / analytics.uniqueViewers : 0;
+        }
+
+      } else if (isScheduled) {
+        // For scheduled streams that haven't started yet
+        const scheduledInfo = this.scheduledStreams.get(streamId);
+
+        // Check ownership
+        if (scheduledInfo.creator !== this.currentAccount) {
+          throw new Error('You do not own this scheduled stream');
+        }
+
+        // Return basic scheduled stream stats
+        analytics.status = scheduledInfo.status;
+        analytics.scheduledTime = scheduledInfo.scheduledTime;
+        analytics.interestedCount = scheduledInfo.interestedCount || 0;
+        analytics.notificationCount = scheduledInfo.notificationCount || 0;
+
+      } else {
+        // VOD content
+        try {
+          // Check content ownership through the contract
+          const isOwner = await this._isContentCreator(streamId);
+          if (!isOwner) {
+            throw new Error('You do not own this content');
+          }
+
+          // Get VOD analytics from contract or API
+          const contentAnalytics = await this._getContentAnalyticsFromContract(streamId);
+
+          // Merge analytics data
+          analytics.viewCount = contentAnalytics.viewCount || 0;
+          analytics.uniqueViewers = contentAnalytics.uniqueViewers || 0;
+          analytics.watchTime = contentAnalytics.totalWatchTime || 0;
+          analytics.completions = contentAnalytics.completions || 0;
+          analytics.revenue = contentAnalytics.revenue || '0';
+          analytics.purchaseCount = contentAnalytics.purchases || 0;
+
+          // Calculate derived metrics
+          if (analytics.viewCount > 0) {
+            analytics.completionRate = (analytics.completions / analytics.viewCount) * 100;
+          }
+
+          if (analytics.uniqueViewers > 0) {
+            analytics.averageWatchDuration = analytics.watchTime / analytics.uniqueViewers;
+          }
+
+          // Additional VOD-specific analytics
+          analytics.rating = contentAnalytics.rating || 0;
+          analytics.reviewCount = contentAnalytics.reviews || 0;
+        } catch (error) {
+          console.error(`Error fetching VOD analytics for ${streamId}:`, error);
+          // Return basic analytics with error flag
+          analytics.error = 'Failed to fetch complete analytics';
+        }
+      }
+
+      return analytics;
+    } catch (error) {
+      console.error(`Error getting analytics for stream ${streamId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Check if current user is the creator of content
+   * @param {string} contentId Content identifier
+   * @returns {Promise<boolean>} Whether user is creator
+   * @private
+   */
+  async _isContentCreator(contentId) {
+    try {
+      const metadata = await this.getContentMetadata(contentId);
+      return metadata.creator.toLowerCase() === this.currentAccount.toLowerCase();
+    } catch (error) {
+      console.error(`Error checking content ownership for ${contentId}:`, error);
+      return false;
+    }
+  }
+
+  /**
+   * Get analytics data from the contract
+   * @param {string} contentId Content identifier
+   * @returns {Promise<Object>} Analytics data
+   * @private
+   */
+  async _getContentAnalyticsFromContract(contentId) {
+    try {
+      // Get creator dashboard info
+      const dashboardData = await this.streamingContract.methods
+        .getCreatorDashboard()
+        .call({ from: this.currentAccount });
+
+      // Find the index of this content
+      const contentIndex = dashboardData.contentIds.findIndex(id => id === contentId);
+
+      if (contentIndex === -1) {
+        throw new Error('Content not found in creator dashboard');
+      }
+
+      // Get analytics for this content
+      return {
+        viewCount: parseInt(dashboardData.viewCounts[contentIndex], 10),
+        revenue: this.web3.utils.fromWei(dashboardData.earnings[contentIndex], 'ether'),
+        purchases: parseInt(dashboardData.purchaseCounts ? dashboardData.purchaseCounts[contentIndex] : 0, 10)
+      };
+    } catch (error) {
+      console.error(`Error getting content analytics from contract for ${contentId}:`, error);
+      return {};
+    }
+  }
+
+  // ...existing code...
 }
 
 // Create and export a singleton instance

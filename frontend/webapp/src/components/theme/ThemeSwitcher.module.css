@@ -1,0 +1,30 @@
+.themeSwitcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid rgba(107, 114, 128, 0.2);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.themeSwitcher:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.themeSwitcher:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .themeSwitcher {
+    width: 36px;
+    height: 36px;
+  }
+}
